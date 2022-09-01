@@ -1,6 +1,6 @@
-<?=$this->extend('layouts/authentication_layout')?>
+<?= $this->extend('layouts/authentication_layout') ?>
 
-<?=$this->section('authentication-component')?>
+<?= $this->section('authentication-component') ?>
 <form action="" class=" form d-flex flex-column" style="border: 2px solid rgba(236, 236, 236, 0);">
     <p class="welcome-text">Welcome</p>
     <p class="sign-in-text">Sign In</p>
@@ -19,6 +19,8 @@
     <input class="btn btn-primary" type="submit" value="Sign In">
     <p class="sign-up" style="text-align: center;">Don't Have Account <a href="<?= base_url('sign-up'); ?>">Sign up</a></p>
     <p class="horizontal">Or</p>
-    <button class="google"><img src="image/google.png" alt=""></button>
 </form>
-<?=$this->endSection()?>
+<a href="<?= url_to('/') ?>">
+    <img src="image/google.png" alt="">
+</a>
+<?= $this->endSection() ?>
