@@ -14,30 +14,30 @@ body {
   margin-left: 35px;
 }
 
-form .welcome-text {
+.form-wrap form .welcome-text {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
 }
-form .sign-in-text {
+.form-wrap form .sign-in-text {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 700;
   margin: 0 12px 0 0 !important;
   font-size: 20px;
 }
-form .info-text {
+.form-wrap form .info-text {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
 }
-form .form-label {
+.form-wrap form .form-label {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 500;
 }
-form input {
+.form-wrap form input {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
@@ -47,27 +47,27 @@ form input {
   padding-left: 20px;
   font-size: 12px;
 }
-form .option .checkbox label {
+.form-wrap form .option .checkbox label {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 11px !important;
   margin-left: 2px;
 }
-form .option a {
+.form-wrap form .option a {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 11px !important;
 }
-form .sign-up {
+.form-wrap form .sign-up {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 300;
   font-size: 12px;
   margin-top: 20px !important;
 }
-form .horizontal {
+.form-wrap form .horizontal {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 500;
@@ -75,8 +75,8 @@ form .horizontal {
   text-align: center;
   color: #1F1F1F;
 }
-form .horizontal::before,
-form .horizontal::after {
+.form-wrap form .horizontal::before,
+.form-wrap form .horizontal::after {
   background-color: #000;
   content: "";
   display: inline-block;
@@ -85,20 +85,20 @@ form .horizontal::after {
   vertical-align: middle;
   width: 40%;
 }
-form .horizontal::after {
+.form-wrap form .horizontal::after {
   margin-left: 10px;
 }
-form .horizontal::before {
+.form-wrap form .horizontal::before {
   margin-right: 10px;
 }
-form .google {
+.form-wrap a {
   border: none !important;
   padding: 0% !important;
   width: auto;
   border-radius: 30px;
   background-color: transparent !important;
 }
-form .google img {
+.form-wrap a img {
   width: 290px;
   height: 45px;
 }

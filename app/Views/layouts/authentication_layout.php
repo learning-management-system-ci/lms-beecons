@@ -12,12 +12,15 @@
 <body>
     <main class="page-flex d-flex justify-content-center align-items-center">
         <section class="image">
-            <img src="" alt="">
-            <div class="square"></div>
+            <img src="image/auth-image.png" width="600px">
         </section>
-        <section style="border: 2px solid rgba(0, 0, 0, 0);">
-            <h3 class="logo">LOGO</h3>
-            <?=$this->renderSection('authentication-component')?>
+        <section style="border: 2px solid rgba(0, 0, 0, 0);" class="d-flex">
+            <div class="form-wrap">
+                <?= $this->renderSection('authentication-component') ?>
+            </div>
+            <div class="logo">
+                <h3>LOGO</h3>
+            </div>
         </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
