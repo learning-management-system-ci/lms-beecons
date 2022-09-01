@@ -12,24 +12,14 @@ body{
 
 .page-flex {
     height: 100vh !important;
-    gap: 100px;
+    gap: 10%;
 }
-
-
-.square {
-    width: 550px;
-    height: 550px;
-    background: #5446D1;
-    border-radius: 7px;
-}
-
 
 .logo{
-    position: absolute;
-    top: 35px;
-    right: 170px;
-
+    margin-top: -40px;
+    margin-left: 35px;
 }
+
 
 form{
     .welcome-text{
@@ -75,7 +65,7 @@ form{
     .sign-up{
         @include font($weight: 300);
         font-size: 12px;
-         margin-top: 20px !important;
+        margin-top: 20px !important;
     }
     .horizontal{
         
