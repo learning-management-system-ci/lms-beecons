@@ -12,13 +12,12 @@
 <body>
     <main class="page-flex d-flex justify-content-center align-items-center">
         <section class="image">
-            <div class="square"></div>
+            <img src="image/auth-image.png" width="600px">
         </section>
-        <section style="border: 2px solid rgba(0, 0, 0, 0);">
-            <h3 class="logo">LOGO</h3>
+        <section style="border: 2px solid rgba(0, 0, 0, 0);" class="d-flex">
             <form action="" class=" form d-flex flex-column" style="border: 2px solid rgba(236, 236, 236, 0);">
                 <p class="welcome-text">Welcome</p>
-                <p class="sign-in-text">Sign Up</p>
+                <p class="sign-in-text">Sign In</p>
                 <p class="info-text">Please input your email and password</p>
                 <label for="user_email" class="form-label">Email</label>
                 <input type="text" name="email" id="user_email" placeholder="Email">
@@ -36,9 +35,12 @@
                 <p class="horizontal">Or</p>
                 <button class="google"><img src="image/google.png" alt=""></button>
             </form>
-
+            <section class="logo">
+                <h3>LOGO</h3>
+            </section>
         </section>
     </main>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 
