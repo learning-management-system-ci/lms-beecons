@@ -15,23 +15,23 @@ class Users extends Migration
 				'unsigned'       => true,
 				'auto_increment' => true
 			],
-      'oauth_id' => [
-        'type'           => 'VARCHAR',
-        'constraint'     => 50,
-        'null'           => true,
-      ],
+			'oauth_id' => [
+				'type'           => 'VARCHAR',
+				'constraint'     => 255,
+				'null'           => true,
+			],
 			'fullname'       => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 255,
-        'null'           => true,
+        		'null'           => true,
 			],
 			'email'      => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 100,
 			],
-      'password' => [
+      		'password' => [
 				'type'           => 'VARCHAR',
-				'constraint'     => 50,
+				'constraint'     => 255,
 			],
 			'phone_number'      => [
 				'type'           => 'INT',
