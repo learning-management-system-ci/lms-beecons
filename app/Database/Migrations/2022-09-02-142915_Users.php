@@ -15,44 +15,37 @@ class Users extends Migration
 				'unsigned'       => true,
 				'auto_increment' => true
 			],
-			'oauth_id' => [
-				'type'           => 'VARCHAR',
-				'constraint'     => 255,
-				'null'           => true,
-			],
+      'oauth_id' => [
+        'type'           => 'VARCHAR',
+        'constraint'     => 50,
+        'null'           => true,
+      ],
 			'fullname'       => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 255,
-        		'null'           => true,
+        'null'           => true,
 			],
 			'email'      => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 100,
 			],
-      		'password' => [
+      'password' => [
 				'type'           => 'VARCHAR',
-				'constraint'     => 255,
+				'constraint'     => 50,
 			],
 			'phone_number'      => [
 				'type'           => 'INT',
 				'constraint'     => 50,
 			],
-     	'activation_code'      => [
+      'activation_code'      => [
 				'type'           => 'VARCHAR',
-				'constraint'     => 255,
-			],
-		'activation_status'      => [
-				'type'           => 'BOOL',
-			],
-		'role'      => [
-				'type'           => 'VARCHAR',
-				'constraint'     => 255,
+				'constraint'     => 100,
 			],
       'created_at datetime default current_timestamp',
       'updated_at datetime default current_timestamp on update current_timestamp',
 		]);
 
-        $this->forge->addKey('id', TRUE);
+        $this->forge->addKey('user_id', TRUE);
         $this->forge->createTable('users', TRUE);
     }
 
