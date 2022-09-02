@@ -20,7 +20,5 @@
     <p class="sign-up" style="text-align: center;">Don't Have Account <a href="<?= base_url('sign-up'); ?>">Sign up</a></p>
     <p class="horizontal">Or</p>
 </form>
-<a href="<?= url_to('/') ?>">
-    <img src="image/google.png" alt="">
-</a>
+<?= $googleButton; ?>
 <?= $this->endSection() ?>
