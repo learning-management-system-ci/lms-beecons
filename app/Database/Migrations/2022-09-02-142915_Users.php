@@ -45,7 +45,7 @@ class Users extends Migration
       'updated_at datetime default current_timestamp on update current_timestamp',
 		]);
 
-        $this->forge->addKey('user_id', TRUE);
+        $this->forge->addKey('id', TRUE);
         $this->forge->createTable('users', TRUE);
     }
 
