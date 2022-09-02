@@ -27,10 +27,10 @@
                 </div>
                 <div class="col-md-2"></div>
             </div>
-                <span style="text-align: center; color: red;font-size: x-large;"><?php if(session()->getFlashData("Error")) echo session()->getFlashData("Error"); ?></span>
+                <span style="text-align: center; color: red;font-size: x-large;"><?php if(session()->getFlashData("error")) echo session()->getFlashData("error"); ?></span>
                 <span class="login100-form-title p-b-32"> User Profile </span><br>
                 <div style="float: center">
-                    <h4>Email: <?=session()->get("LoggedUserData")['email']?session()->get("LoggedUserData")['email']:"";  ?></h4><br>
+                    <h4>Email: <?=session()->get("LoggedUserData")?session()->get("email"):"";  ?></h4><br>
                 </div>
             </div>
         </div>

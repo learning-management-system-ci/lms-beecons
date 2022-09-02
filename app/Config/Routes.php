@@ -35,13 +35,19 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Login::login');
-$routes->get('/login', 'Login::login');
-$routes->get('/profile', 'Login::profile');
-$routes->get('/login/profile', 'Login::profile');
-$routes->get('/login/loginWithGoogle', 'Login::loginWithGoogle');
-$routes->get('/login/logout', 'Login::logout');
-$routes->get('/logout', 'Login::logout');
+$routes->get('/', 'AuthController::indexLogin');
+$routes->get('/login', 'AuthController::indexLogin');
+$routes->get('/profile', 'AuthController::profile');
+$routes->get('/login/profile', 'AuthController::profile');
+$routes->get('/login/loginWithGoogle', 'AuthController::loginWithGoogle');
+$routes->get('/login/logout', 'AuthController::logout');
+$routes->get('/logout', 'AuthController::logout');
+
+$routes->get('/register', 'AuthController::indexRegister');
+$routes->post('/register/submit', 'AuthController::register');
+$routes->post('/login/submit', 'AuthController::login');
+
+$routes->get('/activateuser', 'AuthController::activateUser');
 
 /*
  * --------------------------------------------------------------------
