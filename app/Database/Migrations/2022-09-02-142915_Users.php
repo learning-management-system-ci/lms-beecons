@@ -15,23 +15,23 @@ class Users extends Migration
 				'unsigned'       => true,
 				'auto_increment' => true
 			],
-      'oauth_id' => [
-        'type'           => 'VARCHAR',
-        'constraint'     => 50,
-        'null'           => true,
-      ],
+			'oauth_id' => [
+				'type'           => 'VARCHAR',
+				'constraint'     => 255,
+				'null'           => true,
+			],
 			'fullname'       => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 255,
-        'null'           => true,
+        		'null'           => true,
 			],
 			'email'      => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 100,
 			],
-      'password' => [
+      		'password' => [
 				'type'           => 'VARCHAR',
-				'constraint'     => 50,
+				'constraint'     => 255,
 			],
 			'phone_number'      => [
 				'type'           => 'INT',
@@ -39,7 +39,10 @@ class Users extends Migration
 			],
       'activation_code'      => [
 				'type'           => 'VARCHAR',
-				'constraint'     => 100,
+				'constraint'     => 255,
+			],
+		'activation_status'      => [
+				'type'           => 'BOOL',
 			],
       'created_at datetime default current_timestamp',
       'updated_at datetime default current_timestamp on update current_timestamp',
