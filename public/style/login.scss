@@ -16,11 +16,14 @@ body{
 }
 
 .logo{
-    margin-top: -40px;
-    margin-left: 35px;
+    position: absolute;
+    right: 50px !important;
+    top: 60px !important;
 }
 
-.form-wrap{
+    .mw-290 {
+        min-width: 290px;
+    }
 
     form{
         .welcome-text{
@@ -108,4 +111,3 @@ body{
             height: 45px;
         }
     }
-}
