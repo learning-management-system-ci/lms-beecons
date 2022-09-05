@@ -7,7 +7,7 @@ class UsersModel extends Model
 	protected $table='users';
 	protected $primaryKey = 'id';
 	protected $DBGroup='default';
-	protected $allowedFields = ['oauth_id', 'fullname', 'email', 'password', 'phone_number','activation_status', 'activation_code', 'updated_at', 'created_at'];
+	protected $allowedFields = ['oauth_id', 'fullname', 'email', 'password', 'role', 'phone_number','activation_status', 'activation_code', 'updated_at', 'created_at'];
 
 	function isAlreadyRegister($authid){
 		return $this->db->table('users')->getWhere(['oauth_id'=>$authid])->getRowArray()>0?true:false;

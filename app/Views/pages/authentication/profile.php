@@ -31,6 +31,7 @@
                 <span class="login100-form-title p-b-32"> User Profile </span><br>
                 <div style="float: center">
                     <h4>Email: <?=session()->get("LoggedUserData")?session()->get("email"):"";  ?></h4><br>
+                    <h4>Role: <?=session()->get("LoggedUserData")?session()->get("role"):"";  ?></h4><br>
                 </div>
             </div>
         </div>
