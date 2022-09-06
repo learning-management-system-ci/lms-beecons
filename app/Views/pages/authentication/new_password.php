@@ -3,7 +3,7 @@
 <?=$this->section('authentication-component')?>
 <form method="post" action="<?= base_url('/new-password'); ?>" class=" form d-flex flex-column" style="border: 2px solid rgba(236, 236, 236, 0);">
     <p class="welcome-text">Oops!</p>
-    <p class="sign-in-text">Reset Password</p>
+    <p class="sign-in-text"><?= $title; ?></p>
     <p class="info-text">Please input your new passowrd</p>
     <?php if (!empty(session()->getFlashdata('error'))) : ?>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">

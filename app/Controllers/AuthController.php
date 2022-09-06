@@ -9,7 +9,7 @@ use DateInterval;
 
 class AuthController extends BaseController
 {
-  	private $loginModel=NULL;
+  private $loginModel=NULL;
 	private $resetModel=NULL;
 	private $googleClient=NULL;
 	protected $session;
@@ -32,60 +32,63 @@ class AuthController extends BaseController
 	public function indexLogin()
 	{
 		if(session()->get("LoggedUserData")){
-			session()->setFlashData("Error", "You have Already Logged In");
+			session()->setFlashData("error", "You have Already Logged In");
 			return redirect()->to(base_url()."/profile");
 		}
-		$data['googleButton'] = '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>';
+		$data = [
+      "title" => "Sign In",
+      "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+    ];
 		return view('pages/authentication/login', $data);
 	}
 
 	public function login() {
-        if (!$this->validate([
-            'email' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} required',
-                ]
-            ],
-            'password' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} required',
-                ]
-            ],
-        ])) {
-            session()->setFlashdata('error', $this->validator->listErrors());
-            return redirect()->back()->withInput();
-        }
-
-        $users = new UsersModel();
-        $email = $this->request->getVar('email');
-        $password = $this->request->getVar('password');
-        $dataUser = $users->where([
-            'email' => $email,
-        ])->first();
-		
-        if ($dataUser) {
-            if (password_verify($password, $dataUser['password']) && $this->loginModel->isAlreadyRegisterByEmail($email)) {
-                		if ($dataUser['activation_status'] != 1) {
-							session()->setFlashdata('error', 'User is not activated');
-						    return redirect()->back();
-						} else {
-							session()->set([
-								'email' => $dataUser['email'],
-								'fullname' => $dataUser['fullname'],
-								'role' => $dataUser['role'],
-								'LoggedUserData' => TRUE
-							]);
-						}
-				return redirect()->to(base_url()."/profile");
-            }
-        } else {
-            session()->setFlashdata('error', 'Wrong email & password');
-            return redirect()->back();
-        }
+  	if (!$this->validate([
+      'email' => [
+        'rules' => 'required',
+        'errors' => [
+        	'required' => '{field} required',
+        ]
+      ],
+      'password' => [
+        'rules' => 'required',
+        'errors' => [
+      	  'required' => '{field} required',
+        ]
+      ],
+    ])) {
+      session()->setFlashdata('error', $this->validator->listErrors());
+      return redirect()->back()->withInput();
     }
 
+    $users = new UsersModel();
+    $email = $this->request->getVar('email');
+    $password = $this->request->getVar('password');
+    $dataUser = $users->where([
+      'email' => $email,
+    ])->first();
+		
+    if ($dataUser) {
+      if (password_verify($password, $dataUser['password']) && $this->loginModel->isAlreadyRegisterByEmail($email)) {
+    		if ($dataUser['activation_status'] != 1) {
+					session()->setFlashdata('error', 'User is not activated');
+					return redirect()->back();
+				} else {
+					session()->set([
+						'email' => $dataUser['email'],
+						'fullname' => $dataUser['fullname'],
+						'role' => $dataUser['role'],
+						'LoggedUserData' => TRUE
+					]);
+				}
+				session()->setFlashData("success", "Login Successful");
+				return redirect()->to(base_url()."/profile");
+      }
+    } else {
+      session()->setFlashdata('error', 'Wrong email & password');
+      return redirect()->back();
+    }
+  }
   
 	public function loginWithGoogle()
 	{
@@ -102,124 +105,133 @@ class AuthController extends BaseController
 			if($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])){
 				$userdata = [
 					'oauth_id'=>$data['id'],
-					'email'=>$data['email'] , 
+					'email'=>$data['email'], 
 					'updated_at'=>$currentDateTime
 				];
 				$this->loginModel->updateUserData($userdata, $data['id']);
 			}else{
 				$userdata = [
 					'oauth_id'=>$data['id'],
-					'email'=>$data['email'] , 
+					'email'=>$data['email'], 
 					'created_at'=>$currentDateTime
 				];
 				$this->loginModel->insertUserData($userdata);
 			}
-			session()->set("LoggedUserData", $userdata);
+			// session()->set("LoggedUserData", $userdata);
+			session()->set([
+				'oauth_id'=>$data['id'],
+				'email'=>$data['email'],
+				'role' => "participant",
+				'LoggedUserData' => TRUE
+			]);
 
 		}else{
-			session()->setFlashData("Error", "Something went Wrong");
+			session()->setFlashData("error", "Something went Wrong");
 			return redirect()->to(base_url());
 		}
+		session()->setFlashData("success", "Login Successful");
 		return redirect()->to(base_url()."/profile");
 	}
 
 	public function profile() {
 		if(!session()->get("LoggedUserData")){
-			session()->setFlashData("Error", "You have Logged Out, Please Login Again.");
+			session()->setFlashData("error", "You have Logged Out, Please Login Again.");
 			return redirect()->to(base_url());
 		}
 		return view('pages/authentication/profile');
 	}
 
 	function logout() {
-		session()->remove('LoggedUserData');
-		session()->remove('AccessToken');
-		if(!(session()->get('LoggedUserData') && session()->get('AccessToken') )){
-			session()->setFlashData("Success", "Logout Successful");
-			return redirect()->to(base_url());
-		}else{
-			session()->setFlashData("Error", "Failed to Logout, Please Try Again");
-			return redirect()->to(base_url()."/profile");
-		}
+		session()->destroy();
+		// session()->remove('LoggedUserData');
+		// session()->remove('AccessToken');
+		// if(!(session()->get('LoggedUserData') && session()->get('AccessToken') )){
+		// 	session()->setFlashData("success", "Logout Successful");
+		// 	return redirect()->to(base_url());
+		// }else{
+		// 	session()->setFlashData("error", "Failed to Logout, Please Try Again");
+		// 	return redirect()->to(base_url()."/profile");
+		// }
+		return redirect()->to(base_url());
 	}
 
 	public function indexRegister() {
-		$data['googleButton'] = '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>';
+		$data = [
+      "title" => "Sign Up",
+      "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+    ];
 		return view('pages/authentication/register', $data);
 	}
 
 	public function register() {
-        if (!$this->validate([
-            'email' => [
-                'rules' => 'required|is_unique[users.email]',
-                'errors' => [
-                    'required' => '{field} required',
-                    'is_unique' => 'Email already used'
-                ]
-            ],
-            'password' => [
-                'rules' => 'required|min_length[4]|max_length[50]',
-                'errors' => [
-                    'required' => '{field} required',
-                    'min_length' => '{field} minimum 4 characters',
-                    'max_length' => '{field} maximum 50 characters',
-                ]
-            ],
-            'password_confirm' => [
-                'rules' => 'matches[password]',
-                'errors' => [
-                    'matches' => 'Confirm password does not match with the password',
-                ]
-            ],
-        ])) {
-            session()->setFlashdata('error', $this->validator->listErrors());
-            return redirect()->back()->withInput();
-        }
+    if (!$this->validate([
+      'email' => [
+        'rules' => 'required|is_unique[users.email]',
+        'errors' => [
+          'required' => '{field} required',
+          'is_unique' => 'Email already used'
+        ]
+      ],
+      'password' => [
+        'rules' => 'required|min_length[4]|max_length[50]',
+        'errors' => [
+          'required' => '{field} required',
+          'min_length' => '{field} minimum 4 characters',
+          'max_length' => '{field} maximum 50 characters',
+        ]
+      ],
+      'password_confirm' => [
+        'rules' => 'matches[password]',
+        'errors' => [
+          'matches' => 'Confirm password does not match with the password',
+        ]
+      ],
+    ])) {
+      session()->setFlashdata('error', $this->validator->listErrors());
+	    return redirect()->back()->withInput();
+    }
 
 		$key = getenv('TOKEN_SECRET');
-        $payload = array(
+    $payload = array(
 			"iat" => 1356999524,
-    		"nbf" => 1357000000,
-    		"exp" => time() + (60 * 60),
-            "email" => $this->request->getVar('email')
-        );
+			"nbf" => 1357000000,
+			"exp" => time() + (60 * 60),
+			"email" => $this->request->getVar('email')
+    );
 		
-        $token = JWT::encode($payload, $key);
+    $token = JWT::encode($payload, $key);
 
-        $users = new UsersModel();
-        $users->insert([
-            'email' => $this->request->getVar('email'),
+    $users = new UsersModel();
+    $users->insert([
+      'email' => $this->request->getVar('email'),
 			'role' => 'participant',
-            'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
+      'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
 			'activation_code' => $token
-        ]);
+    ]);
 
 		$this->sendActivationEmail($this->request->getVar('email'), $token);
 		session()->setFlashdata('success', 'Please check your email for activation');
-        return redirect()->to('/login');
-    }
+    return redirect()->to('/login');
+  }
 
 	function sendActivationEmail($emailTo, $token) { 
-        //$to = $this->request->getVar('mailTo');
-        $subject = 'subject';
-        $message = base_url()."/activateuser?token=".$token;
-        
-        $email = \Config\Services::email();
-        $email->setTo($emailTo);
-        $email->setFrom('hendrikusozzie@gmail.com', 'Confirm Registration');
-        
-        $email->setSubject($subject);
-        $email->setMessage($message);
-        if ($email->send()) 
-		{
-            echo 'Email successfully sent';
-        } 
-		else 
-		{
-            $data = $email->printDebugger(['headers']);
-            print_r($data);
-        }
+  	//$to = $this->request->getVar('mailTo');
+	  $subject = 'subject';
+	  $message = base_url()."/activateuser?token=".$token;
+		
+	  $email = \Config\Services::email();
+	  $email->setTo($emailTo);
+	  $email->setFrom('hendrikusozzie@gmail.com', 'Confirm Registration');
+		
+	  $email->setSubject($subject);
+	  $email->setMessage($message);
+	  if ($email->send()) {
+      echo 'Email successfully sent';
+    } else{
+      $data = $email->printDebugger(['headers']);
+      print_r($data);
     }
+  }
 
 	public function activateUser() {
 		$token = $this->request->getVar('token');
@@ -232,17 +244,19 @@ class AuthController extends BaseController
 			return ;
 		}
 		$users = new UsersModel();
-        $users->updateUserByEmail([
-            'activation_status' => 1,
-			'activation_code' => ''
-        ], $decoded->email);
+      $users->updateUserByEmail([
+        'activation_status' => 1,
+				'activation_code' => ''
+      ], $decoded->email);
 		session()->setFlashdata('error', 'Your account has been successfully activated, please login');
 		return redirect()->to(base_url()."/login");
 	}
 
 	public function indexforgotPassword() {
-		return view('pages/authentication/forgot_password');
-
+		$data = [
+      "title" => "Reset Password",
+    ];
+		return view('pages/authentication/forgot_password', $data);
 	}
 
 	public function forgotPassword() {
@@ -267,28 +281,29 @@ class AuthController extends BaseController
 	}
 
 	function sendOtpEmail($emailTo, $otp) { 
-        $subject = 'subject';
-        $message = $otp;
-        
-        $email = \Config\Services::email();
-        $email->setTo($emailTo);
-        $email->setFrom('hendrikusozzie@gmail.com', 'OTP Reset Password');
-        
-        $email->setSubject($subject);
-        $email->setMessage($message);
-        if ($email->send()) 
-		{
-            echo 'Email successfully sent';
-        } 
-		else 
-		{
-            $data = $email->printDebugger(['headers']);
-            print_r($data);
-        }
+  	$subject = 'subject';
+	  $message = $otp;
+		
+	  $email = \Config\Services::email();
+	  $email->setTo($emailTo);
+	  $email->setFrom('hendrikusozzie@gmail.com', 'OTP Reset Password');
+		
+	  $email->setSubject($subject);
+	  $email->setMessage($message);
+
+	  if ($email->send()){
+      echo 'Email successfully sent';
+  	} else{
+      $data = $email->printDebugger(['headers']);
+      print_r($data);
     }
+  }
 
 	public function indexSendOtp() {
-		return view('pages/authentication/otp_code');
+		$data = [
+      "title" => "OTP Code",
+    ];
+		return view('pages/authentication/otp_code', $data);
 	}
 
 	public function sendOtp() {
@@ -297,7 +312,6 @@ class AuthController extends BaseController
 		$minutes_to_add = 15;
 
 		$now = date("Y-m-d H:i:s");
-		
 
 		if ($this->resetModel->isAlreadyRegisterByOtp($otp)) {
 			$exp = date('Y-m-d H:i:s', strtotime('+15 minutes', strtotime($data['created_at'])));
@@ -316,29 +330,32 @@ class AuthController extends BaseController
 	}
 
 	public function indexNewPassword() {
-		return view('pages/authentication/new_password');
+		$data = [
+      "title" => "Reset Password",
+    ];
+		return view('pages/authentication/new_password', $data);
 	}
 
 	public function newPassword() {
 		if (!$this->validate([
 			'password' => [
-                'rules' => 'required|min_length[4]|max_length[50]',
-                'errors' => [
-                    'required' => '{field} required',
-                    'min_length' => '{field} minimum 4 characters',
-                    'max_length' => '{field} maximum 50 characters',
-                ]
-            ],
-            'password_confirm' => [
-                'rules' => 'matches[password]',
-                'errors' => [
-                    'matches' => 'Confirm password does not match with the password',
-                ]
-            ],
-        ])) {
-            session()->setFlashdata('error', $this->validator->listErrors());
-            return redirect()->back()->withInput();
-        }
+        'rules' => 'required|min_length[4]|max_length[50]',
+        'errors' => [
+          'required' => '{field} required',
+          'min_length' => '{field} minimum 4 characters',
+          'max_length' => '{field} maximum 50 characters',
+      	]
+      ],
+      'password_confirm' => [
+        'rules' => 'matches[password]',
+      	'errors' => [
+          'matches' => 'Confirm password does not match with the password',
+        ]
+      ],
+    ])) {
+      session()->setFlashdata('error', $this->validator->listErrors());
+      return redirect()->back()->withInput();
+    }
 
 		$email = $this->session->get("email");
 		$updatePassword = [
@@ -350,6 +367,6 @@ class AuthController extends BaseController
 
 		session()->setFlashdata('error', 'Please login with new password');
 		$this->session->destroy();
-        return redirect()->to('/login');
+    return redirect()->to('/login');
 	}
 }

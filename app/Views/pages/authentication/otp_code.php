@@ -3,7 +3,7 @@
 <?=$this->section('authentication-component')?>
 <form method="post" action="<?= base_url('/send-otp'); ?>" id="sign-up" class=" form d-flex flex-column" style="border: 2px solid rgba(236, 236, 236, 0);">
     <p class="welcome-text">Check your email!</p>
-    <p class="sign-in-text">OTP Code</p>
+    <p class="sign-in-text"><?= $title; ?></p>
     <p class="info-text">Please input OTP code that sent to you</p>
     <?php if (!empty(session()->getFlashdata('error'))) : ?>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">

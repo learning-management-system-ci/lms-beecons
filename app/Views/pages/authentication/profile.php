@@ -27,7 +27,16 @@
                 </div>
                 <div class="col-md-2"></div>
             </div>
-                <span style="text-align: center; color: red;font-size: x-large;"><?php if(session()->getFlashData("error")) echo session()->getFlashData("error"); ?></span>
+                <?php if (!empty(session()->getFlashdata('error'))) : ?>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <?php echo session()->getFlashdata('error'); ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty(session()->getFlashdata('success'))) : ?>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <?php echo session()->getFlashdata('success'); ?>
+                    </div>
+                <?php endif; ?>
                 <span class="login100-form-title p-b-32"> User Profile </span><br>
                 <div style="float: center">
                     <h4>Email: <?=session()->get("LoggedUserData")?session()->get("email"):"";  ?></h4><br>

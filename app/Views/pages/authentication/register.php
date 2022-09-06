@@ -4,7 +4,7 @@
 <form method="post" action="<?= base_url(); ?>/register" class=" form d-flex flex-column" style="border: 2px solid rgba(236, 236, 236, 0);">
 <?= csrf_field(); ?>
     <p class="welcome-text">Welcome</p>
-    <p class="sign-in-text">Sign Up</p>
+    <p class="sign-in-text"><?= $title; ?></p>
     <p class="info-text">Please input your email and password</p>
     <?php if (!empty(session()->getFlashdata('error'))) : ?>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
