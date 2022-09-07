@@ -2,7 +2,7 @@
 
 <?=$this->section('authentication-component')?>
 <form method="post" action="<?= base_url(); ?>/register" id="sign-up" class=" form d-flex flex-column"
-    style="border: 2px solid rgba(236, 236, 236, 0); width: 290px;">
+    style="border: 2px solid rgba(236, 236, 236, 0); max-width: 290px;">
     <p class="welcome-text">Welcome</p>
     <p class="sign-in-text">Sign Up</p>
     <p class="info-text">Please input your email and password</p>
@@ -12,13 +12,13 @@
     <input type="password" name="user_pass" id="user_pass" placeholder="Password">
     <label for="user_confirm_pass" class="form-label mt-3">Confirm Password</label>
     <input type="password" name="user_confirm_pass" id="user_confirm_pass" placeholder="Confirm Password">
-    <div class="option d-flex my-2">
-        <div class="checkbox d-flex align-items-start">
-            <input class="me-2" type="checkbox" id="terms" name="terms" style="height: 15px;">
+    <div class="option d-flex align-items-center" style="max-width: 290px;">
+        <div class="checkbox d-flex justify-content-between align-items-center" style="align-self: stretch;">
+            <input type="checkbox" id="terms" name="terms" style="align-self: stretch;">
             <label for="terms">By signing up you agree to our Terms & Condition and Privacy Policy.*</label>
         </div>
     </div>
-    <button class="btn btn-primary mt-2" id="button" type="submit" disabled="disabled" style="border: 0;">Sign Up</button>
+    <button class="btn btn-primary" id="button" type="submit" disabled="disabled" style="border: 0;">Sign Up</button>
     <p class="sign-up" style="text-align: center;">Already Have Account? <a href="<?= base_url('login'); ?>"
             style="text-decoration: none;">Sign
             in</a></p>
