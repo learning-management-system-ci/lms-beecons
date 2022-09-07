@@ -21,84 +21,86 @@ body{
     top: 60px !important;
 }
 
-.mw-290 {
-    min-width: 290px;
-}
-
-form{
-    .welcome-text{
-        @include font($weight: 400)
+    .mw-290 {
+        min-width: 290px;
     }
 
-    .sign-in-text{
-        @include font($weight: 700);
-        margin: 0 12px 0 0 !important;
-        font-size: 20px;
-    }
-    .info-text{
-        @include font($weight: 400);
-        font-size: 13px;
-    }
-    .form-label{
-        @include font($weight: 500);
-    }
+    form{
+        .welcome-text{
+            @include font($weight: 400)
+        }
 
-    input{
-        @include font($weight: 400);
-        border: 1px solid #9B9B9B;
-        border-radius: 7px;
-        height: 40px;
-        padding-left: 20px;
-        font-size: 12px;
-    }
+        .sign-in-text{
+            @include font($weight: 700);
+            margin: 0 12px 0 0 !important;
+            font-size: 20px;
+        }
+        .info-text{
+            @include font($weight: 400);
+            font-size: 13px;
+        }
+        .form-label{
+            @include font($weight: 500);
+        }
 
-    .option{
-        .checkbox{
-            
-            label{
+        input{
+            @include font($weight: 400);
+            border: 1px solid #9B9B9B;
+            border-radius: 7px;
+            height: 40px;
+            padding-left: 20px;
+            font-size: 12px;
+        }
+
+        .option{
+            .checkbox{
+                
+                label{
+                    @include font($weight: 400);
+                    font-size: 11px !important;
+                    margin-left: 2px;
+                }
+            }
+            a{
                 @include font($weight: 400);
                 font-size: 11px !important;
-                margin-left: 2px;
             }
         }
-        a{
-            @include font($weight: 400);
-            font-size: 11px !important;
+        .sign-up{
+            @include font($weight: 300);
+            font-size: 12px;
+            margin-top: 20px !important;
         }
-    }
-    .sign-up{
-        @include font($weight: 300);
-        font-size: 12px;
-        margin-top: 20px !important;
-    }
-    .horizontal{
-        
-        @include font($weight: 500);
-        font-size: 12px;
-        text-align: center; 
-        color: #1F1F1F;
+        .horizontal{
+            
+            @include font($weight: 500);
+            font-size: 12px;
+            text-align: center; 
+            color: #1F1F1F;
+            }
+
+        // }
+        .horizontal::before,
+        .horizontal::after {
+            background-color: #000;
+            content: "";
+            display: inline-block;
+            height: 1px;
+            position: relative;
+            vertical-align: middle;
+            width: 40%;
+        }
+        .horizontal::after{
+            margin-left: 10px;
+        }
+        .horizontal::before{
+            margin-right: 10px;
         }
 
-    // }
-    .horizontal::before,
-    .horizontal::after {
-        background-color: #000;
-        content: "";
-        display: inline-block;
-        height: 1px;
-        position: relative;
-        vertical-align: middle;
-        width: 40%;
-    }
-    .horizontal::after{
-        margin-left: 10px;
-    }
-    .horizontal::before{
-        margin-right: 10px;
+
     }
 
-
-    .google{
+    a{
         border: none !important;
         padding: 0% !important;
         width: auto;
@@ -107,7 +109,5 @@ form{
         img{
             width: 290px;
             height: 45px;
-            
         }
     }
-}

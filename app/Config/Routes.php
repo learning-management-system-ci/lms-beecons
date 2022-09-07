@@ -35,12 +35,40 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-$routes->get('/login', 'Home::login');
-$routes->get('/sign-up', 'Home::signUp');
-$routes->get('/forgot-password', 'Home::forgotPassword');
-$routes->get('/send-otp', 'Home::sendOTP');
-$routes->get('/new-password', 'Home::newPassword');
+$routes->get('/', 'AuthController::indexLogin');
+
+$routes->get('/login', 'AuthController::indexLogin');
+$routes->post('/login', 'AuthController::login');
+
+$routes->get('/register', 'AuthController::indexRegister');
+$routes->post('/register', 'AuthController::register');
+
+$routes->get('/profile', 'AuthController::profile');
+$routes->get('/login/profile', 'AuthController::profile');
+$routes->get('/login/loginWithGoogle', 'AuthController::loginWithGoogle');
+$routes->get('/login/logout', 'AuthController::logout');
+$routes->get('/logout', 'AuthController::logout');
+$routes->get('/activateuser', 'AuthController::activateUser');
+
+$routes->get('/forgot-password', 'AuthController::indexforgotPassword');
+$routes->get('/forgot-password/submit', 'AuthController::forgotPassword');
+
+$routes->get('/otp-email', 'AuthController::sendOtpEmail');
+
+$routes->get('/send-otp', 'AuthController::indexSendOtp');
+$routes->post('/send-otp', 'AuthController::sendOtp');
+
+$routes->get('/new-password', 'AuthController::indexNewPassword');
+$routes->post('/new-password', 'AuthController::newPassword');
+
+
+
+// $routes->get('/', 'Home::index');
+// $routes->get('/login', 'Home::login');
+// $routes->get('/sign-up', 'Home::signUp');
+// $routes->get('/forgot-password', 'Home::forgotPassword');
+// $routes->get('/send-otp', 'Home::sendOTP');
+// $routes->get('/new-password', 'Home::newPassword');
 
 /*
  * --------------------------------------------------------------------

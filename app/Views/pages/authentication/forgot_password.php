@@ -1,12 +1,18 @@
 <?=$this->extend('layouts/authentication_layout')?>
 
 <?=$this->section('authentication-component')?>
-<form action="<?= base_url('send-otp'); ?>" id="sign-up" class=" form d-flex flex-column" style="border: 2px solid rgba(236, 236, 236, 0);">
+<form action="<?= base_url('/forgot-password/submit'); ?>" id="sign-up" class=" form d-flex flex-column" style="border: 2px solid rgba(236, 236, 236, 0);">
     <p class="welcome-text">Oops!</p>
-    <p class="sign-in-text">Reset Password</p>
+    <p class="sign-in-text"><?= $title; ?></p>
     <p class="info-text">Please input your email account</p>
+    <?php if (!empty(session()->getFlashdata('error'))) : ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <?php echo session()->getFlashdata('error'); ?>
+        </div>
+    <?php endif; ?>
     <label for="user_email" class="form-label">Email</label>
     <input type="text" name="email" id="user_email" placeholder="Email" required onchange="email_validate()">
+
     <input class="btn btn-primary mw-290" type="submit" value="Confirm" style="margin-top: 20px">
     <p class="sign-up" style="text-align: center;">Remember Your Account? <a href="<?= base_url('sign-in'); ?>" style="text-decoration: none;">Sign
             in</a></p>
