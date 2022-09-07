@@ -6,19 +6,19 @@
     <p class="welcome-text">Welcome</p>
     <p class="sign-in-text">Sign Up</p>
     <p class="info-text">Please input your email and password</p>
-    <label for="user_email" class="form-label">Email</label>
-    <input type="text" name="user_email" id="user_email" placeholder="Email">
-    <label for="user_pass" class="form-label mt-3">Password</label>
-    <input type="password" name="user_pass" id="user_pass" placeholder="Password">
-    <label for="user_confirm_pass" class="form-label mt-3">Confirm Password</label>
-    <input type="password" name="user_confirm_pass" id="user_confirm_pass" placeholder="Confirm Password">
+    <label for="email" class="form-label">Email</label>
+    <input type="text" name="email" id="email" placeholder="Email">
+    <label for="password" class="form-label mt-3">Password</label>
+    <input type="password" name="password" id="password" placeholder="Password">
+    <label for="password_confirm" class="form-label mt-3">Confirm Password</label>
+    <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirm Password">
     <div class="option d-flex my-2">
         <div class="checkbox d-flex align-items-start">
             <input class="me-2" type="checkbox" id="terms" name="terms" style="height: 15px;">
             <label for="terms">By signing up you agree to our Terms & Condition and Privacy Policy.*</label>
         </div>
     </div>
-    <button class="btn btn-primary mt-2" id="button" type="submit" disabled="disabled" style="border: 0;">Sign Up</button>
+    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Sign Up</button>
     <p class="sign-up" style="text-align: center;">Already Have Account? <a href="<?= base_url('login'); ?>"
             style="text-decoration: none;">Sign
             in</a></p>
@@ -31,17 +31,20 @@
     $(document).ready(function () {
         $('#sign-up').validate({
             rules: {
-                user_email: {
+                email: {
                     required: true,
                     email: true
                 },
-                user_pass: {
+                password: {
                     required: true,
                     minlength: 8
                 },
-                user_confirm_pass: {
+                password_confirm: {
                     required: true,
-                    equalTo: '#user_pass'
+                    equalTo: '#password'
+                },
+                terms: {
+                    required: true,
                 }
             }
         });
@@ -58,7 +61,9 @@
                     'background-color': '#002B5B'
                 });
             } else {
-                $('button.btn').prop('disabled', 'disabled');
+                $('button.btn').prop('disabled', 'disabled').css({
+                'background-color': '#B9B9B9'
+            });
             }
         });
 

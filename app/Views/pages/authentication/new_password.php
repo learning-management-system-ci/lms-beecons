@@ -12,10 +12,10 @@
     </div>
     <?php endif; ?>
 
-    <label for="user_pass" class="form-label mt-3">New Password</label>
-    <input type="password" name="user_pass" id="user_pass" placeholder="Password">
-    <label for="user_confirm_pass" class="form-label mt-3">Confirm New Password</label>
-    <input type="password" name="user_confirm_pass" id="user_confirm_pass" placeholder="Confirm Password">
+    <label for="password" class="form-label mt-3">New Password</label>
+    <input type="password" name="password" id="password" placeholder="Password">
+    <label for="password_confirm" class="form-label mt-3">Confirm New Password</label>
+    <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirm Password">
     <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled">Reset</button>
     <p class="sign-up" style="text-align: center;">Remember Your Account? <a href="<?= base_url('login'); ?>"
             style="text-decoration: none;">Sign
@@ -26,16 +26,15 @@
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 <script>
     $(document).ready(function () {
-        console.log("mashoook");
         $('#new-password').validate({
             rules: {
-                user_pass: {
+                password: {
                     required: true,
                     minlength: 8
                 },
-                user_confirm_pass: {
+                password_confirm: {
                     required: true,
-                    equalTo: '#user_pass'
+                    equalTo: '#password'
                 }
             }
         });
@@ -47,12 +46,14 @@
         }
 
         $('#new-password input').on('keyup blur', function () {
-            if ($('#login').valid()) {
+            if ($('#new-password').valid()) {
                 $('button.btn').prop('disabled', false).css({
                     'background-color': '#002B5B'
                 });
             } else {
-                $('button.btn').prop('disabled', 'disabled');
+                $('button.btn').prop('disabled', 'disabled').css({
+                'background-color': '#B9B9B9'
+            });
             }
         });
 
