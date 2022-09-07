@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <header>
+    <!-- <header>
         <div class="topnav">
             <div class="topnav-left">
                 <a href="" class="nav-link logo">
@@ -34,12 +34,66 @@
             <div class="topnav-right">
                 <a href="" class="nav-link">Home</a>
                 <a href="" class="nav-link">Home</a>
-                <a href="/login" class="nav-link-btn">
-                    <button class="btn-my btn-sign-in">Sign in</button>
-                </a>
+                <?php if (session()->get('LoggedUserData')) : ?>
+                    <a href="/login" class="nav-link-btn">
+                        <button class="btn-my btn-sign-in">Sign in</button>
+                    </a>
+                <?php else : ?>
+                    <div class="dropdown nav-link-btn">
+                        <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <button class="dropdown-item" type="button">Action</button>
+                            <button class="dropdown-item" type="button">Another action</button>
+                            <button class="dropdown-item" type="button">Something else here</button>
+                        </div>
+                    </div>
+                <?php endif ?>
             </div>
         </div>
-    </header>
+    </header> -->
+
+    <nav class="navbar navbar-expand-md navbar-light shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">
+                <img src="image/logo.png" alt="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Webinar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Courses</a>
+                    </li>
+                </ul>
+                <a class="nav-link" href="#">Link</a>
+                <?php if (session()->get('LoggedUserData')) : ?>
+                    <a href="/login" class="nav-link-btn">
+                        <button class="btn-my btn-sign-in">Sign in</button>
+                    </a>
+                <?php else : ?>
+                    <div class="dropdown nav-link-btn">
+                        <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <button class="dropdown-item" type="button">Action</button>
+                            <button class="dropdown-item" type="button">Another action</button>
+                            <button class="dropdown-item" type="button">Something else here</button>
+                        </div>
+                    </div>
+                <?php endif ?>
+            </div>
+        </div>
+    </nav>
 
     <main>
         <?= $this->renderSection('app-component') ?>
@@ -105,11 +159,11 @@
         </div>
     </footer>
 
-    <!-- bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+    <!-- bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 
     <script src="js/slick.js"></script>
 

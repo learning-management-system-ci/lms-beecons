@@ -5,7 +5,7 @@
     <div id="mentor-wrapper">
         <div class="item">
             <div class="profile">
-                <img src="image/img-course.jpg" alt="mentor">
+                <img src="image/people.jpg" alt="mentor">
             </div>
 
             <div class="info">
@@ -61,7 +61,7 @@
 
         <div class="item">
             <div class="profile">
-                <img src="image/img-course.jpg" alt="mentor">
+                <img src="image/people.jpg" alt="mentor">
             </div>
 
             <div class="info">

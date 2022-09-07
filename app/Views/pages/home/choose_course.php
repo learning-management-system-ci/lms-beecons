@@ -32,7 +32,7 @@
             </div>
 
             <div class="body">
-                <h2>UI/UX Designer</h2>
+                <h2>Fullstack</h2>
                 <p>
                     Program intensif untuk belajar menjadi Full Stack UI/UX Designer
                 </p>
@@ -48,7 +48,7 @@
             </div>
 
             <div class="body">
-                <h2>UI/UX Designer</h2>
+                <h2>Backend</h2>
                 <p>
                     Program intensif untuk belajar menjadi Full Stack UI/UX Designer
                 </p>

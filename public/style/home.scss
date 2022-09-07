@@ -1,25 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
 
 // variables
-$padding-container: 2.5rem;
-$card-border-radius: 0.4rem;
+$padding-container: 3.5rem;
+$card-border-radius: 0.6rem;
 
 $color-white: #ffffff;
 $color-btn-primary: #002B5B;
 $color-pink: #FFF5FD;
-$color-gray: #1F1F1F;
+$color-gray: #D9D9D9;
 $color-yellow: #FFCB42;
 $color-star: #E0D043;
 
 @mixin card-setting() {
     border-radius: $card-border-radius;
-    box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
 }
 
 @mixin title() {
-    font-size: 1.4rem;
+    font-size: 2rem;
     text-align: center;
     margin-bottom: 2.5rem;
+}
+
+@mixin padding-container() {
+    padding-left: $padding-container;
+    padding-right: $padding-container;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
 }
 
 *,
@@ -29,7 +36,8 @@ $color-star: #E0D043;
 }
 
 html {
-    font-size: 24px;
+    // font-size: 24px;
+    font-size: 16px;
     font-family: 'Plus Jakarta Sans', 'sans-serif';
 }
 
@@ -48,7 +56,7 @@ body {
     border: none;
     cursor: pointer;
     font-weight: bold;
-    font-size: .7rem;
+    font-size: 1rem;
 }
 
 .btn-full {
@@ -64,6 +72,17 @@ main{
     min-height: 80vh;
 }
 
+// navbar
+.navbar{
+    padding-left: $padding-container;
+    padding-right: $padding-container;
+    font-size: 1.2rem;
+
+    .container-fluid{
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
 // header
 .topnav {
     padding-left: $padding-container;
@@ -130,6 +149,7 @@ main{
     }
 
     .nav-link-btn {
+        display: inline;
         padding: {
             right: 0;
             left: 1.2rem;
@@ -138,6 +158,19 @@ main{
 
     .btn-sign-in{
         font-size: .6rem;
+    }
+
+    .profile{
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        img{
+            width: 100%;
+            height: 100%;
+            // object-fit: cover;
+            border-radius: 50%;
+        }
     }
 }
 
@@ -166,14 +199,15 @@ main{
         text-align: left;
 
         h1 {
-            font-size: 1.4rem;
+            font-size: 2rem;
             font-weight: bold;
+            margin-bottom: 1.5rem;
         }
 
         p {
-            font-size: .7rem;
-            line-height: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.8rem;
+            margin-bottom: 2.5rem;
         }
     }
 
@@ -188,11 +222,8 @@ main{
 
 // why choose us
 #why-choose-us {
+    @include padding-container();
     background-color: $color-pink;
-    padding-left: $padding-container;
-    padding-right: $padding-container;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
 
     h1 {
         @include title();
@@ -206,24 +237,26 @@ main{
             position: absolute;
             margin-top: 0;
             right: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
         }
     }
 
     .no::after{
         content: ' ';
         display: inline-block;
-        width: 2rem;
-        height: 2rem;
+        width: 2.5rem;
+        height: 2.5rem;
         background-color: var(--no-color);
-        margin-right: .4rem;
-        margin-top: .4rem;
+        margin-right: .6rem;
+        margin-top: .6rem;
         border-radius: 0px 1rem;
     }
 
     .wrapper {
         display: flex;
         justify-content: center;
-        gap: 2rem;
+        gap: 2.5rem;
 
         .item {
             display: flex;
@@ -231,40 +264,38 @@ main{
             gap: 1rem;
         }
 
-        h2 {
-            font-size: 1rem;
+        .content h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
             margin-bottom: 1rem;
+            margin-top: 1rem;
         }
 
         p {
-            font-size: .75rem;
-            line-height: 1.2rem;
+            line-height: 1.5rem;
         }
     }
 }
 
 // choose course
 #choose-course {
-    padding-left: $padding-container;
-    padding-right: $padding-container;
-    padding-top: 3rem;
-    padding-bottom: 4rem;
+    @include padding-container();
 
     h1 {
         @include title();
     }
 
     .description {
-        font-size: .7rem;
-        line-height: 1.2rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 3.5rem;
     }
 
     #course-wrapper {
         display: flex;
         justify-content: space-between;
-        gap: 1.2rem;
+        gap: 1.5rem;
     }
 
     .course {
@@ -274,28 +305,30 @@ main{
 
         .image img {
             width: 100%;
-            height: 8rem;
-            // margin-bottom: 1rem;
+            height: 12rem;
+            margin-bottom: 1.5rem;
             object-fit: cover;
             border-radius: $card-border-radius;
+            border: 1px solid $color-gray;
         }
 
         h2 {
-            font-size: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
         }
 
         p {
-            font-size: .6rem;
-            line-height: 1rem;
+            font-size: .8rem;
+            line-height: 1.2rem;
+            margin-bottom: 1.5rem;
         }
     }
 }
 
 // webinar
 #webinar {
-    padding-left: $padding-container;
-    padding-right: $padding-container;
-    padding-bottom: 4rem;
+    @include padding-container();
 
     h1 {
         @include title();
@@ -309,8 +342,7 @@ main{
 
         a {
             text-decoration: none;
-            color: $color-gray;
-            font-size: .8rem;
+            font-size: 1rem;
         }
 
         .active {
@@ -331,36 +363,39 @@ main{
 
         .image img {
             width: 100%;
-            height: 8rem;
-            // margin-bottom: 1rem;
+            height: 10rem;
             object-fit: cover;
             border-radius: $card-border-radius;
+            border: 1px solid $color-gray;
+            margin-bottom: 1rem;
         }
 
         h2 {
-            font-size: .8rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
         }
 
         .item-info {
             display: flex;
-            gap: .5rem;
+            gap: .8rem;
             margin-bottom: .5rem;
 
             img {
-                width: 1rem;
+                width: 1.2rem;
                 height: 100%;
             }
 
             p {
-                font-size: .6rem;
+                font-size: .8rem;
                 margin: 0;
             }
         }
 
         .harga {
-            margin-top: .8rem;
-            margin-bottom: 1rem;
-            font-size: .8rem;
+            margin-top: 1.2rem;
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
             font-weight: bolder;
             color: $color-yellow;
         }
@@ -368,10 +403,7 @@ main{
 }
 
 #mentor {
-    padding-left: $padding-container;
-    padding-right: $padding-container;
-    padding-bottom: 3rem;
-    margin-bottom: 4rem;
+    @include padding-container();
 
     h1 {
         @include title();
@@ -386,32 +418,32 @@ main{
     .item {
         @include card-setting();
         width: 33%;
-        padding: 2rem;
+        padding: 2.5rem;
 
         .profile {
             text-align: center;
-            margin-bottom: .5rem;
+            margin-bottom: 1rem;
         }
 
         .profile img {
-            width: 5rem;
-            height: 5rem;
+            width: 8rem;
+            height: 8rem;
             object-fit: cover;
             border-radius: 50%;
         }
 
         .info {
             text-align: center;
-            margin-bottom: 1.4rem;
+            margin-bottom: 1.6rem;
 
             h2 {
-                font-size: 1rem;
+                font-size: 1.5rem;
                 margin-bottom: 0.2rem;
                 font-weight: bold;
             }
 
             p {
-                font-size: .8rem;
+                font-size: 1rem;
                 margin: 0;
             }
         }
@@ -425,7 +457,8 @@ main{
 
             h2{
                 margin: 0;
-                font-size: 1rem;
+                font-size: 1.2rem;
+                font-weight: bold;
             }
         }
 
@@ -433,7 +466,7 @@ main{
             --percent: calc(var(--rating) / 5 * 100%);
 
             display: inline-block;
-            font-size: 1.6rem;
+            font-size: 2rem;
             font-family: Times; // make sure ★ appears correctly
             line-height: 1;
 
@@ -451,9 +484,10 @@ main{
         .sosmed{
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.5rem;
             margin-top: .8rem;
             align-items: center;
+            font-size: 1.2rem;
 
             img{
                 width: 1rem;
@@ -464,10 +498,7 @@ main{
 
 // our partner
 #our-partner{
-    padding-left: $padding-container;
-    padding-right: $padding-container;
-    padding-top: 2rem;
-    padding-bottom: 3rem;
+    @include padding-container();
     margin-bottom: 3rem;
     background-color: $color-pink;
 
@@ -478,7 +509,7 @@ main{
     #our-partner-container{
         display: flex;
         justify-content: center;
-        gap: 2rem;
+        gap: 3rem;
     }
 
     .item{
@@ -494,8 +525,7 @@ main{
 
 // testimoni
 #testimoni{
-    padding-left: $padding-container;
-    padding-right: $padding-container;
+    @include padding-container();
     padding-bottom: 6rem;
 
     h1{
@@ -513,7 +543,7 @@ main{
     .slick-dots{
         width: auto;
         align-items: center;
-        bottom: -0.35rem;
+        bottom: -2rem;
         right: 0;
         left: 0;
     }
@@ -531,17 +561,17 @@ main{
     }
 
     .slick-prev:before, .slick-next:before{
-        color: $color-gray;
+        color: black;
     }
 
     .testimoni-container{
         display: flex !important;
         @include card-setting();
         width: 50%;
-        height: 9rem;
+        height: 12rem;
 
         img{
-            width: 8rem;
+            width: 10rem;
             height: 100%;
             object-fit: cover;
             border-top-left-radius: $card-border-radius;
@@ -553,17 +583,17 @@ main{
         }
 
         .title{
-            font-size: .4rem;
+            font-size: .6rem;
         }
 
         .name{
-            font-size: .8rem;
+            font-size: 1rem;
             font-weight: bolder;
             margin-bottom: .8rem;
         }
 
         .text{
-            font-size: .5rem;
+            font-size: .7rem;
             // line-height: 1rem;
         }
     }
@@ -578,8 +608,8 @@ footer{
     padding-right: $padding-container;
     padding-top: 3rem;
     padding-bottom: 2rem;
-    gap: 2.4rem;
-    font-size: .65rem;
+    gap: 4rem;
+    font-size: 1rem;
 
     .item{
         max-width: 25%;
@@ -588,6 +618,7 @@ footer{
     h2{
         font-size: 1rem;
         margin-top: 0;
+        font-weight: bold;
     }
 
     .footer-link{
@@ -606,11 +637,11 @@ footer{
         gap: .8rem;
 
         i{
-            font-size: .8rem;
+            font-size: 1rem;
         }
 
         p {
-            font-size: .6rem;
+            font-size: 1rem;
             margin: 0;
         }
     }
@@ -621,7 +652,7 @@ footer{
         align-items: center;
 
         a{
-            font-size: .8rem;
+            font-size: 1rem;
         }
     }
 }
