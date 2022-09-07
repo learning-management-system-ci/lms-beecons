@@ -7,16 +7,16 @@
             <img src="image/univ.png" alt="univ">
         </div>
         <div class="item">
-            <img src="image/univ.png" alt="univ">
+            <img src="image/univ2.png" alt="univ">
         </div>
         <div class="item">
-            <img src="image/univ.png" alt="univ">
+            <img src="image/univ3.png" alt="univ">
         </div>
         <div class="item">
-            <img src="image/univ.png" alt="univ">
+            <img src="image/unbraw.png" alt="univ">
         </div>
         <div class="item">
-            <img src="image/univ.png" alt="univ">
+            <img src="image/itb.png" alt="univ">
         </div>
     </div>
 </div>

@@ -416,7 +416,7 @@ main {
 #our-partner #our-partner-container {
   display: flex;
   justify-content: center;
-  gap: 3rem;
+  gap: 5rem;
 }
 #our-partner .item {
   width: 20%;
