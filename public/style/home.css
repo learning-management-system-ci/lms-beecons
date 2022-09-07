@@ -51,6 +51,22 @@ main {
   padding-left: 0;
   padding-right: 0;
 }
+.navbar .nav-profile {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.navbar .dropdown-toggle::after {
+  font-size: 1.5rem;
+  vertical-align: 0.1rem;
+}
+.navbar .nav-btn-profile button:hover {
+  border: none;
+}
+.navbar .dropdown-menu[data-bs-popper] {
+  left: -4rem;
+}
 
 .topnav {
   padding-left: 3.5rem;

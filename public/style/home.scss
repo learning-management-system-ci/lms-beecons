@@ -82,6 +82,26 @@ main{
         padding-left: 0;
         padding-right: 0;
     }
+
+    .nav-profile{
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .dropdown-toggle::after{
+        font-size: 1.5rem;
+        vertical-align: .1rem;
+    }
+
+    .nav-btn-profile button:hover {
+        border: none;
+    }
+
+    .dropdown-menu[data-bs-popper]{
+        left: -4rem;
+    }
 }
 // header
 .topnav {

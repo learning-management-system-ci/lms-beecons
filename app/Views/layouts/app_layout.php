@@ -21,48 +21,15 @@
 </head>
 
 <body>
-    <!-- <header>
-        <div class="topnav">
-            <div class="topnav-left">
-                <a href="" class="nav-link logo">
-                    <img src="image/logo.png" alt="logo">
-                </a>
-                <a href="" class="nav-link">Home</a>
-                <a href="" class="nav-link">Webinar</a>
-                <a href="" class="nav-link">Courses</a>
-            </div>
-            <div class="topnav-right">
-                <a href="" class="nav-link">Home</a>
-                <a href="" class="nav-link">Home</a>
-                <?php if (session()->get('LoggedUserData')) : ?>
-                    <a href="/login" class="nav-link-btn">
-                        <button class="btn-my btn-sign-in">Sign in</button>
-                    </a>
-                <?php else : ?>
-                    <div class="dropdown nav-link-btn">
-                        <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Admin
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button">Action</button>
-                            <button class="dropdown-item" type="button">Another action</button>
-                            <button class="dropdown-item" type="button">Something else here</button>
-                        </div>
-                    </div>
-                <?php endif ?>
-            </div>
-        </div>
-    </header> -->
-
     <nav class="navbar navbar-expand-md navbar-light shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand" href="">
                 <img src="image/logo.png" alt="logo">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarApp" aria-controls="navbarApp" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarApp">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
@@ -74,23 +41,24 @@
                         <a class="nav-link" href="">Courses</a>
                     </li>
                 </ul>
-                <a class="nav-link" href="#">Link</a>
-                <?php if (session()->get('LoggedUserData')) : ?>
-                    <a href="/login" class="nav-link-btn">
-                        <button class="btn-my btn-sign-in">Sign in</button>
-                    </a>
-                <?php else : ?>
-                    <div class="dropdown nav-link-btn">
-                        <button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Admin
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <button class="dropdown-item" type="button">Action</button>
-                            <button class="dropdown-item" type="button">Another action</button>
-                            <button class="dropdown-item" type="button">Something else here</button>
-                        </div>
-                    </div>
-                <?php endif ?>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <?php if (!session()->get('LoggedUserData')) : ?>
+                        <a href="/login" class="nav-link-btn">
+                            <button class="btn-my btn-sign-in">Sign in</button>
+                        </a>
+                    <?php else : ?>
+                        <li class="nav-item">
+                            <div class="dropdown nav-btn-profile">
+                                <button class="btn dropdown-toggle" type="button" id="dropdown-profile" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="image/people.jpg" class="nav-profile" alt="">
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown-profile">
+                                    <a href="/profile" class="dropdown-item">Profile</a>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endif ?>
+                </ul>
             </div>
         </div>
     </nav>
