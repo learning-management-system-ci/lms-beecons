@@ -1,0 +1,506 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 24px;
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+
+body {
+  background-color: #ffffff;
+  margin: 0;
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+
+.btn-my {
+  background-color: #002B5B;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  min-width: 110px;
+  border-radius: 0.4rem;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.7rem;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+main {
+  min-height: 80vh;
+}
+
+.topnav {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  display: flex;
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+.topnav .logo {
+  width: 6rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+.topnav .logo img {
+  width: 100%;
+  margin: auto;
+}
+.topnav .topnav-left {
+  flex: 1 1 50%;
+}
+.topnav .topnav-left .nav-link {
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  padding-left: 0;
+  padding-right: 2rem;
+}
+.topnav .topnav-right .nav-link {
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  padding-right: 0;
+  padding-left: 1.2rem;
+}
+.topnav .nav-link {
+  display: inline-block;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-size: 0.6rem;
+}
+.topnav .nav-link:hover {
+  font-weight: bolder;
+}
+.topnav .nav-link-btn {
+  padding-right: 0;
+  padding-left: 1.2rem;
+}
+.topnav .btn-sign-in {
+  font-size: 0.6rem;
+}
+
+#hero {
+  min-height: 90vh;
+  height: 100vh;
+  text-align: right;
+}
+#hero .content-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 2.5rem;
+}
+#hero .content {
+  width: 40%;
+  text-align: left;
+}
+#hero .content h1 {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+#hero .content p {
+  font-size: 0.7rem;
+  line-height: 1.2rem;
+  margin-bottom: 2rem;
+}
+#hero .image {
+  height: 100%;
+}
+#hero .image img {
+  height: 100%;
+}
+
+#why-choose-us {
+  background-color: #FFF5FD;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+#why-choose-us h1 {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+#why-choose-us .no {
+  font-weight: bolder;
+  position: relative;
+}
+#why-choose-us .no h2 {
+  position: absolute;
+  margin-top: 0;
+  right: 0;
+}
+#why-choose-us .no::after {
+  content: " ";
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--no-color);
+  margin-right: 0.4rem;
+  margin-top: 0.4rem;
+  border-radius: 0px 1rem;
+}
+#why-choose-us .wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+#why-choose-us .wrapper .item {
+  display: flex;
+  width: 25%;
+  gap: 1rem;
+}
+#why-choose-us .wrapper h2 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+#why-choose-us .wrapper p {
+  font-size: 0.75rem;
+  line-height: 1.2rem;
+}
+
+#choose-course {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+#choose-course h1 {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+#choose-course .description {
+  font-size: 0.7rem;
+  line-height: 1.2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+#choose-course #course-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+#choose-course .course {
+  border-radius: 0.4rem;
+  box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1);
+  width: 33%;
+  padding: 0.8rem;
+}
+#choose-course .course .image img {
+  width: 100%;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 0.4rem;
+}
+#choose-course .course h2 {
+  font-size: 1rem;
+}
+#choose-course .course p {
+  font-size: 0.6rem;
+  line-height: 1rem;
+}
+
+#webinar {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-bottom: 4rem;
+}
+#webinar h1 {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+#webinar .categories {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+#webinar .categories a {
+  text-decoration: none;
+  color: #1F1F1F;
+  font-size: 0.8rem;
+}
+#webinar .categories .active {
+  font-weight: bolder;
+}
+#webinar #webinar-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+#webinar .item {
+  border-radius: 0.4rem;
+  box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1);
+  width: 25%;
+  padding: 0.8rem;
+}
+#webinar .item .image img {
+  width: 100%;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 0.4rem;
+}
+#webinar .item h2 {
+  font-size: 0.8rem;
+}
+#webinar .item .item-info {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+#webinar .item .item-info img {
+  width: 1rem;
+  height: 100%;
+}
+#webinar .item .item-info p {
+  font-size: 0.6rem;
+  margin: 0;
+}
+#webinar .item .harga {
+  margin-top: 0.8rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  font-weight: bolder;
+  color: #FFCB42;
+}
+
+#mentor {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-bottom: 3rem;
+  margin-bottom: 4rem;
+}
+#mentor h1 {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+#mentor #mentor-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 2.8rem;
+}
+#mentor .item {
+  border-radius: 0.4rem;
+  box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1);
+  width: 33%;
+  padding: 2rem;
+}
+#mentor .item .profile {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+#mentor .item .profile img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: 50%;
+}
+#mentor .item .info {
+  text-align: center;
+  margin-bottom: 1.4rem;
+}
+#mentor .item .info h2 {
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+  font-weight: bold;
+}
+#mentor .item .info p {
+  font-size: 0.8rem;
+  margin: 0;
+}
+#mentor .item .star-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+#mentor .item .star-container h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+#mentor .item .stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: 1.6rem;
+  font-family: Times;
+  line-height: 1;
+}
+#mentor .item .stars::before {
+  content: "★★★★★";
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #E0D043 var(--percent), #ffffff var(--percent));
+  -webkit-background-clip: text;
+  background-clip: #FFCB42;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #E0D043;
+}
+#mentor .item .sosmed {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.8rem;
+  align-items: center;
+}
+#mentor .item .sosmed img {
+  width: 1rem;
+}
+
+#our-partner {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  margin-bottom: 3rem;
+  background-color: #FFF5FD;
+}
+#our-partner h1 {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+#our-partner #our-partner-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+#our-partner .item {
+  width: 20%;
+}
+#our-partner .item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#testimoni {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-bottom: 6rem;
+}
+#testimoni h1 {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  margin-bottom: 4rem;
+}
+#testimoni .slider {
+  padding: 1rem;
+}
+#testimoni .slick-arrow {
+  top: 50%;
+}
+#testimoni .slick-dots {
+  width: auto;
+  align-items: center;
+  bottom: -0.35rem;
+  right: 0;
+  left: 0;
+}
+#testimoni .slick-slide {
+  padding: 0.5rem;
+}
+#testimoni .slick-dots li button:before {
+  font-size: 0.5rem;
+}
+#testimoni .slick-prev {
+  right: 0;
+}
+#testimoni .slick-prev:before, #testimoni .slick-next:before {
+  color: #1F1F1F;
+}
+#testimoni .testimoni-container {
+  display: flex !important;
+  border-radius: 0.4rem;
+  box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.1);
+  width: 50%;
+  height: 9rem;
+}
+#testimoni .testimoni-container img {
+  width: 8rem;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 0.4rem;
+  border-bottom-left-radius: 0.4rem;
+}
+#testimoni .testimoni-container .content {
+  padding: 0.8rem;
+}
+#testimoni .testimoni-container .title {
+  font-size: 0.4rem;
+}
+#testimoni .testimoni-container .name {
+  font-size: 0.8rem;
+  font-weight: bolder;
+  margin-bottom: 0.8rem;
+}
+#testimoni .testimoni-container .text {
+  font-size: 0.5rem;
+}
+
+footer {
+  display: flex;
+  background-color: #FFF5FD;
+  justify-content: center;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+  gap: 2.4rem;
+  font-size: 0.65rem;
+}
+footer .item {
+  max-width: 25%;
+}
+footer h2 {
+  font-size: 1rem;
+  margin-top: 0;
+}
+footer .footer-link {
+  display: block;
+  margin-bottom: 1rem;
+}
+footer .contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+footer .contact-item {
+  display: flex;
+  gap: 0.8rem;
+}
+footer .contact-item i {
+  font-size: 0.8rem;
+}
+footer .contact-item p {
+  font-size: 0.6rem;
+  margin: 0;
+}
+footer .sosmed {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+footer .sosmed a {
+  font-size: 0.8rem;
+}
+
+/*# sourceMappingURL=home.css.map */
