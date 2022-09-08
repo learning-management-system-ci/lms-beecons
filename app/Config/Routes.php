@@ -61,6 +61,7 @@ $routes->post('/send-otp', 'AuthController::sendOtp');
 
 $routes->get('/new-password', 'AuthController::indexNewPassword');
 $routes->post('/new-password', 'AuthController::newPassword');
+$routes->get('/faq', 'Home::faq');
 
 
 

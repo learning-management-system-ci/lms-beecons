@@ -18,6 +18,7 @@
 
     <!-- mystyle -->
     <link rel="stylesheet" href="style/home.css">
+    <?= $this->renderSection('css-component') ?>
 </head>
 
 <body>
@@ -137,6 +138,7 @@
 
     <!-- myscript -->
     <script src="js/home.js"></script>
+    <?= $this->renderSection('js-component') ?>
 </body>
 
 </html>

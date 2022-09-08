@@ -28,4 +28,8 @@ class Home extends BaseController
     {
         return view('pages/authentication/new_password');
     }
+    public function faq()
+    {
+        return view('pages/navigation/faq');
+    }
 }
