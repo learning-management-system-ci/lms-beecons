@@ -19,30 +19,30 @@ body {
   min-width: 290px;
 }
 
-.form-wrap form .welcome-text {
+form .welcome-text {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
 }
-.form-wrap form .sign-in-text {
+form .sign-in-text {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 700;
   margin: 0 12px 0 0 !important;
   font-size: 20px;
 }
-.form-wrap form .info-text {
+form .info-text {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
 }
-.form-wrap form .form-label {
+form .form-label {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 500;
 }
-.form-wrap form input {
+form input {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
@@ -52,27 +52,28 @@ body {
   padding-left: 20px;
   font-size: 12px;
 }
-.form-wrap form .option .checkbox label {
+form .option .checkbox label {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 11px !important;
   margin-left: 2px;
+  height: 15px;
 }
-.form-wrap form .option a {
+form .option a {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
   font-size: 11px !important;
 }
-.form-wrap form .sign-up {
+form .sign-up {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 300;
   font-size: 12px;
   margin-top: 20px !important;
 }
-.form-wrap form .horizontal {
+form .horizontal {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 500;
@@ -80,8 +81,8 @@ body {
   text-align: center;
   color: #1F1F1F;
 }
-.form-wrap form .horizontal::before,
-.form-wrap form .horizontal::after {
+form .horizontal::before,
+form .horizontal::after {
   background-color: #000;
   content: "";
   display: inline-block;
@@ -90,20 +91,21 @@ body {
   vertical-align: middle;
   width: 40%;
 }
-.form-wrap form .horizontal::after {
+form .horizontal::after {
   margin-left: 10px;
 }
-.form-wrap form .horizontal::before {
+form .horizontal::before {
   margin-right: 10px;
 }
-.form-wrap a {
+
+a {
   border: none !important;
   padding: 0% !important;
   width: auto;
   border-radius: 30px;
   background-color: transparent !important;
 }
-.form-wrap a img {
+a img {
   width: 290px;
   height: 45px;
 }

@@ -23,7 +23,9 @@
             <div class="faq-item">
                 <div class="faq-title d-flex justify-content-between align-items-center">
                     <h4>01. Can i get a discount ?</h3>
-                        <a class="expand d-flex justify-content-center align-items-center" data-bs-toggle="collapse" href="#faq-1" role="button" aria-expanded="false" aria-controls="collapseExample" id="button12">
+                        <a class="expand d-flex justify-content-center align-items-center" data-bs-toggle="collapse"
+                            href="#faq-1" role="button" aria-expanded="false" aria-controls="collapseExample"
+                            id="button12">
                         </a>
                 </div>
                 <div class="faq-content collapse" id="faq-1">
@@ -39,7 +41,8 @@
             <div class="faq-item">
                 <div class="faq-title d-flex justify-content-between align-items-center">
                     <h4>02. Can i get a discount ?</h3>
-                        <a class="expand" data-bs-toggle="collapse" href="#faq-2" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <a class="expand" data-bs-toggle="collapse" href="#faq-2" role="button" aria-expanded="false"
+                            aria-controls="collapseExample">
                         </a>
                 </div>
                 <div class="faq-content collapse" id="faq-2">

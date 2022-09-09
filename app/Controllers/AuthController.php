@@ -338,8 +338,8 @@ class AuthController extends BaseController
 
 	public function indexNewPassword() {
 		$data = [
-      "title" => "Reset Password",
-    ];
+      		"title" => "Reset Password",
+    	];
 		return view('pages/authentication/new_password', $data);
 	}
 
