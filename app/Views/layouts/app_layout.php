@@ -42,17 +42,59 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item me-4">
+                        <div class="nav-item-search">
+                            <div class="nav-search-input">
+                                <form action="">
+                                    <input class="form-control border" placeholder="search">
+                                </form>
+                                <i class="fa-solid fa-xmark" id="nav-btn-search-x"></i>
+                            </div>
+                            <button class="nav-btn-icon" id="nav-btn-search">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </li>
+                    <li class="nav-item me-4">
+                        <div class="dropdown nav-item-icon">
+                            <button class="nav-btn-icon" id="dropdown-cart" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="nav-btn-icon-amount">5</div>
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </button>
+                            <div class="dropdown-menu mt-2" aria-labelledby="dropdown-cart">
+                                <a href="/" class="dropdown-item">Cart 1</a>
+                                <a href="/" class="dropdown-item">Cart 2</a>
+                                <a href="/" class="dropdown-item">Cart 3</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item me-4">
+                        <div class="dropdown nav-item-icon">
+                            <button class="nav-btn-icon" id="dropdown-notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="nav-btn-icon-amount">2</div>
+                                <i class="fa-solid fa-bell"></i>
+                            </button>
+                            <div class="dropdown-menu mt-2" aria-labelledby="dropdown-notification">
+                                <a href="/" class="dropdown-item">Notification 1</a>
+                                <a href="/" class="dropdown-item">Notification 2</a>
+                                <a href="/" class="dropdown-item">Notification 3</a>
+                            </div>
+                        </div>
+                    </li>
                     <?php if (!session()->get('LoggedUserData')) : ?>
-                        <a href="/login" class="nav-link-btn">
-                            <button class="btn-my btn-sign-in">Sign in</button>
-                        </a>
+                        <li class="nav-item">
+                            <a href="/login" class="nav-link-btn">
+                                <button class="btn-my btn-sign-in">Sign in</button>
+                            </a>
+                        </li>
                     <?php else : ?>
                         <li class="nav-item">
-                            <div class="dropdown nav-btn-profile">
-                                <button class="btn dropdown-toggle" type="button" id="dropdown-profile" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="image/people.jpg" class="nav-profile" alt="">
+                            <div class="dropdown nav-item-profile">
+                                <button class="nav-btn-profile" id="dropdown-profile" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="image/people.jpg" class="nav-profile me-1" alt="">
+                                    <i class="fa-solid fa-chevron-down"></i>
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdown-profile">
+                                <div class="dropdown-menu mt-2" aria-labelledby="dropdown-profile">
                                     <a href="/profile" class="dropdown-item">Profile</a>
                                 </div>
                             </div>
