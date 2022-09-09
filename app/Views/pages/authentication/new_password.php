@@ -10,7 +10,7 @@
     <input type="password" name="password" id="password" placeholder="Password">
     <label for="password_confirm" class="form-label mt-3">Confirm New Password</label>
     <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirm Password">
-    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled">Reset</button>
+    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Reset</button>
     <p class="sign-up" style="text-align: center;">Remember Your Account? <a href="<?= base_url('login'); ?>"
             style="text-decoration: none;">Sign
             in</a></p>
@@ -18,39 +18,5 @@
 <?= $this->include('components/authentication/error_modal') ?>
 <?= $this->endSection() ?>
 <?=$this->section('authentication-js')?>
-<script>
-    $(document).ready(function () {
-        $('#new-password').validate({
-            rules: {
-                password: {
-                    required: true,
-                    minlength: 8
-                },
-                password_confirm: {
-                    required: true,
-                    equalTo: '#password'
-                }
-            }
-        });
-
-        if ($('button.btn').prop('disabled', 'disabled')) {
-            $('button.btn').css({
-                'background-color': '#B9B9B9'
-            })
-        }
-
-        $('#new-password input').on('keyup blur', function () {
-            if ($('#new-password').valid()) {
-                $('button.btn').prop('disabled', false).css({
-                    'background-color': '#002B5B'
-                });
-            } else {
-                $('button.btn').prop('disabled', 'disabled').css({
-                    'background-color': '#B9B9B9'
-                });
-            }
-        });
-
-    });
-</script>
+<script src="js/authentication/new_password.js" />
 <?=$this->endSection()?>

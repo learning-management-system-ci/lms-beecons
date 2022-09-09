@@ -8,7 +8,7 @@
     <p class="info-text">Please input OTP code that sent to you</p>
     <label for="otp" class="form-label">OTP</label>
     <input type="text" name="otp" id="otp" placeholder="Enter your OTP code">
-    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled">Confirm</button>
+    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Confirm</button>
     <p class="sign-up" style="text-align: center;">Remember Your Account? <a href="<?= base_url('login'); ?>"
             style="text-decoration: none;">Sign
             in</a></p>
@@ -16,35 +16,5 @@
 <?= $this->include('components/authentication/error_modal') ?>
 <?=$this->endSection()?>
 <?=$this->section('authentication-js')?>
-<script>
-    $(document).ready(function () {
-        $('#otp-code').validate({
-            rules: {
-                otp: {
-                    required: true,
-                    digits: true,
-                    minlength: 6,
-                    maxlength: 6
-                },
-            }
-        });
-
-        if ($('button.btn').prop('disabled', 'disabled')) {
-            $('button.btn').css({
-                'background-color': '#B9B9B9'
-            })
-        }
-
-        $('#otp-code input').on('keyup blur', function () {
-            if ($('#otp-code').valid()) {
-                $('button.btn').prop('disabled', false).css({
-                    'background-color': '#002B5B'
-                });
-            } else {
-                $('button.btn').prop('disabled', 'disabled');
-            }
-        });
-
-    });
-</script>
+<script src="js/authentication/otp_code.js" />
 <?=$this->endSection()?>
