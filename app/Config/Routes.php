@@ -35,8 +35,7 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-// $routes->get('/', 'AuthController::indexLogin');
-$routes->get('/', 'Home::index');
+$routes->get('/', 'AuthController::indexLogin');
 
 $routes->get('/login', 'AuthController::indexLogin');
 $routes->post('/login', 'AuthController::login');
@@ -45,9 +44,7 @@ $routes->get('/register', 'AuthController::indexRegister');
 $routes->post('/register', 'AuthController::register');
 
 $routes->get('/profile', 'AuthController::profile');
-$routes->get('/login/profile', 'AuthController::profile');
 $routes->get('/login/loginWithGoogle', 'AuthController::loginWithGoogle');
-$routes->get('/login/logout', 'AuthController::logout');
 $routes->get('/logout', 'AuthController::logout');
 $routes->get('/activateuser', 'AuthController::activateUser');
 
@@ -61,16 +58,16 @@ $routes->post('/send-otp', 'AuthController::sendOtp');
 
 $routes->get('/new-password', 'AuthController::indexNewPassword');
 $routes->post('/new-password', 'AuthController::newPassword');
-$routes->get('/faq', 'Home::faq');
 
+//$routes->resource('faq', ['controller' => 'Api\FaqController']);
+$routes->group('faq/', static function ($routes) {
+    $routes->get('', 'Api\FaqController::index');
+    $routes->post('create', 'Api\FaqController::create');
+    $routes->get('detail/(:segment)', 'Api\FaqController::show/$1');
+    $routes->put('update/(:segment)', 'Api\FaqController::update/$1');
+    $routes->delete('delete/(:segment)', 'Api\FaqController::delete/$1');
+});
 
-
-// $routes->get('/', 'Home::index');
-// $routes->get('/login', 'Home::login');
-// $routes->get('/sign-up', 'Home::signUp');
-// $routes->get('/forgot-password', 'Home::forgotPassword');
-// $routes->get('/send-otp', 'Home::sendOTP');
-// $routes->get('/new-password', 'Home::newPassword');
 
 /*
  * --------------------------------------------------------------------

@@ -83,7 +83,10 @@ class AuthController extends BaseController
 				}
 				session()->setFlashData("success", "Login Successful");
 				return redirect()->to(base_url()."/profile");
-      }
+      } else {
+		session()->setFlashdata('error', 'Wrong email & password');
+		return redirect()->back();
+	  }
     } else {
       session()->setFlashdata('error', 'Wrong email & password');
       return redirect()->back();
@@ -106,14 +109,18 @@ class AuthController extends BaseController
 				$userdata = [
 					'oauth_id'=>$data['id'],
 					'email'=>$data['email'], 
-					'updated_at'=>$currentDateTime
+					'updated_at'=>$currentDateTime,
+					'activation_status'=>'1'
 				];
-				$this->loginModel->updateUserData($userdata, $data['id']);
+				$email = $data['email'];
+				$this->loginModel->updateUserData($userdata, $email);
 			}else{
 				$userdata = [
 					'oauth_id'=>$data['id'],
 					'email'=>$data['email'], 
-					'created_at'=>$currentDateTime
+					'created_at'=>$currentDateTime,
+					'activation_status'=>'1',
+					'role'=>'participant'
 				];
 				$this->loginModel->insertUserData($userdata);
 			}
@@ -203,10 +210,10 @@ class AuthController extends BaseController
 
     $users = new UsersModel();
     $users->insert([
-      'email' => $this->request->getVar('email'),
-			'role' => 'participant',
-      'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
-			'activation_code' => $token
+      	'email' => $this->request->getVar('email'),
+		'role' => 'participant',
+      	'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
+		'activation_code' => $token
     ]);
 
 		$this->sendActivationEmail($this->request->getVar('email'), $token);
