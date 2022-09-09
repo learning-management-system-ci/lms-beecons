@@ -6,12 +6,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p><?php echo session()->getFlashdata('error'); ?></p>
+                <p><?php echo session()->getFlashdata('error'); ?><?php echo session()->getFlashdata('success'); ?></p>
             </div>
         </div>
     </div>
 </div>
-<?php if (!empty(session()->getFlashdata('error'))) : ?>
+<?php if (!empty(session()->getFlashdata('error')) || !empty(session()->getFlashdata('success'))) : ?>
 <script>
     $('document').ready(function () {
         $('#message-modal').modal('toggle');
