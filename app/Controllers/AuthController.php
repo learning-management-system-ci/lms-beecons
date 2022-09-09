@@ -106,6 +106,7 @@ class AuthController extends BaseController
 			// echo "<pre>"; print_r($data);die;
 			$userdata=array();
 			if($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])){
+			// if($this->loginModel->isAlreadyRegister($data['id'])){
 				$userdata = [
 					'oauth_id'=>$data['id'],
 					'email'=>$data['email'], 
