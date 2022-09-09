@@ -2,8 +2,7 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class UsersModel extends Model
-{
+class UsersModel extends Model {
 	protected $table='users';
 	protected $primaryKey = 'id';
 	protected $DBGroup='default';
@@ -15,8 +14,8 @@ class UsersModel extends Model
 	function isAlreadyRegisterByEmail($email){
 		return $this->db->table('users')->getWhere(['email'=>$email])->getRowArray()>0?true:false;
 	}
-	function updateUserData($userdata, $authid){
-		$this->db->table("users")->where(['oauth_id'=>$authid])->update($userdata);
+	function updateUserData($userdata, $email){
+		$this->db->table("users")->where(['email'=>$email])->update($userdata);
 	}
 	function updateUserByEmail($userdata, $email){
 		$this->db->table("users")->where(['email'=>$email])->update($userdata);
