@@ -48,6 +48,8 @@ writable/**/*.sqlite
 
 php_errors.log
 
+public/null/*
+
 #-------------------------
 # User Guide Temp Files
 #-------------------------

@@ -1,0 +1,9 @@
+__ci_last_regenerate|i:1662525888;_ci_previous_url|s:30:"http://localhost:8080/register";error|s:231:"<!-- DEBUG-VIEW START 1 SYSTEMPATH\Validation\Views\list.php -->
+	<div class="errors" role="alert">
+		<ul>
+					<li>password required</li>
+				</ul>
+	</div>
+
+<!-- DEBUG-VIEW ENDED 1 SYSTEMPATH\Validation\Views\list.php -->
+";__ci_vars|a:3:{s:5:"error";s:3:"old";s:13:"_ci_old_input";s:3:"old";s:21:"_ci_validation_errors";s:3:"old";}_ci_old_input|a:2:{s:3:"get";a:0:{}s:4:"post";a:5:{s:14:"csrf_test_name";s:32:"deb2ab8d0cde2ee6615e2296b26b2733";s:5:"email";s:24:"hendrikus_riko@yahoo.com";s:8:"password";s:0:"";s:16:"password_confirm";s:0:"";s:5:"terms";s:2:"on";}}_ci_validation_errors|s:46:"a:1:{s:8:"password";s:17:"password required";}";
