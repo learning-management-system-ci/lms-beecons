@@ -32,4 +32,8 @@ class Home extends BaseController
     {
         return view('pages/navigation/faq');
     }
+    public function aboutUs()
+    {
+        return view('pages/navigation/about_us');
+    }
 }

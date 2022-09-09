@@ -59,6 +59,9 @@ $routes->post('/send-otp', 'AuthController::sendOtp');
 $routes->get('/new-password', 'AuthController::indexNewPassword');
 $routes->post('/new-password', 'AuthController::newPassword');
 
+$routes->get('/faq', 'Home::faq');
+$routes->get('/about-us', 'Home::aboutUs');
+
 //$routes->resource('faq', ['controller' => 'Api\FaqController']);
 $routes->group('faq/', static function ($routes) {
     $routes->get('', 'Api\FaqController::index');
