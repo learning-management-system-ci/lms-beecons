@@ -6,12 +6,6 @@
     <p class="welcome-text">Oops!</p>
     <p class="sign-in-text"><?= $title; ?></p>
     <p class="info-text">Please input your new passowrd</p>
-    <?php if (!empty(session()->getFlashdata('error'))) : ?>
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <?php echo session()->getFlashdata('error'); ?>
-    </div>
-    <?php endif; ?>
-
     <label for="password" class="form-label mt-3">New Password</label>
     <input type="password" name="password" id="password" placeholder="Password">
     <label for="password_confirm" class="form-label mt-3">Confirm New Password</label>
@@ -21,9 +15,9 @@
             style="text-decoration: none;">Sign
             in</a></p>
 </form>
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<?= $this->include('components/authentication/error_modal') ?>
+<?= $this->endSection() ?>
+<?=$this->section('authentication-js')?>
 <script>
     $(document).ready(function () {
         $('#new-password').validate({
@@ -52,8 +46,8 @@
                 });
             } else {
                 $('button.btn').prop('disabled', 'disabled').css({
-                'background-color': '#B9B9B9'
-            });
+                    'background-color': '#B9B9B9'
+                });
             }
         });
 

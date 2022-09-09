@@ -18,15 +18,16 @@
             <label for="terms">By signing up you agree to our Terms & Condition and Privacy Policy.*</label>
         </div>
     </div>
-    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Sign Up</button>
+    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Sign
+        Up</button>
     <p class="sign-up" style="text-align: center;">Already Have Account? <a href="<?= base_url('login'); ?>"
             style="text-decoration: none;">Sign
             in</a></p>
     <p class="horizontal">Or</p>
 </form>
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<?= $this->include('components/authentication/error_modal') ?>
+<?=$this->endSection()?>
+<?=$this->section('authentication-js')?>
 <script>
     $(document).ready(function () {
         $('#sign-up').validate({
@@ -62,8 +63,8 @@
                 });
             } else {
                 $('button.btn').prop('disabled', 'disabled').css({
-                'background-color': '#B9B9B9'
-            });
+                    'background-color': '#B9B9B9'
+                });
             }
         });
 

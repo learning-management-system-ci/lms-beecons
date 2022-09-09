@@ -7,11 +7,6 @@
     <p class="welcome-text">Welcome</p>
     <p class="sign-in-text"><?= $title; ?></p>
     <p class="info-text">Please input your email and password</p>
-
-    <span
-        style="text-align: center; color: red;font-size: x-large;"><?php if(session()->getFlashData("error")) echo session()->getFlashData("error"); ?></span>
-    <span
-        style="text-align: center; color: red;font-size: x-large;"><?php if(session()->getFlashData("success")) echo session()->getFlashData("success"); ?></span>
     <label for="email" class="form-label">Email</label>
     <input type="email" name="email" id="email" placeholder="Email">
 
@@ -26,9 +21,9 @@
     </p>
     <p class="horizontal">Or</p>
 </form>
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<?= $this->include('components/authentication/error_modal') ?>
+<?= $this->endSection() ?>
+<?=$this->section('authentication-js')?>
 <script>
     $(document).ready(function () {
         console.log("mashoook");

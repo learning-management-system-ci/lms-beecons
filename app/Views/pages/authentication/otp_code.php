@@ -6,11 +6,6 @@
     <p class="welcome-text">Check your email!</p>
     <p class="sign-in-text"><?= $title; ?></p>
     <p class="info-text">Please input OTP code that sent to you</p>
-    <?php if (!empty(session()->getFlashdata('error'))) : ?>
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <?php echo session()->getFlashdata('error'); ?>
-    </div>
-    <?php endif; ?>
     <label for="otp" class="form-label">OTP</label>
     <input type="text" name="otp" id="otp" placeholder="Enter your OTP code">
     <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled">Confirm</button>
@@ -18,16 +13,18 @@
             style="text-decoration: none;">Sign
             in</a></p>
 </form>
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<?= $this->include('components/authentication/error_modal') ?>
+<?=$this->endSection()?>
+<?=$this->section('authentication-js')?>
 <script>
     $(document).ready(function () {
         $('#otp-code').validate({
             rules: {
                 otp: {
                     required: true,
-                    minlength: 6
+                    digits: true,
+                    minlength: 6,
+                    maxlength: 6
                 },
             }
         });
