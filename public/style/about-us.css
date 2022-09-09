@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
+h3,
+h4 {
+  color: #1f1f1f;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+}
+
+main .navigation p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+}
+main .navigation p a {
+  color: #002b5b;
+  text-decoration: none;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+}
+main .about-us {
+  padding: 0 0 3rem 0;
+}
+main .about-us .about-us-founder h3 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+}
+main .about-us .about-us-founder p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+}
+main .about-us .about-us-founder p.description {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+  color: #a5a5a5;
+}
+main .about-us .about-us-founder .founder-photo {
+  margin-right: 20px;
+}
+main .about-us .about-us-founder .founder-photo img {
+  width: 100%;
+  height: 100%;
+  max-width: 300px;
+  object-fit: cover;
+}
+main .about-us .about-us-card {
+  background-color: #f2f4f6;
+  border-radius: 10px;
+}
+main .about-us .about-us-card p {
+  color: #a5a5a5;
+}
+main .about-us .about-us-card a {
+  color: #5273e8;
+}
+
+/*# sourceMappingURL=about-us.css.map */
