@@ -1,6 +1,7 @@
 <?php
 
 namespace Config;
+use App\Controllers\PolicyAndPrivacyController;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -37,6 +38,14 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('/login', 'Home::login');
+
+
+// API
+// $routes->get('/api/pap', 'PolicyAndPrivacyController::index');
+// $routes->post('/api/pap', 'PolicyAndPrivacyController::create');
+// $routes->put('/api/pap', 'PolicyAndPrivacyController::update');
+// $routes->post('/api/pap', 'PolicyAndPrivacyController::update');
+$routes->resource('/api/pap', ['controller' => 'PolicyAndPrivacyController'], ['only' => ['index', 'create', 'show', 'update', 'delete']]);
 
 /*
  * --------------------------------------------------------------------
