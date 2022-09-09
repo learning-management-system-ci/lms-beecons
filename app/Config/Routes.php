@@ -63,7 +63,7 @@ $routes->get('/faq', 'Home::faq');
 $routes->get('/about-us', 'Home::aboutUs');
 
 //$routes->resource('faq', ['controller' => 'Api\FaqController']);
-$routes->group('faq/', static function ($routes) {
+$routes->group('api/faq/', static function ($routes) {
     $routes->get('', 'Api\FaqController::index');
     $routes->post('create', 'Api\FaqController::create');
     $routes->get('detail/(:segment)', 'Api\FaqController::show/$1');
@@ -71,7 +71,7 @@ $routes->group('faq/', static function ($routes) {
     $routes->delete('delete/(:segment)', 'Api\FaqController::delete/$1');
 });
 
-$routes->group('voucher/', static function ($routes) {
+$routes->group('api/voucher/', static function ($routes) {
     $routes->get('', 'Api\VoucherController::index');
     $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
     $routes->post('create', 'Api\VoucherController::create');
