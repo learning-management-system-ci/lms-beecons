@@ -8,5 +8,5 @@ class VoucherModel extends Model
 {
     protected $table = 'voucher';
     protected $primaryKey = 'voucher_id';
-    protected $allowedFields = ['title', 'description', 'code', 'discount_price', 'created_at', 'updated_at'];
+    protected $allowedFields = ['title', 'description', 'start_date', 'due_date', 'is_active', 'code', 'discount_price', 'created_at', 'updated_at'];
 }

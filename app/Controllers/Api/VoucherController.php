@@ -12,6 +12,7 @@ class VoucherController extends ResourceController
 
   public function __construct()
   {
+		helper('date');
     $this->voucherModel = new VoucherModel();
   }
 
@@ -23,13 +24,24 @@ class VoucherController extends ResourceController
   public function create() {
     $rules = [
 			"title" => "required",
+			"start_date" => "required|valid_date",
+			"due_date" => "required|valid_date",
 			"code" => "required|is_unique[voucher.code]|max_length[10]|alpha_numeric",
 			"discount_price" => "required|numeric",
+			"is_active" => "less_than_equal_to[1]",
 		];
 
 		$messages = [
 			"title" => [
 				"required" => "{field} is required"
+			],
+			"start_date" => [
+				"required" => "{field} is required",
+				"valid_date" => "{field} invalid date format"
+			],
+			"due_date" => [
+				"required" => "{field} is required",
+				"valid_date" => "{field} invalid date format"
 			],
       "code" => [
         "required" => "{field} required",
@@ -39,6 +51,9 @@ class VoucherController extends ResourceController
       ],
 			"discount_price" => [
 				"required" => "Discount Price is required"
+			],
+			"is_active" => [
+				"less_than_equal_to" => "{field} only consists of 0 (not active) and 1 (active)"
 			],
 		];
 
@@ -52,6 +67,9 @@ class VoucherController extends ResourceController
 		} else {
 			$data['title'] = $this->request->getVar("title");
 			$data['description'] = $this->request->getVar("description");
+			$data['start_date'] = date("Y-m-d", strtotime($this->request->getVar("start_date")));
+			$data['due_date'] = date("Y-m-d", strtotime($this->request->getVar("due_date")));
+			$data['is_active'] = $this->request->getVar("is_active");
 			$data['code'] = strtoupper($this->request->getVar("code"));
 			$data['discount_price'] = $this->request->getVar("discount_price");
 
@@ -81,13 +99,24 @@ class VoucherController extends ResourceController
 
 		$rules = [
 			"title" => "required",
+			"start_date" => "required|valid_date",
+			"due_date" => "required|valid_date",
 			"code" => "required|is_unique[voucher.code,voucher_id,$id]|max_length[10]|alpha_numeric",
 			"discount_price" => "required|numeric",
+			"is_active" => "less_than_equal_to[1]",
 		];
 		
 		$messages = [
 			"title" => [
 				"required" => "{field} is required"
+			],
+			"start_date" => [
+				"required" => "{field} is required",
+				"valid_date" => "{field} invalid date format"
+			],
+			"due_date" => [
+				"required" => "{field} is required",
+				"valid_date" => "{field} invalid date format"
 			],
 			"code" => [
 			  "required" => "{field} required",
@@ -98,11 +127,17 @@ class VoucherController extends ResourceController
 			"discount_price" => [
 				"required" => "Discount Price is required"
 			],
+			"is_active" => [
+				"less_than_equal_to" => "{field} only consists of 0 (not active) and 1 (active)"
+			],
 		];
 
 		$data = [
 			"title" => $input["title"],
 			"description" => $input["description"],
+			"start_date" => date("Y-m-d", strtotime($input["start_date"])),
+			"due_date" => date("Y-m-d", strtotime($input["due_date"])),
+			"is_active" => $input["is_active"],
 			"code" => strtoupper($input["code"]),
 			"discount_price" => $input["discount_price"],
 	  ];

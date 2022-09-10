@@ -13,7 +13,7 @@ class Voucher extends Migration
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'title'      => [
                 'type'           => 'VARCHAR',
@@ -23,9 +23,16 @@ class Voucher extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => 255,
             ],
+            'start_date'      => [
+                'type'           => 'DATE',
+            ],
+            'due_date'      => [
+                'type'           => 'DATE',
+            ],
             'is_active'      => [
-                'type'           => 'BOOLEAN',
-                'default'           => FALSE,
+                'type' => 'TINYINT',
+                'constraint' => 1,
+                'default'=> 0,
             ],
             'code'      => [
                 'type'           => 'VARCHAR',
