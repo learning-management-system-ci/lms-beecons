@@ -3,9 +3,9 @@
     <h1>Mentor</h1>
 
     <div id="mentor-wrapper">
-        <div class="item">
+        <div class="my-card item">
             <div class="profile">
-                <img src="image/people.jpg" alt="mentor">
+                <img src="image/home/people.jpg" alt="mentor">
             </div>
 
             <div class="info">
@@ -31,9 +31,9 @@
             </div>
         </div>
 
-        <div class="item">
+        <div class="my-card item">
             <div class="profile">
-                <img src="image/img-course.jpg" alt="mentor">
+                <img src="image/home/img-course.jpg" alt="mentor">
             </div>
 
             <div class="info">
@@ -59,9 +59,9 @@
             </div>
         </div>
 
-        <div class="item">
+        <div class="my-card item">
             <div class="profile">
-                <img src="image/people.jpg" alt="mentor">
+                <img src="image/home/people.jpg" alt="mentor">
             </div>
 
             <div class="info">

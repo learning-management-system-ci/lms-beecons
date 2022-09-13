@@ -6,18 +6,16 @@
                 The First Group - Mentoring Focused Course in Indonesia.
             </h1>
             <p>
-                Program belajar di tender dilakukan secara kolaboratif serta dengan bimbingan mentor-mentor
-                berpengalaman yang membuat pengalaman belajar UX Design & Research menjadi Menyenangkan dan
-                terarah.
+                The learning program in the tender is carried out collaboratively and with the guidance of experienced mentors who make the online learning experience fun and focused.
             </p>
             <a href="">
-                <button class="btn-my">
-                    Pelajari Lebih Lanjut
+                <button class="my-btn">
+                    Learn More
                 </button>
             </a>
         </div>
     </div>
     <div class="image">
-        <img src="image/Background.png" alt="img">
+        <img src="image/home/Background.png" alt="img">
     </div>
 </div>

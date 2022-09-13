@@ -10,67 +10,67 @@
     </div>
 
     <div id="webinar-wrapper">
-        <div class="item">
+        <div class="my-card item">
             <div class="image">
-                <img src="image/img-course.jpg" alt="img">
+                <img src="image/home/img-course.jpg" alt="img">
             </div>
 
             <h2>Webinar Frontend</h2>
             <div class="item-info">
-                <img src="image/webinar-online.png" alt="icon">
+                <img src="image/home/webinar-online.png" alt="icon">
                 <p>Online Webinar</p>
             </div>
             <div class="item-info">
-                <img src="image/webinar-file.png" alt="icon">
+                <img src="image/home/webinar-file.png" alt="icon">
                 <p>Soft file Rekaman Webinar</p>
             </div>
 
             <h2 class="harga">Rp 150.000</h2>
 
             <a href="">
-                <button class="btn-my btn-full">Ikut Webinar</button>
+                <button class="my-btn btn-full">Ikut Webinar</button>
             </a>
         </div>
-        <div class="item">
+        <div class="my-card item">
             <div class="image">
-                <img src="image/img-course.jpg" alt="img">
+                <img src="image/home/img-course.jpg" alt="img">
             </div>
 
             <h2>Webinar Frontend</h2>
             <div class="item-info">
-                <img src="image/webinar-online.png" alt="icon">
+                <img src="image/home/webinar-online.png" alt="icon">
                 <p>Online Webinar</p>
             </div>
             <div class="item-info">
-                <img src="image/webinar-file.png" alt="icon">
+                <img src="image/home/webinar-file.png" alt="icon">
                 <p>Soft file Rekaman Webinar</p>
             </div>
 
             <h2 class="harga">Rp 150.000</h2>
 
             <a href="">
-                <button class="btn-my btn-full">Ikut Webinar</button>
+                <button class="my-btn btn-full">Ikut Webinar</button>
             </a>
         </div>
-        <div class="item">
+        <div class="my-card item">
             <div class="image">
-                <img src="image/img-course.jpg" alt="img">
+                <img src="image/home/img-course.jpg" alt="img">
             </div>
 
             <h2>Webinar Frontend</h2>
             <div class="item-info">
-                <img src="image/webinar-online.png" alt="icon">
+                <img src="image/home/webinar-online.png" alt="icon">
                 <p>Online Webinar</p>
             </div>
             <div class="item-info">
-                <img src="image/webinar-file.png" alt="icon">
+                <img src="image/home/webinar-file.png" alt="icon">
                 <p>Soft file Rekaman Webinar</p>
             </div>
 
             <h2 class="harga">Rp 150.000</h2>
 
             <a href="">
-                <button class="btn-my btn-full">Ikut Webinar</button>
+                <button class="my-btn btn-full">Ikut Webinar</button>
             </a>
         </div>
     </div>

@@ -1,61 +1,43 @@
 <!-- pilih course -->
 <div id="choose-course">
     <h1>
-        Pilih Course Kamu
+        Choose Your Course
     </h1>
     <p class="description">
-        Council on Integrity in Results Reporting (CIRR) adalah standar yang dikembangkan oleh sekelompok besar
-        sekolah coding yang percaya bahwa transparansi dalam memberikan hasil belajar kepada calon siswa adalah
-        hal yang sangat penting.
+        Choose a specialization according to your passion. We provide two categories which are divided into Information Technology and construction engineering, in which there is a choice of courses that you can take
     </p>
 
     <div id="course-wrapper">
-        <div class="course">
+        <div class="my-card course">
             <div class="image">
-                <img src="image/img-course.jpg" alt="img">
+                <img src="image/home/choose_course2.png" alt="img">
             </div>
 
             <div class="body">
-                <h2>UI/UX Designer</h2>
+                <h2>Information Tech (IT)</h2>
                 <p>
-                    Program intensif untuk belajar menjadi Full Stack UI/UX Designer
+                    Intensive program to learn to be a digital talent in Information Tech (IT)
                 </p>
             </div>
 
             <a href="">
-                <button class="btn-my btn-full">Lihat Detail</button>
+                <button class="my-btn btn-full">See Course</button>
             </a>
         </div>
-        <div class="course">
+        <div class="my-card course">
             <div class="image">
-                <img src="image/img-course.jpg" alt="img">
+                <img src="image/home/choose_course.png" alt="img">
             </div>
 
             <div class="body">
-                <h2>Fullstack</h2>
+                <h2>Constructions</h2>
                 <p>
-                    Program intensif untuk belajar menjadi Full Stack UI/UX Designer
+                    Intensive program to learn to be a digital talent in Construction Engineering
                 </p>
             </div>
 
             <a href="">
-                <button class="btn-my btn-full">Lihat Detail</button>
-            </a>
-        </div>
-        <div class="course">
-            <div class="image">
-                <img src="image/img-course.jpg" alt="img">
-            </div>
-
-            <div class="body">
-                <h2>Backend</h2>
-                <p>
-                    Program intensif untuk belajar menjadi Full Stack UI/UX Designer
-                </p>
-            </div>
-
-            <a href="">
-                <button class="btn-my btn-full">Lihat Detail</button>
+                <button class="my-btn btn-full">See Course</button>
             </a>
         </div>
     </div>

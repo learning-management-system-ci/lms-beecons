@@ -9,10 +9,9 @@
                 <h2>01</h2>
             </div>
             <div class="content">
-                <h2>Kami Hebat</h2>
+                <h2>Quality Mentor</h2>
                 <p>
-                    Mentor berpengalaman di bidang UI/UX akan turun langsung membimbing kamu dalam belajar dan
-                    memecahkan masalah.
+                    An experienced mentor in their field will directly guide you in learning and solving problems.
                 </p>
             </div>
         </div>
@@ -21,10 +20,9 @@
                 <h2>02</h2>
             </div>
             <div class="content">
-                <h2>Kami Keren</h2>
+                <h2>Real Project</h2>
                 <p>
-                    Pecahkan masalah bersama dengan mentee lainya, sekaligus belajar bersama melalui peer
-                    discussion.
+                    Build your portfolio with a final project that will be given when you finish studying.
                 </p>
             </div>
         </div>
@@ -33,10 +31,9 @@
                 <h2>03</h2>
             </div>
             <div class="content">
-                <h2>Kami Tangguh</h2>
+                <h2>Curriculum Relevance</h2>
                 <p>
-                    Rasakan Pengalaman bekerja di industri UI/UX dengan mentor yang akan mereview karya-karya
-                    kamu.
+                    We provide a high standard curriculum that has been adapted to the needs of today's industry
                 </p>
             </div>
         </div>

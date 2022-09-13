@@ -33,13 +33,19 @@
             <div class="collapse navbar-collapse" id="navbarApp">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        <a class="nav-link mx-2 active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Webinar</a>
+                        <a class="nav-link mx-2 active" href="">Webinar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Courses</a>
+                        <a class="nav-link mx-2 active" href="">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 active" href="<?= base_url('/faq') ?>">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 active" href="<?= base_url('/about-us') ?>">About Us</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -85,7 +91,7 @@
                     <?php if (!session()->get('LoggedUserData')) : ?>
                         <li class="nav-item">
                             <a href="/login" class="nav-link-btn">
-                                <button class="btn-my btn-sign-in">Sign in</button>
+                                <button class="my-btn btn-sign-in">Sign in</button>
                             </a>
                         </li>
                     <?php else : ?>
