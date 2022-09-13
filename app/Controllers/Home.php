@@ -36,4 +36,8 @@ class Home extends BaseController
     {
         return view('pages/navigation/about_us');
     }
+    public function bundleCart()
+    {
+        return view('pages/shop_cart/bundle');
+    }
 }
