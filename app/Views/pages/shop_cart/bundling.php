@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/app_layout') ?>
 
 <?= $this->section('css-component') ?>
-<link rel="stylesheet" href="style/bundle.css">
+<link rel="stylesheet" href="style/bundling.css">
 <?= $this->endSection() ?>
 
 
@@ -107,7 +107,7 @@
                 <button class="mt-2">Checkout</button>
             </div>
             <div class="cheap-info text-center mt-3">
-                <img src="image/bundle/Wallet.png" width="75px">
+                <img src="image/bundling/Wallet.png" width="75px">
                 <h5>Cheaper + Worthy</h5>
                 <p>The most affordable price with many benefits you can get</p>
             </div>
