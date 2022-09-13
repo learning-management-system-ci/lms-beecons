@@ -1,11 +1,11 @@
 <!-- testimoni -->
 <div id="testimoni">
-    <h1>Testimoni</h1>
+    <h1>Testimonials</h1>
 
     <div class="slider testimoni-slick">
         <div class="testimoni-container">
             <div class="image">
-                <img src="image/people.jpg" alt="">
+                <img src="image/home/people.jpg" alt="">
             </div>
             <div class="content">
                 <div class="title">
@@ -25,7 +25,7 @@
         </div>
         <div class="testimoni-container">
             <div class="image">
-                <img src="image/people.jpg" alt="">
+                <img src="image/home/people.jpg" alt="">
             </div>
             <div class="content">
                 <div class="title">
@@ -45,7 +45,7 @@
         </div>
         <div class="testimoni-container">
             <div class="image">
-                <img src="image/people.jpg" alt="">
+                <img src="image/home/people.jpg" alt="">
             </div>
             <div class="content">
                 <div class="title">
@@ -65,7 +65,7 @@
         </div>
         <div class="testimoni-container">
             <div class="image">
-                <img src="image/people.jpg" alt="">
+                <img src="image/home/people.jpg" alt="">
             </div>
             <div class="content">
                 <div class="title">
