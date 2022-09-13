@@ -49,6 +49,8 @@ main .bundle .left-section ul li div {
   gap: 30px;
 }
 main .bundle .left-section ul li div .course-number {
+  padding-top: 3px;
+  font-size: 15px;
   color: #002B5B;
   background-color: #E6EAEF;
   border-radius: 5px;
@@ -78,4 +80,4 @@ main .bundle .right-section .order-card button {
   color: white;
 }
 
-/*# sourceMappingURL=bundle.css.map */
+/*# sourceMappingURL=bundling.css.map */
