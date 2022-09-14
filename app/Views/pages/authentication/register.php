@@ -15,7 +15,9 @@
     <div class="option d-flex my-2">
         <div class="checkbox d-flex align-items-start">
             <input class="me-2" type="checkbox" id="terms" name="terms" style="height: 15px;">
-            <label for="terms">By signing up you agree to our Terms & Condition and Privacy Policy.*</label>
+            <label for="terms">By signing up you agree to our <a href="<?= base_url('/terms-and-conditions') ?>">Terms & Condition and
+                    Privacy
+                    Policy.*</a></label>
         </div>
     </div>
     <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Sign

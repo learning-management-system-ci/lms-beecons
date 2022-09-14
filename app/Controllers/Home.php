@@ -38,6 +38,10 @@ class Home extends BaseController
     {
         return view('pages/navigation/about_us');
     }
+    public function termsAndConditions()
+    {
+        return view('pages/navigation/terms_and_condition');
+    }
     public function bundlingCart()
     {
         return view('pages/course/bundling');

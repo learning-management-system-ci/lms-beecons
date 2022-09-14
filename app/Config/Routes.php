@@ -40,8 +40,9 @@ $routes->get('/login', 'Api\AuthController::indexLogin');
 
 $routes->get('/login/loginWithGoogle', 'AuthController::loginWithGoogle');
 
-$routes->get('/faq', 'Home::faq');
+$routes->get('/faq', 'Client\FaqController::index');
 $routes->get('/about-us', 'Home::aboutUs');
+$routes->get('/terms-and-conditions', 'Home::termsAndConditions');
 $routes->get('/bundling', 'Home::bundlingCart');
 $routes->get('/course-detail', 'Home::courseDetail');
 $routes->get('/cart', 'Home::cart');

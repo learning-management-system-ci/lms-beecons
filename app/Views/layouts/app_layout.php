@@ -8,10 +8,13 @@
     <title>E-Learning</title>
 
     <!-- bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/a35fe366cf.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="style/slick.css">
     <link rel="stylesheet" href="style/slick-theme.css">
@@ -27,7 +30,8 @@
             <a class="navbar-brand" href="/">
                 <img src="image/logo.png" alt="logo">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarApp" aria-controls="navbarApp" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarApp"
+                aria-controls="navbarApp" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarApp">
@@ -105,7 +109,8 @@
                     </li>
                     <li class="nav-item me-4">
                         <div class="dropdown nav-item-icon">
-                            <button class="nav-btn-icon mt-1">
+                            <button class="nav-btn-icon mt-1" id="dropdown-cart" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 <div class="nav-btn-icon-amount">5</div>
                                 <i class="fa-solid fa-cart-shopping"></i>
                             </button>
@@ -113,7 +118,8 @@
                     </li>
                     <li class="nav-item me-4">
                         <div class="dropdown nav-item-icon">
-                            <button class="nav-btn-icon mt-1" id="dropdown-notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="nav-btn-icon mt-1" id="dropdown-notification" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 <div class="nav-btn-icon-amount">2</div>
                                 <i class="fa-solid fa-bell"></i>
                             </button>
@@ -192,11 +198,11 @@
                         </div>
                     </li>
                     <?php if (!session()->get('LoggedUserData')) : ?>
-                        <li class="nav-item">
-                            <a href="<?= base_url('/login') ?>" class="nav-link-btn">
-                                <button class="my-btn btn-sign-in">Sign in</button>
-                            </a>
-                        </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('/login') ?>" class="nav-link-btn">
+                            <button class="my-btn btn-sign-in">Sign in</button>
+                        </a>
+                    </li>
                     <?php else : ?>
                         <li class="nav-item">
                             <div class="dropdown nav-item-profile">
@@ -215,6 +221,25 @@
     </nav>
 
     <main>
+        <?php if(uri_string() != '/' && uri_string() != 'profile') : ?>
+        <div class="container mt-4">
+            <section class="navigation">
+                <p class="mb-4"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
+                    <?php if(uri_string() == 'faq') : ?>
+                    <a> Frequently Asked Question</a>
+                    <?php endif; ?>
+                    <?php if(uri_string() == 'terms-and-conditions') : ?>
+                    <a> Terms and Conditions</a>
+                    <?php endif; ?>
+                    <?php if(uri_string() == 'about-us') : ?>
+                    <a> About-Us</a>
+                    <?php endif; ?>
+                </p>
+                <hr>
+            </section>
+        </div>
+        <?php endif?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <?= $this->renderSection('app-component') ?>
     </main>
 
@@ -279,10 +304,13 @@
     </footer>
 
     <!-- jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 
     <!-- bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous">
+    </script>
 
     <script src="js/home/slick.js"></script>
 

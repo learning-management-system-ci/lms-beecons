@@ -8,10 +8,6 @@
 
 <?= $this->section('app-component') ?>
 <div class="container mt-4">
-    <section class="navigation">
-        <p class="mb-4">Home > <a href="#"> Frequently Asked Question</a></p>
-        <hr>
-    </section>
     <section class="faq mt-4">
         <div class="faq-title mb-5">
             <H3>FAQ's</H3>
@@ -19,40 +15,37 @@
                 odit repellat delectus iusto. Temporibus, praesentium dicta. Quae earum natus molestias ex neque
                 eveniet dicta?</p>
         </div>
-        <div class="faq-list">
-            <div class="faq-item">
-                <div class="faq-title d-flex justify-content-between align-items-center">
-                    <h4>01. Can i get a discount ?</h3>
-                        <a class="expand d-flex justify-content-center align-items-center" data-bs-toggle="collapse" href="#faq-1" role="button" aria-expanded="false" aria-controls="collapseExample" id="button12">
-                        </a>
-                </div>
-                <div class="faq-content collapse" id="faq-1">
-                    <div class="card-body ml-5">
-                        Some placeholder content for the collapse component. This panel is hidden by default but
-                        revealed
-                        when the user
-                        activates the relevant trigger.
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <div class="faq-item">
-                <div class="faq-title d-flex justify-content-between align-items-center">
-                    <h4>02. Can i get a discount ?</h3>
-                        <a class="expand" data-bs-toggle="collapse" href="#faq-2" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        </a>
-                </div>
-                <div class="faq-content collapse" id="faq-2">
-                    <div class="card-body ml-5">
-                        Some placeholder content for the collapse component. This panel is hidden by default but
-                        revealed
-                        when the user
-                        activates the relevant trigger.
-                    </div>
-                </div>
-                <hr>
-            </div>
-        </div>
+        <div class="faq-list"></div>
+        <script>
+            $.getJSON('<?= base_url('/api/faq/');?>', function (
+                data) {
+                var resources = data.faq
+                    .sort((a, b) => a.faq_id - b.faq_id)
+                    .map(({
+                        faq_id,
+                        question,
+                        answer
+                    }) => {
+                        return (`<div class="faq-item">
+                                <div class="faq-title d-flex justify-content-between align-items-center">
+                                    <h4>0${faq_id}. ${question}</h3>
+                                        <a class="expand d-flex justify-content-center align-items-center" data-bs-toggle="collapse"
+                                            href="#faq${faq_id}" role="button" aria-expanded="false" aria-controls="collapseExample"
+                                            id="button12">
+                                        </a>
+                                </div>
+                                <div class="faq-content collapse" id="faq${faq_id}">
+                                    <div class="card-body ml-5">
+                                    ${answer}.
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>`);
+                    });
+
+                $(".faq-list").html(resources);
+            });
+        </script>
     </section>
 </div>
 <?= $this->endSection() ?>
