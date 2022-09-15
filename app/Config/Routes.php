@@ -62,6 +62,7 @@ $routes->post('/new-password', 'AuthController::newPassword');
 $routes->get('/faq', 'Home::faq');
 $routes->get('/about-us', 'Home::aboutUs');
 $routes->get('/bundling', 'Home::bundlingCart');
+$routes->get('/course-detail', 'Home::courseDetail');
 
 //$routes->resource('faq', ['controller' => 'Api\FaqController']);
 $routes->group('api/faq/', static function ($routes) {
