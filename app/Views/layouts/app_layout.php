@@ -39,7 +39,7 @@
                         <a class="nav-link mx-2 active" href="">Webinar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link mx-2 active" href="">Courses</a>
+                        <a class="nav-link mx-2 active" href="<?= base_url('/courses') ?>">Courses</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mx-2 active" href="<?= base_url('/faq') ?>">FAQ</a>
