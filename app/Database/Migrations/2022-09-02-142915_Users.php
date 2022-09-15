@@ -37,16 +37,12 @@ class Users extends Migration
 				'type'           => 'INT',
 				'constraint'     => 50,
 			],
-     	'activation_code'      => [
+      'activation_code'      => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 255,
 			],
 		'activation_status'      => [
 				'type'           => 'BOOL',
-			],
-		'role'      => [
-				'type'           => 'VARCHAR',
-				'constraint'     => 255,
 			],
       'created_at datetime default current_timestamp',
       'updated_at datetime default current_timestamp on update current_timestamp',

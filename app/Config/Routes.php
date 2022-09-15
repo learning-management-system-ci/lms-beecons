@@ -35,52 +35,51 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', 'AuthController::indexLogin');
+$routes->get('/login', 'Api\AuthController::indexLogin');
 
-$routes->get('/login', 'AuthController::indexLogin');
-$routes->post('/login', 'AuthController::login');
-
-$routes->get('/register', 'AuthController::indexRegister');
-$routes->post('/register', 'AuthController::register');
-
-$routes->get('/profile', 'AuthController::profile');
 $routes->get('/login/loginWithGoogle', 'AuthController::loginWithGoogle');
-$routes->get('/logout', 'AuthController::logout');
-$routes->get('/activateuser', 'AuthController::activateUser');
-
-$routes->get('/forgot-password', 'AuthController::indexforgotPassword');
-$routes->get('/forgot-password/submit', 'AuthController::forgotPassword');
-
-$routes->get('/otp-email', 'AuthController::sendOtpEmail');
-
-$routes->get('/send-otp', 'AuthController::indexSendOtp');
-$routes->post('/send-otp', 'AuthController::sendOtp');
-
-$routes->get('/new-password', 'AuthController::indexNewPassword');
-$routes->post('/new-password', 'AuthController::newPassword');
 
 $routes->get('/faq', 'Home::faq');
 $routes->get('/about-us', 'Home::aboutUs');
 $routes->get('/bundling', 'Home::bundlingCart');
 $routes->get('/courses', 'Home::courses');
 
-//$routes->resource('faq', ['controller' => 'Api\FaqController']);
-$routes->group('api/faq/', static function ($routes) {
-    $routes->get('', 'Api\FaqController::index');
-    $routes->post('create', 'Api\FaqController::create');
-    $routes->get('detail/(:segment)', 'Api\FaqController::show/$1');
-    $routes->put('update/(:segment)', 'Api\FaqController::update/$1');
-    $routes->delete('delete/(:segment)', 'Api\FaqController::delete/$1');
+
+$routes->group('api/', static function ($routes) {
+    $routes->post('register', 'Api\AuthController::register');
+    $routes->post('login', 'Api\AuthController::login');
+    $routes->get('activateuser', 'Api\AuthController::activateUser');
+
+    $routes->post('forgot-password', 'Api\ForgotPasswordController::forgotPassword');
+    $routes->post('send-otp', 'Api\ForgotPasswordController::sendOtp');
+    $routes->post('new-password', 'Api\ForgotPasswordController::newPassword');
+
+    $routes->group('faq/', static function ($routes) {
+        $routes->get('', 'Api\FaqController::index');
+        $routes->post('create', 'Api\FaqController::create');
+        $routes->get('detail/(:segment)', 'Api\FaqController::show/$1');
+        $routes->put('update/(:segment)', 'Api\FaqController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\FaqController::delete/$1');
+    });
+
+    $routes->group('voucher/', static function ($routes) {
+        $routes->get('', 'Api\VoucherController::index');
+        $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
+        $routes->post('create', 'Api\VoucherController::create');
+        $routes->put('update/(:segment)', 'Api\VoucherController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
+    });
+
+    $routes->get('profile', 'Api\UserController::profile');
 });
 
-$routes->group('api/voucher/', static function ($routes) {
-    $routes->get('', 'Api\VoucherController::index');
-    $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
-    $routes->post('create', 'Api\VoucherController::create');
-    $routes->put('update/(:segment)', 'Api\VoucherController::update/$1');
-    $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
-});
 
+
+$routes->get('/sign-up', 'Home::signUp');
+$routes->get('/forgot-password', 'Home::forgotPassword');
+$routes->get('/send-otp', 'Home::sendOTP');
+$routes->get('/new-password', 'Home::newPassword');
 
 /*
  * --------------------------------------------------------------------
