@@ -4,6 +4,7 @@
 $padding-container: 3.5rem;
 $card-border-radius: 0.6rem;
 
+$color-primary: #002B5B;
 $color-white: #ffffff;
 $color-btn-primary: #002B5B;
 $color-pink: #FFF5FD;
@@ -15,6 +16,7 @@ $color-black: #1F1F1F;
 @mixin card-setting() {
     border-radius: $card-border-radius;
     box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+    background-color: $color-white;
 }
 
 @mixin title() {
@@ -64,7 +66,7 @@ body {
     width: 100%;
 }
 
-a{
+a {
     text-decoration: none;
     color: black;
 }
@@ -73,22 +75,27 @@ a{
     @include card-setting();
 }
 
+.my-container {
+    padding-left: $padding-container;
+    padding-right: $padding-container;
+}
+
 main{
     min-height: 80vh;
 }
 
 // navbar
-.navbar{
+.navbar {
     padding-left: $padding-container;
     padding-right: $padding-container;
     font-size: 1rem;
 
-    .container-fluid{
+    .container-fluid {
         padding-left: 0;
         padding-right: 0;
     }
 
-    .nav-profile{
+    .nav-profile {
         width: 2.5rem;
         height: 2.5rem;
         border-radius: 50%;
@@ -96,26 +103,26 @@ main{
         box-shadow: 0px .5px 4px 2.5px rgba(0, 0, 0, 0.1);
     }
 
-    .dropdown-toggle::after{
+    .dropdown-toggle::after {
         font-size: 1.5rem;
         vertical-align: .1rem;
     }
 
-    .nav-btn-profile{
+    .nav-btn-profile {
         border: none;
         padding: 0;
         background-color: $color-white;
     }
 
-    .nav-item-profile{
+    .nav-item-profile {
         font-size: .8rem;
     }
 
-    .nav-item-profile .dropdown-menu[data-bs-popper]{
+    .nav-item-profile .dropdown-menu[data-bs-popper] {
         left: -100px;
     }
 
-    .nav-btn-icon{
+    .nav-btn-icon {
         border: none;
         background-color: $color-white;
         box-shadow: 0px .5px 2px .5px rgba(0, 0, 0, 0.1);
@@ -124,7 +131,7 @@ main{
         position: relative;
     }
 
-    .nav-btn-icon-amount{
+    .nav-btn-icon-amount {
         position: absolute;
         display: flex;
         justify-content: center;
@@ -140,23 +147,23 @@ main{
         font-weight: bold;
     }
 
-    .nav-item-icon .dropdown-menu[data-bs-popper]{
+    .nav-item-icon .dropdown-menu[data-bs-popper] {
         left: -120px;
     }
 
-    .nav-item-search .nav-btn-icon{
+    .nav-item-search .nav-btn-icon {
         color: $color-gray;
     }
 
-    .nav-item-search{
-        .nav-search-input{
+    .nav-item-search {
+        .nav-search-input {
             position: relative;
 
-            input{
+            input {
                 padding-right: 25px;
             }
 
-            i{
+            i {
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
@@ -179,7 +186,7 @@ main{
     height: 100vh;
     text-align: right;
 
-    .content-container{
+    .content-container {
         position: absolute;
         width: 100%;
         height: 100%;
@@ -187,6 +194,7 @@ main{
         align-items: center;
         padding-left: $padding-container;
     }
+
     .content {
         width: 40%;
         text-align: left;
@@ -207,7 +215,8 @@ main{
     .image {
         height: 100%;
     }
-    .image img{
+
+    .image img {
         height: 100%;
         // object-fit: cover;
     }
@@ -222,11 +231,11 @@ main{
         @include title();
     }
 
-    .no{
+    .no {
         font-weight: bolder;
         position: relative;
 
-        h2{
+        h2 {
             position: absolute;
             margin-top: 0;
             right: 0;
@@ -235,7 +244,7 @@ main{
         }
     }
 
-    .no::after{
+    .no::after {
         content: ' ';
         display: inline-block;
         width: 2.5rem;
@@ -445,7 +454,7 @@ main{
             align-items: center;
             justify-content: center;
 
-            h2{
+            h2 {
                 margin: 0;
                 font-size: 1.2rem;
                 font-weight: bold;
@@ -471,7 +480,7 @@ main{
             }
         }
 
-        .sosmed{
+        .sosmed {
             display: flex;
             justify-content: center;
             gap: 1.5rem;
@@ -479,7 +488,7 @@ main{
             align-items: center;
             font-size: 1.2rem;
 
-            img{
+            img {
                 width: 1rem;
             }
         }
@@ -487,25 +496,25 @@ main{
 }
 
 // our partner
-#our-partner{
+#our-partner {
     @include padding-container();
     margin-bottom: 3rem;
     background-color: $color-pink;
 
-    h1{
+    h1 {
         @include title();
     }
 
-    #our-partner-container{
+    #our-partner-container {
         display: flex;
         justify-content: center;
         gap: 5rem;
     }
 
-    .item{
+    .item {
         width: 20%;
 
-        img{
+        img {
             width: 100%;
             height: 100%;
             object-fit: contain;
@@ -514,23 +523,24 @@ main{
 }
 
 // testimoni
-#testimoni{
+#testimoni {
     @include padding-container();
     padding-bottom: 6rem;
 
-    h1{
+    h1 {
         @include title();
         margin-bottom: 4rem;
     }
 
-    .slider{
+    .slider {
         padding: 1rem;
     }
 
-    .slick-arrow{
+    .slick-arrow {
         top: 50%;
     }
-    .slick-dots{
+
+    .slick-dots {
         width: auto;
         align-items: center;
         bottom: -2rem;
@@ -538,29 +548,30 @@ main{
         left: 0;
     }
 
-    .slick-slide{
+    .slick-slide {
         padding: .5rem;
     }
 
-    .slick-dots li button:before{
+    .slick-dots li button:before {
         font-size: .5rem;
     }
 
-    .slick-prev{
+    .slick-prev {
         right: 0;
     }
 
-    .slick-prev:before, .slick-next:before{
+    .slick-prev:before,
+    .slick-next:before {
         color: black;
     }
 
-    .testimoni-container{
+    .testimoni-container {
         display: flex !important;
         @include card-setting();
         width: 50%;
         height: 12rem;
 
-        img{
+        img {
             width: 10rem;
             height: 100%;
             object-fit: cover;
@@ -568,21 +579,21 @@ main{
             border-bottom-left-radius: $card-border-radius;
         }
 
-        .content{
+        .content {
             padding: .8rem;
         }
 
-        .title{
+        .title {
             font-size: .6rem;
         }
 
-        .name{
+        .name {
             font-size: 1rem;
             font-weight: bolder;
             margin-bottom: .8rem;
         }
 
-        .text{
+        .text {
             font-size: .7rem;
             // line-height: 1rem;
         }
@@ -590,7 +601,7 @@ main{
 }
 
 // footer
-footer{
+footer {
     display: flex;
     background-color: $color-pink;
     justify-content: center;
@@ -601,32 +612,32 @@ footer{
     gap: 4rem;
     font-size: 1rem;
 
-    .item{
+    .item {
         max-width: 25%;
     }
 
-    h2{
+    h2 {
         font-size: 1rem;
         margin-top: 0;
         font-weight: bold;
     }
 
-    .footer-link{
+    .footer-link {
         display: block;
         margin-bottom: 1rem;
     }
 
-    .contact{
+    .contact {
         display: flex;
         flex-direction: column;
         gap: .8rem;
     }
 
-    .contact-item{
+    .contact-item {
         display: flex;
         gap: .8rem;
 
-        i{
+        i {
             font-size: 1rem;
         }
 
@@ -636,12 +647,12 @@ footer{
         }
     }
 
-    .sosmed{
+    .sosmed {
         display: flex;
         gap: 1rem;
         align-items: center;
 
-        a{
+        a {
             font-size: 1rem;
         }
     }

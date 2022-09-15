@@ -1,0 +1,193 @@
+@import 'home';
+
+#courses {
+    h1 {
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .courses-category {
+        padding-top: 1rem;
+        padding-bottom: 6rem;
+    }
+
+    .course {
+        padding: 1rem;
+
+        .image img {
+            width: 100%;
+            height: 12rem;
+            margin-bottom: 1.5rem;
+            object-fit: cover;
+            border-radius: $card-border-radius;
+            border: 1px solid $color-gray;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: .9rem;
+            line-height: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    .courses-bundling {
+        background-color: $color-pink;
+        padding-top: 4rem;
+        padding-bottom: 6rem;
+        margin-bottom: 6rem;
+
+        h1 {
+            color: $color-primary;
+            margin-left: 6rem;
+            margin-right: 6rem;
+        }
+    }
+
+    .bundle {
+        position: relative;
+
+        .label {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            background-color: $color-yellow;
+            color: $color-white;
+
+            padding: {
+                top: 10px;
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+            }
+
+            font-size: .8rem;
+            font-weight: bold;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+        }
+
+        .label::after {
+            content: "";
+            position: absolute;
+            background-color: $color-yellow;
+            bottom: -15px;
+            right: 0;
+            width: 100%;
+            height: 20px;
+            border-bottom: 10px solid $color-white;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 10px solid transparent;
+        }
+
+        .content {
+            padding: 1rem;
+            margin-bottom: .5rem;
+            font-size: .9rem;
+
+            ul {
+                list-style: none;
+                padding: 0;
+                padding-left: 1.5rem;
+                margin-bottom: 1.6rem;
+            }
+
+            li:before {
+                content: "\f058";
+                color: $color-yellow;
+                font-family: FontAwesome;
+                display: inline-block;
+                margin-left: -1.5em;
+                width: 1.5em;
+            }
+
+            li {
+                margin-bottom: .5rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+                line-height: 1.6rem;
+            }
+    
+            h3 {
+                font-size: 1rem;
+                font-weight: bold;
+                line-height: 1.6rem;
+            }
+        }
+
+        .badges {
+            display: flex;
+            gap: .5rem;
+            margin-bottom: 1rem;
+
+            .item {
+                font-size: .75rem;
+                font-weight: bold;
+                padding: .3rem .8rem;
+                border-radius: 8px;
+            }
+        }
+
+        button {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            padding-top: .8rem;
+            padding-bottom: .8rem;
+        }
+
+        .harga {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: $color-primary;
+
+            del {
+                font-size: .9rem;
+                color: $color-black;
+                font-weight: normal;
+            }
+        }
+    }
+
+    .courses-bundlings {
+        padding-bottom: 6rem;
+
+        h2{
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .tags{
+            display: flex;
+            gap: .8rem;
+
+            .item{
+                padding: .5rem 1rem;
+                border-radius: 12px;
+                background-color: $color-gray;
+                color: $color-black;
+                font-size: .8rem;
+                font-weight: bold;
+                min-width: 5rem;
+                text-align: center;
+                cursor: pointer;
+
+                &.active{
+                    background-color: $color-primary;
+                    color: $color-white;
+                }
+            }
+        }
+    }
+}
