@@ -3,17 +3,11 @@
 namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\PolicyAndPrivacy;
+use App\Models\Course;
 use CodeIgniter\HTTP\RequestInterface;
 
-class PolicyAndPrivacyController extends ResourceController
+class CourseController extends ResourceController
 {
-    protected $request;
-
-    // public function __construct(RequestInterface $request)
-    // {
-    //     $this->request = $request;
-    // }
     /**
      * Return an array of resource objects, themselves in array format
      *
@@ -21,8 +15,8 @@ class PolicyAndPrivacyController extends ResourceController
      */
     public function index()
     {
-        $model = new PolicyAndPrivacy();
-        $data = $model->orderBy('pap_id', 'DESC')->findAll();
+        $model = new Course();
+        $data = $model->orderBy('course_id', 'DESC')->findAll();
 
         return $this->respondCreated($data);
     }
@@ -34,10 +28,10 @@ class PolicyAndPrivacyController extends ResourceController
      */
     public function show($id = null)
     {
-        $model = new PolicyAndPrivacy();
+        $model = new Course();
 
         if($model->find($id)){
-            $data = $model->where('pap_id', $id)->first();
+            $data = $model->where('course_id', $id)->first();
             return $this->respond($data);
         }else{
             return $this->failNotFound('Data not found');
@@ -61,16 +55,20 @@ class PolicyAndPrivacyController extends ResourceController
      */
     public function create()
     {
-        $model = new PolicyAndPrivacy();
+        $model = new Course();
 
         $rules = [
-            'value' => 'required|min_length[8]',
+            'title' => 'required|min_length[8]',
+            'description' => 'required|min_length[8]',
+            'price' => 'required|numeric',
         ];
 
         $response;
         if($this->validate($rules)) {
             $data = [
-              'value' => $this->request->getVar('value')
+              'title' => $this->request->getVar('title'),
+              'description' => $this->request->getVar('description'),
+              'price' => $this->request->getVar('price')
             ];
 
             $model->insert($data);
@@ -78,7 +76,7 @@ class PolicyAndPrivacyController extends ResourceController
                 'status'   => 201,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Policy and privacy created successfully'
+                    'success' => 'Course created successfully'
                 ]
             ];
         }else{
@@ -90,7 +88,7 @@ class PolicyAndPrivacyController extends ResourceController
         }
 
 
-        return $this->respondCreated($response);
+        return $this->respondCreated($response);    
     }
 
     /**
@@ -110,25 +108,29 @@ class PolicyAndPrivacyController extends ResourceController
      */
     public function update($id = null)
     {
-        $model = new PolicyAndPrivacy();
+        $model = new Course();
 
         $rules = [
-            'value' => 'required|min_length[8]',
+            'title' => 'required|min_length[8]',
+            'description' => 'required|min_length[8]',
+            'price' => 'required|numeric',
         ];
 
         $response;
         if($model->find($id)){
             if($this->validate($rules)) {
                 $data = [
-                  'value' => $this->request->getRawInput('value')
+                  'title' => $this->request->getRawInput('title'),
+                  'description' => $this->request->getRawInput('description'),
+                  'price' => $this->request->getRawInput('price')
                 ];
 
-                $model->update($id, $data);
+                $model->update($id, $data['title']);
                 $response = [
                     'status'   => 201,
                     'error'    => null,
                     'messages' => [
-                        'success' => 'Policy and privacy updated successfully'
+                        'success' => 'Course updated successfully'
                     ]
                 ];
             }else{
@@ -157,7 +159,7 @@ class PolicyAndPrivacyController extends ResourceController
      */
     public function delete($id = null)
     {
-        $model = new PolicyAndPrivacy();
+        $model = new Course();
 
         if($model->find($id)){
             $model->delete($id);
@@ -165,7 +167,7 @@ class PolicyAndPrivacyController extends ResourceController
                 'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Policy and privacy successfully deleted'
+                    'success' => 'Course successfully deleted'
                 ]
             ];
             return $this->respondDeleted($response);

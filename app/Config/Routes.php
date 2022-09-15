@@ -2,6 +2,7 @@
 
 namespace Config;
 use App\Controllers\PolicyAndPrivacyController;
+use App\Controllers\CourseController;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -46,6 +47,7 @@ $routes->get('/login', 'Home::login');
 // $routes->put('/api/pap', 'PolicyAndPrivacyController::update');
 // $routes->post('/api/pap', 'PolicyAndPrivacyController::update');
 $routes->resource('/api/pap', ['controller' => 'PolicyAndPrivacyController'], ['only' => ['index', 'create', 'show', 'update', 'delete']]);
+$routes->resource('/api/course', ['controller' => 'CourseController'], ['only' => ['index', 'create', 'show', 'update', 'delete']]);
 
 /*
  * --------------------------------------------------------------------
