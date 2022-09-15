@@ -21,6 +21,24 @@
     <p class="sign-up" style="text-align: center;">Don't Have Account <a href="<?= base_url('register'); ?>">Sign up</a></p>
     <p class="horizontal">Or</p>
 </form>
+<html>
+  <body>
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
+      <div id="g_id_onload"
+         data-client_id="229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com"
+         data-login_uri="http://localhost:8080/login/loginWithGoogle"
+         data-auto_prompt="true">
+      </div>
+      <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+      </div>
+  </body>
+</html>
 <?= $googleButton; ?>
 <?= $this->include('components/authentication/error_modal') ?>
 <?= $this->endSection() ?>

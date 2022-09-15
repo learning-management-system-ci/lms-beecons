@@ -36,17 +36,25 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->get('/login', 'Api\AuthController::indexLogin');
 
+$routes->get('/login', 'AuthController::indexLogin');
+$routes->post('/login', 'AuthController::login');
+
+$routes->get('/register', 'AuthController::indexRegister');
+$routes->post('/register', 'AuthController::register');
+
+$routes->get('/profile', 'AuthController::profile');
 $routes->get('/login/loginWithGoogle', 'AuthController::loginWithGoogle');
+$routes->get('/logout', 'AuthController::logout');
+$routes->get('/activateuser', 'AuthController::activateUser');
 
-$routes->get('/faq', 'Home::faq');
-$routes->get('/about-us', 'Home::aboutUs');
-$routes->get('/bundling', 'Home::bundlingCart');
-$routes->get('/course-detail', 'Home::courseDetail');
-$routes->get('/cart', 'Home::cart');
-$routes->get('/courses', 'Home::courses');
+$routes->get('/forgot-password', 'AuthController::indexforgotPassword');
+$routes->get('/forgot-password/submit', 'AuthController::forgotPassword');
 
+$routes->get('/otp-email', 'AuthController::sendOtpEmail');
+
+$routes->get('/send-otp', 'AuthController::indexSendOtp');
+$routes->post('/send-otp', 'AuthController::sendOtp');
 
 $routes->group('api/', static function ($routes) {
     $routes->post('register', 'Api\AuthController::register');
