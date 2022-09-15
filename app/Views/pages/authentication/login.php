@@ -1,30 +1,29 @@
 <?= $this->extend('layouts/authentication_layout') ?>
 
 <?= $this->section('authentication-component') ?>
-<form method="post" action="<?= base_url(); ?>/login/submit" class=" form d-flex flex-column" style="border: 2px solid rgba(236, 236, 236, 0);">
-<?= csrf_field(); ?>    
+<form method="post" action="<?= base_url(); ?>/login" id="login" class=" form d-flex flex-column"
+    style="border: 2px solid rgba(236, 236, 236, 0); width: 290px;">
+    <?= csrf_field(); ?>
     <p class="welcome-text">Welcome</p>
-    <p class="sign-in-text">Sign In</p>
+    <p class="sign-in-text"><?= $title; ?></p>
     <p class="info-text">Please input your email and password</p>
+    <label for="email" class="form-label">Email</label>
+    <input type="email" name="email" id="email" placeholder="Email">
 
-    <span style="text-align: center; color: red;font-size: x-large;"><?php if(session()->getFlashData("error")) echo session()->getFlashData("error"); ?></span>
-    <span style="text-align: center; color: red;font-size: x-large;"><?php if(session()->getFlashData("success")) echo session()->getFlashData("success"); ?></span>
-    <label for="user_email" class="form-label">Email</label>
-    <input type="email" name="email" id="user_email" placeholder="Email">
+    <label for="password" class="form-label mt-3">Password</label>
+    <input type="password" name="password" id="password" placeholder="Password">
 
-    <label for="user_pass" class="form-label mt-3">Password</label>
-    <input type="password" name="password" id="user_pass" placeholder="Password">
-
-    <div class="option d-flex justify-content-between align-items-center">
-        <div class="checkbox d-flex align-items-center">
-            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-            <label for="vehicle1">Remember Me</label><br>
-        </div>
+    <div class="option d-flex justify-content-end align-items-center my-2">
         <a href="<?= base_url('forgot-password'); ?>">Forgot Password?</a>
     </div>
-    <input class="btn btn-primary" type="submit" value="Sign In">
-    <p class="sign-up" style="text-align: center;">Don't Have Account <a href="<?= base_url('sign-up'); ?>">Sign up</a></p>
+
+    <button class="btn btn-primary" id="button" type="submit" disabled="disabled" style="border: 0;">Sign In</button>
+    <p class="sign-up" style="text-align: center;">Don't Have Account <a href="<?= base_url('register'); ?>">Sign up</a></p>
     <p class="horizontal">Or</p>
 </form>
 <?= $googleButton; ?>
+<?= $this->include('components/authentication/error_modal') ?>
+<?= $this->endSection() ?>
+<?=$this->section('authentication-js')?>
+<script src="js/authentication/login.js" />
 <?= $this->endSection() ?>

@@ -6,7 +6,7 @@ class Home extends BaseController
 {
     public function index()
     {
-        return view('welcome_message');
+        return view('pages/home/home');
     }
     public function login()
     {
@@ -28,4 +28,19 @@ class Home extends BaseController
     {
         return view('pages/authentication/new_password');
     }
+
+    
+    public function faq()
+    {
+        return view('pages/navigation/faq');
+    }
+    public function aboutUs()
+    {
+        return view('pages/navigation/about_us');
+    }
+    public function bundlingCart()
+    {
+        return view('pages/shop_cart/bundling');
+    }
+
 }

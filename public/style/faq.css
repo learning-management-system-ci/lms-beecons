@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
+h3, h4 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+}
+
+main .navigation p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+}
+main .navigation p a {
+  color: #002B5B;
+  text-decoration: none;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+}
+main .faq .faq-list .faq-title p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+}
+main .faq .faq-list .faq-item .faq-title .expand {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  background-image: url("../image/faq/expand.png");
+  width: 60px;
+  height: 60px;
+  background-repeat: no-repeat;
+  transform: scale(0.8);
+}
+main .faq .faq-list .faq-item .collapse > div {
+  padding-left: 0 !important;
+}
+main .faq .faq-list .faq-item .collapse.show > div {
+  padding-left: 0 !important;
+}
+main .faq .faq-list .faq-item .collapsing > div {
+  padding-left: 0 !important;
+}
+
+/*# sourceMappingURL=faq.css.map */

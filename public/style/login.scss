@@ -21,10 +21,16 @@ body{
     top: 60px !important;
 }
 
+<<<<<<< HEAD
 .mw-290 {
     min-width: 290px;
 }
 .form-wrap{
+=======
+    .mw-290 {
+        min-width: 290px;
+    }
+>>>>>>> c3b2d58665fcfcf5dee52c5455ec779b7be80598
 
     form{
         .welcome-text{
@@ -60,6 +66,7 @@ body{
                     @include font($weight: 400);
                     font-size: 11px !important;
                     margin-left: 2px;
+                    height: 15px;
                 }
             }
             a{
@@ -112,4 +119,3 @@ body{
             height: 45px;
         }
     }
-}

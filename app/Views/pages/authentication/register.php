@@ -1,32 +1,33 @@
-<?= $this->extend('layouts/authentication_layout') ?>
+<?=$this->extend('layouts/authentication_layout')?>
 
-<?= $this->section('authentication-component') ?>
-<form method="post" action="<?= base_url(); ?>/register/submit" class=" form d-flex flex-column" style="border: 2px solid rgba(236, 236, 236, 0);">
-<?= csrf_field(); ?>
+<?=$this->section('authentication-component')?>
+<form method="post" action="<?= base_url(); ?>/register" id="sign-up" class=" form d-flex flex-column"
+    style="border: 2px solid rgba(236, 236, 236, 0); width: 290px;">
     <p class="welcome-text">Welcome</p>
     <p class="sign-in-text">Sign Up</p>
     <p class="info-text">Please input your email and password</p>
-
-        <label for="user_email" class="form-label">Email</label>
-        <input type="email" name="email" id="user_email" placeholder="Email">
-
-        <label for="user_pass" class="form-label mt-3">Password</label>
-        <input type="password" name="password" id="user_pass" placeholder="Password">
-
-        <label for="user_pass" class="form-label mt-3">Confirm Password</label>
-        <input type="password" name="password_confirm" id="user_pass" placeholder="Re Enter Your Password">
-
-        <div class="option d-flex justify-content-between align-items-center">
-            <div class="checkbox d-flex align-items-center">
-                <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-                <label for="vehicle1">Remember Me</label><br>
-            </div>
-            <a href="#">Forgot Password?</a>
+    <label for="email" class="form-label">Email</label>
+    <input type="text" name="email" id="email" placeholder="Email">
+    <label for="password" class="form-label mt-3">Password</label>
+    <input type="password" name="password" id="password" placeholder="Password">
+    <label for="password_confirm" class="form-label mt-3">Confirm Password</label>
+    <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirm Password">
+    <div class="option d-flex my-2">
+        <div class="checkbox d-flex align-items-start">
+            <input class="me-2" type="checkbox" id="terms" name="terms" style="height: 15px;">
+            <label for="terms">By signing up you agree to our Terms & Condition and Privacy Policy.*</label>
         </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
-    
-    <p class="sign-up" style="text-align: center;">Don't Have Account <a href="#">Sign up</a></p>
+    </div>
+    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Sign
+        Up</button>
+    <p class="sign-up" style="text-align: center;">Already Have Account? <a href="<?= base_url('login'); ?>"
+            style="text-decoration: none;">Sign
+            in</a></p>
     <p class="horizontal">Or</p>
 </form>
 <?= $googleButton; ?>
-<?= $this->endSection() ?>
+<?= $this->include('components/authentication/error_modal') ?>
+<?=$this->endSection()?>
+<?=$this->section('authentication-js')?>
+<script src="js/authentication/register.js" />
+<?=$this->endSection()?>
