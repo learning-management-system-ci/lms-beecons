@@ -2,11 +2,9 @@
 
 namespace App\Controllers\Api;
 
-//use App\Controllers\BaseController;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\UsersModel;
-use App\Models\ResetPasswordModel;
 use Firebase\JWT\JWT;
 use DateTime;
 use DateInterval;
@@ -14,7 +12,6 @@ use DateInterval;
 class AuthController extends ResourceController {
     
     private $loginModel=NULL;
-	private $resetModel=NULL;
 	private $googleClient=NULL;
 	protected $session;
 
@@ -24,7 +21,6 @@ class AuthController extends ResourceController {
 
 		require_once APPPATH. "../vendor/autoload.php";
 		$this->loginModel = new UsersModel();
-		$this->resetModel = new ResetPasswordModel();
 		$this->googleClient = new \Google_Client();
 		$this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
 		$this->googleClient->setClientSecret("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");
@@ -96,7 +92,7 @@ class AuthController extends ResourceController {
     function sendActivationEmail($emailTo, $token) { 
 		//$to = $this->request->getVar('mailTo');
 		$subject = 'subject';
-		$message = base_url()."/activateuser?token=".$token;
+		$message = base_url()."/api/activateuser?token=".$token;
 			
 		$email = \Config\Services::email();
 		$email->setTo($emailTo);
@@ -176,7 +172,7 @@ class AuthController extends ResourceController {
             'error' => false,
             'data' => [$token]
         ];
-        return $this->respond($token);
+        return $this->respond($response);
     }
 }
  
