@@ -108,7 +108,7 @@ main {
   font-weight: bold;
 }
 .navbar .nav-item-icon .dropdown-menu[data-bs-popper] {
-  left: -120px;
+  left: calc(100% - 360px);
 }
 .navbar .nav-item-search .nav-btn-icon {
   color: #D9D9D9;
@@ -125,6 +125,65 @@ main {
   transform: translateY(-50%);
   right: 10px;
   cursor: pointer;
+}
+.navbar .nav-item-icon .notifications {
+  width: 25rem;
+  min-height: 20rem;
+  padding-top: 0;
+  font-size: 0.8rem;
+}
+.navbar .nav-item-icon .notifications h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.navbar .nav-item-icon .notifications .header {
+  padding: 0.8rem 0.8rem;
+  display: flex;
+  justify-content: space-between;
+}
+.navbar .nav-item-icon .notifications .content {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+.navbar .nav-item-icon .notifications .notifications-baca {
+  text-decoration: underline;
+  color: #002B5B;
+}
+.navbar .nav-item-icon .notifications .notifications-list .notif {
+  padding-top: 0.8rem;
+  padding-bottom: 0rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+.navbar .nav-item-icon .notifications .notifications-list .notif.unread {
+  background-color: rgba(255, 203, 66, 0.3019607843);
+}
+.navbar .nav-item-icon .notifications .notifications-list .notif:last-child a {
+  border-bottom: none;
+}
+.navbar .nav-item-icon .notifications .notifications-list a {
+  display: flex;
+  gap: 0.8rem;
+  border-bottom: 1px solid #D9D9D9;
+}
+.navbar .nav-item-icon .notifications .notifications-list a .icon {
+  width: 3rem;
+}
+.navbar .nav-item-icon .notifications .notifications-list a .icon img {
+  width: 100%;
+}
+.navbar .nav-item-icon .notifications .notifications-list a .item {
+  flex: 1;
+  padding-bottom: 0.8rem;
+}
+.navbar .nav-item-icon .notifications .notifications-list a p {
+  margin-bottom: 0;
+}
+.navbar .nav-item-icon .notifications .notifications-list a:hover {
+  color: #1F1F1F;
+}
+.navbar .nav-item-icon .notifications .notifications-list a span {
+  color: rgb(170, 170, 170);
 }
 
 #hero {

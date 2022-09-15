@@ -12,6 +12,7 @@ $color-gray: #D9D9D9;
 $color-yellow: #FFCB42;
 $color-star: #E0D043;
 $color-black: #1F1F1F;
+$color-orange: #FFCB424D;
 
 @mixin card-setting() {
     border-radius: $card-border-radius;
@@ -148,7 +149,7 @@ main{
     }
 
     .nav-item-icon .dropdown-menu[data-bs-popper] {
-        left: -120px;
+        left: calc(100% - 360px);
     }
 
     .nav-item-search .nav-btn-icon {
@@ -169,6 +170,88 @@ main{
                 transform: translateY(-50%);
                 right: 10px;
                 cursor: pointer;
+            }
+        }
+    }
+
+    .nav-item-icon{
+        .notifications{
+            width: 25rem;
+            min-height: 20rem;
+            padding-top: 0;
+            font-size: .8rem;
+
+            h3{
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+
+            .header{
+                padding: .8rem .8rem;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .content{
+                text-align: center;
+                padding: 4rem 2rem
+            }
+
+            .notifications-baca{
+                text-decoration: underline;
+                color: $color-primary;
+            }
+
+            .notifications-list{
+                .notif{
+                    padding: {
+                        top: .8rem;
+                        bottom: 0rem;
+                        left: .8rem;
+                        right: .8rem;
+                    };
+
+                    &.unread{
+                        background-color: $color-orange;
+                    }
+
+                    &:last-child{
+                        a{
+                            border-bottom: none;
+                        }
+                    }
+                }
+
+                a{
+                    display: flex;
+                    gap: .8rem;
+                    border-bottom: 1px solid $color-gray;
+
+                    .icon{
+                        width: 3rem;
+
+                        img{
+                            width: 100%;
+                        }
+                    }
+
+                    .item{
+                        flex: 1;
+                        padding-bottom: .8rem;
+                    }
+
+                    p{
+                        margin-bottom: 0;
+                    }
+
+                    &:hover{
+                        color: $color-black;
+                    }
+
+                    span{
+                        color: rgb(170, 170, 170);
+                    }
+                }
             }
         }
     }
