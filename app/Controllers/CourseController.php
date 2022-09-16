@@ -13,13 +13,13 @@ class CourseController extends ResourceController
      *
      * @return mixed
      */
-    public function index()
-    {
-        $model = new Course();
-        $data = $model->orderBy('course_id', 'DESC')->findAll();
+    // public function index()
+    // {
+    //     $model = new Course();
+    //     $data = $model->orderBy('course_id', 'DESC')->findAll();
 
-        return $this->respondCreated($data);
-    }
+    //     return $this->respondCreated($data);
+    // }
 
     /**
      * Return the properties of a resource object
@@ -174,5 +174,16 @@ class CourseController extends ResourceController
         }else{
             return $this->failNotFound('Data not found');
         }
+    }
+
+    // CUSTOM
+    public function index($total = 4)
+    {
+        $model = new Course();
+
+        // $data = $model->orderBy('course_id', 'DESC')->limit($total)->find();
+        $data = $model->orderBy('course_id', 'DESC')->like('title', 'u')->find();
+
+        return $this->respondCreated($data);
     }
 }
