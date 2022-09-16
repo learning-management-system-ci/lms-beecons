@@ -1,6 +1,8 @@
 <?php
 
 namespace Config;
+use App\Controllers\PolicyAndPrivacyController;
+use App\Controllers\CourseController;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -80,6 +82,15 @@ $routes->get('/sign-up', 'Home::signUp');
 $routes->get('/forgot-password', 'Home::forgotPassword');
 $routes->get('/send-otp', 'Home::sendOTP');
 $routes->get('/new-password', 'Home::newPassword');
+
+
+// API
+// $routes->get('/api/pap', 'PolicyAndPrivacyController::index');
+// $routes->post('/api/pap', 'PolicyAndPrivacyController::create');
+// $routes->put('/api/pap', 'PolicyAndPrivacyController::update');
+// $routes->post('/api/pap', 'PolicyAndPrivacyController::update');
+$routes->resource('/api/pap', ['controller' => 'PolicyAndPrivacyController'], ['only' => ['index', 'create', 'show', 'update', 'delete']]);
+$routes->resource('/api/course', ['controller' => 'CourseController'], ['only' => ['index', 'create', 'show', 'update', 'delete']]);
 
 /*
  * --------------------------------------------------------------------
