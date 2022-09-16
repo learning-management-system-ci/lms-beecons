@@ -6,14 +6,12 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\VoucherModel;
 
-class VoucherController extends ResourceController
-{
+class VoucherController extends ResourceController {
   use ResponseTrait;
 
-  public function __construct()
-  {
+  public function __construct() {
 		helper('date');
-    $this->voucherModel = new VoucherModel();
+    	$this->voucherModel = new VoucherModel();
   }
 
   public function index(){
@@ -33,27 +31,27 @@ class VoucherController extends ResourceController
 
 		$messages = [
 			"title" => [
-				"required" => "{field} is required"
+				"required" => "{field} tidak boleh kosong"
 			],
 			"start_date" => [
-				"required" => "{field} is required",
-				"valid_date" => "{field} invalid date format"
+				"required" => "{field} tidak boleh kosong",
+				"valid_date" => "{field} format tanggal tidak sesuai"
 			],
 			"due_date" => [
-				"required" => "{field} is required",
-				"valid_date" => "{field} invalid date format"
+				"required" => "{field} tidak boleh kosong",
+				"valid_date" => "{field} format tanggal tidak sesuai"
 			],
-      "code" => [
-        "required" => "{field} required",
-        "is_unique" => "{field} address already exists",
-        "max_length" => "{field} maximum length of 10 characters",
-        "alpha_numeric" => "{field} only consists of alpha and numeric",
-      ],
+			"code" => [
+				"required" => "{field} tidak boleh kosong",
+				"is_unique" => "{field} telah digunakan",
+				"max_length" => "{field} maksimal 10 karakter",
+				"alpha_numeric" => "{field} harus berisi alfabet dan numerik",
+			],
 			"discount_price" => [
-				"required" => "Discount Price is required"
+				"required" => "{field} tidak boleh kosong"
 			],
 			"is_active" => [
-				"less_than_equal_to" => "{field} only consists of 0 (not active) and 1 (active)"
+				"less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
 			],
 		];
 
@@ -78,7 +76,7 @@ class VoucherController extends ResourceController
 			$response = [
 				'status' => 200,
 				'error' => false,
-				'message' => 'Voucher successfully created',
+				'message' => 'Voucher berhasil dibuat',
 				'data' => []
 			];
 		}
@@ -90,7 +88,7 @@ class VoucherController extends ResourceController
     if($data){
       return $this->respond($data);
     }else{
-      return $this->failNotFound('Voucher data not found');
+      return $this->failNotFound('Data voucher tidak ditemukan');
     }
   }
 
@@ -108,27 +106,27 @@ class VoucherController extends ResourceController
 		
 		$messages = [
 			"title" => [
-				"required" => "{field} is required"
+				"required" => "{field} tidak boleh kosong"
 			],
 			"start_date" => [
-				"required" => "{field} is required",
-				"valid_date" => "{field} invalid date format"
+				"required" => "{field} tidak boleh kosong",
+				"valid_date" => "{field} format tanggal tidak sesuai"
 			],
 			"due_date" => [
-				"required" => "{field} is required",
-				"valid_date" => "{field} invalid date format"
+				"required" => "{field} tidak boleh kosong",
+				"valid_date" => "{field} format tanggal tidak sesuai"
 			],
 			"code" => [
-			  "required" => "{field} required",
-			  "is_unique" => "{field} address already exists",
-        "max_length" => "{field} maximum length of 10 characters",
-			  "alpha_numeric" => "{field} only consists of alpha and numeric",
-	    ],
+				"required" => "{field} tidak boleh kosong",
+				"is_unique" => "{field} telah digunakan",
+				"max_length" => "{field} maksimal 10 karakter",
+				"alpha_numeric" => "{field} harus berisi alfabet dan numerik",
+			],
 			"discount_price" => [
-				"required" => "Discount Price is required"
+				"required" => "{field} tidak boleh kosong"
 			],
 			"is_active" => [
-				"less_than_equal_to" => "{field} only consists of 0 (not active) and 1 (active)"
+				"less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
 			],
 		];
 
@@ -146,14 +144,14 @@ class VoucherController extends ResourceController
 			'status'   => 200,
 			'error'    => null,
 			'messages' => [
-				'success' => 'Voucher successfully updated'
+				'success' => 'Voucher berhasil diperbarui'
 			]
 		];
 
 		$cek = $this->voucherModel->where('voucher_id', $id)->findAll();
 
 		if(!$cek){
-			return $this->failNotFound('Voucher data not found');
+			return $this->failNotFound('Data voucher tidak ditemukan');
 		}
 
 		if (!$this->validate($rules, $messages)) {
@@ -163,7 +161,7 @@ class VoucherController extends ResourceController
 		if ($this->voucherModel->update($id, $data)){
 			return $this->respond($response);
 		}
-		return $this->failNotFound('Voucher data not found');
+		return $this->failNotFound('Data voucher tidak ditemukan');
 	}
 
   public function delete($id = null){
@@ -174,12 +172,12 @@ class VoucherController extends ResourceController
           'status'   => 200,
           'error'    => null,
           'messages' => [
-            'success' => 'Voucher successfully deleted'
+            'success' => 'Voucher berhasil dihapus'
           ]
         ];
       return $this->respondDeleted($response);
     }else{
-      return $this->failNotFound('Voucher data not found');
+      return $this->failNotFound('Data voucher tidak ditemukan');
     }
   }
 }

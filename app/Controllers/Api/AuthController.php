@@ -38,17 +38,17 @@ class AuthController extends ResourceController {
 
         $messages = [
 			"email" => [
-                'required' => '{field} required',
-                'is_unique' => 'Email already used',
-                'valid_email' => 'Email format is not valid'
+                'required' => '{field} tidak boleh kosong',
+                'is_unique' => 'Email telah digunakan',
+                'valid_email' => 'Format email tidak sesuai'
 			],
             "password" => [
-                'required' => '{field} required',
-                'min_length' => '{field} minimum 4 characters',
-                'max_length' => '{field} maximum 50 characters'
+                'required' => '{field} tidak boleh kosong',
+                'min_length' => '{field} minimal 4 karakter',
+                'max_length' => '{field} maksimal 50 karakter'
             ],
             "password_confirm" => [
-                'matches' => 'Confirm password does not match with the password'
+                'matches' => 'Konfirmasi kata sandi tidak cocok dengan kata sandi'
             ],
 		];
     
@@ -81,7 +81,7 @@ class AuthController extends ResourceController {
 			$response = [
 				'status' => 200,
 				'error' => false,
-				'message' => 'User created, please check your email for activation',
+				'message' => 'Akun berhasil dibuat, silakan periksa email Anda untuk aktivasi',
 				'data' => []
 			];
         }
@@ -96,7 +96,7 @@ class AuthController extends ResourceController {
 			
 		$email = \Config\Services::email();
 		$email->setTo($emailTo);
-		$email->setFrom('hendrikusozzie@gmail.com', 'Confirm Registration');
+		$email->setFrom('hendrikusozzie@gmail.com', 'Konfirmasi Pendaftaran');
 			
 		$email->setSubject($subject);
 		$email->setMessage($message);
@@ -117,7 +117,7 @@ class AuthController extends ResourceController {
             'activation_status' => 1,
 			'activation_code' => ''
         ], $decoded->email);
-	    session()->setFlashdata('error', 'Your account has been successfully activated, please login');
+	    session()->setFlashdata('error', 'Akun Anda telah berhasil diaktifkan, silahkan login');
 	    return redirect()->to(base_url()."/login");
 	}
 
@@ -137,23 +137,23 @@ class AuthController extends ResourceController {
 
         $messages = [
 			"email" => [
-				"required" => "{field} is required",
-                'valid_email' => 'Email format is not valid'
+				"required" => "{field} tidak boleh kosong",
+                'valid_email' => 'Format email tidak sesuai'
 			],
             "password" => [
-                "required" => "{field} required"
+                "required" => "{field} tidak boleh kosong"
             ],
 		];
         if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 
         $verifyEmail = $this->loginModel->where("email", $this->request->getVar('email'))->first();
-        if(!$verifyEmail) return $this->failNotFound('Email not found');
+        if(!$verifyEmail) return $this->failNotFound('Email tidak ditemukan');
 
         $verifyPass = password_verify($this->request->getVar('password'), $verifyEmail['password']);
         if(!$verifyPass) {
-            return $this->fail('Wrong password');
+            return $this->fail('Kata sandi salah');
         } else if ($verifyEmail['activation_status']!=1) {
-            return $this->fail('User is not activated');
+            return $this->fail('Pengguna belum aktif');
         } else {
 
         }
