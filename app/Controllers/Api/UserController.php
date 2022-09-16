@@ -12,7 +12,7 @@ class UserController extends ResourceController {
     public function profile() {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if(!$header) return $this->failUnauthorized('Access token required');
+        if(!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
         
         try {
@@ -28,7 +28,7 @@ class UserController extends ResourceController {
             ];
             return $this->respond($response);
         } catch (\Throwable $th) {
-            return $this->fail('Invalid access token');
+            return $this->fail('Akses token tidak sesuai');
         }
     }
 }

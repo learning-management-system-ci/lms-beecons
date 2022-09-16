@@ -10,6 +10,7 @@ use CodeIgniter\API\ResponseTrait;
 class ForgotPasswordController extends ResourceController {
     
     use ResponseTrait;
+
     private $resetModel=NULL;
 	private $loginModel=NULL;
 
@@ -24,8 +25,8 @@ class ForgotPasswordController extends ResourceController {
 
 		$messages = [
 			"email" => [
-				"required" => "{field} is required",
-				'valid_email' => 'Email format is not valid'
+				"required" => "{field} tidak boleh kosong",
+				'valid_email' => 'Format email tidak sesuai'
 			],
 		];
 		if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
@@ -41,11 +42,11 @@ class ForgotPasswordController extends ResourceController {
 			$response = [
 				'status' => 200,
 				'error' => false,
-				'message' => 'The OTP code is valid for 15 minutes, please check your email'
+				'message' => 'Kode OTP berlaku selama 15 menit, silakan cek email Anda'
 			];
 			return $this->respond($response);
 		} else {
-			return $this->fail('Email Not Registered');
+			return $this->fail('Email Tidak Terdaftar');
 		}
 	}
 
@@ -65,39 +66,41 @@ class ForgotPasswordController extends ResourceController {
 
 	public function sendOtp() {
 		$rules = [
+			"email" => "required|valid_email",
 			"otp" => "required|numeric|min_length[6]|max_length[6]"
 		];
 
 		$messages = [
-			"otp" => [
-				"required" => "{field} is required",
-				"numeric" => "{field} must be number",
-				'min_length' => '{field} minimum 6 characters',
-                'max_length' => '{field} maximum 6 characters'
+			"email" => [
+				"required" => "{field} tidak boleh kosong",
+                'valid_email' => 'Format email tidak sesuai'
 			],
+			"otp" => [
+				"required" => "{field} tidak boleh kosong",
+				"numeric" => "{field} harus berisi nomor",
+				'min_length' => '{field} minimal 6 karakter',
+                'max_length' => '{field} maksimal 6 karakter'
+			]
 		];
 		if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
-
-		$otp = $this->request->getVar('otp');
-		$data = $this->resetModel->getDataByOtp($otp);
-		//$minutes_to_add = 15;
-
+		
+		$verifyEmail = $this->resetModel->where("email", $this->request->getVar('email'))->first();
+        if(!$verifyEmail) return $this->failNotFound('Email tidak ditemukan');
+		
 		$now = date("Y-m-d H:i:s");
+		$exp = date('Y-m-d H:i:s', strtotime('+15 minutes', strtotime($verifyEmail['created_at'])));
 
-		if ($this->resetModel->isAlreadyRegisterByOtp($otp)) {
-			$exp = date('Y-m-d H:i:s', strtotime('+15 minutes', strtotime($data['created_at'])));
-			if($now > $exp) {
-				return $this->fail('OTP expired');
-			} else {
-				$response = [
-					'status' => 200,
-					'error' => false,
-					'message' => 'OTP verified, please reset your password'
-				];
-				return $this->respond($response);
-			}
+        if($this->request->getVar('otp') != $verifyEmail['otp_code']) {
+            return $this->fail('Kode OTP salah');
+		} else if ($now > $exp) {
+			return $this->fail('OTP sudah kadaluwarsa');
 		} else {
-			return $this->failNotFound('OTP not available');
+			$response = [
+				'status' => 200,
+				'error' => false,
+				'message' => 'OTP diverifikasi, silakan setel ulang kata sandi Anda'
+			];
+			return $this->respond($response);
 		}
 	}
 
@@ -110,17 +113,17 @@ class ForgotPasswordController extends ResourceController {
 	
 		$messages = [
 			"password" => [
-				'required' => '{field} required',
-				'min_length' => '{field} minimum 4 characters',
-				'max_length' => '{field} maximum 50 characters',
+				'required' => '{field} tidak boleh kosong',
+				'min_length' => '{field} minimal 4 karakter',
+				'max_length' => '{field} maksimal 50 karakter',
 			],
 			"password_confirm" => [
-				'required' => '{field} required',
-				'matches' => 'Confirm password does not match with the password'
+				'required' => '{field} tidak boleh kosong',
+				'matches' => 'Konfirmasi kata sandi tidak cocok dengan kata sandi'
 			],
 			"email" => [
-				'required' => '{field} required',
-				'valid_email' => 'Email format is not valid'
+				'required' => '{field} tidak boleh kosong',
+				'valid_email' => 'Format email tidak sesuai'
 			],
 		];
 		if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
@@ -128,7 +131,7 @@ class ForgotPasswordController extends ResourceController {
 		$email = $this->request->getVar('email');
 
 		$verifyEmail = $this->loginModel->where("email",$email)->first();
-        if(!$verifyEmail) return $this->failNotFound('Email not found');
+        if(!$verifyEmail) return $this->failNotFound('Email tidak ditemukan');
 
 		$userdata = [
 			'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
@@ -140,7 +143,7 @@ class ForgotPasswordController extends ResourceController {
 		$response = [
 			'status' => 200,
 			'error' => false,
-			'message' => 'Password has been reset, please login with new password'
+			'message' => 'Kata sandi telah diatur ulang, silakan masuk dengan kata sandi baru'
 		];
 		return $this->respond($response);
 	}
