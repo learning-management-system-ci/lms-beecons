@@ -44,4 +44,8 @@ class Home extends BaseController
     {
         return view('pages/course/course-detail');
     }
+    public function cart()
+    {
+        return view('pages/course/cart');
+    }
 }
