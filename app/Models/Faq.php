@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class FaqModel extends Model
+class Faq extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'faq';

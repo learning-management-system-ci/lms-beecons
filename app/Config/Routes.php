@@ -73,19 +73,6 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
     });
 
-    $routes->get('profile', 'Api\UserController::profile');
-});
-
-
-
-$routes->get('/sign-up', 'Home::signUp');
-$routes->get('/forgot-password', 'Home::forgotPassword');
-$routes->get('/send-otp', 'Home::sendOTP');
-$routes->get('/new-password', 'Home::newPassword');
-
-
-
-$routes->group('api/', static function ($routes) {
     $routes->group('pap/', static function ($routes) {
         $routes->get('', 'Api\PolicyAndPrivacyController::index');
         $routes->get('detail/(:num)', 'Api\PolicyAndPrivacyController::show/$1');
@@ -104,7 +91,14 @@ $routes->group('api/', static function ($routes) {
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
     });
+
+    $routes->get('profile', 'Api\UserController::profile');
 });
+
+$routes->get('/sign-up', 'Home::signUp');
+$routes->get('/forgot-password', 'Home::forgotPassword');
+$routes->get('/send-otp', 'Home::sendOTP');
+$routes->get('/new-password', 'Home::newPassword');
 
 
 /*

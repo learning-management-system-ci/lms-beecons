@@ -4,19 +4,23 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\VoucherModel;
+use App\Models\Voucher;
 
 class VoucherController extends ResourceController {
   use ResponseTrait;
 
   public function __construct() {
 		helper('date');
-    	$this->voucherModel = new VoucherModel();
+    	$this->voucherModel = new Voucher();
   }
 
   public function index(){
-    $data['voucher'] = $this->voucherModel->orderBy('voucher_id', 'DESC')->findAll();
-    return $this->respond($data);
+    $data = $this->voucherModel->orderBy('voucher_id', 'DESC')->findAll();
+	if(count($data) > 0){
+		return $this->respond($data);
+	}else{
+		return $this->failNotFound('Tidak ada data');
+	}
   }
 
   public function create() {
@@ -58,7 +62,7 @@ class VoucherController extends ResourceController {
 		if (!$this->validate($rules, $messages)) {
 			$response = [
 				'status' => 500,
-				'error' => true,
+				'error' => 500,
 				'message' => $this->validator->getErrors(),
 				'data' => []
 			];
@@ -75,7 +79,7 @@ class VoucherController extends ResourceController {
 
 			$response = [
 				'status' => 200,
-				'error' => false,
+				'success' => 200,
 				'message' => 'Voucher berhasil dibuat',
 				'data' => []
 			];
@@ -142,7 +146,7 @@ class VoucherController extends ResourceController {
 
 		$response = [
 			'status'   => 200,
-			'error'    => null,
+			'success'    => 200,
 			'messages' => [
 				'success' => 'Voucher berhasil diperbarui'
 			]
@@ -170,7 +174,7 @@ class VoucherController extends ResourceController {
       $this->voucherModel->delete($id);
         $response = [
           'status'   => 200,
-          'error'    => null,
+          'success'    => 200,
           'messages' => [
             'success' => 'Voucher berhasil dihapus'
           ]

@@ -3,7 +3,7 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\UsersModel;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 
 class UserController extends ResourceController {
@@ -17,7 +17,7 @@ class UserController extends ResourceController {
         
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
-            $user = new UsersModel;
+            $user = new Users;
             $data = $user->where('id', $decoded->uid)->first();
 
             $response = [
