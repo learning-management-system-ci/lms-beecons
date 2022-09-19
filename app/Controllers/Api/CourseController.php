@@ -65,6 +65,7 @@ class CourseController extends ResourceController
             'title' => 'required|min_length[8]',
             'description' => 'required|min_length[8]',
             'price' => 'required|numeric',
+            'thumbnail' => 'required'
         ];
 
         $messages = [
@@ -77,6 +78,9 @@ class CourseController extends ResourceController
             "price" => [
                 "required" => "Kolom {field} harus di isi"
             ],
+            "thumbnail" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
         ];
 
         $response;
@@ -84,7 +88,8 @@ class CourseController extends ResourceController
             $data = [
               'title' => $this->request->getVar('title'),
               'description' => $this->request->getVar('description'),
-              'price' => $this->request->getVar('price')
+              'price' => $this->request->getVar('price'),
+              'thumbnail' => $this->request->getVar('thumbnail')
             ];
 
             $model->insert($data);
@@ -130,6 +135,7 @@ class CourseController extends ResourceController
             'title' => 'required|min_length[8]',
             'description' => 'required|min_length[8]',
             'price' => 'required|numeric',
+            'thumbnail' => 'required',
         ];
 
         $messages = [
@@ -142,6 +148,9 @@ class CourseController extends ResourceController
             "price" => [
                 "required" => "Kolom {field} harus di isi"
             ],
+            "thumbnail" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
         ];
 
         $response;
@@ -150,7 +159,8 @@ class CourseController extends ResourceController
                 $data = [
                   'title' => $this->request->getRawInput('title'),
                   'description' => $this->request->getRawInput('description'),
-                  'price' => $this->request->getRawInput('price')
+                  'price' => $this->request->getRawInput('price'),
+                  'thumbnail' => $this->request->getRawInput('thumbnail')
                 ];
 
                 $model->update($id, $data['title']);

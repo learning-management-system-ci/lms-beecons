@@ -27,6 +27,10 @@ class CreateCourseTable extends Migration
                 'type'          => 'VARCHAR',
                 'constraint'    => '10'
             ],
+            'thumbnail'             => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255'
+            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
