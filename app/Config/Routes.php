@@ -41,13 +41,25 @@ $routes->get('/', 'Home::index');
 $routes->get('/login', 'Home::login');
 
 
-// API
-// $routes->get('/api/pap', 'PolicyAndPrivacyController::index');
-// $routes->post('/api/pap', 'PolicyAndPrivacyController::create');
-// $routes->put('/api/pap', 'PolicyAndPrivacyController::update');
-// $routes->post('/api/pap', 'PolicyAndPrivacyController::update');
-$routes->resource('/api/pap', ['controller' => 'PolicyAndPrivacyController'], ['only' => ['index', 'create', 'show', 'update', 'delete']]);
-$routes->resource('/api/course', ['controller' => 'CourseController'], ['only' => ['index', 'create', 'show', 'update', 'delete']]);
+
+$routes->group('api/pap/', static function ($routes) {
+    $routes->get('', 'PolicyAndPrivacyController::index');
+    $routes->get('detail/(:num)', 'PolicyAndPrivacyController::show/$1');
+    $routes->post('create', 'PolicyAndPrivacyController::create');
+    $routes->put('update/(:num)', 'PolicyAndPrivacyController::update/$1');
+    $routes->delete('delete/(:num)', 'PolicyAndPrivacyController::delete/$1');
+});
+
+$routes->group('api/course/', static function ($routes) {
+    $routes->get('', 'CourseController::index');
+    $routes->get('detail/(:num)', 'CourseController::show/$1');
+    $routes->post('create', 'CourseController::create');
+    $routes->put('update/(:num)', 'CourseController::update/$1');
+    $routes->delete('delete/(:num)', 'CourseController::delete/$1');
+    $routes->get('latest', 'CourseController::latest');
+    $routes->get('latest/(:num)', 'CourseController::latest/$1');
+    $routes->get('find/(:segment)', 'CourseController::find/$1');
+});
 
 /*
  * --------------------------------------------------------------------

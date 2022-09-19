@@ -13,13 +13,17 @@ class CourseController extends ResourceController
      *
      * @return mixed
      */
-    // public function index()
-    // {
-    //     $model = new Course();
-    //     $data = $model->orderBy('course_id', 'DESC')->findAll();
+    public function index()
+    {
+        $model = new Course();
+        $data = $model->orderBy('course_id', 'DESC')->findAll();
 
-    //     return $this->respondCreated($data);
-    // }
+        if(count($data) > 0){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Tidak ada data');
+        }
+    }
 
     /**
      * Return the properties of a resource object
@@ -34,7 +38,7 @@ class CourseController extends ResourceController
             $data = $model->where('course_id', $id)->first();
             return $this->respond($data);
         }else{
-            return $this->failNotFound('Data not found');
+            return $this->failNotFound('Tidak ada data');
         }
     }
 
@@ -63,8 +67,20 @@ class CourseController extends ResourceController
             'price' => 'required|numeric',
         ];
 
+        $messages = [
+            "title" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
+            "description" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
+            "price" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
+        ];
+
         $response;
-        if($this->validate($rules)) {
+        if($this->validate($rules, $messages)) {
             $data = [
               'title' => $this->request->getVar('title'),
               'description' => $this->request->getVar('description'),
@@ -76,7 +92,7 @@ class CourseController extends ResourceController
                 'status'   => 201,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Course created successfully'
+                    'success' => 'Course berhasil ditambahkan'
                 ]
             ];
         }else{
@@ -116,9 +132,21 @@ class CourseController extends ResourceController
             'price' => 'required|numeric',
         ];
 
+        $messages = [
+            "title" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
+            "description" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
+            "price" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
+        ];
+
         $response;
         if($model->find($id)){
-            if($this->validate($rules)) {
+            if($this->validate($rules, $messages)) {
                 $data = [
                   'title' => $this->request->getRawInput('title'),
                   'description' => $this->request->getRawInput('description'),
@@ -130,7 +158,7 @@ class CourseController extends ResourceController
                     'status'   => 201,
                     'error'    => null,
                     'messages' => [
-                        'success' => 'Course updated successfully'
+                        'success' => 'Course berhasil di perbaharui'
                     ]
                 ];
             }else{
@@ -144,12 +172,12 @@ class CourseController extends ResourceController
             $response = [
                 'status'   => 400,
                 'error'    => true,
-                'messages' => 'Data not found',
+                'messages' => 'Data tidak ditemukan',
             ];
         }
 
 
-        return $this->respond($response);
+        return $this->respondCreated($response);
     }
 
     /**
@@ -167,23 +195,32 @@ class CourseController extends ResourceController
                 'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Course successfully deleted'
+                    'success' => 'Course berhasil di hapus'
                 ]
             ];
             return $this->respondDeleted($response);
         }else{
-            return $this->failNotFound('Data not found');
+            return $this->failNotFound('Data tidak di temukan');
         }
     }
 
-    // CUSTOM
-    public function index($total = 4)
+    public function latest($total = 4)
     {
         $model = new Course();
 
-        // $data = $model->orderBy('course_id', 'DESC')->limit($total)->find();
-        $data = $model->orderBy('course_id', 'DESC')->like('title', 'u')->find();
+        $data = $model->limit($total)->orderBy('course_id', 'DESC')->find();
+        return $this->respond($data);
+    }
 
-        return $this->respondCreated($data);
+    public function find($key = null)
+    {
+        $model = new Course();
+        $data = $model->orderBy('course_id', 'DESC')->like('title', $key)->find();
+
+        if(count($data) > 0){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Data tidak ditemukan');
+        }
     }
 }

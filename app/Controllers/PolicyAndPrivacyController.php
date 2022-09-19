@@ -8,15 +8,9 @@ use CodeIgniter\HTTP\RequestInterface;
 
 class PolicyAndPrivacyController extends ResourceController
 {
-    protected $request;
-
-    // public function __construct(RequestInterface $request)
-    // {
-    //     $this->request = $request;
-    // }
     /**
      * Return an array of resource objects, themselves in array format
-     *
+     *`
      * @return mixed
      */
     public function index()
@@ -24,7 +18,11 @@ class PolicyAndPrivacyController extends ResourceController
         $model = new PolicyAndPrivacy();
         $data = $model->orderBy('pap_id', 'DESC')->findAll();
 
-        return $this->respondCreated($data);
+        if(count($data) > 0){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Tidak ada data');
+        }
     }
 
     /**
@@ -40,7 +38,7 @@ class PolicyAndPrivacyController extends ResourceController
             $data = $model->where('pap_id', $id)->first();
             return $this->respond($data);
         }else{
-            return $this->failNotFound('Data not found');
+            return $this->failNotFound('Data tidak ditemukan');
         }
     }
 
@@ -78,7 +76,7 @@ class PolicyAndPrivacyController extends ResourceController
                 'status'   => 201,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Policy and privacy created successfully'
+                    'success' => 'Policy and privacy berhasil ditambahkan'
                 ]
             ];
         }else{
@@ -116,9 +114,15 @@ class PolicyAndPrivacyController extends ResourceController
             'value' => 'required|min_length[8]',
         ];
 
+        $messages = [
+            "value" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
+        ];
+
         $response;
         if($model->find($id)){
-            if($this->validate($rules)) {
+            if($this->validate($rules, $messages)) {
                 $data = [
                   'value' => $this->request->getRawInput('value')
                 ];
@@ -128,7 +132,7 @@ class PolicyAndPrivacyController extends ResourceController
                     'status'   => 201,
                     'error'    => null,
                     'messages' => [
-                        'success' => 'Policy and privacy updated successfully'
+                        'success' => 'Policy and privacy berhasil di update'
                     ]
                 ];
             }else{
@@ -142,7 +146,7 @@ class PolicyAndPrivacyController extends ResourceController
             $response = [
                 'status'   => 400,
                 'error'    => true,
-                'messages' => 'Data not found',
+                'messages' => 'Data tidak ditemukan',
             ];
         }
 
@@ -165,12 +169,12 @@ class PolicyAndPrivacyController extends ResourceController
                 'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Policy and privacy successfully deleted'
+                    'success' => 'Policy and privacy berhasil di hapus'
                 ]
             ];
             return $this->respondDeleted($response);
         }else{
-            return $this->failNotFound('Data not found');
+            return $this->failNotFound('Data tidak di temukan');
         }
     }
 }
