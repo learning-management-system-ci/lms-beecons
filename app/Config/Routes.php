@@ -85,24 +85,27 @@ $routes->get('/new-password', 'Home::newPassword');
 
 
 
-$routes->group('api/pap/', static function ($routes) {
-    $routes->get('', 'Api\PolicyAndPrivacyController::index');
-    $routes->get('detail/(:num)', 'Api\PolicyAndPrivacyController::show/$1');
-    $routes->post('create', 'Api\PolicyAndPrivacyController::create');
-    $routes->put('update/(:num)', 'Api\PolicyAndPrivacyController::update/$1');
-    $routes->delete('delete/(:num)', 'Api\PolicyAndPrivacyController::delete/$1');
+$routes->group('api/', static function ($routes) {
+    $routes->group('pap/', static function ($routes) {
+        $routes->get('', 'Api\PolicyAndPrivacyController::index');
+        $routes->get('detail/(:num)', 'Api\PolicyAndPrivacyController::show/$1');
+        $routes->post('create', 'Api\PolicyAndPrivacyController::create');
+        $routes->put('update/(:num)', 'Api\PolicyAndPrivacyController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\PolicyAndPrivacyController::delete/$1');
+    });
+
+    $routes->group('course/', static function ($routes) {
+        $routes->get('', 'Api\CourseController::index');
+        $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
+        $routes->post('create', 'Api\CourseController::create');
+        $routes->put('update/(:num)', 'Api\CourseController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
+        $routes->get('latest', 'Api\CourseController::latest');
+        $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
+        $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+    });
 });
 
-$routes->group('api/course/', static function ($routes) {
-    $routes->get('', 'Api\CourseController::index');
-    $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
-    $routes->post('create', 'Api\CourseController::create');
-    $routes->put('update/(:num)', 'Api\CourseController::update/$1');
-    $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
-    $routes->get('latest', 'Api\CourseController::latest');
-    $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
-    $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
-});
 
 /*
  * --------------------------------------------------------------------
