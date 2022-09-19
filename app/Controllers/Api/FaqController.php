@@ -27,10 +27,10 @@ class FaqController extends ResourceController {
 
 		$messages = [
 			"question" => [
-				"required" => "{field} is required"
+				"required" => "{field} tidak boleh kosong"
 			],
             "answer" => [
-                "required" => "{field} required"
+                "required" => "{field} tidak boleh kosong"
             ],
 		];
 
@@ -51,7 +51,7 @@ class FaqController extends ResourceController {
 			$response = [
 				'status' => 200,
 				'error' => false,
-				'message' => 'FAQ successfully created',
+				'message' => 'FAQ berhasil dibuat',
 				'data' => []
 			];
 		}
@@ -64,7 +64,7 @@ class FaqController extends ResourceController {
         if($data){
             return $this->respond($data);
         }else{
-            return $this->failNotFound('FAQ data not found');
+            return $this->failNotFound('Data FAQ tidak ditemukan');
         }
     }
 
@@ -76,8 +76,8 @@ class FaqController extends ResourceController {
 		];
 	
 		$messages = [
-			"question" => ["required" => "{field} is required"],
-			"answer" => ["required" => "{field} required"]
+			"question" => ["required" => "{field} tidak boleh kosong"],
+			"answer" => ["required" => "{field} tidak boleh kosong"]
 		];
 
 		$data = [
@@ -89,14 +89,14 @@ class FaqController extends ResourceController {
 			'status'   => 200,
 			'error'    => null,
 			'messages' => [
-					'success' => 'FAQ successfully updated'
+					'success' => 'FAQ berhasil diperbarui'
 			]
 		];
 
 		$cek = $this->faqModel->where('faq_id', $id)->findAll();
 
 		if(!$cek){
-			return $this->failNotFound('FAQ data not found');
+			return $this->failNotFound('Data FAQ tidak ditemukan');
 		}
 
 		if (!$this->validate($rules, $messages)) {
@@ -106,7 +106,7 @@ class FaqController extends ResourceController {
 		if ($this->faqModel->update($id, $data)){
 			return $this->respond($response);
 		}
-		return $this->failNotFound('FAQ data not found');
+		return $this->failNotFound('Data FAQ tidak ditemukan');
 	}
 
     public function delete($id = null){
@@ -117,12 +117,12 @@ class FaqController extends ResourceController {
                 'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'FAQ successfully deleted'
+                    'success' => 'FAQ berhasil dihapus'
                 ]
             ];
             return $this->respondDeleted($response);
         }else {
-            return $this->failNotFound('FAQ data not found');
+            return $this->failNotFound('Data FAQ tidak ditemukan');
         }
     }
 }

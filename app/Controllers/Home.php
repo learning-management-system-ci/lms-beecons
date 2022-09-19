@@ -28,6 +28,8 @@ class Home extends BaseController
     {
         return view('pages/authentication/new_password');
     }
+
+    
     public function faq()
     {
         return view('pages/navigation/faq');
@@ -47,5 +49,9 @@ class Home extends BaseController
     public function cart()
     {
         return view('pages/course/cart');
+    }
+    public function courses()
+    {
+        return view('pages/navigation/courses');
     }
 }
