@@ -57,9 +57,50 @@
                                 </form>
                                 <i class="fa-solid fa-xmark" id="nav-btn-search-x"></i>
                             </div>
-                            <button class="nav-btn-icon mt-1" id="nav-btn-search">
+                            <button class="nav-btn-icon mt-1" id="nav-btn-search" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
+                            <div class="dropdown-menu mt-2" aria-labelledby="nav-btn-search">
+                                <div id="search-result-initial">
+                                    <div class="p-2 border-bottom">
+                                        <h5 class="ctg">Recent</h5>
+                                        <div id="search-recent">
+                                            <!-- <a href="">
+                                            <div class="search-item">
+                                                <div class="icon">
+                                                    <img src="/image/home/img-course.jpg" alt="">
+                                                </div>
+                                                <div class="desc">
+                                                    <h5>Frontend</h5>
+                                                    <p>
+                                                        Lorem ipsum dolor sit amet, qui minim labore
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a> -->
+                                        </div>
+                                    </div>
+                                    <div class="p-2">
+                                        <h5 class="ctg">Rekomendasi</h5>
+                                        <div id="search-rekomendasi">
+                                            <!-- <a href="">
+                                            <div class="search-item">
+                                                <div class="icon">
+                                                    <img src="/image/home/img-course.jpg" alt="">
+                                                </div>
+                                                <div class="desc">
+                                                    <h5>Frontend</h5>
+                                                    <p>
+                                                        Lorem ipsum dolor sit amet, qui minim labore
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="search-result" class="p-2"></div>
+                            </div>
                         </div>
                     </li>
                     <li class="nav-item me-4">
@@ -81,7 +122,7 @@
                                     <h3 class="mb-0">Notifikasi</h3>
                                     <a href="" class="notifications-baca">Sudah dibaca</a>
                                 </div>
-                                <?php if (!session()->get('LoggedUserData')) : ?>
+                                <?php if (session()->get('LoggedUserData')) : ?>
                                     <div class="content">
                                         <h3>Kamu belum daftar</h3>
                                         <p>
