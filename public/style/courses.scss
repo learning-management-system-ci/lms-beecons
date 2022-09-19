@@ -13,6 +13,7 @@
             color: $color-gray-1;
 
             &.active{
+                color: $color-black;
                 font-weight: bold;
             }
         }
