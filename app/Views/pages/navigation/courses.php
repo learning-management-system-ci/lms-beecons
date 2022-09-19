@@ -17,7 +17,7 @@
         </nav>
 
 
-        <div class="bg-white rounded courses-list">
+        <div class="bg-white rounded courses-list border">
             <ul class="nav nav-tabs nav-fill mb-3 bg-gray" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link active" data-bs-toggle="tab" href="#tab-courses-1" role="tab" aria-controls="tab-courses-1" aria-selected="true">Engineering</a>
