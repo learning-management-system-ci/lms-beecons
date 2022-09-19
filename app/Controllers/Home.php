@@ -40,7 +40,15 @@ class Home extends BaseController
     }
     public function bundlingCart()
     {
-        return view('pages/shop_cart/bundling');
+        return view('pages/course/bundling');
+    }
+    public function courseDetail()
+    {
+        return view('pages/course/course-detail');
+    }
+    public function cart()
+    {
+        return view('pages/course/cart');
     }
     public function courses()
     {

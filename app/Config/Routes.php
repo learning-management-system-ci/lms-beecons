@@ -45,6 +45,8 @@ $routes->get('/login/loginWithGoogle', 'AuthController::loginWithGoogle');
 $routes->get('/faq', 'Home::faq');
 $routes->get('/about-us', 'Home::aboutUs');
 $routes->get('/bundling', 'Home::bundlingCart');
+$routes->get('/course-detail', 'Home::courseDetail');
+$routes->get('/cart', 'Home::cart');
 $routes->get('/courses', 'Home::courses');
 
 
