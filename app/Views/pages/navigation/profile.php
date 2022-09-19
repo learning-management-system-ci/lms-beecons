@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/app_layout') ?>
 
 <?= $this->section('css-component') ?>
-<link rel="stylesheet" href="style/profile.css">
+<link rel="stylesheet" href="../../../style/profile.css">
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
@@ -17,10 +17,10 @@
                     <div class="card">
                         <div class="row py-2 px-1">
                             <div class="col-12x">
-                                <img src="image/people.jpg" class="image-circle me-1" alt="">
+                                <img src="image/auth-image.png" class="image-circle me-1" alt="">
                             </div>
                             <div class="col">
-                                <div class="row px-4">
+                                <div class="row px-5">
                                     <div class="col-12 text-start">
                                         <h4>Bella Fitria</h4>
                                     </div>
@@ -47,9 +47,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2" style="padding: 0 0 0 10px;">
+                <div class="col-4" style="padding: 0 0 0 10px;">
                     <div class="card">
-                        dkandkankamdkj
+                        <h4 class="text-start">Upcoming webinar</h4>
+                        <?= $this->include('components/card_component') ?>
                     </div>
                 </div>
             </div>
@@ -76,7 +77,19 @@
             </div>
             <div class="card">
                 <h4 class="text-start">Ongoing courses</h4>
-                jdbskndajksndjkasnd
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12x">
+                                <img src="image/auth-image.png" class="course-image me-1" alt="">
+                            </div>
+                            <div class="col text-start">
+                                Something beside
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

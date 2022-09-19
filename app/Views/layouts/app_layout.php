@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Learning</title>
+    <title><?= $title ?></title>
 
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -16,19 +16,19 @@
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
         integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="style/slick.css">
-    <link rel="stylesheet" href="style/slick-theme.css">
+    <link rel="stylesheet" href="../../../style/slick.css">
+    <link rel="stylesheet" href="../../../style/slick-theme.css">
 
     <!-- mystyle -->
-    <link rel="stylesheet" href="style/home.css">
+    <link rel="stylesheet" href="../../../style/home.css">
     <?= $this->renderSection('css-component') ?>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-md navbar-light shadow-sm">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">
-                <img src="image/logo.png" alt="logo">
+            <a class="navbar-brand" href="">
+                <img src="../../../image/logo.png" alt="logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarApp"
                 aria-controls="navbarApp" aria-expanded="false" aria-label="Toggle navigation">
@@ -204,16 +204,17 @@
                         </a>
                     </li>
                     <?php else : ?>
-                        <li class="nav-item">
-                            <div class="dropdown nav-item-profile">
-                                <button class="nav-btn-profile" id="dropdown-profile" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="image/home/people.jpg" class="nav-profile me-1" alt="">
-                                </button>
-                                <div class="dropdown-menu mt-2" aria-labelledby="dropdown-profile">
-                                    <a href="<?= base_url('/profile') ?>" class="dropdown-item">Profile</a>
-                                </div>
+                    <li class="nav-item">
+                        <div class="dropdown nav-item-profile">
+                            <button class="nav-btn-profile" id="dropdown-profile" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <img src="../../../image/home/people.jpg" class="nav-profile me-1" alt="">
+                            </button>
+                            <div class="dropdown-menu mt-2" aria-labelledby="dropdown-profile">
+                                <a href="<?= base_url('/profile') ?>" class="dropdown-item">Profile</a>
                             </div>
-                        </li>
+                        </div>
+                    </li>
                     <?php endif ?>
                 </ul>
             </div>
@@ -221,7 +222,7 @@
     </nav>
 
     <main>
-        <?php if(uri_string() != '/' && uri_string() != 'profile') : ?>
+        <?php if(uri_string() != '/' && uri_string() != 'profile' && !str_contains(uri_string(), 'courses')) : ?>
         <div class="container mt-4">
             <section class="navigation">
                 <p class="mb-4"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
@@ -234,18 +235,36 @@
                     <?php if(uri_string() == 'about-us') : ?>
                     <a> About-Us</a>
                     <?php endif; ?>
+                    <?php if(uri_string() == 'bundling') : ?>
+                    <a> Bundling</a>
+                    <?php endif; ?>
                 </p>
                 <hr>
             </section>
         </div>
-        <?php endif?>
+        <?php endif; ?>
+        <?php if(str_contains(uri_string(), 'courses')) : ?>
+        <div class="container mt-4">
+            <section class="navigation">
+                <p class="mb-4"><a href="<?= base_url('courses') ?>" style="font-weight: 300;">Courses</a>
+                    <?php if(uri_string() != 'courses') : ?>
+                    >
+                    <?php endif; ?>
+                    <?php if(uri_string() == 'courses/bundling') : ?>
+                    <a> Bundling</a>
+                    <?php endif; ?>
+                </p>
+                <hr>
+            </section>
+        </div>
+        <?php endif; ?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <?= $this->renderSection('app-component') ?>
     </main>
 
     <footer class="footer-container">
         <div class="item">
-            <img src="image/logo.png" alt="logo">
+            <img src="../../../image/logo.png" alt="logo">
         </div>
         <div class="item">
             <h2>Pages</h2>
@@ -312,10 +331,10 @@
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous">
     </script>
 
-    <script src="js/home/slick.js"></script>
+    <script src="../../../js/home/slick.js"></script>
 
     <!-- myscript -->
-    <script src="js/home/home.js"></script>
+    <script src="../../../js/home/home.js"></script>
     <?= $this->renderSection('js-component') ?>
 </body>
 

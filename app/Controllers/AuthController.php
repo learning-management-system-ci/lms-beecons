@@ -2,7 +2,7 @@
 namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\UsersModel;
-use App\Models\ResetPasswordModel;
+use App\Models\ForgotPasswordModel;
 use Firebase\JWT\JWT;
 use DateTime;
 use DateInterval;
@@ -20,7 +20,7 @@ class AuthController extends BaseController
 
 		require_once APPPATH. "../vendor/autoload.php";
 		$this->loginModel = new UsersModel();
-		$this->resetModel = new ResetPasswordModel();
+		$this->resetModel = new ForgotPasswordModel();
 		$this->googleClient = new \Google_Client();
 		$this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
 		$this->googleClient->setClientSecret("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");
@@ -36,108 +36,87 @@ class AuthController extends BaseController
 			return redirect()->to(base_url()."/profile");
 		}
 		$data = [
-      "title" => "Sign In",
-      "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
-    ];
+            "title" => "Sign In",
+            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+        ];
 		return view('pages/authentication/login', $data);
 	}
 
 	public function login() {
-  	if (!$this->validate([
-      'email' => [
-        'rules' => 'required',
-        'errors' => [
-        	'required' => '{field} required',
-        ]
-      ],
-      'password' => [
-        'rules' => 'required',
-        'errors' => [
-      	  'required' => '{field} required',
-        ]
-      ],
-    ])) {
-      session()->setFlashdata('error', $this->validator->listErrors());
-      return redirect()->back()->withInput();
-    }
-
-    $users = new UsersModel();
-    $email = $this->request->getVar('email');
-    $password = $this->request->getVar('password');
-    $dataUser = $users->where([
-      'email' => $email,
-    ])->first();
-		
-    if ($dataUser) {
-      if (password_verify($password, $dataUser['password']) && $this->loginModel->isAlreadyRegisterByEmail($email)) {
-    		if ($dataUser['activation_status'] != 1) {
-					session()->setFlashdata('error', 'User is not activated');
-					return redirect()->back();
-				} else {
-					session()->set([
-						'email' => $dataUser['email'],
-						'fullname' => $dataUser['fullname'],
-						'role' => $dataUser['role'],
-						'LoggedUserData' => TRUE
-					]);
-				}
-				session()->setFlashData("success", "Login Successful");
-				return redirect()->to(base_url()."/profile");
-      } else {
-		session()->setFlashdata('error', 'Wrong email & password');
-		return redirect()->back();
-	  }
-    } else {
-      session()->setFlashdata('error', 'Wrong email & password');
-      return redirect()->back();
+    if ($this->request->isAJAX()) {
+        $requestBody = json_decode($this->request->getBody());
+        $token = $requestBody->access_token;
+        $key = getenv('TOKEN_SECRET');
+        try {
+            $decoded = JWT::decode($token, $key, array('HS256'));
+        }catch(Exception $e){
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            return ;
+        }
+        
+        if ($decoded) {
+            if (!$decoded->email) {
+                    session()->setFlashdata('error', 'User is not activated');
+                    return redirect()->back();
+                } else {
+                    session()->set([
+                        'email' => $decoded->email,
+                        'LoggedUserData' => TRUE
+                    ]);
+                }
+                session()->setFlashData("success", "Login Successful");
+                return redirect()->to(base_url()."/profile");
+        } else {
+            session()->setFlashdata('error', 'Wrong email & password');
+            return redirect()->back();
+        }
     }
   }
   
 	public function loginWithGoogle()
 	{
-		$token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
-		if(!isset($token['error'])){
-			$this->googleClient->setAccessToken($token['access_token']);
-			session()->set("AccessToken", $token['access_token']);
+		// $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
+		// if(!isset($token['error'])){
+		// 	$this->googleClient->setAccessToken($token['access_token']);
+		// 	session()->set("AccessToken", $token['access_token']);
+		// 	$googleService = new \Google\Service\Oauth2($this->googleClient);
+		// 	$data = $googleService->userinfo->get();
+		// 	$currentDateTime = date("Y-m-d H:i:s");
+		// 	// echo "<pre>"; print_r($data);die;
+		// 	$userdata=array();
+		// 	if($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])){
+		// 	// if($this->loginModel->isAlreadyRegister($data['id'])){
+		// 		$userdata = [
+		// 			'oauth_id'=>$data['id'],
+		// 			'email'=>$data['email'], 
+		// 			'updated_at'=>$currentDateTime,
+		// 			'activation_status'=>'1'
+		// 		];
+		// 		$email = $data['email'];
+		// 		$this->loginModel->updateUserData($userdata, $email);
+		// 	}else{
+		// 		$userdata = [
+		// 			'oauth_id'=>$data['id'],
+		// 			'email'=>$data['email'], 
+		// 			'created_at'=>$currentDateTime,
+		// 			'activation_status'=>'1',
+		// 			'role'=>'participant'
+		// 		];
+		// 		$this->loginModel->insertUserData($userdata);
+		// 	}
+		// 	// session()->set("LoggedUserData", $userdata);
+		// 	session()->set([
+		// 		'oauth_id'=>$data['id'],
+		// 		'email'=>$data['email'],
+		// 		'role' => "participant",
+		// 		'LoggedUserData' => TRUE
+		// 	]);
 
-			$googleService = new \Google\Service\Oauth2($this->googleClient);
-			$data = $googleService->userinfo->get();
-			$currentDateTime = date("Y-m-d H:i:s");
-			// echo "<pre>"; print_r($data);die;
-			$userdata=array();
-			if($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])){
-			// if($this->loginModel->isAlreadyRegister($data['id'])){
-				$userdata = [
-					'oauth_id'=>$data['id'],
-					'email'=>$data['email'], 
-					'updated_at'=>$currentDateTime,
-					'activation_status'=>'1'
-				];
-				$email = $data['email'];
-				$this->loginModel->updateUserData($userdata, $email);
-			}else{
-				$userdata = [
-					'oauth_id'=>$data['id'],
-					'email'=>$data['email'], 
-					'created_at'=>$currentDateTime,
-					'activation_status'=>'1',
-					'role'=>'participant'
-				];
-				$this->loginModel->insertUserData($userdata);
-			}
-			// session()->set("LoggedUserData", $userdata);
-			session()->set([
-				'oauth_id'=>$data['id'],
-				'email'=>$data['email'],
-				'role' => "participant",
-				'LoggedUserData' => TRUE
-			]);
-
-		}else{
-			session()->setFlashData("error", "Something went Wrong");
-			return redirect()->to(base_url());
-		}
-		session()->setFlashData("success", "Login Successful");
+		// }else{
+		// 	session()->setFlashData("error", "Something went Wrong");
+		// 	return redirect()->to(base_url());
+		// }
+		// session()->setFlashData("success", "Login Successful");
 		return redirect()->to(base_url()."/profile");
 	}
 
@@ -146,7 +125,11 @@ class AuthController extends BaseController
 			session()->setFlashData("error", "You have Logged Out, Please Login Again.");
 			return redirect()->to(base_url());
 		}
-		return view('pages/navigation/profile');
+        $data = [
+            "title" => session()->get("email"),
+            "cardButton" => 'Join The Webinar',
+          ];
+		return view('pages/navigation/profile', $data);
 	}
 
 	function logout() {
@@ -165,61 +148,43 @@ class AuthController extends BaseController
 
 	public function indexRegister() {
 		$data = [
-      "title" => "Sign Up",
-      "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
-    ];
+            "title" => "Sign Up",
+            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+        ];
 		return view('pages/authentication/register', $data);
 	}
 
 	public function register() {
-    if (!$this->validate([
-      'email' => [
-        'rules' => 'required|is_unique[users.email]',
-        'errors' => [
-          'required' => '{field} required',
-          'is_unique' => 'Email already used'
-        ]
-      ],
-      'password' => [
-        'rules' => 'required|min_length[4]|max_length[50]',
-        'errors' => [
-          'required' => '{field} required',
-          'min_length' => '{field} minimum 4 characters',
-          'max_length' => '{field} maximum 50 characters',
-        ]
-      ],
-      'password_confirm' => [
-        'rules' => 'matches[password]',
-        'errors' => [
-          'matches' => 'Confirm password does not match with the password',
-        ]
-      ],
-    ])) {
-      session()->setFlashdata('error', $this->validator->listErrors());
-	    return redirect()->back()->withInput();
+    // if (!$this->validate([
+    //   'email' => [
+    //     'rules' => 'required|is_unique[users.email]',
+    //     'errors' => [
+    //       'required' => '{field} required',
+    //       'is_unique' => 'Email already used'
+    //     ]
+    //   ],
+    //   'password' => [
+    //     'rules' => 'required|min_length[4]|max_length[50]',
+    //     'errors' => [
+    //       'required' => '{field} required',
+    //       'min_length' => '{field} minimum 4 characters',
+    //       'max_length' => '{field} maximum 50 characters',
+    //     ]
+    //   ],
+    //   'password_confirm' => [
+    //     'rules' => 'matches[password]',
+    //     'errors' => [
+    //       'matches' => 'Confirm password does not match with the password',
+    //     ]
+    //   ],
+    // ])) {
+    //   session()->setFlashdata('error', $this->validator->listErrors());
+	//     return redirect()->back()->withInput();
+    // }
+    if ($this->request->isAJAX()) {
+        return redirect()->to(base_url().'/login');
     }
-
-		$key = getenv('TOKEN_SECRET');
-    $payload = array(
-			"iat" => 1356999524,
-			"nbf" => 1357000000,
-			"exp" => time() + (60 * 60),
-			"email" => $this->request->getVar('email')
-    );
-		
-    $token = JWT::encode($payload, $key);
-
-    $users = new UsersModel();
-    $users->insert([
-      	'email' => $this->request->getVar('email'),
-		'role' => 'participant',
-      	'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
-		'activation_code' => $token
-    ]);
-
-		$this->sendActivationEmail($this->request->getVar('email'), $token);
-		session()->setFlashdata('success', 'Please check your email for activation');
-    return redirect()->to('/login');
+    return redirect()->to(base_url().'/login');
   }
 
 	function sendActivationEmail($emailTo, $token) { 
@@ -315,26 +280,7 @@ class AuthController extends BaseController
 	}
 
 	public function sendOtp() {
-		$otp = $this->request->getVar('otp');
-		$data = $this->resetModel->getDataByOtp($otp);
-		$minutes_to_add = 15;
-
-		$now = date("Y-m-d H:i:s");
-
-		if ($this->resetModel->isAlreadyRegisterByOtp($otp)) {
-			$exp = date('Y-m-d H:i:s', strtotime('+15 minutes', strtotime($data['created_at'])));
-			if($now > $exp) {
-				//echo "expired";
-				session()->setFlashdata('error', 'OTP expired');
-				return redirect()->back();
-			} else {
-				//echo "jos";
-				return redirect()->to(base_url()."/new-password");
-			}
-		} else {
-			session()->setFlashdata('error', 'OTP not available');
-			return redirect()->back();
-		}
+		return redirect()->to(base_url()."/new-password");
 	}
 
 	public function indexNewPassword() {
@@ -345,36 +291,36 @@ class AuthController extends BaseController
 	}
 
 	public function newPassword() {
-		if (!$this->validate([
-			'password' => [
-        'rules' => 'required|min_length[4]|max_length[50]',
-        'errors' => [
-          'required' => '{field} required',
-          'min_length' => '{field} minimum 4 characters',
-          'max_length' => '{field} maximum 50 characters',
-      	]
-      ],
-      'password_confirm' => [
-        'rules' => 'matches[password]',
-      	'errors' => [
-          'matches' => 'Confirm password does not match with the password',
-        ]
-      ],
-    ])) {
-      session()->setFlashdata('error', $this->validator->listErrors());
-      return redirect()->back()->withInput();
-    }
+	// 	if (!$this->validate([
+	// 		'password' => [
+    //     'rules' => 'required|min_length[4]|max_length[50]',
+    //     'errors' => [
+    //       'required' => '{field} required',
+    //       'min_length' => '{field} minimum 4 characters',
+    //       'max_length' => '{field} maximum 50 characters',
+    //   	]
+    //   ],
+    //   'password_confirm' => [
+    //     'rules' => 'matches[password]',
+    //   	'errors' => [
+    //       'matches' => 'Confirm password does not match with the password',
+    //     ]
+    //   ],
+    // ])) {
+    //   session()->setFlashdata('error', $this->validator->listErrors());
+    //   return redirect()->back()->withInput();
+    // }
 
-		$email = $this->session->get("email");
-		$updatePassword = [
-			'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
-		];
+		// $email = $this->session->get("email");
+		// $updatePassword = [
+		// 	'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
+		// ];
 
-		$this->loginModel->updateUserByEmail($updatePassword, $email);
-		$this->resetModel->deleteDataByEmail($email);
+		// $this->loginModel->updateUserByEmail($updatePassword, $email);
+		// $this->resetModel->deleteDataByEmail($email);
 
-		session()->setFlashdata('error', 'Please login with new password');
-		$this->session->destroy();
+		// session()->setFlashdata('error', 'Please login with new password');
+		// $this->session->destroy();
     return redirect()->to('/login');
 	}
 }
