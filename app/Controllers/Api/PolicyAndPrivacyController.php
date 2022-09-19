@@ -1,24 +1,28 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\Course;
+use App\Models\PolicyAndPrivacy;
 use CodeIgniter\HTTP\RequestInterface;
 
-class CourseController extends ResourceController
+class PolicyAndPrivacyController extends ResourceController
 {
     /**
      * Return an array of resource objects, themselves in array format
-     *
+     *`
      * @return mixed
      */
     public function index()
     {
-        $model = new Course();
-        $data = $model->orderBy('course_id', 'DESC')->findAll();
+        $model = new PolicyAndPrivacy();
+        $data = $model->orderBy('pap_id', 'DESC')->findAll();
 
-        return $this->respondCreated($data);
+        if(count($data) > 0){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Tidak ada data');
+        }
     }
 
     /**
@@ -28,13 +32,13 @@ class CourseController extends ResourceController
      */
     public function show($id = null)
     {
-        $model = new Course();
+        $model = new PolicyAndPrivacy();
 
         if($model->find($id)){
-            $data = $model->where('course_id', $id)->first();
+            $data = $model->where('pap_id', $id)->first();
             return $this->respond($data);
         }else{
-            return $this->failNotFound('Data not found');
+            return $this->failNotFound('Data tidak ditemukan');
         }
     }
 
@@ -55,20 +59,16 @@ class CourseController extends ResourceController
      */
     public function create()
     {
-        $model = new Course();
+        $model = new PolicyAndPrivacy();
 
         $rules = [
-            'title' => 'required|min_length[8]',
-            'description' => 'required|min_length[8]',
-            'price' => 'required|numeric',
+            'value' => 'required|min_length[8]',
         ];
 
         $response;
         if($this->validate($rules)) {
             $data = [
-              'title' => $this->request->getVar('title'),
-              'description' => $this->request->getVar('description'),
-              'price' => $this->request->getVar('price')
+              'value' => $this->request->getVar('value')
             ];
 
             $model->insert($data);
@@ -76,7 +76,7 @@ class CourseController extends ResourceController
                 'status'   => 201,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Course created successfully'
+                    'success' => 'Policy and privacy berhasil ditambahkan'
                 ]
             ];
         }else{
@@ -88,7 +88,7 @@ class CourseController extends ResourceController
         }
 
 
-        return $this->respondCreated($response);    
+        return $this->respondCreated($response);
     }
 
     /**
@@ -108,29 +108,31 @@ class CourseController extends ResourceController
      */
     public function update($id = null)
     {
-        $model = new Course();
+        $model = new PolicyAndPrivacy();
 
         $rules = [
-            'title' => 'required|min_length[8]',
-            'description' => 'required|min_length[8]',
-            'price' => 'required|numeric',
+            'value' => 'required|min_length[8]',
+        ];
+
+        $messages = [
+            "value" => [
+                "required" => "Kolom {field} harus di isi"
+            ],
         ];
 
         $response;
         if($model->find($id)){
-            if($this->validate($rules)) {
+            if($this->validate($rules, $messages)) {
                 $data = [
-                  'title' => $this->request->getRawInput('title'),
-                  'description' => $this->request->getRawInput('description'),
-                  'price' => $this->request->getRawInput('price')
+                  'value' => $this->request->getRawInput('value')
                 ];
 
-                $model->update($id, $data['title']);
+                $model->update($id, $data);
                 $response = [
                     'status'   => 201,
                     'error'    => null,
                     'messages' => [
-                        'success' => 'Course updated successfully'
+                        'success' => 'Policy and privacy berhasil di update'
                     ]
                 ];
             }else{
@@ -144,7 +146,7 @@ class CourseController extends ResourceController
             $response = [
                 'status'   => 400,
                 'error'    => true,
-                'messages' => 'Data not found',
+                'messages' => 'Data tidak ditemukan',
             ];
         }
 
@@ -159,7 +161,7 @@ class CourseController extends ResourceController
      */
     public function delete($id = null)
     {
-        $model = new Course();
+        $model = new PolicyAndPrivacy();
 
         if($model->find($id)){
             $model->delete($id);
@@ -167,12 +169,12 @@ class CourseController extends ResourceController
                 'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Course successfully deleted'
+                    'success' => 'Policy and privacy berhasil di hapus'
                 ]
             ];
             return $this->respondDeleted($response);
         }else{
-            return $this->failNotFound('Data not found');
+            return $this->failNotFound('Data tidak di temukan');
         }
     }
 }

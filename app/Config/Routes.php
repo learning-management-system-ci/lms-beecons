@@ -1,8 +1,6 @@
 <?php
 
 namespace Config;
-use App\Controllers\PolicyAndPrivacyController;
-use App\Controllers\CourseController;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -86,13 +84,25 @@ $routes->get('/send-otp', 'Home::sendOTP');
 $routes->get('/new-password', 'Home::newPassword');
 
 
-// API
-// $routes->get('/api/pap', 'PolicyAndPrivacyController::index');
-// $routes->post('/api/pap', 'PolicyAndPrivacyController::create');
-// $routes->put('/api/pap', 'PolicyAndPrivacyController::update');
-// $routes->post('/api/pap', 'PolicyAndPrivacyController::update');
-$routes->resource('/api/pap', ['controller' => 'PolicyAndPrivacyController'], ['only' => ['index', 'create', 'show', 'update', 'delete']]);
-$routes->resource('/api/course', ['controller' => 'CourseController'], ['only' => ['index', 'create', 'show', 'update', 'delete']]);
+
+$routes->group('api/pap/', static function ($routes) {
+    $routes->get('', 'Api\PolicyAndPrivacyController::index');
+    $routes->get('detail/(:num)', 'Api\PolicyAndPrivacyController::show/$1');
+    $routes->post('create', 'Api\PolicyAndPrivacyController::create');
+    $routes->put('update/(:num)', 'Api\PolicyAndPrivacyController::update/$1');
+    $routes->delete('delete/(:num)', 'Api\PolicyAndPrivacyController::delete/$1');
+});
+
+$routes->group('api/course/', static function ($routes) {
+    $routes->get('', 'Api\CourseController::index');
+    $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
+    $routes->post('create', 'Api\CourseController::create');
+    $routes->put('update/(:num)', 'Api\CourseController::update/$1');
+    $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
+    $routes->get('latest', 'Api\CourseController::latest');
+    $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
+    $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+});
 
 /*
  * --------------------------------------------------------------------
