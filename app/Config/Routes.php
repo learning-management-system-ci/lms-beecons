@@ -2,6 +2,9 @@
 
 namespace Config;
 
+use Doctrine\Common\Annotations\PhpParser;
+use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Php;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
