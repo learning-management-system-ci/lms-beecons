@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ForgotPasswordModel extends Model
+class ForgotPassword extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'reset_password';

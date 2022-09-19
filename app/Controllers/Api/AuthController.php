@@ -4,7 +4,7 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\UsersModel;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 use DateTime;
 use DateInterval;
@@ -20,7 +20,7 @@ class AuthController extends ResourceController {
     	$this->session->start();
 
 		require_once APPPATH. "../vendor/autoload.php";
-		$this->loginModel = new UsersModel();
+		$this->loginModel = new Users();
 		$this->googleClient = new \Google_Client();
 		$this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
 		$this->googleClient->setClientSecret("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");
@@ -65,7 +65,7 @@ class AuthController extends ResourceController {
 
 			$response = [
 				'status' => 500,
-				'error' => true,
+				'error' => 500,
 				'message' => $this->validator->getErrors(),
 				'data' => []
 			];
@@ -80,7 +80,7 @@ class AuthController extends ResourceController {
 
 			$response = [
 				'status' => 200,
-				'error' => false,
+				'success' => 200,
 				'message' => 'Akun berhasil dibuat, silakan periksa email Anda untuk aktivasi',
 				'data' => []
 			];
@@ -169,7 +169,7 @@ class AuthController extends ResourceController {
 
         $response = [
             'status' => 200,
-            'error' => false,
+            'success' => 200,
             'data' => [$token]
         ];
         return $this->respond($response);
