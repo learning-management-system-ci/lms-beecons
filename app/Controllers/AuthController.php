@@ -9,8 +9,6 @@ use DateInterval;
 
 class AuthController extends BaseController
 {
-  private $loginModel=NULL;
-	private $resetModel=NULL;
 	private $googleClient=NULL;
 	protected $session;
 
@@ -20,8 +18,6 @@ class AuthController extends BaseController
         helper("cookie");
 
 		require_once APPPATH. "../vendor/autoload.php";
-		$this->loginModel = new UsersModel();
-		$this->resetModel = new ForgotPasswordModel();
 		$this->googleClient = new \Google_Client();
 		$this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
 		$this->googleClient->setClientSecret("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");
@@ -44,9 +40,12 @@ class AuthController extends BaseController
 	}
 
 	public function login() {
+        echo $this->request->getBody();
+        var_dump($this->request);
     if ($this->request->isAJAX()) {
         $requestBody = json_decode($this->request->getBody());
         $token = $requestBody->access_token;
+        echo $token;
         $key = getenv('TOKEN_SECRET');
         try {
             $decoded = JWT::decode($token, $key, array('HS256'));

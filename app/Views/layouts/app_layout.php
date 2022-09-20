@@ -62,7 +62,8 @@
                                 </form>
                                 <i class="fa-solid fa-xmark" id="nav-btn-search-x"></i>
                             </div>
-                            <button class="nav-btn-icon mt-1" id="nav-btn-search" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false">
+                            <button class="nav-btn-icon mt-1" id="nav-btn-search" data-bs-toggle="dropdown"
+                                aria-expanded="false" data-bs-auto-close="false">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                             <div class="dropdown-menu mt-2" aria-labelledby="nav-btn-search">
@@ -129,71 +130,76 @@
                                     <h3 class="mb-0">Notifikasi</h3>
                                     <a href="" class="notifications-baca">Sudah dibaca</a>
                                 </div>
-                                <?php if (session()->get('LoggedUserData')) : ?>
-                                    <div class="content">
-                                        <h3>Kamu belum daftar</h3>
-                                        <p>
-                                            Silakan daftar terlebih dahulu untuk melihat detail keranjang belanja kamu dan melakukan transaksi pembelian
-                                        </p>
-                                        <a href="<?= base_url('/login') ?>" class="nav-link-btn">
-                                            <button class="my-btn btn-sign-in">Sign in</button>
+                                <?php if (!get_cookie("access_token")) : ?>
+                                <div class="content">
+                                    <h3>Kamu belum daftar</h3>
+                                    <p>
+                                        Silakan daftar terlebih dahulu untuk melihat detail keranjang belanja kamu dan
+                                        melakukan transaksi pembelian
+                                    </p>
+                                    <a href="<?= base_url('/login') ?>" class="nav-link-btn">
+                                        <button class="my-btn btn-sign-in">Sign in</button>
+                                    </a>
+                                </div>
+                                <?php else : ?>
+                                <div class="notifications-list">
+                                    <div class="notif unread">
+                                        <a href="" class="">
+                                            <div class="icon">
+                                                <img src="/image/home/notif-icon.png" alt="icon">
+                                            </div>
+                                            <div class="item">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+                                                    quae.
+                                                </p>
+                                                <span>1 jam yang lalu</span>
+                                            </div>
                                         </a>
                                     </div>
-                                <?php else : ?>
-                                    <div class="notifications-list">
-                                        <div class="notif unread">
-                                            <a href="" class="">
-                                                <div class="icon">
-                                                    <img src="/image/home/notif-icon.png" alt="icon">
-                                                </div>
-                                                <div class="item">
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.
-                                                    </p>
-                                                    <span>1 jam yang lalu</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="notif unread">
-                                            <a href="" class="">
-                                                <div class="icon">
-                                                    <img src="/image/home/notif-icon.png" alt="icon">
-                                                </div>
-                                                <div class="item">
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.
-                                                    </p>
-                                                    <span>1 jam yang lalu</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="notif">
-                                            <a href="" class="">
-                                                <div class="icon">
-                                                    <img src="/image/home/notif-icon.png" alt="icon">
-                                                </div>
-                                                <div class="item">
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.
-                                                    </p>
-                                                    <span>1 jam yang lalu</span>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="notif">
-                                            <a href="" class="">
-                                                <div class="icon">
-                                                    <img src="/image/home/notif-icon.png" alt="icon">
-                                                </div>
-                                                <div class="item">
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.
-                                                    </p>
-                                                    <span>1 jam yang lalu</span>
-                                                </div>
-                                            </a>
-                                        </div>
+                                    <div class="notif unread">
+                                        <a href="" class="">
+                                            <div class="icon">
+                                                <img src="/image/home/notif-icon.png" alt="icon">
+                                            </div>
+                                            <div class="item">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+                                                    quae.
+                                                </p>
+                                                <span>1 jam yang lalu</span>
+                                            </div>
+                                        </a>
                                     </div>
+                                    <div class="notif">
+                                        <a href="" class="">
+                                            <div class="icon">
+                                                <img src="/image/home/notif-icon.png" alt="icon">
+                                            </div>
+                                            <div class="item">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+                                                    quae.
+                                                </p>
+                                                <span>1 jam yang lalu</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="notif">
+                                        <a href="" class="">
+                                            <div class="icon">
+                                                <img src="/image/home/notif-icon.png" alt="icon">
+                                            </div>
+                                            <div class="item">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+                                                    quae.
+                                                </p>
+                                                <span>1 jam yang lalu</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                                 <?php endif ?>
                             </div>
                         </div>

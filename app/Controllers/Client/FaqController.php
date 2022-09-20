@@ -10,7 +10,7 @@ class FaqController extends BaseController
 
 	public function __construct()
 	{
-		$this->FaqModel = new FaqModel();
+        
 	}
 
 	public function index()

@@ -14,13 +14,11 @@
                 eveniet dicta?</p>
         </div>
         <div class="faq-list"></div>
-        <?= $this->section('js-component') ?>
-        <script src="../../../js/faq/get_faqs.js"></script>
-        <?= $this->endSection() ?>
     </section>
 </div>
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>
+<script src="../../../js/faq/get_faqs.js"></script>
 <script src="../../../js/home/faq.js"></script>
 <?= $this->endSection() ?>

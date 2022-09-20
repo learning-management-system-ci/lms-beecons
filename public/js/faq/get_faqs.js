@@ -1,6 +1,5 @@
-$.getJSON(`/api/faq/`, function (
-    data) {
-    var resources = data.faq
+$.getJSON(`/api/faq`, function (data) {
+    var resources = data
         .sort((a, b) => a.faq_id - b.faq_id)
         .map(({
             faq_id,
@@ -24,5 +23,5 @@ $.getJSON(`/api/faq/`, function (
                 </div>`);
         });
 
-    $(".faq-list").html(resources);
+    $("div.faq-list").html(resources);
 });
