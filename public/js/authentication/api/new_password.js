@@ -9,7 +9,7 @@ $("#new-password").submit(function (event) {
         password_confirm_passed = $form.find("input[name='password_confirm']").val(),
         url = $form.attr("action");
 
-    var email_passed = localStorage.getItem("email")
+    var email_passed = Cookies.get("email")
 
     // Send the data using post
     var posting = $.post(url, { csrf_test_name: csrf_test_name_passed, password: password_passed, password_confirm: password_confirm_passed, email: email_passed });

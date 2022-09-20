@@ -24,8 +24,10 @@
                     integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
                     crossorigin="anonymous">
                 </script>
+                <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
                 <?= $this->renderSection('authentication-component') ?>
                 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+                <script src="https://accounts.google.com/gsi/client" async defer></script>
                 <?= $this->renderSection('authentication-js-logic')?>
                 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
                 <?= $this->renderSection('authentication-js')?>

@@ -38,10 +38,20 @@
                         </div>
                         <hr class="my-1 mb-2">
                         <div class="row ">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="row">
-                                    <div class="col-6 text-start">Birth Date</div>
-                                    <div class="col-6 text-end">aijdbash</div>
+                                    <div class="text-start">Tanggal Lahir</div>
+                                    <div class="text-start">No HP</div>
+                                    <div class="text-start">Email</div>
+                                    <div class="text-start">LinkedIn</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="text-end">aijdbash</div>
+                                    <div class="text-end">aijdbash</div>
+                                    <div class="text-end">aijdbash</div>
+                                    <div class="text-end">aijdbash</div>
                                 </div>
                             </div>
                         </div>
@@ -94,6 +104,10 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+<?= $this->section('js-component') ?>
+<script src="../../../js/api/profile/index.js"></script>
+<?= $this->endSection() ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>

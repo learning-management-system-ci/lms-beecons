@@ -1,3 +1,20 @@
+window.onload = function () {
+    google.accounts.id.initialize({
+        client_id: "229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com", // Replace with your Google Client ID
+        login_uri: "http://localhost:8080/login/loginWithGoogle/submit" // We choose to handle the callback in server side, so we include a reference to a endpoint that will handle the response
+    });
+    // You can skip the next instruction if you don't want to show the "Sign-in" button
+    google.accounts.id.renderButton(
+        document.getElementById(
+            "buttonDiv"), // Ensure the element exist and it is a div to display correcctly
+        {
+            theme: "outline",
+            size: "large"
+        } // Customization attributes
+    );
+    google.accounts.id.prompt(); // Display the One Tap dialog
+}
+
 $("#login").submit(function (event) {
     // Stop form from submitting normally
     event.preventDefault();
@@ -14,15 +31,14 @@ $("#login").submit(function (event) {
 
     posting.done(function (data) {
         res = $(data)
-        localStorage.setItem('access_token', res[0].data[0]);
-        document.cookie = 'access_token=' + res[0].data[0];
+        Cookies.set('access_token', res[0].data[0], { expires: 1 / 24 });
         $('#login').unbind("submit");
 
         $.ajax({
             type: "POST",
             url: "/login",
             data: JSON.stringify({
-                "access_token": localStorage.getItem("access_token"),
+                "access_token": Cookies.get("access_token"),
             }),
             success: function () {
                 window.location.reload();

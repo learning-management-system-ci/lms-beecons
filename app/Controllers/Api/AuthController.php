@@ -18,6 +18,7 @@ class AuthController extends ResourceController {
 	function __construct(){
     	$this->session = \Config\Services::session();
     	$this->session->start();
+        helper("cookie");
 
 		require_once APPPATH. "../vendor/autoload.php";
 		$this->loginModel = new Users();
@@ -30,6 +31,7 @@ class AuthController extends ResourceController {
 	}
 
     public function loginWithGoogle() {
+        echo "Masokkkkk";
 		$token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
 		if(!isset($token['error'])){
 			$this->googleClient->setAccessToken($token['access_token']);
@@ -79,7 +81,7 @@ class AuthController extends ResourceController {
 			];
 			// session()->setFlashData("error", "Something went Wrong");
 			$this->respondCreated($response);
-			return redirect()->to(base_url("/login/loginWithGoogle/submit"));
+			return;
 		}
 		$response = [
 			'status' => 200,
@@ -88,7 +90,8 @@ class AuthController extends ResourceController {
 		];
 		// session()->setFlashData("success", "Login Successful");
 		$this->respondCreated($response);
-		return redirect()->to(base_url()."/login/loginWithGoogle/submit");
+        set_cookie("access_token", strval($token));
+		return redirect()->to(base_url()."/login");
 	}
 
 	public function register() {

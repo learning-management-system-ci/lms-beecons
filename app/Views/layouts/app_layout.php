@@ -25,6 +25,7 @@
 </head>
 
 <body>
+    <?php helper("cookie");?>
     <nav class="navbar navbar-expand-md navbar-light shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand" href="">
@@ -197,7 +198,7 @@
                             </div>
                         </div>
                     </li>
-                    <?php if (!session()->get('LoggedUserData')) : ?>
+                    <?php if (!get_cookie("access_token")) : ?>
                     <li class="nav-item">
                         <a href="<?= base_url('/login') ?>" class="nav-link-btn">
                             <button class="my-btn btn-sign-in">Sign in</button>

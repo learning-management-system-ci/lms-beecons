@@ -8,7 +8,7 @@ $("#forgot-password").submit(function (event) {
         email_passed = $form.find("input[name='email']").val(),
         url = $form.attr("action");
 
-    localStorage.setItem('email', email_passed);
+    Cookies.set('email', email_passed, { expires: 1 / 96 });
 
     // Send the data using post
     var posting = $.post(url, { csrf_test_name: csrf_test_name_passed, email: email_passed });

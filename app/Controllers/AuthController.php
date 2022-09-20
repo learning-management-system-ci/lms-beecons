@@ -17,6 +17,7 @@ class AuthController extends BaseController
 	function __construct(){
     	$this->session = \Config\Services::session();
     	$this->session->start();
+        helper("cookie");
 
 		require_once APPPATH. "../vendor/autoload.php";
 		$this->loginModel = new UsersModel();
@@ -31,7 +32,7 @@ class AuthController extends BaseController
 
 	public function indexLogin()
 	{
-		if(session()->get("LoggedUserData")){
+		if(get_cookie("access_token")){
 			session()->setFlashData("error", "You have Already Logged In");
 			return redirect()->to(base_url()."/profile");
 		}
@@ -75,6 +76,7 @@ class AuthController extends BaseController
   
 	public function loginWithGoogle()
 	{
+        echo "Masokkkkk";
 		// $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
 		// if(!isset($token['error'])){
 		// 	$this->googleClient->setAccessToken($token['access_token']);
@@ -121,12 +123,13 @@ class AuthController extends BaseController
 	}
 
 	public function profile() {
-		if(!session()->get("LoggedUserData")){
+		if(!get_cookie("access_token")){
 			session()->setFlashData("error", "You have Logged Out, Please Login Again.");
 			return redirect()->to(base_url());
 		}
         $data = [
             "title" => session()->get("email"),
+            "profile" => "",
             "cardButton" => 'Join The Webinar',
           ];
 		return view('pages/navigation/profile', $data);
@@ -186,44 +189,6 @@ class AuthController extends BaseController
     }
     return redirect()->to(base_url().'/login');
   }
-
-	function sendActivationEmail($emailTo, $token) { 
-  	//$to = $this->request->getVar('mailTo');
-	  $subject = 'subject';
-	  $message = base_url()."/activateuser?token=".$token;
-		
-	  $email = \Config\Services::email();
-	  $email->setTo($emailTo);
-	  $email->setFrom('hendrikusozzie@gmail.com', 'Confirm Registration');
-		
-	  $email->setSubject($subject);
-	  $email->setMessage($message);
-	  if ($email->send()) {
-      echo 'Email successfully sent';
-    } else{
-      $data = $email->printDebugger(['headers']);
-      print_r($data);
-    }
-  }
-
-	public function activateUser() {
-		$token = $this->request->getVar('token');
-		//echo $token;
-		$key = getenv('TOKEN_SECRET');
-		try {
-			$decoded = JWT::decode($token, $key, array('HS256'));
-		}catch(Exception $e){
-		 	echo 'Caught exception: ',  $e->getMessage(), "\n";
-			return ;
-		}
-		$users = new UsersModel();
-      $users->updateUserByEmail([
-        'activation_status' => 1,
-				'activation_code' => ''
-      ], $decoded->email);
-		session()->setFlashdata('error', 'Your account has been successfully activated, please login');
-		return redirect()->to(base_url()."/login");
-	}
 
 	public function indexforgotPassword() {
 		$data = [
