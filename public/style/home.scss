@@ -236,7 +236,8 @@ h6 {
     }
 
     .nav-item-icon .dropdown-menu[data-bs-popper] {
-        left: calc(100% - 360px);
+        right: 0;
+        left: auto;
     }
 
     .nav-item-search .nav-btn-icon {
@@ -248,6 +249,7 @@ h6 {
 
         .nav-search-input {
             position: relative;
+            min-width: 20rem;
 
             input {
                 padding-right: 25px;
@@ -268,7 +270,7 @@ h6 {
             padding-top: 0;
             font-size: .8rem;
             overflow-y: auto;
-            width: 25rem;
+            // width: 25rem;
 
             &::-webkit-scrollbar {
                 width: 5px;

@@ -26,7 +26,7 @@
 
 <body>
     <?php helper("cookie");?>
-    <nav class="navbar navbar-expand-md navbar-light shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand" href="">
                 <img src="../../../image/logo.png" alt="logo">
@@ -36,7 +36,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarApp">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
                     <li class="nav-item">
                         <a class="nav-link mx-2 active" aria-current="page" href="/">Home</a>
                     </li>
@@ -53,8 +53,8 @@
                         <a class="nav-link mx-2 active" href="<?= base_url('/about-us') ?>">About Us</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item me-4">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
+                    <li class="nav-item me-3">
                         <div class="nav-item-search">
                             <div class="nav-search-input">
                                 <form action="">
@@ -109,7 +109,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item me-4">
+                    <li class="nav-item me-3">
                         <div class="dropdown nav-item-icon">
                             <button class="nav-btn-icon mt-1" id="dropdown-cart" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -118,7 +118,7 @@
                             </button>
                         </div>
                     </li>
-                    <li class="nav-item me-4">
+                    <li class="nav-item me-3">
                         <div class="dropdown nav-item-icon">
                             <button class="nav-btn-icon mt-1" id="dropdown-notification" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
