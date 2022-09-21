@@ -1,7 +1,7 @@
 <?=$this->extend('layouts/authentication_layout')?>
 
 <?=$this->section('authentication-component')?>
-<form method="post" action="<?= base_url(); ?>/register" id="sign-up" class=" form d-flex flex-column"
+<form action="<?= base_url('/api/register'); ?>" id="sign-up" class=" form d-flex flex-column"
     style="border: 2px solid rgba(236, 236, 236, 0); width: 290px;">
     <p class="welcome-text">Welcome</p>
     <p class="sign-in-text">Sign Up</p>
@@ -15,7 +15,10 @@
     <div class="option d-flex my-2">
         <div class="checkbox d-flex align-items-start">
             <input class="me-2" type="checkbox" id="terms" name="terms" style="height: 15px;">
-            <label for="terms">By signing up you agree to our Terms & Condition and Privacy Policy.*</label>
+            <label for="terms">By signing up you agree to our <a href="<?= base_url('/terms-and-conditions') ?>">Terms &
+                    Condition and
+                    Privacy
+                    Policy.*</a></label>
         </div>
     </div>
     <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Sign
@@ -27,7 +30,13 @@
 </form>
 <?= $googleButton; ?>
 <?= $this->include('components/authentication/error_modal') ?>
-<?=$this->endSection()?>
+<?= $this->endSection() ?>
+<?=$this->section('authentication-js-logic')?>
+<script type="text/javascript">
+    base_url = '<?=base_url()?>';
+</script>
+<script src="js/authentication/api/register.js"></script>
+<?= $this->endSection() ?>
 <?=$this->section('authentication-js')?>
-<script src="js/authentication/register.js" />
-<?=$this->endSection()?>
+<script src="js/authentication/register.js"></script>
+<?= $this->endSection() ?>

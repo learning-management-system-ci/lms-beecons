@@ -6,10 +6,6 @@
 
 <?= $this->section('app-component') ?>
 <div class="container mt-4">
-  <section class="navigation">
-    <p class="mb-4">Home > <a href="#"> About Us</a></p>
-    <hr>
-  </section>
   <section class="about-us my-6">
     <h3 class="about-us-title my-4">Founder</h3>
     <div class="about-us-founder">

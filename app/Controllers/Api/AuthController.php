@@ -18,6 +18,7 @@ class AuthController extends ResourceController {
 	function __construct(){
     	$this->session = \Config\Services::session();
     	$this->session->start();
+        helper("cookie");
 
 		require_once APPPATH. "../vendor/autoload.php";
 		$this->loginModel = new Users();
@@ -27,6 +28,70 @@ class AuthController extends ResourceController {
 		$this->googleClient->setRedirectUri("http://localhost:8080/login/loginWithGoogle");
 		$this->googleClient->addScope("email");
 		$this->googleClient->addScope("profile");
+	}
+
+    public function loginWithGoogle() {
+        echo "Masokkkkk";
+		$token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
+		if(!isset($token['error'])){
+			$this->googleClient->setAccessToken($token['access_token']);
+			session()->set("AccessToken", $token['access_token']);
+
+			$googleService = new \Google\Service\Oauth2($this->googleClient);
+			$data = $googleService->userinfo->get();
+			$currentDateTime = date("Y-m-d H:i:s");
+			// echo "<pre>"; print_r($data);die;
+			$userdata=array();
+			if($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])){
+			// if($this->loginModel->isAlreadyRegister($data['id'])){
+				$userdata = [
+					'oauth_id'=>$data['id'],
+					'email'=>$data['email'], 
+					'updated_at'=>$currentDateTime,
+					'activation_status'=>'1'
+				];
+				$email = $data['email'];
+				$this->loginModel->updateUserData($userdata, $email);
+			}else{
+				$userdata = [
+					'oauth_id'=>$data['id'],
+					'email'=>$data['email'], 
+					'created_at'=>$currentDateTime,
+					'activation_status'=>'1',
+					'role'=>'participant'
+				];
+				$this->loginModel->save($userdata);
+			}
+      $key = getenv('TOKEN_SECRET');
+      $payload = [
+				'iat'   => 1356999524,
+				'nbf'   => 1357000000,
+				"exp" => time() + (60 * 60),
+				'uid'   => $data['id'],
+				'email' => $data['email'],
+      ];
+      $token = JWT::encode($payload, $key, 'HS256');
+
+		}else{
+      $response = [
+				'status' => 500,
+				'error' => true,
+				'message' => 'Something went Wrong',
+				'data' => []
+			];
+			// session()->setFlashData("error", "Something went Wrong");
+			$this->respondCreated($response);
+			return;
+		}
+		$response = [
+			'status' => 200,
+			'error' => false,
+			'data' => [$token]
+		];
+		// session()->setFlashData("success", "Login Successful");
+		$this->respondCreated($response);
+        set_cookie("access_token", strval($token));
+		return redirect()->to(base_url()."/login");
 	}
 
 	public function register() {

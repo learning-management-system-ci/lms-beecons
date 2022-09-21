@@ -12,6 +12,9 @@ class Users extends Model
 	function isAlreadyRegister($authid){
 		return $this->db->table('users')->getWhere(['oauth_id'=>$authid])->getRowArray()>0?true:false;
 	}
+    function isAlreadyRegisterByEmail($email){
+		return $this->db->table('users')->getWhere(['email'=>$email])->getRowArray()>0?true:false;
+	}
 	function updateUserData($userdata, $authid){
 		$this->db->table("users")->where(['oauth_id'=>$authid])->update($userdata);
 	}
