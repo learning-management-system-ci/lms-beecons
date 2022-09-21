@@ -8,7 +8,11 @@ use CodeIgniter\HTTP\RequestInterface;
 
 class CourseController extends ResourceController
 {
-
+    /**
+     * Return an array of resource objects, themselves in array format
+     *
+     * @return mixed
+     */
     public function index()
     {
         $model = new Course();
@@ -21,6 +25,11 @@ class CourseController extends ResourceController
         }
     }
 
+    /**
+     * Return the properties of a resource object
+     *
+     * @return mixed
+     */
     public function show($id = null)
     {
         $model = new Course();
@@ -33,6 +42,21 @@ class CourseController extends ResourceController
         }
     }
 
+    /**
+     * Return a new resource object, with default properties
+     *
+     * @return mixed
+     */
+    public function new()
+    {
+        //
+    }
+
+    /**
+     * Create a new resource object, from "posted" parameters
+     *
+     * @return mixed
+     */
     public function create()
     {
         $model = new Course();
@@ -46,19 +70,16 @@ class CourseController extends ResourceController
 
         $messages = [
             "title" => [
-                "required" => "{field}  tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
+                "required" => "Kolom {field} harus di isi"
             ],
             "description" => [
-                "required" => "{field}  tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
+                "required" => "Kolom {field} harus di isi"
             ],
             "price" => [
-                "required" => "field}  tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor",
+                "required" => "Kolom {field} harus di isi"
             ],
             "thumbnail" => [
-                "required" => "{field}  tidak boleh kosong"
+                "required" => "Kolom {field} harus di isi"
             ],
         ];
 
@@ -74,15 +95,15 @@ class CourseController extends ResourceController
             $model->insert($data);
             $response = [
                 'status'   => 201,
-                'success'    => 201,
+                'error'    => null,
                 'messages' => [
-                    'success' => 'Course berhasil dibuat'
+                    'success' => 'Course berhasil ditambahkan'
                 ]
             ];
         }else{
             $response = [
                 'status'   => 400,
-                'error'    => 400,
+                'error'    => true,
                 'messages' => $this->validator->getErrors(),
             ];
         }
@@ -91,6 +112,21 @@ class CourseController extends ResourceController
         return $this->respondCreated($response);    
     }
 
+    /**
+     * Return the editable properties of a resource object
+     *
+     * @return mixed
+     */
+    public function edit($id = null)
+    {
+        //
+    }
+
+    /**
+     * Add or update a model resource, from "posted" properties
+     *
+     * @return mixed
+     */
     public function update($id = null)
     {
         $model = new Course();
@@ -104,19 +140,16 @@ class CourseController extends ResourceController
 
         $messages = [
             "title" => [
-                "required" => "{field}  tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
+                "required" => "Kolom {field} harus di isi"
             ],
             "description" => [
-                "required" => "{field}  tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
+                "required" => "Kolom {field} harus di isi"
             ],
             "price" => [
-                "required" => "field}  tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor",
+                "required" => "Kolom {field} harus di isi"
             ],
             "thumbnail" => [
-                "required" => "{field}  tidak boleh kosong"
+                "required" => "Kolom {field} harus di isi"
             ],
         ];
 
@@ -133,22 +166,22 @@ class CourseController extends ResourceController
                 $model->update($id, $data['title']);
                 $response = [
                     'status'   => 201,
-                    'success'    => 201,
+                    'error'    => null,
                     'messages' => [
-                        'success' => 'Course berhasil di perbarui'
+                        'success' => 'Course berhasil di perbaharui'
                     ]
                 ];
             }else{
                 $response = [
                     'status'   => 400,
-                    'error'    => 400,
+                    'error'    => true,
                     'messages' => $this->validator->getErrors(),
                 ];
             }
         }else{
             $response = [
                 'status'   => 400,
-                'error'    => 400,
+                'error'    => true,
                 'messages' => 'Data tidak ditemukan',
             ];
         }
@@ -157,6 +190,11 @@ class CourseController extends ResourceController
         return $this->respondCreated($response);
     }
 
+    /**
+     * Delete the designated resource object from the model
+     *
+     * @return mixed
+     */
     public function delete($id = null)
     {
         $model = new Course();
@@ -165,7 +203,7 @@ class CourseController extends ResourceController
             $model->delete($id);
             $response = [
                 'status'   => 200,
-                'success'    => 200,
+                'error'    => null,
                 'messages' => [
                     'success' => 'Course berhasil di hapus'
                 ]

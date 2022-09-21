@@ -9,12 +9,12 @@ class Email extends BaseConfig
     /**
      * @var string
      */
-    public $fromEmail = 'hendrikusozzie@gmail.com';
+    public $fromEmail;
 
     /**
      * @var string
      */
-    public $fromName = 'beecons-learning-platform';
+    public $fromName;
 
     /**
      * @var string
@@ -33,7 +33,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $protocol = 'smtp';
+    public $protocol = 'mail';
 
     /**
      * The server path to Sendmail.
@@ -47,35 +47,35 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPHost = 'smtp.gmail.com';
+    public $SMTPHost;
 
     /**
      * SMTP Username
      *
      * @var string
      */
-    public $SMTPUser = 'hendrikusozzie@gmail.com';
+    public $SMTPUser;
 
     /**
      * SMTP Password
      *
      * @var string
      */
-    public $SMTPPass = 'bipbojivjxuquzmp';
+    public $SMTPPass;
 
     /**
      * SMTP Port
      *
      * @var int
      */
-    public $SMTPPort = 465;
+    public $SMTPPort = 25;
 
     /**
      * SMTP Timeout (in seconds)
      *
      * @var int
      */
-    public $SMTPTimeout = 60;
+    public $SMTPTimeout = 5;
 
     /**
      * Enable persistent SMTP connections
@@ -89,7 +89,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPCrypto = 'ssl';
+    public $SMTPCrypto = 'tls';
 
     /**
      * Enable word-wrap
@@ -110,7 +110,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $mailType = 'html';
+    public $mailType = 'text';
 
     /**
      * Character set (utf-8, iso-8859-1, etc.)

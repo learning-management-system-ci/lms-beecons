@@ -1,110 +1,119 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap');
 @mixin font($weight) {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: $weight;
+        font-family: 'Plus Jakarta Sans';
+        font-style: normal;
+        font-weight: $weight;
 }
 
-body {
-  background-color: #e8f9fd;
-  overflow-x: hidden;
+body{
+    background-color: #E8F9FD;
+    overflow-x: hidden;
 }
 
 .page-flex {
-  height: 100vh !important;
-  gap: 10%;
+    height: 100vh !important;
+    gap: 100px;
 }
 
-.logo {
-  position: absolute;
-  right: 50px !important;
-  top: 60px !important;
-}
 
-.mw-290 {
-  min-width: 290px;
-}
-
-form {
-  .welcome-text {
-    @include font($weight: 400);
-  }
-
-  .sign-in-text {
-    @include font($weight: 700);
-    margin: 0 12px 0 0 !important;
-    font-size: 20px;
-  }
-  .info-text {
-    @include font($weight: 400);
-    font-size: 13px;
-  }
-  .form-label {
-    @include font($weight: 500);
-  }
-
-  input {
-    @include font($weight: 400);
-    border: 1px solid #9b9b9b;
+.square {
+    width: 550px;
+    height: 550px;
+    background: #5446D1;
     border-radius: 7px;
-    height: 40px;
-    padding-left: 20px;
-    font-size: 12px;
-  }
-
-  .option {
-    .checkbox {
-      label {
-        @include font($weight: 400);
-        font-size: 11px !important;
-        margin-left: 2px;
-        height: 15px;
-      }
-    }
-    a {
-      @include font($weight: 400);
-      font-size: 11px !important;
-    }
-  }
-  .sign-up {
-    @include font($weight: 300);
-    font-size: 12px;
-    margin-top: 20px !important;
-  }
-  .horizontal {
-    @include font($weight: 500);
-    font-size: 12px;
-    text-align: center;
-    color: #1f1f1f;
-  }
-
-  // }
-  .horizontal::before,
-  .horizontal::after {
-    background-color: #000;
-    content: "";
-    display: inline-block;
-    height: 1px;
-    position: relative;
-    vertical-align: middle;
-    width: 40%;
-  }
-  .horizontal::after {
-    margin-left: 10px;
-  }
-  .horizontal::before {
-    margin-right: 10px;
-  }
 }
 
-a {
-  border: none !important;
-  padding: 0% !important;
-  width: auto;
-  border-radius: 30px;
-  background-color: transparent !important;
-  img {
-    width: 290px;
-    height: 45px;
-  }
+
+.logo{
+    position: absolute;
+    top: 35px;
+    right: 170px;
+
+}
+
+form{
+    .welcome-text{
+        @include font($weight: 400)
+    }
+
+    .sign-in-text{
+        @include font($weight: 700);
+        margin: 0 12px 0 0 !important;
+        font-size: 20px;
+    }
+    .info-text{
+        @include font($weight: 400);
+        font-size: 13px;
+    }
+    .form-label{
+        @include font($weight: 500);
+    }
+
+    input{
+        @include font($weight: 400);
+        border: 1px solid #9B9B9B;
+        border-radius: 7px;
+        height: 40px;
+        padding-left: 20px;
+        font-size: 12px;
+    }
+
+    .option{
+        .checkbox{
+            
+            label{
+                @include font($weight: 400);
+                font-size: 11px !important;
+                margin-left: 2px;
+            }
+        }
+        a{
+            @include font($weight: 400);
+            font-size: 11px !important;
+        }
+    }
+    .sign-up{
+        @include font($weight: 300);
+        font-size: 12px;
+         margin-top: 20px !important;
+    }
+    .horizontal{
+        
+        @include font($weight: 500);
+        font-size: 12px;
+        text-align: center; 
+        color: #1F1F1F;
+        }
+
+    // }
+    .horizontal::before,
+    .horizontal::after {
+        background-color: #000;
+        content: "";
+        display: inline-block;
+        height: 1px;
+        position: relative;
+        vertical-align: middle;
+        width: 40%;
+    }
+    .horizontal::after{
+        margin-left: 10px;
+    }
+    .horizontal::before{
+        margin-right: 10px;
+    }
+
+
+    .google{
+        border: none !important;
+        padding: 0% !important;
+        width: auto;
+        border-radius: 30px;
+        background-color: transparent !important;
+        img{
+            width: 290px;
+            height: 45px;
+            
+        }
+    }
 }

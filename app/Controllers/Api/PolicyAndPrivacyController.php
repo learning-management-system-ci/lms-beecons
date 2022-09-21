@@ -8,6 +8,11 @@ use CodeIgniter\HTTP\RequestInterface;
 
 class PolicyAndPrivacyController extends ResourceController
 {
+    /**
+     * Return an array of resource objects, themselves in array format
+     *`
+     * @return mixed
+     */
     public function index()
     {
         $model = new PolicyAndPrivacy();
@@ -20,6 +25,11 @@ class PolicyAndPrivacyController extends ResourceController
         }
     }
 
+    /**
+     * Return the properties of a resource object
+     *
+     * @return mixed
+     */
     public function show($id = null)
     {
         $model = new PolicyAndPrivacy();
@@ -32,6 +42,21 @@ class PolicyAndPrivacyController extends ResourceController
         }
     }
 
+    /**
+     * Return a new resource object, with default properties
+     *
+     * @return mixed
+     */
+    public function new()
+    {
+        //
+    }
+
+    /**
+     * Create a new resource object, from "posted" parameters
+     *
+     * @return mixed
+     */
     public function create()
     {
         $model = new PolicyAndPrivacy();
@@ -40,30 +65,24 @@ class PolicyAndPrivacyController extends ResourceController
             'value' => 'required|min_length[8]',
         ];
 
-        $messages = [
-            "value" => [
-                "required" => "{field} tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-        ];
-
         $response;
-        if($this->validate($rules, $messages)) {
+        if($this->validate($rules)) {
             $data = [
-              'value' =>  $this->request->getVar('value')
+              'value' => $this->request->getVar('value')
             ];
+
             $model->insert($data);
             $response = [
                 'status'   => 201,
-                'success'    => 201,
+                'error'    => null,
                 'messages' => [
-                    'success' => 'Policy and privacy berhasil dibuat'
+                    'success' => 'Policy and privacy berhasil ditambahkan'
                 ]
             ];
         }else{
             $response = [
                 'status'   => 400,
-                'error'    => 400,
+                'error'    => true,
                 'messages' => $this->validator->getErrors(),
             ];
         }
@@ -72,6 +91,21 @@ class PolicyAndPrivacyController extends ResourceController
         return $this->respondCreated($response);
     }
 
+    /**
+     * Return the editable properties of a resource object
+     *
+     * @return mixed
+     */
+    public function edit($id = null)
+    {
+        //
+    }
+
+    /**
+     * Add or update a model resource, from "posted" properties
+     *
+     * @return mixed
+     */
     public function update($id = null)
     {
         $model = new PolicyAndPrivacy();
@@ -82,8 +116,7 @@ class PolicyAndPrivacyController extends ResourceController
 
         $messages = [
             "value" => [
-                "required" => "{field} tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
+                "required" => "Kolom {field} harus di isi"
             ],
         ];
 
@@ -97,22 +130,22 @@ class PolicyAndPrivacyController extends ResourceController
                 $model->update($id, $data);
                 $response = [
                     'status'   => 201,
-                    'success'    => 201,
+                    'error'    => null,
                     'messages' => [
-                        'success' => 'Policy and privacy berhasil di perbarui'
+                        'success' => 'Policy and privacy berhasil di update'
                     ]
                 ];
             }else{
                 $response = [
                     'status'   => 400,
-                    'error'    => 400,
+                    'error'    => true,
                     'messages' => $this->validator->getErrors(),
                 ];
             }
         }else{
             $response = [
                 'status'   => 400,
-                'error'    => 400,
+                'error'    => true,
                 'messages' => 'Data tidak ditemukan',
             ];
         }
@@ -121,6 +154,11 @@ class PolicyAndPrivacyController extends ResourceController
         return $this->respond($response);
     }
 
+    /**
+     * Delete the designated resource object from the model
+     *
+     * @return mixed
+     */
     public function delete($id = null)
     {
         $model = new PolicyAndPrivacy();
@@ -129,7 +167,7 @@ class PolicyAndPrivacyController extends ResourceController
             $model->delete($id);
             $response = [
                 'status'   => 200,
-                'success'    => 200,
+                'error'    => null,
                 'messages' => [
                     'success' => 'Policy and privacy berhasil di hapus'
                 ]
