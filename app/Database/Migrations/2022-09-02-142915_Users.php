@@ -6,14 +6,19 @@ use CodeIgniter\Database\Migration;
 
 class Users extends Migration
 {
-    public function up()
-    {
-      $this->forge->addField([
+	public function up()
+	{
+		$this->forge->addField([
 			'id'          => [
 				'type'           => 'INT',
 				'constraint'     => 5,
 				'unsigned'       => true,
 				'auto_increment' => true
+			],
+			'job_id'          => [
+				'type'           => 'INT',
+				'constraint'     => 5,
+				'unsigned'       => true,
 			],
 			'oauth_id' => [
 				'type'           => 'VARCHAR',
@@ -23,37 +28,58 @@ class Users extends Migration
 			'fullname'       => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 255,
-        		'null'           => true,
+				'null'           => true,
 			],
 			'email'      => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 100,
 			],
-      		'password' => [
+			'password' => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 255,
 			],
-			'phone_number'      => [
-				'type'           => 'INT',
+			'date_birth'      => [
+				'type'           => 'DATE',
+			],
+			'address'      => [
+				'type'           => 'VARCHAR',
 				'constraint'     => 50,
 			],
-      'activation_code'      => [
+			'phone_number'      => [
+				'type'           => 'VARCHAR',
+				'constraint'     => 50,
+			],
+			'linkedin'      => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 255,
 			],
-		'activation_status'      => [
+			'profile_picture'      => [
+				'type'           => 'VARCHAR',
+				'constraint'     => 255,
+			],
+			'role'      => [
+				'type'          => 'ENUM("admin", "partner", "author", "member")',
+				'default' 		=> 'member',
+				'null' 			=> false,
+			],
+			'activation_code'      => [
+				'type'           => 'VARCHAR',
+				'constraint'     => 255,
+			],
+			'activation_status'      => [
 				'type'           => 'BOOL',
 			],
-      'created_at datetime default current_timestamp',
-      'updated_at datetime default current_timestamp on update current_timestamp',
+			'created_at datetime default current_timestamp',
+			'updated_at datetime default current_timestamp on update current_timestamp',
 		]);
 
-        $this->forge->addKey('id', TRUE);
-        $this->forge->createTable('users', TRUE);
-    }
+		$this->forge->addKey('id', TRUE);
+		$this->forge->addForeignKey('job_id', 'jobs', 'job_id', 'CASCADE', 'NO ACTION');
+		$this->forge->createTable('users', TRUE);
+	}
 
-    public function down()
-    {
-        $this->forge->dropTable('users');
-    }
+	public function down()
+	{
+		$this->forge->dropTable('users');
+	}
 }
