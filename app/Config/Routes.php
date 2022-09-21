@@ -113,6 +113,17 @@ $routes->group('api/', static function ($routes) {
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
     });
 
+    $routes->group('category/', static function ($routes) {
+        $routes->get('', 'Api\CategoryController::index');
+        $routes->get('detail/(:num)', 'Api\CategoryController::show/$1');
+        $routes->post('create', 'Api\CategoryController::create');
+        $routes->put('update/(:num)', 'Api\CategoryController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\CategoryController::delete/$1');
+        $routes->get('latest', 'Api\CategoryController::latest');
+        $routes->get('latest/(:num)', 'Api\CategoryController::latest/$1');
+        $routes->get('find/(:segment)', 'Api\CategoryController::find/$1');
+    });
+
     $routes->get('profile', 'Api\UserController::profile');
 });
 
