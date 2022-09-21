@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+}
+
+p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #262626;
+  margin-bottom: 0 !important;
+}
+
+button {
+  border: none !important;
+  background-color: rgba(0, 42, 91, 0);
+}
+
+.redeem-loading {
+  height: 100%;
+  width: max-content;
+  text-align: center;
+}
+.redeem-loading .loading-icon {
+  height: 180px;
+}
+.redeem-loading .success-icon {
+  width: 70px;
+}
+.redeem-loading h5 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 700;
+  color: black;
+  font-size: 22px;
+}
+.redeem-loading p {
+  color: #8F8585;
+}
+
+.redeem-success {
+  padding-top: 50px;
+  height: 100%;
+  width: max-content;
+  text-align: center;
+}
+.redeem-success .loading-icon {
+  height: 180px;
+}
+.redeem-success .success-icon {
+  width: 70px;
+}
+.redeem-success h5 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 700;
+  color: black;
+  font-size: 22px;
+}
+.redeem-success p {
+  color: #8F8585;
+}
+
+.empty-cart-info {
+  width: 100%;
+  height: 110px;
+}
+.empty-cart-info h6 {
+  color: #c5c5c5;
+  font-weight: 400;
+}
+
+.swal2-close:focus {
+  box-shadow: none !important;
+}
+
+.hide {
+  display: none;
+}
+
+main .navigation p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+  color: #bdbdbd;
+}
+main .navigation p a {
+  color: #002B5B;
+  text-decoration: none;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+}
+main .cart-list table tr th:not(:first-child) {
+  text-align: center;
+}
+main .cart-list table tr td {
+  text-align: center;
+  gap: 12px;
+}
+main .cart-list table tr td button img {
+  width: 40px;
+}
+main .cart-list table tr td img {
+  width: 110px;
+}
+main .cart-list table tr td .discount {
+  border-radius: 70px;
+  padding-left: 2px;
+  padding-top: 7px;
+  width: 32px;
+  height: 32px;
+  color: white;
+  background-color: #FFA629;
+  font-size: 12px;
+  margin-top: -30px;
+  margin-left: 85px;
+  transform: rotate(10deg);
+  position: absolute;
+}
+main .cart-list table tr td .strike {
+  text-decoration: line-through;
+  color: #F24822;
+}
+main .cart-list table tr td .price {
+  display: inline-flex;
+}
+main .voucher-order-total .voucher {
+  border: 2px solid #e2e2e2;
+  width: 340px;
+  height: 45px;
+  border-radius: 4px;
+}
+main .voucher-order-total .voucher input {
+  border: none;
+  height: 100%;
+  border-radius: 4px 0px 0px 4px !important;
+}
+main .voucher-order-total .voucher button {
+  background-color: #002B5B;
+  padding: 10px 30px;
+  border-radius: 0px 4px 4px 0px;
+  color: rgb(235, 235, 235);
+}
+main .voucher-order-total .order-total div {
+  gap: 100px;
+}
+main .voucher-order-total .order-total div h6 {
+  font-size: 20px;
+}
+main .voucher-order-total .order-total button {
+  padding: 12px;
+  background-color: #002B5B;
+  color: #e2e2e2;
+  width: 100%;
+  border-radius: 6px;
+}
+
+/*# sourceMappingURL=cart.css.map */

@@ -36,11 +36,64 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->get('/login', 'Home::login');
 
+$routes->get('/login', 'AuthController::indexLogin');
+$routes->post('/login', 'AuthController::login');
+
+$routes->get('/register', 'AuthController::indexRegister');
+$routes->post('/register', 'AuthController::register');
+
+$routes->get('/profile', 'AuthController::profile');
+$routes->get('/login/loginWithGoogle', 'Api\AuthController::loginWithGoogle');
+$routes->post('/login/loginWithGoogle/submit', 'AuthController::loginWithGoogle');
+$routes->get('/logout', 'AuthController::logout');
+$routes->get('/activateuser', 'AuthController::activateUser');
+
+$routes->get('/forgot-password', 'AuthController::indexforgotPassword');
+$routes->get('/forgot-password/submit', 'AuthController::forgotPassword');
+
+$routes->get('/otp-email', 'AuthController::sendOtpEmail');
+
+$routes->get('/send-otp', 'AuthController::indexSendOtp');
+$routes->post('/send-otp', 'AuthController::sendOtp');
+
+$routes->get('/new-password', 'AuthController::indexNewPassword');
+$routes->post('/new-password', 'AuthController::newPassword');
+
+$routes->get('/faq', 'Client\FaqController::index');
+$routes->get('/about-us', 'Home::aboutUs');
+$routes->get('/terms-and-conditions', 'Home::termsAndConditions');
+$routes->get('/courses/bundling', 'Home::bundlingCart');
+$routes->get('/course-detail', 'Home::courseDetail');
+$routes->get('/cart', 'Home::cart');
+$routes->get('/courses', 'Home::courses');
 
 
 $routes->group('api/', static function ($routes) {
+    $routes->post('register', 'Api\AuthController::register');
+    $routes->post('login', 'Api\AuthController::login');
+    $routes->get('activateuser', 'Api\AuthController::activateUser');
+
+    $routes->post('forgot-password', 'Api\ForgotPasswordController::forgotPassword');
+    $routes->post('send-otp', 'Api\ForgotPasswordController::sendOtp');
+    $routes->post('new-password', 'Api\ForgotPasswordController::newPassword');
+
+    $routes->group('faq/', static function ($routes) {
+        $routes->get('', 'Api\FaqController::index');
+        $routes->post('create', 'Api\FaqController::create');
+        $routes->get('detail/(:segment)', 'Api\FaqController::show/$1');
+        $routes->put('update/(:segment)', 'Api\FaqController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\FaqController::delete/$1');
+    });
+
+    $routes->group('voucher/', static function ($routes) {
+        $routes->get('', 'Api\VoucherController::index');
+        $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
+        $routes->post('create', 'Api\VoucherController::create');
+        $routes->put('update/(:segment)', 'Api\VoucherController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
+    });
+
     $routes->group('pap/', static function ($routes) {
         $routes->get('', 'Api\PolicyAndPrivacyController::index');
         $routes->get('detail/(:num)', 'Api\PolicyAndPrivacyController::show/$1');
@@ -59,7 +112,14 @@ $routes->group('api/', static function ($routes) {
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
     });
+
+    $routes->get('profile', 'Api\UserController::profile');
 });
+
+$routes->get('/sign-up', 'Home::signUp');
+$routes->get('/forgot-password', 'Home::forgotPassword');
+$routes->get('/send-otp', 'Home::sendOTP');
+$routes->get('/new-password', 'Home::newPassword');
 
 
 /*
