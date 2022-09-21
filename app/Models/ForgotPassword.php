@@ -27,4 +27,8 @@ class ForgotPassword extends Model
     function isAlreadyRegisterByOtp($otp){
       return $this->db->table('reset_password')->getWhere(['otp_code'=>$otp])->getRowArray()>0?true:false;
     }
+
+    function updateOtpByEmail($userdata, $email){
+      $this->db->table("reset_password")->where(['email'=>$email])->update($userdata);
+    }
 }

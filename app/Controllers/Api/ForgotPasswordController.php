@@ -35,10 +35,15 @@ class ForgotPasswordController extends ResourceController {
 		if($this->loginModel->where("email",$email)->first()){
 
 			$otp = rand(100000,999999);
-			$this->resetModel->insert([
-				'email' => $email,
-				'otp_code' => $otp,
-			]);
+			if ($this->resetModel->where("email", $email)->first()){
+				$userdata = ['otp_code' => $otp];
+				$this->resetModel->updateOtpByEmail($userdata, $email);
+			} else {
+				$this->resetModel->insert([
+					'email' => $email,
+					'otp_code' => $otp,
+				]);
+			}
 			$this->sendOtpEmail($email, $otp);
 			$response = [
 				'status' => 200,

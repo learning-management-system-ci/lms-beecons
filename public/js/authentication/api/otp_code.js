@@ -8,8 +8,9 @@ $("#otp-code").submit(function (event) {
         otp_passed = $form.find("input[name='otp']").val(),
         url = $form.attr("action");
 
+        var email_passed = Cookies.get("email");
     // Send the data using post
-    var posting = $.post(url, { csrf_test_name: csrf_test_name_passed, otp: otp_passed });
+    var posting = $.post(url, { csrf_test_name: csrf_test_name_passed, otp: otp_passed, email: email_passed });
 
     posting.done(function (data) {
         console.log(data);

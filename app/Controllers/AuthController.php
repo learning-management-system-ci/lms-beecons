@@ -121,6 +121,9 @@ class AuthController extends BaseController
 	}
 
 	public function indexforgotPassword() {
+		if (get_cookie("email")) {
+			return redirect()->to('/send-otp');
+		}
 	    $data = [
       		"title" => "Reset Password",
     	    ];
@@ -128,24 +131,7 @@ class AuthController extends BaseController
 	}
 
 	public function forgotPassword() {
-		$email = $this->request->getVar('email');
-		session()->set([
-			'email' => $email,
-		]);
-		if($this->loginModel->isAlreadyRegisterByEmail($email)){
-			$otp = rand(100000,999999);
-			$this->resetModel->insert([
-				'email' => $email,
-				'otp_code' => $otp,
-			]);
-
-			$this->sendOtpEmail($email, $otp);
-			session()->setFlashdata('error', 'The OTP code is valid for 15 minutes, please check your email');
-			return redirect()->to('/send-otp');
-		} else {
-			session()->setFlashdata('error', 'Email Not Registered');
-			return redirect()->back();
-		}
+		return redirect()->to('/send-otp');
 	}
 
 	function sendOtpEmail($emailTo, $otp) { 
