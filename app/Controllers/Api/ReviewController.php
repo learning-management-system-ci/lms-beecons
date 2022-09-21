@@ -4,7 +4,7 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\ReviewModel;
+use App\Models\Review;
 
 class ReviewController extends ResourceController {
 
@@ -12,11 +12,11 @@ class ReviewController extends ResourceController {
 
     public function __construct()
     {
-        $this->reviewModel = new ReviewModel();
+        $this->review = new Review();
     }
 
     public function index(){
-        $data['review'] = $this->reviewModel->orderBy('course_id', 'DESC')->findAll();
+        $data['review'] = $this->review->orderBy('course_id', 'DESC')->findAll();
         return $this->respond($data);
     }
 
@@ -49,7 +49,7 @@ class ReviewController extends ResourceController {
             $data['feedback'] = $this->request->getVar("feedback");
             $data['score'] = $this->request->getVar("score");
 
-            $this->reviewModel->save($data);
+            $this->review->save($data);
 
             $response = [
                 'status' => 200,

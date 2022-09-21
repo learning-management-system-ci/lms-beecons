@@ -16,7 +16,8 @@ class CourseBundlingController extends ResourceController
     }
 
     public function index(){
-        $data['bundling'] = $this->coursebundling->orderBy('bundling_id', 'DESC')->findAll();
+        $data['course_bundling'] = $this->coursebundling->orderBy('course_bundling_id', 'DESC')->findAll();
+        // $data['course_bundling'] = $this->coursebundling->orderBy('course_bundling_id', 'DESC')->findAll();
         return $this->respond($data);
     }
 }
