@@ -9,104 +9,107 @@ use Firebase\JWT\JWT;
 use DateTime;
 use DateInterval;
 
-class AuthController extends ResourceController {
-    
-    private $loginModel=NULL;
-	private $googleClient=NULL;
-	protected $session;
+class AuthController extends ResourceController
+{
 
-	function __construct(){
-    	$this->session = \Config\Services::session();
-    	$this->session->start();
+    private $loginModel = NULL;
+    private $googleClient = NULL;
+    protected $session;
+
+    function __construct()
+    {
+        $this->session = \Config\Services::session();
+        $this->session->start();
         helper("cookie");
 
-		require_once APPPATH. "../vendor/autoload.php";
-		$this->loginModel = new Users();
-		$this->googleClient = new \Google_Client();
-		$this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
-		$this->googleClient->setClientSecret("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");
-		$this->googleClient->setRedirectUri("http://localhost:8080/login/loginWithGoogle");
-		$this->googleClient->addScope("email");
-		$this->googleClient->addScope("profile");
-	}
+        require_once APPPATH . "../vendor/autoload.php";
+        $this->loginModel = new Users();
+        $this->googleClient = new \Google_Client();
+        $this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
+        $this->googleClient->setClientSecret("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");
+        $this->googleClient->setRedirectUri("http://localhost:8080/login/loginWithGoogle");
+        $this->googleClient->addScope("email");
+        $this->googleClient->addScope("profile");
+    }
 
-    public function loginWithGoogle() {
+    public function loginWithGoogle()
+    {
         echo "Masokkkkk";
-		$token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
-		if(!isset($token['error'])){
-			$this->googleClient->setAccessToken($token['access_token']);
-			session()->set("AccessToken", $token['access_token']);
+        $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
+        if (!isset($token['error'])) {
+            $this->googleClient->setAccessToken($token['access_token']);
+            session()->set("AccessToken", $token['access_token']);
 
-			$googleService = new \Google\Service\Oauth2($this->googleClient);
-			$data = $googleService->userinfo->get();
-			$currentDateTime = date("Y-m-d H:i:s");
-			// echo "<pre>"; print_r($data);die;
-			$userdata=array();
-			if($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])){
-			// if($this->loginModel->isAlreadyRegister($data['id'])){
-				$userdata = [
-					'oauth_id'=>$data['id'],
-					'email'=>$data['email'], 
-					'updated_at'=>$currentDateTime,
-					'activation_status'=>'1'
-				];
-				$email = $data['email'];
-				$this->loginModel->updateUserData($userdata, $email);
-			}else{
-				$userdata = [
-					'oauth_id'=>$data['id'],
-					'email'=>$data['email'], 
-					'created_at'=>$currentDateTime,
-					'activation_status'=>'1',
-					'role'=>'participant'
-				];
-				$this->loginModel->save($userdata);
-			}
-      $key = getenv('TOKEN_SECRET');
-      $payload = [
-				'iat'   => 1356999524,
-				'nbf'   => 1357000000,
-				"exp" => time() + (60 * 60),
-				'uid'   => $data['id'],
-				'email' => $data['email'],
-      ];
-      $token = JWT::encode($payload, $key, 'HS256');
-
-		}else{
-      $response = [
-				'status' => 500,
-				'error' => true,
-				'message' => 'Something went Wrong',
-				'data' => []
-			];
-			// session()->setFlashData("error", "Something went Wrong");
-			$this->respondCreated($response);
-			return;
-		}
-		$response = [
-			'status' => 200,
-			'error' => false,
-			'data' => [$token]
-		];
-		// session()->setFlashData("success", "Login Successful");
-		$this->respondCreated($response);
+            $googleService = new \Google\Service\Oauth2($this->googleClient);
+            $data = $googleService->userinfo->get();
+            $currentDateTime = date("Y-m-d H:i:s");
+            // echo "<pre>"; print_r($data);die;
+            $userdata = array();
+            if ($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])) {
+                // if($this->loginModel->isAlreadyRegister($data['id'])){
+                $userdata = [
+                    'oauth_id' => $data['id'],
+                    'email' => $data['email'],
+                    'updated_at' => $currentDateTime,
+                    'activation_status' => '1'
+                ];
+                $email = $data['email'];
+                $this->loginModel->updateUserData($userdata, $email);
+            } else {
+                $userdata = [
+                    'oauth_id' => $data['id'],
+                    'email' => $data['email'],
+                    'created_at' => $currentDateTime,
+                    'activation_status' => '1',
+                    'role' => 'participant'
+                ];
+                $this->loginModel->save($userdata);
+            }
+            $key = getenv('TOKEN_SECRET');
+            $payload = [
+                'iat'   => 1356999524,
+                'nbf'   => 1357000000,
+                "exp" => time() + (60 * 60),
+                'uid'   => $data['id'],
+                'email' => $data['email'],
+            ];
+            $token = JWT::encode($payload, $key, 'HS256');
+        } else {
+            $response = [
+                'status' => 500,
+                'error' => true,
+                'message' => 'Something went Wrong',
+                'data' => []
+            ];
+            // session()->setFlashData("error", "Something went Wrong");
+            $this->respondCreated($response);
+            return;
+        }
+        $response = [
+            'status' => 200,
+            'error' => false,
+            'data' => [$token]
+        ];
+        // session()->setFlashData("success", "Login Successful");
+        $this->respondCreated($response);
         set_cookie("access_token", strval($token));
-		return redirect()->to(base_url()."/login");
-	}
+        return redirect()->to(base_url() . "/login");
+    }
 
-	public function register() {
+    public function register()
+    {
         $rules = [
-			"email" => "required|is_unique[users.email]|valid_email",
-			"password" => "required|min_length[4]|max_length[50]",
+            "email" => "required|is_unique[users.email]|valid_email",
+            "password" => "required|min_length[4]|max_length[50]",
             "password_confirm" => "matches[password]",
-		];
+        ];
 
         $messages = [
-			"email" => [
+            "email" => [
                 'required' => '{field} tidak boleh kosong',
                 'is_unique' => 'Email telah digunakan',
                 'valid_email' => 'Format email tidak sesuai'
-			],
+            ],
             "password" => [
                 'required' => '{field} tidak boleh kosong',
                 'min_length' => '{field} minimal 4 karakter',
@@ -115,8 +118,8 @@ class AuthController extends ResourceController {
             "password_confirm" => [
                 'matches' => 'Konfirmasi kata sandi tidak cocok dengan kata sandi'
             ],
-		];
-    
+        ];
+
         $key = getenv('TOKEN_SECRET');
         $payload = array(
             "iat" => 1356999524,
@@ -125,102 +128,104 @@ class AuthController extends ResourceController {
             "email" => $this->request->getVar('email')
         );
         $token = JWT::encode($payload, $key);
-    
+
         if (!$this->validate($rules, $messages)) {
 
-			$response = [
-				'status' => 500,
-				'error' => 500,
-				'message' => $this->validator->getErrors(),
-				'data' => []
-			];
-		} else {
+            $response = [
+                'status' => 500,
+                'error' => 500,
+                'message' => $this->validator->getErrors(),
+                'data' => []
+            ];
+        } else {
             $data['email'] = $this->request->getVar("email");
-			$data['role'] = 'participant';
+            $data['role'] = 'participant';
             $data['password'] = password_hash($this->request->getVar('password'), PASSWORD_BCRYPT);
             $data['activation_code'] = $token;
-            
+
             $this->loginModel->save($data);
             $this->sendActivationEmail($this->request->getVar('email'), $token);
 
-			$response = [
-				'status' => 200,
-				'success' => 200,
-				'message' => 'Akun berhasil dibuat, silakan periksa email Anda untuk aktivasi',
-				'data' => []
-			];
+            $response = [
+                'status' => 200,
+                'success' => 200,
+                'message' => 'Akun berhasil dibuat, silakan periksa email Anda untuk aktivasi',
+                'data' => []
+            ];
         }
         return $this->respondCreated($response);
-        
-      }
+    }
 
-    function sendActivationEmail($emailTo, $token) { 
-		//$to = $this->request->getVar('mailTo');
-		$subject = 'subject';
-		$message = base_url()."/api/activateuser?token=".$token;
-			
-		$email = \Config\Services::email();
-		$email->setTo($emailTo);
-		$email->setFrom('hendrikusozzie@gmail.com', 'Konfirmasi Pendaftaran');
-			
-		$email->setSubject($subject);
-		$email->setMessage($message);
-		$email->send();
-  	}
+    function sendActivationEmail($emailTo, $token)
+    {
+        //$to = $this->request->getVar('mailTo');
+        $subject = 'subject';
+        $message = base_url() . "/api/activateuser?token=" . $token;
 
-    public function activateUser() {
-	    $token = $this->request->getVar('token');
-	    //echo $token;
-	    $key = getenv('TOKEN_SECRET');
+        $email = \Config\Services::email();
+        $email->setTo($emailTo);
+        $email->setFrom('hendrikusozzie@gmail.com', 'Konfirmasi Pendaftaran');
+
+        $email->setSubject($subject);
+        $email->setMessage($message);
+        $email->send();
+    }
+
+    public function activateUser()
+    {
+        $token = $this->request->getVar('token');
+        //echo $token;
+        $key = getenv('TOKEN_SECRET');
         try {
             $decoded = JWT::decode($token, $key, array('HS256'));
-        }catch(Exception $e){
+        } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
-            return ;
+            return;
         }
         $this->loginModel->updateUserByEmail([
             'activation_status' => 1,
-			'activation_code' => ''
+            'activation_code' => ''
         ], $decoded->email);
-	    session()->setFlashdata('error', 'Akun Anda telah berhasil diaktifkan, silahkan login');
-	    return redirect()->to(base_url()."/login");
-	}
+        session()->setFlashdata('error', 'Akun Anda telah berhasil diaktifkan, silahkan login');
+        return redirect()->to(base_url() . "/login");
+    }
 
-    public function indexLogin() {
+    public function indexLogin()
+    {
         $data = [
             "title" => "Sign In",
-            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+            "googleButton" => '<a href="' . $this->googleClient->createAuthUrl() . '"><img src="image/google.png" alt=""></a>',
         ];
         return view('pages/authentication/login', $data);
     }
 
-    public function login() {
+    public function login()
+    {
         $rules = [
-			"email" => "required|valid_email",
-			"password" => "required",
-		];
+            "email" => "required|valid_email",
+            "password" => "required",
+        ];
 
         $messages = [
-			"email" => [
-				"required" => "{field} tidak boleh kosong",
+            "email" => [
+                "required" => "{field} tidak boleh kosong",
                 'valid_email' => 'Format email tidak sesuai'
-			],
+            ],
             "password" => [
                 "required" => "{field} tidak boleh kosong"
             ],
-		];
+        ];
         if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 
         $verifyEmail = $this->loginModel->where("email", $this->request->getVar('email'))->first();
-        if(!$verifyEmail) return $this->failNotFound('Email tidak ditemukan');
+        if (!$verifyEmail) return $this->failNotFound('Email not found');
 
         $verifyPass = password_verify($this->request->getVar('password'), $verifyEmail['password']);
-        if(!$verifyPass) {
+        if (!$verifyPass) {
             return $this->fail('Kata sandi salah');
-        } else if ($verifyEmail['activation_status']!=1) {
+        } else if ($verifyEmail['activation_status'] != 1) {
             return $this->fail('Pengguna belum aktif');
         } else {
-
         }
         $key = getenv('TOKEN_SECRET');
         $payload = [
@@ -240,4 +245,3 @@ class AuthController extends ResourceController {
         return $this->respond($response);
     }
 }
- 

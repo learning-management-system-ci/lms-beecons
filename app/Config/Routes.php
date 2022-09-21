@@ -102,6 +102,14 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\PolicyAndPrivacyController::delete/$1');
     });
 
+    $routes->group('users/', static function ($routes) {
+        $routes->get('', 'Api\UserController::profile');
+        $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
+        $routes->post('create', 'Api\VoucherController::create');
+        $routes->put('update/(:segment)', 'Api\UserController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
+    });
+
     $routes->group('course/', static function ($routes) {
         $routes->get('', 'Api\CourseController::index');
         $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
