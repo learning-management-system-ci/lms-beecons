@@ -491,12 +491,12 @@ h6 {
   margin-bottom: 2.5rem;
 }
 #mentor #mentor-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 2.8rem;
+  padding: 2rem;
+}
+#mentor .slick-slide {
+  padding: 2rem;
 }
 #mentor .item {
-  width: 33%;
   padding: 2.5rem;
 }
 #mentor .item .profile {
@@ -508,6 +508,7 @@ h6 {
   height: 8rem;
   object-fit: cover;
   border-radius: 50%;
+  margin: auto;
 }
 #mentor .item .info {
   text-align: center;
