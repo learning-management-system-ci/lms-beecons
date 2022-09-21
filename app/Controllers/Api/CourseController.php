@@ -54,7 +54,7 @@ class CourseController extends ResourceController
                 'min_length' => '{field} minimal 8 karakter'
             ],
             "price" => [
-                "required" => "field}  tidak boleh kosong",
+                "required" => "{field}  tidak boleh kosong",
                 "numeric" => "{field} harus berisi nomor",
             ],
             "thumbnail" => [
@@ -112,7 +112,7 @@ class CourseController extends ResourceController
                 'min_length' => '{field} minimal 8 karakter'
             ],
             "price" => [
-                "required" => "field}  tidak boleh kosong",
+                "required" => "{field}  tidak boleh kosong",
                 "numeric" => "{field} harus berisi nomor",
             ],
             "thumbnail" => [
