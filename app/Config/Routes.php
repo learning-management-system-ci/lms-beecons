@@ -105,9 +105,8 @@ $routes->group('api/', static function ($routes) {
     $routes->group('users/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
         $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
-        $routes->post('create', 'Api\VoucherController::create');
+        $routes->get('jobs', 'Api\UserController::jobs');
         $routes->put('update/(:segment)', 'Api\UserController::update/$1');
-        $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
     });
 
     $routes->group('course/', static function ($routes) {

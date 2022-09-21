@@ -19,6 +19,7 @@ class Users extends Migration
 				'type'           => 'INT',
 				'constraint'     => 5,
 				'unsigned'       => true,
+				'null'			=> true,
 			],
 			'oauth_id' => [
 				'type'           => 'VARCHAR',
