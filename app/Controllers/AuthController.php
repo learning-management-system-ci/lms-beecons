@@ -75,49 +75,6 @@ class AuthController extends BaseController
   
 	public function loginWithGoogle()
 	{
-        echo "Masokkkkk";
-		// $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
-		// if(!isset($token['error'])){
-		// 	$this->googleClient->setAccessToken($token['access_token']);
-		// 	session()->set("AccessToken", $token['access_token']);
-		// 	$googleService = new \Google\Service\Oauth2($this->googleClient);
-		// 	$data = $googleService->userinfo->get();
-		// 	$currentDateTime = date("Y-m-d H:i:s");
-		// 	// echo "<pre>"; print_r($data);die;
-		// 	$userdata=array();
-		// 	if($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])){
-		// 	// if($this->loginModel->isAlreadyRegister($data['id'])){
-		// 		$userdata = [
-		// 			'oauth_id'=>$data['id'],
-		// 			'email'=>$data['email'], 
-		// 			'updated_at'=>$currentDateTime,
-		// 			'activation_status'=>'1'
-		// 		];
-		// 		$email = $data['email'];
-		// 		$this->loginModel->updateUserData($userdata, $email);
-		// 	}else{
-		// 		$userdata = [
-		// 			'oauth_id'=>$data['id'],
-		// 			'email'=>$data['email'], 
-		// 			'created_at'=>$currentDateTime,
-		// 			'activation_status'=>'1',
-		// 			'role'=>'participant'
-		// 		];
-		// 		$this->loginModel->insertUserData($userdata);
-		// 	}
-		// 	// session()->set("LoggedUserData", $userdata);
-		// 	session()->set([
-		// 		'oauth_id'=>$data['id'],
-		// 		'email'=>$data['email'],
-		// 		'role' => "participant",
-		// 		'LoggedUserData' => TRUE
-		// 	]);
-
-		// }else{
-		// 	session()->setFlashData("error", "Something went Wrong");
-		// 	return redirect()->to(base_url());
-		// }
-		// session()->setFlashData("success", "Login Successful");
 		return redirect()->to(base_url()."/profile");
 	}
 
@@ -157,43 +114,17 @@ class AuthController extends BaseController
 	}
 
 	public function register() {
-    // if (!$this->validate([
-    //   'email' => [
-    //     'rules' => 'required|is_unique[users.email]',
-    //     'errors' => [
-    //       'required' => '{field} required',
-    //       'is_unique' => 'Email already used'
-    //     ]
-    //   ],
-    //   'password' => [
-    //     'rules' => 'required|min_length[4]|max_length[50]',
-    //     'errors' => [
-    //       'required' => '{field} required',
-    //       'min_length' => '{field} minimum 4 characters',
-    //       'max_length' => '{field} maximum 50 characters',
-    //     ]
-    //   ],
-    //   'password_confirm' => [
-    //     'rules' => 'matches[password]',
-    //     'errors' => [
-    //       'matches' => 'Confirm password does not match with the password',
-    //     ]
-    //   ],
-    // ])) {
-    //   session()->setFlashdata('error', $this->validator->listErrors());
-	//     return redirect()->back()->withInput();
-    // }
-    if ($this->request->isAJAX()) {
-        return redirect()->to(base_url().'/login');
-    }
-    return redirect()->to(base_url().'/login');
-  }
+	    if ($this->request->isAJAX()) {
+		return redirect()->to(base_url().'/login');
+	    }
+	    return redirect()->to(base_url().'/login');
+	}
 
 	public function indexforgotPassword() {
-		$data = [
-      "title" => "Reset Password",
-    ];
-		return view('pages/authentication/forgot_password', $data);
+	    $data = [
+      		"title" => "Reset Password",
+    	    ];
+	    return view('pages/authentication/forgot_password', $data);
 	}
 
 	public function forgotPassword() {
