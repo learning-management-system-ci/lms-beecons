@@ -13,6 +13,8 @@ class UserController extends ResourceController
 
     use ResponseTrait;
 
+
+
     public function profile()
     {
         $key = getenv('TOKEN_SECRET');
@@ -54,7 +56,7 @@ class UserController extends ResourceController
         $token = explode(' ', $header)[1];
 
         try {
-
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
             $cek = $user->where('id', $id)->findAll();
 
@@ -119,5 +121,16 @@ class UserController extends ResourceController
             return $this->fail('Akses token tidak sesuai');
         }
         return $this->failNotFound('Data user tidak ditemukan');
+    }
+
+    public function jobs()
+    {
+        $job = new Jobs;
+        $data = $job->select('job_id, job_name')->findAll();
+        if ($data) {
+            return $this->respond($data);
+        } else {
+            return $this->failNotFound('Data pekerjaan tidak ditemukan');
+        }
     }
 }
