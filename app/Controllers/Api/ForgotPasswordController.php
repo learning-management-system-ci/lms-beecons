@@ -3,8 +3,8 @@
 namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\ForgotPasswordModel;
-use App\Models\UsersModel;
+use App\Models\ForgotPassword;
+use App\Models\Users;
 use CodeIgniter\API\ResponseTrait;
 
 class ForgotPasswordController extends ResourceController {
@@ -16,8 +16,8 @@ class ForgotPasswordController extends ResourceController {
 
 
 	function __construct(){
-		$this->resetModel = new ForgotPasswordModel();
-		$this->loginModel = new UsersModel();
+		$this->resetModel = new ForgotPassword();
+		$this->loginModel = new Users();
 	}
 
 	public function forgotPassword() {
@@ -33,15 +33,21 @@ class ForgotPasswordController extends ResourceController {
 
 		$email = $this->request->getVar('email');
 		if($this->loginModel->where("email",$email)->first()){
+
 			$otp = rand(100000,999999);
-			$this->resetModel->insert([
-				'email' => $email,
-				'otp_code' => $otp,
-			]);
+			if ($this->resetModel->where("email", $email)->first()){
+				$userdata = ['otp_code' => $otp];
+				$this->resetModel->updateOtpByEmail($userdata, $email);
+			} else {
+				$this->resetModel->insert([
+					'email' => $email,
+					'otp_code' => $otp,
+				]);
+			}
 			$this->sendOtpEmail($email, $otp);
 			$response = [
 				'status' => 200,
-				'error' => false,
+				'success' => 200,
 				'message' => 'Kode OTP berlaku selama 15 menit, silakan cek email Anda'
 			];
 			return $this->respond($response);
@@ -97,7 +103,7 @@ class ForgotPasswordController extends ResourceController {
 		} else {
 			$response = [
 				'status' => 200,
-				'error' => false,
+				'success' => 200,
 				'message' => 'OTP diverifikasi, silakan setel ulang kata sandi Anda'
 			];
 			return $this->respond($response);
@@ -142,7 +148,7 @@ class ForgotPasswordController extends ResourceController {
 
 		$response = [
 			'status' => 200,
-			'error' => false,
+			'success' => 200,
 			'message' => 'Kata sandi telah diatur ulang, silakan masuk dengan kata sandi baru'
 		];
 		return $this->respond($response);

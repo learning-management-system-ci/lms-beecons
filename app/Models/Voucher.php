@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class VoucherModel extends Model
+class Voucher extends Model
 {
     protected $table = 'voucher';
     protected $primaryKey = 'voucher_id';

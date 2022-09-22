@@ -8,11 +8,7 @@ use CodeIgniter\HTTP\RequestInterface;
 
 class CourseController extends ResourceController
 {
-    /**
-     * Return an array of resource objects, themselves in array format
-     *
-     * @return mixed
-     */
+
     public function index()
     {
         $model = new Course();
@@ -25,11 +21,6 @@ class CourseController extends ResourceController
         }
     }
 
-    /**
-     * Return the properties of a resource object
-     *
-     * @return mixed
-     */
     public function show($id = null)
     {
         $model = new Course();
@@ -42,21 +33,6 @@ class CourseController extends ResourceController
         }
     }
 
-    /**
-     * Return a new resource object, with default properties
-     *
-     * @return mixed
-     */
-    public function new()
-    {
-        //
-    }
-
-    /**
-     * Create a new resource object, from "posted" parameters
-     *
-     * @return mixed
-     */
     public function create()
     {
         $model = new Course();
@@ -65,40 +41,57 @@ class CourseController extends ResourceController
             'title' => 'required|min_length[8]',
             'description' => 'required|min_length[8]',
             'price' => 'required|numeric',
+            'thumbnail' => 'required',
+            'is_access' => 'required|less_than_equal_to[1]'
         ];
 
         $messages = [
             "title" => [
-                "required" => "Kolom {field} harus di isi"
+                "required" => "{field}  tidak boleh kosong",
+                'min_length' => '{field} minimal 8 karakter'
             ],
             "description" => [
-                "required" => "Kolom {field} harus di isi"
+                "required" => "{field}  tidak boleh kosong",
+                'min_length' => '{field} minimal 8 karakter'
             ],
             "price" => [
-                "required" => "Kolom {field} harus di isi"
+                "required" => "{field}  tidak boleh kosong",
+                "numeric" => "{field} harus berisi nomor",
+            ],
+            "thumbnail" => [
+                "required" => "{field}  tidak boleh kosong"
+            ],
+            "is_access" => [
+                "required" => "{field}  tidak boleh kosong",
+                "less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
             ],
         ];
 
+         //$isAccess = $this->request->getVar('is_access');
+        // $boolDecode = json_decode($isAccess);
+         //return $isAccess;
         $response;
         if($this->validate($rules, $messages)) {
             $data = [
               'title' => $this->request->getVar('title'),
               'description' => $this->request->getVar('description'),
-              'price' => $this->request->getVar('price')
+              'price' => $this->request->getVar('price'),
+              'thumbnail' => $this->request->getVar('thumbnail'),
+              'is_access' => $this->request->getVar('is_access'),
             ];
 
             $model->insert($data);
             $response = [
                 'status'   => 201,
-                'error'    => null,
+                'success'    => 201,
                 'messages' => [
-                    'success' => 'Course berhasil ditambahkan'
+                    'success' => 'Course berhasil dibuat'
                 ]
             ];
         }else{
             $response = [
                 'status'   => 400,
-                'error'    => true,
+                'error'    => 400,
                 'messages' => $this->validator->getErrors(),
             ];
         }
@@ -107,21 +100,6 @@ class CourseController extends ResourceController
         return $this->respondCreated($response);    
     }
 
-    /**
-     * Return the editable properties of a resource object
-     *
-     * @return mixed
-     */
-    public function edit($id = null)
-    {
-        //
-    }
-
-    /**
-     * Add or update a model resource, from "posted" properties
-     *
-     * @return mixed
-     */
     public function update($id = null)
     {
         $model = new Course();
@@ -130,17 +108,29 @@ class CourseController extends ResourceController
             'title' => 'required|min_length[8]',
             'description' => 'required|min_length[8]',
             'price' => 'required|numeric',
+            'thumbnail' => 'required',
+            'is_access' => 'required|less_than_equal_to[1]'
         ];
 
         $messages = [
             "title" => [
-                "required" => "Kolom {field} harus di isi"
+                "required" => "{field}  tidak boleh kosong",
+                'min_length' => '{field} minimal 8 karakter'
             ],
             "description" => [
-                "required" => "Kolom {field} harus di isi"
+                "required" => "{field}  tidak boleh kosong",
+                'min_length' => '{field} minimal 8 karakter'
             ],
             "price" => [
-                "required" => "Kolom {field} harus di isi"
+                "required" => "{field}  tidak boleh kosong",
+                "numeric" => "{field} harus berisi nomor",
+            ],
+            "thumbnail" => [
+                "required" => "{field}  tidak boleh kosong"
+            ],
+            "is_access" => [
+                "required" => "{field}  tidak boleh kosong",
+                "less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
             ],
         ];
 
@@ -150,28 +140,29 @@ class CourseController extends ResourceController
                 $data = [
                   'title' => $this->request->getRawInput('title'),
                   'description' => $this->request->getRawInput('description'),
-                  'price' => $this->request->getRawInput('price')
+                  'price' => $this->request->getRawInput('price'),
+                  'thumbnail' => $this->request->getRawInput('thumbnail')
                 ];
 
                 $model->update($id, $data['title']);
                 $response = [
                     'status'   => 201,
-                    'error'    => null,
+                    'success'    => 201,
                     'messages' => [
-                        'success' => 'Course berhasil di perbaharui'
+                        'success' => 'Course berhasil di perbarui'
                     ]
                 ];
             }else{
                 $response = [
                     'status'   => 400,
-                    'error'    => true,
+                    'error'    => 400,
                     'messages' => $this->validator->getErrors(),
                 ];
             }
         }else{
             $response = [
                 'status'   => 400,
-                'error'    => true,
+                'error'    => 400,
                 'messages' => 'Data tidak ditemukan',
             ];
         }
@@ -180,11 +171,6 @@ class CourseController extends ResourceController
         return $this->respondCreated($response);
     }
 
-    /**
-     * Delete the designated resource object from the model
-     *
-     * @return mixed
-     */
     public function delete($id = null)
     {
         $model = new Course();
@@ -193,7 +179,7 @@ class CourseController extends ResourceController
             $model->delete($id);
             $response = [
                 'status'   => 200,
-                'error'    => null,
+                'success'    => 200,
                 'messages' => [
                     'success' => 'Course berhasil di hapus'
                 ]

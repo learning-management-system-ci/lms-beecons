@@ -35,7 +35,11 @@ body {
 
 a {
   text-decoration: none;
-  color: black;
+  color: #1F1F1F;
+}
+
+a:hover {
+  color: #1F1F1F;
 }
 
 .my-card {
@@ -178,13 +182,18 @@ h6 {
   font-weight: bold;
 }
 .navbar .nav-item-icon .dropdown-menu[data-bs-popper] {
-  left: calc(100% - 360px);
+  right: 0;
+  left: auto;
 }
 .navbar .nav-item-search .nav-btn-icon {
   color: #D9D9D9;
 }
+.navbar .nav-item-search {
+  position: relative;
+}
 .navbar .nav-item-search .nav-search-input {
   position: relative;
+  min-width: 20rem;
 }
 .navbar .nav-item-search .nav-search-input input {
   padding-right: 25px;
@@ -195,6 +204,40 @@ h6 {
   transform: translateY(-50%);
   right: 10px;
   cursor: pointer;
+}
+.navbar .nav-item-search .dropdown-menu {
+  right: 0;
+  height: 20rem;
+  padding-top: 0;
+  font-size: 0.8rem;
+  overflow-y: auto;
+}
+.navbar .nav-item-search .dropdown-menu::-webkit-scrollbar {
+  width: 5px;
+}
+.navbar .nav-item-search .dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 20px;
+}
+.navbar .nav-item-search .dropdown-menu h5 {
+  font-size: 0.8rem;
+}
+.navbar .nav-item-search .dropdown-menu .ctg {
+  color: #9ca3af;
+}
+.navbar .nav-item-search .dropdown-menu .search-item {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+.navbar .nav-item-search .dropdown-menu .icon img {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 10px;
+}
+.navbar .nav-item-search .dropdown-menu .desc h5,
+.navbar .nav-item-search .dropdown-menu .desc p {
+  margin-bottom: 0;
 }
 .navbar .nav-item-icon .notifications {
   width: 25rem;
@@ -448,12 +491,12 @@ h6 {
   margin-bottom: 2.5rem;
 }
 #mentor #mentor-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 2.8rem;
+  padding: 2rem;
+}
+#mentor .slick-slide {
+  padding: 2rem;
 }
 #mentor .item {
-  width: 33%;
   padding: 2.5rem;
 }
 #mentor .item .profile {
@@ -465,6 +508,7 @@ h6 {
   height: 8rem;
   object-fit: cover;
   border-radius: 50%;
+  margin: auto;
 }
 #mentor .item .info {
   text-align: center;

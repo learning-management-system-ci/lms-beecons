@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/app_layout') ?>
 
 <?= $this->section('css-component') ?>
-<link rel="stylesheet" href="style/courses.css">
+<link rel="stylesheet" href="../../../style/courses.css">
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
@@ -10,7 +10,7 @@
     <div class="my-container bg-gray">
         <nav class="pt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <!-- <li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Home</a></li> -->
+                <li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Courses</li>
             </ol>
             <hr>
@@ -522,5 +522,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>
-<script src="js/home/courses.js"></script>
+<script src="../../../js/home/courses.js"></script>
 <?= $this->endSection() ?>

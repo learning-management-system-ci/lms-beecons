@@ -3,7 +3,7 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\FaqModel;
+use App\Models\Faq;
 
 class FaqController extends ResourceController {
     
@@ -11,12 +11,16 @@ class FaqController extends ResourceController {
     private $faqModel=NULL;
 
 	function __construct(){
-		$this->faqModel = new FaqModel();
+		$this->faqModel = new Faq();
 	}
 
     public function index(){
-        $data['faq'] = $this->faqModel->orderBy('faq_id', 'DESC')->findAll();
-        return $this->respond($data);
+        $data = $this->faqModel->orderBy('faq_id', 'DESC')->findAll();
+		if(count($data) > 0){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Tidak ada data');
+        }
     }
 
     public function create() {
@@ -38,7 +42,7 @@ class FaqController extends ResourceController {
 
 			$response = [
 				'status' => 500,
-				'error' => true,
+				'error' => 500,
 				'message' => $this->validator->getErrors(),
 				'data' => []
 			];
@@ -50,7 +54,7 @@ class FaqController extends ResourceController {
 
 			$response = [
 				'status' => 200,
-				'error' => false,
+				'success' => 200,
 				'message' => 'FAQ berhasil dibuat',
 				'data' => []
 			];
@@ -87,7 +91,7 @@ class FaqController extends ResourceController {
 
 		$response = [
 			'status'   => 200,
-			'error'    => null,
+			'success'    => 200,
 			'messages' => [
 					'success' => 'FAQ berhasil diperbarui'
 			]
@@ -115,7 +119,7 @@ class FaqController extends ResourceController {
             $this->faqModel->delete($id);
             $response = [
                 'status'   => 200,
-                'error'    => null,
+                'success'    => 200,
                 'messages' => [
                     'success' => 'FAQ berhasil dihapus'
                 ]
