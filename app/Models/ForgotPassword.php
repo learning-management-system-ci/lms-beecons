@@ -26,7 +26,7 @@ class ForgotPassword extends Model
     $this->db->table("reset_password")->delete(['email' => $email]);
   }
 
-<<<<<<< Updated upstream
+
     function isAlreadyRegisterByOtp($otp){
       return $this->db->table('reset_password')->getWhere(['otp_code'=>$otp])->getRowArray()>0?true:false;
     }
@@ -34,10 +34,5 @@ class ForgotPassword extends Model
     function updateOtpByEmail($userdata, $email){
       $this->db->table("reset_password")->where(['email'=>$email])->update($userdata);
     }
-=======
-  function isAlreadyRegisterByOtp($otp)
-  {
-    return $this->db->table('reset_password')->getWhere(['otp_code' => $otp])->getRowArray() > 0 ? true : false;
-  }
->>>>>>> Stashed changes
+
 }
