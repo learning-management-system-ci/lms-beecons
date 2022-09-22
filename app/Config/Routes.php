@@ -130,7 +130,8 @@ $routes->group('api/', static function ($routes) {
         $routes->get('latest/(:num)', 'Api\CategoryController::latest/$1');
         $routes->get('find/(:segment)', 'Api\CategoryController::find/$1');
     });
-
+    
+    $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
 });
 
