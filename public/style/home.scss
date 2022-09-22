@@ -33,8 +33,8 @@ $color-blue: #0D99FF;
 @mixin padding-container() {
     padding-left: $padding-container;
     padding-right: $padding-container;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
 }
 
 *,
@@ -169,6 +169,51 @@ h6 {
                 margin-right: .5rem;
             }
         }
+    }
+}
+
+.card-webinar {
+    @include card-setting();
+    padding: .8rem;
+
+    .image img {
+        width: 100%;
+        height: 10rem;
+        object-fit: cover;
+        border-radius: $card-border-radius;
+        border: 1px solid $color-gray;
+        margin-bottom: 1rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    .item-info {
+        display: flex;
+        gap: .2rem;
+        margin-bottom: .5rem;
+        align-items: center;
+        color: $color-gray-1;
+
+        i{
+            min-width: 1.4rem;
+        }
+
+        p {
+            font-size: .8rem;
+            margin: 0;
+        }
+    }
+
+    .harga {
+        margin-top: 1.2rem;
+        margin-bottom: 1.2rem;
+        font-size: 1.2rem;
+        font-weight: bolder;
+        color: $color-yellow;
     }
 }
 
@@ -315,7 +360,7 @@ h6 {
 
     .nav-item-icon {
         .notifications {
-            width: 25rem;
+            min-width: 25rem;
             min-height: 20rem;
             padding-top: 0;
             font-size: .8rem;
@@ -399,12 +444,6 @@ h6 {
 // hero
 #hero {
     min-height: 90vh;
-    // background-image: url("../images/Background.png");
-    // background-size: cover;
-    // object-fit: contain;
-    // padding: $padding-container;
-    // display: flex;
-    // align-items: center;
     height: 100vh;
     text-align: right;
 
@@ -415,10 +454,10 @@ h6 {
         display: flex;
         align-items: center;
         padding-left: $padding-container;
+        padding-right: $padding-container;
     }
 
     .content {
-        width: 40%;
         text-align: left;
 
         h1 {
@@ -440,7 +479,6 @@ h6 {
 
     .image img {
         height: 100%;
-        // object-fit: cover;
     }
 }
 
@@ -477,27 +515,20 @@ h6 {
         border-radius: 0px 1rem;
     }
 
-    .wrapper {
+    .item {
         display: flex;
-        justify-content: center;
-        gap: 2.5rem;
+        gap: 1rem;
+    }
 
-        .item {
-            display: flex;
-            width: 30%;
-            gap: 1rem;
-        }
+    .content h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        margin-top: 1.2rem;
+    }
 
-        .content h2 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            margin-top: 1.2rem;
-        }
-
-        p {
-            line-height: 1.5rem;
-        }
+    p {
+        line-height: 1.5rem;
     }
 }
 
@@ -533,6 +564,7 @@ h6 {
 // webinar
 #webinar {
     @include padding-container();
+    background-color: $color-pink;
 
     h1 {
         @include title();
@@ -551,56 +583,6 @@ h6 {
 
         .active {
             font-weight: bolder;
-        }
-    }
-
-    #webinar-wrapper {
-        display: flex;
-        justify-content: center;
-        gap: 3rem;
-    }
-
-    .item {
-        width: 25%;
-        padding: .8rem;
-
-        .image img {
-            width: 100%;
-            height: 10rem;
-            object-fit: cover;
-            border-radius: $card-border-radius;
-            border: 1px solid $color-gray;
-            margin-bottom: 1rem;
-        }
-
-        h2 {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .item-info {
-            display: flex;
-            gap: .8rem;
-            margin-bottom: .5rem;
-
-            img {
-                width: 1.2rem;
-                height: 100%;
-            }
-
-            p {
-                font-size: .8rem;
-                margin: 0;
-            }
-        }
-
-        .harga {
-            margin-top: 1.2rem;
-            margin-bottom: 1.2rem;
-            font-size: 1.2rem;
-            font-weight: bolder;
-            color: $color-yellow;
         }
     }
 }
@@ -736,8 +718,36 @@ h6 {
         margin-bottom: 4rem;
     }
 
+    .testimoni-wrapper{
+        position: relative;
+        min-height: 30rem;
+
+        .ornament1{
+            position: absolute;
+            bottom: 5rem;
+            left: 10rem;
+        }
+
+        .ornament2{
+            position: absolute;
+            top: -5rem;
+            right: 17rem;
+        }
+    }
+
+    .testimoni-slick{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
     .slider {
         padding: 1rem;
+    }
+
+    .slick-list {
+        padding-left: 0 !important;
     }
 
     .slick-arrow {
@@ -773,7 +783,6 @@ h6 {
         display: flex !important;
         @include card-setting();
         width: 50%;
-        height: 12rem;
 
         img {
             width: 10rem;
@@ -798,8 +807,7 @@ h6 {
         }
 
         .text {
-            font-size: .7rem;
-            // line-height: 1rem;
+            font-size: .85rem;
         }
     }
 }

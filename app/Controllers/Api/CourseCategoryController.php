@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Controllers\Api;
+
+use CodeIgniter\RESTful\ResourceController;
+use App\Models\CourseCategory;
+use CodeIgniter\HTTP\RequestInterface;
+
+class CourseCategoryController extends ResourceController
+{
+    /**
+     * Return an array of resource objects, themselves in array format
+     *
+     * @return mixed
+     */
+    public function index()
+    {
+        $model = new CourseCategory();
+        $data = $model
+            ->join('course', 'course.course_id = course_category.course_id')
+            ->join('category', 'category.category_id = course_category.category_id')
+            ->orderBy('course_category_id', 'DESC')
+            ->findAll();
+
+        if(count($data) > 0){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Tidak ada data');
+        }
+    }
+
+    /**
+     * Return the properties of a resource object
+     *
+     * @return mixed
+     */
+    public function show($id = null)
+    {
+        //
+    }
+
+    /**
+     * Return a new resource object, with default properties
+     *
+     * @return mixed
+     */
+    public function new()
+    {
+        //
+    }
+
+    /**
+     * Create a new resource object, from "posted" parameters
+     *
+     * @return mixed
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Return the editable properties of a resource object
+     *
+     * @return mixed
+     */
+    public function edit($id = null)
+    {
+        //
+    }
+
+    /**
+     * Add or update a model resource, from "posted" properties
+     *
+     * @return mixed
+     */
+    public function update($id = null)
+    {
+        //
+    }
+
+    /**
+     * Delete the designated resource object from the model
+     *
+     * @return mixed
+     */
+    public function delete($id = null)
+    {
+        //
+    }
+
+    public function filter($key = null, $id = null)
+    {
+        $key_ = ['course', 'category'];
+
+        if(!in_array($key, $key_)){
+            return $this->failValidationError('Key harus course atau category');
+        } 
+
+        $model = new CourseCategory();
+        $key = $key.'.'.$key.'_id';
+        $data = $model
+            ->join('course', 'course.course_id = course_category.course_id')
+            ->join('category', 'category.category_id = course_category.category_id')
+            ->orderBy('course_category_id', 'DESC')
+            ->where($key, $id)
+            ->findAll();
+
+        if(count($data) > 0){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Tidak ada data');
+        }
+    }
+}
