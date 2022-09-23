@@ -182,7 +182,8 @@ h6 {
   font-weight: bold;
 }
 .navbar .nav-item-icon .dropdown-menu[data-bs-popper] {
-  left: calc(100% - 360px);
+  right: 0;
+  left: auto;
 }
 .navbar .nav-item-search .nav-btn-icon {
   color: #D9D9D9;
@@ -192,6 +193,7 @@ h6 {
 }
 .navbar .nav-item-search .nav-search-input {
   position: relative;
+  min-width: 20rem;
 }
 .navbar .nav-item-search .nav-search-input input {
   padding-right: 25px;
@@ -209,7 +211,6 @@ h6 {
   padding-top: 0;
   font-size: 0.8rem;
   overflow-y: auto;
-  width: 25rem;
 }
 .navbar .nav-item-search .dropdown-menu::-webkit-scrollbar {
   width: 5px;
@@ -490,12 +491,12 @@ h6 {
   margin-bottom: 2.5rem;
 }
 #mentor #mentor-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 2.8rem;
+  padding: 2rem;
+}
+#mentor .slick-slide {
+  padding: 2rem;
 }
 #mentor .item {
-  width: 33%;
   padding: 2.5rem;
 }
 #mentor .item .profile {
@@ -507,6 +508,7 @@ h6 {
   height: 8rem;
   object-fit: cover;
   border-radius: 50%;
+  margin: auto;
 }
 #mentor .item .info {
   text-align: center;
