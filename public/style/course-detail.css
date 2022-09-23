@@ -390,6 +390,7 @@ main .course-content .right-side .order-card {
   border-radius: 8px;
   padding: 20px;
   background-color: #F2F4F6;
+  width: 100%;
 }
 main .course-content .right-side .order-card ul {
   padding-left: 27px;

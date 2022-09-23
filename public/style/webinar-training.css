@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+}
+
+p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #262626;
+  margin-bottom: 0 !important;
+}
+
+button {
+  border: none !important;
+  background-color: rgba(0, 42, 91, 0);
+}
+
+.hide {
+  display: none;
+}
+
+main .navigation p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+  color: #bdbdbd;
+}
+main .navigation p a {
+  color: #002B5B;
+  text-decoration: none;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+}
+main .main-content {
+  gap: 30px;
+}
+main .main-content .left-side {
+  width: min-content;
+}
+main .main-content .left-side .category {
+  background-color: #002B5B;
+  color: white;
+  width: max-content;
+  padding: 6px 15px;
+  border-radius: 8px;
+}
+main .main-content .left-side .banner {
+  width: 700px;
+}
+main .main-content .left-side .icon-group {
+  gap: 20px;
+}
+main .main-content .left-side .icon-group .icon-description p {
+  font-size: 14px;
+  color: #797979;
+}
+main .main-content .left-side .description {
+  text-align: justify;
+}
+main .main-content .right-side {
+  width: 100%;
+  margin-top: 125px;
+}
+main .main-content .right-side .order-card {
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #F2F4F6;
+}
+main .main-content .right-side .order-card .free-text {
+  color: #2A8728;
+}
+main .main-content .right-side .order-card ul {
+  padding-left: 27px;
+}
+main .main-content .right-side .order-card .discount-info {
+  background-color: #D8FAD7;
+  color: #2A8728;
+  border-radius: 7px;
+}
+main .main-content .right-side .order-card button {
+  font-weight: 600;
+  border: none;
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #002B5B;
+  color: white;
+}
+main .main-content .right-side .order-card .add-to-cart {
+  background-color: white;
+  color: black;
+}
+
+/*# sourceMappingURL=webinar-training.css.map */
