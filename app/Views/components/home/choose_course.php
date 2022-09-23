@@ -15,7 +15,7 @@
     </div>
 
     <div class="row">
-        <div class="col-1 col-md-4 px-4">
+        <div class="col col-md-4 px-4 pb-4">
             <div class="card-course">
                 <div class="image">
                     <img src="image/home/img-course.jpg" alt="img">
@@ -40,7 +40,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-1 col-md-4 px-4">
+        <div class="col col-md-4 px-4 pb-4">
             <div class="card-course">
                 <div class="image">
                     <img src="image/home/img-course.jpg" alt="img">
@@ -65,7 +65,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-1 col-md-4 px-4">
+        <div class="col col-md-4 px-4 pb-4">
             <div class="card-course">
                 <div class="image">
                     <img src="image/home/img-course.jpg" alt="img">
