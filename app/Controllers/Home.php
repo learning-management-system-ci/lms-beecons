@@ -48,4 +48,12 @@ class Home extends BaseController
     {
         return view('pages/course/cart');
     }
+    public function webinar()
+    {
+        return view('pages/navigation/webinar');
+    }
+    public function training()
+    {
+        return view('pages/navigation/training');
+    }
 }
