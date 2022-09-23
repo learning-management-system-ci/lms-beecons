@@ -154,9 +154,17 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\CategoryController::create');
         $routes->put('update/(:num)', 'Api\CategoryController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CategoryController::delete/$1');
-        $routes->get('latest', 'Api\CategoryController::latest');
-        $routes->get('latest/(:num)', 'Api\CategoryController::latest/$1');
-        $routes->get('find/(:segment)', 'Api\CategoryController::find/$1');
+    });
+    $routes->group('tag/', static function ($routes) {
+        $routes->get('', 'Api\TagController::index');
+        $routes->get('detail/(:num)', 'Api\TagController::show/$1');
+        $routes->post('create', 'Api\TagController::create');
+        $routes->put('update/(:num)', 'Api\TagController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\TagController::delete/$1');
+    });
+    $routes->group('course_tag/', static function ($routes) {
+        $routes->get('', 'Api\CourseTagController::index');
+        $routes->get('filter/(:segment)/(:num)', 'Api\CourseTagController::filter/$1/$2');
     });
 
     $routes->group('course_category/', static function ($routes) {
