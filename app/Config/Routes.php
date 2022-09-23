@@ -132,7 +132,7 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:segment)', 'Api\BundlingController::delete/$1');
     });
 
-    $routes->group('course_bundling/', static function ($routes) {
+    $routes->group('course-bundling/', static function ($routes) {
         $routes->get('', 'Api\CourseBundlingController::index');
         $routes->get('detail/(:segment)', 'Api\CourseBundlingController::show/$1');
         $routes->post('create', 'Api\CourseBundlingController::create');
