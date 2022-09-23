@@ -10,7 +10,7 @@ use DateTime;
 use DateInterval;
 
 class AuthController extends ResourceController {
-  private $loginModel=NULL;
+    private $loginModel=NULL;
 	private $googleClient=NULL;
 	protected $session;
 
@@ -86,8 +86,10 @@ class AuthController extends ResourceController {
             'data' => [$token]
         ];
         // session()->setFlashData("success", "Login Successful");
+        setcookie("access_token", $token, time()+3600);
         $this->respondCreated($response);
-        set_cookie("access_token", strval($token));
+        echo "Masoook";
+        // set_cookie("access_token", $token);
         return redirect()->to(base_url() . "/login");
     }
 
