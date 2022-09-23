@@ -15,7 +15,7 @@ class UserCourse extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'course_id'];
+    protected $allowedFields    = ['user_id', 'course_id', 'is_access'];
 
 
     function getData($userId) {

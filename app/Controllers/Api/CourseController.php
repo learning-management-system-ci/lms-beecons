@@ -42,7 +42,7 @@ class CourseController extends ResourceController
             'description' => 'required|min_length[8]',
             'price' => 'required|numeric',
             'thumbnail' => 'required',
-            'is_access' => 'required|less_than_equal_to[1]'
+            // 'is_access' => 'required|less_than_equal_to[1]'
         ];
 
         $messages = [
@@ -61,15 +61,12 @@ class CourseController extends ResourceController
             "thumbnail" => [
                 "required" => "{field}  tidak boleh kosong"
             ],
-            "is_access" => [
-                "required" => "{field}  tidak boleh kosong",
-                "less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
-            ],
+            // "is_access" => [
+            //     "required" => "{field}  tidak boleh kosong",
+            //     "less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
+            // ],
         ];
 
-         //$isAccess = $this->request->getVar('is_access');
-        // $boolDecode = json_decode($isAccess);
-         //return $isAccess;
         $response;
         if($this->validate($rules, $messages)) {
             $data = [
@@ -77,7 +74,7 @@ class CourseController extends ResourceController
               'description' => $this->request->getVar('description'),
               'price' => $this->request->getVar('price'),
               'thumbnail' => $this->request->getVar('thumbnail'),
-              'is_access' => $this->request->getVar('is_access'),
+            //   'is_access' => $this->request->getVar('is_access'),
             ];
 
             $model->insert($data);
@@ -109,7 +106,7 @@ class CourseController extends ResourceController
             'description' => 'required|min_length[8]',
             'price' => 'required|numeric',
             'thumbnail' => 'required',
-            'is_access' => 'required|less_than_equal_to[1]'
+            // 'is_access' => 'required|less_than_equal_to[1]'
         ];
 
         $messages = [
@@ -128,10 +125,10 @@ class CourseController extends ResourceController
             "thumbnail" => [
                 "required" => "{field}  tidak boleh kosong"
             ],
-            "is_access" => [
-                "required" => "{field}  tidak boleh kosong",
-                "less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
-            ],
+            // "is_access" => [
+            //     "required" => "{field}  tidak boleh kosong",
+            //     "less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
+            // ],
         ];
 
         $response;
