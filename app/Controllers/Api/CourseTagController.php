@@ -31,9 +31,7 @@ class CourseTagController extends ResourceController
             ->findAll();
 
         for($i = 0; $i < count($data); $i++){
-            $data[$i]['tag'] = [
-                $tag[$i]
-            ];
+            $data[$i]['tag'] = $tag[$i];
         }
 
         if(count($data) > 0){
@@ -127,11 +125,8 @@ class CourseTagController extends ResourceController
             ->where($key, $id)
             ->findAll();
         
-        
         for($i = 0; $i < count($data); $i++){
-            $data[$i]['tag'] = [
-                $tag[$i]
-            ];
+            $data[$i]['tag'] = $tag[$i];
         }
 
         if(count($data) > 0){
