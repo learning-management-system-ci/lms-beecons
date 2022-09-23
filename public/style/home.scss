@@ -315,7 +315,7 @@ h6 {
 
     .nav-item-icon {
         .notifications {
-            width: 25rem;
+            min-width: 25rem;
             min-height: 20rem;
             padding-top: 0;
             font-size: .8rem;
@@ -740,6 +740,10 @@ h6 {
         padding: 1rem;
     }
 
+    .slick-list{
+        padding-left: 0 !important;
+    }
+
     .slick-arrow {
         top: 50%;
     }
@@ -773,7 +777,6 @@ h6 {
         display: flex !important;
         @include card-setting();
         width: 50%;
-        height: 12rem;
 
         img {
             width: 10rem;
@@ -798,8 +801,7 @@ h6 {
         }
 
         .text {
-            font-size: .7rem;
-            // line-height: 1rem;
+            font-size: .85rem;
         }
     }
 }

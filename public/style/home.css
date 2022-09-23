@@ -240,7 +240,7 @@ h6 {
   margin-bottom: 0;
 }
 .navbar .nav-item-icon .notifications {
-  width: 25rem;
+  min-width: 25rem;
   min-height: 20rem;
   padding-top: 0;
   font-size: 0.8rem;
@@ -605,6 +605,9 @@ h6 {
 #testimoni .slider {
   padding: 1rem;
 }
+#testimoni .slick-list {
+  padding-left: 0 !important;
+}
 #testimoni .slick-arrow {
   top: 50%;
 }
@@ -634,7 +637,6 @@ h6 {
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   width: 50%;
-  height: 12rem;
 }
 #testimoni .testimoni-container img {
   width: 10rem;
@@ -655,7 +657,7 @@ h6 {
   margin-bottom: 0.8rem;
 }
 #testimoni .testimoni-container .text {
-  font-size: 0.7rem;
+  font-size: 0.85rem;
 }
 
 footer {
