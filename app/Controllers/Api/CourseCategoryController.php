@@ -16,11 +16,23 @@ class CourseCategoryController extends ResourceController
     public function index()
     {
         $model = new CourseCategory();
+
         $data = $model
+            ->select('course.*')
             ->join('course', 'course.course_id = course_category.course_id')
             ->join('category', 'category.category_id = course_category.category_id')
             ->orderBy('course_category_id', 'DESC')
             ->findAll();
+        $category = $model
+            ->select('category.*')
+            ->join('course', 'course.course_id = course_category.course_id')
+            ->join('category', 'category.category_id = course_category.category_id')
+            ->orderBy('course_category_id', 'DESC')
+            ->findAll();
+
+        for($i = 0; $i < count($data); $i++){
+            $data[$i]['category'] = $category[$i];
+        }
 
         if(count($data) > 0){
             return $this->respond($data);
@@ -105,7 +117,17 @@ class CourseCategoryController extends ResourceController
             ->orderBy('course_category_id', 'DESC')
             ->where($key, $id)
             ->findAll();
-
+        $category = $model
+            ->select('category.*')
+            ->join('course', 'course.course_id = course_category.course_id')
+            ->join('category', 'category.category_id = course_category.category_id')
+            ->orderBy('course_category_id', 'DESC')
+            ->where($key, $id)
+            ->findAll();
+        for($i = 0; $i < count($data); $i++){
+            $data[$i]['category'] = $category[$i];
+        }
+        
         if(count($data) > 0){
             return $this->respond($data);
         }else{
