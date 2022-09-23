@@ -31,9 +31,6 @@ class CreateCourseTable extends Migration
                 'type'          => 'VARCHAR',
                 'constraint'    => '255'
             ],
-            'is_access'             => [
-                'type'          => 'BOOL',
-            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);

@@ -25,6 +25,9 @@ class CreateUserCourseTable extends Migration
                 'constraint'     => '5',
                 'unsigned'       => true,
             ],
+            'is_access'             => [
+                'type'          => 'BOOL',
+            ],
             
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
