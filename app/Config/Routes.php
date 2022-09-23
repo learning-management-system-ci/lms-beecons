@@ -171,6 +171,19 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\CourseCategoryController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseCategoryController::filter/$1/$2');
     });
+
+    $routes->group('type/', static function ($routes) {
+        $routes->get('', 'Api\TypeController::index');
+        $routes->get('detail/(:num)', 'Api\TypeController::show/$1');
+        $routes->post('create', 'Api\TypeController::create');
+        $routes->put('update/(:num)', 'Api\TypeController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\TypeController::delete/$1');
+    });
+
+    $routes->group('course_type/', static function ($routes) {
+        $routes->get('', 'Api\CourseTypeController::index');
+        $routes->get('filter/(:segment)/(:num)', 'Api\CourseTypeController::filter/$1/$2');
+    });
     
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
