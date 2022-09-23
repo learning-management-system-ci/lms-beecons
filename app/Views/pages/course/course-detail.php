@@ -2,10 +2,12 @@
 
 <?= $this->section('css-component') ?>
 <link rel="stylesheet" href="style/course-detail.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 <?= $this->endSection() ?>
 
 
-
+<!-- note -->
+<!-- kepada para pengintegrasi, fetch data quiz lakukan sebelum pemanggilan library swiper.js agar dapat dilakukan scroll soal -->
 
 <?= $this->section('app-component') ?>
 
@@ -22,7 +24,65 @@
     </section>
     <section class="course-content d-flex">
         <div class="left-side">
-            <iframe class="mb-5" width="727" height="400" src="https://www.youtube.com/embed/mRttyh1GQ5I"></iframe>
+            <!-- VIDEO EMBED -->
+            <!-- <iframe class="mb-5" width="727" height="400" src="https://www.youtube.com/embed/mRttyh1GQ5I"></iframe> -->
+
+            <!-- QUIZ PANEL -->
+            <div class="quiz-section text-center p-4 swiper myswiper mb-5">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <h4 class="quiz-title">QUESTION</h4>
+                        <p class="mb-3">PILIHAN GANDA</p>
+                        <div class="quiz-option-list d-flex justify-content-center align-items-center p-1 flex-wrap">
+                            <div class="quiz-option px-3 d-flex align-items-center">
+                                <input type="radio" name="question-1" id="A-1">
+                                <label for="A-1">Hello</label>
+                            </div>
+                            <div class="quiz-option px-3 d-flex align-items-center">
+                                <input type="radio" name="question-1" id="B-1">
+                                <label for="B-1">Hello</label>
+                            </div>
+                            <div class="quiz-option px-3 d-flex align-items-center">
+                                <input type="radio" name="question-1" id="C-1">
+                                <label for="C-1">Hello</label>
+                            </div>
+                            <div class="quiz-option px-3 d-flex align-items-center">
+                                <input type="radio" name="question-1" id="D-1">
+                                <label for="D-1">Hello</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <h4 class="quiz-title">QUESTION</h4>
+                        <p class="mb-3">PILIHAN GANDA</p>
+                        <div class="quiz-option-list d-flex justify-content-center align-items-center p-1 flex-wrap">
+                            <div class="quiz-option px-3 d-flex align-items-center">
+                                <input type="radio" name="question-2" id="A-2">
+                                <label for="A-2">Hello</label>
+                            </div>
+                            <div class="quiz-option px-3 d-flex align-items-center">
+                                <input type="radio" name="question-2" id="B-2">
+                                <label for="B-2">Hello</label>
+                            </div>
+                            <div class="quiz-option px-3 d-flex align-items-center">
+                                <input type="radio" name="question-2" id="C-2">
+                                <label for="C-2">Hello</label>
+                            </div>
+                            <div class="quiz-option px-3 d-flex align-items-center">
+                                <input type="radio" name="question-2" id="D-2">
+                                <label for="D-2">Hello</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-box d-flex align-items-center justify-content-center p-1 mt-5">
+                    <button class="quiz-back"><img width="34px" src="image/course-detail/back.png" alt=""></button>
+                    <div id="loading"></div>
+                    <button class="quiz-next"><img width="110px" src="image/course-detail/next.png" alt=""></button>
+                </div>
+            </div>
+
+
             <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Tentang</button>
@@ -295,5 +355,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>
+<script src='js/library/swiper-bundle.min.js'></script>
+<script src="js/library/progress-bar.js"></script>
 <script src="js/home/course-detail.js"></script>
 <?= $this->endSection() ?>

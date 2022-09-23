@@ -7,7 +7,7 @@
 }
 
 @mixin video-list-button($bg_color, $bg_image, $drop_shadow) {
-    transition: 0.5s;
+    transition: 0.2s;
     cursor: pointer;
     border-radius: 7px;
     background-color: $bg_color;
@@ -62,10 +62,10 @@ button {
     display: none;
 }
 
+
 .list-active {
     @include video-list-button(#ffffff, url("../image/course-detail/pause-button.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
 }
-
 
 
 main {
@@ -101,6 +101,95 @@ main {
 
             iframe {
                 border-radius: 10px;
+            }
+
+            .quiz-section {
+                width: 727px;
+                height: 400px;
+                background-color: #F2F4F6;
+                border-radius: 16px;
+
+                .swiper-wrapper {
+                    height: min-content;
+                }
+
+                .quiz-option-list {
+                    margin: 0px 20px;
+                    gap: 4%;
+                    row-gap: 10px;
+
+                    div {
+                        width: 46%;
+                        gap: 12px;
+                        border-radius: 10px;
+                        background-color: #E4E8EE;
+
+                        input {
+                            width: 18px;
+                            border-radius: 0px;
+                            border: 2px solid #002B5B;
+                            height: 18px;
+                            -webkit-appearance: none;
+
+                        }
+
+                        input:checked {
+                            // background-color: #5c48a3;
+                            background-image: url('../image/course-detail/check.png');
+                            background-repeat: no-repeat;
+                            background-size: 18px;
+                            background-position: -2px -2px;
+                        }
+
+                        label {
+                            text-align: start;
+                            color: #002B5B;
+                            width: 100%;
+                            height: 100%;
+                            padding: 16px 0px;
+                        }
+                    }
+
+                    div:hover {
+                        background-color: white;
+                    }
+                }
+
+                .quiz-back,
+                .quiz-next {}
+
+                .progress-box {
+                    box-shadow: 3px 3px 15px #888888;
+                    width: 100%;
+                    background-color: white;
+                    border-radius: 8px;
+
+
+                    #loading {
+                        margin: 15px;
+                        width: 490px;
+                        height: 3px;
+                        padding-top: 0;
+                        margin-top: -10px;
+                        position: relative;
+
+                    }
+
+                    .progressbar-text {
+                        opacity: 1;
+                        right: 83%;
+                        border: none !important;
+                        background-image: url('../image/course-detail/loading-indicator.png');
+                        background-repeat: no-repeat;
+                        background-size: 200px 45px;
+                        width: 200px;
+                        height: 50px;
+                        // animation: fadeInAnimation ease 1400ms;
+                        // animation-iteration-count: 1;
+                        // animation-fill-mode: forwards;
+                    }
+                }
+
             }
 
 
