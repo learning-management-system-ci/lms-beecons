@@ -1,7 +1,7 @@
 <!-- hero -->
 <div id="hero">
     <div class="content-container">
-        <div class="content">
+        <div class="content col-md-6">
             <h1>
                 The First Group - Mentoring Focused Course in Indonesia.
             </h1>
@@ -10,12 +10,12 @@
             </p>
             <a href="">
                 <button class="my-btn">
-                    Learn More
+                    Pelajari Lebih Lanjut
                 </button>
             </a>
         </div>
     </div>
-    <div class="image">
+    <div class="image d-none d-md-block">
         <img src="image/home/Background.png" alt="img">
     </div>
 </div>

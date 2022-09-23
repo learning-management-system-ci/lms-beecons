@@ -127,6 +127,47 @@ h6 {
   margin-right: 0.5rem;
 }
 
+.card-webinar {
+  border-radius: 0.6rem;
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 0.8rem;
+}
+.card-webinar .image img {
+  width: 100%;
+  height: 10rem;
+  object-fit: cover;
+  border-radius: 0.6rem;
+  border: 1px solid #D9D9D9;
+  margin-bottom: 1rem;
+}
+.card-webinar h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.card-webinar .item-info {
+  display: flex;
+  gap: 0.2rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  color: #9ca3af;
+}
+.card-webinar .item-info i {
+  min-width: 1.4rem;
+}
+.card-webinar .item-info p {
+  font-size: 0.8rem;
+  margin: 0;
+}
+.card-webinar .harga {
+  margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  color: #FFCB42;
+}
+
 .navbar {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
@@ -311,9 +352,9 @@ h6 {
   display: flex;
   align-items: center;
   padding-left: 3.5rem;
+  padding-right: 3.5rem;
 }
 #hero .content {
-  width: 40%;
   text-align: left;
 }
 #hero .content h1 {
@@ -336,8 +377,8 @@ h6 {
 #why-choose-us {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
   background-color: #FFF5FD;
 }
 #why-choose-us h1 {
@@ -366,31 +407,25 @@ h6 {
   margin-top: 0.9rem;
   border-radius: 0px 1rem;
 }
-#why-choose-us .wrapper {
+#why-choose-us .item {
   display: flex;
-  justify-content: center;
-  gap: 2.5rem;
-}
-#why-choose-us .wrapper .item {
-  display: flex;
-  width: 30%;
   gap: 1rem;
 }
-#why-choose-us .wrapper .content h2 {
+#why-choose-us .content h2 {
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
   margin-top: 1.2rem;
 }
-#why-choose-us .wrapper p {
+#why-choose-us p {
   line-height: 1.5rem;
 }
 
 #choose-course {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 #choose-course h1 {
   font-size: 2rem;
@@ -415,8 +450,9 @@ h6 {
 #webinar {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  background-color: #FFF5FD;
 }
 #webinar h1 {
   font-size: 2rem;
@@ -436,54 +472,12 @@ h6 {
 #webinar .categories .active {
   font-weight: bolder;
 }
-#webinar #webinar-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-}
-#webinar .item {
-  width: 25%;
-  padding: 0.8rem;
-}
-#webinar .item .image img {
-  width: 100%;
-  height: 10rem;
-  object-fit: cover;
-  border-radius: 0.6rem;
-  border: 1px solid #D9D9D9;
-  margin-bottom: 1rem;
-}
-#webinar .item h2 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-#webinar .item .item-info {
-  display: flex;
-  gap: 0.8rem;
-  margin-bottom: 0.5rem;
-}
-#webinar .item .item-info img {
-  width: 1.2rem;
-  height: 100%;
-}
-#webinar .item .item-info p {
-  font-size: 0.8rem;
-  margin: 0;
-}
-#webinar .item .harga {
-  margin-top: 1.2rem;
-  margin-bottom: 1.2rem;
-  font-size: 1.2rem;
-  font-weight: bolder;
-  color: #FFCB42;
-}
 
 #mentor {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 #mentor h1 {
   font-size: 2rem;
@@ -565,8 +559,8 @@ h6 {
 #our-partner {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
   margin-bottom: 3rem;
   background-color: #FFF5FD;
 }
@@ -592,8 +586,8 @@ h6 {
 #testimoni {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
   padding-bottom: 6rem;
 }
 #testimoni h1 {
@@ -601,6 +595,26 @@ h6 {
   text-align: center;
   margin-bottom: 2.5rem;
   margin-bottom: 4rem;
+}
+#testimoni .testimoni-wrapper {
+  position: relative;
+  min-height: 30rem;
+}
+#testimoni .testimoni-wrapper .ornament1 {
+  position: absolute;
+  bottom: 5rem;
+  left: 10rem;
+}
+#testimoni .testimoni-wrapper .ornament2 {
+  position: absolute;
+  top: -5rem;
+  right: 17rem;
+}
+#testimoni .testimoni-slick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 #testimoni .slider {
   padding: 1rem;
