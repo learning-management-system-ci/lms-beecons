@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/authentication_layout') ?>
 
 <?= $this->section('authentication-component') ?>
-<form method="post" action="<?= base_url(); ?>/login" id="login" class=" form d-flex flex-column"
+<form action="<?= base_url('/api/login'); ?>" id="login" class=" form d-flex flex-column"
     style="border: 2px solid rgba(236, 236, 236, 0); width: 290px;">
     <?= csrf_field(); ?>
     <p class="welcome-text">Welcome</p>
@@ -16,7 +16,9 @@
     <div class="option d-flex justify-content-end align-items-center my-2">
         <a href="<?= base_url('forgot-password'); ?>">Forgot Password?</a>
     </div>
-    <button class="btn btn-primary" id="button" type="submit" disabled="disabled" style="border: 0;">Sign In</button>
+
+    <button class="btn btn-primary" id="button" type="submit" disabled="disabled" style="border: 0;">Sign
+        In</button>
     <p class="sign-up" style="text-align: center;">Don't Have Account <a href="<?= base_url('register'); ?>">Sign up</a>
     </p>
     <p class="horizontal">Or</p>
@@ -24,6 +26,12 @@
 <?= $googleButton; ?>
 <?= $this->include('components/authentication/error_modal') ?>
 <?= $this->endSection() ?>
+<?=$this->section('authentication-js-logic')?>
+<script type="text/javascript">
+    base_url = '<?=base_url()?>';
+</script>
+<script src="js/authentication/api/login.js"></script>
+<?= $this->endSection() ?>
 <?=$this->section('authentication-js')?>
-<script src="js/authentication/login.js" />
+<script src="js/authentication/login.js"></script>
 <?= $this->endSection() ?>

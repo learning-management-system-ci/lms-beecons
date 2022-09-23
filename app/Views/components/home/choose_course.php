@@ -1,44 +1,94 @@
 <!-- pilih course -->
 <div id="choose-course">
     <h1>
-        Choose Your Course
+        Pilih Course Kamu
     </h1>
-    <p class="description">
-        Choose a specialization according to your passion. We provide two categories which are divided into Information Technology and construction engineering, in which there is a choice of courses that you can take
-    </p>
 
-    <div id="course-wrapper">
-        <div class="my-card course">
-            <div class="image">
-                <img src="image/home/choose_course2.png" alt="img">
+    <div class="tags mb-4">
+        <div class="item active"><a href="">All</a></div>
+        <div class="item"><a href="">Engineering</a></div>
+        <div class="item"><a href="">IT</a></div>
+    </div>
+
+    <div class="text-end mb-4">
+        <a href="#" class="text-decoration-underline text-primary">Lihat Semua</a>
+    </div>
+
+    <div class="row">
+        <div class="col col-md-4 px-4 pb-4">
+            <div class="card-course">
+                <div class="image">
+                    <img src="image/home/img-course.jpg" alt="img">
+
+                    <div class="card-course-tags">
+                        <div class="item">Fundamental</div>
+                        <div class="item">Basic</div>
+                    </div>
+                </div>
+                <div class="body">
+                    <h2>Information Tech (IT)</h2>
+                    <p>
+                        Intensive program to learn to be a digital talent in Information Tech (IT)
+                    </p>
+                    <p class="harga">
+                        <del>Rp 4.999.000</del>
+                        Rp 3.499.000
+                    </p>
+                </div>
+                <a href="">
+                    <button class="my-btn btn-full">Detail</button>
+                </a>
             </div>
-
-            <div class="body">
-                <h2>Information Tech (IT)</h2>
-                <p>
-                    Intensive program to learn to be a digital talent in Information Tech (IT)
-                </p>
-            </div>
-
-            <a href="">
-                <button class="my-btn btn-full">See Course</button>
-            </a>
         </div>
-        <div class="my-card course">
-            <div class="image">
-                <img src="image/home/choose_course.png" alt="img">
-            </div>
+        <div class="col col-md-4 px-4 pb-4">
+            <div class="card-course">
+                <div class="image">
+                    <img src="image/home/img-course.jpg" alt="img">
 
-            <div class="body">
-                <h2>Constructions</h2>
-                <p>
-                    Intensive program to learn to be a digital talent in Construction Engineering
-                </p>
+                    <div class="card-course-tags">
+                        <div class="item">Fundamental</div>
+                        <div class="item">Basic</div>
+                    </div>
+                </div>
+                <div class="body">
+                    <h2>Information Tech (IT)</h2>
+                    <p>
+                        Intensive program to learn to be a digital talent in Information Tech (IT)
+                    </p>
+                    <p class="harga">
+                        <del>Rp 4.999.000</del>
+                        Rp 3.499.000
+                    </p>
+                </div>
+                <a href="">
+                    <button class="my-btn btn-full">Detail</button>
+                </a>
             </div>
+        </div>
+        <div class="col col-md-4 px-4 pb-4">
+            <div class="card-course">
+                <div class="image">
+                    <img src="image/home/img-course.jpg" alt="img">
 
-            <a href="">
-                <button class="my-btn btn-full">See Course</button>
-            </a>
+                    <div class="card-course-tags">
+                        <div class="item">Fundamental</div>
+                        <div class="item">Basic</div>
+                    </div>
+                </div>
+                <div class="body">
+                    <h2>Information Tech (IT)</h2>
+                    <p>
+                        Intensive program to learn to be a digital talent in Information Tech (IT)
+                    </p>
+                    <p class="harga">
+                        <del>Rp 4.999.000</del>
+                        Rp 3.499.000
+                    </p>
+                </div>
+                <a href="">
+                    <button class="my-btn btn-full">Detail</button>
+                </a>
+            </div>
         </div>
     </div>
 </div>

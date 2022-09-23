@@ -6,7 +6,10 @@ class Home extends BaseController
 {
     public function index()
     {
-        return view('pages/home/home');
+        $data = [
+            "title" => "Learning Platform",
+        ];
+        return view('pages/home/home', $data);
     }
     public function login()
     {
@@ -28,6 +31,8 @@ class Home extends BaseController
     {
         return view('pages/authentication/new_password');
     }
+
+    
     public function faq()
     {
         return view('pages/navigation/faq');
@@ -35,6 +40,10 @@ class Home extends BaseController
     public function aboutUs()
     {
         return view('pages/navigation/about_us');
+    }
+    public function termsAndConditions()
+    {
+        return view('pages/navigation/terms_and_condition');
     }
     public function bundlingCart()
     {
@@ -48,6 +57,7 @@ class Home extends BaseController
     {
         return view('pages/course/cart');
     }
+
     public function webinar()
     {
         return view('pages/navigation/webinar');
@@ -55,5 +65,12 @@ class Home extends BaseController
     public function training()
     {
         return view('pages/navigation/training');
+    }
+    public function courses()
+    {
+        $data = [
+            "title" => "Courses",
+        ];
+        return view('pages/navigation/courses', $data);
     }
 }

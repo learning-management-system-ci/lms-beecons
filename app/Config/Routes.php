@@ -44,7 +44,8 @@ $routes->get('/register', 'AuthController::indexRegister');
 $routes->post('/register', 'AuthController::register');
 
 $routes->get('/profile', 'AuthController::profile');
-$routes->get('/login/loginWithGoogle', 'AuthController::loginWithGoogle');
+$routes->get('/login/loginWithGoogle', 'Api\AuthController::loginWithGoogle');
+$routes->post('/login/loginWithGoogle/submit', 'AuthController::loginWithGoogle');
 $routes->get('/logout', 'AuthController::logout');
 $routes->get('/activateuser', 'AuthController::activateUser');
 
@@ -59,30 +60,92 @@ $routes->post('/send-otp', 'AuthController::sendOtp');
 $routes->get('/new-password', 'AuthController::indexNewPassword');
 $routes->post('/new-password', 'AuthController::newPassword');
 
-$routes->get('/faq', 'Home::faq');
+$routes->get('/faq', 'Client\FaqController::index');
 $routes->get('/about-us', 'Home::aboutUs');
-$routes->get('/bundling', 'Home::bundlingCart');
+$routes->get('/terms-and-conditions', 'Home::termsAndConditions');
+$routes->get('/courses/bundling', 'Home::bundlingCart');
 $routes->get('/course-detail', 'Home::courseDetail');
 $routes->get('/cart', 'Home::cart');
 $routes->get('/webinar', 'Home::webinar');
 $routes->get('/training', 'Home::training');
+$routes->get('/courses', 'Home::courses');
 
-//$routes->resource('faq', ['controller' => 'Api\FaqController']);
-$routes->group('api/faq/', static function ($routes) {
-    $routes->get('', 'Api\FaqController::index');
-    $routes->post('create', 'Api\FaqController::create');
-    $routes->get('detail/(:segment)', 'Api\FaqController::show/$1');
-    $routes->put('update/(:segment)', 'Api\FaqController::update/$1');
-    $routes->delete('delete/(:segment)', 'Api\FaqController::delete/$1');
+
+$routes->group('api/', static function ($routes) {
+    $routes->post('register', 'Api\AuthController::register');
+    $routes->post('login', 'Api\AuthController::login');
+    $routes->get('activateuser', 'Api\AuthController::activateUser');
+
+    $routes->post('forgot-password', 'Api\ForgotPasswordController::forgotPassword');
+    $routes->post('send-otp', 'Api\ForgotPasswordController::sendOtp');
+    $routes->post('new-password', 'Api\ForgotPasswordController::newPassword');
+
+    $routes->group('faq/', static function ($routes) {
+        $routes->get('', 'Api\FaqController::index');
+        $routes->post('create', 'Api\FaqController::create');
+        $routes->get('detail/(:segment)', 'Api\FaqController::show/$1');
+        $routes->put('update/(:segment)', 'Api\FaqController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\FaqController::delete/$1');
+    });
+
+    $routes->group('voucher/', static function ($routes) {
+        $routes->get('', 'Api\VoucherController::index');
+        $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
+        $routes->post('create', 'Api\VoucherController::create');
+        $routes->put('update/(:segment)', 'Api\VoucherController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
+    });
+
+    $routes->group('pap/', static function ($routes) {
+        $routes->get('', 'Api\PolicyAndPrivacyController::index');
+        $routes->get('detail/(:num)', 'Api\PolicyAndPrivacyController::show/$1');
+        $routes->post('create', 'Api\PolicyAndPrivacyController::create');
+        $routes->put('update/(:num)', 'Api\PolicyAndPrivacyController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\PolicyAndPrivacyController::delete/$1');
+    });
+
+    $routes->group('users/', static function ($routes) {
+        $routes->get('', 'Api\UserController::profile');
+        $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
+        $routes->get('jobs', 'Api\UserController::jobs');
+        $routes->put('update/(:segment)', 'Api\UserController::update/$1');
+    });
+
+    $routes->group('course/', static function ($routes) {
+        $routes->get('', 'Api\CourseController::index');
+        $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
+        $routes->post('create', 'Api\CourseController::create');
+        $routes->put('update/(:num)', 'Api\CourseController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
+        $routes->get('latest', 'Api\CourseController::latest');
+        $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
+        $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+    });
+
+    $routes->group('category/', static function ($routes) {
+        $routes->get('', 'Api\CategoryController::index');
+        $routes->get('detail/(:num)', 'Api\CategoryController::show/$1');
+        $routes->post('create', 'Api\CategoryController::create');
+        $routes->put('update/(:num)', 'Api\CategoryController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\CategoryController::delete/$1');
+        $routes->get('latest', 'Api\CategoryController::latest');
+        $routes->get('latest/(:num)', 'Api\CategoryController::latest/$1');
+        $routes->get('find/(:segment)', 'Api\CategoryController::find/$1');
+    });
+
+    $routes->group('course_category/', static function ($routes) {
+        $routes->get('', 'Api\CourseCategoryController::index');
+        $routes->get('filter/(:segment)/(:num)', 'Api\CourseCategoryController::filter/$1/$2');
+    });
+    
+    $routes->get('user-course', 'Api\UserCourseController::index');
+    $routes->get('profile', 'Api\UserController::profile');
 });
 
-$routes->group('api/voucher/', static function ($routes) {
-    $routes->get('', 'Api\VoucherController::index');
-    $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
-    $routes->post('create', 'Api\VoucherController::create');
-    $routes->put('update/(:segment)', 'Api\VoucherController::update/$1');
-    $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
-});
+$routes->get('/sign-up', 'Home::signUp');
+$routes->get('/forgot-password', 'Home::forgotPassword');
+$routes->get('/send-otp', 'Home::sendOTP');
+$routes->get('/new-password', 'Home::newPassword');
 
 
 /*
