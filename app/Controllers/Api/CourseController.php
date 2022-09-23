@@ -4,7 +4,7 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Course;
-// use App\Models\Category;
+use App\Models\CourseCategory;
 use CodeIgniter\HTTP\RequestInterface;
 
 class CourseController extends ResourceController
@@ -37,14 +37,14 @@ class CourseController extends ResourceController
     public function create()
     {
         $modelCourse = new Course();
-        // $modelCategory = new Category();
+        $modelCourseCategory = new CourseCategory();
 
         $rules = [
             'title' => 'required|min_length[8]',
             'description' => 'required|min_length[8]',
             'price' => 'required|numeric',
             'thumbnail' => 'required',
-            // 'category_id' => 'required'
+            'category_id' => 'required|numeric'
         ];
 
         $messages = [
@@ -63,9 +63,9 @@ class CourseController extends ResourceController
             "thumbnail" => [
                 "required" => "{field} tidak boleh kosong"
             ],
-            // "category_id" => [
-            //     "required" => "{field} tidak boleh kosong"
-            // ],
+            "category_id" => [
+                "required" => "{field} tidak boleh kosong"
+            ],
         ];
 
         $response;
@@ -74,15 +74,16 @@ class CourseController extends ResourceController
               'title' => $this->request->getVar('title'),
               'description' => $this->request->getVar('description'),
               'price' => $this->request->getVar('price'),
-              'thumbnail' => $this->request->getVar('thumbnail')
+              'thumbnail' => $this->request->getVar('thumbnail'),
             ];
-            // $dataCategory = [
-            //     'course_id' => ,
-            //     'category_id' => $this->request->getVar('category_id')
-            // ]
-
             $modelCourse->insert($dataCourse);
-            print_r($modelCourse->insertID());
+
+            $dataCourseCategory = [
+                'course_id' => $modelCourse->insertID(),
+                'category_id' => $this->request->getVar('category_id')
+            ];
+            $modelCourseCategory->insert($dataCourseCategory);
+
             $response = [
                 'status'   => 201,
                 'success'    => 201,
@@ -104,13 +105,15 @@ class CourseController extends ResourceController
 
     public function update($id = null)
     {
-        $model = new Course();
+        $modelCourse = new Course();
+        $modelCourseCategory = new CourseCategory();
 
         $rules = [
             'title' => 'required|min_length[8]',
             'description' => 'required|min_length[8]',
             'price' => 'required|numeric',
             'thumbnail' => 'required',
+            'category_id' => 'required|numeric'
         ];
 
         $messages = [
@@ -123,25 +126,35 @@ class CourseController extends ResourceController
                 'min_length' => '{field} minimal 8 karakter'
             ],
             "price" => [
-                "required" => "field}  tidak boleh kosong",
+                "required" => "{field}  tidak boleh kosong",
                 "numeric" => "{field} harus berisi nomor",
             ],
             "thumbnail" => [
                 "required" => "{field}  tidak boleh kosong"
             ],
+            "category_id" => [
+                "required" => "{field} tidak boleh kosong"
+            ],
         ];
 
         $response;
-        if($model->find($id)){
+        if($modelCourse->find($id)){
             if($this->validate($rules, $messages)) {
-                $data = [
+                $dataCourse = [
                   'title' => $this->request->getRawInput('title'),
                   'description' => $this->request->getRawInput('description'),
                   'price' => $this->request->getRawInput('price'),
                   'thumbnail' => $this->request->getRawInput('thumbnail')
                 ];
+                $modelCourse->update($id, $dataCourse['title']);
 
-                $model->update($id, $data['title']);
+                $dataCourseCategory = [
+                    'course_id' => $id,
+                    'category_id' => $this->request->getRawInput('category_id')['category_id']
+                ];
+                $courseCategoryID = $modelCourseCategory->where('course_id', $id)->find();
+                $modelCourseCategory->where('course_id', $id)->update($courseCategoryID[0]['course_category_id'],$dataCourseCategory);
+
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
@@ -170,10 +183,12 @@ class CourseController extends ResourceController
 
     public function delete($id = null)
     {
-        $model = new Course();
+        $modelCourse = new Course();
+        $modelCourseCategory = new CourseCategory();
 
-        if($model->find($id)){
-            $model->delete($id);
+        if($modelCourse->find($id)){
+            $modelCourseCategory->where('course_id', $id)->delete();
+            $modelCourse->delete($id);
             $response = [
                 'status'   => 200,
                 'success'    => 200,

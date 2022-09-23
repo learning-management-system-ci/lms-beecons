@@ -36,13 +36,34 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->get('/login', 'Api\AuthController::indexLogin');
 
-$routes->get('/login/loginWithGoogle', 'AuthController::loginWithGoogle');
+$routes->get('/login', 'AuthController::indexLogin');
+$routes->post('/login', 'AuthController::login');
 
-$routes->get('/faq', 'Home::faq');
+$routes->get('/register', 'AuthController::indexRegister');
+$routes->post('/register', 'AuthController::register');
+
+$routes->get('/profile', 'AuthController::profile');
+$routes->get('/login/loginWithGoogle', 'Api\AuthController::loginWithGoogle');
+$routes->post('/login/loginWithGoogle/submit', 'AuthController::loginWithGoogle');
+$routes->get('/logout', 'AuthController::logout');
+$routes->get('/activateuser', 'AuthController::activateUser');
+
+$routes->get('/forgot-password', 'AuthController::indexforgotPassword');
+$routes->get('/forgot-password/submit', 'AuthController::forgotPassword');
+
+$routes->get('/otp-email', 'AuthController::sendOtpEmail');
+
+$routes->get('/send-otp', 'AuthController::indexSendOtp');
+$routes->post('/send-otp', 'AuthController::sendOtp');
+
+$routes->get('/new-password', 'AuthController::indexNewPassword');
+$routes->post('/new-password', 'AuthController::newPassword');
+
+$routes->get('/faq', 'Client\FaqController::index');
 $routes->get('/about-us', 'Home::aboutUs');
-$routes->get('/bundling', 'Home::bundlingCart');
+$routes->get('/terms-and-conditions', 'Home::termsAndConditions');
+$routes->get('/courses/bundling', 'Home::bundlingCart');
 $routes->get('/course-detail', 'Home::courseDetail');
 $routes->get('/cart', 'Home::cart');
 $routes->get('/courses', 'Home::courses');
@@ -81,6 +102,13 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\PolicyAndPrivacyController::delete/$1');
     });
 
+    $routes->group('users/', static function ($routes) {
+        $routes->get('', 'Api\UserController::profile');
+        $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
+        $routes->get('jobs', 'Api\UserController::jobs');
+        $routes->put('update/(:segment)', 'Api\UserController::update/$1');
+    });
+
     $routes->group('course/', static function ($routes) {
         $routes->get('', 'Api\CourseController::index');
         $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
@@ -92,6 +120,23 @@ $routes->group('api/', static function ($routes) {
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
     });
 
+    $routes->group('category/', static function ($routes) {
+        $routes->get('', 'Api\CategoryController::index');
+        $routes->get('detail/(:num)', 'Api\CategoryController::show/$1');
+        $routes->post('create', 'Api\CategoryController::create');
+        $routes->put('update/(:num)', 'Api\CategoryController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\CategoryController::delete/$1');
+        $routes->get('latest', 'Api\CategoryController::latest');
+        $routes->get('latest/(:num)', 'Api\CategoryController::latest/$1');
+        $routes->get('find/(:segment)', 'Api\CategoryController::find/$1');
+    });
+
+    $routes->group('course_category/', static function ($routes) {
+        $routes->get('', 'Api\CourseCategoryController::index');
+        $routes->get('filter/(:segment)/(:num)', 'Api\CourseCategoryController::filter/$1/$2');
+    });
+    
+    $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
 });
 

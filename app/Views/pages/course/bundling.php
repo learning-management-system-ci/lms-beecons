@@ -1,17 +1,15 @@
 <?= $this->extend('layouts/app_layout') ?>
 
 <?= $this->section('css-component') ?>
-<link rel="stylesheet" href="style/bundling.css">
+<link rel="stylesheet" href="../../../style/bundling.css">
 <?= $this->endSection() ?>
-
-
 
 <?= $this->section('app-component') ?>
 <div class="container mt-4">
-    <section class="navigation">
+    <!-- <section class="navigation">
         <p class="mb-4">Courses > <a href="#"> Mastering Frontend Developer</a></p>
         <hr>
-    </section>
+    </section> -->
     <section class="bundle d-flex mt-4">
         <div class="left-section">
             <h3>Mastering Frontend Developer</h3>

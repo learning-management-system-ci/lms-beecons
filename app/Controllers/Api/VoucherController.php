@@ -6,25 +6,29 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Voucher;
 
-class VoucherController extends ResourceController {
-  use ResponseTrait;
+class VoucherController extends ResourceController
+{
+	use ResponseTrait;
 
-  public function __construct() {
+	public function __construct()
+	{
 		helper('date');
-    	$this->voucherModel = new Voucher();
-  }
-
-  public function index(){
-    $data = $this->voucherModel->orderBy('voucher_id', 'DESC')->findAll();
-	if(count($data) > 0){
-		return $this->respond($data);
-	}else{
-		return $this->failNotFound('Tidak ada data');
+		$this->voucherModel = new Voucher();
 	}
-  }
 
-  public function create() {
-    $rules = [
+	public function index()
+	{
+		$data = $this->voucherModel->orderBy('voucher_id', 'DESC')->findAll();
+		if (count($data) > 0) {
+			return $this->respond($data);
+		} else {
+			return $this->failNotFound('Tidak ada data');
+		}
+	}
+
+	public function create()
+	{
+		$rules = [
 			"title" => "required",
 			"start_date" => "required|valid_date",
 			"due_date" => "required|valid_date",
@@ -84,19 +88,21 @@ class VoucherController extends ResourceController {
 				'data' => []
 			];
 		}
-    return $this->respondCreated($response);
-  }
+		return $this->respondCreated($response);
+	}
 
-  public function show($id = null){
-    $data = $this->voucherModel->where('voucher_id', $id)->first();
-    if($data){
-      return $this->respond($data);
-    }else{
-      return $this->failNotFound('Data voucher tidak ditemukan');
-    }
-  }
+	public function show($id = null)
+	{
+		$data = $this->voucherModel->where('voucher_id', $id)->first();
+		if ($data) {
+			return $this->respond($data);
+		} else {
+			return $this->failNotFound('Data voucher tidak ditemukan');
+		}
+	}
 
-	public function update($id = null){
+	public function update($id = null)
+	{
 		$input = $this->request->getRawInput();
 
 		$rules = [
@@ -107,7 +113,7 @@ class VoucherController extends ResourceController {
 			"discount_price" => "required|numeric",
 			"is_active" => "less_than_equal_to[1]",
 		];
-		
+
 		$messages = [
 			"title" => [
 				"required" => "{field} tidak boleh kosong"
@@ -142,7 +148,7 @@ class VoucherController extends ResourceController {
 			"is_active" => $input["is_active"],
 			"code" => strtoupper($input["code"]),
 			"discount_price" => $input["discount_price"],
-	  ];
+		];
 
 		$response = [
 			'status'   => 200,
@@ -154,34 +160,35 @@ class VoucherController extends ResourceController {
 
 		$cek = $this->voucherModel->where('voucher_id', $id)->findAll();
 
-		if(!$cek){
+		if (!$cek) {
 			return $this->failNotFound('Data voucher tidak ditemukan');
 		}
 
 		if (!$this->validate($rules, $messages)) {
-      return $this->failValidationErrors($this->validator->getErrors());
-    }
+			return $this->failValidationErrors($this->validator->getErrors());
+		}
 
-		if ($this->voucherModel->update($id, $data)){
+		if ($this->voucherModel->update($id, $data)) {
 			return $this->respond($response);
 		}
 		return $this->failNotFound('Data voucher tidak ditemukan');
 	}
 
-  public function delete($id = null){
-    $data = $this->voucherModel->where('voucher_id', $id)->findAll();
-    if($data){
-      $this->voucherModel->delete($id);
-        $response = [
-          'status'   => 200,
-          'success'    => 200,
-          'messages' => [
-            'success' => 'Voucher berhasil dihapus'
-          ]
-        ];
-      return $this->respondDeleted($response);
-    }else{
-      return $this->failNotFound('Data voucher tidak ditemukan');
-    }
-  }
+	public function delete($id = null)
+	{
+		$data = $this->voucherModel->where('voucher_id', $id)->findAll();
+		if ($data) {
+			$this->voucherModel->delete($id);
+			$response = [
+				'status'   => 200,
+				'success'    => 200,
+				'messages' => [
+					'success' => 'Voucher berhasil dihapus'
+				]
+			];
+			return $this->respondDeleted($response);
+		} else {
+			return $this->failNotFound('Data voucher tidak ditemukan');
+		}
+	}
 }
