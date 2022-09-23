@@ -124,11 +124,10 @@ class CourseCategoryController extends ResourceController
             ->orderBy('course_category_id', 'DESC')
             ->where($key, $id)
             ->findAll();
-
         for($i = 0; $i < count($data); $i++){
             $data[$i]['category'] = $category[$i];
         }
-
+        
         if(count($data) > 0){
             return $this->respond($data);
         }else{
