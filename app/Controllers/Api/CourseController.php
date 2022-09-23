@@ -4,6 +4,7 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Course;
+// use App\Models\Category;
 use CodeIgniter\HTTP\RequestInterface;
 
 class CourseController extends ResourceController
@@ -35,43 +36,53 @@ class CourseController extends ResourceController
 
     public function create()
     {
-        $model = new Course();
+        $modelCourse = new Course();
+        // $modelCategory = new Category();
 
         $rules = [
             'title' => 'required|min_length[8]',
             'description' => 'required|min_length[8]',
             'price' => 'required|numeric',
-            'thumbnail' => 'required'
+            'thumbnail' => 'required',
+            // 'category_id' => 'required'
         ];
 
         $messages = [
             "title" => [
-                "required" => "{field}  tidak boleh kosong",
+                "required" => "{field} tidak boleh kosong",
                 'min_length' => '{field} minimal 8 karakter'
             ],
             "description" => [
-                "required" => "{field}  tidak boleh kosong",
+                "required" => "{field} tidak boleh kosong",
                 'min_length' => '{field} minimal 8 karakter'
             ],
             "price" => [
-                "required" => "field}  tidak boleh kosong",
+                "required" => "field} tidak boleh kosong",
                 "numeric" => "{field} harus berisi nomor",
             ],
             "thumbnail" => [
-                "required" => "{field}  tidak boleh kosong"
+                "required" => "{field} tidak boleh kosong"
             ],
+            // "category_id" => [
+            //     "required" => "{field} tidak boleh kosong"
+            // ],
         ];
 
         $response;
         if($this->validate($rules, $messages)) {
-            $data = [
+            $dataCourse = [
               'title' => $this->request->getVar('title'),
               'description' => $this->request->getVar('description'),
               'price' => $this->request->getVar('price'),
               'thumbnail' => $this->request->getVar('thumbnail')
             ];
+            // $dataCategory = [
+            //     'course_id' => ,
+            //     'category_id' => $this->request->getVar('category_id')
+            // ]
 
-            $model->insert($data);
+            $modelCourse->insert($dataCourse);
+            print_r($modelCourse->insertID());
             $response = [
                 'status'   => 201,
                 'success'    => 201,
