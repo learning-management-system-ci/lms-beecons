@@ -41,9 +41,7 @@ class CourseBundling extends Model
 
     function getShow($id){
         $builder = $this->db->table('course_bundling');
-        $builder->select('course.title as title_course, course.description as description_course, course.price as price_course, course.thumbnail, bundling.title as title_bundling, bundling.description as description_bundling, bundling.price as price_bundling');
-        $builder->join('course','course.course_id=course_bundling.course_id');
-        $builder->join('bundling', 'bundling.bundling_id=course_bundling.bundling_id');
+        // $builder->select('*');
         $builder->where('course_bundling_id', $id);
         $query = $builder->get();
         return $query->getResultArray();

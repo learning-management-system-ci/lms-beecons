@@ -80,17 +80,10 @@ class AuthController extends ResourceController {
             $this->respondCreated($response);
             return;
         }
-        $response = [
-            'status' => 200,
-            'error' => false,
-            'data' => [$token]
-        ];
         // session()->setFlashData("success", "Login Successful");
-        setcookie("access_token", $token, time()+3600);
         $this->respondCreated($response);
-        echo "Masoook";
-        // set_cookie("access_token", $token);
-        return redirect()->to(base_url() . "/login");
+        set_cookie("access_token", $token);
+        return redirect()->to(base_url() . "/profile");
     }
 
 	public function register() {
