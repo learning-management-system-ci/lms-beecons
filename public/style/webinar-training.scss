@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@mixin font($weight) {
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: $weight;
+}
+
+h3,
+h4,
+h5,
+h6 {
+    @include font($weight: 600)
+}
+
+p {
+    @include font($weight: 400);
+    font-size: 16px;
+    color: #262626;
+    margin-bottom: 0 !important;
+}
+
+button {
+    border: none !important;
+    background-color: #002a5b00;
+}
+
+.hide {
+    display: none;
+}
+
+main {
+    .navigation {
+        p {
+            @include font($weight: 400);
+            color: #bdbdbd;
+
+            a {
+                color: #002B5B;
+                text-decoration: none;
+                @include font($weight: 600)
+            }
+        }
+    }
+
+    .main-content {
+
+        gap: 30px;
+
+        .left-side {
+            width: min-content;
+
+            .category {
+                background-color: #002B5B;
+                color: white;
+                width: max-content;
+                padding: 6px 15px;
+                border-radius: 8px;
+            }
+
+            .banner {
+                width: 700px;
+            }
+
+            .icon-group {
+                gap: 20px;
+
+                .icon-description {
+                    p {
+                        font-size: 14px;
+                        color: #797979;
+                    }
+                }
+            }
+
+            .description {
+                text-align: justify;
+            }
+        }
+
+        .right-side {
+            width: 100%;
+            margin-top: 125px;
+
+            .order-card {
+                .free-text {
+                    color: #2A8728;
+                }
+
+                border-radius: 8px;
+                padding: 20px;
+                background-color: #F2F4F6;
+
+                ul {
+                    padding-left: 27px;
+                }
+
+                .discount-info {
+                    background-color: #D8FAD7;
+                    color: #2A8728;
+                    border-radius: 7px;
+                }
+
+                button {
+                    font-weight: 600;
+                    border: none;
+                    width: 100%;
+                    height: 40px;
+                    border-radius: 10px;
+                    background-color: #002B5B;
+                    color: white
+                }
+
+                .add-to-cart {
+                    background-color: white;
+                    color: black;
+                    ;
+                }
+            }
+        }
+    }
+}

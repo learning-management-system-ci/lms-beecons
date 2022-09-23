@@ -63,7 +63,15 @@ $routes->post('/send-otp', 'AuthController::sendOtp');
 $routes->get('/new-password', 'AuthController::indexNewPassword');
 $routes->post('/new-password', 'AuthController::newPassword');
 
-$routes->get('/otp-email', 'AuthController::sendOtpEmail');
+$routes->get('/faq', 'Client\FaqController::index');
+$routes->get('/about-us', 'Home::aboutUs');
+$routes->get('/terms-and-conditions', 'Home::termsAndConditions');
+$routes->get('/courses/bundling', 'Home::bundlingCart');
+$routes->get('/course-detail', 'Home::courseDetail');
+$routes->get('/cart', 'Home::cart');
+$routes->get('/webinar', 'Home::webinar');
+$routes->get('/training', 'Home::training');
+$routes->get('/courses', 'Home::courses');
 
 $routes->get('/send-otp', 'AuthController::indexSendOtp');
 $routes->post('/send-otp', 'AuthController::sendOtp');
