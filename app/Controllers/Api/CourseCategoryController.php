@@ -18,6 +18,12 @@ class CourseCategoryController extends ResourceController
         $model = new CourseCategory();
 
         $data = $model
+            ->select('category.category_id')
+            ->join('course', 'course.course_id = course_category.course_id')
+            ->join('category', 'category.category_id = course_category.category_id')
+            ->orderBy('course_category_id', 'DESC')
+            ->findAll();
+        $course = $model
             ->select('course.*')
             ->join('course', 'course.course_id = course_category.course_id')
             ->join('category', 'category.category_id = course_category.category_id')
@@ -31,6 +37,7 @@ class CourseCategoryController extends ResourceController
             ->findAll();
 
         for($i = 0; $i < count($data); $i++){
+            $data[$i]['course'] = $course[$i];
             $data[$i]['category'] = $category[$i];
         }
 
@@ -111,7 +118,15 @@ class CourseCategoryController extends ResourceController
 
         $model = new CourseCategory();
         $key = $key.'.'.$key.'_id';
+
         $data = $model
+            ->select('category.category_id')
+            ->join('course', 'course.course_id = course_category.course_id')
+            ->join('category', 'category.category_id = course_category.category_id')
+            ->orderBy('course_category_id', 'DESC')
+            ->where($key, $id)
+            ->findAll();
+        $course = $model
             ->join('course', 'course.course_id = course_category.course_id')
             ->join('category', 'category.category_id = course_category.category_id')
             ->orderBy('course_category_id', 'DESC')
@@ -125,6 +140,7 @@ class CourseCategoryController extends ResourceController
             ->where($key, $id)
             ->findAll();
         for($i = 0; $i < count($data); $i++){
+            $data[$i]['course'] = $course[$i];
             $data[$i]['category'] = $category[$i];
         }
         
