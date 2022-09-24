@@ -8,4 +8,7 @@ use CodeIgniter\RESTful\ResourceController;
 class VideoController extends ResourceController {
     use ResponseTrait;
 
+    public function index() {
+        
+    }
 }
