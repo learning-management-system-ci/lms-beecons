@@ -3,6 +3,8 @@
 namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
+use App\Models\Notification;
+use CodeIgniter\HTTP\RequestInterface;
 
 class NotificationController extends ResourceController
 {
@@ -11,9 +13,25 @@ class NotificationController extends ResourceController
      *
      * @return mixed
      */
-    public function index()
+    public function index($id = null)
     {
-        //
+        $model = new Notification();
+        $public_notification = $model->where('user_id', null)->findAll();
+        $data = [];
+
+        if($model->where('user_id', $id)->findAll() || $public_notification){
+            $private_notification = $model->where('user_id', $id)->findAll();
+            $data = $private_notification;
+
+            for($i = 0; $i < count($public_notification); $i++){
+                array_push($data, $public_notification[$i]);
+            }
+            rsort($data);
+
+            return $this->respond($data);
+        } else{
+            return $this->failNotFound('Tidak ada data');
+        }
     }
 
     /**
@@ -43,7 +61,51 @@ class NotificationController extends ResourceController
      */
     public function create()
     {
-        //
+        $model = new Notification();
+
+        $rules = [
+            'message' => 'required|min_length[8]',
+        ];
+
+        $messages = [
+            "message" => [
+                "required" => "{field} tidak boleh kosong",
+                'min_length' => '{field} minimal 8 karakter'
+            ],
+        ];
+
+        $response;
+        if($this->validate($rules, $messages)) {
+            if($this->request->getVar('user_id')){
+                $data = [
+                  'user_id' => $this->request->getVar('user_id'),
+                  'message' => $this->request->getVar('message'),
+                ];
+            }else{
+                $data = [
+                  'message' => $this->request->getVar('message'),
+                ];
+            }
+
+            $model->insert($data);
+
+            $response = [
+                'status'   => 201,
+                'success'    => 201,
+                'messages' => [
+                    'success' => 'Notification berhasil dibuat'
+                ]
+            ];
+        }else{
+            $response = [
+                'status'   => 400,
+                'error'    => 400,
+                'messages' => $this->validator->getErrors(),
+            ];
+        }
+
+
+        return $this->respondCreated($response);    
     }
 
     /**
@@ -63,7 +125,58 @@ class NotificationController extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        $model = new Notification();
+
+        $rules = [
+            'message' => 'required|min_length[8]',
+        ];
+
+        $messages = [
+            "message" => [
+                "required" => "{field} tidak boleh kosong",
+                'min_length' => '{field} minimal 8 karakter'
+            ],
+        ];
+
+        $response;
+        if($model->find($id)){
+            if($this->validate($rules, $messages)) {
+                if($this->request->getRawInput('user_id')){
+                    $data = [
+                      'user_id' => $this->request->getRawInput('user_id'),
+                      'message' => $this->request->getRawInput('message'),
+                    ];
+                }else{
+                    $data = [
+                      'message' => $this->request->getRawInput('message'),
+                    ];
+                }
+                $model->update($id, $data['user_id']);
+
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Notification berhasil di perbarui'
+                    ]
+                ];
+            }else{
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
+                ];
+            }
+        }else{
+            $response = [
+                'status'   => 400,
+                'error'    => 400,
+                'messages' => 'Data tidak ditemukan',
+            ];
+        }
+
+
+        return $this->respondCreated($response);
     }
 
     /**
@@ -73,6 +186,21 @@ class NotificationController extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        $model = new Notification();
+
+        if($model->find($id)){
+            $model->delete($id);
+
+            $response = [
+                'status'   => 200,
+                'success'    => 200,
+                'messages' => [
+                    'success' => 'Notification berhasil di hapus'
+                ]
+            ];
+            return $this->respondDeleted($response);
+        }else{
+            return $this->failNotFound('Data tidak di temukan');
+        }
     }
 }

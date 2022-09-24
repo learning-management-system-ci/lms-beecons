@@ -135,6 +135,17 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\CourseCategoryController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseCategoryController::filter/$1/$2');
     });
+
+    $routes->group('notification/', static function ($routes) {
+        $routes->get('(:num)', 'Api\NotificationController::index/$1');
+        // $routes->get('detail/(:num)', 'Api\NotificationController::show/$1');
+        $routes->post('create', 'Api\NotificationController::create');
+        $routes->put('update/(:num)', 'Api\NotificationController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
+        // $routes->get('latest', 'Api\NotificationController::latest');
+        // $routes->get('latest/(:num)', 'Api\NotificationController::latest/$1');
+        // $routes->get('find/(:segment)', 'Api\NotificationController::find/$1');
+    });
     
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
