@@ -16,8 +16,15 @@ class CourseTagController extends ResourceController
     public function index()
     {
         $model = new CourseTag();
+        $tag_by_course_id = [];
         
         $data = $model
+            ->select('course_tag.course_tag_id')
+            ->join('course', 'course.course_id = course_tag.course_id')
+            ->join('tag', 'tag.tag_id = course_tag.tag_id')
+            ->orderBy('course_tag_id', 'DESC')
+            ->findAll();
+        $course = $model
             ->select('course.*')
             ->join('course', 'course.course_id = course_tag.course_id')
             ->join('tag', 'tag.tag_id = course_tag.tag_id')
@@ -31,6 +38,7 @@ class CourseTagController extends ResourceController
             ->findAll();
 
         for($i = 0; $i < count($data); $i++){
+            $data[$i]['course'] = $course[$i];
             $data[$i]['tag'] = $tag[$i];
         }
 
@@ -104,29 +112,64 @@ class CourseTagController extends ResourceController
     public function filter($key = null, $id = null)
     {
         $key_ = ['course', 'tag'];
+        $model = new CourseTag();
+        $tag_by_course_id = [];
+        $data = [];
 
         if(!in_array($key, $key_)){
             return $this->failValidationError('Key harus course atau tag');
-        } 
+        }
 
-        $model = new CourseTag();
-        $key = $key.'.'.$key.'_id';
-        $data = $model
-            ->join('course', 'course.course_id = course_tag.course_id')
-            ->join('tag', 'tag.tag_id = course_tag.tag_id')
-            ->orderBy('course_tag_id', 'DESC')
-            ->where($key, $id)
-            ->findAll();
-        $tag = $model
-            ->select('tag.*')
-            ->join('course', 'course.course_id = course_tag.course_id')
-            ->join('tag', 'tag.tag_id = course_tag.tag_id')
-            ->orderBy('course_tag_id', 'DESC')
-            ->where($key, $id)
-            ->findAll();
-        
-        for($i = 0; $i < count($data); $i++){
-            $data[$i]['tag'] = $tag[$i];
+        if($key == 'course'){
+            $course = $model
+                ->select('course.*')
+                ->join('course', 'course.course_id = course_tag.course_id')
+                ->join('tag', 'tag.tag_id = course_tag.tag_id')
+                ->orderBy('course_tag_id', 'DESC')
+                ->where('course.course_id', $id)
+                ->findAll();
+            $tag = $model
+                ->select('tag.*')
+                ->join('course', 'course.course_id = course_tag.course_id')
+                ->join('tag', 'tag.tag_id = course_tag.tag_id')
+                ->orderBy('course_tag_id', 'DESC')
+                ->where('course.course_id', $id)
+                ->findAll();
+
+            for($i = 0; $i < count($tag); $i++){
+                $tag_by_course_id[$i] = $tag[$i];
+            }
+
+            $data['course'] = $course[0];
+            $data['tag'] = $tag_by_course_id;
+        }else{
+            $key = $key.'.'.$key.'_id';
+
+            $data = $model
+                ->select('course_tag.course_tag_id')
+                ->join('course', 'course.course_id = course_tag.course_id')
+                ->join('tag', 'tag.tag_id = course_tag.tag_id')
+                ->orderBy('course_tag_id', 'DESC')
+                ->where($key, $id)
+                ->findAll();
+            $course = $model
+                ->join('course', 'course.course_id = course_tag.course_id')
+                ->join('tag', 'tag.tag_id = course_tag.tag_id')
+                ->orderBy('course_tag_id', 'DESC')
+                ->where($key, $id)
+                ->findAll();
+            $tag = $model
+                ->select('tag.*')
+                ->join('course', 'course.course_id = course_tag.course_id')
+                ->join('tag', 'tag.tag_id = course_tag.tag_id')
+                ->orderBy('course_tag_id', 'DESC')
+                ->where($key, $id)
+                ->findAll();
+            
+            for($i = 0; $i < count($data); $i++){
+                $data[$i]['course'] = $course[$i];
+                $data[$i]['tag'] = $tag[$i];
+            }
         }
 
         if(count($data) > 0){
