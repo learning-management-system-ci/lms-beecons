@@ -18,6 +18,12 @@ class CourseTypeController extends ResourceController
     {
         $model = new CourseType();
         $data = $model
+            ->select('course_type.course_type_id')
+            ->join('course', 'course.course_id = course_type.course_id')
+            ->join('type', 'type.type_id = course_type.type_id')
+            ->orderBy('course_type_id', 'DESC')
+            ->findAll();
+        $course = $model
             ->select('course.*')
             ->join('course', 'course.course_id = course_type.course_id')
             ->join('type', 'type.type_id = course_type.type_id')
@@ -31,6 +37,7 @@ class CourseTypeController extends ResourceController
             ->findAll();
 
         for($i = 0; $i < count($data); $i++){
+            $data[$i]['course'] = $course[$i];
             $data[$i]['type'] = $type[$i];
         }
 
@@ -111,14 +118,22 @@ class CourseTypeController extends ResourceController
 
         $model = new CourseType();
         $key = $key.'.'.$key.'_id';
+
         $data = $model
+            ->select('course_type.course_type_id')
+            ->join('course', 'course.course_id = course_type.course_id')
+            ->join('type', 'type.type_id = course_type.type_id')
+            ->orderBy('course_type_id', 'DESC')
+            ->where($key, $id)
+            ->findAll();
+        $course = $model
             ->select('course.*')
             ->join('course', 'course.course_id = course_type.course_id')
             ->join('type', 'type.type_id = course_type.type_id')
             ->orderBy('course_type_id', 'DESC')
             ->where($key, $id)
             ->findAll();
-        $data = $model
+        $type = $model
             ->select('type.*')
             ->join('course', 'course.course_id = course_type.course_id')
             ->join('type', 'type.type_id = course_type.type_id')
@@ -127,6 +142,7 @@ class CourseTypeController extends ResourceController
             ->findAll();
 
         for($i = 0; $i < count($data); $i++){
+            $data[$i]['course'] = $course[$i];
             $data[$i]['type'] = $type[$i];
         }
 
