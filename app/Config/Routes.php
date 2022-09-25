@@ -130,6 +130,12 @@ $routes->group('api/', static function ($routes) {
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+
+        $routes->group('video/', static function ($routes) {
+            $routes->post('create', 'Api\VideoController::create');
+            $routes->post('update/(:segment)', 'Api\VideoController::update/$1');
+            $routes->delete('delete/(:segment)', 'Api\VideoController::delete/$1');
+        });
     });
 
     $routes->group('bundling/', static function ($routes) {
