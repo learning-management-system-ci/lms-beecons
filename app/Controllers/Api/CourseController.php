@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Course;
 use App\Models\CourseCategory;
+use App\Models\Video;
 use CodeIgniter\HTTP\RequestInterface;
 
 class CourseController extends ResourceController
@@ -24,15 +25,31 @@ class CourseController extends ResourceController
 
     public function show($id = null)
     {
-        $model = new Course();
+        $courseModel = new Course();
+        $videoModel = new Video();
 
-        if($model->find($id)){
-            $data = $model->where('course_id', $id)->first();
-            return $this->respond($data);
-        }else{
-            return $this->failNotFound('Tidak ada data');
+        if($courseModel->find($id)){
+            $dataCourse = $courseModel->select('course_id as id, title, description, price, thumbnail')->where('course_id', $id)->first();
+            $dataVideo = $videoModel->getData($id)->getResultArray();
+            $video = [];
+            foreach($dataVideo as $value) {
+                $video[] = [
+                    'vid_title' => $value['vid_title'],
+                    'video' => $value['video'],
+                    'order' => $value['order'],
+                ];
+            }
+            $dataCourse['content'] = $video;
+            $result = [
+                'course' => $dataCourse,
+            ];
+
+            return $this->respond($result);
+        }else {
+             return $this->failNotFound('Data Course tidak ditemukan');
         }
     }
+
 
     public function create()
     {
