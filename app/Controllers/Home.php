@@ -43,7 +43,10 @@ class Home extends BaseController
     }
     public function termsAndConditions()
     {
-        return view('pages/navigation/terms_and_condition');
+        $data = [
+            "title" => "Terms and Conditions",
+        ];
+        return view('pages/navigation/terms_and_condition', $data);
     }
     public function bundlingCart()
     {
