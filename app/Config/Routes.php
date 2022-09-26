@@ -199,6 +199,11 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\CourseTypeController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseTypeController::filter/$1/$2');
     });
+
+    $routes->group('type_tag/', static function ($routes) {
+        $routes->get('', 'Api\TypeTagController::index');
+        $routes->get('filter/(:segment)/(:num)', 'Api\TypeTagController::filter/$1/$2');
+    });
     
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
