@@ -126,7 +126,9 @@ h6 {
             position: absolute;
             top: 0;
             left: 0;
+            right: 0;
             display: flex;
+            flex-wrap: wrap;
             padding: .5rem;
             gap: .5rem;
 
@@ -134,9 +136,9 @@ h6 {
                 padding: .2rem .65rem;
                 border-radius: .65rem;
                 background-color: $color-yellow;
-                font-size: 1rem;
-                font-weight: bold;
                 cursor: pointer;
+                font-size: .8rem !important;
+                font-weight: bold;
             }
 
             .item:nth-child(even) {
