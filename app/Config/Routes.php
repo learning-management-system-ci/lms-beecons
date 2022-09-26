@@ -48,7 +48,7 @@ $routes->post('/register', 'AuthController::register');
 
 $routes->get('/profile', 'AuthController::profile');
 $routes->get('/login/loginWithGoogle', 'Api\AuthController::loginWithGoogle');
-$routes->post('/login/loginWithGoogle/submit', 'AuthController::loginWithGoogle');
+// $routes->post('/login/loginWithGoogle/submit', 'Api\AuthController::loginWithGoogle');
 $routes->get('/logout', 'AuthController::logout');
 $routes->get('/activateuser', 'AuthController::activateUser');
 

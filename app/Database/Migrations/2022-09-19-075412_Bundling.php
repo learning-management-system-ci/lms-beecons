@@ -25,7 +25,12 @@ class Bundling extends Migration
                 'constraint'     => 255,
                 'null'           => true,
             ],
-            'price' => [
+            'old_price' => [
+                'type'           => 'VARCHAR',
+                'constraint'     => 10,
+                'null'           => true,
+            ],
+            'new_price' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => 10,
                 'null'           => true,

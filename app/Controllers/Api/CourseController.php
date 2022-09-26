@@ -166,8 +166,63 @@ class CourseController extends ResourceController
                     "required" => "{field} tidak boleh kosong"
                 ],
             ];
-    
-            $response;
+            $modelCourseCategory->insert($dataCourseCategory);
+
+            $response = [
+                'status'   => 201,
+                'success'    => 201,
+                'messages' => [
+                    'success' => 'Course berhasil dibuat'
+                ]
+            ];
+        }else{
+            $response = [
+                'status'   => 400,
+                'error'    => 400,
+                'messages' => $this->validator->getErrors(),
+            ];
+        }
+
+
+        return $this->respondCreated($response);    
+    }
+
+    public function update($id = null)
+    {
+        $modelCourse = new Course();
+        $modelCourseCategory = new CourseCategory();
+
+        $rules = [
+            'title' => 'required|min_length[8]',
+            'description' => 'required|min_length[8]',
+            'price' => 'required|numeric',
+            'thumbnail' => 'required',
+            'category_id' => 'required|numeric'
+        ];
+
+        $messages = [
+            "title" => [
+                "required" => "{field}  tidak boleh kosong",
+                'min_length' => '{field} minimal 8 karakter'
+            ],
+            "description" => [
+                "required" => "{field}  tidak boleh kosong",
+                'min_length' => '{field} minimal 8 karakter'
+            ],
+            "price" => [
+                "required" => "{field}  tidak boleh kosong",
+                "numeric" => "{field} harus berisi nomor",
+            ],
+            "thumbnail" => [
+                "required" => "{field}  tidak boleh kosong"
+            ],
+            "category_id" => [
+                "required" => "{field} tidak boleh kosong"
+            ],
+        ];
+
+        // $response;
+        if($modelCourse->find($id)){
             if($this->validate($rules, $messages)) {
                 $dataCourse = [
                   'title' => $this->request->getVar('title'),
