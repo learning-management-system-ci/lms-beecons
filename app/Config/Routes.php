@@ -125,7 +125,6 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('users/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
-        $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
         $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->put('update/(:segment)', 'Api\UserController::update/$1');
