@@ -24,9 +24,9 @@ $(document).ready(() => {
     })
 
     // handle logout
-    $('#btn-logout').on('click', function(e) {
+    $('#btn-logout').on('click', function (e) {
         e.preventDefault()
-        
+
         Cookies.remove('access_token')
         window.location = '/'
     })
