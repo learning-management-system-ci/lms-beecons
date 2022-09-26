@@ -41,12 +41,7 @@
 
                     <h2 class="text-center mb-4">RAB</h2>
 
-                    <div class="sub-tags mb-5">
-                        <div class="item active">Fundamental</div>
-                        <div class="item">Basic</div>
-                        <div class="item">Intermediate</div>
-                        <div class="item">Advance</div>
-                    </div>
+                    <div class="sub-tags mb-5"></div>
 
                     <div class="row px-5">
                         <div class="col-4 pb-4">
@@ -189,12 +184,7 @@
 
                     <h2 class="text-center mb-4">RAB</h2>
 
-                    <div class="sub-tags mb-5">
-                        <div class="item active">Fundamental</div>
-                        <div class="item">Basic</div>
-                        <div class="item">Intermediate</div>
-                        <div class="item">Advance</div>
-                    </div>
+                    <div class="sub-tags mb-5"></div>
 
                     <div class="row px-5">
                         <div class="col-4 pb-4">
