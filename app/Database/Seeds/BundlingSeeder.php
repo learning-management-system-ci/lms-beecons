@@ -12,27 +12,32 @@ class BundlingSeeder extends Seeder
             [
                 'title' => 'Intermediate',
                 'description'    => 'Lorem ipsum dolor sit amet',
-                'price' => '20000',
+                'old_price' => '20000',
+                'new_price' => '15000',
             ],
             [
                 'title' => 'Intermediate',
                 'description'    => 'Lorem ipsum dolor sit amet',
-                'price' => '20000',
+                'old_price' => '20000',
+                'new_price' => '15000',
             ],
             [
                 'title' => 'Intermediate',
                 'description'    => 'Lorem ipsum dolor sit amet',
-                'price' => '20000',
+                'old_price' => '20000',
+                'new_price' => '15000',
             ],
             [
                 'title' => 'Intermediate',
                 'description'    => 'Lorem ipsum dolor sit amet',
-                'price' => '20000',
+                'old_price' => '20000',
+                'new_price' => '15000',
             ],
             [
                 'title' => 'Intermediate',
                 'description'    => 'Lorem ipsum dolor sit amet',
-                'price' => '20000',
+                'old_price' => '20000',
+                'new_price' => '15000',
             ],
         ];
         $this->db->table('bundling')->insertBatch($data);
