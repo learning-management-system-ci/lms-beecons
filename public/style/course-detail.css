@@ -26,7 +26,7 @@ button {
 }
 
 .list-active {
-  transition: 0.5s;
+  transition: 0.2s;
   cursor: pointer;
   border-radius: 7px;
   background-color: #ffffff;
@@ -81,6 +81,73 @@ main .course-content .left-side {
 }
 main .course-content .left-side iframe {
   border-radius: 10px;
+}
+main .course-content .left-side .quiz-section {
+  width: 727px;
+  height: 400px;
+  background-color: #F2F4F6;
+  border-radius: 16px;
+}
+main .course-content .left-side .quiz-section .swiper-wrapper {
+  height: min-content;
+}
+main .course-content .left-side .quiz-section .quiz-option-list {
+  margin: 0px 20px;
+  gap: 4%;
+  row-gap: 10px;
+}
+main .course-content .left-side .quiz-section .quiz-option-list div {
+  width: 46%;
+  gap: 12px;
+  border-radius: 10px;
+  background-color: #E4E8EE;
+}
+main .course-content .left-side .quiz-section .quiz-option-list div input {
+  width: 18px;
+  border-radius: 0px;
+  border: 2px solid #002B5B;
+  height: 18px;
+  -webkit-appearance: none;
+}
+main .course-content .left-side .quiz-section .quiz-option-list div input:checked {
+  background-image: url("../image/course-detail/check.png");
+  background-repeat: no-repeat;
+  background-size: 18px;
+  background-position: -2px -2px;
+}
+main .course-content .left-side .quiz-section .quiz-option-list div label {
+  text-align: start;
+  color: #002B5B;
+  width: 100%;
+  height: 100%;
+  padding: 16px 0px;
+}
+main .course-content .left-side .quiz-section .quiz-option-list div:hover {
+  background-color: white;
+}
+main .course-content .left-side .quiz-section .progress-box {
+  box-shadow: 3px 3px 15px #888888;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+}
+main .course-content .left-side .quiz-section .progress-box #loading {
+  margin: 15px;
+  width: 490px;
+  height: 3px;
+  padding-top: 0;
+  margin-top: -10px;
+  position: relative;
+}
+main .course-content .left-side .quiz-section .progress-box .progressbar-text {
+  opacity: 1;
+  right: 83%;
+  border: none !important;
+  background-image: url("../image/course-detail/loading-indicator.png");
+  background-repeat: no-repeat;
+  background-size: 200px 45px;
+  width: 200px;
+  height: 50px;
 }
 main .course-content .left-side ul li {
   margin-right: 13px;
@@ -192,7 +259,7 @@ main .course-content .right-side .video-list .scrollable-video-list {
   overflow: auto;
 }
 main .course-content .right-side .video-list .scrollable-video-list .list-card-button {
-  transition: 0.5s;
+  transition: 0.2s;
   cursor: pointer;
   border-radius: 7px;
   background-color: #DFE3E9;
@@ -219,7 +286,7 @@ main .course-content .right-side .video-list .scrollable-video-list .list-card-b
   min-width: 40px;
 }
 main .course-content .right-side .video-list .scrollable-video-list .list-card-button:hover {
-  transition: 0.5s;
+  transition: 0.2s;
   cursor: pointer;
   border-radius: 7px;
   background-color: #ffffff;
@@ -246,7 +313,7 @@ main .course-content .right-side .video-list .scrollable-video-list .list-card-b
   min-width: 40px;
 }
 main .course-content .right-side .video-list .scrollable-video-list .complete {
-  transition: 0.5s;
+  transition: 0.2s;
   cursor: pointer;
   border-radius: 7px;
   background-color: #DFE3E9;
@@ -274,7 +341,7 @@ main .course-content .right-side .video-list .scrollable-video-list .complete .l
 }
 main .course-content .right-side .video-list .scrollable-video-list .complete:hover,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-complete {
-  transition: 0.5s;
+  transition: 0.2s;
   cursor: pointer;
   border-radius: 7px;
   background-color: #ffffff;
@@ -323,6 +390,7 @@ main .course-content .right-side .order-card {
   border-radius: 8px;
   padding: 20px;
   background-color: #F2F4F6;
+  width: 100%;
 }
 main .course-content .right-side .order-card ul {
   padding-left: 27px;

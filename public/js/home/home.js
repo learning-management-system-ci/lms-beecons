@@ -1,5 +1,46 @@
 $(document).ready(() => {
-    let courses = []
+    // handle search
+    $('.nav-search-input').eq(0).hide(200)
+
+    $('#nav-btn-search').on('click', (e) => {
+        e.preventDefault()
+        $('.nav-search-input').eq(0).show(200)
+        $('#nav-btn-search').hide()
+    })
+
+    $('#nav-btn-search-x').on('click', (e) => {
+        e.preventDefault()
+        $('.nav-search-input').eq(0).hide()
+        $('#nav-btn-search').show(200)
+    })
+
+    $('.nav-search-input form').on('submit', (e) => {
+        e.preventDefault()
+    })
+
+    // testimoni slider
+    $('.testimoni-slick').slick({
+        dots: true,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        touchMove: true,
+        centerMode: true,
+    })
+
+    // handle search
+    $('#nav-btn-search-x').on('click', (e) => {
+        $('.nav-item-search .dropdown-menu.show').removeClass('show')
+    })
+
+    // slider mentor
+    $('#mentor-wrapper').slick({
+        dots: false,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        touchMove: true,
+        autoplay: true,
+    })
+
     const getAllCourses = async () => {
         try {
             const response = await $.ajax({
@@ -8,16 +49,16 @@ $(document).ready(() => {
                 dataType: 'json'
             })
 
-            courses = response
+            let courses = response
 
             let coursesRekomendasi = courses.slice(0, 3)
-            let courseRecent = courses[0]
+            let courseRecent = JSON.parse(localStorage.getItem('search-recent'))
             let coursesResult = []
 
             $('.nav-search-input form input').on('keyup', () => {
                 $('#search-result-initial').hide()
                 let search = $('.nav-search-input form input').val()
-                
+
                 if (search.length > 0) {
                     coursesResult = courses.filter(course => {
                         return course.title.toLowerCase().includes(search.toLowerCase())
@@ -27,7 +68,7 @@ $(document).ready(() => {
 
                     coursesResult.forEach(course => {
                         htmlSearchResult += `
-                            <a href="">
+                            <a href="" data-search-id="${course.course_id}">
                                 <div class="search-item">
                                     <div class="icon">
                                         <img src="/image/home/${course.thumbnail}" alt="">
@@ -44,29 +85,40 @@ $(document).ready(() => {
                     })
 
                     $('#search-result').html(htmlSearchResult)
+
+                    $('#search-result a').on('click', function (e) {
+                        let searchId = $(this).data('search-id')
+                        let course = courses.find(course => course.course_id == searchId)
+                        localStorage.setItem('search-recent', JSON.stringify(course))
+                    })
+
                 } else {
                     $('#search-result').html('')
                     $('#search-result-initial').show()
                 }
             })
 
+            if (courseRecent) {
+                let htmlSearchRecent = `
+                    <a href="">
+                        <div class="search-item">
+                            <div class="icon">
+                                <img src="/image/home/${courseRecent.thumbnail}" alt="">
+                            </div>
+                            <div class="desc">
+                                <h5>${courseRecent.title}</h5>
+                                <p>
+                                    ${courseRecent.description}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                `
+
+                $('#search-recent').append(htmlSearchRecent)
+            }
 
             let htmlSearchRekomendasi = ''
-            let htmlSearchRecent = `
-                <a href="">
-                    <div class="search-item">
-                        <div class="icon">
-                            <img src="/image/home/${courseRecent.thumbnail}" alt="">
-                        </div>
-                        <div class="desc">
-                            <h5>${courseRecent.title}</h5>
-                            <p>
-                                ${courseRecent.description}
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            `
 
             coursesRekomendasi.forEach(course => {
                 htmlSearchRekomendasi += `
@@ -87,46 +139,10 @@ $(document).ready(() => {
             })
 
             $('#search-rekomendasi').append(htmlSearchRekomendasi)
-            $('#search-recent').append(htmlSearchRecent)
         } catch (error) {
             console.log(error);
         }
     }
 
     getAllCourses()
-
-    // handle search
-    $('.nav-search-input').eq(0).hide(200)
-
-    $('#nav-btn-search').on('click', (e) => {
-        e.preventDefault()
-        $('.nav-search-input').eq(0).show(200)
-        $('#nav-btn-search').hide()
-    })
-
-    $('#nav-btn-search-x').on('click', (e) => {
-        e.preventDefault()
-        $('.nav-search-input').eq(0).hide()
-        $('#nav-btn-search').show(200)
-    })
-
-    $('.nav-search-input form').on('submit', (e) => {
-        e.preventDefault()
-        let search = $('.nav-search-input form input').val()
-        // console.log(search)
-    })
-
-    // testimoni slider
-    $('.testimoni-slick').slick({
-        dots: true,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        touchMove: true,
-        // autoplay: true,
-    })
-
-    // handle search
-    $('#nav-btn-search-x').on('click', (e) => {
-        $('.nav-item-search .dropdown-menu.show').removeClass('show')
-    })
 })

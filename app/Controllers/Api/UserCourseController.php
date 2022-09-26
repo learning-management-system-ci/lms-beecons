@@ -32,7 +32,8 @@ class UserCourseController extends ResourceController
                     'course_id' => $value['course_id'],
                     'title' => $value['title'],
                     'description' => $value['description'],
-                    'price' => $value['price']
+                    'price' => $value['price'],
+                    'is_access' => $value['is_access']
                 ];
             }
 
