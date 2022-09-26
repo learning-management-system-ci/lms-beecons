@@ -80,28 +80,28 @@ class CourseController extends ResourceController
             ];
         }
 
-        $data = $model
+        $data = $courseModel
             ->select('course.*')
             ->join('course_category', 'course_category.course_id = course.course_id')
             ->join('category', 'category.category_id = course_category.category_id')
             ->orderBy('course.course_id', 'DESC')
             ->where('course.course_id', $id)
             ->findAll();
-        $category = $model
+        $category = $courseModel
             ->select('category.*')
             ->join('course_category', 'course_category.course_id = course.course_id')
             ->join('category', 'category.category_id = course_category.category_id')
             ->orderBy('course.course_id', 'DESC')
             ->where('course.course_id', $id)
             ->findAll();
-        $type = $model
+        $type = $courseModel
             ->select('type.*')
             ->join('course_type', 'course_type.course_id = course.course_id')
             ->join('type', 'type.type_id = course_type.type_id')
             ->orderBy('course.course_id', 'DESC')
             ->where('course.course_id', $id)
             ->findAll();
-        $tag = $model
+        $tag = $courseModel
             ->select('tag.*')
             ->join('course_tag', 'course_tag.course_id = course.course_id')
             ->join('tag', 'tag.tag_id = course_tag.tag_id')
@@ -118,7 +118,7 @@ class CourseController extends ResourceController
             }
         }
 
-        if($model->find($id)){
+        if($courseModel->find($id)){
             return $this->respond($data);
         }else{
             return $this->failNotFound('Tidak ada data');
