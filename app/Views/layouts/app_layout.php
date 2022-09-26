@@ -66,6 +66,7 @@
         </div>
         <?php endif; ?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
         <?= $this->renderSection('app-component') ?>
     </main>
 

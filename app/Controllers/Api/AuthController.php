@@ -49,23 +49,24 @@ class AuthController extends ResourceController {
                     'activation_status' => '1'
                 ];
                 $email = $data['email'];
-                $this->loginModel->updateUserData($userdata, $email);
+                $this->loginModel->updateUserByEmail($userdata, $email);
             } else {
                 $userdata = [
                     'oauth_id' => $data['id'],
                     'email' => $data['email'],
                     'created_at' => $currentDateTime,
                     'activation_status' => '1',
-                    'role' => 'participant'
+                    'role' => 'member'
                 ];
                 $this->loginModel->save($userdata);
             }
+            $datauser = $this->loginModel->getUser($data['email']);
             $key = getenv('TOKEN_SECRET');
             $payload = [
                 'iat'   => 1356999524,
                 'nbf'   => 1357000000,
                 "exp" => time() + (60 * 60),
-                'uid'   => $data['id'],
+                'uid'   => $datauser['id'],
                 'email' => $data['email'],
             ];
             $token = JWT::encode($payload, $key, 'HS256');
@@ -86,10 +87,8 @@ class AuthController extends ResourceController {
             'data' => [$token]
         ];
         // session()->setFlashData("success", "Login Successful");
-        setcookie("access_token", $token, time()+3600);
         $this->respondCreated($response);
-        echo "Masoook";
-        // set_cookie("access_token", $token);
+        setcookie("access_token", $token, time()+60*60, '/');
         return redirect()->to(base_url() . "/login");
     }
 
