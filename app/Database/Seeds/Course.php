@@ -15,6 +15,7 @@ class Course extends Seeder
         $course_tag = [];
         $course_type = [];
         $notification = [];
+        $type_tag = [];
 
         // ======================================================
         // USER
@@ -90,6 +91,7 @@ class Course extends Seeder
                 'title' => 'Judul course '.$i,
                 'description' => 'Description course '.$i,
                 'price' => rand(10000, 1000000),
+                'new_price' => rand(10000, 100000),
                 'thumbnail' => 'course'.$i.'.jpg',
             ]);
         };
@@ -172,6 +174,13 @@ class Course extends Seeder
             ]);
         };
 
+        for($i = 1; $i <= $no; $i++){
+            array_push($type_tag, [
+                'type_id' => rand(1, count($type)),
+                'tag_id' => rand(1, count($type)),
+            ]);
+        };
+
         // ===============================================
         // USER
         $this->db->table('jobs')->insertBatch($job);
@@ -191,5 +200,7 @@ class Course extends Seeder
         $this->db->table('course_category')->insertBatch($course_category);
         $this->db->table('course_tag')->insertBatch($course_tag);
         $this->db->table('course_type')->insertBatch($course_type);
+
+        $this->db->table('type_tag')->insertBatch($type_tag);
     }
 }

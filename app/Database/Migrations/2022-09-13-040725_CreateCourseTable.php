@@ -27,6 +27,10 @@ class CreateCourseTable extends Migration
                 'type'          => 'VARCHAR',
                 'constraint'    => '10'
             ],
+            'new_price'             => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '10'
+            ],
             'thumbnail'             => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '255'
