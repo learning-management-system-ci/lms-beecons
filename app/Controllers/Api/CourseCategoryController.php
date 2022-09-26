@@ -5,9 +5,11 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\CourseCategory;
 use CodeIgniter\HTTP\RequestInterface;
+use Firebase\JWT\JWT;
 
 class CourseCategoryController extends ResourceController
 {
+
     /**
      * Return an array of resource objects, themselves in array format
      *
@@ -15,36 +17,45 @@ class CourseCategoryController extends ResourceController
      */
     public function index()
     {
-        $model = new CourseCategory();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        $data = $model
-            ->select('category.category_id')
-            ->join('course', 'course.course_id = course_category.course_id')
-            ->join('category', 'category.category_id = course_category.category_id')
-            ->orderBy('course_category_id', 'DESC')
-            ->findAll();
-        $course = $model
-            ->select('course.*')
-            ->join('course', 'course.course_id = course_category.course_id')
-            ->join('category', 'category.category_id = course_category.category_id')
-            ->orderBy('course_category_id', 'DESC')
-            ->findAll();
-        $category = $model
-            ->select('category.*')
-            ->join('course', 'course.course_id = course_category.course_id')
-            ->join('category', 'category.category_id = course_category.category_id')
-            ->orderBy('course_category_id', 'DESC')
-            ->findAll();
-
-        for($i = 0; $i < count($data); $i++){
-            $data[$i]['course'] = $course[$i];
-            $data[$i]['category'] = $category[$i];
-        }
-
-        if(count($data) > 0){
-            return $this->respond($data);
-        }else{
-            return $this->failNotFound('Tidak ada data');
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $model = new CourseCategory();
+            $data = $model
+                ->select('category.category_id')
+                ->join('course', 'course.course_id = course_category.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->orderBy('course_category_id', 'DESC')
+                ->findAll();
+            $course = $model
+                ->select('course.*')
+                ->join('course', 'course.course_id = course_category.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->orderBy('course_category_id', 'DESC')
+                ->findAll();
+            $category = $model
+                ->select('category.*')
+                ->join('course', 'course.course_id = course_category.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->orderBy('course_category_id', 'DESC')
+                ->findAll();
+    
+            for($i = 0; $i < count($data); $i++){
+                $data[$i]['course'] = $course[$i];
+                $data[$i]['category'] = $category[$i];
+            }
+    
+            if(count($data) > 0){
+                return $this->respond($data);
+            }else{
+                return $this->failNotFound('Tidak ada data');
+            }
+	    } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
     }
 

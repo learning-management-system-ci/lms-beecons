@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Voucher;
+use Firebase\JWT\JWT;
 
 class VoucherController extends ResourceController
 {
@@ -18,177 +19,227 @@ class VoucherController extends ResourceController
 
 	public function index()
 	{
-		$data = $this->voucherModel->orderBy('voucher_id', 'DESC')->findAll();
-		if (count($data) > 0) {
-			return $this->respond($data);
-		} else {
-			return $this->failNotFound('Tidak ada data');
-		}
+		$key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+			$data = $this->voucherModel->orderBy('voucher_id', 'DESC')->findAll();
+			if (count($data) > 0) {
+				return $this->respond($data);
+			} else {
+				return $this->failNotFound('Tidak ada data');
+			}
+		} catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
+        }
+		
 	}
 
 	public function create()
 	{
-		$rules = [
-			"title" => "required",
-			"start_date" => "required|valid_date",
-			"due_date" => "required|valid_date",
-			"code" => "required|is_unique[voucher.code]|max_length[10]|alpha_numeric",
-			"discount_price" => "required|numeric",
-			"is_active" => "less_than_equal_to[1]",
-		];
+		$key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-		$messages = [
-			"title" => [
-				"required" => "{field} tidak boleh kosong"
-			],
-			"start_date" => [
-				"required" => "{field} tidak boleh kosong",
-				"valid_date" => "{field} format tanggal tidak sesuai"
-			],
-			"due_date" => [
-				"required" => "{field} tidak boleh kosong",
-				"valid_date" => "{field} format tanggal tidak sesuai"
-			],
-			"code" => [
-				"required" => "{field} tidak boleh kosong",
-				"is_unique" => "{field} telah digunakan",
-				"max_length" => "{field} maksimal 10 karakter",
-				"alpha_numeric" => "{field} harus berisi alfabet dan numerik",
-			],
-			"discount_price" => [
-				"required" => "{field} tidak boleh kosong"
-			],
-			"is_active" => [
-				"less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
-			],
-		];
-
-		if (!$this->validate($rules, $messages)) {
-			$response = [
-				'status' => 500,
-				'error' => 500,
-				'message' => $this->validator->getErrors(),
-				'data' => []
+        try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+			$rules = [
+				"title" => "required",
+				"start_date" => "required|valid_date",
+				"due_date" => "required|valid_date",
+				"code" => "required|is_unique[voucher.code]|max_length[10]|alpha_numeric",
+				"discount_price" => "required|numeric",
+				"is_active" => "less_than_equal_to[1]",
 			];
-		} else {
-			$data['title'] = $this->request->getVar("title");
-			$data['description'] = $this->request->getVar("description");
-			$data['start_date'] = date("Y-m-d", strtotime($this->request->getVar("start_date")));
-			$data['due_date'] = date("Y-m-d", strtotime($this->request->getVar("due_date")));
-			$data['is_active'] = $this->request->getVar("is_active");
-			$data['code'] = strtoupper($this->request->getVar("code"));
-			$data['discount_price'] = $this->request->getVar("discount_price");
-
-			$this->voucherModel->save($data);
-
-			$response = [
-				'status' => 200,
-				'success' => 200,
-				'message' => 'Voucher berhasil dibuat',
-				'data' => []
+	
+			$messages = [
+				"title" => [
+					"required" => "{field} tidak boleh kosong"
+				],
+				"start_date" => [
+					"required" => "{field} tidak boleh kosong",
+					"valid_date" => "{field} format tanggal tidak sesuai"
+				],
+				"due_date" => [
+					"required" => "{field} tidak boleh kosong",
+					"valid_date" => "{field} format tanggal tidak sesuai"
+				],
+				"code" => [
+					"required" => "{field} tidak boleh kosong",
+					"is_unique" => "{field} telah digunakan",
+					"max_length" => "{field} maksimal 10 karakter",
+					"alpha_numeric" => "{field} harus berisi alfabet dan numerik",
+				],
+				"discount_price" => [
+					"required" => "{field} tidak boleh kosong"
+				],
+				"is_active" => [
+					"less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
+				],
 			];
-		}
-		return $this->respondCreated($response);
+	
+			if (!$this->validate($rules, $messages)) {
+				$response = [
+					'status' => 500,
+					'error' => 500,
+					'message' => $this->validator->getErrors(),
+					'data' => []
+				];
+			} else {
+				$data['title'] = $this->request->getVar("title");
+				$data['description'] = $this->request->getVar("description");
+				$data['start_date'] = date("Y-m-d", strtotime($this->request->getVar("start_date")));
+				$data['due_date'] = date("Y-m-d", strtotime($this->request->getVar("due_date")));
+				$data['is_active'] = $this->request->getVar("is_active");
+				$data['code'] = strtoupper($this->request->getVar("code"));
+				$data['discount_price'] = $this->request->getVar("discount_price");
+	
+				$this->voucherModel->save($data);
+	
+				$response = [
+					'status' => 200,
+					'success' => 200,
+					'message' => 'Voucher berhasil dibuat',
+					'data' => []
+				];
+			}
+			return $this->respondCreated($response);
+		} catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
+        }
 	}
 
 	public function show($id = null)
 	{
-		$data = $this->voucherModel->where('voucher_id', $id)->first();
-		if ($data) {
-			return $this->respond($data);
-		} else {
-			return $this->failNotFound('Data voucher tidak ditemukan');
-		}
+		$key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+			$data = $this->voucherModel->where('voucher_id', $id)->first();
+			if ($data) {
+				return $this->respond($data);
+			} else {
+				return $this->failNotFound('Data voucher tidak ditemukan');
+			}
+		} catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
+        }
 	}
 
 	public function update($id = null)
 	{
-		$input = $this->request->getRawInput();
+		$key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-		$rules = [
-			"title" => "required",
-			"start_date" => "required|valid_date",
-			"due_date" => "required|valid_date",
-			"code" => "required|is_unique[voucher.code,voucher_id,$id]|max_length[10]|alpha_numeric",
-			"discount_price" => "required|numeric",
-			"is_active" => "less_than_equal_to[1]",
-		];
-
-		$messages = [
-			"title" => [
-				"required" => "{field} tidak boleh kosong"
-			],
-			"start_date" => [
-				"required" => "{field} tidak boleh kosong",
-				"valid_date" => "{field} format tanggal tidak sesuai"
-			],
-			"due_date" => [
-				"required" => "{field} tidak boleh kosong",
-				"valid_date" => "{field} format tanggal tidak sesuai"
-			],
-			"code" => [
-				"required" => "{field} tidak boleh kosong",
-				"is_unique" => "{field} telah digunakan",
-				"max_length" => "{field} maksimal 10 karakter",
-				"alpha_numeric" => "{field} harus berisi alfabet dan numerik",
-			],
-			"discount_price" => [
-				"required" => "{field} tidak boleh kosong"
-			],
-			"is_active" => [
-				"less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
-			],
-		];
-
-		$data = [
-			"title" => $input["title"],
-			"description" => $input["description"],
-			"start_date" => date("Y-m-d", strtotime($input["start_date"])),
-			"due_date" => date("Y-m-d", strtotime($input["due_date"])),
-			"is_active" => $input["is_active"],
-			"code" => strtoupper($input["code"]),
-			"discount_price" => $input["discount_price"],
-		];
-
-		$response = [
-			'status'   => 200,
-			'success'    => 200,
-			'messages' => [
-				'success' => 'Voucher berhasil diperbarui'
-			]
-		];
-
-		$cek = $this->voucherModel->where('voucher_id', $id)->findAll();
-
-		if (!$cek) {
-			return $this->failNotFound('Data voucher tidak ditemukan');
-		}
-
-		if (!$this->validate($rules, $messages)) {
-			return $this->failValidationErrors($this->validator->getErrors());
-		}
-
-		if ($this->voucherModel->update($id, $data)) {
-			return $this->respond($response);
-		}
-		return $this->failNotFound('Data voucher tidak ditemukan');
-	}
-
-	public function delete($id = null)
-	{
-		$data = $this->voucherModel->where('voucher_id', $id)->findAll();
-		if ($data) {
-			$this->voucherModel->delete($id);
+        try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+			$input = $this->request->getRawInput();
+			$rules = [
+				"title" => "required",
+				"start_date" => "required|valid_date",
+				"due_date" => "required|valid_date",
+				"code" => "required|is_unique[voucher.code,voucher_id,$id]|max_length[10]|alpha_numeric",
+				"discount_price" => "required|numeric",
+				"is_active" => "less_than_equal_to[1]",
+			];
+	
+			$messages = [
+				"title" => [
+					"required" => "{field} tidak boleh kosong"
+				],
+				"start_date" => [
+					"required" => "{field} tidak boleh kosong",
+					"valid_date" => "{field} format tanggal tidak sesuai"
+				],
+				"due_date" => [
+					"required" => "{field} tidak boleh kosong",
+					"valid_date" => "{field} format tanggal tidak sesuai"
+				],
+				"code" => [
+					"required" => "{field} tidak boleh kosong",
+					"is_unique" => "{field} telah digunakan",
+					"max_length" => "{field} maksimal 10 karakter",
+					"alpha_numeric" => "{field} harus berisi alfabet dan numerik",
+				],
+				"discount_price" => [
+					"required" => "{field} tidak boleh kosong"
+				],
+				"is_active" => [
+					"less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
+				],
+			];
+	
+			$data = [
+				"title" => $input["title"],
+				"description" => $input["description"],
+				"start_date" => date("Y-m-d", strtotime($input["start_date"])),
+				"due_date" => date("Y-m-d", strtotime($input["due_date"])),
+				"is_active" => $input["is_active"],
+				"code" => strtoupper($input["code"]),
+				"discount_price" => $input["discount_price"],
+			];
+	
 			$response = [
 				'status'   => 200,
 				'success'    => 200,
 				'messages' => [
-					'success' => 'Voucher berhasil dihapus'
+					'success' => 'Voucher berhasil diperbarui'
 				]
 			];
-			return $this->respondDeleted($response);
-		} else {
+	
+			$cek = $this->voucherModel->where('voucher_id', $id)->findAll();
+	
+			if (!$cek) {
+				return $this->failNotFound('Data voucher tidak ditemukan');
+			}
+	
+			if (!$this->validate($rules, $messages)) {
+				return $this->failValidationErrors($this->validator->getErrors());
+			}
+	
+			if ($this->voucherModel->update($id, $data)) {
+				return $this->respond($response);
+			}
 			return $this->failNotFound('Data voucher tidak ditemukan');
-		}
+		} catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
+        }
+	}
+
+	public function delete($id = null)
+	{
+		$key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+			$data = $this->voucherModel->where('voucher_id', $id)->findAll();
+			if ($data) {
+				$this->voucherModel->delete($id);
+				$response = [
+					'status'   => 200,
+					'success'    => 200,
+					'messages' => [
+						'success' => 'Voucher berhasil dihapus'
+					]
+				];
+				return $this->respondDeleted($response);
+			} else {
+			return $this->failNotFound('Data voucher tidak ditemukan');
+			}
+		} catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
+        }
 	}
 }
