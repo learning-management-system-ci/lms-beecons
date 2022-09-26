@@ -11,3 +11,7 @@
 <?= $this->include('components/home/testimoni') ?>
 
 <?= $this->endSection() ?>
+
+<?= $this->section('js-component') ?>
+<script src="../../../js/api/home/index.js"></script>
+<?= $this->endSection() ?>
