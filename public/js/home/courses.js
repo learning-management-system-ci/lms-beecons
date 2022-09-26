@@ -126,7 +126,7 @@ $(document).ready(async function () {
                                 </p>
                                 <p class="harga">
                                     <del>Rp 4.999.000</del>
-                                    ${course.price}
+                                    ${getRupiah(course.price)}
                                 </p>
                             </div>
                             <a href="">
