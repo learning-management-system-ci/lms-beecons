@@ -91,6 +91,7 @@ class Course extends Seeder
                 'title' => 'Judul course '.$i,
                 'description' => 'Description course '.$i,
                 'price' => rand(10000, 1000000),
+                'price' => rand(10000, 100000),
                 'thumbnail' => 'course'.$i.'.jpg',
             ]);
         };
