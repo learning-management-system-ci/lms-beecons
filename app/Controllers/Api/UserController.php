@@ -123,14 +123,23 @@ class UserController extends ResourceController
         return $this->failNotFound('Data user tidak ditemukan');
     }
 
-    public function jobs()
-    {
-        $job = new Jobs;
-        $data = $job->select('job_id, job_name')->findAll();
-        if ($data) {
-            return $this->respond($data);
-        } else {
-            return $this->failNotFound('Data pekerjaan tidak ditemukan');
+    public function jobs() {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $job = new Jobs;
+            $data = $job->select('job_id, job_name')->findAll();
+            if ($data) {
+                return $this->respond($data);
+            } else {
+                return $this->failNotFound('Data pekerjaan tidak ditemukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
     }
 }
