@@ -69,6 +69,7 @@ $routes->get('/cart', 'Home::cart');
 $routes->get('/webinar', 'Home::webinar');
 $routes->get('/training', 'Home::training');
 $routes->get('/courses', 'Home::courses');
+$routes->get('/article', 'Home::article');
 
 
 $routes->group('api/', static function ($routes) {
@@ -137,7 +138,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\CourseCategoryController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseCategoryController::filter/$1/$2');
     });
-    
+
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
 });
