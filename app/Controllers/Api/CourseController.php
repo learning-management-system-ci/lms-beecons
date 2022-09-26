@@ -78,6 +78,7 @@ class CourseController extends ResourceController
             $result = [
                 'course' => $dataCourse,
             ];
+        }
 
         $data = $model
             ->select('course.*')
