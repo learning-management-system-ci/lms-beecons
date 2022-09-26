@@ -4,49 +4,38 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateVideoTable extends Migration
+class CourseBundling extends Migration
 {
-    public function up()
-    {
+    public function up() {
         $this->forge->addField([
-            'video_id'          => [
+            'course_bundling_id'          => [
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
-            'course_id'       => [
+            'bundling_id'          => [
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
             ],
-            'title'       => [
-                'type'           => 'VARCHAR',
-                'constraint'     => '255',
-                //'unsigned'       => true,
-            ],
-            'video'             => [
-                'type'           => 'VARCHAR',
-                'constraint'     => '255',
-                //'unsigned'       => true,
-            ],
-            'order'       => [
+            'course_id'          => [
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
             ],
-            
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
 
-        $this->forge->addKey('video_id', TRUE);
+        $this->forge->addKey('course_bundling_id', TRUE);
+        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id');
         $this->forge->addForeignKey('course_id', 'course', 'course_id');
-        $this->forge->createTable('video', TRUE);
-    }
+        $this->forge->createTable('course_bundling', TRUE);
+   }
 
-    public function down()
-    {
-        $this->forge->dropTable('video');
+
+    public function down() {
+        $this->forge->dropTable('course_bundling');
     }
 }

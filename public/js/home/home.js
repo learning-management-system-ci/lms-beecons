@@ -71,7 +71,7 @@ $(document).ready(() => {
                             <a href="" data-search-id="${course.course_id}">
                                 <div class="search-item">
                                     <div class="icon">
-                                        <img src="/image/home/${course.thumbnail}" alt="">
+                                        <img src="/image/home/img-course.jpg" alt="">
                                     </div>
                                     <div class="desc">
                                         <h5>${course.title}</h5>
@@ -103,7 +103,7 @@ $(document).ready(() => {
                     <a href="">
                         <div class="search-item">
                             <div class="icon">
-                                <img src="/image/home/${courseRecent.thumbnail}" alt="">
+                                <img src="/image/home/img-course.jpg" alt="">
                             </div>
                             <div class="desc">
                                 <h5>${courseRecent.title}</h5>
@@ -125,7 +125,7 @@ $(document).ready(() => {
                     <a href="">
                         <div class="search-item">
                             <div class="icon">
-                                <img src="/image/home/${course.thumbnail}" alt="">
+                                <img src="/image/home/img-course.jpg" alt="">
                             </div>
                             <div class="desc">
                                 <h5>${course.title}</h5>
