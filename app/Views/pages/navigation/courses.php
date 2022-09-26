@@ -53,8 +53,8 @@
             <div class="my-container">
                 <h1 class="">Ikuti beberapa kursus dengan pilihan paket bundling!</h1>
 
-                <div class="row justify-content-md-center gap-4 py-3">
-                    <div class="col-md-3 px-0">
+                <div class="row justify-content-md-center gap-4 py-3 courses-bundling-rekomendasi">
+                    <!-- <div class="col-md-3 px-0">
                         <div class="my-card bundle">
                             <div class="content">
                                 <div class="badges">
@@ -82,65 +82,7 @@
                                 HEMAT
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 px-0">
-                        <div class="my-card bundle">
-                            <div class="content">
-                                <div class="badges">
-                                    <div class="item" style="background-color: #FFCB42;">Intermediate</div>
-                                    <div class="item" style="background-color: #002B5B; color: white;">Advanced</div>
-                                </div>
-                                <h2>Mastering Frontend Developer</h2>
-                                <h3>What will you get?</h3>
-                                <ul>
-                                    <li>Fundamental ReactJS</li>
-                                    <li>Intermediate ReactJs and NodeJS</li>
-                                    <li>Advanced Frontend Developer</li>
-                                </ul>
-
-                                Only
-                                <div class="harga">
-                                    Rp 3.499.000
-                                    <del>Rp 4.999.000</del>
-                                </div>
-                            </div>
-                            <a href="">
-                                <button class="my-btn btn-full">Detail</button>
-                            </a>
-                            <div class="label">
-                                HEMAT
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 px-0">
-                        <div class="my-card bundle">
-                            <div class="content">
-                                <div class="badges">
-                                    <div class="item" style="background-color: #FFCB42;">Intermediate</div>
-                                    <div class="item" style="background-color: #002B5B; color: white;">Advanced</div>
-                                </div>
-                                <h2>Mastering Frontend Developer</h2>
-                                <h3>What will you get?</h3>
-                                <ul>
-                                    <li>Fundamental ReactJS</li>
-                                    <li>Intermediate ReactJs and NodeJS</li>
-                                    <li>Advanced Frontend Developer</li>
-                                </ul>
-
-                                Only
-                                <div class="harga">
-                                    Rp 3.499.000
-                                    <del>Rp 4.999.000</del>
-                                </div>
-                            </div>
-                            <a href="">
-                                <button class="my-btn btn-full">Detail</button>
-                            </a>
-                            <div class="label">
-                                HEMAT
-                            </div>
-                        </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -169,8 +111,8 @@
                 <div class="item">Construction</div>
             </div>
 
-            <div class="row gap-0 py-3">
-                <div class="col-md-3 pe-4 pb-4 ps-0">
+            <div class="courses-bundling-list row gap-0 py-3">
+                <!-- <div class="col-md-3 pe-4 pb-4 ps-0">
                     <div class="my-card bundle">
                         <div class="content">
                             <div class="badges">
@@ -198,94 +140,7 @@
                             HEMAT
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 pe-4 pb-4 ps-0">
-                    <div class="my-card bundle">
-                        <div class="content">
-                            <div class="badges">
-                                <div class="item" style="background-color: #FFCB42;">Intermediate</div>
-                                <div class="item" style="background-color: #002B5B; color: white;">Advanced</div>
-                            </div>
-                            <h2>Mastering Frontend Developer</h2>
-                            <h3>What will you get?</h3>
-                            <ul>
-                                <li>Fundamental ReactJS</li>
-                                <li>Intermediate ReactJs and NodeJS</li>
-                                <li>Advanced Frontend Developer</li>
-                            </ul>
-
-                            Only
-                            <div class="harga">
-                                Rp 3.499.000
-                                <del>Rp 4.999.000</del>
-                            </div>
-                        </div>
-                        <a href="">
-                            <button class="my-btn btn-full">Detail</button>
-                        </a>
-                        <div class="label">
-                            HEMAT
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 pe-4 pb-4 ps-0">
-                    <div class="my-card bundle">
-                        <div class="content">
-                            <div class="badges">
-                                <div class="item" style="background-color: #FFCB42;">Intermediate</div>
-                                <div class="item" style="background-color: #002B5B; color: white;">Advanced</div>
-                            </div>
-                            <h2>Mastering Frontend Developer</h2>
-                            <h3>What will you get?</h3>
-                            <ul>
-                                <li>Fundamental ReactJS</li>
-                                <li>Intermediate ReactJs and NodeJS</li>
-                                <li>Advanced Frontend Developer</li>
-                            </ul>
-
-                            Only
-                            <div class="harga">
-                                Rp 3.499.000
-                                <del>Rp 4.999.000</del>
-                            </div>
-                        </div>
-                        <a href="">
-                            <button class="my-btn btn-full">Detail</button>
-                        </a>
-                        <div class="label">
-                            HEMAT
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 pe-4 pb-4 ps-0">
-                    <div class="my-card bundle">
-                        <div class="content">
-                            <div class="badges">
-                                <div class="item" style="background-color: #FFCB42;">Intermediate</div>
-                                <div class="item" style="background-color: #002B5B; color: white;">Advanced</div>
-                            </div>
-                            <h2>Mastering Frontend Developer</h2>
-                            <h3>What will you get?</h3>
-                            <ul>
-                                <li>Fundamental ReactJS</li>
-                                <li>Intermediate ReactJs and NodeJS</li>
-                                <li>Advanced Frontend Developer</li>
-                            </ul>
-
-                            Only
-                            <div class="harga">
-                                Rp 3.499.000
-                                <del>Rp 4.999.000</del>
-                            </div>
-                        </div>
-                        <a href="">
-                            <button class="my-btn btn-full">Detail</button>
-                        </a>
-                        <div class="label">
-                            HEMAT
-                        </div>
-                    </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -296,4 +151,5 @@
 <?= $this->section('js-component') ?>
 <script src="../../../js/utils/getRupiah.js"></script>
 <script src="../../../js/home/courses.js"></script>
+<script src="../../../js/home/courses-bundling.js"></script>
 <?= $this->endSection() ?>
