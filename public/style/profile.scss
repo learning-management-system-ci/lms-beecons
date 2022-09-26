@@ -60,7 +60,7 @@ h5 {
   border-radius: 30px;
   border: 0;
   height: auto;
-  padding: 15px 20px 15px 20px;
+  padding: 25px 20px 25px 20px;
   .image-circle {
     width: 100px;
     height: 100px;
@@ -78,6 +78,21 @@ h5 {
   margin: 20px;
   &:first-child {
     margin-top: 0;
+  }
+
+  .profile-data {
+    .card {
+      min-height: 340px;
+    }
+  }
+
+  .course {
+    .webinar {
+      height: 120px;
+      img {
+        height: 120px;
+      }
+    }
   }
 }
 
