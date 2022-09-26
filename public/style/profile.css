@@ -57,7 +57,7 @@ h5.font-weight-bold {
   border-radius: 30px;
   border: 0;
   height: auto;
-  padding: 15px 20px 15px 20px;
+  padding: 25px 20px 25px 20px;
 }
 .card .image-circle {
   width: 100px;
@@ -76,6 +76,15 @@ h5.font-weight-bold {
 }
 .profile > *:first-child {
   margin-top: 0;
+}
+.profile > * .profile-data .card {
+  min-height: 340px;
+}
+.profile > * .course .webinar {
+  height: 120px;
+}
+.profile > * .course .webinar img {
+  height: 120px;
 }
 
 .btn-grey-200 {
