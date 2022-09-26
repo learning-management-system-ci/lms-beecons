@@ -160,7 +160,7 @@ class CourseController extends ResourceController
             ],
         ];
 
-        $response;
+        // $response;
         if($this->validate($rules, $messages)) {
             $dataCourse = [
               'title' => $this->request->getVar('title'),
@@ -229,7 +229,7 @@ class CourseController extends ResourceController
             ],
         ];
 
-        $response;
+        // $response;
         if($modelCourse->find($id)){
             if($this->validate($rules, $messages)) {
                 $dataCourse = [
