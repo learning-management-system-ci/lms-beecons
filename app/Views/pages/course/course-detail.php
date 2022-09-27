@@ -355,9 +355,6 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>
-<script>
-
-</script>
 <script src='js/library/swiper-bundle.min.js'></script>
 <script src="js/library/progress-bar.js"></script>
 <script src="js/home/course-detail.js"></script>

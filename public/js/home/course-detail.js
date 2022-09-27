@@ -1,3 +1,5 @@
+console.log('hello')
+
 var swiper = new Swiper(".myswiper", {
     navigation: {
         nextEl: ".quiz-next",

@@ -32,7 +32,7 @@ class Home extends BaseController
         return view('pages/authentication/new_password');
     }
 
-    
+
     public function faq()
     {
         return view('pages/navigation/faq');
@@ -51,7 +51,10 @@ class Home extends BaseController
     }
     public function courseDetail()
     {
-        return view('pages/course/course-detail');
+        $data = [
+            "title" => "Courses",
+        ];
+        return view('pages/course/course-detail', $data);
     }
     public function cart()
     {
@@ -72,5 +75,12 @@ class Home extends BaseController
             "title" => "Courses",
         ];
         return view('pages/navigation/courses', $data);
+    }
+    public function article()
+    {
+        $data = [
+            "title" => "Artikel",
+        ];
+        return view('pages/navigation/article', $data);
     }
 }

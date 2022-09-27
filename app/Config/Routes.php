@@ -72,6 +72,7 @@ $routes->get('/cart', 'Home::cart');
 $routes->get('/webinar', 'Home::webinar');
 $routes->get('/training', 'Home::training');
 $routes->get('/courses', 'Home::courses');
+$routes->get('/article', 'Home::article');
 
 $routes->get('/send-otp', 'AuthController::indexSendOtp');
 $routes->post('/send-otp', 'AuthController::sendOtp');
@@ -177,6 +178,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\CourseCategoryController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseCategoryController::filter/$1/$2');
     });
+
 
     $routes->group('notification/', static function ($routes) {
         // domain/api/notification/{user_id yang sedang login}
