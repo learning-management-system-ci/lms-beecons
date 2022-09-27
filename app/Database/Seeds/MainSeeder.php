@@ -14,7 +14,7 @@ class MainSeeder extends Seeder
         $this->call('BundlingSeeder');
         $this->call('CourseBundlingSeeder');
         $this->call('FaqSeeder');
-        $this->call('JobsSeeder');
+        $this->call('JobSeeder');
         $this->call('PapSeeder');
         $this->call('ReviewSeeder');
         $this->call('VoucherSeeder');

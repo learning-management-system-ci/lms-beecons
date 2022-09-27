@@ -5,8 +5,6 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CourseBundling;
-use App\Models\Course;
-use App\Models\Bundling;
 
 class CourseBundlingController extends ResourceController
 {

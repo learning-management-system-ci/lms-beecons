@@ -23,7 +23,7 @@ class CreateCourseTable extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => '255'
             ],
-            'price'             => [
+            'old_price'             => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '10'
             ],

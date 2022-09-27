@@ -24,7 +24,8 @@ class BundlingController extends ResourceController
         $rules = [
             "title" => "required",
             "description" => "required|max_length[255]",
-            "price" => "required|numeric",
+            "old_price" => "required|numeric",
+            "new_price" => "required|numeric",
         ];
 
         $messages = [
@@ -35,7 +36,11 @@ class BundlingController extends ResourceController
                 "required" => "{field} tidak boleh kosong",
                 "max_length" => "{field} maksimal 255 karakter",
             ],
-            "price" => [
+            "old_price" => [
+                "required" => "{field} tidak boleh kosong",
+                "numeric" => "{field} harus berisi angka"
+            ],
+            "new_price" => [
                 "required" => "{field} tidak boleh kosong",
                 "numeric" => "{field} harus berisi angka"
             ],
@@ -51,7 +56,8 @@ class BundlingController extends ResourceController
         } else {
             $data['title'] = $this->request->getVar("title");
             $data['description'] = $this->request->getVar("description");
-            $data['price'] = $this->request->getVar("price");
+            $data['old_price'] = $this->request->getVar("old_price");
+            $data['new_price'] = $this->request->getVar("new_price");
 
             $this->bundling->save($data);
 
@@ -80,7 +86,8 @@ class BundlingController extends ResourceController
 		$rules = [
             "title" => "required",
             "description" => "required|max_length[255]",
-            "price" => "required|numeric",
+            "old_price" => "required|numeric",
+            "new_price" => "required|numeric",
         ];
 		
 		$messages = [
@@ -91,7 +98,11 @@ class BundlingController extends ResourceController
                 "required" => "{field} tidak boleh kosong",
                 "max_length" => "{field} maksimal 255 karakter",
             ],
-            "price" => [
+            "old_price" => [
+                "required" => "{field} tidak boleh kosong",
+                "numeric" => "{field} harus berisi angka"
+            ],
+            "new_price" => [
                 "required" => "{field} tidak boleh kosong",
                 "numeric" => "{field} harus berisi angka"
             ],
@@ -100,8 +111,9 @@ class BundlingController extends ResourceController
 		$data = [
 			"title" => $input["title"],
 			"description" => $input["description"],
-			"price" => $input["price"],
-	  ];
+			"old_price" => $input["old_price"],
+			"new_price" => $input["new_price"],
+	    ];
 
 		$response = [
 			'status'   => 200,
