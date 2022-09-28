@@ -52,12 +52,12 @@
                     </div>
                 </li>
                 <li class="nav-item me-3">
-                    <div class="dropdown nav-item-icon">
-                        <button class="nav-btn-icon my-1" id="dropdown-cart" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="/cart">
+                        <button class="nav-btn-icon my-1">
                             <div class="nav-btn-icon-amount">5</div>
                             <i class="fa-solid fa-cart-shopping"></i>
                         </button>
-                    </div>
+                    </a>
                 </li>
                 <li class="nav-item me-3">
                     <div class="dropdown nav-item-icon">
