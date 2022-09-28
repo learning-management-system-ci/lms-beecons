@@ -31,8 +31,8 @@ $(document).ready(async function () {
     
                                 Only
                                 <div class="harga">
-                                    ${getRupiah(item.bundling[0].price)}
-                                    <del>Rp 4.999.000</del>
+                                    ${getRupiah(item.bundling[0].new_price)}
+                                    <del>${getRupiah(item.bundling[0].old_price)}</del>
                                 </div>
                             </div>
                             <a href="${`courses/bundling/${item.course_bundling_id}`}">
@@ -66,8 +66,8 @@ $(document).ready(async function () {
 
                                 Only
                                 <div class="harga">
-                                    ${getRupiah(item.bundling[0].price)}
-                                    <del>Rp 4.999.000</del>
+                                    ${getRupiah(item.bundling[0].new_price)}
+                                    <del>${getRupiah(item.bundling[0].old_price)}</del>
                                 </div>
                             </div>
                             <a href="${`courses/bundling/${item.course_bundling_id}`}">
