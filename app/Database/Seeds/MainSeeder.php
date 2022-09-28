@@ -13,7 +13,8 @@ class MainSeeder extends Seeder
         $this->call('PapSeeder');
         $this->call('VoucherSeeder');
         $this->call('CategorySeeder');
-        $this->call('CourseCategorySeeder');
         $this->call('Course');
+        $this->call('CourseCategorySeeder');
+        $this->call('BundlingSeeder');
     }
 }

@@ -10,10 +10,7 @@ use Firebase\JWT\JWT;
 
 class UserController extends ResourceController
 {
-
     use ResponseTrait;
-
-
 
     public function profile()
     {
@@ -140,6 +137,18 @@ class UserController extends ResourceController
             }
         } catch (\Throwable $th) {
             return $this->fail('Akses token tidak sesuai');
+        }
+    }
+
+    public function getMentor()
+    {
+        $users = new Users;
+        $data = $users->where('role', 'mentor')->findAll();
+
+        if (count($data) > 0) {
+            return $this->respond($data);
+        } else {
+            return $this->failNotFound('Tidak ada data');
         }
     }
 }
