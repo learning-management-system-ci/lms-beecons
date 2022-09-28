@@ -7,6 +7,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Bundling;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 
 class CartController extends ResourceController
@@ -25,6 +26,7 @@ class CartController extends ResourceController
             $cart = new Cart;
             $course = new Course;
             $bundling = new Bundling;
+            $user = new Users;
             $data = $cart->where('user_id', $decoded->uid)->findAll();
 
             $temp = 0;
@@ -32,15 +34,16 @@ class CartController extends ResourceController
             foreach ($data as $value) {
                 $course_data = $course->select('title, price, new_price, thumbnail')->where('course_id', $value['course_id'])->first();
                 $bundling_data = $bundling->select('title, price, new_price, thumbnail')->where('bundling_id', $value['bundling_id'])->first();
+                $user_data = $user->select('id, email, date_birth, address, phone_number')->where('id', $decoded->uid)->first();
 
                 $items[] = [
                     'cart_id' => $value['cart_id'],
-                    'user_id' => $value['user_id'],
                     'course' => $course_data,
                     'bundling' => $bundling_data,
                     'sub_total' => $value['total']
                 ];
                 $response = [
+                    'user' => $user_data,
                     'item' => $items,
                     'total' => $temp += $value['total']
                 ];
