@@ -1,6 +1,6 @@
 <!-- testimoni -->
 <div id="testimoni">
-    <h1>Testimonials</h1>
+    <h1>Testimoni Alumni</h1>
 
     <div class="testimoni-wrapper">
         <img src="/image/home/ornament-down.png" alt="ornamen" class="ornament1 d-none d-md-block">

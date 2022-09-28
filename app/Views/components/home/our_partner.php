@@ -1,6 +1,6 @@
 <!-- our partner -->
 <div id="our-partner">
-    <h1>Our Partner</h1>
+    <h1>Partner Kami</h1>
 
     <div id="our-partner-container">
         <div class="item">
