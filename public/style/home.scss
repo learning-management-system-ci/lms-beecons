@@ -67,6 +67,17 @@ body {
     font-size: 1rem;
 }
 
+.button-secondary {
+    background-color: $color-white;
+    color: $color-btn-primary;
+    padding: .5rem .8rem;
+    border-radius: .4rem;
+    border: 1px solid $color-btn-primary;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
 .btn-full {
     width: 100%;
 }
@@ -172,6 +183,17 @@ h6 {
             }
         }
     }
+
+    .card-course-button{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: .5rem;
+
+        a:first-child {
+            flex: 1;
+        }
+    }
 }
 
 .card-webinar {
@@ -200,7 +222,7 @@ h6 {
         align-items: center;
         color: $color-gray-1;
 
-        i{
+        i {
             min-width: 1.4rem;
         }
 
@@ -216,6 +238,86 @@ h6 {
         font-size: 1.2rem;
         font-weight: bolder;
         color: $color-yellow;
+    }
+}
+
+.card-mentor {
+    @include card-setting();
+    padding: 2.5rem;
+
+    .profile {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .profile img {
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+        border-radius: 50%;
+        margin: auto;
+    }
+
+    .info {
+        text-align: center;
+        margin-bottom: 1.6rem;
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 1rem;
+            margin: 0;
+        }
+    }
+
+    .star-container {
+        display: flex;
+        gap: .5rem;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    }
+
+    .stars {
+        --percent: calc(var(--rating) / 5 * 100%);
+
+        display: inline-block;
+        font-size: 2rem;
+        font-family: Times; // make sure ★ appears correctly
+        line-height: 1;
+
+        &::before {
+            content: '★★★★★';
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, $color-star var(--percent), $color-white var(--percent));
+            -webkit-background-clip: text;
+            background-clip: $color-yellow;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 1px $color-star;
+        }
+    }
+
+    .sosmed {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: .8rem;
+        align-items: center;
+        font-size: 1.2rem;
+
+        img {
+            width: 1rem;
+        }
     }
 }
 
@@ -603,84 +705,6 @@ h6 {
     .slick-slide {
         padding: 2rem;
     }
-
-    .item {
-        padding: 2.5rem;
-
-        .profile {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .profile img {
-            width: 8rem;
-            height: 8rem;
-            object-fit: cover;
-            border-radius: 50%;
-            margin: auto;
-        }
-
-        .info {
-            text-align: center;
-            margin-bottom: 1.6rem;
-
-            h2 {
-                font-size: 1.5rem;
-                margin-bottom: 0.2rem;
-                font-weight: bold;
-            }
-
-            p {
-                font-size: 1rem;
-                margin: 0;
-            }
-        }
-
-        .star-container {
-            display: flex;
-            gap: .5rem;
-            align-items: center;
-            justify-content: center;
-
-            h2 {
-                margin: 0;
-                font-size: 1.2rem;
-                font-weight: bold;
-            }
-        }
-
-        .stars {
-            --percent: calc(var(--rating) / 5 * 100%);
-
-            display: inline-block;
-            font-size: 2rem;
-            font-family: Times; // make sure ★ appears correctly
-            line-height: 1;
-
-            &::before {
-                content: '★★★★★';
-                letter-spacing: 3px;
-                background: linear-gradient(90deg, $color-star var(--percent), $color-white var(--percent));
-                -webkit-background-clip: text;
-                background-clip: $color-yellow;
-                -webkit-text-fill-color: transparent;
-                -webkit-text-stroke: 1px $color-star;
-            }
-        }
-
-        .sosmed {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: .8rem;
-            align-items: center;
-            font-size: 1.2rem;
-
-            img {
-                width: 1rem;
-            }
-        }
-    }
 }
 
 // our partner
@@ -720,24 +744,24 @@ h6 {
         margin-bottom: 4rem;
     }
 
-    .testimoni-wrapper{
+    .testimoni-wrapper {
         position: relative;
         min-height: 30rem;
 
-        .ornament1{
+        .ornament1 {
             position: absolute;
             bottom: 5rem;
             left: 10rem;
         }
 
-        .ornament2{
+        .ornament2 {
             position: absolute;
             top: -5rem;
             right: 17rem;
         }
     }
 
-    .testimoni-slick{
+    .testimoni-slick {
         position: absolute;
         top: 0;
         left: 0;
