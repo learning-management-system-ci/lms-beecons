@@ -48,7 +48,7 @@ $routes->post('/register', 'AuthController::register');
 
 $routes->get('/profile', 'AuthController::profile');
 $routes->get('/login/loginWithGoogle', 'Api\AuthController::loginWithGoogle');
-$routes->post('/login/loginWithGoogle/submit', 'AuthController::loginWithGoogle');
+// $routes->post('/login/loginWithGoogle/submit', 'Api\AuthController::loginWithGoogle');
 $routes->get('/logout', 'AuthController::logout');
 $routes->get('/activateuser', 'AuthController::activateUser');
 
@@ -138,6 +138,15 @@ $routes->group('api/', static function ($routes) {
             $routes->post('update/(:segment)', 'Api\VideoController::update/$1');
             $routes->delete('delete/(:segment)', 'Api\VideoController::delete/$1');
         });
+    });
+
+    $routes->group('user-video/', static function ($routes) {
+        $routes->get('', 'Api\UserVideoController::index');
+        $routes->get('detail/(:segment)', 'Api\UserVideoController::show/$1');
+        $routes->get('detail/(:segment)/(:segment)', 'Api\UserVideoController::showuser/$1/$2');
+        $routes->post('create', 'Api\UserVideoController::create');
+        $routes->put('update/(:segment)', 'Api\UserVideoController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\UserVideoController::delete/$1');
     });
 
     $routes->group('bundling/', static function ($routes) {
