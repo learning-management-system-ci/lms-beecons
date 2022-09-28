@@ -23,6 +23,7 @@ class MainSeeder extends Seeder
         $this->call('CategorySeeder');
         $this->call('Course');
         $this->call('CourseCategorySeeder');
+        $this->call('UserCourseSeeder');
         $this->call('BundlingSeeder');
     }
 }
