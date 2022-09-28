@@ -29,6 +29,17 @@ body {
   font-size: 1rem;
 }
 
+.button-secondary {
+  background-color: #ffffff;
+  color: #002B5B;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.4rem;
+  border: 1px solid #002B5B;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
 .btn-full {
   width: 100%;
 }
@@ -127,6 +138,15 @@ h6 {
   font-weight: normal;
   color: #9ca3af;
   margin-right: 0.5rem;
+}
+.card-course .card-course-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.card-course .card-course-button a:first-child {
+  flex: 1;
 }
 
 .card-webinar {

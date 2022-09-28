@@ -67,6 +67,17 @@ body {
     font-size: 1rem;
 }
 
+.button-secondary {
+    background-color: $color-white;
+    color: $color-btn-primary;
+    padding: .5rem .8rem;
+    border-radius: .4rem;
+    border: 1px solid $color-btn-primary;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
 .btn-full {
     width: 100%;
 }
@@ -170,6 +181,17 @@ h6 {
                 color: $color-gray-1;
                 margin-right: .5rem;
             }
+        }
+    }
+
+    .card-course-button{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: .5rem;
+
+        a:first-child {
+            flex: 1;
         }
     }
 }

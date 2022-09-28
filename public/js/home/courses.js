@@ -129,9 +129,14 @@ $(document).ready(async function () {
                                     ${getRupiah(course.price)}
                                 </p>
                             </div>
-                            <a href="">
-                                <button class="my-btn btn-full">Detail</button>
-                            </a>
+                            <div class="card-course-button">
+                                <a href="">
+                                    <button class="my-btn btn-full">Beli</button>
+                                </a>
+                                <a href="">
+                                    <button class="button-secondary"><i class="fa-solid fa-cart-shopping"></i></button>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 `
