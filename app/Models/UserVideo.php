@@ -55,14 +55,6 @@ class UserVideo extends Model
         return $query->getResultArray();
 	}
 
-    // function getShowCourse($course_id){
-    //     $builder = $this->db->table('course');
-    //     $builder->select('*');
-    //     $builder->where('course_id', $course_id);
-    //     $query = $builder->get();
-    //     return $query->getResultArray();
-	// }
-
     function getShowUser($user_id){
         $builder = $this->db->table('user_video');
         $builder->select('*');
