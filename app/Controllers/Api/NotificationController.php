@@ -141,15 +141,11 @@ class NotificationController extends ResourceController
                 ];
             }
 
-            return $this->respondCreated($response);    
-
-            // return $this->respond($data);
+            return $this->respondCreated($response);   
         } catch (\Throwable $th) {
             return $this->fail('Akses token tidak sesuai');
         }
         return $this->failNotFound('Data user tidak ditemukan');
-
-        
     }
 
     /**
@@ -169,58 +165,75 @@ class NotificationController extends ResourceController
      */
     public function update($id = null)
     {
-        $model = new Notification();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        $rules = [
-            'message' => 'required|min_length[8]',
-        ];
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        $messages = [
-            "message" => [
-                "required" => "{field} tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-        ];
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses', 400);
+            }
 
-        $response;
-        if($model->find($id)){
-            if($this->validate($rules, $messages)) {
-                if($this->request->getRawInput('user_id')){
-                    $data = [
-                      'user_id' => $this->request->getRawInput('user_id'),
-                      'message' => $this->request->getRawInput('message'),
+            $model = new Notification();
+
+            $rules = [
+                'message' => 'required|min_length[8]',
+            ];
+
+            $messages = [
+                "message" => [
+                    "required" => "{field} tidak boleh kosong",
+                    'min_length' => '{field} minimal 8 karakter'
+                ],
+            ];
+
+            $response;
+            if($model->find($id)){
+                if($this->validate($rules, $messages)) {
+                    if($this->request->getRawInput('user_id')){
+                        $data = [
+                        'user_id' => $this->request->getRawInput('user_id'),
+                        'message' => $this->request->getRawInput('message'),
+                        ];
+                    }else{
+                        $data = [
+                        'message' => $this->request->getRawInput('message'),
+                        ];
+                    }
+                    $model->update($id, $data['user_id']);
+
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Notification berhasil di perbarui'
+                        ]
                     ];
                 }else{
-                    $data = [
-                      'message' => $this->request->getRawInput('message'),
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
                     ];
                 }
-                $model->update($id, $data['user_id']);
-
-                $response = [
-                    'status'   => 201,
-                    'success'    => 201,
-                    'messages' => [
-                        'success' => 'Notification berhasil di perbarui'
-                    ]
-                ];
             }else{
                 $response = [
                     'status'   => 400,
                     'error'    => 400,
-                    'messages' => $this->validator->getErrors(),
+                    'messages' => 'Data tidak ditemukan',
                 ];
             }
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => 'Data tidak ditemukan',
-            ];
+
+            return $this->respondCreated($response);
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
-
-
-        return $this->respondCreated($response);
+        return $this->failNotFound('Data user tidak ditemukan');
     }
 
     /**
@@ -230,21 +243,40 @@ class NotificationController extends ResourceController
      */
     public function delete($id = null)
     {
-        $model = new Notification();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        if($model->find($id)){
-            $model->delete($id);
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-            $response = [
-                'status'   => 200,
-                'success'    => 200,
-                'messages' => [
-                    'success' => 'Notification berhasil di hapus'
-                ]
-            ];
-            return $this->respondDeleted($response);
-        }else{
-            return $this->failNotFound('Data tidak di temukan');
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses', 400);
+            }
+
+            
+            $model = new Notification();
+
+            if($model->find($id)){
+                $model->delete($id);
+
+                $response = [
+                    'status'   => 200,
+                    'success'    => 200,
+                    'messages' => [
+                        'success' => 'Notification berhasil di hapus'
+                    ]
+                ];
+                return $this->respondDeleted($response);
+            }else{
+                return $this->failNotFound('Data tidak di temukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
+        return $this->failNotFound('Data user tidak ditemukan');
     }
 }
