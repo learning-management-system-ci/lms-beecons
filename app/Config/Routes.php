@@ -184,10 +184,10 @@ $routes->group('api/', static function ($routes) {
     $routes->group('notification/', static function ($routes) {
         // domain/api/notification/{user_id yang sedang login}
         // akan memberikan output semua notifikasi user tersebut dan juga public notifikasi
-        $routes->get('(:num)', 'Api\NotificationController::index/$1');
+        $routes->get('', 'Api\NotificationController::index');
         $routes->post('create', 'Api\NotificationController::create');
-        $routes->put('update/(:num)', 'Api\NotificationController::update/$1');
-        $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
+        // $routes->put('update/(:num)', 'Api\NotificationController::update/$1');
+        // $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
     });
 
     $routes->group('type/', static function ($routes) {
