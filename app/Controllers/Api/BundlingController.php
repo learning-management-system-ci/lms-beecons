@@ -30,6 +30,7 @@ class BundlingController extends ResourceController
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
             $rules = [
+                "category_id" => "required",
                 "title" => "required",
                 "description" => "required|max_length[255]",
                 "old_price" => "required|numeric",
@@ -37,6 +38,9 @@ class BundlingController extends ResourceController
             ];
     
             $messages = [
+                "category_id" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
                 "title" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
@@ -62,6 +66,7 @@ class BundlingController extends ResourceController
                     'data' => []
                 ];
             } else {
+                $data['category_id'] = $this->request->getVar("category_id");
                 $data['title'] = $this->request->getVar("title");
                 $data['description'] = $this->request->getVar("description");
                 $data['new_price'] = $this->request->getVar("new_price");
@@ -111,12 +116,16 @@ class BundlingController extends ResourceController
 		    $decoded = JWT::decode($token, $key, ['HS256']);
             $input = $this->request->getRawInput();
             $rules = [
+                "category_id" => "required",
                 "title" => "required",
                 "description" => "required|max_length[255]",
                 "new_price" => "required|numeric",
                 "old_price" => "required|numeric",
             ];
             $messages = [
+                "category_id" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
                 "title" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
@@ -135,6 +144,7 @@ class BundlingController extends ResourceController
             ];
 
             $data = [
+                "category_id" => $input["category_id"],
                 "title" => $input["title"],
                 "description" => $input["description"],
                 "new_price" => $input["new_price"],
