@@ -21,6 +21,9 @@ class CategoryBundlingSeeder extends Seeder
             [
                 'name' => 'Cyber Security',
             ],
+            [
+                'name' => 'Data Engineer',
+            ],
         ];
 
         $this->db->table('category_bundling')->insertBatch($data);
