@@ -15,7 +15,7 @@ class Bundling extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
-            'category_id'          => [
+            'category_bundling_id'          => [
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
@@ -45,7 +45,7 @@ class Bundling extends Migration
         ]);
 
         $this->forge->addKey('bundling_id', TRUE);
-        $this->forge->addForeignKey('category_id', 'category', 'category_id');
+        $this->forge->addForeignKey('category_bundling_id', 'category_bundling', 'category_bundling_id');
         $this->forge->createTable('bundling', TRUE);
     }
 

@@ -21,8 +21,8 @@ class MainSeeder extends Seeder
         $this->call('UserVideoSeeder');
         $this->call('CategorySeeder');
         $this->call('Course');
-        $this->call('CourseCategorySeeder');
         $this->call('UserCourseSeeder');
+        $this->call('CourseCategorySeeder');
         $this->call('ReviewSeeder');
         $this->call('BundlingSeeder');
     }

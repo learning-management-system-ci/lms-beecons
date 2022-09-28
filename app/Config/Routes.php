@@ -172,6 +172,15 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\CategoryController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CategoryController::delete/$1');
     });
+
+    $routes->group('category-bundling/', static function ($routes) {
+        $routes->get('', 'Api\CategoryBundlingController::index');
+        $routes->get('detail/(:num)', 'Api\CategoryBundlingController::show/$1');
+        $routes->post('create', 'Api\CategoryBundlingController::create');
+        $routes->put('update/(:num)', 'Api\CategoryBundlingController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\CategoryBundlingController::delete/$1');
+    });
+    
     $routes->group('tag/', static function ($routes) {
         $routes->get('', 'Api\TagController::index');
         $routes->get('detail/(:num)', 'Api\TagController::show/$1');
@@ -179,6 +188,7 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\TagController::update/$1');
         $routes->delete('delete/(:num)', 'Api\TagController::delete/$1');
     });
+    
     $routes->group('course_tag/', static function ($routes) {
         $routes->get('', 'Api\CourseTagController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseTagController::filter/$1/$2');
