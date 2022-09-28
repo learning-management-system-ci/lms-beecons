@@ -16,13 +16,6 @@ class UserVideo extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['video_id', 'user_id', 'score', 'created_at', 'updated_at'];
 
-    // function getUserVideo(){
-    //     $builder = $this->db->table('user_video');
-    //     $builder->select('*');
-    //     $query = $builder->get();
-    //     return $query->getResultArray();
-	// }
-
     function getDataVideo($data_video_id){
         $builder = $this->db->table('video');
         $builder->select('*');
@@ -30,14 +23,6 @@ class UserVideo extends Model
         $query = $builder->get();
         return $query->getResultArray();
 	}
-
-    // function getDataCourse($data_course_id){
-    //     $builder = $this->db->table('course');
-    //     $builder->select('*');
-    //     $builder->where('course_id', $data_course_id);
-    //     $query = $builder->get();
-    //     return $query->getResultArray();
-	// }
 
     function getDataUser($data_user_id){
         $builder = $this->db->table('users');
@@ -49,7 +34,6 @@ class UserVideo extends Model
 
     function getShow($id){
         $builder = $this->db->table('user_video');
-        // $builder->select('*');
         $builder->where('user_video_id', $id);
         $query = $builder->get();
         return $query->getResultArray();

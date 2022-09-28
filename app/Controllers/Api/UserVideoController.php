@@ -63,45 +63,7 @@ class UserVideoController extends ResourceController
         $video = $this->video
             ->where('course_id', $course_id)
             ->findAll();
-        // $datavideo = $this->video->getDataVideo($course_id);
-        // $datavideo = $this->video
-        //     ->select('video.video_id, video.course_id, video.title as vid_title, video.video, video.order, user_video.score')
-        //     ->join('course','course.course_id=video.course_id')
-        //     ->join('user_video','user_video.video_id=video.video_id')
-        //     ->orderBy('course.course_id', 'DESC')
-        //     ->where('course.course_id', $id)
-        //     ->findAll();
-        
-        // $datavideos = [];
-        // foreach($datavideo as $valuevideo) {
-        //     $datavideos[] = [
-        //         'video_id' => $valuevideo['video_id'],
-        //         'course_id' => $valuevideo['course_id'],
-        //         'vid_title' => $valuevideo['vid_title'],
-        //         'video' => $valuevideo['video'],
-        //         'order' => $valuevideo['order'],
-        //         'score' => $valuevideo['score'],
-        //     ];
-        // }
-        // $datausers = [];
-        // foreach($data as $value) {
-        //     $datausers[] = [
-        //         'user_video_id' => $value['user_video_id'],
-        //         'user' => $value['user_id'],
-        //         'course' => [
-        //             'course_id' => $course_id,
-        //             // 'video' => $this->video->getDataVideo($data_video_id = $value['video_id'], $data_course_id = $course_id),
-        //             'video' => $datavideo,
-        //         ],
-        //         'created_at' => $value['created_at'],
-        //         'updated_at' => $value['updated_at'],
-        //     ];
-        // }
-        // if($datausers){
-        //     return $this->respond($datausers);
-        // }else{
-        //     return $this->failNotFound('Data User Video tidak ditemukan');
-        // }
+            
         for($i = 0; $i < count($course); $i++){
             for($k = 0; $k < count($video); $k++){
                 $course[$i]['video'][$k] = $video[$k];
