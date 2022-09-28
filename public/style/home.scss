@@ -27,7 +27,7 @@ $color-blue: #0D99FF;
 @mixin title() {
     font-size: 2rem;
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 4rem;
 }
 
 @mixin padding-container() {
@@ -184,7 +184,7 @@ h6 {
         }
     }
 
-    .card-course-button{
+    .card-course-button {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -319,6 +319,10 @@ h6 {
             width: 1rem;
         }
     }
+}
+
+.text-primary-color {
+    color: $color-primary;
 }
 
 // navbar
@@ -734,9 +738,72 @@ h6 {
     }
 }
 
+// artikel
+#artikel {
+    @include padding-container();
+
+    h1 {
+        @include title();
+    }
+
+    .artikel-item {
+        .image {
+            position: relative;
+
+            img {
+                min-width: 10rem;
+                width: 100%;
+                height: 32rem;
+                object-fit: cover;
+                border-radius: 14px;
+                border: 1px solid $color-gray;
+            }
+
+            .gradient {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgb(0, 43, 80);
+                background: linear-gradient(0deg, rgba(0, 43, 80, 1) 0%, rgba(0, 43, 91, 1) 20%, rgba(255, 255, 255, 1) 100%);
+                border-radius: 14px;
+                opacity: 0.8;
+            }
+
+            .gradient.active{
+                background: linear-gradient(0deg, rgba(0, 43, 80, 1) 0%, rgba(0, 43, 91, 1) 45%, rgba(255, 255, 255, 1) 100%);
+            }
+
+            .content {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 1rem;
+                color: $color-white;
+
+                h2 {
+                    font-size: 1.2rem;
+                }
+
+                p {
+                    font-size: .85rem;
+                    margin-bottom: 2rem;
+                }
+
+                span{
+                    color: $color-white;
+                    font-size: .85rem;
+                }
+            }
+        }
+    }
+}
+
 // testimoni
 #testimoni {
-    @include padding-container();
+    // @include padding-container();
     padding-bottom: 6rem;
 
     h1 {
@@ -774,18 +841,25 @@ h6 {
 
     .slick-list {
         padding-left: 0 !important;
+        padding-right: 10rem !important;
     }
 
     .slick-arrow {
-        top: 50%;
+        top: 104.5%;
+    }
+
+    .slick-next {
+        right: 1rem;
+    }
+
+    .slick-prev {
+        left: 84%;
     }
 
     .slick-dots {
         width: auto;
         align-items: center;
-        bottom: -2rem;
-        right: 0;
-        left: 0;
+        right: 4%;
     }
 
     .slick-slide {

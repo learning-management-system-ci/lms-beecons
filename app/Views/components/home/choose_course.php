@@ -11,7 +11,7 @@
     </div>
 
     <div class="text-end mb-4">
-        <a href="/courses" class="text-decoration-underline text-primary">Lihat Semua</a>
+        <a href="/courses" class="text-decoration-underline text-primary-color">Lihat Semua</a>
     </div>
 
     <div class="row choose-course-list"></div>
