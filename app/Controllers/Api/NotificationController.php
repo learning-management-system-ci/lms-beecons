@@ -170,6 +170,7 @@ class NotificationController extends ResourceController
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
+        
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
