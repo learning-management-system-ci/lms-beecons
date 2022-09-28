@@ -260,6 +260,10 @@ h6 {
   width: 1rem;
 }
 
+.text-primary-color {
+  color: #002B5B;
+}
+
 .navbar {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
