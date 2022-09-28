@@ -1,4 +1,74 @@
 $(document).ready(async function () {
+    let artikels = [
+        {
+            id: 1,
+            title: 'Artikel 1',
+            content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+        },
+        {
+            id: 2,
+            title: 'Artikel 2',
+            content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+        },
+        {
+            id: 3,
+            title: 'Artikel 3',
+            content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+        }
+    ]
+
+    $('#artikel .artikel-wrapper').html(artikels.map(artikel => {
+        return `
+            <div class="col col-md-4 pe-5 pb-5">
+                <a href="/" class="artikel-item" data-atikel-id=${artikel.id}>
+                    <div class="image">
+                        <img src="/image/home/people.jpg" alt="">
+                        <div class="gradient"></div>
+                        <div class="content">
+                            <h2>${artikel.title}</h2>
+                            <p>
+                                ${artikel.content.slice(0, 100)}...
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        `
+    }))
+
+    
+    $('#artikel .artikel-item').on('mouseover', artikelMouseOver)
+    $('#artikel .artikel-item').on('mouseout', artikelMouseOut)
+
+    function artikelMouseOver() {
+        $(this).find('.gradient').addClass('active')
+
+        let artikelId = $(this).data('atikel-id')
+        let artikel = artikels.find(artikel => artikel.id == artikelId)
+        
+        $(this).find('.content').html(
+            `
+                <h2>${artikel.title}</h2>
+                <p>${artikel.content.slice(0, 150)}...</p>
+                <span>Baca selengkapnya <i class="fa-solid fa-arrow-right ms-2"></i></span>
+            `
+        )
+    }
+
+    function artikelMouseOut() {
+        $(this).find('.gradient').removeClass('active')
+
+        let artikelId = $(this).data('atikel-id')
+        let artikel = artikels.find(artikel => artikel.id == artikelId)
+
+        $(this).find('.content').html(
+            `
+                <h2>${artikel.title}</h2>
+                <p>${artikel.content.slice(0, 100)}...</p>
+            `
+        )
+    }
+
     try {
         const courseResponse = await $.ajax({
             url: '/api/course',
