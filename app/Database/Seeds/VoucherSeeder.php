@@ -10,31 +10,31 @@ class VoucherSeeder extends Seeder
     {
         $data = [
             [
-                'title' => 'Gratis Ongkir',
+                'title' => 'Voucher 1',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'code' => 'dfasgweo2384134',
                 'discount_price' => '50',
             ],
             [
-                'title' => 'Gratis Ongkir',
+                'title' => 'Voucher 2',
+                'description'    => 'Lorem ipsum dolor sit amet',
+                'code' => 'dgjawheghoawe48521',
+                'discount_price' => '50',
+            ],
+            [
+                'title' => 'Voucher 3',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'code' => 'dfasgweo2384134',
                 'discount_price' => '50',
             ],
             [
-                'title' => 'Gratis Ongkir',
+                'title' => 'Voucher 4',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'code' => 'dfasgweo2384134',
                 'discount_price' => '50',
             ],
             [
-                'title' => 'Gratis Ongkir',
-                'description'    => 'Lorem ipsum dolor sit amet',
-                'code' => 'dfasgweo2384134',
-                'discount_price' => '50',
-            ],
-            [
-                'title' => 'Gratis Ongkir',
+                'title' => 'Voucher 5',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'code' => 'dfasgweo2384134',
                 'discount_price' => '50',

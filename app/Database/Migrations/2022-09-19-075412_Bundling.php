@@ -6,7 +6,8 @@ use CodeIgniter\Database\Migration;
 
 class Bundling extends Migration
 {
-    public function up() {
+    public function up()
+    {
         $this->forge->addField([
             'bundling_id'          => [
                 'type'           => 'INT',
@@ -29,16 +30,26 @@ class Bundling extends Migration
                 'constraint'     => 10,
                 'null'           => true,
             ],
+            'new_price'             => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '10',
+                'null'          => true,
+            ],
+            'thumbnail'             => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255'
+            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
 
         $this->forge->addKey('bundling_id', TRUE);
         $this->forge->createTable('bundling', TRUE);
-   }
+    }
 
 
-    public function down() {
+    public function down()
+    {
         $this->forge->dropTable('bundling');
     }
 }

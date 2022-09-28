@@ -101,12 +101,12 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:segment)', 'Api\VoucherController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
     });
-    
+
     $routes->group('review/', static function ($routes) {
         $routes->get('', 'Api\ReviewController::index');
         $routes->post('create', 'Api\ReviewController::create');
     });
-    
+
     $routes->group('pap/', static function ($routes) {
         $routes->get('', 'Api\PolicyAndPrivacyController::index');
         $routes->get('detail/(:num)', 'Api\PolicyAndPrivacyController::show/$1');
@@ -119,6 +119,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
         $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
         $routes->get('jobs', 'Api\UserController::jobs');
+        $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->put('update/(:segment)', 'Api\UserController::update/$1');
     });
 
@@ -154,7 +155,7 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:segment)', 'Api\CourseBundlingController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\CourseBundlingController::delete/$1');
     });
-    
+
     $routes->group('category/', static function ($routes) {
         $routes->get('', 'Api\CategoryController::index');
         $routes->get('detail/(:num)', 'Api\CategoryController::show/$1');
@@ -188,7 +189,7 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\NotificationController::update/$1');
         $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
     });
-        
+
     $routes->group('type/', static function ($routes) {
         $routes->get('', 'Api\TypeController::index');
         $routes->get('detail/(:num)', 'Api\TypeController::show/$1');
@@ -206,7 +207,13 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\TypeTagController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\TypeTagController::filter/$1/$2');
     });
-    
+
+    $routes->group('cart/', static function ($routes) {
+        $routes->get('', 'Api\CartController::index');
+        $routes->post('create/(:num)/(:segment)', 'Api\CartController::create/$1/$2');
+        $routes->delete('delete/(:num)', 'Api\CartController::delete/$1');
+    });
+
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
 });
