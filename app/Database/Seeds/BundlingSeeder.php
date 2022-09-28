@@ -10,35 +10,35 @@ class BundlingSeeder extends Seeder
     {
         $data = [
             [
-                'category_id' => 1,
+                'category_bundling_id' => 1,
                 'title' => 'Bundling 1',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'old_price' => '20000',
                 'new_price' => '15000',
             ],
             [
-                'category_id' => 1,
+                'category_bundling_id' => 1,
                 'title' => 'Bundling 2',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'old_price' => '20000',
                 'new_price' => '15000',
             ],
             [
-                'category_id' => 1,
+                'category_bundling_id' => 1,
                 'title' => 'Bundling 3',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'old_price' => '20000',
                 'new_price' => '15000',
             ],
             [
-                'category_id' => 1,
+                'category_bundling_id' => 1,
                 'title' => 'Bundling 4',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'old_price' => '20000',
                 'new_price' => '15000',
             ],
             [
-                'category_id' => 1,
+                'category_bundling_id' => 1,
                 'title' => 'Bundling 5',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'old_price' => '20000',
