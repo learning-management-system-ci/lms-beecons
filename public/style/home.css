@@ -170,6 +170,76 @@ h6 {
   color: #FFCB42;
 }
 
+.card-mentor {
+  border-radius: 0.6rem;
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 2.5rem;
+}
+.card-mentor .profile {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.card-mentor .profile img {
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: auto;
+}
+.card-mentor .info {
+  text-align: center;
+  margin-bottom: 1.6rem;
+}
+.card-mentor .info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.2rem;
+  font-weight: bold;
+}
+.card-mentor .info p {
+  font-size: 1rem;
+  margin: 0;
+}
+.card-mentor .star-container {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.card-mentor .star-container h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.card-mentor .stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: 2rem;
+  font-family: Times;
+  line-height: 1;
+}
+.card-mentor .stars::before {
+  content: "★★★★★";
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #E0D043 var(--percent), #ffffff var(--percent));
+  -webkit-background-clip: text;
+  background-clip: #FFCB42;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #E0D043;
+}
+.card-mentor .sosmed {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.8rem;
+  align-items: center;
+  font-size: 1.2rem;
+}
+.card-mentor .sosmed img {
+  width: 1rem;
+}
+
 .navbar {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
@@ -491,71 +561,6 @@ h6 {
 }
 #mentor .slick-slide {
   padding: 2rem;
-}
-#mentor .item {
-  padding: 2.5rem;
-}
-#mentor .item .profile {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-#mentor .item .profile img {
-  width: 8rem;
-  height: 8rem;
-  object-fit: cover;
-  border-radius: 50%;
-  margin: auto;
-}
-#mentor .item .info {
-  text-align: center;
-  margin-bottom: 1.6rem;
-}
-#mentor .item .info h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.2rem;
-  font-weight: bold;
-}
-#mentor .item .info p {
-  font-size: 1rem;
-  margin: 0;
-}
-#mentor .item .star-container {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  justify-content: center;
-}
-#mentor .item .star-container h2 {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-#mentor .item .stars {
-  --percent: calc(var(--rating) / 5 * 100%);
-  display: inline-block;
-  font-size: 2rem;
-  font-family: Times;
-  line-height: 1;
-}
-#mentor .item .stars::before {
-  content: "★★★★★";
-  letter-spacing: 3px;
-  background: linear-gradient(90deg, #E0D043 var(--percent), #ffffff var(--percent));
-  -webkit-background-clip: text;
-  background-clip: #FFCB42;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 1px #E0D043;
-}
-#mentor .item .sosmed {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 0.8rem;
-  align-items: center;
-  font-size: 1.2rem;
-}
-#mentor .item .sosmed img {
-  width: 1rem;
 }
 
 #our-partner {

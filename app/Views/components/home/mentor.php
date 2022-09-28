@@ -3,7 +3,7 @@
     <h1>Mentor</h1>
 
     <div id="mentor-wrapper">
-        <div class="my-card item">
+        <div class="card-mentor">
             <div class="profile">
                 <img src="image/home/people.jpg" alt="mentor">
             </div>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="my-card item">
+        <div class="card-mentor">
             <div class="profile">
                 <img src="image/home/img-course.jpg" alt="mentor">
             </div>
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div class="my-card item">
+        <div class="card-mentor">
             <div class="profile">
                 <img src="image/home/people.jpg" alt="mentor">
             </div>
@@ -87,7 +87,7 @@
             </div>
         </div>
 
-        <div class="my-card item">
+        <div class="card-mentor">
             <div class="profile">
                 <img src="image/home/people.jpg" alt="mentor">
             </div>
@@ -115,7 +115,7 @@
             </div>
         </div>
 
-        <div class="my-card item">
+        <div class="card-mentor">
             <div class="profile">
                 <img src="image/home/people.jpg" alt="mentor">
             </div>
