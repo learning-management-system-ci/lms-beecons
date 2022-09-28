@@ -671,10 +671,6 @@ h6 {
 }
 
 #testimoni {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
-  padding-top: 6rem;
-  padding-bottom: 6rem;
   padding-bottom: 6rem;
 }
 #testimoni h1 {
@@ -708,16 +704,21 @@ h6 {
 }
 #testimoni .slick-list {
   padding-left: 0 !important;
+  padding-right: 10rem !important;
 }
 #testimoni .slick-arrow {
-  top: 50%;
+  top: 104.5%;
+}
+#testimoni .slick-next {
+  right: 1rem;
+}
+#testimoni .slick-prev {
+  left: 84%;
 }
 #testimoni .slick-dots {
   width: auto;
   align-items: center;
-  bottom: -2rem;
-  right: 0;
-  left: 0;
+  right: 4%;
 }
 #testimoni .slick-slide {
   padding: 0.5rem;

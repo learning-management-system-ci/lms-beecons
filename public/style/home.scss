@@ -803,7 +803,7 @@ h6 {
 
 // testimoni
 #testimoni {
-    @include padding-container();
+    // @include padding-container();
     padding-bottom: 6rem;
 
     h1 {
@@ -841,18 +841,25 @@ h6 {
 
     .slick-list {
         padding-left: 0 !important;
+        padding-right: 10rem !important;
     }
 
     .slick-arrow {
-        top: 50%;
+        top: 104.5%;
+    }
+
+    .slick-next {
+        right: 1rem;
+    }
+
+    .slick-prev {
+        left: 84%;
     }
 
     .slick-dots {
         width: auto;
         align-items: center;
-        bottom: -2rem;
-        right: 0;
-        left: 0;
+        right: 4%;
     }
 
     .slick-slide {
