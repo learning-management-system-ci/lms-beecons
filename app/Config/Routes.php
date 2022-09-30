@@ -48,7 +48,7 @@ $routes->post('/register', 'AuthController::register');
 
 $routes->get('/profile', 'AuthController::profile');
 $routes->get('/login/loginWithGoogle', 'Api\AuthController::loginWithGoogle');
-$routes->post('/login/loginWithGoogle/submit', 'AuthController::loginWithGoogle');
+// $routes->post('/login/loginWithGoogle/submit', 'Api\AuthController::loginWithGoogle');
 $routes->get('/logout', 'AuthController::logout');
 $routes->get('/activateuser', 'AuthController::activateUser');
 
@@ -140,6 +140,15 @@ $routes->group('api/', static function ($routes) {
         });
     });
 
+    $routes->group('user-video/', static function ($routes) {
+        $routes->get('', 'Api\UserVideoController::index');
+        $routes->get('detail/(:segment)', 'Api\UserVideoController::show/$1');
+        $routes->get('detail/(:segment)/(:segment)', 'Api\UserVideoController::showuser/$1/$2');
+        $routes->post('create', 'Api\UserVideoController::create');
+        $routes->put('update/(:segment)', 'Api\UserVideoController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\UserVideoController::delete/$1');
+    });
+
     $routes->group('bundling/', static function ($routes) {
         $routes->get('', 'Api\BundlingController::index');
         $routes->get('detail/(:segment)', 'Api\BundlingController::show/$1');
@@ -163,6 +172,15 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\CategoryController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CategoryController::delete/$1');
     });
+
+    $routes->group('category-bundling/', static function ($routes) {
+        $routes->get('', 'Api\CategoryBundlingController::index');
+        $routes->get('detail/(:num)', 'Api\CategoryBundlingController::show/$1');
+        $routes->post('create', 'Api\CategoryBundlingController::create');
+        $routes->put('update/(:num)', 'Api\CategoryBundlingController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\CategoryBundlingController::delete/$1');
+    });
+    
     $routes->group('tag/', static function ($routes) {
         $routes->get('', 'Api\TagController::index');
         $routes->get('detail/(:num)', 'Api\TagController::show/$1');
@@ -170,6 +188,7 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\TagController::update/$1');
         $routes->delete('delete/(:num)', 'Api\TagController::delete/$1');
     });
+    
     $routes->group('course_tag/', static function ($routes) {
         $routes->get('', 'Api\CourseTagController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseTagController::filter/$1/$2');
@@ -186,8 +205,8 @@ $routes->group('api/', static function ($routes) {
         // akan memberikan output semua notifikasi user tersebut dan juga public notifikasi
         $routes->get('', 'Api\NotificationController::index');
         $routes->post('create', 'Api\NotificationController::create');
-        // $routes->put('update/(:num)', 'Api\NotificationController::update/$1');
-        // $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
+        $routes->put('update/(:num)', 'Api\NotificationController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
     });
 
     $routes->group('type/', static function ($routes) {

@@ -6,6 +6,7 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Users;
 use Firebase\JWT\JWT;
+use CodeIgniter\Cookie\Cookie;
 use DateTime;
 use DateInterval;
 
@@ -45,7 +46,6 @@ class AuthController extends ResourceController {
                 $userdata = [
                     'oauth_id' => $data['id'],
                     'email' => $data['email'],
-                    'updated_at' => $currentDateTime,
                     'activation_status' => '1'
                 ];
                 $email = $data['email'];
@@ -69,6 +69,11 @@ class AuthController extends ResourceController {
                 'email' => $data['email'],
             ];
             $token = JWT::encode($payload, $key, 'HS256');
+
+            // set_cookie("access_token", json_encode($token), 3600);
+            // set_cookie("username", json_encode($token), 3600);
+            // set_cookie("username", $token, 3600);
+            // set_cookie("access_tok", $token, 3600);
         } else {
             $response = [
                 'status' => 500,
@@ -76,21 +81,94 @@ class AuthController extends ResourceController {
                 'message' => 'Terdapat Masalah Saat Login',
                 'data' => []
             ];
-            // session()->setFlashData("error", "Something went Wrong");
             $this->respondCreated($response);
             return;
         }
-        $response = [
-            'status' => 200,
-            'error' => false,
-            'data' => [$token]
-        ];
+        // $this->request->setcookie([
+        //     'name' => 'user4',
+        //     'value' => 'value4',
+        //     'expire' => time() + 6000
+        // ]);
+        set_cookie("access_token", json_encode($token), 3600);
+        // set_cookie("access_token", $token, 3600);
+        // cookie("access_token", json_encode($token));
+        // $cookie = cookie("access_token", json_encode($token));
         // session()->setFlashData("success", "Login Successful");
-        setcookie("access_token", $token, time()+3600);
-        $this->respondCreated($response);
-        echo "Masoook";
-        // set_cookie("access_token", $token);
-        return redirect()->to(base_url() . "/login");
+        // delete_cookie("access_token", $token);
+        // $this->respondCreated($response);
+        // echo "Masoook";
+        // set_cookie("access_token", json_encode($token));
+        return redirect()->to(base_url() . "/profile");
+    }
+
+    public function loginOneTapGoogle()
+    {
+        $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
+        if (!isset($token['error'])) {
+            $this->googleClient->setAccessToken($token['access_token']);
+            session()->set("AccessToken", $token['access_token']);
+
+            $googleService = new \Google\Service\Oauth2($this->googleClient);
+            $data = $googleService->userinfo->get();
+            $currentDateTime = date("Y-m-d H:i:s");
+            $userdata = array();
+            if ($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])) {
+                $userdata = [
+                    'oauth_id' => $data['id'],
+                    'email' => $data['email'],
+                    'activation_status' => '1'
+                ];
+                $email = $data['email'];
+                $this->loginModel->updateUserData($userdata, $email);
+            } else {
+                $userdata = [
+                    'oauth_id' => $data['id'],
+                    'email' => $data['email'],
+                    'created_at' => $currentDateTime,
+                    'activation_status' => '1',
+                    'role' => 'participant'
+                ];
+                $this->loginModel->save($userdata);
+            }
+            $key = getenv('TOKEN_SECRET');
+            $payload = [
+                'iat'   => 1356999524,
+                'nbf'   => 1357000000,
+                "exp" => time() + (60 * 60),
+                'uid'   => $data['id'],
+                'email' => $data['email'],
+            ];
+            $token = JWT::encode($payload, $key, 'HS256');
+
+            // set_cookie("access_token", json_encode($token), 3600);
+            // set_cookie("username", json_encode($token), 3600);
+            // set_cookie("username", $token, 3600);
+            // set_cookie("access_tok", $token, 3600);
+        } else {
+            $response = [
+                'status' => 500,
+                'error' => true,
+                'message' => 'Terdapat Masalah Saat Login',
+                'data' => []
+            ];
+            $this->respondCreated($response);
+            return;
+        }
+        // $this->request->setcookie([
+        //     'name' => 'user4',
+        //     'value' => 'value4',
+        //     'expire' => time() + 6000
+        // ]);
+        set_cookie("access_token", json_encode($token), 3600);
+        // set_cookie("access_token", $token, 3600);
+        // cookie("access_token", json_encode($token));
+        // $cookie = cookie("access_token", json_encode($token));
+        // session()->setFlashData("success", "Login Successful");
+        // delete_cookie("access_token", $token);
+        // $this->respondCreated($response);
+        // echo "Masoook";
+        // set_cookie("access_token", json_encode($token));
+        return redirect()->to(base_url() . "/profile");
     }
 
 	public function register() {

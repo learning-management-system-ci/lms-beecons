@@ -4,7 +4,7 @@ namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
-class JobsSeeder extends Seeder
+class JobSeeder extends Seeder
 {
     public function run()
     {

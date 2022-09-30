@@ -15,6 +15,11 @@ class Bundling extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
+            'category_bundling_id'          => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+            ],
             'title' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => 255,
@@ -25,25 +30,22 @@ class Bundling extends Migration
                 'constraint'     => 255,
                 'null'           => true,
             ],
-            'price' => [
+            'old_price' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => 10,
                 'null'           => true,
             ],
-            'new_price'             => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '10',
-                'null'          => true,
-            ],
-            'thumbnail'             => [
-                'type'          => 'VARCHAR',
-                'constraint'    => '255'
+            'new_price' => [
+                'type'           => 'VARCHAR',
+                'constraint'     => 10,
+                'null'           => true,
             ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
 
         $this->forge->addKey('bundling_id', TRUE);
+        $this->forge->addForeignKey('category_bundling_id', 'category_bundling', 'category_bundling_id');
         $this->forge->createTable('bundling', TRUE);
     }
 
