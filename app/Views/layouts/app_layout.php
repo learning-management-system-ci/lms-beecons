@@ -16,6 +16,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
         integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 
+    <!-- MomentJs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js" 
+        integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <link rel="stylesheet" href="../../../style/slick.css">
     <link rel="stylesheet" href="../../../style/slick-theme.css">
 
@@ -84,6 +89,7 @@
 
     <!-- myscript -->
     <script src="../../../js/home/home.js"></script>
+    <script src="<?= base_url('/js/home/notification.js') ?>"></script>
     <?= $this->renderSection('js-component') ?>
 </body>
 

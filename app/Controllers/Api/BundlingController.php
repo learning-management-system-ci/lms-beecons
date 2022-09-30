@@ -30,12 +30,17 @@ class BundlingController extends ResourceController
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
             $rules = [
+                "category_id" => "required",
                 "title" => "required",
                 "description" => "required|max_length[255]",
-                "price" => "required|numeric",
+                "old_price" => "required|numeric",
+                "new_price" => "required|numeric",
             ];
     
             $messages = [
+                "category_id" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
                 "title" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
@@ -43,7 +48,11 @@ class BundlingController extends ResourceController
                     "required" => "{field} tidak boleh kosong",
                     "max_length" => "{field} maksimal 255 karakter",
                 ],
-                "price" => [
+                "new_price" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi angka"
+                ],
+                "old_price" => [
                     "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi angka"
                 ],
@@ -57,9 +66,11 @@ class BundlingController extends ResourceController
                     'data' => []
                 ];
             } else {
+                $data['category_id'] = $this->request->getVar("category_id");
                 $data['title'] = $this->request->getVar("title");
                 $data['description'] = $this->request->getVar("description");
-                $data['price'] = $this->request->getVar("price");
+                $data['new_price'] = $this->request->getVar("new_price");
+                $data['old_price'] = $this->request->getVar("old_price");
     
                 $this->bundling->save($data);
     
@@ -105,11 +116,16 @@ class BundlingController extends ResourceController
 		    $decoded = JWT::decode($token, $key, ['HS256']);
             $input = $this->request->getRawInput();
             $rules = [
+                "category_id" => "required",
                 "title" => "required",
                 "description" => "required|max_length[255]",
-                "price" => "required|numeric",
+                "new_price" => "required|numeric",
+                "old_price" => "required|numeric",
             ];
             $messages = [
+                "category_id" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
                 "title" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
@@ -117,16 +133,22 @@ class BundlingController extends ResourceController
                     "required" => "{field} tidak boleh kosong",
                     "max_length" => "{field} maksimal 255 karakter",
                 ],
-                "price" => [
+                "old_price" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi angka"
+                ],
+                "new_price" => [
                     "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi angka"
                 ],
             ];
 
             $data = [
+                "category_id" => $input["category_id"],
                 "title" => $input["title"],
                 "description" => $input["description"],
-                "price" => $input["price"],
+                "new_price" => $input["new_price"],
+                "old_price" => $input["old_price"],
             ];
     
             $response = [

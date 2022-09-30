@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Bundling extends Model
+class CategoryBundling extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'bundling';
-    protected $primaryKey       = 'bundling_id';
+    protected $table            = 'category_bundling';
+    protected $primaryKey       = 'category_bundling_id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['bundling_id', 'category_id', 'title', 'description', 'old_price', 'new_price', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['category_bundling_id', 'name', 'created_at', 'updated_at'];
 }

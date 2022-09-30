@@ -6,7 +6,6 @@ use CodeIgniter\RESTful\ResourceController;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\Video;
-use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
 
 class CourseController extends ResourceController

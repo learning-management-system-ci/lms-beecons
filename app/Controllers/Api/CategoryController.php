@@ -76,7 +76,7 @@ class CategoryController extends ResourceController
                     "required" => "{field} tidak boleh kosong",
                 ],
             ];
-            $response;
+
             if ($this->validate($rules, $messages)) {
                 $data = [
                     'name' => $this->request->getVar('name'),
@@ -129,7 +129,6 @@ class CategoryController extends ResourceController
                 ],
             ];
 
-            $response;
             if ($model->find($id)) {
                 if ($this->validate($rules, $messages)) {
                     $data = [
