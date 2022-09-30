@@ -1,5 +1,11 @@
 $(document).ready(async function () {
     try {
+        const categoryBundlingResponse = await $.ajax({
+            url: '/api/category-bundling',
+            method: 'GET',
+            dataType: 'json'
+        })
+
         const response = await $.ajax({
             url: '/api/course-bundling',
             method: 'GET',
@@ -8,9 +14,22 @@ $(document).ready(async function () {
 
         let rekomendasi = response.slice(0, 3)
 
+        $('.courses-bundlings .tags').html(
+            `<a href="" class="item" data-category_bundling_id="0">All</a>` + 
+            categoryBundlingResponse.map(tag => {
+            return `<a href="" class="item" data-category_bundling_id="${tag.category_bundling_id}">${tag.name}</a>`
+        }).reverse().join(''))
+
         $('#courses .courses-bundling .courses-bundling-rekomendasi').html(generateBundles(rekomendasi))
 
-        setBundles()
+        setBundles(0)
+
+        $('.courses-bundlings .tags .item').on('click', function(e) {
+            e.preventDefault()
+            const categoryBundlingId = $(this).data('category_bundling_id')
+            
+            setBundles(categoryBundlingId)
+        })
 
         function generateBundles(bundles) {
             return bundles.map((item) => {
@@ -48,7 +67,17 @@ $(document).ready(async function () {
         }
 
         function setBundles(tag = 0) {
-            $('#courses .courses-bundlings .courses-bundling-list').html(response.map((item) => {
+            $(`.courses-bundlings .tags .item[data-category_bundling_id="${tag}"]`).addClass('active').siblings().removeClass('active')
+            
+            let result = []
+
+            if (tag === 0) {
+                result = response
+            } else {
+                result = response.filter(item => item.bundling[0].category_bundling_id === tag.toString())
+            }
+
+            $('#courses .courses-bundlings .courses-bundling-list').html(result.map((item) => {
                 return `
                     <div class="col-md-3 pe-4 pb-4 ps-0">
                         <div class="my-card bundle">

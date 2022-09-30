@@ -100,16 +100,7 @@
         <div class="courses-bundlings">
             <h2>Paket yang tersedia</h2>
 
-            <div class="tags pt-2 pb-4">
-                <div class="item active">Semua Paket</div>
-                <div class="item">Frontend</div>
-                <div class="item">Backend</div>
-                <div class="item">Mobile</div>
-                <div class="item">UI/UX</div>
-                <div class="item">Data Science</div>
-                <div class="item">IT</div>
-                <div class="item">Construction</div>
-            </div>
+            <div class="tags pt-2 pb-4"></div>
 
             <div class="courses-bundling-list row gap-0 py-3">
                 <!-- <div class="col-md-3 pe-4 pb-4 ps-0">
