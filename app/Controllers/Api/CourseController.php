@@ -64,7 +64,7 @@ class CourseController extends ResourceController
         $videoModel = new Video();
 
         if($courseModel->find($id)){
-            $dataCourse = $courseModel->select('course_id as id, title, description, price, thumbnail')->where('course_id', $id)->first();
+            $dataCourse = $courseModel->select('course_id as id, title, description, old_price, new_price, thumbnail')->where('course_id', $id)->first();
             $dataVideo = $videoModel->getData($id)->getResultArray();
             $video = [];
             foreach($dataVideo as $value) {
