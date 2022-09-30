@@ -2,7 +2,7 @@
 <div id="artikel">
     <h1>Artikel</h1>
 
-    <div class="artikel-wrapper row">
+    <div class="artikel-wrapper row justify-content-center gap-4">
         <!-- <div class="col col-md-4">
             <div class="artikel-item">
                 <div class="image">
