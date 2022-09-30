@@ -33,6 +33,10 @@ class VideoCategorySeeder extends Seeder
                 'course_id' => 6,
                 'title' => "testt 6",
             ],
+            [
+                'course_id' => 7,
+                'title' => "testt 7",
+            ],
         ];
         $this->db->table('video_category')->insertBatch($data);
     }
