@@ -83,6 +83,8 @@ $(document).ready(async function () {
         })
 
         function generateListCourse(courses, element, type, tag, category) {
+            let currentTag = $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).html()
+            $(`#courses #tab-courses-${type} .current-tag`).html(currentTag)
             $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).addClass('active')
             $(`#courses #tab-courses-${type} .sub-tags .item[data-category_id=${category}]`).addClass('active')
     

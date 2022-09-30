@@ -31,7 +31,7 @@
                 <div class="tab-pane fade show active" id="tab-courses-1" role="tabpanel">
                     <div class="tags pt-2 pb-4"></div>
 
-                    <h2 class="text-center mb-4">RAB</h2>
+                    <h2 class="text-center mb-4 current-tag"></h2>
 
                     <div class="sub-tags mb-5"></div>
 
@@ -40,7 +40,7 @@
                 <div class="tab-pane fade" id="tab-courses-2" role="tabpanel">
                     <div class="tags pt-2 pb-4"></div>
 
-                    <h2 class="text-center mb-4">RAB</h2>
+                    <h2 class="text-center mb-4 current-tag"></h2>
 
                     <div class="sub-tags mb-5"></div>
 
