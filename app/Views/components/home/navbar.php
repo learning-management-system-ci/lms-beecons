@@ -158,6 +158,7 @@
                             </button>
                             <div class="dropdown-menu mt-2" aria-labelledby="dropdown-profile">
                                 <a href="<?= base_url('/profile') ?>" class="dropdown-item">Profile</a>
+                                <a href="<?= base_url('/') ?>" class="dropdown-item" id="btn-logout">Logout</a>
                             </div>
                         </div>
                     </li>
