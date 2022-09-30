@@ -469,9 +469,19 @@ h6 {
     .nav-item-icon {
         .notifications {
             min-width: 25rem;
-            min-height: 20rem;
+            height: 20rem;
+            overflow: auto;
             padding-top: 0;
             font-size: .8rem;
+
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $color-gray-1;
+                border-radius: 20px;
+            }
 
             h3 {
                 font-size: 1.2rem;
