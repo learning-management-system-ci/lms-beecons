@@ -180,6 +180,14 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\CategoryBundlingController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CategoryBundlingController::delete/$1');
     });
+
+    $routes->group('video-category/', static function ($routes) {
+        $routes->get('', 'Api\VideoCategoryController::index');
+        $routes->get('detail/(:num)', 'Api\VideoCategoryController::show/$1');
+        $routes->post('create', 'Api\VideoCategoryController::create');
+        $routes->put('update/(:num)', 'Api\VideoCategoryController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\VideoCategoryController::delete/$1');
+    });
     
     $routes->group('tag/', static function ($routes) {
         $routes->get('', 'Api\TagController::index');
