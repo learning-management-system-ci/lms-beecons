@@ -11,17 +11,23 @@ $(document).ready(async function () {
             dataType: 'json'
         })
 
-        $('#courses .sub-tags').html(
-            `<a href="" class="item" data-category_id="0">All</a>` + 
-            categoryResponse.map(category => {
-            return `<a href="" class="item" data-category_id="${category.category_id}">${category.name}</a>`
-        }).reverse().join(''))
-
         const tagsResponse = await $.ajax({
             url: '/api/type_tag',
             method: 'GET',
             dataType: 'json'
         })
+
+        const courseResponse = await $.ajax({
+            url: '/api/course',
+            method: 'GET',
+            dataType: 'json'
+        })
+
+        $('#courses .sub-tags').html(
+            `<a href="" class="item" data-category_id="0">All</a>` + 
+            categoryResponse.map(category => {
+            return `<a href="" class="item" data-category_id="${category.category_id}">${category.name}</a>`
+        }).reverse().join(''))
 
         $('#courses #tab-courses-1 .tags').html(
             `<a href="" class="item" data-tag_id="0">All</a>` + 
@@ -34,12 +40,6 @@ $(document).ready(async function () {
             tagsResponse[1].tag.map(tag => {
             return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
         }).reverse().join(''))
-
-        const courseResponse = await $.ajax({
-            url: '/api/course',
-            method: 'GET',
-            dataType: 'json'
-        })
 
         setListCourse('1', '0', '0')
         setListCourse('2', '0', '0')
