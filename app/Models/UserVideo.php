@@ -16,6 +16,13 @@ class UserVideo extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['video_id', 'user_id', 'score', 'created_at', 'updated_at'];
 
+    function getUserVideo(){
+        $builder = $this->db->table('user_video');
+        $builder->select('*');
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+    
     function getDataVideo($data_video_id){
         $builder = $this->db->table('video');
         $builder->select('*');

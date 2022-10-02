@@ -18,6 +18,7 @@ class MainSeeder extends Seeder
         $this->call('JobSeeder');
         $this->call('PapSeeder');
         $this->call('VoucherSeeder');
+        $this->call('VideoCategorySeeder');
         $this->call('VideoSeeder');
         $this->call('UserVideoSeeder');
         $this->call('CategorySeeder');
@@ -26,6 +27,6 @@ class MainSeeder extends Seeder
         $this->call('CourseCategorySeeder');
         $this->call('ReviewSeeder');
         $this->call('BundlingSeeder');
-        $this->call('VideoCategorySeeder');
+        $this->call('TestimoniSeeder');
     }
 }

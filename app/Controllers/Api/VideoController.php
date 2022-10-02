@@ -31,13 +31,13 @@ class VideoController extends ResourceController {
         try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
 			$rules = [
-				"course_id" => "required",
+				"video_category_id" => "required",
 				"title" => "required",
 				"video" => "uploaded[video]|mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
 				"order" => "required",
 			];
 			$messages = [
-				"course_id" => [
+				"video_category_id" => [
 					"required" => "{field} tidak boleh kosong"
 				],
 				"title" => [
@@ -54,14 +54,14 @@ class VideoController extends ResourceController {
 			];
 			if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 			
-			$verifyCourse = $this->courseModel->where("course_id", $this->request->getVar('course_id'))->first();
+			$verifyCourse = $this->courseModel->where("video_category_id", $this->request->getVar('video_category_id'))->first();
 			if(!$verifyCourse) {
 				return $this->failNotFound('Course tidak ditemukan');
 			} else {
 				$dataVideo = $this->request->getFile('video');
 				$fileName = $dataVideo->getRandomName();
 				$this->videoModel->insert([
-					'course_id' => $this->request->getVar("course_id"),
+					'video_category_id' => $this->request->getVar("video_category_id"),
 					'title' => $this->request->getVar("title"),
 					'order' => $this->request->getVar("order"),
 					'video' => $fileName
@@ -90,14 +90,14 @@ class VideoController extends ResourceController {
         try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
 			$rules = [
-				"course_id" => "required",
+				"video_category_id" => "required",
 				"title" => "required",
 				"video" => "uploaded[video]|mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
 				"order" => "required",
 			];
 	
 			$messages = [
-				"course_id" => [
+				"video_category_id" => [
 					"required" => "{field} tidak boleh kosong"
 				],
 				"title" => [
@@ -114,7 +114,7 @@ class VideoController extends ResourceController {
 			];
 			if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 			
-			$verifyCourse = $this->courseModel->where("course_id", $this->request->getVar('course_id'))->first();
+			$verifyCourse = $this->courseModel->where("video_category_id", $this->request->getVar('video_category_id'))->first();
 			if(!$verifyCourse) {
 				return $this->failNotFound('Course tidak ditemukan');
 			} else {
@@ -135,7 +135,7 @@ class VideoController extends ResourceController {
 				}
 	
 				$data = [
-					'course_id' => $this->request->getVar("course_id"),
+					'video_category_id' => $this->request->getVar("video_category_id"),
 					'title' => $this->request->getVar("title"),
 					'order' => $this->request->getVar("order"),
 					'video' => $fileName

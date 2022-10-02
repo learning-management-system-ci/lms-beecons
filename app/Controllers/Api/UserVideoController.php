@@ -7,6 +7,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\UserVideo;
 use App\Models\Course;
 use App\Models\Video;
+use Firebase\JWT\JWT;
 
 class UserVideoController extends ResourceController
 {
@@ -103,121 +104,148 @@ class UserVideoController extends ResourceController
 
     public function create()
     {
-        $rules = [
-            'user_id' => 'required|numeric',
-            'video_id' => 'required|numeric',
-            'score_id' => 'required|numeric'
-        ];
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        $messages = [
-            "user_id" => [
-                "required" => "{field} tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor"
-            ],
-            "video_id" => [
-                "required" => "{field} tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor"
-            ],
-            "score" => [
-                "required" => "{field} tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor"
-            ],
-        ];
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
 
-        if($this->validate($rules, $messages)) {
-            $dataUserVideo = [
-                'user_id' => $this->request->getVar('user_id'),
-                'video_id' => $this->request->getVar('video_id'),
-                'score' => $this->request->getVar('score'),
+            $rules = [
+                'user_id' => 'required',
+                'video_id' => 'required',
+                'score' => 'required|numeric'
             ];
-            $this->uservideo->insert($dataUserVideo);
 
-            $response = [
-                'status'   => 201,
-                'success'    => 201,
-                'messages' => [
-                    'success' => 'User Video berhasil dibuat'
-                ]
+            $messages = [
+                "user_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+                "video_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+                "score" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor"
+                ],
             ];
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => $this->validator->getErrors(),
-            ];
+
+            if($this->validate($rules, $messages)) {
+                $dataUserVideo = [
+                    'user_id' => $this->request->getVar('user_id'),
+                    'video_id' => $this->request->getVar('video_id'),
+                    'score' => $this->request->getVar('score'),
+                ];
+                $this->uservideo->insert($dataUserVideo);
+
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'User Video berhasil dibuat'
+                    ]
+                ];
+            }else{
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
+                ];
+            }
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
-
-        return $this->respondCreated($response);    
+        return $this->respondCreated($response);
     }
 
     public function update($id = null){
-		$input = $this->request->getRawInput();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-		$rules = [
-            'user_id' => 'required|numeric',
-            'video_id' => 'required|numeric',
-            'score_id' => 'required|numeric'
-        ];
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
 
-        $messages = [
-            "user_id" => [
-                "required" => "{field} tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor"
-            ],
-            "video_id" => [
-                "required" => "{field} tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor"
-            ],
-            "score" => [
-                "required" => "{field} tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor"
-            ],
-        ];
+            $input = $this->request->getRawInput();
 
-		$data = [
-			"user_id" => $input["user_id"],
-			"video_id" => $input["video_id"],
-			"score" => $input["score"],
-	    ];
+            $rules = [
+                'user_id' => 'required',
+                'video_id' => 'required',
+                'score' => 'required|numeric'
+            ];
 
-		$response = [
-			'status'   => 200,
-			'error'    => null,
-			'messages' => [
-				'success' => 'User Video berhasil diperbarui'
-			]
-		];
+            $messages = [
+                "user_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+                "video_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+                "score" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor"
+                ],
+            ];
 
-		$cek = $this->uservideo->where('uservideo_id', $id)->findAll();
+            $data = [
+                "user_id" => $input["user_id"],
+                "video_id" => $input["video_id"],
+                "score" => $input["score"],
+            ];
 
-		if(!$cek){
-			return $this->failNotFound('Data user video tidak ditemukan');
-		}
-
-		if (!$this->validate($rules, $messages)) {
-            return $this->failValidationErrors($this->validator->getErrors());
-        }
-
-		if ($this->bundling->update($id, $data)){
-			return $this->respond($response);
-		}
-		return $this->failNotFound('Data user video tidak ditemukan');
-	}
-
-    public function delete($id = null){
-        $data = $this->uservideo->where('user_video_id', $id)->findAll();
-        if($data){
-        $this->uservideo->delete($id);
             $response = [
                 'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'User Video berhasil dihapus'
+                    'success' => 'User Video berhasil diperbarui'
                 ]
             ];
-        return $this->respondDeleted($response);
-        }else{
-        return $this->failNotFound('Data User Video tidak ditemukan');
+
+            $cek = $this->uservideo->where('uservideo_id', $id)->findAll();
+
+            if(!$cek){
+                return $this->failNotFound('Data user video tidak ditemukan');
+            }
+
+            if (!$this->validate($rules, $messages)) {
+                return $this->failValidationErrors($this->validator->getErrors());
+            }
+
+            if ($this->bundling->update($id, $data)){
+                return $this->respond($response);
+            }
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
+		return $this->failNotFound('Data user video tidak ditemukan');
+	}
+
+    public function delete($id = null){
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            
+            $data = $this->uservideo->where('user_video_id', $id)->findAll();
+            if($data){
+            $this->uservideo->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'error'    => null,
+                    'messages' => [
+                        'success' => 'User Video berhasil dihapus'
+                    ]
+                ];
+            }
+            return $this->respondDeleted($response);
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
+        }
+        return $this->failNotFound('Data User Video tidak ditemukan');
     }
 }

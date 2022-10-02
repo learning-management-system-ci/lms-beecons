@@ -107,6 +107,14 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\ReviewController::create');
     });
 
+    $routes->group('testimoni/', static function ($routes) {
+        $routes->get('', 'Api\TestimoniController::index');
+        $routes->get('detail/(:segment)', 'Api\TestimoniController::show/$1');
+        $routes->post('create', 'Api\TestimoniController::create');
+        $routes->put('update/(:segment)', 'Api\TestimoniController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\TestimoniController::delete/$1');
+    });
+
     $routes->group('pap/', static function ($routes) {
         $routes->get('', 'Api\PolicyAndPrivacyController::index');
         $routes->get('detail/(:num)', 'Api\PolicyAndPrivacyController::show/$1');
