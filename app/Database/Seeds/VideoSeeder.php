@@ -10,37 +10,37 @@ class VideoSeeder extends Seeder
     {
         $data = [
             [
-                'course_id' => 4,
+                'video_category_id' => 4,
                 'title' => 'Lorem Ipsum is simply dummy',
                 'video' => 'Video 1',
                 'order' => 2,
             ],
             [
-                'course_id' => 1,
+                'video_category_id' => 1,
                 'title' => 'Lorem Ipsum is simply dummy',
                 'video' => 'Video 1',
                 'order' => 2,
             ],
             [
-                'course_id' => 3,
+                'video_category_id' => 3,
                 'title' => 'Lorem Ipsum is simply dummy',
                 'video' => 'Video 1',
                 'order' => 2,
             ],
             [
-                'course_id' => 2,
+                'video_category_id' => 2,
                 'title' => 'Lorem Ipsum is simply dummy',
                 'video' => 'Video 1',
                 'order' => 2,
             ],
             [
-                'course_id' => 1,
+                'video_category_id' => 1,
                 'title' => 'Lorem Ipsum is simply dummy',
                 'video' => 'Video 1',
                 'order' => 2,
             ],
             [
-                'course_id' => 4,
+                'video_category_id' => 4,
                 'title' => 'Lorem Ipsum is simply dummy',
                 'video' => 'Video 1',
                 'order' => 2,
