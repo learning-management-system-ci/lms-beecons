@@ -53,5 +53,4 @@ class UserVideo extends Model
         $query = $builder->get();
         return $query->getResultArray();
 	}
-    // test
 }
