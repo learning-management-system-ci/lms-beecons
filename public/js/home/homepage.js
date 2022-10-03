@@ -70,48 +70,18 @@ $(document).ready(async function () {
 
     // handle mentor slider
     try {
-        let mentors = [
-            {
-                id: 1,
-                name: 'John Doe',
-                image: '',
-                job: 'Software Engineer',
-                stars: 4.5,
-                links: {
-                    linkedin: '/',
-                    ig: '/',
-                    fb: '/'
-                }
-            },
-            {
-                id: 2,
-                name: 'John Doe',
-                image: '',
-                job: 'Software Engineer',
-                stars: 4.5,
-                links: {
-                    linkedin: '/',
-                    ig: '/',
-                    fb: '/'
-                }
-            },
-            {
-                id: 3,
-                name: 'John Doe',
-                image: '',
-                job: 'Software Engineer',
-                stars: 4.5,
-                links: {
-                    linkedin: '/',
-                    ig: '/',
-                    fb: '/'
-                }
-            },
-            {
-                id: 4,
-                name: 'John Doe',
-                image: '',
-                job: 'Software Engineer',
+        const mentorResponse = await $.ajax({
+            url: '/api/users/mentor',
+            method: 'GET',
+            dataType: 'json'
+        })
+        
+        let mentors = mentorResponse.map(mentor => {
+            return {
+                id: mentor.id,
+                fullname: mentor.fullname,
+                profile_picture: 'people.jpg',
+                job: 'Senior Engineer',
                 stars: 4.5,
                 links: {
                     linkedin: '/',
@@ -119,17 +89,17 @@ $(document).ready(async function () {
                     fb: '/'
                 }
             }
-        ]
+        })
 
         $('#mentor-wrapper').html(mentors.map(mentor => {
             return `
                 <div class="card-mentor">
                     <div class="profile">
-                        <img src="image/home/people.jpg" alt="mentor">
+                        <img src="image/home/${mentor.profile_picture}" alt="mentor">
                     </div>
 
                     <div class="info">
-                        <h2>${mentor.name}</h2>
+                        <h2>${mentor.fullname}</h2>
                         <p>${mentor.job}</p>
                     </div>
 
@@ -159,6 +129,8 @@ $(document).ready(async function () {
             slidesToScroll: 1,
             touchMove: true,
             autoplay: true,
+            speed: 500,
+            autoplaySpeed: 1200,
         })
     } catch (error) {
         console.log(error)
