@@ -21,8 +21,9 @@ class MainSeeder extends Seeder
         $this->call('VoucherSeeder');
         $this->call('VideoCategorySeeder');
         $this->call('VideoSeeder');
-        $this->call('UserVideoSeeder');
         $this->call('CategorySeeder');
+        $this->call('Course');
+        $this->call('UserVideoSeeder');
         $this->call('UserCourseSeeder');
         $this->call('CourseCategorySeeder');
         $this->call('ReviewSeeder');
