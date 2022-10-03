@@ -196,7 +196,7 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\VideoCategoryController::update/$1');
         $routes->delete('delete/(:num)', 'Api\VideoCategoryController::delete/$1');
     });
-    
+
     $routes->group('tag/', static function ($routes) {
         $routes->get('', 'Api\TagController::index');
         $routes->get('detail/(:num)', 'Api\TagController::show/$1');
@@ -204,7 +204,7 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\TagController::update/$1');
         $routes->delete('delete/(:num)', 'Api\TagController::delete/$1');
     });
-    
+
     $routes->group('course_tag/', static function ($routes) {
         $routes->get('', 'Api\CourseTagController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseTagController::filter/$1/$2');
@@ -247,6 +247,10 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\CartController::index');
         $routes->post('create/(:num)/(:segment)', 'Api\CartController::create/$1/$2');
         $routes->delete('delete/(:num)', 'Api\CartController::delete/$1');
+    });
+
+    $routes->group('mentor/', static function ($routes) {
+        $routes->get('', 'Api\MentorController::index');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');
