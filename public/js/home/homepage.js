@@ -71,7 +71,7 @@ $(document).ready(async function () {
     // handle mentor slider
     try {
         const mentorResponse = await $.ajax({
-            url: '/api/users/mentor',
+            url: '/api/mentor',
             method: 'GET',
             dataType: 'json'
         })
@@ -81,7 +81,7 @@ $(document).ready(async function () {
                 id: mentor.id,
                 fullname: mentor.fullname,
                 profile_picture: 'people.jpg',
-                job: 'Senior Engineer',
+                job: mentor.job_name,
                 stars: 4.5,
                 links: {
                     linkedin: '/',
@@ -227,8 +227,6 @@ $(document).ready(async function () {
                 testimoni: 'Proses penyaluran kerja di Tender cukup sederhana mengingat banyak sekali hiring partneryang berminat dengan programmer yang dilatih oleh Tender. Hanya butuh waktu seminggu bagiku untuk direkrut ke GudangAda waktu itu. Tender juga berkomitmen tinggi untuk memastikan bahwa lulusannya akan mendapatkan kerja, jadi merasa aman karena 100% pasti kerja.',
             }
         })
-
-        console.log(testimonials)
         
         $('#testimoni .testimoni-slick').html(testimonials.map((testimoni) => {
             return (
