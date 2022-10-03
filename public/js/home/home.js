@@ -50,7 +50,7 @@ $(document).ready(() => {
 
             let courses = response
 
-            let coursesRekomendasi = courses.slice(0, 3)
+            let coursesRekomendasi = courses.slice(0, 5)
             let courseRecent = JSON.parse(localStorage.getItem('search-recent'))
             let coursesResult = []
 
@@ -61,7 +61,7 @@ $(document).ready(() => {
                 if (search.length > 0) {
                     coursesResult = courses.filter(course => {
                         return course.title.toLowerCase().includes(search.toLowerCase())
-                    }).slice(0, 5)
+                    }).slice(0, 10)
 
                     let htmlSearchResult = ''
 
