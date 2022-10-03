@@ -102,7 +102,7 @@
 
             <div class="tags pt-2 pb-4"></div>
 
-            <div class="courses-bundling-list row gap-0 py-3">
+            <div class="courses-bundling-list row gap-0 py-3 mx-0">
                 <!-- <div class="col-md-3 pe-4 pb-4 ps-0">
                     <div class="my-card bundle">
                         <div class="content">
