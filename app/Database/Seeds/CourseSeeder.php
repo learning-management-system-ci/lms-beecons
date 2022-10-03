@@ -17,7 +17,7 @@ class CourseSeeder extends Seeder
                 'service' => 'course',
                 'description' => 'Description course '.$i,
                 'old_price' => rand(10000, 1000000),
-                'new_price' => rand(10000, 500000),
+                'new_price' => rand(10000, 100000),
                 'thumbnail' => 'course'.$i.'.jpg',
             ]);
         };
