@@ -1,4 +1,4 @@
-@import 'home';
+@import '_base';
 
 #courses {
     h1 {
@@ -76,6 +76,7 @@
     }
 
     .bundle {
+        @include card-setting();
         position: relative;
 
         .label {

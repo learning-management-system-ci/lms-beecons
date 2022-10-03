@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="../../../style/slick-theme.css">
 
     <!-- mystyle -->
-    <link rel="stylesheet" href="../../../style/home.css">
+    <link rel="stylesheet" href="../../../style/app_layout.css">
     <?= $this->renderSection('css-component') ?>
 </head>
 

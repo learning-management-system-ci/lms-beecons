@@ -1,5 +1,9 @@
 <?= $this->extend('layouts/app_layout') ?>
 
+<?= $this->section('css-component') ?>
+<link rel="stylesheet" href="../../../style/home.css">
+<?= $this->endSection() ?>
+
 <?= $this->section('app-component') ?>
 
 <?= $this->include('components/home/hero') ?>
