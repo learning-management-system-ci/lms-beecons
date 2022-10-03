@@ -273,20 +273,21 @@ html {
   right: 0;
 }
 #testimoni .slider {
-  padding: 1rem;
+  padding: 1rem 3rem;
 }
 #testimoni .slick-list {
   padding-left: 0 !important;
   padding-right: 10rem !important;
 }
 #testimoni .slick-arrow {
-  top: 104.5%;
+  top: 50%;
 }
 #testimoni .slick-next {
   right: 1rem;
 }
 #testimoni .slick-prev {
-  left: 84%;
+  left: 1rem;
+  z-index: 1;
 }
 #testimoni .slick-dots {
   width: auto;
