@@ -10,6 +10,7 @@ use App\Models\CourseTag;
 use App\Models\TypeTag;
 use App\Models\Video;
 use App\Models\VideoCategory;
+use App\Models\Users;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
 
@@ -158,6 +159,14 @@ class CourseController extends ResourceController
         $token = explode(' ', $header)[1];
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
     
@@ -199,7 +208,6 @@ class CourseController extends ResourceController
                 ],
             ];
     
-            $response;
             if($this->validate($rules, $messages)) {
                 $dataCourse = [
                   'title' => $this->request->getVar('title'),
@@ -248,6 +256,13 @@ class CourseController extends ResourceController
 
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
     
@@ -289,7 +304,6 @@ class CourseController extends ResourceController
                 ],
             ];
     
-            $response;
             if($modelCourse->find($id)){
                 if($this->validate($rules, $messages)) {
                     $dataCourse = [
@@ -345,6 +359,13 @@ class CourseController extends ResourceController
 
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
     

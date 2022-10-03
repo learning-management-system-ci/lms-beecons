@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\VideoCategory;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 
 class VideoCategoryController extends ResourceController
@@ -53,6 +54,14 @@ class VideoCategoryController extends ResourceController
 
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
             $rules = [
                 "course_id" => "required",
                 "title" => "required",
@@ -101,6 +110,14 @@ class VideoCategoryController extends ResourceController
 
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
             $input = $this->request->getRawInput();
             $rules = [
                 "course_id" => "required",
@@ -147,13 +164,21 @@ class VideoCategoryController extends ResourceController
 	}
 
     public function delete($id = null){
-        // $key = getenv('TOKEN_SECRET');
-        // $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        // if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        // $token = explode(' ', $header)[1];
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
         try {
-		    // $decoded = JWT::decode($token, $key, ['HS256']);
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
             $data = $this->videocategory->where('video_category_id', $id)->findAll();
             if($data){
             $this->videocategory->delete($id);
