@@ -92,7 +92,7 @@ class Course extends Seeder
                 'service' => 'course',
                 'description' => 'Description course '.$i,
                 'old_price' => rand(10000, 1000000),
-                'new_price' => rand(10000, 500000),
+                'new_price' => rand(10000, 100000),
                 'thumbnail' => 'course'.$i.'.jpg',
             ]);
         };
@@ -145,7 +145,7 @@ class Course extends Seeder
             ],
         ];
 
-        for($i = 1; $i <= $no; $i++){
+        for($i = 1; $i <= count($course); $i++){
             array_push($course_tag, [
                 'course_id' => $i,
                 'tag_id' => rand(1, count($tag)),
@@ -161,21 +161,21 @@ class Course extends Seeder
             ]);
         };
 
-        for($i = 1; $i <= $no; $i++){
+        for($i = 1; $i <= count($course); $i++){
             array_push($course_category, [
                 'course_id' => $i,
                 'category_id' => rand(1, count($category)),
             ]);
         };
 
-        for($i = 1; $i <= $no; $i++){
+        for($i = 1; $i <= count($course); $i++){
             array_push($course_type, [
                 'course_id' => $i,
                 'type_id' => rand(1, count($type)),
             ]);
         };
 
-        for($i = 1; $i <= $no; $i++){
+        for($i = 1; $i <= count($course); $i++){
             array_push($type_tag, [
                 'type_id' => rand(1, count($type)),
                 'tag_id' => rand(1, count($type)),
