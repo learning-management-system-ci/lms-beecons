@@ -9,6 +9,7 @@ class MainSeeder extends Seeder
     public function run()
     {
         $this->call('CourseSeeder');
+        $this->call('Course');
         $this->call('CategorySeeder');
         $this->call('CourseCategorySeeder');
         $this->call('CategoryBundlingSeeder');
