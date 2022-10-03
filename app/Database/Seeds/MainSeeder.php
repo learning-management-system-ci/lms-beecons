@@ -8,6 +8,7 @@ class MainSeeder extends Seeder
 {
     public function run()
     {
+        $this->call('CartSeeder');
         $this->call('CourseSeeder');
         $this->call('CategorySeeder');
         $this->call('CourseCategorySeeder');
