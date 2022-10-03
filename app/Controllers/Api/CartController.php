@@ -32,8 +32,8 @@ class CartController extends ResourceController
             $temp = 0;
 
             foreach ($data as $value) {
-                $course_data = $course->select('title, price, new_price, thumbnail')->where('course_id', $value['course_id'])->first();
-                $bundling_data = $bundling->select('title, price, new_price, thumbnail')->where('bundling_id', $value['bundling_id'])->first();
+                $course_data = $course->select('title, old_price, new_price, thumbnail')->where('course_id', $value['course_id'])->first();
+                $bundling_data = $bundling->select('title, old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
                 $user_data = $user->select('id, email, date_birth, address, phone_number')->where('id', $decoded->uid)->first();
 
                 $items[] = [
@@ -48,7 +48,6 @@ class CartController extends ResourceController
                     'total' => $temp += $value['total']
                 ];
             }
-
             return $this->respond($response);
         } catch (\Throwable $th) {
             return $this->fail('Akses token tidak sesuai');
@@ -70,28 +69,39 @@ class CartController extends ResourceController
             if ($type == 'course') {
                 $course = new Course;
                 $modal = $course->where('course_id', $id)->first();
+                $check = $cart->where('course_id', $id)->where('user_id', $decoded->uid)->first();
+                $messages = 'course';
             }
 
             if ($type == 'bundling') {
                 $bundling = new Bundling;
                 $modal = $bundling->where('bundling_id', $id)->first();
+                $check = $cart->where('bundling_id', $id)->where('user_id', $decoded->uid)->first();
+                $messages = 'bundling';
             }
 
-            $data = [
-                'user_id' => $decoded->uid,
-                'course_id' => ($type == 'course') ? $id : null,
-                'bundling_id' => ($type == 'bundling') ? $id : null,
-                'total' => (isset($modal['new_price'])) ? $modal['new_price'] : $modal['price']
-            ];
-
-            $cart->save($data);
-
-            $response = [
-                'status' => 200,
-                'success' => 200,
-                'message' => ($type == 'course') ? 'Course berhasil ditambahkan ke keranjang' : 'Bundling berhasil ditambahkan ke keranjang',
-                'data' => []
-            ];
+            if (!$check) {
+                $data = [
+                    'user_id' => $decoded->uid,
+                    'course_id' => ($type == 'course') ? $id : null,
+                    'bundling_id' => ($type == 'bundling') ? $id : null,
+                    'total' => (isset($modal['new_price'])) ? $modal['new_price'] : $modal['old_price']
+                ];
+                $cart->save($data);
+                $response = [
+                    'status' => 200,
+                    'success' => 200,
+                    'message' => $messages . ' berhasil ditambahkan ke keranjang',
+                    'data' => []
+                ];
+            } else {
+                $response = [
+                    'status' => 400,
+                    'success' => 400,
+                    'message' => 'item duplikat',
+                    'data' => []
+                ];
+            }
 
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
