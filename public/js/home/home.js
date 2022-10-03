@@ -18,15 +18,6 @@ $(document).ready(() => {
         e.preventDefault()
     })
 
-    // testimoni slider
-    $('.testimoni-slick').slick({
-        dots: true,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        touchMove: true,
-        centerMode: true,
-    })
-
     // handle search
     $('#nav-btn-search-x').on('click', (e) => {
         $('.nav-item-search .dropdown-menu.show').removeClass('show')
