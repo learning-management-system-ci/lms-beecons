@@ -48,7 +48,12 @@ class CartController extends ResourceController
                     'total' => $temp += $value['total']
                 ];
             }
-            return $this->respond($response);
+
+            if (count($data) > 0) {
+                return $this->respond($response);
+            } else {
+                return $this->failNotFound('Tidak ada data');
+            }
         } catch (\Throwable $th) {
             return $this->fail('Akses token tidak sesuai');
         }
