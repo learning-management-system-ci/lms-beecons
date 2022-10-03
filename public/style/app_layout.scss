@@ -336,6 +336,10 @@ main {
                 padding-right: 25px;
             }
 
+            input:focus {
+                box-shadow: none;
+            }
+
             i {
                 position: absolute;
                 top: 50%;
@@ -347,7 +351,7 @@ main {
 
         .dropdown-menu {
             right: 0;
-            height: 20rem;
+            height: 24rem;
             padding-top: 0;
             font-size: .8rem;
             overflow-y: auto;

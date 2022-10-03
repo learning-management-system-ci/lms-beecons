@@ -304,6 +304,9 @@ main {
 .navbar .nav-item-search .nav-search-input input {
   padding-right: 25px;
 }
+.navbar .nav-item-search .nav-search-input input:focus {
+  box-shadow: none;
+}
 .navbar .nav-item-search .nav-search-input i {
   position: absolute;
   top: 50%;
@@ -313,7 +316,7 @@ main {
 }
 .navbar .nav-item-search .dropdown-menu {
   right: 0;
-  height: 20rem;
+  height: 24rem;
   padding-top: 0;
   font-size: 0.8rem;
   overflow-y: auto;
