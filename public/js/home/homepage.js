@@ -209,4 +209,59 @@ $(document).ready(async function () {
     } catch (error) {
         console.log(error)
     }
+
+    // handle testimoni
+    try {
+        const testimoniResponse = await $.ajax({
+            url: '/api/testimoni',
+            method: 'GET',
+            dataType: 'json'
+        })
+
+        let testimonials = testimoniResponse.map(testimoni => {
+            return {
+                testimoni_id: testimoni.testimoni_id,
+                fullname: testimoni.user[0].fullname,
+                job: 'Alumbi Fullstack Engineer',
+                picture: 'people.jpg',
+                testimoni: 'Proses penyaluran kerja di Tender cukup sederhana mengingat banyak sekali hiring partneryang berminat dengan programmer yang dilatih oleh Tender. Hanya butuh waktu seminggu bagiku untuk direkrut ke GudangAda waktu itu. Tender juga berkomitmen tinggi untuk memastikan bahwa lulusannya akan mendapatkan kerja, jadi merasa aman karena 100% pasti kerja.',
+            }
+        })
+
+        console.log(testimonials)
+        
+        $('#testimoni .testimoni-slick').html(testimonials.map((testimoni) => {
+            return (
+                `
+                    <div class="testimoni-container">
+                        <div class="image">
+                            <img src="image/home/${testimoni.picture}" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="title">
+                                ${testimoni.job}
+                            </div>
+                            <div class="name">
+                                ${testimoni.fullname}
+                            </div>
+                            <div class="text">
+                                ${testimoni.testimoni}
+                            </div>
+                        </div>
+                    </div>
+                `
+            )
+        }))
+
+        // testimoni slider
+        $('.testimoni-slick').slick({
+            dots: true,
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            touchMove: true,
+            centerMode: true,
+        })
+    } catch (error) {
+        console.log(error)
+    }
 })
