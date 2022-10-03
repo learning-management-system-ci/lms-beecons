@@ -64,7 +64,7 @@ class CourseController extends ResourceController
         $videoModel = new Video();
 
         if($courseModel->find($id)){
-            $dataCourse = $courseModel->select('course_id as id, title, description, old_price, new_price, thumbnail')->where('course_id', $id)->first();
+            $dataCourse = $courseModel->select('course_id as id, title, service, description, old_price, new_price, thumbnail')->where('course_id', $id)->first();
             $dataVideo = $videoModel->getData($id)->getResultArray();
             $video = [];
             foreach($dataVideo as $value) {
@@ -139,6 +139,7 @@ class CourseController extends ResourceController
     
             $rules = [
                 'title' => 'required|min_length[8]',
+                'service' => 'required',
                 'description' => 'required|min_length[8]',
                 'price' => 'required|numeric',
                 'thumbnail' => 'required',
@@ -149,6 +150,9 @@ class CourseController extends ResourceController
                 "title" => [
                     "required" => "{field} tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
+                ],
+                "service" => [
+                    "required" => "{field} tidak boleh kosong",
                 ],
                 "description" => [
                     "required" => "{field} tidak boleh kosong",
@@ -170,6 +174,7 @@ class CourseController extends ResourceController
             if($this->validate($rules, $messages)) {
                 $dataCourse = [
                   'title' => $this->request->getVar('title'),
+                  'service' => $this->request->getVar('service'),
                   'description' => $this->request->getVar('description'),
                   'price' => $this->request->getVar('price'),
                   'thumbnail' => $this->request->getVar('thumbnail'),
@@ -218,6 +223,7 @@ class CourseController extends ResourceController
     
             $rules = [
                 'title' => 'required|min_length[8]',
+                'service' => 'required',
                 'description' => 'required|min_length[8]',
                 'price' => 'required|numeric',
                 'thumbnail' => 'required',
@@ -228,6 +234,9 @@ class CourseController extends ResourceController
                 "title" => [
                     "required" => "{field}  tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
+                ],
+                "service" => [
+                    "required" => "{field} tidak boleh kosong",
                 ],
                 "description" => [
                     "required" => "{field}  tidak boleh kosong",
@@ -250,6 +259,7 @@ class CourseController extends ResourceController
                 if($this->validate($rules, $messages)) {
                     $dataCourse = [
                       'title' => $this->request->getRawInput('title'),
+                      'service' => $this->request->getRawInput('service'),
                       'description' => $this->request->getRawInput('description'),
                       'price' => $this->request->getRawInput('price'),
                       'thumbnail' => $this->request->getRawInput('thumbnail')
