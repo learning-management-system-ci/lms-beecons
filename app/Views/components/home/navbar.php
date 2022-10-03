@@ -62,7 +62,7 @@
                 <li class="nav-item me-3">
                     <div class="dropdown nav-item-icon">
                         <button class="nav-btn-icon my-1" id="dropdown-notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="nav-btn-icon-amount">2</div>
+                            <!-- <div class="nav-btn-icon-amount">2</div> -->
                             <i class="fa-solid fa-bell"></i>
                         </button>
                         <div class="dropdown-menu my-2 notifications" aria-labelledby="dropdown-notification">
