@@ -5,90 +5,14 @@
     </h1>
 
     <div class="tags mb-4">
-        <div class="item active"><a href="">All</a></div>
-        <div class="item"><a href="">Engineering</a></div>
-        <div class="item"><a href="">IT</a></div>
+        <div class="item active" data-type-id="0"><a href="">All</a></div>
+        <div class="item" data-type-id="1"><a href="">Engineering</a></div>
+        <div class="item" data-type-id="2"><a href="">IT</a></div>
     </div>
 
     <div class="text-end mb-4">
-        <a href="#" class="text-decoration-underline text-primary">Lihat Semua</a>
+        <a href="/courses" class="text-decoration-underline text-primary-color">Lihat Semua</a>
     </div>
 
-    <div class="row">
-        <div class="col-1 col-md-4 px-4">
-            <div class="card-course">
-                <div class="image">
-                    <img src="image/home/img-course.jpg" alt="img">
-
-                    <div class="card-course-tags">
-                        <div class="item">Fundamental</div>
-                        <div class="item">Basic</div>
-                    </div>
-                </div>
-                <div class="body">
-                    <h2>Information Tech (IT)</h2>
-                    <p>
-                        Intensive program to learn to be a digital talent in Information Tech (IT)
-                    </p>
-                    <p class="harga">
-                        <del>Rp 4.999.000</del>
-                        Rp 3.499.000
-                    </p>
-                </div>
-                <a href="">
-                    <button class="my-btn btn-full">Detail</button>
-                </a>
-            </div>
-        </div>
-        <div class="col-1 col-md-4 px-4">
-            <div class="card-course">
-                <div class="image">
-                    <img src="image/home/img-course.jpg" alt="img">
-
-                    <div class="card-course-tags">
-                        <div class="item">Fundamental</div>
-                        <div class="item">Basic</div>
-                    </div>
-                </div>
-                <div class="body">
-                    <h2>Information Tech (IT)</h2>
-                    <p>
-                        Intensive program to learn to be a digital talent in Information Tech (IT)
-                    </p>
-                    <p class="harga">
-                        <del>Rp 4.999.000</del>
-                        Rp 3.499.000
-                    </p>
-                </div>
-                <a href="">
-                    <button class="my-btn btn-full">Detail</button>
-                </a>
-            </div>
-        </div>
-        <div class="col-1 col-md-4 px-4">
-            <div class="card-course">
-                <div class="image">
-                    <img src="image/home/img-course.jpg" alt="img">
-
-                    <div class="card-course-tags">
-                        <div class="item">Fundamental</div>
-                        <div class="item">Basic</div>
-                    </div>
-                </div>
-                <div class="body">
-                    <h2>Information Tech (IT)</h2>
-                    <p>
-                        Intensive program to learn to be a digital talent in Information Tech (IT)
-                    </p>
-                    <p class="harga">
-                        <del>Rp 4.999.000</del>
-                        Rp 3.499.000
-                    </p>
-                </div>
-                <a href="">
-                    <button class="my-btn btn-full">Detail</button>
-                </a>
-            </div>
-        </div>
-    </div>
+    <div class="row choose-course-list"></div>
 </div>

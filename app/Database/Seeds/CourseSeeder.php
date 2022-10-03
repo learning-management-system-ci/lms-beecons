@@ -15,7 +15,8 @@ class CourseSeeder extends Seeder
             array_push($data, [
                 'title' => 'Judul course '.$i,
                 'description' => 'Description course '.$i,
-                'price' => rand(10000, 1000000),
+                'old_price' => rand(10000, 1000000),
+                'new_price' => rand(10000, 500000),
                 'thumbnail' => 'course'.$i.'.jpg',
             ]);
         };

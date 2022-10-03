@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Category;
 use CodeIgniter\HTTP\RequestInterface;
+use Firebase\JWT\JWT;
 
 class CategoryController extends ResourceController
 {
@@ -18,9 +19,9 @@ class CategoryController extends ResourceController
         $model = new Category();
         $data = $model->orderBy('category_id', 'DESC')->findAll();
 
-        if(count($data) > 0){
+        if (count($data) > 0) {
             return $this->respond($data);
-        }else{
+        } else {
             return $this->failNotFound('Tidak ada data');
         }
     }
@@ -34,10 +35,10 @@ class CategoryController extends ResourceController
     {
         $model = new Category();
 
-        if($model->find($id)){
+        if ($model->find($id)) {
             $data = $model->where('category_id', $id)->first();
             return $this->respond($data);
-        }else{
+        } else {
             return $this->failNotFound('Tidak ada data');
         }
     }
@@ -59,105 +60,107 @@ class CategoryController extends ResourceController
      */
     public function create()
     {
-        $model = new Category();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        $rules = [
-            'name' => 'required',
-        ];
-
-        $messages = [
-            "name" => [
-                "required" => "{field} tidak boleh kosong",
-            ],
-        ];
-
-        $response;
-        if($this->validate($rules, $messages)) {
-            $data = [
-              'name' => $this->request->getVar('name'),
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $model = new Category();
+            $rules = [
+                'name' => 'required',
+            ];
+            $messages = [
+                "name" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
             ];
 
-            $model->insert($data);
-            $response = [
-                'status'   => 201,
-                'success'    => 201,
-                'messages' => [
-                    'success' => 'Kategori berhasil dibuat'
-                ]
-            ];
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => $this->validator->getErrors(),
-            ];
-        }
-
-
-        return $this->respondCreated($response);  
-    }
-
-    /**
-     * Return the editable properties of a resource object
-     *
-     * @return mixed
-     */
-    public function edit($id = null)
-    {
-        //
-    }
-
-    /**
-     * Add or update a model resource, from "posted" properties
-     *
-     * @return mixed
-     */
-    public function update($id = null)
-    {
-        $model = new Category();
-
-        $rules = [
-            'name' => 'required',
-        ];
-
-        $messages = [
-            "name" => [
-                "required" => "{field} tidak boleh kosong",
-            ],
-        ];
-
-        $response;
-        if($model->find($id)){
-            if($this->validate($rules, $messages)) {
+            if ($this->validate($rules, $messages)) {
                 $data = [
-                  'name' => $this->request->getRawInput('name'),
+                    'name' => $this->request->getVar('name'),
                 ];
 
-                $model->update($id, $data['name']);
+                $model->insert($data);
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
                     'messages' => [
-                        'success' => 'Kategori berhasil di perbarui'
+                        'success' => 'Kategori berhasil dibuat'
                     ]
                 ];
-            }else{
+            } else {
                 $response = [
                     'status'   => 400,
                     'error'    => 400,
                     'messages' => $this->validator->getErrors(),
                 ];
             }
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => 'Data tidak ditemukan',
-            ];
+            return $this->respondCreated($response);
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
+    }
+
+    public function edit($id = null)
+    {
+        //
+    }
 
 
-        return $this->respondCreated($response);
+    public function update($id = null)
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $model = new Category();
+            $rules = [
+                'name' => 'required',
+            ];
+
+            $messages = [
+                "name" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+            ];
+
+            if ($model->find($id)) {
+                if ($this->validate($rules, $messages)) {
+                    $data = [
+                        'name' => $this->request->getRawInput('name'),
+                    ];
+
+                    $model->update($id, $data['name']);
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Kategori berhasil di perbarui'
+                        ]
+                    ];
+                } else {
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
+                    ];
+                }
+            } else {
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => 'Data tidak ditemukan',
+                ];
+            }
+            return $this->respondCreated($response);
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
+        }
     }
 
     /**
@@ -167,20 +170,29 @@ class CategoryController extends ResourceController
      */
     public function delete($id = null)
     {
-        $model = new Category();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        if($model->find($id)){
-            $model->delete($id);
-            $response = [
-                'status'   => 200,
-                'success'    => 200,
-                'messages' => [
-                    'success' => 'Kategori berhasil di hapus'
-                ]
-            ];
-            return $this->respondDeleted($response);
-        }else{
-            return $this->failNotFound('Data tidak di temukan');
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $model = new Category();
+            if ($model->find($id)) {
+                $model->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'success'    => 200,
+                    'messages' => [
+                        'success' => 'Kategori berhasil di hapus'
+                    ]
+                ];
+                return $this->respondDeleted($response);
+            } else {
+                return $this->failNotFound('Data tidak di temukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
     }
 }

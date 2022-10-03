@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <title><?= $title ?></title>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>

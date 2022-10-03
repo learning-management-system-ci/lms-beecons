@@ -9,5 +9,5 @@ class Jobs extends Model
     protected $table = 'jobs';
     protected $primaryKey = 'job_id';
     protected $DBGroup = 'default';
-    protected $allowedFields = ['job_id', 'job_name', 'updated_at', 'created_at'];
+    protected $allowedFields = ['job_name', 'updated_at', 'created_at'];
 }

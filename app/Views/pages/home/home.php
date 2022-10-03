@@ -8,6 +8,12 @@
 <?= $this->include('components/home/webinar') ?>
 <?= $this->include('components/home/mentor') ?>
 <?= $this->include('components/home/our_partner') ?>
+<?= $this->include('components/home/artikel') ?>
 <?= $this->include('components/home/testimoni') ?>
 
+<?= $this->endSection() ?>
+
+<?= $this->section('js-component') ?>
+<script src="../../../js/utils/getRupiah.js"></script>
+<script src="../../../js/home/homepage.js"></script>
 <?= $this->endSection() ?>

@@ -11,6 +11,7 @@ use App\Models\TypeTag;
 use App\Models\Video;
 use App\Models\VideoCategory;
 use CodeIgniter\HTTP\RequestInterface;
+use Firebase\JWT\JWT;
 
 class CourseController extends ResourceController
 {
@@ -148,132 +149,68 @@ class CourseController extends ResourceController
         }
     }
 
+
     public function create()
     {
-        $modelCourse = new Course();
-        $modelCourseCategory = new CourseCategory();
-
-        $rules = [
-            'title' => 'required|min_length[8]',
-            'description' => 'required|min_length[8]',
-            'price' => 'required|numeric',
-            'thumbnail' => 'required',
-            'category_id' => 'required|numeric'
-        ];
-
-        $messages = [
-            "title" => [
-                "required" => "{field} tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-            "description" => [
-                "required" => "{field} tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-            "price" => [
-                "required" => "field} tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor",
-            ],
-            "thumbnail" => [
-                "required" => "{field} tidak boleh kosong"
-            ],
-            "category_id" => [
-                "required" => "{field} tidak boleh kosong"
-            ],
-        ];
-
-        $response;
-        if($this->validate($rules, $messages)) {
-            $dataCourse = [
-              'title' => $this->request->getVar('title'),
-              'description' => $this->request->getVar('description'),
-              'price' => $this->request->getVar('price'),
-              'thumbnail' => $this->request->getVar('thumbnail'),
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $modelCourse = new Course();
+            $modelCourseCategory = new CourseCategory();
+    
+            $rules = [
+                'title' => 'required|min_length[8]',
+                'description' => 'required|min_length[8]',
+                'price' => 'required|numeric',
+                'thumbnail' => 'required',
+                'category_id' => 'required|numeric'
             ];
-            $modelCourse->insert($dataCourse);
-
-            $dataCourseCategory = [
-                'course_id' => $modelCourse->insertID(),
-                'category_id' => $this->request->getVar('category_id')
+    
+            $messages = [
+                "title" => [
+                    "required" => "{field} tidak boleh kosong",
+                    'min_length' => '{field} minimal 8 karakter'
+                ],
+                "description" => [
+                    "required" => "{field} tidak boleh kosong",
+                    'min_length' => '{field} minimal 8 karakter'
+                ],
+                "price" => [
+                    "required" => "field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor",
+                ],
+                "thumbnail" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
+                "category_id" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
             ];
-            $modelCourseCategory->insert($dataCourseCategory);
-
-            $response = [
-                'status'   => 201,
-                'success'    => 201,
-                'messages' => [
-                    'success' => 'Course berhasil dibuat'
-                ]
-            ];
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => $this->validator->getErrors(),
-            ];
-        }
-
-
-        return $this->respondCreated($response);    
-    }
-
-    public function update($id = null)
-    {
-        $modelCourse = new Course();
-        $modelCourseCategory = new CourseCategory();
-
-        $rules = [
-            'title' => 'required|min_length[8]',
-            'description' => 'required|min_length[8]',
-            'price' => 'required|numeric',
-            'thumbnail' => 'required',
-            'category_id' => 'required|numeric'
-        ];
-
-        $messages = [
-            "title" => [
-                "required" => "{field}  tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-            "description" => [
-                "required" => "{field}  tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-            "price" => [
-                "required" => "{field}  tidak boleh kosong",
-                "numeric" => "{field} harus berisi nomor",
-            ],
-            "thumbnail" => [
-                "required" => "{field}  tidak boleh kosong"
-            ],
-            "category_id" => [
-                "required" => "{field} tidak boleh kosong"
-            ],
-        ];
-
-        $response;
-        if($modelCourse->find($id)){
+    
+            $response;
             if($this->validate($rules, $messages)) {
                 $dataCourse = [
-                  'title' => $this->request->getRawInput('title'),
-                  'description' => $this->request->getRawInput('description'),
-                  'price' => $this->request->getRawInput('price'),
-                  'thumbnail' => $this->request->getRawInput('thumbnail')
+                  'title' => $this->request->getVar('title'),
+                  'description' => $this->request->getVar('description'),
+                  'price' => $this->request->getVar('price'),
+                  'thumbnail' => $this->request->getVar('thumbnail'),
                 ];
-                $modelCourse->update($id, $dataCourse['title']);
-
+                $modelCourse->insert($dataCourse);
+    
                 $dataCourseCategory = [
-                    'course_id' => $id,
-                    'category_id' => $this->request->getRawInput('category_id')['category_id']
+                    'course_id' => $modelCourse->insertID(),
+                    'category_id' => $this->request->getVar('category_id')
                 ];
-                $courseCategoryID = $modelCourseCategory->where('course_id', $id)->find();
-                $modelCourseCategory->where('course_id', $id)->update($courseCategoryID[0]['course_category_id'],$dataCourseCategory);
-
+                $modelCourseCategory->insert($dataCourseCategory);
+    
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
                     'messages' => [
-                        'success' => 'Course berhasil di perbarui'
+                        'success' => 'Course berhasil dibuat'
                     ]
                 ];
             }else{
@@ -283,36 +220,128 @@ class CourseController extends ResourceController
                     'messages' => $this->validator->getErrors(),
                 ];
             }
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => 'Data tidak ditemukan',
-            ];
+    
+    
+            return $this->respondCreated($response);    
+	    } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
+    }
 
+    public function update($id = null)
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        return $this->respondCreated($response);
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $modelCourse = new Course();
+            $modelCourseCategory = new CourseCategory();
+    
+            $rules = [
+                'title' => 'required|min_length[8]',
+                'description' => 'required|min_length[8]',
+                'price' => 'required|numeric',
+                'thumbnail' => 'required',
+                'category_id' => 'required|numeric'
+            ];
+    
+            $messages = [
+                "title" => [
+                    "required" => "{field}  tidak boleh kosong",
+                    'min_length' => '{field} minimal 8 karakter'
+                ],
+                "description" => [
+                    "required" => "{field}  tidak boleh kosong",
+                    'min_length' => '{field} minimal 8 karakter'
+                ],
+                "price" => [
+                    "required" => "{field}  tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor",
+                ],
+                "thumbnail" => [
+                    "required" => "{field}  tidak boleh kosong"
+                ],
+                "category_id" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
+            ];
+    
+            $response;
+            if($modelCourse->find($id)){
+                if($this->validate($rules, $messages)) {
+                    $dataCourse = [
+                      'title' => $this->request->getRawInput('title'),
+                      'description' => $this->request->getRawInput('description'),
+                      'price' => $this->request->getRawInput('price'),
+                      'thumbnail' => $this->request->getRawInput('thumbnail')
+                    ];
+                    $modelCourse->update($id, $dataCourse['title']);
+    
+                    $dataCourseCategory = [
+                        'course_id' => $id,
+                        'category_id' => $this->request->getRawInput('category_id')['category_id']
+                    ];
+                    $courseCategoryID = $modelCourseCategory->where('course_id', $id)->find();
+                    $modelCourseCategory->where('course_id', $id)->update($courseCategoryID[0]['course_category_id'],$dataCourseCategory);
+    
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Course berhasil di perbarui'
+                        ]
+                    ];
+                }else{
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
+                    ];
+                }
+            }else{
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => 'Data tidak ditemukan',
+                ];
+            }
+            return $this->respondCreated($response);
+	    } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
+        }
     }
 
     public function delete($id = null)
     {
-        $modelCourse = new Course();
-        $modelCourseCategory = new CourseCategory();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        if($modelCourse->find($id)){
-            $modelCourseCategory->where('course_id', $id)->delete();
-            $modelCourse->delete($id);
-            $response = [
-                'status'   => 200,
-                'success'    => 200,
-                'messages' => [
-                    'success' => 'Course berhasil di hapus'
-                ]
-            ];
-            return $this->respondDeleted($response);
-        }else{
-            return $this->failNotFound('Data tidak di temukan');
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $modelCourse = new Course();
+            $modelCourseCategory = new CourseCategory();
+    
+            if($modelCourse->find($id)){
+                $modelCourseCategory->where('course_id', $id)->delete();
+                $modelCourse->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'success'    => 200,
+                    'messages' => [
+                        'success' => 'Course berhasil di hapus'
+                    ]
+                ];
+                return $this->respondDeleted($response);
+            }else{
+                return $this->failNotFound('Data tidak di temukan');
+            }
+	    } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
         }
     }
 

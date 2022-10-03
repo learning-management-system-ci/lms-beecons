@@ -10,10 +10,7 @@ use Firebase\JWT\JWT;
 
 class UserController extends ResourceController
 {
-
     use ResponseTrait;
-
-
 
     public function profile()
     {
@@ -123,14 +120,35 @@ class UserController extends ResourceController
         return $this->failNotFound('Data user tidak ditemukan');
     }
 
-    public function jobs()
+    public function jobs() {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $job = new Jobs;
+            $data = $job->select('job_id, job_name')->findAll();
+            if ($data) {
+                return $this->respond($data);
+            } else {
+                return $this->failNotFound('Data pekerjaan tidak ditemukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail('Akses token tidak sesuai');
+        }
+    }
+
+    public function getMentor()
     {
-        $job = new Jobs;
-        $data = $job->select('job_id, job_name')->findAll();
-        if ($data) {
+        $users = new Users;
+        $data = $users->where('role', 'mentor')->findAll();
+
+        if (count($data) > 0) {
             return $this->respond($data);
         } else {
-            return $this->failNotFound('Data pekerjaan tidak ditemukan');
+            return $this->failNotFound('Tidak ada data');
         }
     }
 }

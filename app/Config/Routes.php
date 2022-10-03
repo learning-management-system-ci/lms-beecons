@@ -2,6 +2,9 @@
 
 namespace Config;
 
+use Doctrine\Common\Annotations\PhpParser;
+use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Php;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -45,7 +48,7 @@ $routes->post('/register', 'AuthController::register');
 
 $routes->get('/profile', 'AuthController::profile');
 $routes->get('/login/loginWithGoogle', 'Api\AuthController::loginWithGoogle');
-$routes->post('/login/loginWithGoogle/submit', 'AuthController::loginWithGoogle');
+// $routes->post('/login/loginWithGoogle/submit', 'Api\AuthController::loginWithGoogle');
 $routes->get('/logout', 'AuthController::logout');
 $routes->get('/activateuser', 'AuthController::activateUser');
 
@@ -66,8 +69,13 @@ $routes->get('/terms-and-conditions', 'Home::termsAndConditions');
 $routes->get('/courses/bundling', 'Home::bundlingCart');
 $routes->get('/course-detail', 'Home::courseDetail');
 $routes->get('/cart', 'Home::cart');
+$routes->get('/webinar', 'Home::webinar');
+$routes->get('/training', 'Home::training');
 $routes->get('/courses', 'Home::courses');
+$routes->get('/article', 'Home::article');
 
+$routes->get('/send-otp', 'AuthController::indexSendOtp');
+$routes->post('/send-otp', 'AuthController::sendOtp');
 
 $routes->group('api/', static function ($routes) {
     $routes->post('register', 'Api\AuthController::register');
@@ -94,6 +102,19 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
     });
 
+    $routes->group('review/', static function ($routes) {
+        $routes->get('', 'Api\ReviewController::index');
+        $routes->post('create', 'Api\ReviewController::create');
+    });
+
+    $routes->group('testimoni/', static function ($routes) {
+        $routes->get('', 'Api\TestimoniController::index');
+        $routes->get('detail/(:segment)', 'Api\TestimoniController::show/$1');
+        $routes->post('create', 'Api\TestimoniController::create');
+        $routes->put('update/(:segment)', 'Api\TestimoniController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\TestimoniController::delete/$1');
+    });
+
     $routes->group('pap/', static function ($routes) {
         $routes->get('', 'Api\PolicyAndPrivacyController::index');
         $routes->get('detail/(:num)', 'Api\PolicyAndPrivacyController::show/$1');
@@ -106,6 +127,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
         $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
         $routes->get('jobs', 'Api\UserController::jobs');
+        $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->put('update/(:segment)', 'Api\UserController::update/$1');
     });
 
@@ -118,6 +140,37 @@ $routes->group('api/', static function ($routes) {
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+
+        $routes->group('video/', static function ($routes) {
+            $routes->post('create', 'Api\VideoController::create');
+            $routes->post('update/(:segment)', 'Api\VideoController::update/$1');
+            $routes->delete('delete/(:segment)', 'Api\VideoController::delete/$1');
+        });
+    });
+
+    $routes->group('user-video/', static function ($routes) {
+        $routes->get('', 'Api\UserVideoController::index');
+        $routes->get('detail/(:segment)', 'Api\UserVideoController::show/$1');
+        $routes->get('detail/(:segment)/(:segment)', 'Api\UserVideoController::showuser/$1/$2');
+        $routes->post('create', 'Api\UserVideoController::create');
+        $routes->put('update/(:segment)', 'Api\UserVideoController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\UserVideoController::delete/$1');
+    });
+
+    $routes->group('bundling/', static function ($routes) {
+        $routes->get('', 'Api\BundlingController::index');
+        $routes->get('detail/(:segment)', 'Api\BundlingController::show/$1');
+        $routes->post('create', 'Api\BundlingController::create');
+        $routes->put('update/(:segment)', 'Api\BundlingController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\BundlingController::delete/$1');
+    });
+
+    $routes->group('course-bundling/', static function ($routes) {
+        $routes->get('', 'Api\CourseBundlingController::index');
+        $routes->get('detail/(:segment)', 'Api\CourseBundlingController::show/$1');
+        $routes->post('create', 'Api\CourseBundlingController::create');
+        $routes->put('update/(:segment)', 'Api\CourseBundlingController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\CourseBundlingController::delete/$1');
     });
 
     $routes->group('category/', static function ($routes) {
@@ -126,16 +179,76 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\CategoryController::create');
         $routes->put('update/(:num)', 'Api\CategoryController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CategoryController::delete/$1');
-        $routes->get('latest', 'Api\CategoryController::latest');
-        $routes->get('latest/(:num)', 'Api\CategoryController::latest/$1');
-        $routes->get('find/(:segment)', 'Api\CategoryController::find/$1');
+    });
+
+    $routes->group('category-bundling/', static function ($routes) {
+        $routes->get('', 'Api\CategoryBundlingController::index');
+        $routes->get('detail/(:num)', 'Api\CategoryBundlingController::show/$1');
+        $routes->post('create', 'Api\CategoryBundlingController::create');
+        $routes->put('update/(:num)', 'Api\CategoryBundlingController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\CategoryBundlingController::delete/$1');
+    });
+
+    $routes->group('video-category/', static function ($routes) {
+        $routes->get('', 'Api\VideoCategoryController::index');
+        $routes->get('detail/(:num)', 'Api\VideoCategoryController::show/$1');
+        $routes->post('create', 'Api\VideoCategoryController::create');
+        $routes->put('update/(:num)', 'Api\VideoCategoryController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\VideoCategoryController::delete/$1');
+    });
+    
+    $routes->group('tag/', static function ($routes) {
+        $routes->get('', 'Api\TagController::index');
+        $routes->get('detail/(:num)', 'Api\TagController::show/$1');
+        $routes->post('create', 'Api\TagController::create');
+        $routes->put('update/(:num)', 'Api\TagController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\TagController::delete/$1');
+    });
+    
+    $routes->group('course_tag/', static function ($routes) {
+        $routes->get('', 'Api\CourseTagController::index');
+        $routes->get('filter/(:segment)/(:num)', 'Api\CourseTagController::filter/$1/$2');
     });
 
     $routes->group('course_category/', static function ($routes) {
         $routes->get('', 'Api\CourseCategoryController::index');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseCategoryController::filter/$1/$2');
     });
-    
+
+
+    $routes->group('notification/', static function ($routes) {
+        // domain/api/notification/{user_id yang sedang login}
+        // akan memberikan output semua notifikasi user tersebut dan juga public notifikasi
+        $routes->get('', 'Api\NotificationController::index');
+        $routes->post('create', 'Api\NotificationController::create');
+        $routes->put('update/(:num)', 'Api\NotificationController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
+    });
+
+    $routes->group('type/', static function ($routes) {
+        $routes->get('', 'Api\TypeController::index');
+        $routes->get('detail/(:num)', 'Api\TypeController::show/$1');
+        $routes->post('create', 'Api\TypeController::create');
+        $routes->put('update/(:num)', 'Api\TypeController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\TypeController::delete/$1');
+    });
+
+    $routes->group('course_type/', static function ($routes) {
+        $routes->get('', 'Api\CourseTypeController::index');
+        $routes->get('filter/(:segment)/(:num)', 'Api\CourseTypeController::filter/$1/$2');
+    });
+
+    $routes->group('type_tag/', static function ($routes) {
+        $routes->get('', 'Api\TypeTagController::index');
+        $routes->get('filter/(:segment)/(:num)', 'Api\TypeTagController::filter/$1/$2');
+    });
+
+    $routes->group('cart/', static function ($routes) {
+        $routes->get('', 'Api\CartController::index');
+        $routes->post('create/(:num)/(:segment)', 'Api\CartController::create/$1/$2');
+        $routes->delete('delete/(:num)', 'Api\CartController::delete/$1');
+    });
+
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
 });
