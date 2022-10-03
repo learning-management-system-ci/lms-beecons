@@ -16,14 +16,14 @@ class Video extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['course_id', 'title', 'video', 'order'];
 
-    function getData($id) {
-        $builder = $this->db->table('video');
-        $builder->select('video.title as vid_title, video.video, video.order, course.title as course_title, course.description, course.price, course.thumbnail');
-        $builder->where('video.course_id', $id);
-        $builder->join('course','course.course_id=video.course_id');
-        $query = $builder->get();
-        return $query;
-    }
+    // function getData($id) {
+    //     $builder = $this->db->table('video');
+    //     $builder->select('video.title as vid_title, video.video, video.order, course.title as course_title, course.description, course.old_price, course.thumbnail');
+    //     $builder->where('video.course_id', $id);
+    //     $builder->join('course','course.course_id=video.course_id');
+    //     $query = $builder->get();
+    //     return $query;
+    // }
 
     // function getDataVideo($course_id) {
     //     $builder = $this->db->table('video');
