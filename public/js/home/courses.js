@@ -88,15 +88,15 @@ $(document).ready(async function () {
             $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).addClass('active')
             $(`#courses #tab-courses-${type} .sub-tags .item[data-category_id=${category}]`).addClass('active')
     
-            let coursesByType = courses.filter(course => course.type.type_id === type)
+            let coursesByType = courses.filter(course => course.type[0].type_id === type)
             let coursesBytag = coursesByType.filter(course => course.tag.map(tag => tag.tag_id).includes(tag))
-            let coursesByCategory = coursesBytag.filter(course => course.category.category_id === category)
+            let coursesByCategory = coursesBytag.filter(course => course.category[0].category_id === category)
             
             let result = []
             if (tag === '0' && category === '0') {
                 result = coursesByType
             } else if (tag === '0' && category !== '0') {
-                result = coursesByType.filter(course => course.category.category_id === category)
+                result = coursesByType.filter(course => course.category[0].category_id === category)
             } else if (tag !== '0' && category === '0') {
                 result = coursesBytag
             } else {
