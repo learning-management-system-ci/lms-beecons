@@ -5,12 +5,11 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Course;
 use App\Models\CourseCategory;
-<<<<<<< Updated upstream
-=======
 use App\Models\CourseType;
 use App\Models\CourseTag;
 use App\Models\TypeTag;
->>>>>>> Stashed changes
+use App\Models\Video;
+use App\Models\VideoCategory;
 use CodeIgniter\HTTP\RequestInterface;
 
 class CourseController extends ResourceController
@@ -38,25 +37,29 @@ class CourseController extends ResourceController
                 ->join('type', 'type.type_id = course_type.type_id')
                 ->orderBy('course_type.course_type_id', 'DESC')
                 ->findAll();
+            if($type){
+                $data[$i]['type'] = $type; 
+
+                for($k = 0; $k < count($type); $k++){
+                    $typeTag = $modelTypeTag
+                        ->where('course_type.course_id', $data[$i]['course_id'])
+                        ->where('type.type_id', $type[$k]['type_id'])
+                        ->join('type', 'type.type_id = type_tag.type_id')
+                        ->join('tag', 'tag.tag_id = type_tag.tag_id')
+                        ->join('course_type', 'course_type.type_id = type.type_id')
+                        ->orderBy('course_type.course_id', 'DESC')
+                        ->select('tag.*')
+                        ->findAll();
+                    
+                        for($o = 0; $o < count($typeTag); $o++){
+                        $data[$i]['tag'][$o] = $typeTag[$o];
+                    }
+                }
+            }else {
+                $data[$i]['type'] = null;
+            }
 
             $data[$i]['category'] = $category;
-            $data[$i]['type'] = $type; 
-
-            for($k = 0; $k < count($type); $k++){
-                $typeTag = $modelTypeTag
-                    ->where('course_type.course_id', $data[$i]['course_id'])
-                    ->where('type.type_id', $type[$k]['type_id'])
-                    ->join('type', 'type.type_id = type_tag.type_id')
-                    ->join('tag', 'tag.tag_id = type_tag.tag_id')
-                    ->join('course_type', 'course_type.type_id = type.type_id')
-                    ->orderBy('course_type.course_id', 'DESC')
-                    ->select('tag.*')
-                    ->findAll();
-                
-                    for($o = 0; $o < count($typeTag); $o++){
-                    $data[$i]['tag'][$o] = $typeTag[$o];
-                }
-            }
         }
 
         if(count($data) > 0){
@@ -68,56 +71,20 @@ class CourseController extends ResourceController
 
     public function show($id = null)
     {
+        // Jika tag kosong, berarti karena tidak ada data type_tag, atau tidak ada type_tag yang berelasi dengan course_type
+        // Jika type null, berarti course tidak ada relasi dengan type
+
         $model = new Course();
-<<<<<<< Updated upstream
-
-        $data = $model
-            ->select('course.*')
-            ->join('course_category', 'course_category.course_id = course.course_id')
-            ->join('category', 'category.category_id = course_category.category_id')
-            ->orderBy('course.course_id', 'DESC')
-            ->where('course.course_id', $id)
-            ->findAll();
-        $category = $model
-            ->select('category.*')
-            ->join('course_category', 'course_category.course_id = course.course_id')
-            ->join('category', 'category.category_id = course_category.category_id')
-            ->orderBy('course.course_id', 'DESC')
-            ->where('course.course_id', $id)
-            ->findAll();
-        $type = $model
-            ->select('type.*')
-            ->join('course_type', 'course_type.course_id = course.course_id')
-            ->join('type', 'type.type_id = course_type.type_id')
-            ->orderBy('course.course_id', 'DESC')
-            ->where('course.course_id', $id)
-            ->findAll();
-        $tag = $model
-            ->select('tag.*')
-            ->join('course_tag', 'course_tag.course_id = course.course_id')
-            ->join('tag', 'tag.tag_id = course_tag.tag_id')
-            ->orderBy('course.course_id', 'DESC')
-            ->where('course.course_id', $id)
-            ->findAll();
-
-        for($i = 0; $i < count($data); $i++){
-            $data[$i]['category'] = $category[$i];
-            $data[$i]['type'] = $type[$i];
-
-            for($k = 0; $k < count($tag); $k++){
-                $data[$i]['tag'][$k] = $tag[$k];
-            }
-        }
-
-        if($model->find($id)){
-=======
         $modelCourseCategory = new CourseCategory();
         $modelCourseType = new CourseType();
         $modelCourseTag = new CourseTag();
         $modelTypeTag = new TypeTag();
+        $modelVideo = new Video();
+        $modelVideoCategory = new VideoCategory();
 
         if($model->find($id)){
             $tag = [];
+            $video = [];
 
             $data = $model->where('course_id', $id)->first();
 
@@ -131,24 +98,50 @@ class CourseController extends ResourceController
                 ->join('type', 'type.type_id = course_type.type_id')
                 ->orderBy('course_type.course_type_id', 'DESC')
                 ->first();
-            $typeTag = $modelTypeTag
-                ->where('course_type.course_id', $id)
-                ->where('type.type_id', $type['type_id'])
-                ->join('type', 'type.type_id = type_tag.type_id')
-                ->join('tag', 'tag.tag_id = type_tag.tag_id')
-                ->join('course_type', 'course_type.type_id = type.type_id')
-                ->orderBy('course_type.course_id', 'DESC')
-                ->select('tag.*')
+            $videoCategory = $modelVideoCategory
+                ->where('course_id', $id)
+                ->orderBy('video_category.video_category_id', 'DESC')
                 ->findAll();
 
-            $data['category'] = $category;
-            $data['type'] = $type;
+            if($videoCategory[0]['title'] != ''){
+                $data['video_category'] = $videoCategory;
+            }
             
-            for($i = 0; $i < count($typeTag); $i++){
-                $data['tag'][$i] = $typeTag[$i];
+            for($l = 0; $l < count($videoCategory); $l++){
+                $video = $modelVideo
+                    ->where('video_category_id', $videoCategory[$l]['video_category_id'])
+                    ->orderBy('video_id', 'DESC')
+                    ->findAll();
+                if($videoCategory[0]['title'] != ''){
+                    $data['video_category'][$l]['video'] = $video;
+                }else{
+                    $data['video'][$l] = $video;
+                }
             }
 
->>>>>>> Stashed changes
+            if($type){
+                $typeTag = $modelTypeTag
+                    ->where('course_type.course_id', $id)
+                    ->where('type.type_id', $type['type_id'])
+                    ->join('type', 'type.type_id = type_tag.type_id')
+                    ->join('tag', 'tag.tag_id = type_tag.tag_id')
+                    ->join('course_type', 'course_type.type_id = type.type_id')
+                    ->orderBy('course_type.course_id', 'DESC')
+                    ->select('tag.*')
+                    ->findAll();
+
+                $data['type'] = $type;
+
+                for($i = 0; $i < count($typeTag); $i++){
+                    $data['tag'][$i] = $typeTag[$i];
+                }
+            }else{
+                $data['type'] = null;
+            }
+
+            $data['category'] = $category;
+            // $data['video'] = $video;
+            
             return $this->respond($data);
         }else{
             return $this->failNotFound('Tidak ada data');
