@@ -163,8 +163,10 @@ class CourseController extends ResourceController
     
             $rules = [
                 'title' => 'required|min_length[8]',
+                'service' => 'required',
                 'description' => 'required|min_length[8]',
-                'price' => 'required|numeric',
+                'old_price' => 'required|numeric',
+                'new_price' => 'required|numeric',
                 'thumbnail' => 'required',
                 'category_id' => 'required|numeric'
             ];
@@ -174,11 +176,18 @@ class CourseController extends ResourceController
                     "required" => "{field} tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
                 ],
+                "service" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
                 "description" => [
                     "required" => "{field} tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
                 ],
-                "price" => [
+                "old_price" => [
+                    "required" => "field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor",
+                ],
+                "new_price" => [
                     "required" => "field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
                 ],
@@ -194,8 +203,10 @@ class CourseController extends ResourceController
             if($this->validate($rules, $messages)) {
                 $dataCourse = [
                   'title' => $this->request->getVar('title'),
+                  'service' => $this->request->getVar('service'),
                   'description' => $this->request->getVar('description'),
-                  'price' => $this->request->getVar('price'),
+                  'old_price' => $this->request->getVar('old_price'),
+                  'new_price' => $this->request->getVar('new_price'),
                   'thumbnail' => $this->request->getVar('thumbnail'),
                 ];
                 $modelCourse->insert($dataCourse);
@@ -242,8 +253,10 @@ class CourseController extends ResourceController
     
             $rules = [
                 'title' => 'required|min_length[8]',
+                'service' => 'required',
                 'description' => 'required|min_length[8]',
-                'price' => 'required|numeric',
+                'old_price' => 'required|numeric',
+                'new_price' => 'required|numeric',
                 'thumbnail' => 'required',
                 'category_id' => 'required|numeric'
             ];
@@ -253,12 +266,19 @@ class CourseController extends ResourceController
                     "required" => "{field}  tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
                 ],
+                "service" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
                 "description" => [
                     "required" => "{field}  tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
                 ],
-                "price" => [
-                    "required" => "{field}  tidak boleh kosong",
+                "old_price" => [
+                    "required" => "field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor",
+                ],
+                "new_price" => [
+                    "required" => "field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
                 ],
                 "thumbnail" => [
@@ -274,8 +294,10 @@ class CourseController extends ResourceController
                 if($this->validate($rules, $messages)) {
                     $dataCourse = [
                       'title' => $this->request->getRawInput('title'),
+                      'service' => $this->request->getRawInput('service'),
                       'description' => $this->request->getRawInput('description'),
-                      'price' => $this->request->getRawInput('price'),
+                      'old_price' => $this->request->getRawInput('old_price'),
+                      'new_price' => $this->request->getRawInput('new_price'),
                       'thumbnail' => $this->request->getRawInput('thumbnail')
                     ];
                     $modelCourse->update($id, $dataCourse['title']);
