@@ -117,9 +117,9 @@ $(document).ready(async function () {
                                 </div>
                             </div>
                             <div class="body">
-                                <h2>${course.title}</h2>
+                                <h2 class="text-truncate">${course.title}</h2>
                                 <p>
-                                    ${course.description}
+                                    ${textTruncate(course.description, 120)}
                                 </p>
                                 <p class="harga">
                                     ${(() => {

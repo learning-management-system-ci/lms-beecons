@@ -19,5 +19,6 @@
 
 <?= $this->section('js-component') ?>
 <script src="../../../js/utils/getRupiah.js"></script>
+<script src="../../../js/utils/textTruncate.js"></script>
 <script src="../../../js/home/homepage.js"></script>
 <?= $this->endSection() ?>
