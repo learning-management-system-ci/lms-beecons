@@ -12,7 +12,7 @@
                     <a class="nav-link mx-2 active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active" href="">Webinar</a>
+                    <a class="nav-link mx-2 active" href="<?= base_url('/training') ?>">Training</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 active" href="<?= base_url('/courses') ?>">Courses</a>
