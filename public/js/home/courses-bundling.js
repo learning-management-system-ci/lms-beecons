@@ -54,7 +54,7 @@ $(document).ready(async function () {
                                     <del>${getRupiah(item.bundling[0].old_price)}</del>
                                 </div>
                             </div>
-                            <a href="${`courses/bundling/${item.course_bundling_id}`}">
+                            <a href="${`courses/bundling/`}">
                                 <button class="my-btn btn-full">Detail</button>
                             </a>
                             <div class="label">
@@ -99,7 +99,7 @@ $(document).ready(async function () {
                                     <del>${getRupiah(item.bundling[0].old_price)}</del>
                                 </div>
                             </div>
-                            <a href="${`courses/bundling/${item.course_bundling_id}`}">
+                            <a href="${`courses/bundling/`}">
                                 <button class="my-btn btn-full">Detail</button>
                             </a>
                             <div class="label">

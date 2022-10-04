@@ -127,10 +127,10 @@ $(document).ready(async function () {
                                 </p>
                             </div>
                             <div class="card-course-button">
-                                <a href="">
+                                <a href="/course-detail">
                                     <button class="my-btn btn-full">Beli</button>
                                 </a>
-                                <a href="">
+                                <a href="/cart">
                                     <button class="button-secondary"><i class="fa-solid fa-cart-shopping"></i></button>
                                 </a>
                             </div>
