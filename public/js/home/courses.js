@@ -122,7 +122,13 @@ $(document).ready(async function () {
                                     ${course.description}
                                 </p>
                                 <p class="harga">
-                                    <del>${getRupiah(course.old_price)}</del>
+                                    ${(() => {
+                                        if (course.old_price !== '0') {
+                                            return `<del>${getRupiah(course.old_price)}</del>`
+                                        } else {
+                                            return ''
+                                        }
+                                    })()}
                                     ${getRupiah(course.new_price)}
                                 </p>
                             </div>
