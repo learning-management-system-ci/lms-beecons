@@ -34,7 +34,7 @@ class AuthController extends BaseController
 		}
 		$data = [
             "title" => "Sign In",
-            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img style="width: 286px;" src="image/google.png" alt=""></a>',
         ];
 		return view('pages/authentication/login', $data);
 	}
@@ -107,22 +107,13 @@ class AuthController extends BaseController
 
 	function logout() {
 		session()->destroy();
-		// session()->remove('LoggedUserData');
-		// session()->remove('AccessToken');
-		// if(!(session()->get('LoggedUserData') && session()->get('AccessToken') )){
-		// 	session()->setFlashData("success", "Logout Successful");
-		// 	return redirect()->to(base_url());
-		// }else{
-		// 	session()->setFlashData("error", "Failed to Logout, Please Try Again");
-		// 	return redirect()->to(base_url()."/profile");
-		// }
 		return redirect()->to(base_url());
 	}
 
 	public function indexRegister() {
 		$data = [
             "title" => "Sign Up",
-            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img style="width: 286px;" src="image/google.png" alt=""></a>',
         ];
 		return view('pages/authentication/register', $data);
 	}
@@ -148,25 +139,6 @@ class AuthController extends BaseController
 		return redirect()->to('/send-otp');
 	}
 
-	function sendOtpEmail($emailTo, $otp) { 
-  	$subject = 'subject';
-	  $message = $otp;
-		
-	  $email = \Config\Services::email();
-	  $email->setTo($emailTo);
-	  $email->setFrom('hendrikusozzie@gmail.com', 'OTP Reset Password');
-		
-	  $email->setSubject($subject);
-	  $email->setMessage($message);
-
-	  if ($email->send()){
-      echo 'Email successfully sent';
-  	} else{
-      $data = $email->printDebugger(['headers']);
-      print_r($data);
-    }
-  }
-
 	public function indexSendOtp() {
 		$data = [
       "title" => "OTP Code",
@@ -185,39 +157,11 @@ class AuthController extends BaseController
 		return view('pages/authentication/new_password', $data);
 	}
 
-	public function newPassword() {
-	// 	if (!$this->validate([
-	// 		'password' => [
-    //     'rules' => 'required|min_length[4]|max_length[50]',
-    //     'errors' => [
-    //       'required' => '{field} required',
-    //       'min_length' => '{field} minimum 4 characters',
-    //       'max_length' => '{field} maximum 50 characters',
-    //   	]
-    //   ],
-    //   'password_confirm' => [
-    //     'rules' => 'matches[password]',
-    //   	'errors' => [
-    //       'matches' => 'Confirm password does not match with the password',
-    //     ]
-    //   ],
-    // ])) {
-    //   session()->setFlashdata('error', $this->validator->listErrors());
-    //   return redirect()->back()->withInput();
-    // }
-
-		// $email = $this->session->get("email");
-		// $updatePassword = [
-		// 	'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
-		// ];
-
-		// $this->loginModel->updateUserByEmail($updatePassword, $email);
-		// $this->resetModel->deleteDataByEmail($email);
-
-		// session()->setFlashdata('error', 'Please login with new password');
-		// $this->session->destroy();
-    return redirect()->to('/login');
+	public function newPassword() 
+    {
+        return redirect()->to('/login');
 	}
+
     public function referralCode()
     {
         if(!get_cookie("access_token")){

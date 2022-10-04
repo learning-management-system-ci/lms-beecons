@@ -48,27 +48,19 @@
                         </div>
                     </div>
                     <div class="card rule collapse" id="voucher">
-                        <div>
-                            <h5>Cara memiliki Referral Code</h5>
-                            <ol class="ps-3">
-                                <li>
-                                    Buat akun pada website
-                                </li>
-                                <li>
-                                    Buat akun pada website
-                                </li>
-                            </ol>
-                        </div>
-                        <div>
-                            <h5>Cara memiliki Referral Code</h5>
-                            <ol class="ps-3">
-                                <li>
-                                    Buat akun pada website
-                                </li>
-                                <li>
-                                    Buat akun pada website
-                                </li>
-                            </ol>
+                        <div class="row">
+                            <div class="col mb-4 voucher">
+                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
+                            </div>
+                            <div class="col mb-4 voucher">
+                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
+                            </div>
+                            <div class="col mb-4 voucher">
+                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
+                            </div>
+                            <div class="col mb-4 voucher">
+                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
