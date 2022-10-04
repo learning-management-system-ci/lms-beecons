@@ -112,11 +112,14 @@ h5 {
     width: 100%;
     border-radius: 5px;
   }
+  .voucher-container {
+    padding: 15px 20px 0 20px;
+    .voucher {
+      height: 30px;
+    }
+  }
   .rule {
-      padding: 50px 20px 50px 20px;
-      .voucher {
-        height: 30px;
-      }
+    padding: 50px 20px 50px 20px;
   }
 }
 
