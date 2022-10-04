@@ -177,10 +177,11 @@ class CourseController extends ResourceController
                 'title' => 'required|min_length[8]',
                 'service' => 'required',
                 'description' => 'required|min_length[8]',
+                'key_takeaways' => 'max_length[255]',
+                'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
                 'new_price' => 'required|numeric',
                 'thumbnail' => 'required',
-                'category_id' => 'required|numeric'
             ];
     
             $messages = [
@@ -195,6 +196,12 @@ class CourseController extends ResourceController
                     "required" => "{field} tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
                 ],
+                "key_takeaways" => [
+                    'max_length' => '{field} maksimal 255 karakter',
+                ],
+                "suitable_for" => [
+                    'max_length' => '{field} maksimal 255 karakter',
+                ],
                 "old_price" => [
                     "required" => "field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
@@ -206,9 +213,6 @@ class CourseController extends ResourceController
                 "thumbnail" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
-                "category_id" => [
-                    "required" => "{field} tidak boleh kosong"
-                ],
             ];
     
             if($this->validate($rules, $messages)) {
@@ -216,6 +220,8 @@ class CourseController extends ResourceController
                   'title' => $this->request->getVar('title'),
                   'service' => $this->request->getVar('service'),
                   'description' => $this->request->getVar('description'),
+                  'key_takeaways' => $this->request->getVar('key_takeaways'),
+                  'suitable_for' => $this->request->getVar('suitable_for'),
                   'old_price' => $this->request->getVar('old_price'),
                   'new_price' => $this->request->getVar('new_price'),
                   'thumbnail' => $this->request->getVar('thumbnail'),
@@ -277,10 +283,11 @@ class CourseController extends ResourceController
                 'title' => 'required|min_length[8]',
                 'service' => 'required',
                 'description' => 'required|min_length[8]',
+                'key_takeaways' => 'max_length[255]',
+                'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
                 'new_price' => 'required|numeric',
                 'thumbnail' => 'required',
-                'category_id' => 'required|numeric'
             ];
     
             $messages = [
@@ -295,6 +302,12 @@ class CourseController extends ResourceController
                     "required" => "{field}  tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
                 ],
+                "key_takeaways" => [
+                    'max_length' => '{field} maksimal 255 karakter',
+                ],
+                "suitable_for" => [
+                    'max_length' => '{field} maksimal 255 karakter',
+                ],
                 "old_price" => [
                     "required" => "field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
@@ -306,9 +319,6 @@ class CourseController extends ResourceController
                 "thumbnail" => [
                     "required" => "{field}  tidak boleh kosong"
                 ],
-                "category_id" => [
-                    "required" => "{field} tidak boleh kosong"
-                ],
             ];
     
             if($modelCourse->find($id)){
@@ -317,6 +327,8 @@ class CourseController extends ResourceController
                       'title' => $this->request->getRawInput('title'),
                       'service' => $this->request->getRawInput('service'),
                       'description' => $this->request->getRawInput('description'),
+                      'key_takeaways' => $this->request->getRawInput('key_takeaways'),
+                      'suitable_for' => $this->request->getRawInput('suitable_for'),
                       'old_price' => $this->request->getRawInput('old_price'),
                       'new_price' => $this->request->getRawInput('new_price'),
                       'thumbnail' => $this->request->getRawInput('thumbnail')
@@ -376,7 +388,7 @@ class CourseController extends ResourceController
             // elseif ($data['role'] != 'member') {
                // return $this->fail('Tidak dapat di akses selain member', 400);
             //}
-            
+
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
     
