@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Testimoni;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 
 class TestimoniController extends ResourceController
@@ -59,6 +60,13 @@ class TestimoniController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
 
             $rules = [
                 'user_id' => 'required',
@@ -110,6 +118,13 @@ class TestimoniController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
 
             $input = $this->request->getRawInput();
 
@@ -168,6 +183,13 @@ class TestimoniController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
 
             $data = $this->testimoni->where('testimoni_id', $id)->findAll();
             if($data){

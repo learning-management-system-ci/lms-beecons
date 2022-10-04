@@ -4,6 +4,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Video;
 use App\Models\Course;
+use App\Models\Users;
 use CodeIgniter\RESTful\ResourceController;
 use Firebase\JWT\JWT;
 
@@ -22,14 +23,22 @@ class VideoController extends ResourceController {
 
 	}
 
-    public function create() {
+  public function create() {
 		$key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+  	$header = $this->request->getServer('HTTP_AUTHORIZATION');
+	  if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+	  $token = explode(' ', $header)[1];
 
-        try {
+    try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
+			$user = new Users;
+
+    	// cek role user
+	    $data = $user->select('role')->where('id', $decoded->uid)->first();
+	    if($data['role'] != 'admin'){
+				return $this->fail('Tidak dapat di akses selain admin', 400);
+	    }
+
 			$rules = [
 				"video_category_id" => "required",
 				"title" => "required",
@@ -77,18 +86,26 @@ class VideoController extends ResourceController {
 			}
 			return $this->respondCreated($response);
 		} catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
-        }
+    	return $this->fail('Akses token tidak sesuai');
     }
+  }
 
 	public function update($id = null) {
 		$key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+    $header = $this->request->getServer('HTTP_AUTHORIZATION');
+  	if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+	  $token = explode(' ', $header)[1];
 
-        try {
+    try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
+			$user = new Users;
+
+    	// cek role user
+	    $data = $user->select('role')->where('id', $decoded->uid)->first();
+	    if($data['role'] != 'admin'){
+	      return $this->fail('Tidak dapat di akses selain admin', 400);
+      }
+
 			$rules = [
 				"video_category_id" => "required",
 				"title" => "required",
@@ -151,18 +168,26 @@ class VideoController extends ResourceController {
 			}
 			return $this->respond($response);
 		} catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
-        }
+      return $this->fail('Akses token tidak sesuai');
+    }
 	}
 
 	public function delete($id = null) {
 		$key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+  	$header = $this->request->getServer('HTTP_AUTHORIZATION');
+	  if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+	  $token = explode(' ', $header)[1];
 
-        try {
+	  try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
+			$user = new Users;
+
+    	// cek role user
+	    $data = $user->select('role')->where('id', $decoded->uid)->first();
+	    if($data['role'] != 'admin'){
+	      return $this->fail('Tidak dapat di akses selain admin', 400);
+      }
+
 			$data = $this->videoModel->find($id);
 			if($data){
 				$videoName = $data['video'];
@@ -180,7 +205,7 @@ class VideoController extends ResourceController {
 				return $this->failNotFound('Data Video tidak ditemukan');
 			}
 		} catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
-        }
+      return $this->fail('Akses token tidak sesuai');
     }
+  }
 }
