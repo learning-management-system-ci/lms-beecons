@@ -51,3 +51,33 @@
         });
     })
 </script>
+<<<<<<< HEAD
+    $('document').ready(async function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/users/jobs",
+            contentType: "application/json",
+            headers: {
+                "Authorization": "Bearer " + Cookies.get("access_token"),
+                "Content-Type": "application/json"
+            },
+            success: function (data) {
+                var resources = data
+                    .sort((a, b) => a.job_id - b.job_id)
+                    .map(({
+                        job_id,
+                        job_name,
+                    }) => {
+        contentType: "application/json",
+        headers: {
+            "Authorization": "Bearer " + Cookies.get("access_token"),
+            "Content-Type": "application/json"
+        },
+        success: function (data) {
+            $.ajax({
+                type: "GET",
+                url: "/api/users/jobs",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Bearer " + Cookies.get("access_token"),
+                    "Content-Type": "application/json"
