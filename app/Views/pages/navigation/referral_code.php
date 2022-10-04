@@ -47,7 +47,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card rule collapse" id="voucher">
+                    <div class="card voucher-container collapse" id="voucher">
+                        <h5>Voucher</h5>
                         <div class="row">
                             <div class="col mb-4 voucher">
                                 <img style="height: inherit;" src="image/profile/voucher.png" alt="">
