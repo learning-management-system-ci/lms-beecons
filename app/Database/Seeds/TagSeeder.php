@@ -4,22 +4,22 @@ namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
-class CategorySeeder extends Seeder
+class TagSeeder extends Seeder
 {
     public function run()
     {
         $data = [
             [
-                'name' => 'Fundamental',
+                'name' => 'Architecture',
             ],
             [
-                'name' => 'Intermediate',
+                'name' => 'Structure',
             ],
             [
-                'name' => 'Advance',
+                'name' => 'MEP',
             ],
         ];
 
-        $this->db->table('category')->insertBatch($data);
+        $this->db->table('tag')->insertBatch($data);
     }
 }

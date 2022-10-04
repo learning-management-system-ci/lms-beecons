@@ -4,7 +4,7 @@ namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
 
-class CourseCategorySeeder extends Seeder
+class CourseTypeSeeder extends Seeder
 {
     public function run()
     {
@@ -14,10 +14,10 @@ class CourseCategorySeeder extends Seeder
         for($i = 1; $i <= $no; $i++){
             array_push($data, [
                 'course_id' => $i,
-                'category_id' => 1,
+                'type_id' => 1,
             ]);
         };
 
-        $this->db->table('course_category')->insertBatch($data);
+        $this->db->table('course_type')->insertBatch($data);
     }
 }
