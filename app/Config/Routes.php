@@ -253,13 +253,13 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\MentorController::index');
     });
     
+    $routes->group('order/', static function ($routes) {
+        $routes->get('generatesnap', 'Api\OrderController::generateSnap');
+        $routes->post('notif-handler', 'Api\OrderController::notifHandler');
+    });
+    
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
-});
-
-$routes->group('order/', static function ($routes) {
-    $routes->get('generatesnap', 'Api\OrderController::generateSnap');
-    $routes->post('notif-handler', 'Api\OrderController::notifHandler');
 });
 
 $routes->get('/sign-up', 'Home::signUp');
