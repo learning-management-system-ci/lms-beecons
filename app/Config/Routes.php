@@ -62,6 +62,7 @@ $routes->post('/send-otp', 'AuthController::sendOtp');
 
 $routes->get('/new-password', 'AuthController::indexNewPassword');
 $routes->post('/new-password', 'AuthController::newPassword');
+$routes->get('/referral-code', 'AuthController::referralCode');
 
 $routes->get('/faq', 'Client\FaqController::index');
 $routes->get('/about-us', 'Home::aboutUs');
