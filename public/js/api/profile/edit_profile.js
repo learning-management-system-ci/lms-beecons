@@ -9,9 +9,10 @@ $("#edit").submit(function (event) {
         address_passed = $("textarea[name='address']").val(),
         phone_number_passed = $("input[name='phone_number']").val(),
         linkedin_passed = $("input[name='linkedin']").val(),
+        date_passed = $("input[name='date']").val(),
         url = $form.attr("action"),
         job_passed = $('#job_id').find(":selected").val();
-    
+
     $.ajax({
         type: "PUT",
         url: url,
@@ -26,7 +27,7 @@ $("#edit").submit(function (event) {
             job: job_passed,
             profile_picture: "something",
             password: "testPassword",
-            date_birth: "2015-03-25",
+            date_birth: date_passed,
             password_confirm: "testPassword"
         },
         success: function () {
