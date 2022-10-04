@@ -13,12 +13,19 @@
     background-color: $bg_color;
     filter: drop-shadow($drop_shadow);
 
+    .duration {
+        font-weight: 600;
+        color: #002B5B;
+    }
+
     .list-title {
 
         width: 200px;
         gap: 10px;
+        width: 85%;
 
         p {
+
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
@@ -38,6 +45,8 @@
 
         }
     }
+
+
 }
 
 h3,
@@ -68,6 +77,17 @@ button {
 }
 
 
+// @keyframes fadeInAnimation {
+//     0% {
+//         right: 81%;
+//     }
+
+//     100% {
+
+//         right: -19%;
+//     }
+// }
+
 main {
     .navigation {
         p {
@@ -75,7 +95,7 @@ main {
             color: #bdbdbd;
 
             a {
-                color: #002B5B;
+                color: #164520;
                 text-decoration: none;
                 @include font($weight: 600)
             }
@@ -84,7 +104,7 @@ main {
 
     .category {
         p {
-            background-color: #002B5B;
+            background-color: #164520;
             color: white;
             width: max-content;
             padding: 6px 15px;
@@ -155,9 +175,6 @@ main {
                     }
                 }
 
-                .quiz-back,
-                .quiz-next {}
-
                 .progress-box {
                     box-shadow: 3px 3px 15px #888888;
                     width: 100%;
@@ -205,7 +222,7 @@ main {
 
                     .active {
                         color: #F2F4F6;
-                        background-color: #002B5B !important;
+                        background-color: #164520 !important;
                     }
                 }
             }
@@ -220,7 +237,7 @@ main {
                         border-radius: 8px 8px 0px 0px;
                         padding: 10px 20px;
                         color: white;
-                        background-color: #002B5B;
+                        background-color: #164520;
                     }
 
                     .curiculum-list {
@@ -257,7 +274,7 @@ main {
                         .start-button {
                             padding: 8px 40px;
                             border-radius: 6px;
-                            background-color: #002B5B;
+                            background-color: #164520;
                             color: #D8FAD7;
                         }
 
@@ -313,7 +330,7 @@ main {
                                 gap: 10px;
 
                                 h6 {
-                                    color: #002B5B;
+                                    color: #164520;
                                     @include font($weight: 600)
                                 }
 
@@ -350,12 +367,38 @@ main {
                     height: 320px;
                     overflow: auto;
 
+                    .title-chapter {
+                        font-weight: 500;
+                        cursor: pointer;
+                        border-radius: 7px;
+                        border: 1px solid rgb(189, 189, 189);
+                        padding: 10px
+                    }
+
+                    .title-chapter:hover {
+                        background-color: #ffffff
+                    }
+
+                    .ui-state-active {
+                        background-color: #ffffff
+                    }
+
                     .list-card-button {
+
                         @include video-list-button(#DFE3E9, url("../image/course-detail/play-light.png"), 0);
                     }
 
                     .list-card-button:hover {
                         @include video-list-button(#ffffff, url("../image/course-detail/play-dark.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
+                    }
+
+                    .quiz-card {
+                        @include video-list-button(#DFE3E9, url("../image/course-detail/button-quiz-light.png"), 0)
+                    }
+
+                    .quiz-card:hover,
+                    .list-active-quiz {
+                        @include video-list-button(white, url("../image/course-detail/button-quiz-dark.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
                     }
 
                     .complete {
@@ -375,6 +418,7 @@ main {
                 }
 
                 .scrollable-video-list::-webkit-scrollbar {
+                    position: absolute;
                     width: 8px;
 
                 }
@@ -394,7 +438,6 @@ main {
                 border-radius: 8px;
                 padding: 20px;
                 background-color: #F2F4F6;
-                width: 100%;
 
                 ul {
                     padding-left: 27px;
@@ -412,7 +455,7 @@ main {
                     width: 100%;
                     height: 40px;
                     border-radius: 10px;
-                    background-color: #002B5B;
+                    background-color: #164520;
                     color: white
                 }
 
