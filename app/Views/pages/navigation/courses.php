@@ -141,6 +141,7 @@
 
 <?= $this->section('js-component') ?>
 <script src="../../../js/utils/getRupiah.js"></script>
+<script src="../../../js/utils/textTruncate.js"></script>
 <script src="../../../js/home/courses.js"></script>
 <script src="../../../js/home/courses-bundling.js"></script>
 <?= $this->endSection() ?>
