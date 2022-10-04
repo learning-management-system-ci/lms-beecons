@@ -6,7 +6,6 @@ use CodeIgniter\Model;
 
 class UserCourse extends Model
 {
-
     protected $DBGroup          = 'default';
     protected $table            = 'user_course';
     protected $primaryKey       = 'user_course_id';
@@ -25,6 +24,5 @@ class UserCourse extends Model
                     $builder->join('course','course.course_id=user_course.course_id');
                     $query = $builder->get();
                     return $query;
-        
     }
 }
