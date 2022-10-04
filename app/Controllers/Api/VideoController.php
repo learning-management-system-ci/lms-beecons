@@ -5,6 +5,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\Video;
 use App\Models\Course;
 use App\Models\Users;
+use App\Models\Quiz;
 use CodeIgniter\RESTful\ResourceController;
 use Firebase\JWT\JWT;
 
@@ -19,8 +20,19 @@ class VideoController extends ResourceController {
 		$this->courseModel = new Course();
 	}
 
-	public function index() {
+	public function index($id = null) {
+		$data = $this->videoModel
+			->where('video_id', $id)
+			->first();
 
+		$modelQuiz = new Quiz;
+		$dataQuiz = $modelQuiz->where('video_id', $id)->findAll();
+
+		for($i = 0; $i < count($dataQuiz); $i++){
+			$data['quiz'][$i] = $dataQuiz[$i];
+		}
+
+		return $this->respond($data);
 	}
 
   public function create() {

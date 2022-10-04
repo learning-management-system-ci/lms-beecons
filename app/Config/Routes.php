@@ -142,6 +142,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
 
         $routes->group('video/', static function ($routes) {
+            $routes->get('(:num)', 'Api\VideoController::index/$1');
             $routes->post('create', 'Api\VideoController::create');
             $routes->post('update/(:segment)', 'Api\VideoController::update/$1');
             $routes->delete('delete/(:segment)', 'Api\VideoController::delete/$1');
@@ -256,6 +257,10 @@ $routes->group('api/', static function ($routes) {
     $routes->group('order/', static function ($routes) {
         $routes->get('generatesnap', 'Api\OrderController::generateSnap');
         $routes->post('notif-handler', 'Api\OrderController::notifHandler');
+    });
+
+    $routes->group('quiz/', static function ($routes) {
+        $routes->get('', 'Api\QuizController::index');
     });
     
     $routes->get('user-course', 'Api\UserCourseController::index');
