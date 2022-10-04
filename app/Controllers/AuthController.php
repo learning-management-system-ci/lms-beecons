@@ -80,14 +80,28 @@ class AuthController extends BaseController
 
 	public function profile() {
 		if(!get_cookie("access_token")){
-			session()->setFlashData("error", "You have Logged Out, Please Login Again.");
 			return redirect()->to(base_url());
 		}
+        $token = get_cookie("access_token");
+        $key = getenv('TOKEN_SECRET');
+        try {
+            $decoded = JWT::decode($token, $key, array('HS256'));
+        }catch(Exception $e){
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            return ;
+        }
+        
+        if ($decoded) {
+            if (!$decoded->email) {
+                    return redirect()->back();
+                }
+            $email = $decoded->email;
+        }
         $data = [
-            "title" => session()->get("email"),
+            "title" => $email,
             "profile" => "",
             "cardButton" => 'Join The Webinar',
-          ];
+        ];
 		return view('pages/navigation/profile', $data);
 	}
 
@@ -204,4 +218,16 @@ class AuthController extends BaseController
 		// $this->session->destroy();
     return redirect()->to('/login');
 	}
+    public function referralCode()
+    {
+        if(!get_cookie("access_token")){
+			return redirect()->to(base_url());
+		}
+        $data = [
+            "title" => "Referral Code",
+            "profile" => "",
+            "cardButton" => 'Join The Webinar',
+        ];
+        return view('pages/navigation/referral_code', $data);
+    }
 }
