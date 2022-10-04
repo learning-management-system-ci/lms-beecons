@@ -18,8 +18,8 @@ $(document).ready(async function () {
 
         function setCourses(type) {
             let coursesAll = courseResponse.slice(0, 3)
-            let coursesEngineering = courseResponse.filter(course => course.type.type_id === '1').slice(0, 3)
-            let coursesIt = courseResponse.filter(course => course.type.type_id === '2').slice(0, 3)
+            let coursesEngineering = courseResponse.filter(course => course.type[0].type_id === '1').slice(0, 3)
+            let coursesIt = courseResponse.filter(course => course.type[0].type_id === '2').slice(0, 3)
 
             $(`#choose-course .tags .item[data-type-id="${type}"]`).addClass('active').siblings().removeClass('active')
 
