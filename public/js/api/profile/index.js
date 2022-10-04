@@ -91,7 +91,7 @@ $.ajax({
             <input type="text" id="linkedin" name="linkedin" value="${data.linkedin ? data.linkedin : ""}" class="form-control" aria-describedby="passwordHelpBlock">
             <div class="d-flex justify-content-between mt-3">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="editButton" disabled="disabled" style="border: 0;">Save changes</button>
+                <button type="submit" class="btn" id="editButton" disabled="disabled" style="border: 0;">Save changes</button>
             </div>
             `);
         };
@@ -130,21 +130,15 @@ $.ajax({
                 }
             });
 
-            if ($('button#editButton').prop('disabled', 'disabled')) {
-                $('button#editButton').css({
-                    'background-color': '#B9B9B9'
-                })
+            if ($('button#editButton').prop('disabled', true)) {
+                $('button#editButton').addClass('disable');
             }
 
             $('#edit input').on('keyup blur', function () {
                 if ($('#edit').valid()) {
-                    $('button#editButton').prop('disabled', false).css({
-                        'background-color': '#002B5B'
-                    });
+                    $('button#editButton').prop('disabled', false).addClass('active').removeClass('disable');
                 } else {
-                    $('button#editButton').prop('disabled', 'disabled').css({
-                        'background-color': '#B9B9B9'
-                    });
+                    $('button#editButton').prop('disabled', true).addClass('disable');
                 }
             });
         })
