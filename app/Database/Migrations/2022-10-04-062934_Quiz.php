@@ -30,7 +30,7 @@ class Quiz extends Migration
         ]);
 
         $this->forge->addKey('quiz_id', TRUE);
-        $this->forge->addForeignKey('video_id', 'video', 'video_id', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('video_id', 'video', 'video_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('quiz', TRUE);
     }
 

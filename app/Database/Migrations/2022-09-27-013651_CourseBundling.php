@@ -29,7 +29,7 @@ class CourseBundling extends Migration
         ]);
 
         $this->forge->addKey('course_bundling_id', TRUE);
-        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id');
+        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id',  'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('course_id', 'course', 'course_id');
         $this->forge->createTable('course_bundling', TRUE);
    }

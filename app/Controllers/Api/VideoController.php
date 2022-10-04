@@ -54,7 +54,8 @@ class VideoController extends ResourceController {
 			$rules = [
 				"video_category_id" => "required",
 				"title" => "required",
-				"video" => "uploaded[video]|mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
+				"video" => "required",
+				// "video" => "uploaded[video]|mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
 				"order" => "required",
 			];
 			$messages = [
@@ -65,9 +66,10 @@ class VideoController extends ResourceController {
 					"required" => "{field} tidak boleh kosong"
 				],
 				"video" => [
-					'uploaded' => '{field} tidak boleh kosong',
-					'mime_in' => 'File Extention Harus Berupa mp4, 3gp, atau flv',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
+					"required" => "{field} tidak boleh kosong"
+					// 'uploaded' => '{field} tidak boleh kosong',
+					// 'mime_in' => 'File Extention Harus Berupa mp4, 3gp, atau flv',
+					// 'max_size' => 'Ukuran File Maksimal 2 MB'
 				],
 				"order" => [
 					"required" => "{field} tidak boleh kosong"
@@ -141,6 +143,7 @@ class VideoController extends ResourceController {
 					"required" => "{field} tidak boleh kosong"
 				],
 			];
+
 			if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 			
 			$verifyCourse = $this->courseModel->where("video_category_id", $this->request->getVar('video_category_id'))->first();
@@ -212,12 +215,10 @@ class VideoController extends ResourceController {
 						'success' => 'Video berhasil dihapus'
 					]
 				];
-				return $this->respondDeleted($response); 
-			} else {
-				return $this->failNotFound('Data Video tidak ditemukan');
 			}
 		} catch (\Throwable $th) {
-      return $this->fail('Akses token tidak sesuai');
+			return $this->fail('Akses token tidak sesuai');
     }
+		return $this->failNotFound('Data Video tidak ditemukan');
   }
 }
