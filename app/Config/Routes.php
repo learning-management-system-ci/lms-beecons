@@ -246,7 +246,7 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('cart/', static function ($routes) {
         $routes->get('', 'Api\CartController::index');
-        $routes->post('create/(:num)/(:segment)', 'Api\CartController::create/$1/$2');
+        $routes->post('create/(:segment)/(:num)', 'Api\CartController::create/$1/$2');
         $routes->delete('delete/(:num)', 'Api\CartController::delete/$1');
     });
 
