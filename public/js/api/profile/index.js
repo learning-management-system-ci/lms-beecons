@@ -163,7 +163,7 @@ const pages = [{
 
 var resources = pages.map((page) => {
     return (`
-        <a class="btn-grey-200 text-capitalize d-flex px-2" href="${page.url}">
+        <a class="btn btn-grey-200 text-capitalize d-flex px-2" href="${page.url}">
             <img src="" alt="icon" class="pe-2"/>
             ${page.page}
         </a>
