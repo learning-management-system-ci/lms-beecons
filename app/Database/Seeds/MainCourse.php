@@ -18,5 +18,7 @@ class MainCourse extends Seeder
         $this->call('CourseTagSeeder');
         $this->call('VideoCategoryNew');
         $this->call('VideoNew');
+
+        $this->call('QuizSeeder');
     }
 }
