@@ -31,7 +31,7 @@ $(document).ready(async function () {
 
         $('#courses #tab-courses-2 .tags').html(
             `<a href="" class="item" data-tag_id="0">All</a>` + 
-            tagsResponse[1].tag.map(tag => {
+            tagsResponse[1]?.tag.map(tag => {
             return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
         }).reverse().join(''))
 
