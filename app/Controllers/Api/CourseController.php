@@ -45,7 +45,7 @@ class CourseController extends ResourceController
                 ->findAll();
                 
             $data[$i]['category'] = $category[$i];
-            $data[$i]['type'] = $type[$i];
+            // $data[$i]['type'] = $type[$i];
 
             for($k = 0; $k < count($tag); $k++){
                 $data[$i]['tag'][$k] = $tag[$k];

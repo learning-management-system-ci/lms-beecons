@@ -29,7 +29,7 @@
     <?php echo $this->include('components/home/navbar.php') ?>
 
     <main>
-        <?php if(uri_string() != '/' && uri_string() != 'profile' && !str_contains(uri_string(), 'courses')) : ?>
+        <?php if(uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code' && !str_contains(uri_string(), 'courses')) : ?>
         <div class="container mt-4">
             <section class="navigation">
                 <p class="mb-4"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
@@ -75,6 +75,8 @@
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-3.6.1.js"
         integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
