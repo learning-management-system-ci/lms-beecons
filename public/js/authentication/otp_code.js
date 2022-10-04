@@ -11,20 +11,14 @@ $(document).ready(function () {
     });
 
     if ($('button.btn').prop('disabled', 'disabled')) {
-        $('button.btn').css({
-            'background-color': '#B9B9B9'
-        })
+        $('button.btn').addClass('disable');
     }
 
     $('#otp-code input').on('keyup blur', function () {
         if ($('#otp-code').valid()) {
-            $('button.btn').prop('disabled', false).css({
-                'background-color': '#002B5B'
-            });
+            $('button.btn').prop('disabled', false).addClass('active').removeClass('disable');
         } else {
-            $('button.btn').prop('disabled', 'disabled').css({
-                'background-color': '#B9B9B9'
-            });
+            $('button.btn').prop('disabled', true).addClass('disable');
         }
     });
 
