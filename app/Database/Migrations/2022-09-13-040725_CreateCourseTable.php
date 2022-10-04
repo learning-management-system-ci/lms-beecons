@@ -28,6 +28,16 @@ class CreateCourseTable extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => '255'
             ],
+            'key_takeaways'       => [
+                'type'           => 'VARCHAR',
+                'constraint'     => '255',
+                'null' 			=> true,
+            ],
+            'suitable_for'       => [
+                'type'           => 'VARCHAR',
+                'constraint'     => '255',
+                'null' 			=> true,
+            ],
             'old_price'             => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '10'

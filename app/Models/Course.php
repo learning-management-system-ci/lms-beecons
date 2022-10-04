@@ -14,7 +14,7 @@ class Course extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title', 'service', 'description', 'old_price', 'new_price', 'thumbnail'];
+    protected $allowedFields    = ['title', 'service', 'description', 'key_takeaways', 'suitable_for', 'old_price', 'new_price', 'thumbnail'];
 
     // function getDataCourse($data_course_id){
     //     $builder = $this->db->table('course');
