@@ -113,6 +113,9 @@ h5.font-weight-bold {
 .col.referral .rule {
   padding: 50px 20px 50px 20px;
 }
+.col.referral .rule .voucher {
+  height: 30px;
+}
 
 .btn-grey-200 {
   background-color: #ecdef5;
