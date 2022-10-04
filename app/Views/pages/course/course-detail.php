@@ -13,7 +13,7 @@
 
 <!-- kalian bisa tambahkan class "hide" pada element untuk menyembunyikan element -->
 
-<div class="px-5 mt-4 mb-5">
+<div class="container mt-4 mb-5">
     <section class="navigation">
         <p class="mb-4">Courses > Information Tech (IT) ><a href="#"> Fundamental UI/UX Design</a></p>
         <hr>
@@ -79,7 +79,6 @@
                     <button class="quiz-back"><img width="34px" src="image/course-detail/back.png" alt=""></button>
                     <div id="loading"></div>
                     <button class="quiz-next"><img width="110px" src="image/course-detail/next.png" alt=""></button>
-                    <button class="quiz-finish hide"><img width="110px" src="image/course-detail/finish.png" alt=""></button>
                 </div>
             </div>
 
@@ -207,11 +206,11 @@
                 </div>
                 <div class="tab-pane fade user-review " id="pills-review" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
                     <div class="review-card d-flex align-items-center ps-3">
-                        <img class="user-image" src="/image/course-detail/person.png" alt="">
+                        <img class="user-image" src="/image/course-detail/person.jpg" alt="">
                         <div class="review-data pe-4 d-flex flex-column">
                             <div class="top-section d-flex justify-content-between">
                                 <div class="user-title d-flex">
-                                    <h6>Loid Forger</h6>
+                                    <h6>Soeharto</h6>
                                     <p>General User</p>
                                 </div>
                                 <div class="user-score d-flex">
@@ -229,102 +228,68 @@
 
             <!-- KODE YANG DIKOMENTARI DI BAWAH ADALAH LIST VIDEO VERSI
             USER UNPAID (PENGGUNA BELUM BAYAR). JADI KODE DIBAWAH SAMA PENTINGNYA
-            DENGAN KODE YANG LAIN. JANGAN DIHAPUS!! -->
+            DENGAN KODE YANG LAIN -->
 
             <!-- <div class="video-list mb-5 p-3 pt-4">
-                <h5 class="mb-3">8 Video</h5>
-                <hr>
-                <div class="scrollable-video-list pe-3">
-                    <div class="sub-chapter mb-3">
-                        <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction</p>
-                            </div>
-                            <p>7 mins</p>
+                    <h5 class="mb-3">8 videos</h5>
+                    <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div class="list-title d-flex align-items-center">
+                            <button></button>
+                            <p>Introduction</p>
                         </div>
-                        <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction</p>
-                            </div>
-                            <p>7 mins</p>
+                        <p>7 mins</p>
+                    </div>
+                    <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div class="list-title d-flex align-items-center">
+                            <button></button>
+                            <p>Introduction</p>
                         </div>
-                        <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction</p>
-                            </div>
-                            <p>7 mins</p>
+                        <p>7 mins</p>
+                    </div>
+                    <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div class="list-title d-flex align-items-center">
+                            <button></button>
+                            <p>Introduction</p>
                         </div>
+                        <p>7 mins</p>
                     </div>
                     <div class="buy-course d-flex align-items-center justify-content-between p-2 px-3">
                         <img width="20px" src="/image/course-detail/paid-lock.png" alt="">
                         <p>BUY COURSE</p>
                     </div>
-                </div>
-            </div> -->
+                </div> -->
+
 
             <div class="video-list mb-5 p-3 pt-4">
-                <h5 class="mb-3">8 Video</h5>
-                <hr>
-                <div class="scrollable-video-list pe-3" id="content-list">
-                    <h6 class="title-chapter d-flex flex-row-reverse justify-content-between">BAB 1. Introduction
-                    </h6>
-                    <div class="sub-chapter mb-3 ps-3">
-                        <div class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction of ReactJS</p>
-                            </div>
-                            <p class="duration">7 mins</p>
+                <h5 class="mb-3">8 videos</h5>
+                <div class="scrollable-video-list pe-3">
+                    <div class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div class="list-title d-flex align-items-center">
+                            <button></button>
+                            <p>Introduction of ReactJS</p>
                         </div>
-                        <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction</p>
-                            </div>
-                            <p class="duration">7 mins</p>
-                        </div>
-                        <!-- class complete untuk card yang dicentang (user menyelesaikan video/quiz) -->
-                        <div class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction of ReactJS</p>
-                            </div>
-                            <p class="duration">7 mins</p>
-                        </div>
-                        <!-- class quiz untuk mengaktifkan quiz -->
-                        <div class="list-card-button quiz-card d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction</p>
-                            </div>
-                        </div>
+                        <p>7 mins</p>
                     </div>
-                    <h6 class="title-chapter  d-flex flex-row-reverse justify-content-between">BAB 2. Perancangan
-                        dan Desain dengan AutoCAD</h6>
-                    <div class="sub-chapter mb-3 ps-3">
-                        <div class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction</p>
-                            </div>
-                            <p class="duration">7 mins</p>
+                    <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div class="list-title d-flex align-items-center">
+                            <button></button>
+                            <p>Introduction</p>
                         </div>
-                        <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction</p>
-                            </div>
-                            <p class="duration">7 mins</p>
+                        <p>7 mins</p>
+                    </div>
+                    <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div class="list-title d-flex align-items-center">
+                            <button></button>
+                            <p>Introduction</p>
                         </div>
-                        <div class="list-card-button quiz-card d-flex justify-content-between align-items-center p-3 mb-3">
-                            <div class="list-title d-flex align-items-center">
-                                <button></button>
-                                <p>Introduction</p>
-                            </div>
+                        <p>7 mins</p>
+                    </div>
+                    <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div class="list-title d-flex align-items-center">
+                            <button></button>
+                            <p>Introduction</p>
                         </div>
+                        <p>7 mins</p>
                     </div>
                 </div>
             </div>
@@ -386,18 +351,6 @@
             </div>
         </div>
     </section>
-
-    <!-- image caching (agar gambar dari css maupun javascript bisa langsung dimuat ga pake delay) -->
-    <div class="hide">
-        <img src="image/course-detail/button-quiz-light.png" alt="">
-        <img src="image/course-detail/button-quiz-dark.png" alt="">
-        <img src="image/course-detail/play-dark.png" alt="">
-        <img src="image/course-detail/check.png" alt="">
-        <img src="image/course-detail/pause-button.png" alt="">
-        <img src="image/course-detail/loading-indicator.png" alt="">
-    </div>
-
-
 </div>
 <?= $this->endSection() ?>
 
