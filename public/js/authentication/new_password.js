@@ -12,7 +12,7 @@ $(document).ready(function () {
         }
     });
 
-    if ($('button.btn').prop('disabled', 'disabled')) {
+    if ($('button.btn').prop('disabled', true)) {
         $('button.btn').addClass('disable');
     }
 
