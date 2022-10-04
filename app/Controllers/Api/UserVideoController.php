@@ -7,6 +7,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\UserVideo;
 use App\Models\Course;
 use App\Models\Video;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 
 class UserVideoController extends ResourceController
@@ -111,6 +112,13 @@ class UserVideoController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
 
             $rules = [
                 'user_id' => 'required',
@@ -167,6 +175,13 @@ class UserVideoController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
 
             $input = $this->request->getRawInput();
 
@@ -230,6 +245,13 @@ class UserVideoController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
             
             $data = $this->uservideo->where('user_video_id', $id)->findAll();
             if($data){

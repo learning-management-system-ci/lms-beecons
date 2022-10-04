@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Bundling;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 
 class BundlingController extends ResourceController
@@ -29,6 +30,14 @@ class BundlingController extends ResourceController
 
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
             $rules = [
                 "category_id" => "required",
                 "title" => "required",
@@ -114,6 +123,14 @@ class BundlingController extends ResourceController
 
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
             $input = $this->request->getRawInput();
             $rules = [
                 "category_id" => "required",
@@ -185,6 +202,14 @@ class BundlingController extends ResourceController
 
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
             $data = $this->bundling->where('bundling_id', $id)->findAll();
             if($data){
             $this->bundling->delete($id);
