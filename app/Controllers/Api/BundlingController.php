@@ -18,8 +18,17 @@ class BundlingController extends ResourceController
     }
 
     public function index(){
-        $data['bundling'] = $this->bundling->orderBy('bundling_id', 'DESC')->findAll();
-        return $this->respond($data);
+        $data = $this->bundling
+            ->select('bundling.*, category_bundling.name as category_name')
+            ->orderBy('bundling_id', 'DESC')
+            ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
+            ->findAll();
+        
+        if (count($data) > 0) {
+            return $this->respond($data);
+        } else {
+            return $this->failNotFound('Tidak ada data');
+        }
     }
 
     public function create() {
@@ -39,7 +48,7 @@ class BundlingController extends ResourceController
             }
 
             $rules = [
-                "category_id" => "required",
+                "category_bundling_id" => "required",
                 "title" => "required",
                 "description" => "required|max_length[255]",
                 "old_price" => "required|numeric",
@@ -47,7 +56,7 @@ class BundlingController extends ResourceController
             ];
     
             $messages = [
-                "category_id" => [
+                "category_bundling_id" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
                 "title" => [
@@ -75,7 +84,7 @@ class BundlingController extends ResourceController
                     'data' => []
                 ];
             } else {
-                $data['category_id'] = $this->request->getVar("category_id");
+                $data['category_bundling_id'] = $this->request->getVar("category_bundling_id");
                 $data['title'] = $this->request->getVar("title");
                 $data['description'] = $this->request->getVar("description");
                 $data['new_price'] = $this->request->getVar("new_price");
@@ -92,26 +101,22 @@ class BundlingController extends ResourceController
             }
             return $this->respondCreated($response);
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
     public function show($id = null){
-        $key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+        $data = $this->bundling
+            ->select('bundling.*, category_bundling.name as category_name')
+            ->orderBy('bundling_id', 'DESC')
+            ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
+            ->where('bundling.bundling_id', $id)
+            ->first();
 
-        try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
-            $data = $this->bundling->where('bundling_id', $id)->first();
-            if($data){
-                return $this->respond($data);
-            }else{
-                return $this->failNotFound('Data bundling tidak ditemukan');
-            }
-	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+        if($data){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Data bundling tidak ditemukan');
         }
     }
 
@@ -127,20 +132,21 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
+
             if($data['role'] != 'admin'){
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
             $input = $this->request->getRawInput();
             $rules = [
-                "category_id" => "required",
+                "category_bundling_id" => "required",
                 "title" => "required",
                 "description" => "required|max_length[255]",
                 "new_price" => "required|numeric",
                 "old_price" => "required|numeric",
             ];
             $messages = [
-                "category_id" => [
+                "category_bundling_id" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
                 "title" => [
@@ -161,7 +167,7 @@ class BundlingController extends ResourceController
             ];
 
             $data = [
-                "category_id" => $input["category_id"],
+                "category_bundling_id" => $input["category_bundling_id"],
                 "title" => $input["title"],
                 "description" => $input["description"],
                 "new_price" => $input["new_price"],
@@ -190,7 +196,7 @@ class BundlingController extends ResourceController
             }
             return $this->failNotFound('Data bundling tidak ditemukan');
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
 	}
 
@@ -225,7 +231,7 @@ class BundlingController extends ResourceController
                 return $this->failNotFound('Data bundling tidak ditemukan');
             }
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 }
