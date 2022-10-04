@@ -39,7 +39,7 @@ class UserController extends ResourceController
             ];
             return $this->respond($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
     }
@@ -52,8 +52,10 @@ class UserController extends ResourceController
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
+        $decoded = JWT::decode($token, $key, ['HS256']);
+        $id = $decoded->uid;
+
         try {
-            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
             $cek = $user->where('id', $id)->findAll();
 
@@ -103,6 +105,10 @@ class UserController extends ResourceController
                 ]
             ];
 
+            if ($user->update($id, $data)) {
+                return $this->respond($response);
+            }
+        } catch (\Throwable $th) {
             if (!$cek) {
                 return $this->failNotFound('Data user tidak ditemukan');
             }
@@ -111,11 +117,7 @@ class UserController extends ResourceController
                 return $this->failValidationErrors($this->validator->getErrors());
             }
 
-            if ($user->update($id, $data)) {
-                return $this->respond($response);
-            }
-        } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
     }
@@ -137,7 +139,7 @@ class UserController extends ResourceController
                 return $this->failNotFound('Data pekerjaan tidak ditemukan');
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 }
