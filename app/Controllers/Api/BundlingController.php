@@ -29,7 +29,7 @@ class BundlingController extends ResourceController
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
@@ -39,7 +39,7 @@ class BundlingController extends ResourceController
             }
 
             $rules = [
-                "category_id" => "required",
+                "category_bundling_id" => "required",
                 "title" => "required",
                 "description" => "required|max_length[255]",
                 "old_price" => "required|numeric",
@@ -47,7 +47,7 @@ class BundlingController extends ResourceController
             ];
     
             $messages = [
-                "category_id" => [
+                "category_bundling_id" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
                 "title" => [
@@ -75,13 +75,13 @@ class BundlingController extends ResourceController
                     'data' => []
                 ];
             } else {
-                $data['category_id'] = $this->request->getVar("category_id");
+                $data['category_bundling_id'] = $this->request->getVar("category_bundling_id");
                 $data['title'] = $this->request->getVar("title");
                 $data['description'] = $this->request->getVar("description");
                 $data['new_price'] = $this->request->getVar("new_price");
                 $data['old_price'] = $this->request->getVar("old_price");
     
-                $this->bundling->save($data);
+                $this->bundling->insert($data);
     
                 $response = [
                     'status' => 200,
@@ -90,28 +90,18 @@ class BundlingController extends ResourceController
                     'data' => []
                 ];
             }
-            return $this->respondCreated($response);
-	    } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->fail('Akses token tidak sesuai');
         }
+        return $this->respondCreated($response);   
     }
 
     public function show($id = null){
-        $key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
-
-        try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
-            $data = $this->bundling->where('bundling_id', $id)->first();
-            if($data){
-                return $this->respond($data);
-            }else{
-                return $this->failNotFound('Data bundling tidak ditemukan');
-            }
-	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+        $data = $this->bundling->where('bundling_id', $id)->first();
+        if($data){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Data bundling tidak ditemukan');
         }
     }
 
@@ -133,14 +123,14 @@ class BundlingController extends ResourceController
 
             $input = $this->request->getRawInput();
             $rules = [
-                "category_id" => "required",
+                "category_bundling_id" => "required",
                 "title" => "required",
                 "description" => "required|max_length[255]",
                 "new_price" => "required|numeric",
                 "old_price" => "required|numeric",
             ];
             $messages = [
-                "category_id" => [
+                "category_bundling_id" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
                 "title" => [
@@ -161,7 +151,7 @@ class BundlingController extends ResourceController
             ];
 
             $data = [
-                "category_id" => $input["category_id"],
+                "category_bundling_id" => $input["category_bundling_id"],
                 "title" => $input["title"],
                 "description" => $input["description"],
                 "new_price" => $input["new_price"],
@@ -210,22 +200,41 @@ class BundlingController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
-            $data = $this->bundling->where('bundling_id', $id)->findAll();
-            if($data){
-            $this->bundling->delete($id);
+            // $data = $this->bundling->where('bundling_id', $id)->findAll();
+            if ($this->bundling->find($id)) {
+                $this->bundling->delete($id);
                 $response = [
-                'status'   => 200,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'Bundling berhasil dihapus'
-                ]
+                    'status'   => 200,
+                    'success'    => 200,
+                    'messages' => [
+                        'success' => 'Bundling berhasil dihapus'
+                    ]
                 ];
-                return $this->respondDeleted($response);
-            }else{
-                return $this->failNotFound('Data bundling tidak ditemukan');
             }
-	    } catch (\Throwable $th) {
+            return $this->respondDeleted($response);
+        } catch (\Throwable $th) {
             return $this->fail('Akses token tidak sesuai');
         }
+        return $this->failNotFound('Data bundling tidak ditemukan');
+            // if($data){
+            //     $this->bundling->delete($id);
+            //     $response = [
+            //         'status'   => 200,
+            //         'error'    => null,
+            //         'messages' => [
+            //             'success' => 'Bundling berhasil dihapus'
+            //         ]
+            //     ];
+            // }else{
+            //     $response = [
+            //         'status'   => 400,
+            //         'error'    => 400,
+            //         'messages' => 'Data bundling tidak ditemukan',
+            //     ];
+            // }
+        // } catch (\Throwable $th) {
+        //     return $this->fail('Akses token tidak sesuai');
+        // }
+        // return $this->respondDeleted($response);
     }
 }

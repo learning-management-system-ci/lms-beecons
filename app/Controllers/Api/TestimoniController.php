@@ -23,23 +23,23 @@ class TestimoniController extends ResourceController
         foreach($data as $value) {
             $datatestimoni[] = [
                 'testimoni_id' => $value['testimoni_id'],
-                'user_id' => $value['user_id'],
                 'user' => $this->testimoni->getDataUser($data_user_id = $value['user_id']),
+                'testimoni' => $value['testimoni'],
                 'created_at' => $value['created_at'],
                 'updated_at' => $value['updated_at'],
             ];
         }
         return $this->respond($datatestimoni);
     }
-
+    
     public function show($id = null){
         $data = $this->testimoni->getShow($id);
         $datatestimoni = [];
         foreach($data as $value) {
             $datatestimoni[] = [
                 'testimoni_id' => $value['testimoni_id'],
-                'user_id' => $value['user_id'],
                 'user' => $this->testimoni->getDataUser($data_user_id = $value['user_id']),
+                'testimoni' => $value['testimoni'],
                 'created_at' => $value['created_at'],
                 'updated_at' => $value['updated_at'],
             ];
