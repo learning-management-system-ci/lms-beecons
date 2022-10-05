@@ -63,8 +63,6 @@ class UserController extends ResourceController
                 'fullname' => 'required',
                 'date_birth' => 'required|valid_date',
                 'phone_number' => 'required|numeric',
-                'password' => 'min_length[4]|max_length[50]',
-                'password_confirm' => 'matches[password]',
             ];
 
             $messages = [
@@ -77,13 +75,6 @@ class UserController extends ResourceController
                     'required' => '{field} tidak boleh kosong',
                     'numeric' => '{field} harus berisi numerik'
                 ],
-                'password' => [
-                    'min_length' => '{field} minimal 4 karakter',
-                    'max_length' => '{field} maksimal 50 karakter'
-                ],
-                'password_confirm' => [
-                    'matches' => 'Konfirmasi kata sandi tidak cocok dengan kata sandi'
-                ],
             ];
 
             $data = [
@@ -94,7 +85,6 @@ class UserController extends ResourceController
                 'date_birth' => $input['date_birth'],
                 'phone_number' => $input['phone_number'],
                 'linkedin' => $input['linkedin'],
-                'password' => password_hash($input['password'], PASSWORD_BCRYPT),
             ];
 
             $response = [
