@@ -198,8 +198,9 @@ class VideoCategoryController extends ResourceController
             } else {
                 return $this->failNotFound('Data video category tidak ditemukan');
             }
-        } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+	    } catch (\Throwable $th) {
+            // return $this->fail('Akses token tidak sesuai');
+            exit($th->getMessage());
         }
     }
 }

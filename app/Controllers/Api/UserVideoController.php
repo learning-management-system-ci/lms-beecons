@@ -7,6 +7,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\UserVideo;
 use App\Models\Course;
 use App\Models\Video;
+use App\Models\VideoCategory;
 use App\Models\Users;
 use Firebase\JWT\JWT;
 
@@ -19,6 +20,7 @@ class UserVideoController extends ResourceController
         $this->uservideo = new UserVideo();
         $this->course = new Course();
         $this->video = new Video();
+        $this->videocategory = new VideoCategory();
     }
 
     public function index(){
@@ -62,19 +64,19 @@ class UserVideoController extends ResourceController
         $course = $this->course
             ->where('course_id', $course_id)
             ->find();
-        $video = $this->video
+        $videocategory = $this->videocategory
             ->where('course_id', $course_id)
             ->findAll();
             
         for($i = 0; $i < count($course); $i++){
-            for($k = 0; $k < count($video); $k++){
-                $course[$i]['video'][$k] = $video[$k];
+            for($k = 0; $k < count($videocategory); $k++){
+                $course[$i]['video'][$k] = $videocategory[$k];
                 $userVideo = $this->uservideo
                     ->select('user_video.score')
                     ->join('users', 'users.id = user_video.user_id')
                     ->join('video', 'video.video_id = user_video.video_id')
                     ->where('users.id', $user_id)
-                    ->where('video.video_id', $video[$k]['video_id'])
+                    ->where('video.video_id', $videocategory[$k]['video_id'])
                     ->find();
 
                 if(isset($userVideo[0])){
@@ -228,7 +230,7 @@ class UserVideoController extends ResourceController
                 return $this->failValidationErrors($this->validator->getErrors());
             }
 
-            if ($this->bundling->update($id, $data)){
+            if ($this->uservideo->update($id, $data)){
                 return $this->respond($response);
             }
         } catch (\Throwable $th) {

@@ -40,7 +40,7 @@ class CreateVideoTable extends Migration
         ]);
 
         $this->forge->addKey('video_id', TRUE);
-        $this->forge->addForeignKey('video_category_id', 'video_category', 'video_category_id');
+        $this->forge->addForeignKey('video_category_id', 'video_category', 'video_category_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('video', TRUE);
     }
 

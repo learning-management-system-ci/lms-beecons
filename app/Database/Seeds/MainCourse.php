@@ -8,6 +8,8 @@ class MainCourse extends Seeder
 {
     public function run()
     {
+        $this->call('JobSeeder');
+        $this->call('UserSeeder');
         $this->call('CourseNew');
         $this->call('CategorySeeder');
         $this->call('CourseCategorySeeder');
@@ -18,6 +20,19 @@ class MainCourse extends Seeder
         $this->call('CourseTagSeeder');
         $this->call('VideoCategoryNew');
         $this->call('VideoNew');
+        $this->call('CategoryBundlingSeeder');
+        $this->call('BundlingSeeder');
+        $this->call('CourseBundlingSeeder');
+        $this->call('FaqSeeder');
+        $this->call('PapSeeder');
+        $this->call('VoucherSeeder');
+        $this->call('UserVideoSeeder');
+        $this->call('UserCourseSeeder');
+        $this->call('ReviewSeeder');
+        $this->call('TestimoniSeeder');
+        $this->call('CartSeeder');
+        $this->call('NotificationPublicSeeder');
+        $this->call('NotificationSeeder');
 
         $this->call('QuizSeeder');
     }

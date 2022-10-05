@@ -14,7 +14,7 @@ class Video extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['course_id', 'title', 'video', 'order'];
+    protected $allowedFields    = ['video_category_id', 'title', 'video', 'order'];
 
     // function getData($id) {
     //     $builder = $this->db->table('video');

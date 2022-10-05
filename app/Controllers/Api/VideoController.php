@@ -143,6 +143,7 @@ class VideoController extends ResourceController {
 					"required" => "{field} tidak boleh kosong"
 				],
 			];
+
 			if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 			
 			$verifyCourse = $this->courseModel->where("video_category_id", $this->request->getVar('video_category_id'))->first();
@@ -214,12 +215,10 @@ class VideoController extends ResourceController {
 						'success' => 'Video berhasil dihapus'
 					]
 				];
-				return $this->respondDeleted($response); 
-			} else {
-				return $this->failNotFound('Data Video tidak ditemukan');
 			}
 		} catch (\Throwable $th) {
       return $this->fail($th->getMessage());
     }
+		return $this->failNotFound('Data Video tidak ditemukan');
   }
 }
