@@ -162,7 +162,7 @@ class UserVideoController extends ResourceController
                 ];
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->respondCreated($response);
     }
@@ -218,7 +218,7 @@ class UserVideoController extends ResourceController
                 ]
             ];
 
-            $cek = $this->uservideo->where('uservideo_id', $id)->findAll();
+            $cek = $this->uservideo->where('user_video_id', $id)->findAll();
 
             if(!$cek){
                 return $this->failNotFound('Data user video tidak ditemukan');
@@ -232,7 +232,7 @@ class UserVideoController extends ResourceController
                 return $this->respond($response);
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
 		return $this->failNotFound('Data user video tidak ditemukan');
 	}
@@ -266,7 +266,7 @@ class UserVideoController extends ResourceController
             }
             return $this->respondDeleted($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data User Video tidak ditemukan');
     }
