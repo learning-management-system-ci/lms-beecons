@@ -17,13 +17,14 @@ class BundlingController extends ResourceController
         $this->bundling = new Bundling();
     }
 
-    public function index(){
+    public function index()
+    {
         $data = $this->bundling
             ->select('bundling.*, category_bundling.name as category_name')
             ->orderBy('bundling_id', 'DESC')
             ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
             ->findAll();
-        
+
         if (count($data) > 0) {
             return $this->respond($data);
         } else {
@@ -31,19 +32,20 @@ class BundlingController extends ResourceController
         }
     }
 
-    public function create() {
+    public function create()
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
@@ -54,7 +56,7 @@ class BundlingController extends ResourceController
                 "old_price" => "required|numeric",
                 "new_price" => "required|numeric",
             ];
-    
+
             $messages = [
                 "category_bundling_id" => [
                     "required" => "{field} tidak boleh kosong"
@@ -75,7 +77,7 @@ class BundlingController extends ResourceController
                     "numeric" => "{field} harus berisi angka"
                 ],
             ];
-    
+
             if (!$this->validate($rules, $messages)) {
                 $response = [
                     'status' => 500,
@@ -89,9 +91,9 @@ class BundlingController extends ResourceController
                 $data['description'] = $this->request->getVar("description");
                 $data['new_price'] = $this->request->getVar("new_price");
                 $data['old_price'] = $this->request->getVar("old_price");
-    
+
                 $this->bundling->save($data);
-    
+
                 $response = [
                     'status' => 200,
                     'error' => false,
@@ -100,12 +102,13 @@ class BundlingController extends ResourceController
                 ];
             }
             return $this->respondCreated($response);
-	    } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
     }
 
-    public function show($id = null){
+    public function show($id = null)
+    {
         $data = $this->bundling
             ->select('bundling.*, category_bundling.name as category_name')
             ->orderBy('bundling_id', 'DESC')
@@ -113,27 +116,27 @@ class BundlingController extends ResourceController
             ->where('bundling.bundling_id', $id)
             ->first();
 
-        if($data){
+        if ($data) {
             return $this->respond($data);
-        }else{
+        } else {
             return $this->failNotFound('Data bundling tidak ditemukan');
         }
     }
 
-	public function update($id = null){
+    public function update($id = null)
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
@@ -173,7 +176,7 @@ class BundlingController extends ResourceController
                 "new_price" => $input["new_price"],
                 "old_price" => $input["old_price"],
             ];
-    
+
             $response = [
                 'status'   => 200,
                 'error'    => null,
@@ -181,56 +184,57 @@ class BundlingController extends ResourceController
                     'success' => 'Bundling berhasil diperbarui'
                 ]
             ];
-    
+
             $cek = $this->bundling->where('bundling_id', $id)->findAll();
-            if(!$cek){
+            if (!$cek) {
                 return $this->failNotFound('Data bundling tidak ditemukan');
             }
 
-	    	if (!$this->validate($rules, $messages)) {
+            if (!$this->validate($rules, $messages)) {
                 return $this->failValidationErrors($this->validator->getErrors());
             }
-          
-            if ($this->bundling->update($id, $data)){
+
+            if ($this->bundling->update($id, $data)) {
                 return $this->respond($response);
             }
             return $this->failNotFound('Data bundling tidak ditemukan');
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
-	}
+    }
 
-    public function delete($id = null){
+    public function delete($id = null)
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
             $data = $this->bundling->where('bundling_id', $id)->findAll();
-            if($data){
-            $this->bundling->delete($id);
+            if ($data) {
+                $this->bundling->delete($id);
                 $response = [
-                'status'   => 200,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'Bundling berhasil dihapus'
-                ]
+                    'status'   => 200,
+                    'error'    => null,
+                    'messages' => [
+                        'success' => 'Bundling berhasil dihapus'
+                    ]
                 ];
                 return $this->respondDeleted($response);
-            }else{
+            } else {
                 return $this->failNotFound('Data bundling tidak ditemukan');
             }
-	    } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
     }
