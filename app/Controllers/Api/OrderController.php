@@ -38,7 +38,7 @@ class OrderController extends BaseController
             $orderBundling = new OrderBundling;
             $user = new Users;
             $temp = 0;
-            $userId = 21;
+            $userId = $decoded->uid;
             $getTotalCart = $cart->select('total')->where('user_id', $userId)->findAll();
             $getUser = $user->where('id', $userId)->first();
 
