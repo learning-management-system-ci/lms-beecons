@@ -11,6 +11,7 @@ use App\Models\TypeTag;
 use App\Models\Video;
 use App\Models\VideoCategory;
 use App\Models\Users;
+use App\Models\UserVideo;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
 
@@ -84,70 +85,163 @@ class CourseController extends ResourceController
         $modelVideo = new Video();
         $modelVideoCategory = new VideoCategory();
 
-        if($model->find($id)){
-            $tag = [];
-            $video = [];
 
-            $data = $model->where('course_id', $id)->first();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
 
-            $category = $modelCourseCategory
-                ->where('course_id', $id)
-                ->join('category', 'category.category_id = course_category.category_id')
-                ->orderBy('course_category.course_category_id', 'DESC')
-                ->first();
-            $type = $modelCourseType
-                ->where('course_id', $id)
-                ->join('type', 'type.type_id = course_type.type_id')
-                ->orderBy('course_type.course_type_id', 'DESC')
-                ->first();
-            $videoCategory = $modelVideoCategory
-                ->where('course_id', $id)
-                ->orderBy('video_category.video_category_id', 'DESC')
-                ->findAll();
-
-            if($videoCategory[0]['title'] != ''){
-                $data['video_category'] = $videoCategory;
-            }
-            
-            for($l = 0; $l < count($videoCategory); $l++){
-                $video = $modelVideo
-                    ->where('video_category_id', $videoCategory[$l]['video_category_id'])
-                    ->orderBy('video_id', 'DESC')
+        // Jika belum login
+        if (!$header){ 
+            if($model->find($id)){
+                $tag = [];
+                $video = [];
+    
+                $data = $model->where('course_id', $id)->first();
+    
+                $category = $modelCourseCategory
+                    ->where('course_id', $id)
+                    ->join('category', 'category.category_id = course_category.category_id')
+                    ->orderBy('course_category.course_category_id', 'DESC')
+                    ->first();
+                $type = $modelCourseType
+                    ->where('course_id', $id)
+                    ->join('type', 'type.type_id = course_type.type_id')
+                    ->orderBy('course_type.course_type_id', 'DESC')
+                    ->first();
+                $videoCategory = $modelVideoCategory
+                    ->where('course_id', $id)
+                    ->orderBy('video_category.video_category_id', 'DESC')
                     ->findAll();
+    
                 if($videoCategory[0]['title'] != ''){
-                    $data['video_category'][$l]['video'] = $video;
+                    $data['video_category'] = $videoCategory;
+                }
+                
+                for($l = 0; $l < count($videoCategory); $l++){
+                    $video = $modelVideo
+                        ->where('video_category_id', $videoCategory[$l]['video_category_id'])
+                        ->orderBy('video_id', 'DESC')
+                        ->findAll();
+                    if($videoCategory[0]['title'] != ''){
+                        $data['video_category'][$l]['video'] = $video;
+                    }else{
+                        $data['video'][$l] = $video;
+                    }
+                }
+    
+                if($type){
+                    $typeTag = $modelTypeTag
+                        ->where('course_type.course_id', $id)
+                        ->where('type.type_id', $type['type_id'])
+                        ->join('type', 'type.type_id = type_tag.type_id')
+                        ->join('tag', 'tag.tag_id = type_tag.tag_id')
+                        ->join('course_type', 'course_type.type_id = type.type_id')
+                        ->orderBy('course_type.course_id', 'DESC')
+                        ->select('tag.*')
+                        ->findAll();
+    
+                    $data['type'] = $type;
+    
+                    for($i = 0; $i < count($typeTag); $i++){
+                        $data['tag'][$i] = $typeTag[$i];
+                    }
                 }else{
-                    $data['video'][$l] = $video;
+                    $data['type'] = null;
                 }
-            }
-
-            if($type){
-                $typeTag = $modelTypeTag
-                    ->where('course_type.course_id', $id)
-                    ->where('type.type_id', $type['type_id'])
-                    ->join('type', 'type.type_id = type_tag.type_id')
-                    ->join('tag', 'tag.tag_id = type_tag.tag_id')
-                    ->join('course_type', 'course_type.type_id = type.type_id')
-                    ->orderBy('course_type.course_id', 'DESC')
-                    ->select('tag.*')
-                    ->findAll();
-
-                $data['type'] = $type;
-
-                for($i = 0; $i < count($typeTag); $i++){
-                    $data['tag'][$i] = $typeTag[$i];
-                }
+    
+                $data['category'] = $category;
+                // $data['video'] = $video;
+                
+                return $this->respond($data);
             }else{
-                $data['type'] = null;
-            }
+                return $this->failNotFound('Tidak ada data');
+            }  
+        } else {
+            $userVideo = new UserVideo();
+            $token = explode(' ', $header)[1];
+        
+            try {
+                $decoded = JWT::decode($token, $key, ['HS256']);
+                $user = new Users;
 
-            $data['category'] = $category;
-            // $data['video'] = $video;
-            
-            return $this->respond($data);
-        }else{
-            return $this->failNotFound('Tidak ada data');
+                if($model->find($id)){
+                    $tag = [];
+                    $video = [];
+        
+                    $data = $model->where('course_id', $id)->first();
+        
+                    $category = $modelCourseCategory
+                        ->where('course_id', $id)
+                        ->join('category', 'category.category_id = course_category.category_id')
+                        ->orderBy('course_category.course_category_id', 'DESC')
+                        ->first();
+                    $type = $modelCourseType
+                        ->where('course_id', $id)
+                        ->join('type', 'type.type_id = course_type.type_id')
+                        ->orderBy('course_type.course_type_id', 'DESC')
+                        ->first();
+                    $videoCategory = $modelVideoCategory
+                        ->where('course_id', $id)
+                        ->orderBy('video_category.video_category_id', 'DESC')
+                        ->findAll();
+        
+                    if($videoCategory[0]['title'] != ''){
+                        $data['video_category'] = $videoCategory;
+                    }
+                    
+                    for($l = 0; $l < count($videoCategory); $l++){
+                        $video = $modelVideo
+                            ->where('video_category_id', $videoCategory[$l]['video_category_id'])
+                            ->orderBy('video_id', 'DESC')
+                            ->findAll();
+                        
+                        if($videoCategory[0]['title'] != ''){
+                            $data['video_category'][$l]['video'] = $video;
+                        }else{
+                            $data['video'] = $video;
+                        }
+
+                        for($p = 0; $p < count($video); $p++){
+                            $user_video = $userVideo
+                                ->select('score')
+                                ->where('user_id', $decoded->uid)
+                                ->where('video_id', $video[$p]['video_id'])
+                                ->findAll();
+                            $data['video'][$p]['score'] = $user_video;
+                        }
+                    }
+        
+                    if($type){
+                        $typeTag = $modelTypeTag
+                            ->where('course_type.course_id', $id)
+                            ->where('type.type_id', $type['type_id'])
+                            ->join('type', 'type.type_id = type_tag.type_id')
+                            ->join('tag', 'tag.tag_id = type_tag.tag_id')
+                            ->join('course_type', 'course_type.type_id = type.type_id')
+                            ->orderBy('course_type.course_id', 'DESC')
+                            ->select('tag.*')
+                            ->findAll();
+        
+                        $data['type'] = $type;
+        
+                        for($i = 0; $i < count($typeTag); $i++){
+                            $data['tag'][$i] = $typeTag[$i];
+                        }
+                    }else{
+                        $data['type'] = null;
+                    }
+        
+                    $data['category'] = $category;
+                    // $data['video'] = $video;
+                    
+                    return $this->respond($data);
+                }else{
+                    return $this->failNotFound('Tidak ada data');
+                }  
+            } catch (\Throwable $th) {
+                return $this->fail('Akses token tidak sesuai');
+            }
         }
+        
     }
 
 

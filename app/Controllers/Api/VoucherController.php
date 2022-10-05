@@ -27,14 +27,14 @@ class VoucherController extends ResourceController
 
         try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
-			$data = $this->voucherModel->orderBy('voucher_id', 'DESC')->findAll();
+			$data = $this->voucherModel->orderBy('voucher_id', 'DESC')->where('is_active', 1)->findAll();
 			if (count($data) > 0) {
 				return $this->respond($data);
 			} else {
 				return $this->failNotFound('Tidak ada data');
 			}
 		} catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+			return $this->fail($th->getMessage());
         }
 		
 	}
@@ -42,11 +42,11 @@ class VoucherController extends ResourceController
 	public function create()
 	{
 		$key = getenv('TOKEN_SECRET');
-    $header = $this->request->getServer('HTTP_AUTHORIZATION');
-    if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-    $token = explode(' ', $header)[1];
+		$header = $this->request->getServer('HTTP_AUTHORIZATION');
+		if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+		$token = explode(' ', $header)[1];
 
-    try {
+		try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
 			$user = new Users;
 
@@ -118,8 +118,8 @@ class VoucherController extends ResourceController
 			}
 			return $this->respondCreated($response);
 		} catch (\Throwable $th) {
-      return $this->fail('Akses token tidak sesuai');
-    }
+			return $this->fail($th->getMessage());
+		}
 	}
 
 	public function show($id = null)
@@ -139,7 +139,7 @@ class VoucherController extends ResourceController
 				return $this->failNotFound('Data voucher tidak ditemukan');
 			}
 		} catch (\Throwable $th) {
-      return $this->fail('Akses token tidak sesuai');
+      return $this->fail($th->getMessage());
     }
 	}
 
@@ -229,7 +229,7 @@ class VoucherController extends ResourceController
 			}
 			return $this->failNotFound('Data voucher tidak ditemukan');
 		} catch (\Throwable $th) {
-      return $this->fail('Akses token tidak sesuai');
+      return $this->fail($th->getMessage());
 		}
 	}
 
@@ -265,7 +265,7 @@ class VoucherController extends ResourceController
 			return $this->failNotFound('Data voucher tidak ditemukan');
 			}
 		} catch (\Throwable $th) {
-      return $this->fail('Akses token tidak sesuai');
+      return $this->fail($th->getMessage());
     }
 	}
 }

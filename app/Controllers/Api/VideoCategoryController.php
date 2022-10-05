@@ -16,8 +16,9 @@ class VideoCategoryController extends ResourceController
     {
         $this->videocategory = new VideoCategory();
     }
-    
-    public function index() {
+
+    public function index()
+    {
         $data = $this->videocategory->orderBy('video_category_id', 'DESC')->findAll();
 
         if (count($data) > 0) {
@@ -27,38 +28,40 @@ class VideoCategoryController extends ResourceController
         }
     }
 
-    public function show($id = null){
+    public function show($id = null)
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $data = $this->videocategory->where('video_category_id', $id)->first();
-            if($data){
+            if ($data) {
                 return $this->respond($data);
-            }else{
+            } else {
                 return $this->failNotFound('Data video category tidak ditemukan');
             }
-	    } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->fail('Akses token tidak sesuai');
         }
     }
 
-    public function create() {
+    public function create()
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
@@ -66,7 +69,7 @@ class VideoCategoryController extends ResourceController
                 "course_id" => "required",
                 "title" => "required",
             ];
-    
+
             $messages = [
                 "course_id" => [
                     "required" => "{field} tidak boleh kosong"
@@ -75,7 +78,7 @@ class VideoCategoryController extends ResourceController
                     "required" => "{field} tidak boleh kosong"
                 ],
             ];
-    
+
             if (!$this->validate($rules, $messages)) {
                 $response = [
                     'status' => 500,
@@ -86,9 +89,9 @@ class VideoCategoryController extends ResourceController
             } else {
                 $data['course_id'] = $this->request->getVar("course_id");
                 $data['title'] = $this->request->getVar("title");
-    
+
                 $this->videocategory->save($data);
-    
+
                 $response = [
                     'status' => 200,
                     'error' => false,
@@ -97,24 +100,25 @@ class VideoCategoryController extends ResourceController
                 ];
             }
             return $this->respondCreated($response);
-	    } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->fail('Akses token tidak sesuai');
         }
     }
 
-    public function update($id = null){
+    public function update($id = null)
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
@@ -136,7 +140,7 @@ class VideoCategoryController extends ResourceController
                 "course_id" => $input["course_id"],
                 "title" => $input["title"],
             ];
-    
+
             $response = [
                 'status'   => 200,
                 'error'    => null,
@@ -144,53 +148,54 @@ class VideoCategoryController extends ResourceController
                     'success' => 'video category berhasil diperbarui'
                 ]
             ];
-    
+
             $cek = $this->videocategory->where('video_category_id', $id)->findAll();
-            if(!$cek){
+            if (!$cek) {
                 return $this->failNotFound('Data video category tidak ditemukan');
             }
 
-	    	if (!$this->validate($rules, $messages)) {
+            if (!$this->validate($rules, $messages)) {
                 return $this->failValidationErrors($this->validator->getErrors());
             }
-          
-            if ($this->videocategory->update($id, $data)){
+
+            if ($this->videocategory->update($id, $data)) {
                 return $this->respond($response);
             }
             return $this->failNotFound('Data video category tidak ditemukan');
         } catch (\Throwable $th) {
             return $this->fail('Akses token tidak sesuai');
         }
-	}
+    }
 
-    public function delete($id = null){
+    public function delete($id = null)
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
             $data = $this->videocategory->where('video_category_id', $id)->findAll();
-            if($data){
-            $this->videocategory->delete($id);
+            if ($data) {
+                $this->videocategory->delete($id);
                 $response = [
-                'status'   => 200,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'Data video category berhasil dihapus'
-                ]
+                    'status'   => 200,
+                    'error'    => null,
+                    'messages' => [
+                        'success' => 'Data video category berhasil dihapus'
+                    ]
                 ];
                 return $this->respondDeleted($response);
-            }else{
+            } else {
                 return $this->failNotFound('Data video category tidak ditemukan');
             }
 	    } catch (\Throwable $th) {

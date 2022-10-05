@@ -42,6 +42,8 @@ class CartController extends ResourceController
                     'bundling' => $bundling_data,
                     'sub_total' => $value['total']
                 ];
+
+                $total = (int)$value['total'];
                 $response = [
                     'user' => $user_data,
                     'item' => $items,
@@ -55,12 +57,12 @@ class CartController extends ResourceController
                 return $this->failNotFound('Tidak ada data');
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
     }
 
-    public function create($id = null, $type = null)
+    public function create($type = null, $id = null)
     {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
@@ -110,7 +112,7 @@ class CartController extends ResourceController
 
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
     }
@@ -139,7 +141,7 @@ class CartController extends ResourceController
             }
             return $this->respondDeleted($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
     }

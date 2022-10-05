@@ -17,12 +17,23 @@ class BundlingController extends ResourceController
         $this->bundling = new Bundling();
     }
 
-    public function index(){
-        $data['bundling'] = $this->bundling->orderBy('bundling_id', 'DESC')->findAll();
-        return $this->respond($data);
+    public function index()
+    {
+        $data = $this->bundling
+            ->select('bundling.*, category_bundling.name as category_name')
+            ->orderBy('bundling_id', 'DESC')
+            ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
+            ->findAll();
+
+        if (count($data) > 0) {
+            return $this->respond($data);
+        } else {
+            return $this->failNotFound('Tidak ada data');
+        }
     }
 
-    public function create() {
+    public function create()
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -34,7 +45,7 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
@@ -45,7 +56,7 @@ class BundlingController extends ResourceController
                 "old_price" => "required|numeric",
                 "new_price" => "required|numeric",
             ];
-    
+
             $messages = [
                 "category_bundling_id" => [
                     "required" => "{field} tidak boleh kosong"
@@ -66,7 +77,7 @@ class BundlingController extends ResourceController
                     "numeric" => "{field} harus berisi angka"
                 ],
             ];
-    
+
             if (!$this->validate($rules, $messages)) {
                 $response = [
                     'status' => 500,
@@ -199,7 +210,7 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
@@ -251,25 +262,25 @@ class BundlingController extends ResourceController
             ];
 
             $cek = $this->bundling->where('bundling_id', $id)->findAll();
-
-            if(!$cek){
-                return $this->failNotFound('Data Testimoni tidak ditemukan');
+            if (!$cek) {
+                return $this->failNotFound('Data bundling tidak ditemukan');
             }
 
             if (!$this->validate($rules, $messages)) {
                 return $this->failValidationErrors($this->validator->getErrors());
             }
 
-            if ($this->bundling->update($id, $data)){
+            if ($this->bundling->update($id, $data)) {
                 return $this->respond($response);
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
 		return $this->failNotFound('Data Bundling tidak ditemukan');
 	}
 
-    public function delete($id = null){
+    public function delete($id = null)
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -281,13 +292,13 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
             $data = $this->bundling->where('bundling_id', $id)->findAll();
-            if($data){
-            $this->bundling->delete($id);
+            if ($data) {
+                $this->bundling->delete($id);
                 $response = [
                     'status'   => 200,
                     'error'    => null,
@@ -295,11 +306,12 @@ class BundlingController extends ResourceController
                         'success' => 'Bundling berhasil dihapus'
                     ]
                 ];
+                return $this->respondDeleted($response);
+            } else {
+                return $this->failNotFound('Data bundling tidak ditemukan');
             }
-            return $this->respondDeleted($response);
         } catch (\Throwable $th) {
-            // return $this->fail('Akses token tidak sesuai');
-            exit($th->getMessage());
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data bundling tidak ditemukan');
     }
