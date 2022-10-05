@@ -140,6 +140,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+        $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
 
         $routes->group('video/', static function ($routes) {
             $routes->get('(:num)', 'Api\VideoController::index/$1');
