@@ -16,74 +16,22 @@ class VideoCategoryNew extends Seeder
 
             [
                 'course_id' => '2',
-                'title' => 'Introduction to BIM & Autodesk Revit'
+                'title' => ''
             ],
-            [
-                'course_id' => '2',
-                'title' => 'Project Browser & Views'
-            ],
-            [
-                'course_id' => '2',
-                'title' => 'Properties & Modifications'
-            ],
-            [
-                'course_id' => '2',
-                'title' => 'Starting a New Project'
-            ],
-            [
-                'course_id' => '2',
-                'title' => 'Site Modeling'
-            ],
-
+            
             [
                 'course_id' => '3',
-                'title' => 'Project Visualization'
-            ],
-            [
-                'course_id' => '3',
-                'title' => 'Project Collaboration'
+                'title' => ''
             ],
 
             [
                 'course_id' => '4',
-                'title' => 'Architectural Elements'
-            ],
-            [
-                'course_id' => '4',
-                'title' => 'Openings & Furnishings'
-            ],
-            [
-                'course_id' => '4',
-                'title' => 'Curtain Wall'
-            ],
-            [
-                'course_id' => '4',
-                'title' => 'Vertical Circulation'
-            ],
-            [
-                'course_id' => '4',
-                'title' => 'Architectural Spatial Elements'
+                'title' => ''
             ],
 
             [
                 'course_id' => '5',
-                'title' => 'Structural Elements'
-            ],
-            [
-                'course_id' => '5',
-                'title' => 'Conrete Rebar'
-            ],
-            [
-                'course_id' => '5',
-                'title' => 'Steel Connection Detail'
-            ],
-            [
-                'course_id' => '5',
-                'title' => 'Precast Concrete'
-            ],
-            [
-                'course_id' => '5',
-                'title' => 'Analytical Model'
+                'title' => ''
             ],
 
             [
@@ -118,29 +66,6 @@ class VideoCategoryNew extends Seeder
 
             [
                 'course_id' => '12',
-                'title' => ''
-            ],
-
-            [
-                'course_id' => '13',
-                'title' => 'Annotations, Symbols, and Details'
-            ],
-            [
-                'course_id' => '13',
-                'title' => 'Project Management'
-            ],
-            [
-                'course_id' => '13',
-                'title' => 'Project Documentation'
-            ],
-
-            [
-                'course_id' => '14',
-                'title' => ''
-            ],
-
-            [
-                'course_id' => '15',
                 'title' => ''
             ],
         ];

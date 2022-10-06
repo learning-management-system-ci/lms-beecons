@@ -29,6 +29,12 @@ class AuthController extends ResourceController {
         $this->googleClient->setRedirectUri(base_url() . "/login/loginWithGoogle");
         $this->googleClient->addScope("email");
         $this->googleClient->addScope("profile");
+        $this->googleClientOne = new \Google_Client();
+        $this->googleClientOne->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
+        $this->googleClientOne->setClientSecret("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");
+        $this->googleClientOne->setRedirectUri(base_url() . "/login/loginOneTapGoogle");
+        $this->googleClientOne->addScope("email");
+        $this->googleClientOne->addScope("profile");
     }
 
     public function loginWithGoogle()
@@ -92,75 +98,99 @@ class AuthController extends ResourceController {
         setcookie("access_token", $token, time()+60*60, '/');
         return redirect()->to(base_url() . "/login");
     }
-
+    
     public function loginOneTapGoogle()
     {
-        $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
-        if (!isset($token['error'])) {
-            $this->googleClient->setAccessToken($token['access_token']);
-            session()->set("AccessToken", $token['access_token']);
+        // print_r($_POST);
+        // $token = $this->googleClientOne->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
+        // if (!isset($token['error'])) {
+        //     $this->googleClientOne->setAccessToken($token['access_token']);
+        //     session()->set("AccessToken", $token['access_token']);
 
-            $googleService = new \Google\Service\Oauth2($this->googleClient);
-            $data = $googleService->userinfo->get();
-            $currentDateTime = date("Y-m-d H:i:s");
-            $userdata = array();
-            if ($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])) {
-                $userdata = [
-                    'oauth_id' => $data['id'],
-                    'email' => $data['email'],
-                    'activation_status' => '1'
-                ];
-                $email = $data['email'];
-                $this->loginModel->updateUserData($userdata, $email);
-            } else {
-                $userdata = [
-                    'oauth_id' => $data['id'],
-                    'email' => $data['email'],
-                    'created_at' => $currentDateTime,
-                    'activation_status' => '1',
-                    'role' => 'participant'
-                ];
-                $this->loginModel->save($userdata);
-            }
-            $key = getenv('TOKEN_SECRET');
-            $payload = [
-                'iat'   => 1356999524,
-                'nbf'   => 1357000000,
-                "exp" => time() + (60 * 60),
-                'uid'   => $data['id'],
-                'email' => $data['email'],
-            ];
-            $token = JWT::encode($payload, $key, 'HS256');
-
-            // set_cookie("access_token", json_encode($token), 3600);
-            // set_cookie("username", json_encode($token), 3600);
-            // set_cookie("username", $token, 3600);
-            // set_cookie("access_tok", $token, 3600);
-        } else {
-            $response = [
-                'status' => 500,
-                'error' => true,
-                'message' => 'Terdapat Masalah Saat Login',
-                'data' => []
-            ];
-            $this->respondCreated($response);
-            return;
-        }
-        // $this->request->setcookie([
-        //     'name' => 'user4',
-        //     'value' => 'value4',
-        //     'expire' => time() + 6000
-        // ]);
-        set_cookie("access_token", json_encode($token), 3600);
-        // set_cookie("access_token", $token, 3600);
-        // cookie("access_token", json_encode($token));
-        // $cookie = cookie("access_token", json_encode($token));
-        // session()->setFlashData("success", "Login Successful");
-        // delete_cookie("access_token", $token);
+        //     $googleService = new \Google\Service\Oauth2($this->googleClientOne);
+        //     $data = $googleService->userinfo->get();
+        //     $currentDateTime = date("Y-m-d H:i:s");
+        //     $userdata = array();
+        //     if ($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])) {
+        //         $userdata = [
+        //             'oauth_id' => $data['id'],
+        //             'email' => $data['email'],
+        //             'updated_at' => $currentDateTime,
+        //             'activation_status' => '1'
+        //         ];
+        //         $email = $data['email'];
+        //         $this->loginModel->updateUserByEmail($userdata, $email);
+        //     } else {
+        //         $userdata = [
+        //             'oauth_id' => $data['id'],
+        //             'email' => $data['email'],
+        //             'created_at' => $currentDateTime,
+        //             'activation_status' => '1',
+        //             'role' => 'member'
+        //         ];
+        //         $this->loginModel->save($userdata);
+        //     }
+        //     $datauser = $this->loginModel->getUser($data['email']);
+        //     $key = getenv('TOKEN_SECRET');
+        //     $payload = [
+        //         'iat'   => 1356999524,
+        //         'nbf'   => 1357000000,
+        //         "exp" => time() + (60 * 60),
+        //         'uid'   => $datauser['id'],
+        //         'email' => $data['email'],
+        //     ];
+        //     $token = JWT::encode($payload, $key, 'HS256');
+        // } else {
+        //     $response = [
+        //         'status' => 500,
+        //         'error' => true,
+        //         'message' => 'Terdapat Masalah Saat Login',
+        //         'data' => []
+        //     ];
+        //     // session()->setFlashData("error", "Something went Wrong");
+        //     $this->respondCreated($response);
+        //     return;
+        // }
+        // $response = [
+        //     'status' => 200,
+        //     'error' => false,
+        //     'data' => [$token]
+        // ];
+        // // session()->setFlashData("success", "Login Successful");
         // $this->respondCreated($response);
-        // echo "Masoook";
-        // set_cookie("access_token", json_encode($token));
-        return redirect()->to(base_url() . "/profile");
+        // setcookie("access_token", $token, time()+60*60, '/');
+        // return redirect()->to(base_url() . "/login");
+
+        // set google client ID
+        $google_oauth_client_id = "";
+    
+        // create google client object with client ID
+        $client = $this->googleClient->ClientId;
+    
+        // verify the token sent from AJAX
+        $id_token = $_POST["id_token"];
+    
+        $payload = $client->verifyIdToken($id_token);
+        if ($payload && $payload['aud'] == $google_oauth_client_id)
+        {
+            // get user information from Google
+            $user_google_id = $payload['sub'];
+    
+            $name = $payload["name"];
+            $email = $payload["email"];
+            $picture = $payload["picture"];
+    
+            // login the user
+            $_SESSION["user"] = $user_google_id;
+    
+            // send the response back to client side
+            echo "Successfully logged in. " . $user_google_id . ", " . $name . ", " . $email . ", " . $picture;
+        }
+        else
+        {
+            // token is not verified or expired
+            echo "Failed to login.";
+        }
     }
 
 	public function register() {
