@@ -230,7 +230,7 @@ $(document).ready(async function () {
                 fullname: testimoni.user[0].fullname,
                 job: 'Alumbi Fullstack Engineer',
                 picture: 'people.jpg',
-                testimoni: 'Proses penyaluran kerja di Tender cukup sederhana mengingat banyak sekali hiring partneryang berminat dengan programmer yang dilatih oleh Tender. Hanya butuh waktu seminggu bagiku untuk direkrut ke GudangAda waktu itu. Tender juga berkomitmen tinggi untuk memastikan bahwa lulusannya akan mendapatkan kerja, jadi merasa aman karena 100% pasti kerja.',
+                testimoni: testimoni.testimoni
             }
         })
         

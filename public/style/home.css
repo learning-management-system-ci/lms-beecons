@@ -4,6 +4,10 @@ html {
   font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
+body {
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+
 #hero {
   min-height: 90vh;
   height: 100vh;
@@ -30,6 +34,9 @@ html {
   font-size: 1rem;
   line-height: 1.8rem;
   margin-bottom: 2.5rem;
+}
+#hero .content .my-btn {
+  background-color: #248043;
 }
 #hero .image {
   height: 100%;
