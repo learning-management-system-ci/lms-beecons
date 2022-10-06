@@ -9,6 +9,10 @@ body {
   overflow-x: hidden;
 }
 
+.btn-primary {
+  background-color: #164520 !important;
+}
+
 .page-flex {
   height: 100vh !important;
   gap: 10%;

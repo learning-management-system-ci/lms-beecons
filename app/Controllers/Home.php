@@ -101,4 +101,11 @@ class Home extends BaseController
         ];
         return view('pages/navigation/article', $data);
     }
+    public function checkout()
+    {
+        $data = [
+            "title" => "Checkout",
+        ];
+        return view('pages/course/checkout', $data);
+    }
 }

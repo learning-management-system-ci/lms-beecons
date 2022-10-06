@@ -143,7 +143,7 @@ main .voucher-order-total .voucher input {
   border-radius: 4px 0px 0px 4px !important;
 }
 main .voucher-order-total .voucher button {
-  background-color: #002B5B;
+  background-color: #164520;
   padding: 10px 30px;
   border-radius: 0px 4px 4px 0px;
   color: rgb(235, 235, 235);
@@ -156,7 +156,7 @@ main .voucher-order-total .order-total div h6 {
 }
 main .voucher-order-total .order-total button {
   padding: 12px;
-  background-color: #002B5B;
+  background-color: #164520;
   color: #e2e2e2;
   width: 100%;
   border-radius: 6px;
