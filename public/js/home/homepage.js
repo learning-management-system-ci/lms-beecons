@@ -18,8 +18,8 @@ $(document).ready(async function () {
 
         function setCourses(type) {
             let coursesAll = courseResponse.slice(0, 3)
-            let coursesEngineering = courseResponse.filter(course => course.type.type_id === '1').slice(0, 3)
-            let coursesIt = courseResponse.filter(course => course.type.type_id === '2').slice(0, 3)
+            let coursesEngineering = courseResponse.filter(course => course.type[0].type_id === '1').slice(0, 3)
+            let coursesIt = courseResponse.filter(course => course.type[0].type_id === '2').slice(0, 3)
 
             $(`#choose-course .tags .item[data-type-id="${type}"]`).addClass('active').siblings().removeClass('active')
 
@@ -42,12 +42,18 @@ $(document).ready(async function () {
                                 </div>
                             </div>
                             <div class="body">
-                                <h2>${course.title}</h2>
+                                <h2 class="text-truncate">${course.title}</h2>
                                 <p>
-                                    ${course.description}
+                                    ${textTruncate(course.description, 120)}
                                 </p>
                                 <p class="harga">
-                                    <del>${getRupiah(course.old_price)}</del>
+                                    ${(() => {
+                                        if (course.old_price !== '0') {
+                                            return `<del>${getRupiah(course.old_price)}</del>`
+                                        } else {
+                                            return ''
+                                        }
+                                    })()}
                                     ${getRupiah(course.new_price)}
                                 </p>
                             </div>
@@ -224,7 +230,7 @@ $(document).ready(async function () {
                 fullname: testimoni.user[0].fullname,
                 job: 'Alumbi Fullstack Engineer',
                 picture: 'people.jpg',
-                testimoni: 'Proses penyaluran kerja di Tender cukup sederhana mengingat banyak sekali hiring partneryang berminat dengan programmer yang dilatih oleh Tender. Hanya butuh waktu seminggu bagiku untuk direkrut ke GudangAda waktu itu. Tender juga berkomitmen tinggi untuk memastikan bahwa lulusannya akan mendapatkan kerja, jadi merasa aman karena 100% pasti kerja.',
+                testimoni: testimoni.testimoni
             }
         })
         

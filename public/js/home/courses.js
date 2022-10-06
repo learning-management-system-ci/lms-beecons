@@ -31,7 +31,7 @@ $(document).ready(async function () {
 
         $('#courses #tab-courses-2 .tags').html(
             `<a href="" class="item" data-tag_id="0">All</a>` + 
-            tagsResponse[1].tag.map(tag => {
+            tagsResponse[1]?.tag.map(tag => {
             return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
         }).reverse().join(''))
 
@@ -117,20 +117,26 @@ $(document).ready(async function () {
                                 </div>
                             </div>
                             <div class="body">
-                                <h2>${course.title}</h2>
+                                <h2 class="text-truncate">${course.title}</h2>
                                 <p>
-                                    ${course.description}
+                                    ${textTruncate(course.description, 120)}
                                 </p>
                                 <p class="harga">
-                                    <del>${getRupiah(course.old_price)}</del>
+                                    ${(() => {
+                                        if (course.old_price !== '0') {
+                                            return `<del>${getRupiah(course.old_price)}</del>`
+                                        } else {
+                                            return ''
+                                        }
+                                    })()}
                                     ${getRupiah(course.new_price)}
                                 </p>
                             </div>
                             <div class="card-course-button">
-                                <a href="">
+                                <a href="/course-detail">
                                     <button class="my-btn btn-full">Beli</button>
                                 </a>
-                                <a href="">
+                                <a href="/cart">
                                     <button class="button-secondary"><i class="fa-solid fa-cart-shopping"></i></button>
                                 </a>
                             </div>

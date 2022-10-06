@@ -5,13 +5,13 @@
     style="border: 2px solid rgba(236, 236, 236, 0); width: 290px;">
     <p class="welcome-text">Oops!</p>
     <p class="sign-in-text"><?= $title; ?></p>
-    <p class="info-text">Please input your new passowrd</p>
+    <p class="info-text">Silahkan masukkan pasword baru kamu</p>
     <label for="password" class="form-label mt-3">New Password</label>
-    <input type="password" name="password" id="password" placeholder="Password">
+    <input type="password" name="password" id="password" placeholder="Password baru">
     <label for="password_confirm" class="form-label mt-3">Confirm New Password</label>
-    <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirm Password">
-    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Reset</button>
-    <p class="sign-up" style="text-align: center;">Remember Your Account? <a href="<?= base_url('login'); ?>"
+    <input type="password" name="password_confirm" id="password_confirm" placeholder="Tulis kembali password baru">
+    <button class="btn mt-3" id="button" type="submit" disabled="disabled" style="border: 0;">Reset</button>
+    <p class="sign-up" style="text-align: center;">Ingat akun kamu? <a href="<?= base_url('login'); ?>"
             style="text-decoration: none;">Sign
             in</a></p>
 </form>

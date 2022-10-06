@@ -25,7 +25,7 @@ class Testimoni extends Model
 
     function getDataUser($data_user_id){
         $builder = $this->db->table('users');
-        $builder->select('fullname, job_id, profile_picture');
+        $builder->select('id as user_id, fullname, job_id, profile_picture');
         $builder->where('id', $data_user_id);
         $query = $builder->get();
         return $query->getResultArray();

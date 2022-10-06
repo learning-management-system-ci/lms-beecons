@@ -5,12 +5,12 @@
     style="border: 2px solid rgba(236, 236, 236, 0); width: 290px;">
     <p class="welcome-text">Oops!</p>
     <p class="sign-in-text"><?= $title; ?></p>
-    <p class="info-text">Please input your email account</p>
+    <p class="info-text">Masukkan alamat email kamu</p>
     <label for="email" class="form-label">Email</label>
-    <input type="text" name="email" id="email" placeholder="Email">
-    <button class="btn btn-primary mt-3" id="button" type="submit" disabled="disabled"
+    <input type="text" name="email" id="email" placeholder="Email kamu">
+    <button class="btn mt-3" id="button" type="submit" disabled="disabled"
         style="border: 0;">Confirm</button>
-    <p class="sign-up" style="text-align: center;">Remember Your Account? <a href="<?= base_url('sign-in'); ?>"
+    <p class="sign-up" style="text-align: center;">Ingat akun kamu? <a href="<?= base_url('sign-in'); ?>"
             style="text-decoration: none;">Sign
             in</a></p>
 </form>

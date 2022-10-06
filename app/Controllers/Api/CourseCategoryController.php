@@ -55,7 +55,7 @@ class CourseCategoryController extends ResourceController
                 return $this->failNotFound('Tidak ada data');
             }
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 

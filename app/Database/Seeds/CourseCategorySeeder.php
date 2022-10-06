@@ -8,13 +8,13 @@ class CourseCategorySeeder extends Seeder
 {
     public function run()
     {
-        $no = 20;
+        $no = 15;
         $data = [];
 
         for($i = 1; $i <= $no; $i++){
             array_push($data, [
                 'course_id' => $i,
-                'category_id' => rand(1, 4),
+                'category_id' => 1,
             ]);
         };
 

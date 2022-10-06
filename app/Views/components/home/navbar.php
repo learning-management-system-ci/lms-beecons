@@ -15,6 +15,9 @@
                     <a class="nav-link mx-2 active" href="<?= base_url('/courses') ?>">Courses</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link mx-2 active" href="<?= base_url('/training') ?>">Training</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link mx-2 active" href="">Webinar</a>
                 </li>
                 <li class="nav-item">
@@ -54,7 +57,9 @@
                 <li class="nav-item me-3">
                     <a href="/cart">
                         <button class="nav-btn-icon my-1">
-                            <div class="nav-btn-icon-amount">5</div>
+                            <?php if (get_cookie("access_token")) : ?>
+                                <div class="nav-btn-icon-amount" id="cart-count">0</div>
+                            <?php endif ?>
                             <i class="fa-solid fa-cart-shopping"></i>
                         </button>
                     </a>
@@ -62,7 +67,9 @@
                 <li class="nav-item me-3">
                     <div class="dropdown nav-item-icon">
                         <button class="nav-btn-icon my-1" id="dropdown-notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <!-- <div class="nav-btn-icon-amount">2</div> -->
+                            <?php if (get_cookie("access_token")) : ?>
+                                <div class="nav-btn-icon-amount">0</div>
+                            <?php endif ?>
                             <i class="fa-solid fa-bell"></i>
                         </button>
                         <div class="dropdown-menu my-2 notifications" aria-labelledby="dropdown-notification">
@@ -83,7 +90,8 @@
                                 </div>
                             <?php else : ?>
                                 <div class="notifications-list">
-                                    <div class="notif unread">
+                                    <!-- unread notification -->
+                                    <!-- <div class="notif unread">
                                         <a href="" class="">
                                             <div class="icon">
                                                 <img src="/image/home/notif-icon.png" alt="icon">
@@ -96,8 +104,9 @@
                                                 <span>1 jam yang lalu</span>
                                             </div>
                                         </a>
-                                    </div>
-                                    <div class="notif unread">
+                                    </div> -->
+                                    <!-- readed notification -->
+                                    <!-- <div class="notif">
                                         <a href="" class="">
                                             <div class="icon">
                                                 <img src="/image/home/notif-icon.png" alt="icon">
@@ -110,35 +119,7 @@
                                                 <span>1 jam yang lalu</span>
                                             </div>
                                         </a>
-                                    </div>
-                                    <div class="notif">
-                                        <a href="" class="">
-                                            <div class="icon">
-                                                <img src="/image/home/notif-icon.png" alt="icon">
-                                            </div>
-                                            <div class="item">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-                                                    quae.
-                                                </p>
-                                                <span>1 jam yang lalu</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="notif">
-                                        <a href="" class="">
-                                            <div class="icon">
-                                                <img src="/image/home/notif-icon.png" alt="icon">
-                                            </div>
-                                            <div class="item">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-                                                    quae.
-                                                </p>
-                                                <span>1 jam yang lalu</span>
-                                            </div>
-                                        </a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             <?php endif ?>
                         </div>

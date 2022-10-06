@@ -7,7 +7,7 @@
 <?= $this->section('app-component') ?>
 
 <div id="courses">
-    <div class="my-container bg-gray">
+    <div class="my-container courses-list">
         <nav class="pt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Home</a></li>
@@ -23,7 +23,7 @@
                     <a class="nav-link active" data-bs-toggle="tab" href="#tab-courses-1" role="tab" aria-controls="tab-courses-1" aria-selected="true">Engineering</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="ex2-tab-2" data-bs-toggle="tab" href="#tab-courses-2" role="tab" aria-controls="tab-courses-2" aria-selected="false">Information Technology</a>
+                    <a class="nav-link disabled" id="ex2-tab-2" data-bs-toggle="tab" href="#tab-courses-2" role="tab" aria-controls="tab-courses-2" aria-selected="false">Information Technology</a>
                 </li>
             </ul>
 
@@ -141,6 +141,7 @@
 
 <?= $this->section('js-component') ?>
 <script src="../../../js/utils/getRupiah.js"></script>
+<script src="../../../js/utils/textTruncate.js"></script>
 <script src="../../../js/home/courses.js"></script>
 <script src="../../../js/home/courses-bundling.js"></script>
 <?= $this->endSection() ?>

@@ -13,9 +13,6 @@ class CategorySeeder extends Seeder
                 'name' => 'Fundamental',
             ],
             [
-                'name' => 'Basic',
-            ],
-            [
                 'name' => 'Intermediate',
             ],
             [

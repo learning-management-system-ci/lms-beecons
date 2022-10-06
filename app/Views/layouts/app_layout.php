@@ -31,26 +31,26 @@
     <?php echo $this->include('components/home/navbar.php') ?>
 
     <main>
-        <?php if (uri_string() != '/' && uri_string() != 'profile' && !str_contains(uri_string(), 'courses')) : ?>
-            <div class="container mt-4">
-                <section class="navigation">
-                    <p class="mb-4"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
-                        <?php if (uri_string() == 'faq') : ?>
-                            <a> Frequently Asked Question</a>
-                        <?php endif; ?>
-                        <?php if (uri_string() == 'terms-and-conditions') : ?>
-                            <a> Terms and Conditions</a>
-                        <?php endif; ?>
-                        <?php if (uri_string() == 'about-us') : ?>
-                            <a> About-Us</a>
-                        <?php endif; ?>
-                        <?php if (uri_string() == 'bundling') : ?>
-                            <a> Bundling</a>
-                        <?php endif; ?>
-                    </p>
-                    <hr>
-                </section>
-            </div>
+        <?php if(uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code' && !str_contains(uri_string(), 'courses')) : ?>
+        <div class="container mt-4">
+            <section class="navigation">
+                <p class="mb-4"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
+                    <?php if(uri_string() == 'faq') : ?>
+                    <a> Frequently Asked Question</a>
+                    <?php endif; ?>
+                    <?php if(uri_string() == 'terms-and-conditions') : ?>
+                    <a> Terms and Conditions</a>
+                    <?php endif; ?>
+                    <?php if(uri_string() == 'about-us') : ?>
+                    <a> About-Us</a>
+                    <?php endif; ?>
+                    <?php if(uri_string() == 'bundling') : ?>
+                    <a> Bundling</a>
+                    <?php endif; ?>
+                </p>
+                <hr>
+            </section>
+        </div>
         <?php endif; ?>
         <?php if (str_contains(uri_string(), 'courses')) : ?>
             <div class="container mt-4">
@@ -68,6 +68,7 @@
             </div>
         <?php endif; ?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
         <?= $this->renderSection('app-component') ?>
     </main>
 
@@ -77,6 +78,7 @@
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous">
     </script>

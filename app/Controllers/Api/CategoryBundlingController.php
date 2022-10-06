@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CategoryBundling;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 
 class CategoryBundlingController extends ResourceController
@@ -41,7 +42,7 @@ class CategoryBundlingController extends ResourceController
                 return $this->failNotFound('Data category bundling tidak ditemukan');
             }
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -53,6 +54,14 @@ class CategoryBundlingController extends ResourceController
 
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
             $rules = [
                 "name" => "required",
             ];
@@ -84,7 +93,7 @@ class CategoryBundlingController extends ResourceController
             }
             return $this->respondCreated($response);
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -96,10 +105,20 @@ class CategoryBundlingController extends ResourceController
 
         try {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
             $input = $this->request->getRawInput();
+
             $rules = [
                 "name" => "required",
             ];
+
             $messages = [
                 "name" => [
                     "required" => "{field} tidak boleh kosong"
@@ -118,7 +137,7 @@ class CategoryBundlingController extends ResourceController
                 ]
             ];
     
-            $cek = $this->categorybundling->where('cotegory_bundling_id', $id)->findAll();
+            $cek = $this->categorybundling->where('category_bundling_id', $id)->findAll();
             if(!$cek){
                 return $this->failNotFound('Data Category Bundling tidak ditemukan');
             }
@@ -130,10 +149,11 @@ class CategoryBundlingController extends ResourceController
             if ($this->categorybundling->update($id, $data)){
                 return $this->respond($response);
             }
-            return $this->failNotFound('Data Category Bundling tidak ditemukan');
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            // return $this->fail($th->getMessage());
+            exit($th->getMessage());
         }
+        return $this->failNotFound('Data Category Bundling tidak ditemukan');
 	}
 
     public function delete($id = null){
@@ -143,23 +163,31 @@ class CategoryBundlingController extends ResourceController
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
-            $data = $this->categorybundling->where('cotegory_bundling_id', $id)->findAll();
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $data = $this->categorybundling->where('category_bundling_id', $id)->findAll();
             if($data){
             $this->categorybundling->delete($id);
                 $response = [
-                'status'   => 200,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'Data Category Bundling berhasil dihapus'
-                ]
+                    'status'   => 200,
+                    'error'    => null,
+                    'messages' => [
+                        'success' => 'Data Category Bundling berhasil dihapus'
+                    ]
                 ];
-                return $this->respondDeleted($response);
-            }else{
-                return $this->failNotFound('Data Category Bundling tidak ditemukan');
             }
-	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->respondDeleted($response);
+        } catch (\Throwable $th) {
+            // return $this->fail($th->getMessage());
+            exit($th->getMessage());
         }
+        return $this->failNotFound('Data Category Bundling tidak ditemukan');
     }
 }

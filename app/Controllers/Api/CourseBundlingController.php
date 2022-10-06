@@ -5,6 +5,8 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CourseBundling;
+use App\Models\Users;
+use Firebase\JWT\JWT;
 
 class CourseBundlingController extends ResourceController
 {
@@ -47,5 +49,161 @@ class CourseBundlingController extends ResourceController
         }else{
             return $this->failNotFound('Data Course Bundling tidak ditemukan');
         }
+    }
+
+    public function create()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $rules = [
+                'bundling_id' => 'required',
+                'course_id' => 'required',
+            ];
+
+            $messages = [
+                "bundling_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+                "course_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+            ];
+
+            if($this->validate($rules, $messages)) {
+                $datacoursebundling = [
+                    'bundling_id' => $this->request->getVar('bundling_id'),
+                    'course_id' => $this->request->getVar('course_id'),
+                ];
+                $this->coursebundling->insert($datacoursebundling);
+
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Course Bundling berhasil dibuat'
+                    ]
+                ];
+            }else{
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
+                ];
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+        return $this->respondCreated($response);    
+    }
+
+    public function update($id = null){
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $input = $this->request->getRawInput();
+
+            $rules = [
+                'bundling_id' => 'required',
+                'course_id' => 'required',
+            ];
+
+            $messages = [
+                "bundling_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+                "course_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+            ];
+
+            $data = [
+                "bundling_id" => $input["bundling_id"],
+                "course_id" => $input["course_id"],
+            ];
+
+            $response = [
+                'status'   => 200,
+                'error'    => null,
+                'messages' => [
+                    'success' => 'Course Bundling berhasil diperbarui'
+                ]
+            ];
+
+            $cek = $this->coursebundling->where('course_bundling_id', $id)->findAll();
+
+            if(!$cek){
+                return $this->failNotFound('Data Course Bundling tidak ditemukan');
+            }
+
+            if (!$this->validate($rules, $messages)) {
+                return $this->failValidationErrors($this->validator->getErrors());
+            }
+
+            if ($this->coursebundling->update($id, $data)){
+                return $this->respond($response);
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+		return $this->failNotFound('Data Course Bundling tidak ditemukan');
+	}
+
+    public function delete($id = null){
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $data = $this->coursebundling->where('course_bundling_id', $id)->findAll();
+            if($data){
+            $this->coursebundling->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'error'    => null,
+                    'messages' => [
+                        'success' => 'Course Bundling berhasil dihapus'
+                    ]
+                ];
+            }
+            return $this->respondDeleted($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+        return $this->failNotFound('Data Course Bundling tidak ditemukan');
     }
 }

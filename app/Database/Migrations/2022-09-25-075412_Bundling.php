@@ -45,7 +45,7 @@ class Bundling extends Migration
         ]);
 
         $this->forge->addKey('bundling_id', TRUE);
-        $this->forge->addForeignKey('category_bundling_id', 'category_bundling', 'category_bundling_id');
+        $this->forge->addForeignKey('category_bundling_id', 'category_bundling', 'category_bundling_id',  'CASCADE', 'CASCADE');
         $this->forge->createTable('bundling', TRUE);
     }
 

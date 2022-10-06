@@ -62,6 +62,7 @@ $routes->post('/send-otp', 'AuthController::sendOtp');
 
 $routes->get('/new-password', 'AuthController::indexNewPassword');
 $routes->post('/new-password', 'AuthController::newPassword');
+$routes->get('/referral-code', 'AuthController::referralCode');
 
 $routes->get('/faq', 'Client\FaqController::index');
 $routes->get('/about-us', 'Home::aboutUs');
@@ -126,10 +127,9 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('users/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
-        $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
         $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
-        $routes->put('update/(:segment)', 'Api\UserController::update/$1');
+        $routes->put('update', 'Api\UserController::update/$1');
     });
 
     $routes->group('course/', static function ($routes) {
@@ -141,8 +141,10 @@ $routes->group('api/', static function ($routes) {
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+        $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
 
         $routes->group('video/', static function ($routes) {
+            $routes->get('(:num)', 'Api\VideoController::index/$1');
             $routes->post('create', 'Api\VideoController::create');
             $routes->post('update/(:segment)', 'Api\VideoController::update/$1');
             $routes->delete('delete/(:segment)', 'Api\VideoController::delete/$1');
@@ -246,12 +248,21 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('cart/', static function ($routes) {
         $routes->get('', 'Api\CartController::index');
-        $routes->post('create/(:num)/(:segment)', 'Api\CartController::create/$1/$2');
+        $routes->post('create/(:segment)/(:num)', 'Api\CartController::create/$1/$2');
         $routes->delete('delete/(:num)', 'Api\CartController::delete/$1');
     });
 
     $routes->group('mentor/', static function ($routes) {
         $routes->get('', 'Api\MentorController::index');
+    });
+
+    $routes->group('order/', static function ($routes) {
+        $routes->get('generatesnap', 'Api\OrderController::generateSnap');
+        $routes->post('notif-handler', 'Api\OrderController::notifHandler');
+    });
+
+    $routes->group('quiz/', static function ($routes) {
+        $routes->get('', 'Api\QuizController::index');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');
