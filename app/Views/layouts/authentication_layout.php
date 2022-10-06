@@ -27,7 +27,7 @@
                 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
                 <script src="https://accounts.google.com/gsi/client" async defer></script>
                 <?= $this->renderSection('authentication-js-logic') ?>
-                <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+                <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
                 <?= $this->renderSection('authentication-js') ?>
             </div>
             <div class="logo">
