@@ -102,7 +102,7 @@ class BundlingController extends ResourceController
                 ];
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->respondCreated($response);   
     }
@@ -193,7 +193,7 @@ class BundlingController extends ResourceController
     //             return $this->respond($response);
     //         }
     //     } catch (\Throwable $th) {
-    //         return $this->fail('Akses token tidak sesuai');
+    //         return $this->fail($th->getMessage());
     //     }
 	// 	return $this->failNotFound('Data bundling tidak ditemukan');
 	// }

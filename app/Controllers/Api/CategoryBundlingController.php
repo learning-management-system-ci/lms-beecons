@@ -42,7 +42,7 @@ class CategoryBundlingController extends ResourceController
                 return $this->failNotFound('Data category bundling tidak ditemukan');
             }
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -93,7 +93,7 @@ class CategoryBundlingController extends ResourceController
             }
             return $this->respondCreated($response);
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -150,7 +150,7 @@ class CategoryBundlingController extends ResourceController
                 return $this->respond($response);
             }
         } catch (\Throwable $th) {
-            // return $this->fail('Akses token tidak sesuai');
+            // return $this->fail($th->getMessage());
             exit($th->getMessage());
         }
         return $this->failNotFound('Data Category Bundling tidak ditemukan');
@@ -185,7 +185,7 @@ class CategoryBundlingController extends ResourceController
             }
             return $this->respondDeleted($response);
         } catch (\Throwable $th) {
-            // return $this->fail('Akses token tidak sesuai');
+            // return $this->fail($th->getMessage());
             exit($th->getMessage());
         }
         return $this->failNotFound('Data Category Bundling tidak ditemukan');

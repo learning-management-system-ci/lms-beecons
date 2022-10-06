@@ -77,7 +77,7 @@ class FaqController extends ResourceController {
 			}
     	return $this->respondCreated($response);    
 	  } catch (\Throwable $th) {
-    	return $this->fail('Akses token tidak sesuai');
+    	return $this->fail($th->getMessage());
     }
   }
 
@@ -144,7 +144,7 @@ class FaqController extends ResourceController {
 			}
 			return $this->failNotFound('Data FAQ tidak ditemukan');
 		} catch (\Throwable $th) {
-			return $this->fail('Akses token tidak sesuai');
+			return $this->fail($th->getMessage());
 		}
 	}
 
@@ -178,7 +178,7 @@ class FaqController extends ResourceController {
         return $this->failNotFound('Data FAQ tidak ditemukan');
       }
 		} catch (\Throwable $th) {
-			return $this->fail('Akses token tidak sesuai');
+			return $this->fail($th->getMessage());
 		}
   }
 }
