@@ -19,43 +19,132 @@ main .navigation p a {
   font-style: normal;
   font-weight: 600;
 }
-main .about-us {
-  padding: 0 0 3rem 0;
+main #profile .images {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-column-gap: 11px;
+  grid-row-gap: 20px;
 }
-main .about-us .about-us-founder h3 {
+main #profile .images div:first-child {
+  grid-area: 1/1/3/2;
+}
+main #profile .images div:nth-child(2) {
+  grid-area: 1/2/2/3;
+}
+main #profile .images div:nth-child(3) {
+  grid-area: 2/2/3/3;
+}
+main #profile .images div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+main #profile .title {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 600;
+  font-size: 32px;
+  line-height: 60px;
+  color: #164520;
 }
-main .about-us .about-us-founder p {
+main #profile .description {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
+  font-size: 16px;
+  line-height: 30px;
+  color: #164520;
 }
-main .about-us .about-us-founder p.description {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 400;
-  color: #a5a5a5;
+main #why {
+  background-color: #164520;
 }
-main .about-us .about-us-founder .founder-photo {
-  margin-right: 20px;
+main #why .image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-main .about-us .about-us-founder .founder-photo img {
-  width: 100%;
-  height: 100%;
-  max-width: 300px;
+main #why .image img {
+  width: 60px;
+  height: 60px;
   object-fit: cover;
 }
-main .about-us .about-us-card {
-  background-color: #f2f4f6;
+main #why .title h1 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 60px;
+  color: #ffffff;
+  text-align: center;
+}
+main #why .title::after {
+  content: "";
+  display: block;
+  width: 10%;
+  height: 5px;
+  background-color: #ffffff;
+  margin: 0 auto 30px auto;
   border-radius: 10px;
 }
-main .about-us .about-us-card p {
-  color: #a5a5a5;
+main #why .content-title {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 30px;
+  color: #ffffff;
+  text-align: center;
 }
-main .about-us .about-us-card a {
-  color: #5273e8;
+main #why .content-description {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 30px;
+  color: #ffffff;
+  text-align: center;
+}
+main #location img {
+  width: 100%;
+}
+main #location .title {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 60px;
+  color: #164520;
+}
+main #location .description {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 30px;
+  color: #164520;
+}
+main #location .detail {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 30px;
+  color: #A5A5A5;
+  display: block;
+}
+main #location .btn {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 30px;
+  color: #ffffff;
+  background-color: #164520;
+  border-radius: 5px;
+  padding: 8px 32px;
+  text-decoration: none;
 }
 
 /*# sourceMappingURL=about-us.css.map */

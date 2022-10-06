@@ -24,39 +24,170 @@ main {
     }
   }
 
-  .about-us {
-    padding: 0 0 3rem 0;
-    .about-us-founder {
-      h3 {
-        @include font($weight: 600);
+  #profile {
+
+    .images{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 1fr 1fr;
+      grid-column-gap: 11px;
+      grid-row-gap: 20px;
+      
+      div:first-child{
+        grid-area: 1 / 1 / 3 / 2;
       }
-      p {
-        @include font($weight: 400);
+      div:nth-child(2){
+        grid-area: 1 / 2 / 2 / 3;
       }
-      p.description {
-        @include font($weight: 400);
-        color: #a5a5a5;
+      div:nth-child(3){
+        grid-area: 2 / 2 / 3 / 3;
       }
 
-      .founder-photo {
-        margin-right: 20px;
-        img {
-          width: 100%;
-          height: 100%;
-          max-width: 300px;
-          object-fit: cover;
-        }
+      div img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
       }
     }
-    .about-us-card {
-      background-color: #f2f4f6;
-      border-radius: 10px;
-      p {
-        color: #a5a5a5;
-      }
-      a {
-        color: #5273e8;
-      }
+
+    .title{
+      @include font($weight: 600);
+      font-size: 32px;
+      line-height: 60px;
+      color: #164520;
+    }
+
+    .description{
+      @include font($weight: 400);
+      font-size: 16px;
+      line-height: 30px;
+      color: #164520;
     }
   }
+
+  #why {
+    background-color: #164520;
+
+    .image{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img{
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+      }
+    }
+
+    .title h1{
+      @include font($weight: 600);
+      font-size: 1.75rem;
+      line-height: 60px;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .title::after{
+      content: "";
+      display: block;
+      width: 10%;
+      height: 5px;
+      background-color: #ffffff;
+      margin: 0 auto 30px auto;
+      border-radius: 10px;
+    }
+
+    .content-title{
+      @include font($weight: 500);
+      font-size: 18px;
+      line-height: 30px;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    .content-description{
+      @include font($weight: 300);
+      font-size: 16px;
+      line-height: 30px;
+      color: #ffffff;
+      text-align: center;
+    }
+  }
+
+  #location {
+    img{
+      width: 100%;
+    }
+    .title{
+      @include font($weight: 600);
+      font-size: 32px;
+      line-height: 60px;
+      color: #164520;
+    }
+
+    .description{
+      @include font($weight: 600);
+      font-size: 18px;
+      line-height: 30px;
+      color: #164520;
+    }
+
+    .detail{
+      @include font($weight: 400);
+      font-size: 16px;
+      line-height: 30px;
+      color: #A5A5A5;
+      display: block;
+    }
+
+    .btn{
+      @include font($weight: 600);
+      font-size: 16px;
+      line-height: 30px;
+      color: #ffffff;
+      background-color: #164520;
+      border-radius: 5px;
+      padding: 8px 32px;
+      text-decoration: none;
+    }
+
+    
+  }
+
+  // .about-us {
+  //   padding: 0 0 3rem 0;
+  //   .about-us-founder {
+  //     h3 {
+  //       @include font($weight: 600);
+  //     }
+  //     p {
+  //       @include font($weight: 400);
+  //     }
+  //     p.description {
+  //       @include font($weight: 400);
+  //       color: #a5a5a5;
+  //     }
+
+  //     .founder-photo {
+  //       margin-right: 20px;
+  //       img {
+  //         width: 100%;
+  //         height: 100%;
+  //         max-width: 300px;
+  //         object-fit: cover;
+  //       }
+  //     }
+  //   }
+  //   .about-us-card {
+  //     background-color: #f2f4f6;
+  //     border-radius: 10px;
+  //     p {
+  //       color: #a5a5a5;
+  //     }
+  //     a {
+  //       color: #5273e8;
+  //     }
+  //   }
+  // }
 }
