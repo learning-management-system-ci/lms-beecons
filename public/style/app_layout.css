@@ -9,6 +9,15 @@ body {
   font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+}
+
 .card-course {
   border-radius: 0.6rem;
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
