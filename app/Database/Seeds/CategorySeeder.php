@@ -10,13 +10,13 @@ class CategorySeeder extends Seeder
     {
         $data = [
             [
-                'name' => 'Fundamental',
+                'name' => 'Basic',
             ],
             [
                 'name' => 'Intermediate',
             ],
             [
-                'name' => 'Advance',
+                'name' => 'Advanced',
             ],
         ];
 

@@ -5,6 +5,10 @@ body {
   overflow-x: hidden;
 }
 
+.btn-primary {
+  background-color: #164520 !important;
+}
+
 .page-flex {
   height: 100vh !important;
   gap: 10%;
@@ -40,10 +44,12 @@ form {
     margin: 0 12px 0 0 !important;
     font-size: 20px;
   }
+
   .info-text {
     font-weight: 400;
     font-size: 13px;
   }
+
   .form-label {
     font-weight: 500;
   }
@@ -70,16 +76,19 @@ form {
         height: 15px;
       }
     }
+
     a {
       font-weight: 400;
       font-size: 11px !important;
     }
   }
+
   .sign-up {
     font-weight: 300;
     font-size: 12px;
     margin-top: 20px !important;
   }
+
   .horizontal {
     font-weight: 500;
     font-size: 12px;
@@ -98,9 +107,11 @@ form {
     vertical-align: middle;
     width: 40%;
   }
+
   .horizontal::after {
     margin-left: 10px;
   }
+
   .horizontal::before {
     margin-right: 10px;
   }
@@ -112,6 +123,7 @@ a {
   width: auto;
   border-radius: 30px;
   background-color: transparent !important;
+
   img {
     width: 290px;
     height: 45px;
