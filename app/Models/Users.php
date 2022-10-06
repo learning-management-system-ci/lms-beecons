@@ -27,8 +27,8 @@ class Users extends Model
 	{
 		return $this->db->table("users")->where(['email' => $email])->update($userdata);
 	}
-    function getUser($email)
-    {
-        return $this->db->table('users')->getWhere(['email' => $email])->getRowArray();
-    }
+	function getUser($email)
+  {
+    return $this->db->table('users')->getWhere(['email' => $email])->getRowArray();
+  }
 }
