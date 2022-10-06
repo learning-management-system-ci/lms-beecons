@@ -69,6 +69,7 @@ $routes->get('/terms-and-conditions', 'Home::termsAndConditions');
 $routes->get('/courses/bundling', 'Home::bundlingCart');
 $routes->get('/course-detail', 'Home::courseDetail');
 $routes->get('/cart', 'Home::cart');
+$routes->get('/checkout', 'Home::checkout');
 $routes->get('/webinar', 'Home::webinar');
 $routes->get('/training', 'Home::training');
 $routes->get('/courses', 'Home::courses');
