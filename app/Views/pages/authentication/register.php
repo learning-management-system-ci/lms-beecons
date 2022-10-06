@@ -1,6 +1,6 @@
 <?=$this->extend('layouts/authentication_layout')?>
 
-<script>
+<!-- <script>
     window.onload = function () {
         google.accounts.id.initialize({
             client_id: "229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com", // Replace with your Google Client ID
@@ -13,7 +13,7 @@
         );
         google.accounts.id.prompt(); // Display the One Tap dialog
     }
-</script>
+</script> -->
 <?=$this->section('authentication-component')?>
 <form action="<?= base_url('/api/register'); ?>" id="sign-up" class=" form d-flex flex-column"
     style="border: 2px solid rgba(236, 236, 236, 0); width: 290px;">

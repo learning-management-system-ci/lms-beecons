@@ -26,7 +26,7 @@ class AuthController extends ResourceController {
         $this->googleClient = new \Google_Client();
         $this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
         $this->googleClient->setClientSecret("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");
-        $this->googleClient->setRedirectUri("http://localhost:8080/login/loginWithGoogle");
+        $this->googleClient->setRedirectUri(base_url() . "/login/loginWithGoogle");
         $this->googleClient->addScope("email");
         $this->googleClient->addScope("profile");
     }
