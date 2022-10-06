@@ -146,10 +146,10 @@ body {
 }
 #courses .bundle .badges .item {
   font-size: 0.75rem;
-  font-weight: bold;
+  font-weight: 500;
   padding: 0.3rem 0.8rem;
   border-radius: 8px;
-  background-color: #164520;
+  background-color: #248043;
   color: #ffffff;
 }
 #courses .bundle button {

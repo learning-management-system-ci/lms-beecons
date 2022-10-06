@@ -166,10 +166,10 @@ $color-select-tag: #6DAA82;
 
             .item {
                 font-size: .75rem;
-                font-weight: bold;
+                font-weight: 500;
                 padding: .3rem .8rem;
                 border-radius: 8px;
-                background-color: $color-primary;
+                background-color: $color-secondary;
                 color: $color-white;
             }
         }
