@@ -39,35 +39,53 @@ class Home extends BaseController
     }
     public function aboutUs()
     {
-        return view('pages/navigation/about_us');
+        $data = [
+            "title" => "About Us",
+        ];
+        return view('pages/navigation/about_us', $data);
     }
     public function termsAndConditions()
     {
-        return view('pages/navigation/terms_and_condition');
+        $data = [
+            "title" => "Terms and Conditions",
+        ];
+        return view('pages/navigation/terms_and_condition', $data);
     }
     public function bundlingCart()
     {
-        return view('pages/course/bundling');
+        $data = [
+            "title" => "Bundling",
+        ];
+        return view('pages/course/bundling', $data);
     }
     public function courseDetail()
     {
         $data = [
-            "title" => "Courses",
+            "title" => "Detail Course",
         ];
         return view('pages/course/course-detail', $data);
     }
     public function cart()
     {
-        return view('pages/course/cart');
+        $data = [
+            "title" => "Cart Anda",
+        ];
+        return view('pages/course/cart', $data);
     }
 
     public function webinar()
     {
-        return view('pages/navigation/webinar');
+        $data = [
+            "title" => "Webinar",
+        ];
+        return view('pages/navigation/webinar', $data);
     }
     public function training()
     {
-        return view('pages/navigation/training');
+        $data = [
+            "title" => "Training",
+        ];
+        return view('pages/navigation/training', $data);
     }
     public function courses()
     {

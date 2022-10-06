@@ -68,7 +68,7 @@ class ReviewController extends ResourceController {
             }
             return $this->respondCreated($response);
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
 
     }

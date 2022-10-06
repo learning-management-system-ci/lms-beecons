@@ -62,6 +62,7 @@ $routes->post('/send-otp', 'AuthController::sendOtp');
 
 $routes->get('/new-password', 'AuthController::indexNewPassword');
 $routes->post('/new-password', 'AuthController::newPassword');
+$routes->get('/referral-code', 'AuthController::referralCode');
 
 $routes->get('/faq', 'Client\FaqController::index');
 $routes->get('/about-us', 'Home::aboutUs');
@@ -125,7 +126,6 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('users/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
-        $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
         $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->put('update', 'Api\UserController::update/$1');

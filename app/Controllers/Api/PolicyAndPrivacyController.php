@@ -82,7 +82,7 @@ class PolicyAndPrivacyController extends ResourceController
             }
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -145,7 +145,7 @@ class PolicyAndPrivacyController extends ResourceController
             }
             return $this->respond($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -180,7 +180,7 @@ class PolicyAndPrivacyController extends ResourceController
                 return $this->failNotFound('Data tidak di temukan');
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 }

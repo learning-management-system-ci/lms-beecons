@@ -44,7 +44,7 @@ class VideoCategoryController extends ResourceController
                 return $this->failNotFound('Data video category tidak ditemukan');
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -101,7 +101,7 @@ class VideoCategoryController extends ResourceController
             }
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -163,7 +163,7 @@ class VideoCategoryController extends ResourceController
             }
             return $this->failNotFound('Data video category tidak ditemukan');
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -199,7 +199,7 @@ class VideoCategoryController extends ResourceController
                 return $this->failNotFound('Data video category tidak ditemukan');
             }
 	    } catch (\Throwable $th) {
-            // return $this->fail('Akses token tidak sesuai');
+            // return $this->fail($th->getMessage());
             exit($th->getMessage());
         }
     }

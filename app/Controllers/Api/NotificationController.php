@@ -52,7 +52,7 @@ class NotificationController extends ResourceController
 
             return $this->respond($data);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
     }
@@ -143,7 +143,7 @@ class NotificationController extends ResourceController
 
             return $this->respondCreated($response);   
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
     }
@@ -232,7 +232,7 @@ class NotificationController extends ResourceController
 
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
     }
@@ -276,7 +276,7 @@ class NotificationController extends ResourceController
                 return $this->failNotFound('Data tidak di temukan');
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
     }

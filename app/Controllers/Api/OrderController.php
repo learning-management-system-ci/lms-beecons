@@ -125,7 +125,7 @@ class OrderController extends BaseController
             //return view ('pages/transaction/snap-pay', ['token' => $token]);
 
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 

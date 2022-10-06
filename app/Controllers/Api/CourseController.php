@@ -238,7 +238,7 @@ class CourseController extends ResourceController
                     return $this->failNotFound('Tidak ada data');
                 }  
             } catch (\Throwable $th) {
-                return $this->fail('Akses token tidak sesuai');
+                return $this->fail($th->getMessage());
             }
         }
         
@@ -399,7 +399,7 @@ class CourseController extends ResourceController
     
             return $this->respondCreated($response);    
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 
@@ -512,7 +512,7 @@ class CourseController extends ResourceController
             }
             return $this->respondCreated($response);
 	    } catch (\Throwable $th) {
-            // return $this->fail('Akses token tidak sesuai');
+            // return $this->fail($th->getMessage());
             exit($th->getMessage());
         }
     }
@@ -555,7 +555,7 @@ class CourseController extends ResourceController
                 return $this->failNotFound('Data tidak di temukan');
             }
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
     }
 

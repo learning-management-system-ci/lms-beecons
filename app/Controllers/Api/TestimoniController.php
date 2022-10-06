@@ -105,7 +105,7 @@ class TestimoniController extends ResourceController
                 ];
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->respondCreated($response);    
     }
@@ -170,7 +170,7 @@ class TestimoniController extends ResourceController
                 return $this->respond($response);
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
 		return $this->failNotFound('Data Testimoni tidak ditemukan');
 	}
@@ -204,7 +204,7 @@ class TestimoniController extends ResourceController
             }
             return $this->respondDeleted($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data Testimoni tidak ditemukan');
     }
