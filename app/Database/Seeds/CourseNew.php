@@ -240,9 +240,9 @@ class CourseNew extends Seeder
                 'key_takeaways' => '- Peserta mampu menyajikan visualisasi arsitektur yang baik, mulai dari 3D sampai dengan animasi eksterior maupun interiornya
                 - Peserta mampu menentukan seting untuk lighting object render
                 - Peserta mampu membuat ilustrasi visual yang baik sebagai sarana delivery desain kepada klien pada pekerjaan',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '640000',
+                'new_price' => '400000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -263,9 +263,9 @@ class CourseNew extends Seeder
                 - Peserta mampu melakukan analisa struktur secara menyeluruh dan parsial serta menyajikan report hasil analisa dengan baik
             Untuk mengaktifkan dukungan pembaca layar, tekan Ctrl+Alt+Z. Untuk mempelajari pintasan keyboard, tekan Ctrl+garis miring.
                 ',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '640000',
+                'new_price' => '400000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -284,9 +284,9 @@ class CourseNew extends Seeder
                 - Peserta mampu melakukan export project information untuk membuat extention XML
                 - Peserta mampu membuat building electrical load calculation dan membuat laporannya
                 - Peserta mampu membuat electrical panel schedule pada model BIM yang dirancang',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '640000',
+                'new_price' => '400000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -304,9 +304,9 @@ class CourseNew extends Seeder
                 - Peserta mampu mendefinisikan harga dasar material dan upah pekerja sesuai dengan lokasi pekerjaan yang spesifik dengan sumber yang terpercaya
             Untuk mengaktifkan dukungan pembaca layar, tekan Ctrl+Alt+Z. Untuk mempelajari pintasan keyboard, tekan Ctrl+garis miring.
                 ',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '900000',
+                'new_price' => '600000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -324,9 +324,9 @@ class CourseNew extends Seeder
                 'key_takeaways' => '- Peserta mampu melakukan tahapan clash detection multi disiplin untuk model BIM yang dibuat
                 - Peserta mampu menggunakan software pendukung untuk clash detection dengan baik (navisworks)
                 - Peserta mampu membuat dan mengorganisir clash report',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '800000',
+                'new_price' => '500000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -355,9 +355,9 @@ class CourseNew extends Seeder
                 - Peserta mampu membuat dan setting sheet untuk disiapkan dalam bentuk print out, termasuk ekport model dalam extension lain yang diperlukan
             Untuk mengaktifkan dukungan pembaca layar, tekan Ctrl+Alt+Z. Untuk mempelajari pintasan keyboard, tekan Ctrl+garis miring.
                 ',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '800000',
+                'new_price' => '500000',
                 'thumbnail' => 'course.jpg',
             ],
         ];
