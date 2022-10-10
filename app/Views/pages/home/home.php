@@ -8,8 +8,7 @@
 <div id="g_id_onload"
     data-client_id="229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com"
     data-login_uri="http://localhost:8080/login/loginOneTapGoogle"
-    data-auto_prompt="true"
-    data-auto_select="true">
+    data-auto_prompt="true">
 </div>
 <?= $this->include('components/home/hero') ?>
 <?= $this->include('components/home/why_choose_us') ?>
