@@ -39,7 +39,7 @@ class UserCourseController extends ResourceController
 
             return $this->respond($dataUsers);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');   
     }

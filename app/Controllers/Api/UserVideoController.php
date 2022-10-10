@@ -7,6 +7,8 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\UserVideo;
 use App\Models\Course;
 use App\Models\Video;
+use App\Models\VideoCategory;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 
 class UserVideoController extends ResourceController
@@ -18,6 +20,7 @@ class UserVideoController extends ResourceController
         $this->uservideo = new UserVideo();
         $this->course = new Course();
         $this->video = new Video();
+        $this->videocategory = new VideoCategory();
     }
 
     public function index(){
@@ -61,19 +64,19 @@ class UserVideoController extends ResourceController
         $course = $this->course
             ->where('course_id', $course_id)
             ->find();
-        $video = $this->video
+        $videocategory = $this->videocategory
             ->where('course_id', $course_id)
             ->findAll();
             
         for($i = 0; $i < count($course); $i++){
-            for($k = 0; $k < count($video); $k++){
-                $course[$i]['video'][$k] = $video[$k];
+            for($k = 0; $k < count($videocategory); $k++){
+                $course[$i]['video'][$k] = $videocategory[$k];
                 $userVideo = $this->uservideo
                     ->select('user_video.score')
                     ->join('users', 'users.id = user_video.user_id')
                     ->join('video', 'video.video_id = user_video.video_id')
                     ->where('users.id', $user_id)
-                    ->where('video.video_id', $video[$k]['video_id'])
+                    ->where('video.video_id', $videocategory[$k]['video_id'])
                     ->find();
 
                 if(isset($userVideo[0])){
@@ -111,6 +114,13 @@ class UserVideoController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
 
             $rules = [
                 'user_id' => 'required',
@@ -154,7 +164,7 @@ class UserVideoController extends ResourceController
                 ];
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->respondCreated($response);
     }
@@ -167,6 +177,13 @@ class UserVideoController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
 
             $input = $this->request->getRawInput();
 
@@ -203,7 +220,7 @@ class UserVideoController extends ResourceController
                 ]
             ];
 
-            $cek = $this->uservideo->where('uservideo_id', $id)->findAll();
+            $cek = $this->uservideo->where('user_video_id', $id)->findAll();
 
             if(!$cek){
                 return $this->failNotFound('Data user video tidak ditemukan');
@@ -213,11 +230,11 @@ class UserVideoController extends ResourceController
                 return $this->failValidationErrors($this->validator->getErrors());
             }
 
-            if ($this->bundling->update($id, $data)){
+            if ($this->uservideo->update($id, $data)){
                 return $this->respond($response);
             }
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
 		return $this->failNotFound('Data user video tidak ditemukan');
 	}
@@ -230,6 +247,13 @@ class UserVideoController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
             
             $data = $this->uservideo->where('user_video_id', $id)->findAll();
             if($data){
@@ -244,7 +268,7 @@ class UserVideoController extends ResourceController
             }
             return $this->respondDeleted($response);
         } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data User Video tidak ditemukan');
     }

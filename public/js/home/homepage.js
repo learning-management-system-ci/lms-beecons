@@ -18,8 +18,8 @@ $(document).ready(async function () {
 
         function setCourses(type) {
             let coursesAll = courseResponse.slice(0, 3)
-            let coursesEngineering = courseResponse.filter(course => course.type.type_id === '1').slice(0, 3)
-            let coursesIt = courseResponse.filter(course => course.type.type_id === '2').slice(0, 3)
+            let coursesEngineering = courseResponse.filter(course => course.type[0].type_id === '1').slice(0, 3)
+            let coursesIt = courseResponse.filter(course => course.type[0].type_id === '2').slice(0, 3)
 
             $(`#choose-course .tags .item[data-type-id="${type}"]`).addClass('active').siblings().removeClass('active')
 
@@ -42,12 +42,18 @@ $(document).ready(async function () {
                                 </div>
                             </div>
                             <div class="body">
-                                <h2>${course.title}</h2>
+                                <h2 class="text-truncate">${course.title}</h2>
                                 <p>
-                                    ${course.description}
+                                    ${textTruncate(course.description, 120)}
                                 </p>
                                 <p class="harga">
-                                    <del>${getRupiah(course.old_price)}</del>
+                                    ${(() => {
+                                        if (course.old_price !== '0') {
+                                            return `<del>${getRupiah(course.old_price)}</del>`
+                                        } else {
+                                            return ''
+                                        }
+                                    })()}
                                     ${getRupiah(course.new_price)}
                                 </p>
                             </div>
@@ -70,48 +76,18 @@ $(document).ready(async function () {
 
     // handle mentor slider
     try {
-        let mentors = [
-            {
-                id: 1,
-                name: 'John Doe',
-                image: '',
-                job: 'Software Engineer',
-                stars: 4.5,
-                links: {
-                    linkedin: '/',
-                    ig: '/',
-                    fb: '/'
-                }
-            },
-            {
-                id: 2,
-                name: 'John Doe',
-                image: '',
-                job: 'Software Engineer',
-                stars: 4.5,
-                links: {
-                    linkedin: '/',
-                    ig: '/',
-                    fb: '/'
-                }
-            },
-            {
-                id: 3,
-                name: 'John Doe',
-                image: '',
-                job: 'Software Engineer',
-                stars: 4.5,
-                links: {
-                    linkedin: '/',
-                    ig: '/',
-                    fb: '/'
-                }
-            },
-            {
-                id: 4,
-                name: 'John Doe',
-                image: '',
-                job: 'Software Engineer',
+        const mentorResponse = await $.ajax({
+            url: '/api/mentor',
+            method: 'GET',
+            dataType: 'json'
+        })
+        
+        let mentors = mentorResponse.map(mentor => {
+            return {
+                id: mentor.id,
+                fullname: mentor.fullname,
+                profile_picture: 'people.jpg',
+                job: mentor.job_name,
                 stars: 4.5,
                 links: {
                     linkedin: '/',
@@ -119,17 +95,17 @@ $(document).ready(async function () {
                     fb: '/'
                 }
             }
-        ]
+        })
 
         $('#mentor-wrapper').html(mentors.map(mentor => {
             return `
                 <div class="card-mentor">
                     <div class="profile">
-                        <img src="image/home/people.jpg" alt="mentor">
+                        <img src="image/home/${mentor.profile_picture}" alt="mentor">
                     </div>
 
                     <div class="info">
-                        <h2>${mentor.name}</h2>
+                        <h2>${mentor.fullname}</h2>
                         <p>${mentor.job}</p>
                     </div>
 
@@ -159,6 +135,8 @@ $(document).ready(async function () {
             slidesToScroll: 1,
             touchMove: true,
             autoplay: true,
+            speed: 500,
+            autoplaySpeed: 1200,
         })
     } catch (error) {
         console.log(error)
@@ -234,6 +212,59 @@ $(document).ready(async function () {
                 `
             )
         }
+    } catch (error) {
+        console.log(error)
+    }
+
+    // handle testimoni
+    try {
+        const testimoniResponse = await $.ajax({
+            url: '/api/testimoni',
+            method: 'GET',
+            dataType: 'json'
+        })
+
+        let testimonials = testimoniResponse.map(testimoni => {
+            return {
+                testimoni_id: testimoni.testimoni_id,
+                fullname: testimoni.user[0].fullname,
+                job: 'Alumbi Fullstack Engineer',
+                picture: 'people.jpg',
+                testimoni: testimoni.testimoni
+            }
+        })
+        
+        $('#testimoni .testimoni-slick').html(testimonials.map((testimoni) => {
+            return (
+                `
+                    <div class="testimoni-container">
+                        <div class="image">
+                            <img src="image/home/${testimoni.picture}" alt="">
+                        </div>
+                        <div class="content">
+                            <div class="title">
+                                ${testimoni.job}
+                            </div>
+                            <div class="name">
+                                ${testimoni.fullname}
+                            </div>
+                            <div class="text">
+                                ${testimoni.testimoni}
+                            </div>
+                        </div>
+                    </div>
+                `
+            )
+        }))
+
+        // testimoni slider
+        $('.testimoni-slick').slick({
+            dots: true,
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            touchMove: true,
+            centerMode: true,
+        })
     } catch (error) {
         console.log(error)
     }

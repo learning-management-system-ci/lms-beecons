@@ -397,7 +397,7 @@ class CourseController extends ResourceController
             }
     
     
-            return $this->respondCreated($response);    
+            return $this->respondCreated($response);  
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }

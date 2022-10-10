@@ -1,13 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
-@mixin font($weight) {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: $weight;
-}
+@import "_base";
 
 body {
   background-color: #e8f9fd;
   overflow-x: hidden;
+}
+
+.btn-primary {
+  background-color: #164520 !important;
 }
 
 .page-flex {
@@ -25,54 +24,73 @@ body {
   min-width: 290px;
 }
 
+.active {
+  background-color: $color-secondary !important;
+  color: $color-white !important;
+}
+
+.disable {
+  background-color: $color-gray-4 !important;
+  color: $color-secondary !important;
+}
+
 form {
   .welcome-text {
-    @include font($weight: 400);
+    font-weight: 400;
   }
 
   .sign-in-text {
-    @include font($weight: 700);
+    font-weight: 700;
     margin: 0 12px 0 0 !important;
     font-size: 20px;
   }
+
   .info-text {
-    @include font($weight: 400);
+    font-weight: 400;
     font-size: 13px;
   }
+
   .form-label {
-    @include font($weight: 500);
+    font-weight: 500;
   }
 
   input {
-    @include font($weight: 400);
-    border: 1px solid #9b9b9b;
+    font-weight: 400;
+    border: 1px solid;
     border-radius: 7px;
     height: 40px;
     padding-left: 20px;
     font-size: 12px;
+    &:focus-visible {
+      border: 1px solid $color-secondary;
+      border-radius: 7px;
+    }
   }
 
   .option {
     .checkbox {
       label {
-        @include font($weight: 400);
+        font-weight: 400;
         font-size: 11px !important;
         margin-left: 2px;
         height: 15px;
       }
     }
+
     a {
-      @include font($weight: 400);
+      font-weight: 400;
       font-size: 11px !important;
     }
   }
+
   .sign-up {
-    @include font($weight: 300);
+    font-weight: 300;
     font-size: 12px;
     margin-top: 20px !important;
   }
+
   .horizontal {
-    @include font($weight: 500);
+    font-weight: 500;
     font-size: 12px;
     text-align: center;
     color: #1f1f1f;
@@ -89,9 +107,11 @@ form {
     vertical-align: middle;
     width: 40%;
   }
+
   .horizontal::after {
     margin-left: 10px;
   }
+
   .horizontal::before {
     margin-right: 10px;
   }
@@ -103,6 +123,7 @@ a {
   width: auto;
   border-radius: 30px;
   background-color: transparent !important;
+
   img {
     width: 290px;
     height: 45px;

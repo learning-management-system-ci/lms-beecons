@@ -46,7 +46,7 @@ main .main-content .left-side {
   width: min-content;
 }
 main .main-content .left-side .category {
-  background-color: #002B5B;
+  background-color: #164520;
   color: white;
   width: max-content;
   padding: 6px 15px;
@@ -91,7 +91,7 @@ main .main-content .right-side .order-card button {
   width: 100%;
   height: 40px;
   border-radius: 10px;
-  background-color: #002B5B;
+  background-color: #164520;
   color: white;
 }
 main .main-content .right-side .order-card .add-to-cart {

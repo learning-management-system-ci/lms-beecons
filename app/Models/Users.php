@@ -19,12 +19,16 @@ class Users extends Model
 	{
 		return $this->db->table('users')->getWhere(['email' => $email])->getRowArray() > 0 ? true : false;
 	}
-	function updateUserData($userdata, $email)
+	function updateUserData($userdata, $authid)
 	{
-		$this->db->table("users")->where(['email' => $email])->update($userdata);
+		return $this->db->table("users")->where(['oauth_id' => $authid])->update($userdata);
 	}
 	function updateUserByEmail($userdata, $email)
 	{
-		$this->db->table("users")->where(['email' => $email])->update($userdata);
+		return $this->db->table("users")->where(['email' => $email])->update($userdata);
 	}
+	function getUser($email)
+  {
+    return $this->db->table('users')->getWhere(['email' => $email])->getRowArray();
+  }
 }

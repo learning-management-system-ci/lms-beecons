@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Voucher;
+use App\Models\Users;
 use Firebase\JWT\JWT;
 
 class VoucherController extends ResourceController
@@ -26,14 +27,14 @@ class VoucherController extends ResourceController
 
         try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
-			$data = $this->voucherModel->orderBy('voucher_id', 'DESC')->findAll();
+			$data = $this->voucherModel->orderBy('voucher_id', 'DESC')->where('is_active', 1)->findAll();
 			if (count($data) > 0) {
 				return $this->respond($data);
 			} else {
 				return $this->failNotFound('Tidak ada data');
 			}
 		} catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+			return $this->fail($th->getMessage());
         }
 		
 	}
@@ -41,12 +42,20 @@ class VoucherController extends ResourceController
 	public function create()
 	{
 		$key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+		$header = $this->request->getServer('HTTP_AUTHORIZATION');
+		if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+		$token = explode(' ', $header)[1];
 
-        try {
+		try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
+			$user = new Users;
+
+  		// cek role user
+		  $data = $user->select('role')->where('id', $decoded->uid)->first();
+		  if($data['role'] != 'admin'){
+		    return $this->fail('Tidak dapat di akses selain admin', 400);
+		  }
+
 			$rules = [
 				"title" => "required",
 				"start_date" => "required|valid_date",
@@ -109,19 +118,20 @@ class VoucherController extends ResourceController
 			}
 			return $this->respondCreated($response);
 		} catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
-        }
+			return $this->fail($th->getMessage());
+		}
 	}
 
 	public function show($id = null)
 	{
 		$key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+  	$header = $this->request->getServer('HTTP_AUTHORIZATION');
+	  if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+	  $token = explode(' ', $header)[1];
 
-        try {
+	  try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
+
 			$data = $this->voucherModel->where('voucher_id', $id)->first();
 			if ($data) {
 				return $this->respond($data);
@@ -129,19 +139,27 @@ class VoucherController extends ResourceController
 				return $this->failNotFound('Data voucher tidak ditemukan');
 			}
 		} catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
-        }
+      return $this->fail($th->getMessage());
+    }
 	}
 
 	public function update($id = null)
 	{
 		$key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+  	$header = $this->request->getServer('HTTP_AUTHORIZATION');
+	  if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+	  $token = explode(' ', $header)[1];
 
-        try {
+	  try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
+			$user = new Users;
+
+  		// cek role user
+		  $data = $user->select('role')->where('id', $decoded->uid)->first();
+		  if($data['role'] != 'admin'){
+		    return $this->fail('Tidak dapat di akses selain admin', 400);
+		  }
+
 			$input = $this->request->getRawInput();
 			$rules = [
 				"title" => "required",
@@ -211,19 +229,27 @@ class VoucherController extends ResourceController
 			}
 			return $this->failNotFound('Data voucher tidak ditemukan');
 		} catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
-        }
+      return $this->fail($th->getMessage());
+		}
 	}
 
 	public function delete($id = null)
 	{
 		$key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+  	$header = $this->request->getServer('HTTP_AUTHORIZATION');
+	  if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+	  $token = explode(' ', $header)[1];
 
-        try {
+	  try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
+			$user = new Users;
+
+  		// cek role user
+		  $data = $user->select('role')->where('id', $decoded->uid)->first();
+		  if($data['role'] != 'admin'){
+		    return $this->fail('Tidak dapat di akses selain admin', 400);
+		  }
+
 			$data = $this->voucherModel->where('voucher_id', $id)->findAll();
 			if ($data) {
 				$this->voucherModel->delete($id);
@@ -239,7 +265,7 @@ class VoucherController extends ResourceController
 			return $this->failNotFound('Data voucher tidak ditemukan');
 			}
 		} catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
-        }
+      return $this->fail($th->getMessage());
+    }
 	}
 }
