@@ -1,19 +1,21 @@
 $(document).ready(function () {
     // handle cart notification
-    $.ajax({
-        url: '/api/cart',
-        method: 'GET',
-        headers:
-        {
-            Authorization: 'Bearer ' + Cookies.get("access_token")
-        },
-        dataType: 'json',
-    }).then((res) => {
-        let cartCount = res.item.length;
-        $('#cart-count').text(cartCount);
-    }).catch((err) => {
-        console.log(err)
-    })
+    function handleCartNotification() {
+        $.ajax({
+            url: '/api/cart',
+            method: 'GET',
+            headers:
+            {
+                Authorization: 'Bearer ' + Cookies.get("access_token")
+            },
+            dataType: 'json',
+        }).then((res) => {
+            let cartCount = res.item.length;
+            $('#cart-count').text(cartCount);
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
 
     // handle notification
     function getNotification() {
@@ -65,6 +67,7 @@ $(document).ready(function () {
 
     // call function setNotification every 15 seconds
     if (Cookies.get("access_token") != null) {
+        handleCartNotification()
         setNotification();
         setInterval(async () => {
             setNotification();

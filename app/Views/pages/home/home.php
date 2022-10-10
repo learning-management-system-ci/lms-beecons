@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/app_layout') ?>
 
 <?= $this->section('css-component') ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <link rel="stylesheet" href="../../../style/home.css">
 <?= $this->endSection() ?>
 
@@ -24,6 +25,7 @@
 
 <?= $this->section('js-component') ?>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../../../js/utils/getRupiah.js"></script>
 <script src="../../../js/utils/textTruncate.js"></script>
 <script src="../../../js/home/homepage.js"></script>
