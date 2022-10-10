@@ -8,7 +8,7 @@ class CourseTypeSeeder extends Seeder
 {
     public function run()
     {
-        $no = 15;
+        $no = 12;
         $data = [];
 
         for($i = 1; $i <= $no; $i++){

@@ -117,45 +117,6 @@ class CourseTagSeeder extends Seeder
                 'course_id' => 12,
                 'tag_id' => 3,
             ],
-
-            [
-                'course_id' => 13,
-                'tag_id' => 1,
-            ],
-            [
-                'course_id' => 13,
-                'tag_id' => 2,
-            ],
-            [
-                'course_id' => 13,
-                'tag_id' => 3,
-            ],
-
-            [
-                'course_id' => 14,
-                'tag_id' => 1,
-            ],
-            [
-                'course_id' => 14,
-                'tag_id' => 2,
-            ],
-            [
-                'course_id' => 14,
-                'tag_id' => 3,
-            ],
-
-            [
-                'course_id' => 15,
-                'tag_id' => 1,
-            ],
-            [
-                'course_id' => 15,
-                'tag_id' => 2,
-            ],
-            [
-                'course_id' => 15,
-                'tag_id' => 3,
-            ],
         ];
 
         $this->db->table('course_tag')->insertBatch($data);
