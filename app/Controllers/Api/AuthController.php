@@ -420,7 +420,7 @@ class AuthController extends ResourceController {
 
         $verifyPass = password_verify($this->request->getVar('password'), $verifyEmail['password']);
         if (!$verifyPass) {
-            return $this->fail('Kata sandi salah');
+            return $this->fail('Email atau kata sandi salah');
         } else if ($verifyEmail['activation_status'] != 1) {
             return $this->fail('Pengguna belum aktif');
         } else {
