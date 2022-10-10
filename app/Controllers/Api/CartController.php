@@ -47,7 +47,7 @@ class CartController extends ResourceController
                 $response = [
                     'user' => $user_data,
                     'item' => $items,
-                    'total' => $temp += $value['total']
+                    'total' => $temp += $total
                 ];
             }
 
