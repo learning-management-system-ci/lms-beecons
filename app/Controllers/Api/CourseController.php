@@ -119,12 +119,12 @@ class CourseController extends ResourceController
                 for($l = 0; $l < count($videoCategory); $l++){
                     $video = $modelVideo
                         ->where('video_category_id', $videoCategory[$l]['video_category_id'])
-                        ->orderBy('video_id', 'DESC')
+                        ->orderBy('order', 'DESC')
                         ->findAll();
                     if($videoCategory[0]['title'] != ''){
                         $data['video_category'][$l]['video'] = $video;
                     }else{
-                        $data['video'][$l] = $video;
+                        $data['video'] = $video;
                     }
                 }
     
@@ -191,7 +191,7 @@ class CourseController extends ResourceController
                     for($l = 0; $l < count($videoCategory); $l++){
                         $video = $modelVideo
                             ->where('video_category_id', $videoCategory[$l]['video_category_id'])
-                            ->orderBy('video_id', 'DESC')
+                            ->orderBy('order', 'DESC')
                             ->findAll();
                         
                         if($videoCategory[0]['title'] != ''){
@@ -305,7 +305,7 @@ class CourseController extends ResourceController
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
@@ -397,8 +397,8 @@ class CourseController extends ResourceController
             }
     
     
-            return $this->respondCreated($response);    
-	    } catch (\Throwable $th) {
+            return $this->respondCreated($response);  
+        } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
     }
@@ -411,7 +411,7 @@ class CourseController extends ResourceController
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
@@ -511,7 +511,7 @@ class CourseController extends ResourceController
                 ];
             }
             return $this->respondCreated($response);
-	    } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             // return $this->fail($th->getMessage());
             exit($th->getMessage());
         }
@@ -525,7 +525,7 @@ class CourseController extends ResourceController
         $token = explode(' ', $header)[1];
 
         try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
             // cek role user
@@ -554,7 +554,7 @@ class CourseController extends ResourceController
             }else{
                 return $this->failNotFound('Data tidak di temukan');
             }
-	    } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
     }
