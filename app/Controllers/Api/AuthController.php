@@ -29,12 +29,12 @@ class AuthController extends ResourceController {
         $this->googleClient->setRedirectUri(base_url() . "/login/loginWithGoogle");
         $this->googleClient->addScope("email");
         $this->googleClient->addScope("profile");
-        $this->googleClientOne = new \Google_Client();
-        $this->googleClientOne->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
-        $this->googleClientOne->setClientSecret("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");
-        $this->googleClientOne->setRedirectUri(base_url() . "/login/loginOneTapGoogle");
-        $this->googleClientOne->addScope("email");
-        $this->googleClientOne->addScope("profile");
+        // $this->googleClientOne = new \Google_Client();
+        // $this->googleClientOne->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
+        // $this->googleClientOne->setClientSecret("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");
+        // $this->googleClientOne->setRedirectUri(base_url() . "/login/loginOneTapGoogle");
+        // $this->googleClientOne->addScope("email");
+        // $this->googleClientOne->addScope("profile");
     }
 
     public function loginWithGoogle()
@@ -102,6 +102,40 @@ class AuthController extends ResourceController {
     public function loginOneTapGoogle()
     {
         // print_r($_POST);
+
+        // Firstly, create Google client object with client ID
+
+        // $google_client = new \Google_Client([
+        //     'client_id' => "229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com"
+        // ]);
+
+        // // Then, verify the credential
+
+        // $token = $_POST['credential'];
+
+        // // print_r($token);
+
+        // $payload = $google_client->verifyIdToken($token);
+        // if ($payload && $payload['aud'] == "229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com")
+        // {
+
+        //     // Here you can get user email from Google, Also you can get all user data
+
+        //     // $email = $payload['email'];
+
+        //     // Lastly, you can add user email to session, Or any thing you want in your app
+
+        //     // $_SESSION['user'] = $email;
+        //     // print_r($email);
+
+        //     // $this->googleClient->setAccessToken($token);
+        //     // session()->set("AccessToken", $token);
+            
+        //     $googleService = new \Google\Service\Oauth2($google_client);
+        //     $data = $googleService->userinfo->get();
+        //     print_r($data);
+
+        // }
         // $token = $this->googleClientOne->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
         // if (!isset($token['error'])) {
         //     $this->googleClientOne->setAccessToken($token['access_token']);
@@ -162,35 +196,76 @@ class AuthController extends ResourceController {
         // return redirect()->to(base_url() . "/login");
 
         // set google client ID
-        $google_oauth_client_id = "";
+        $google_oauth_client_id = "229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com";
     
         // create google client object with client ID
-        $client = $this->googleClient->ClientId;
+        $client = new \Google_Client([
+            'client_id' => $google_oauth_client_id
+        ]);
     
-        // verify the token sent from AJAX
-        $id_token = $_POST["id_token"];
+        // // verify the token sent from AJAX
+        $id_token = $_POST['credential'];
+
+        // print_r($id_token);
     
         $payload = $client->verifyIdToken($id_token);
         if ($payload && $payload['aud'] == $google_oauth_client_id)
         {
             // get user information from Google
+            $currentDateTime = date("Y-m-d H:i:s");
             $user_google_id = $payload['sub'];
-    
-            $name = $payload["name"];
             $email = $payload["email"];
-            $picture = $payload["picture"];
-    
-            // login the user
-            $_SESSION["user"] = $user_google_id;
-    
-            // send the response back to client side
-            echo "Successfully logged in. " . $user_google_id . ", " . $name . ", " . $email . ", " . $picture;
+            $userdata = array();
+
+            if ($this->loginModel->isAlreadyRegister($user_google_id) || $this->loginModel->isAlreadyRegisterByEmail($email)) {
+                $userdata = [
+                    'oauth_id' => $user_google_id,
+                    'email' => $email,
+                    'updated_at' => $currentDateTime,
+                    'activation_status' => '1',
+                ];
+                $this->loginModel->updateUserByEmail($userdata, $email);
+            } else {
+                $userdata = [
+                    'oauth_id' => $user_google_id,
+                    'email' => $email,
+                    'updated_at' => $currentDateTime,
+                    'activation_status' => '1',
+                    'role' => 'member'
+                ];
+                $this->loginModel->save($userdata);
+            }
+            $datauser = $this->loginModel->getUser($email);
+            $key = getenv('TOKEN_SECRET');
+            $payload = [
+                'iat'   => 1356999524,
+                'nbf'   => 1357000000,
+                "exp" => time() + (60 * 60),
+                'uid'   => $datauser['id'],
+                'email' => $email,
+            ];
+            $token = JWT::encode($payload, $key, 'HS256');
+            
+        } else {
+            $response = [
+                'status' => 500,
+                'error' => true,
+                'message' => 'Terdapat Masalah Saat Login',
+                'data' => []
+            ];
+            // session()->setFlashData("error", "Something went Wrong");
+            $this->respondCreated($response);
+            return;
         }
-        else
-        {
-            // token is not verified or expired
-            echo "Failed to login.";
-        }
+        $response = [
+            'status' => 200,
+            'error' => false,
+            'data' => [$token]
+        ];
+        // session()->setFlashData("success", "Login Successful");
+        $this->respondCreated($response);
+        setcookie("access_token", $token, time()+60*60, '/');
+        return redirect()->to(base_url() . "/login");
     }
 
 	public function register() {
