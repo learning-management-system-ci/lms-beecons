@@ -206,7 +206,11 @@ class CourseController extends ResourceController
                                 ->where('user_id', $decoded->uid)
                                 ->where('video_id', $video[$p]['video_id'])
                                 ->findAll();
-                            $data['video'][$p]['score'] = $user_video;
+                            if($user_video){
+                                $data['video'][$p]['score'] = $user_video[0]['score'];
+                            }else{
+                                $data['video'][$p]['score'] = null;
+                            }
                         }
                     }
         
