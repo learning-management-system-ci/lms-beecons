@@ -161,7 +161,22 @@ $(document).ready(async function () {
                         Authorization: 'Bearer ' + Cookies.get("access_token")
                     }
                 }).then((res) => {
-                    alert(res.message)
+                    if (res.status !== 200) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: res.message,
+                            icon: 'error',
+                            showConfirmButton: true
+                        })
+                    }
+                    
+                    return new swal({
+                        title: "Berhasil!",
+                        text: "Course berhasil ditambahkan ke keranjang",
+                        icon: "success",
+                        timer: 1200,
+                        showConfirmButton: false
+                    });
                 }).catch((err) => {
                     console.log(error)
                 })
