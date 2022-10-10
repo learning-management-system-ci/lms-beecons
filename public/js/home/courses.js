@@ -164,7 +164,7 @@ $(document).ready(async function () {
                     if (res.status !== 200) {
                         return new swal({
                             title: 'Gagal',
-                            text: res.message,
+                            text: 'Course sudah ada di keranjang',
                             icon: 'error',
                             showConfirmButton: true
                         })
