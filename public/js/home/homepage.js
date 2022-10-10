@@ -61,9 +61,7 @@ $(document).ready(async function () {
                                 <a href="">
                                     <button class="my-btn btn-full">Beli</button>
                                 </a>
-                                <a href="">
-                                    <button class="button-secondary"><i class="fa-solid fa-cart-shopping"></i></button>
-                                </a>
+                                <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
                             </div>
                         </div>
                     </div>
