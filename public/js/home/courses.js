@@ -51,6 +51,7 @@ $(document).ready(async function () {
             let currentTag = $(this).data('tag_id').toString()
             localStorage.setItem('current-tag-engineering', currentTag)
             generateListCourse(courseResponse, $('#courses-engineering'), '1', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
+            handleAddCart()
         })
 
         $(`#courses #tab-courses-1 .sub-tags .item`).on('click', function(e) {
@@ -61,6 +62,7 @@ $(document).ready(async function () {
             
             localStorage.setItem('current-category-engineering', currentCategory)
             generateListCourse(courseResponse, $('#courses-engineering'), '1', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
+            handleAddCart()
         })
 
         $('#courses  #tab-courses-2 .tags .item').on('click', function (e) {
@@ -70,6 +72,7 @@ $(document).ready(async function () {
             let currentTag = $(this).data('tag_id').toString()
             localStorage.setItem('current-tag-it', currentTag)
             generateListCourse(courseResponse, $('#courses-it'), '2', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
+            handleAddCart()
         })
 
         $(`#courses #tab-courses-2 .sub-tags .item`).on('click', function(e) {
@@ -80,6 +83,7 @@ $(document).ready(async function () {
             
             localStorage.setItem('current-category-it', currentCategory)
             generateListCourse(courseResponse, $('#courses-it'), '2', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
+            handleAddCart()
         })
 
         function generateListCourse(courses, element, type, tag, category) {
@@ -102,6 +106,8 @@ $(document).ready(async function () {
             } else {
                 result = coursesByCategory
             }
+
+            handleAddCart()
     
             element.html(result.map(course => {
                 return `
@@ -136,14 +142,45 @@ $(document).ready(async function () {
                                 <a href="/course-detail">
                                     <button class="my-btn btn-full">Beli</button>
                                 </a>
-                                <a href="/cart">
-                                    <button class="button-secondary"><i class="fa-solid fa-cart-shopping"></i></button>
-                                </a>
+                                <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
                             </div>
                         </div>
                     </div>
                 `
             }))
+        }
+
+        function handleAddCart() {
+            return $('.add-cart').on('click', function() {
+                const course_id = $(this).val()
+                $.ajax({
+                    url: `/api/cart/create/course/${course_id}`,
+                    method: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        Authorization: 'Bearer ' + Cookies.get("access_token")
+                    }
+                }).then((res) => {
+                    if (res.status !== 200) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: 'Course sudah ada di keranjang',
+                            icon: 'error',
+                            showConfirmButton: true
+                        })
+                    }
+                    
+                    return new swal({
+                        title: "Berhasil!",
+                        text: "Course berhasil ditambahkan ke keranjang",
+                        icon: "success",
+                        timer: 1200,
+                        showConfirmButton: false
+                    });
+                }).catch((err) => {
+                    console.log(error)
+                })
+            })
         }
     } catch (error) {
         console.log(error)

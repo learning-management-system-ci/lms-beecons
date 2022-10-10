@@ -8,12 +8,14 @@ $(document).ready(async function () {
         })
         
         setCourses('0')
+        handleAddCart()
 
         $('#choose-course .tags .item').on('click', function (e) {
             e.preventDefault()
             let typeId = $(this).attr('data-type-id')
             
             setCourses(typeId)
+            handleAddCart()
         })
 
         function setCourses(type) {
@@ -61,14 +63,45 @@ $(document).ready(async function () {
                                 <a href="">
                                     <button class="my-btn btn-full">Beli</button>
                                 </a>
-                                <a href="">
-                                    <button class="button-secondary"><i class="fa-solid fa-cart-shopping"></i></button>
-                                </a>
+                                <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
                             </div>
                         </div>
                     </div>
                 `
             }))
+        }
+
+        function handleAddCart() {
+            return $('.add-cart').on('click', function() {
+                const course_id = $(this).val()
+                $.ajax({
+                    url: `/api/cart/create/course/${course_id}`,
+                    method: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        Authorization: 'Bearer ' + Cookies.get("access_token")
+                    }
+                }).then((res) => {
+                    if (res.status !== 200) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: 'Course sudah ada di keranjang',
+                            icon: 'error',
+                            showConfirmButton: true
+                        })
+                    }
+                    
+                    return new swal({
+                        title: "Berhasil!",
+                        text: "Course berhasil ditambahkan ke keranjang",
+                        icon: "success",
+                        timer: 1200,
+                        showConfirmButton: false
+                    });
+                }).catch((err) => {
+                    console.log(error)
+                })
+            })
         }
     } catch (error) {
         console.log(error)
