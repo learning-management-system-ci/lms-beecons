@@ -39,7 +39,7 @@ class CourseBundlingController extends ResourceController
             $dataCourseBundling[] = [
                 'course_bundling_id' => $value['course_bundling_id'],
                 'bundling' => $this->coursebundling->getDataBundling($data_bundling_id = $value['bundling_id']),
-                'course' => $this->coursebundling->getDataCourse($data_course_id = $value['course_id']),
+                'course' => $this->coursebundling->getDataCourse($data_course_id = $value['bundling_id']),
                 'created_at' => $value['created_at'],
                 'updated_at' => $value['updated_at'],
             ];
