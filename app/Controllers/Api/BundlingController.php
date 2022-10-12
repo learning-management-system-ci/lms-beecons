@@ -142,15 +142,11 @@ class BundlingController extends ResourceController
 
     public function show($id = null)
     {
-        $model = new Course();
         $modelBundling = new Bundling();
-        $modelCourseCategory = new CourseCategory();
-        $modelCourseBundling = new CourseBundling();
         $modelVideo = new Video();
-        $modelVideoCategory = new VideoCategory();
 
         if($modelBundling->find($id)){
-            $bundling = $modelBundling->where('bundling_id', $id)->first();
+            $data['bundling'] = $modelBundling->where('bundling_id', $id)->first();
 
             // $bundling = $modelBundling
             //     ->where('bundling.bundling_id', $id)
@@ -170,16 +166,16 @@ class BundlingController extends ResourceController
                 ->orderBy('bundling.bundling_id', 'DESC')
                 ->first();
 
-            $course = $modelBundling
-                ->where('bundling.bundling_id', $id)
-                ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
-                ->join('course', 'course_bundling.course_id=course.course_id')
-                ->join('course_category', 'course.course_id=course_category.course_id')
-                ->select('course.*, course_category.*')
-                ->orderBy('bundling.bundling_id', 'DESC')
-                ->first();
+            // $course = $modelBundling
+            //     ->where('bundling.bundling_id', $id)
+            //     ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
+            //     ->join('course', 'course_bundling.course_id=course.course_id')
+            //     ->join('course_category', 'course.course_id=course_category.course_id')
+            //     ->select('course.*, course_category.*')
+            //     ->orderBy('bundling.bundling_id', 'DESC')
+            //     ->first();
 
-            $video = $modelBundling
+            $video2 = $modelBundling
                 ->where('bundling.bundling_id', $id)
                 ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
                 ->join('course', 'course_bundling.course_id=course.course_id')
@@ -189,13 +185,67 @@ class BundlingController extends ResourceController
                 ->select('video_category.*, video.*')
                 ->orderBy('bundling.bundling_id', 'DESC')
                 ->first();
-    
-            $data = [
-                'bundling' => $bundling,
-                'course_bundling' => $course_bundling,
-                'course' => $course,
-                'video' => $video,
-            ];
+
+            // $videoCategory = $modelBundling
+            //     ->where('bundling.bundling_id', $id)
+            //     ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
+            //     ->join('course', 'course_bundling.course_id=course.course_id')
+            //     ->join('course_category', 'course.course_id=course_category.course_id')
+            //     ->join('video_category', 'course_category.course_id=video_category.course_id')
+            //     ->orderBy('video_category.video_category_id', 'DESC')
+            //     ->findAll();
+
+            $course = $modelBundling
+            ->where('bundling.bundling_id', $id)
+            ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
+            ->join('course', 'course_bundling.course_id=course.course_id')
+            ->join('course_category', 'course.course_id=course_category.course_id')
+            ->join('video_category', 'course.course_id=video_category.course_id')
+            ->select('course.*, course_category.*, video_category.video_category_id')
+            ->orderBy('bundling.bundling_id', 'DESC')
+            ->findAll();
+            
+            $data['course'] = $course;
+
+            for($l = 0; $l < count($course); $l++){
+                $video = $modelVideo
+                    ->where('video_category_id', $course[$l]['video_category_id'])
+                    ->orderBy('order', 'DESC')
+                    ->findAll();
+
+                $countvideo = $modelVideo
+                    ->where('video_category_id', $course[$l]['video_category_id'])
+                    ->orderBy('order', 'DESC')
+                    ->countAllResults();
+
+                $data['course'][$l]['jumlahvideo'] = "$countvideo";
+                // $data['course'][$l]['video'] = $video;
+            }
+            return $this->respond($data);
+            for($l = 0; $l < count($course_bundling); $l++){
+                $course = $modelBundling
+                    ->where('bundling.bundling_id', $id)
+                    ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
+                    ->join('course', 'course_bundling.course_id=course.course_id')
+                    ->join('course_category', 'course.course_id=course_category.course_id')
+                    ->select('course.*, course_category.*')
+                    ->orderBy('bundling.bundling_id', 'DESC')
+                    ->findAll();
+
+                // $videoCategory = $modelBundling
+                //     ->where('bundling.bundling_id', $id)
+                //     ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
+                //     ->join('course', 'course_bundling.course_id=course.course_id')
+                //     ->join('course_category', 'course.course_id=course_category.course_id')
+                //     ->join('video_category', 'course_category.course_id=video_category.course_id')
+                //     ->select('video_category.*')
+                //     ->orderBy('video_category.video_category_id', 'DESC')
+                //     ->findAll();
+
+                // $data['course'] = $course;
+                // $data[$l]['video'] = $videoCategory;
+                // $data['video_category'] = $videoCategory;
+            }
 
             return $this->respond($data);
         }else{
