@@ -16,6 +16,7 @@ use App\Models\Review;
 use App\Models\Jobs;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
+use getID3;
 
 class CourseController extends ResourceController
 {
@@ -79,6 +80,10 @@ class CourseController extends ResourceController
         // Jika tag kosong, berarti karena tidak ada data type_tag, atau tidak ada type_tag yang berelasi dengan course_type
         // Jika type null, berarti course tidak ada relasi dengan type
 
+        // To get video duration
+        include_once('getid3/getid3.php');
+        $getID3 = new getID3;       
+
         $model = new Course();
         $modelCourseCategory = new CourseCategory();
         $modelCourseType = new CourseType();
@@ -125,10 +130,49 @@ class CourseController extends ResourceController
                         ->where('video_category_id', $videoCategory[$l]['video_category_id'])
                         ->orderBy('order', 'DESC')
                         ->findAll();
+
                     if($videoCategory[0]['title'] != ''){
                         $data['video_category'][$l]['video'] = $video;
                     }else{
                         $data['video'] = $video;
+                    }
+                }
+
+                if($data['video']){
+                    for($i = 0; $i < count($data['video']); $i++){
+                        $path = 'upload/course-video/';
+                        $filename = $data['video'][$i]['video'];
+
+                        $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
+
+                        if(!$checkIfVideoIsLink){
+                            $file = $getID3->analyze($path.$filename);
+
+                            $duration = ["duration" => $file['playtime_string']];
+                            $data['video'][$i] += $duration;
+                        } else{
+                            $duration = ["duration" => null];
+                            $data['video'][$i] += $duration;
+                        }
+                    }
+                } elseif($data['video_category']){
+                    for($l = 0; $l < count($videoCategory); $l++){
+                        for($i = 0; $i < count($data['video_category'][$l]); $i++){
+                            $path = 'upload/course-video/';
+                            $filename = $data['video_category'][$l]['video'][$i]['video'];
+
+                            $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
+
+                            if(!$checkIfVideoIsLink){
+                                $file = $getID3->analyze($path.$filename);
+
+                                $duration = ["duration" => $file['playtime_string']];
+                                $data['video'][$i] += $duration;
+                            } else{
+                                $duration = ["duration" => null];
+                                $data['video'][$i] += $duration;
+                            }
+                        }
                     }
                 }
     
@@ -232,6 +276,44 @@ class CourseController extends ResourceController
                             }
                         }
                     }
+
+                    if($data['video']){
+                        for($i = 0; $i < count($data['video']); $i++){
+                            $path = 'upload/course-video/';
+                            $filename = $data['video'][$i]['video'];
+
+                            $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
+
+                            if(!$checkIfVideoIsLink){
+                                $file = $getID3->analyze($path.$filename);
+
+                                $duration = ["duration" => $file['playtime_string']];
+                                $data['video'][$i] += $duration;
+                            } else{
+                                $duration = ["duration" => null];
+                                $data['video'][$i] += $duration;
+                            }
+                        }
+                    } elseif($data['video_category']){
+                        for($l = 0; $l < count($videoCategory); $l++){
+                            for($i = 0; $i < count($data['video_category'][$l]); $i++){
+                                $path = 'upload/course-video/';
+                                $filename = $data['video_category'][$l]['video'][$i]['video'];
+
+                                $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
+
+                                if(!$checkIfVideoIsLink){
+                                    $file = $getID3->analyze($path.$filename);
+
+                                    $duration = ["duration" => $file['playtime_string']];
+                                    $data['video'][$i] += $duration;
+                                } else{
+                                    $duration = ["duration" => null];
+                                    $data['video'][$i] += $duration;
+                                }
+                            }
+                        }
+                    }
         
                     if($type){
                         $typeTag = $modelTypeTag
@@ -254,7 +336,22 @@ class CourseController extends ResourceController
                     }
         
                     $data['category'] = $category;
-                    // $data['video'] = $video;
+
+                    $review = $modelReview->where('course_id', $id)->select('user_review_id, user_id, feedback, score')->orderBy('user_review_id', 'DESC')->findAll();
+
+                    for($i = 0; $i < count($review); $i++){
+                        $user = $modelUser
+                            ->where('id', $review[$i]['user_id'])
+                            ->select('fullname, email, job_id')
+                            ->first();
+                        $job = $modelJob
+                            ->where('job_id', $user['job_id'])
+                            ->select('job_name')
+                            ->first();
+                        $review[$i] += $user;
+                        $review[$i] += $job;
+                    }
+                    $data['review'] = $review;
                     
                     return $this->respond($data);
                 }else{
@@ -333,12 +430,12 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin'){
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
             // elseif ($data['role'] != 'member') {
-               // return $this->fail('Tidak dapat di akses selain member', 400);
-            //}
+            //    return $this->fail('Tidak dapat di akses selain member', 400);
+            // }
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
