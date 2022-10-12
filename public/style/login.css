@@ -5,6 +5,10 @@ html {
 }
 
 body {
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+
+body {
   background-color: #e8f9fd;
   overflow-x: hidden;
 }
@@ -28,14 +32,33 @@ body {
   min-width: 290px;
 }
 
-.active {
+#button:disabled {
+  background-color: #D3D3D3 !important;
+  color: #248043 !important;
+}
+#button:active {
   background-color: #248043 !important;
   color: #ffffff !important;
 }
 
-.disable {
-  background-color: #D3D3D3 !important;
-  color: #248043 !important;
+#googleButton {
+  position: relative;
+  display: flex;
+  background-color: transparent !important;
+  color: #1F1F1F !important;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  border: 1px solid #1F1F1F !important;
+}
+#googleButton img {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: auto;
+}
+#googleButton p {
+  margin: 0;
 }
 
 form .welcome-text {
