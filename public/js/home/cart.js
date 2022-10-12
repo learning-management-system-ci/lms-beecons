@@ -129,7 +129,7 @@ $(document).ready(function () {
                 })
             }
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             empty_cart()
         }
     }
