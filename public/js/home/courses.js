@@ -176,7 +176,7 @@ $(document).ready(async function () {
                         icon: "success",
                         timer: 1200,
                         showConfirmButton: false
-                    });
+                    }).then(() => window.location = '/courses')
                 }).catch((err) => {
                     console.log(error)
                 })

@@ -97,7 +97,7 @@ $(document).ready(async function () {
                         icon: "success",
                         timer: 1200,
                         showConfirmButton: false
-                    });
+                    }).then(() => window.location = '/#choose-course')
                 }).catch((err) => {
                     console.log(error)
                 })
