@@ -243,6 +243,8 @@ main {
                     .curiculum-list {
                         list-style: none;
                         padding-left: 0;
+                        height: 350px;
+                        overflow-y: scroll;
 
                         li {
                             div {
@@ -305,24 +307,30 @@ main {
             }
 
             .user-review {
+                height: 400px;
+                overflow-y: scroll;
+
                 .review-card {
-                    gap: 10px;
+                    gap: 20px;
+                    margin: 0px 0px 20px 0px;
+                    padding: 20px;
                     border-radius: 7px;
                     background-color: #F2F4F6;
-                    height: 120px;
+
 
                     .user-image {
                         width: 80px;
                         border-radius: 7px;
-                        filter: drop-shadow(0px 5px 7px rgba(0, 0, 0, 0.521));
+                        filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.321));
                     }
 
                     .review-data {
                         width: 100%;
-                        gap: 30px;
+                        gap: 20px;
 
                         .review-description {
                             color: black !important;
+                            height: max-content;
                         }
 
                         .top-section {
@@ -336,6 +344,7 @@ main {
 
                                 p {
                                     color: #797979;
+                                    font-size: 14px;
                                 }
                             }
 
@@ -348,6 +357,24 @@ main {
                                 }
                             }
 
+                            .stars {
+                                --percent: calc(var(--rating) / 5 * 100%);
+                        
+                                display: inline-block;
+                                font-size: 1.25rem;
+                                font-family: Times; // make sure ★ appears correctly
+                                line-height: 1;
+                        
+                                &::before {
+                                    content: '★★★★★';
+                                    letter-spacing: 3px;
+                                    background: linear-gradient(90deg, #E0D043 var(--percent), #ffffff var(--percent));
+                                    -webkit-background-clip: text;
+                                    background-clip: #FFCB42;
+                                    -webkit-text-fill-color: transparent;
+                                    -webkit-text-stroke: 1px #E0D043;
+                                }
+                            }
 
                         }
                     }
