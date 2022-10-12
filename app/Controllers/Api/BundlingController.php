@@ -218,7 +218,7 @@ class BundlingController extends ResourceController
                     ->orderBy('order', 'DESC')
                     ->countAllResults();
 
-                $data['course'][$l]['jumlahvideo'] = "$countvideo";
+                $data['course'][$l]['total_video'] = "$countvideo";
                 // $data['course'][$l]['video'] = $video;
             }
             return $this->respond($data);
