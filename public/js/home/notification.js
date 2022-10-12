@@ -11,7 +11,11 @@ $(document).ready(function () {
             dataType: 'json',
         }).then((res) => {
             let cartCount = res.item.length;
-            $('#cart-count').text(cartCount);
+            if (cartCount > 0) {
+                $('#cart-count').append(
+                    `<div class="nav-btn-icon-amount">${cartCount}</div>`
+                );
+            }
         }).catch((err) => {
             console.log(err)
         })
@@ -61,7 +65,11 @@ $(document).ready(function () {
                 `;
         });
 
-        $('nav #dropdown-notification .nav-btn-icon-amount').html(notifications.length);
+        if (notifications.length > 0) {
+            $('nav #dropdown-notification').append(`
+                <div class="nav-btn-icon-amount">${notifications.length}</div>
+            `)
+        }
         $('.notifications-list').html(content);
     }
 
