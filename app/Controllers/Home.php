@@ -65,6 +65,15 @@ class Home extends BaseController
         ];
         return view('pages/course/course-detail', $data);
     }
+
+    public function courseDetailNew()
+    {
+        $data = [
+            "title" => "Detail Course",
+        ];
+        return view('pages/course/course-detail', $data);
+    }
+
     public function cart()
     {
         $data = [

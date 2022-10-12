@@ -1,70 +1,85 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 600;
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
+html {
+  font-size: 16px;
+  font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
-p {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  color: #262626;
-  margin-bottom: 0 !important;
+body {
+  font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
 button {
-  border: none !important;
-  background-color: rgba(0, 42, 91, 0);
+  border: none;
 }
 
-.redeem-loading {
-  height: 100%;
-  width: max-content;
-  text-align: center;
-}
-.redeem-loading .loading-icon {
-  height: 180px;
-}
-.redeem-loading .success-icon {
-  width: 70px;
-}
-.redeem-loading h5 {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 700;
-  color: black;
-  font-size: 22px;
-}
-.redeem-loading p {
-  color: #8F8585;
+.main-container {
+  padding-left: 3.5rem;
+  padding-right: 3.5rem;
 }
 
-.redeem-success {
-  padding-top: 50px;
-  height: 100%;
-  width: max-content;
+#cart .breadcrumb {
+  font-weight: 500;
+}
+#cart .breadcrumb .active {
+  color: #164520;
+}
+#cart .section-no-login {
+  width: 30rem;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+#cart .section-no-login h1 {
+  font-size: 1.8rem;
+}
+#cart .cart-btn-remove {
+  background-color: transparent;
+}
+#cart .cart-list table tr th:not(:first-child) {
   text-align: center;
 }
-.redeem-success .loading-icon {
-  height: 180px;
+#cart .cart-list table tr td {
+  gap: 12px;
 }
-.redeem-success .success-icon {
-  width: 70px;
+#cart .cart-list table tr td button img {
+  width: 40px;
 }
-.redeem-success h5 {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 700;
-  color: black;
-  font-size: 22px;
+#cart .cart-list table tr td img {
+  width: 110px;
 }
-.redeem-success p {
-  color: #8F8585;
+#cart .cart-list table tr td .discount {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 0.8rem;
+  right: 0;
+  top: -30px;
+  color: white;
+  background-color: #FFA629;
+  transform: rotate(10deg);
+}
+#cart .cart-list table tr td .strike {
+  text-decoration: line-through;
+  color: #F24822;
+  position: relative;
+}
+#cart .cart-list table tr td .price {
+  text-align: center;
+}
+#cart .voucher-order-total #cart-form-redeem input:focus {
+  box-shadow: none;
+  border-color: #164520;
+}
+#cart .voucher-order-total .order-total div {
+  gap: 100px;
+}
+#cart .voucher-order-total .order-total div h6 {
+  font-size: 20px;
 }
 
 .empty-cart-info {
@@ -82,84 +97,6 @@ button {
 
 .hide {
   display: none;
-}
-
-main .navigation p {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 400;
-  color: #bdbdbd;
-}
-main .navigation p a {
-  color: #002B5B;
-  text-decoration: none;
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 600;
-}
-main .cart-list table tr th:not(:first-child) {
-  text-align: center;
-}
-main .cart-list table tr td {
-  text-align: center;
-  gap: 12px;
-}
-main .cart-list table tr td button img {
-  width: 40px;
-}
-main .cart-list table tr td img {
-  width: 110px;
-}
-main .cart-list table tr td .discount {
-  border-radius: 70px;
-  padding-left: 2px;
-  padding-top: 7px;
-  width: 32px;
-  height: 32px;
-  color: white;
-  background-color: #FFA629;
-  font-size: 12px;
-  margin-top: -30px;
-  margin-left: 85px;
-  transform: rotate(10deg);
-  position: absolute;
-}
-main .cart-list table tr td .strike {
-  text-decoration: line-through;
-  color: #F24822;
-}
-main .cart-list table tr td .price {
-  display: inline-flex;
-}
-main .voucher-order-total .voucher {
-  border: 2px solid #e2e2e2;
-  width: 340px;
-  height: 45px;
-  border-radius: 4px;
-}
-main .voucher-order-total .voucher input {
-  border: none;
-  height: 100%;
-  border-radius: 4px 0px 0px 4px !important;
-}
-main .voucher-order-total .voucher button {
-  background-color: #164520;
-  padding: 10px 30px;
-  border-radius: 0px 4px 4px 0px;
-  color: rgb(235, 235, 235);
-}
-main .voucher-order-total .order-total div {
-  gap: 100px;
-}
-main .voucher-order-total .order-total div h6 {
-  font-size: 20px;
-}
-main .voucher-order-total .order-total button {
-  padding: 12px;
-  background-color: #164520;
-  color: #e2e2e2;
-  width: 100%;
-  border-radius: 6px;
 }
 
 /*# sourceMappingURL=cart.css.map */
