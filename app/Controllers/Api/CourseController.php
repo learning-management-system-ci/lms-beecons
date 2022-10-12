@@ -12,6 +12,8 @@ use App\Models\Video;
 use App\Models\VideoCategory;
 use App\Models\Users;
 use App\Models\UserVideo;
+use App\Models\Review;
+use App\Models\Jobs;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
 
@@ -84,7 +86,9 @@ class CourseController extends ResourceController
         $modelTypeTag = new TypeTag();
         $modelVideo = new Video();
         $modelVideoCategory = new VideoCategory();
-
+        $modelReview = new Review();
+        $modelUser = new Users();
+        $modelJob = new Jobs();
 
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
@@ -149,7 +153,22 @@ class CourseController extends ResourceController
                 }
     
                 $data['category'] = $category;
-                // $data['video'] = $video;
+
+                $review = $modelReview->where('course_id', $id)->select('user_review_id, user_id, feedback, score')->orderBy('user_review_id', 'DESC')->findAll();
+
+                for($i = 0; $i < count($review); $i++){
+                    $user = $modelUser
+                        ->where('id', $review[$i]['user_id'])
+                        ->select('fullname, email, job_id')
+                        ->first();
+                    $job = $modelJob
+                        ->where('job_id', $user['job_id'])
+                        ->select('job_name')
+                        ->first();
+                    $review[$i] += $user;
+                    $review[$i] += $job;
+                }
+                $data['review'] = $review;
                 
                 return $this->respond($data);
             }else{
