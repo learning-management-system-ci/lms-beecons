@@ -258,6 +258,7 @@ $routes->group('api/', static function ($routes) {
     });
 
     $routes->group('order/', static function ($routes) {
+        $routes->get('', 'Api\OrderController::index');
         $routes->get('generatesnap', 'Api\OrderController::generateSnap');
         $routes->post('notif-handler', 'Api\OrderController::notifHandler');
     });

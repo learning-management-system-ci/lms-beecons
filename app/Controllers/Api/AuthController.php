@@ -316,7 +316,7 @@ class AuthController extends ResourceController {
   	if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 
         $verifyEmail = $this->loginModel->where("email", $this->request->getVar('email'))->first();
-        if (!$verifyEmail) return $this->failNotFound('Email not found');
+        if (!$verifyEmail) return $this->failNotFound('Alamat email tidak ditemukan');
 
         $verifyPass = password_verify($this->request->getVar('password'), $verifyEmail['password']);
         if (!$verifyPass) {
