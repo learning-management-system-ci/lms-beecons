@@ -66,7 +66,7 @@ $(document).ready(() => {
                                     <div class="desc">
                                         <h5>${course.title}</h5>
                                         <p>
-                                            ${course.description.length > 80 ? course.description.slice(0, 80) + '...' : course.description}
+                                            ${textTruncate(course.description, 80)}
                                         </p>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@ $(document).ready(() => {
                             <div class="desc">
                                 <h5>${courseRecent.title}</h5>
                                 <p>
-                                    ${courseRecent.description}
+                                    ${textTruncate(courseRecent.description, 80)}
                                 </p>
                             </div>
                         </div>

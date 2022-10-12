@@ -30,6 +30,15 @@ body {
     font-family: 'Plus Jakarta Sans', 'sans-serif';
 }
 
+button {
+    border: none;
+}
+
+.main-container{
+    padding-left: $padding-container;
+    padding-right: $padding-container;
+}
+
 @mixin card-setting() {
     border-radius: $card-border-radius;
     box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);

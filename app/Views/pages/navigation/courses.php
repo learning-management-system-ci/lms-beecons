@@ -11,7 +11,6 @@
     <div class="my-container courses-list">
         <nav class="pt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Courses</li>
             </ol>
             <hr>

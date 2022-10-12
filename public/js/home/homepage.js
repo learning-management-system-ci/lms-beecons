@@ -35,7 +35,9 @@ $(document).ready(async function () {
                     <div class="col col-md-4 px-4 pb-4">
                         <div class="card-course">
                             <div class="image">
-                                <img src="image/home/img-course.jpg" alt="img">
+                                <a href="/course/${course.course_id}">
+                                    <img src="image/home/img-course.jpg" alt="img">
+                                </a>
     
                                 <div class="card-course-tags">
                                     ${course.tag.map(tag => {
@@ -44,10 +46,12 @@ $(document).ready(async function () {
                                 </div>
                             </div>
                             <div class="body">
-                                <h2 class="text-truncate">${course.title}</h2>
-                                <p>
-                                    ${textTruncate(course.description, 120)}
-                                </p>
+                                <a href="/course/${course.course_id}">
+                                    <h2 class="text-truncate">${course.title}</h2>
+                                    <p>
+                                        ${textTruncate(course.description, 120)}
+                                    </p>
+                                </a>
                                 <p class="harga">
                                     ${(() => {
                                         if (course.old_price !== '0') {
@@ -97,7 +101,7 @@ $(document).ready(async function () {
                         icon: "success",
                         timer: 1200,
                         showConfirmButton: false
-                    });
+                    }).then(() => window.location = '/cart')
                 }).catch((err) => {
                     console.log(error)
                 })
