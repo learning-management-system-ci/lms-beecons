@@ -40,7 +40,6 @@ button {
   text-align: center;
 }
 #cart .cart-list table tr td {
-  text-align: center;
   gap: 12px;
 }
 #cart .cart-list table tr td button img {
@@ -50,25 +49,27 @@ button {
   width: 110px;
 }
 #cart .cart-list table tr td .discount {
-  border-radius: 70px;
-  padding-left: 2px;
-  padding-top: 7px;
-  width: 32px;
-  height: 32px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  font-size: 0.8rem;
+  right: 0;
+  top: -30px;
   color: white;
   background-color: #FFA629;
-  font-size: 12px;
-  margin-top: -30px;
-  margin-left: 85px;
   transform: rotate(10deg);
-  position: absolute;
 }
 #cart .cart-list table tr td .strike {
   text-decoration: line-through;
   color: #F24822;
+  position: relative;
 }
 #cart .cart-list table tr td .price {
-  display: inline-flex;
+  text-align: center;
 }
 #cart .voucher-order-total #cart-form-redeem input:focus {
   box-shadow: none;
