@@ -333,12 +333,12 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin'){
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
-            // elseif ($data['role'] != 'member') {
-               // return $this->fail('Tidak dapat di akses selain member', 400);
-            //}
+            elseif ($data['role'] != 'member') {
+               return $this->fail('Tidak dapat di akses selain member', 400);
+            }
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
