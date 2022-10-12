@@ -27,14 +27,13 @@
             style="text-decoration: none;">Sign
             in</a></p>
     <p class="horizontal">Or</p>
-    <?= $googleButton; ?>
+    <a href="<?= $googleButton; ?>" class="btn" id="googleButton">
+        <img src="image/google-logo.svg" alt="">
+        <p>Sign Up</p>
+    </a>
 </form>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<div id="g_id_onload"
-    data-client_id="229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com"
-    data-login_uri="http://localhost:8080/login/loginWithGoogle"
-    data-auto_prompt="true"
-    data-auto_select="false">
+<div id="g_id_onload" data-client_id="229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com"
+    data-login_uri="<?=base_url("/login/loginOneTapGoogle")?>" data-auto_prompt="true" data-auto_select="false">
 </div>
 <?= $this->include('components/authentication/error_modal') ?>
 <?= $this->endSection() ?>

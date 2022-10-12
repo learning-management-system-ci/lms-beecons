@@ -264,7 +264,7 @@ class AuthController extends ResourceController {
   public function indexLogin() {
     $data = [
       "title" => "Sign In",
-      "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+      "googleButton" => $this->googleClient->createAuthUrl(),
     ];
   	return $this->respond($data);
   }
@@ -272,7 +272,7 @@ class AuthController extends ResourceController {
 	public function indexRegister() {
 		$data = [
       "title" => "Sign Up",
-      "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+      "googleButton" => $this->googleClient->createAuthUrl(),
     ];
 		return $this->respond($data);
 	}

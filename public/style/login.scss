@@ -24,14 +24,38 @@ body {
   min-width: 290px;
 }
 
-.active {
-  background-color: $color-secondary !important;
-  color: $color-white !important;
+#button {
+  &:disabled {
+    background-color: $color-gray-4 !important;
+    color: $color-secondary !important;
+  }
+
+  &:active {
+    background-color: $color-secondary !important;
+    color: $color-white !important;
+  }
 }
 
-.disable {
-  background-color: $color-gray-4 !important;
-  color: $color-secondary !important;
+#googleButton {
+  position: relative;
+  display: flex;
+  background-color: transparent !important;
+  color: $color-black !important;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  border: 1px solid $color-black !important;
+
+  img {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: auto;
+  }
+
+  p {
+    margin: 0;
+  }
 }
 
 form {
