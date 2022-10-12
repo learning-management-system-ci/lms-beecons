@@ -89,6 +89,7 @@
     <script src="../../../js/home/slick.js"></script>
 
     <!-- myscript -->
+    <script src="../../../js/utils/textTruncate.js"></script>
     <script src="../../../js/home/home.js"></script>
     <script src="<?= base_url('/js/home/notification.js') ?>"></script>
     <?= $this->renderSection('js-component') ?>
