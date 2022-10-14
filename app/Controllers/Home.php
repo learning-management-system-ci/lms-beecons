@@ -117,4 +117,8 @@ class Home extends BaseController
         ];
         return view('pages/course/checkout', $data);
     }
+    public function email()
+    {
+        return view('pages/email');
+    }
 }

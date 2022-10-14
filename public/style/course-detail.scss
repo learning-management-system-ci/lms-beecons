@@ -68,25 +68,13 @@ button {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 
 .list-active {
     @include video-list-button(#ffffff, url("../image/course-detail/pause-button.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
 }
-
-
-// @keyframes fadeInAnimation {
-//     0% {
-//         right: 81%;
-//     }
-
-//     100% {
-
-//         right: -19%;
-//     }
-// }
 
 main {
     .navigation {
@@ -176,11 +164,15 @@ main {
                 }
 
                 .progress-box {
+
                     box-shadow: 3px 3px 15px #888888;
                     width: 100%;
                     background-color: white;
                     border-radius: 8px;
 
+                    .swiper-button-lock {
+                        display: block;
+                    }
 
                     #loading {
                         margin: 15px;
@@ -359,12 +351,12 @@ main {
 
                             .stars {
                                 --percent: calc(var(--rating) / 5 * 100%);
-                        
+
                                 display: inline-block;
                                 font-size: 1.25rem;
                                 font-family: Times; // make sure ★ appears correctly
                                 line-height: 1;
-                        
+
                                 &::before {
                                     content: '★★★★★';
                                     letter-spacing: 3px;
@@ -415,15 +407,14 @@ main {
                         @include video-list-button(#DFE3E9, url("../image/course-detail/play-light.png"), 0);
                     }
 
-                    .list-card-button:hover {
-                        @include video-list-button(#ffffff, url("../image/course-detail/play-dark.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
-                    }
+                    // .list-card-button:hover {
+                    //     @include video-list-button(#ffffff, url("../image/course-detail/play-dark.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
+                    // }
 
                     .quiz-card {
                         @include video-list-button(#DFE3E9, url("../image/course-detail/button-quiz-light.png"), 0)
                     }
 
-                    .quiz-card:hover,
                     .list-active-quiz {
                         @include video-list-button(white, url("../image/course-detail/button-quiz-dark.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
                     }
@@ -432,7 +423,6 @@ main {
                         @include video-list-button(#DFE3E9, url("../image/course-detail/complete-button.png"), 0);
                     }
 
-                    .complete:hover,
                     .list-active-complete {
                         @include video-list-button(#ffffff, url("../image/course-detail/complete-button.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
                     }

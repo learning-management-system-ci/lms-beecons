@@ -23,7 +23,7 @@ button {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .list-active {
@@ -136,6 +136,9 @@ main .course-content .left-side .quiz-section .progress-box {
   width: 100%;
   background-color: white;
   border-radius: 8px;
+}
+main .course-content .left-side .quiz-section .progress-box .swiper-button-lock {
+  display: block;
 }
 main .course-content .left-side .quiz-section .progress-box #loading {
   margin: 15px;
@@ -334,38 +337,6 @@ main .course-content .right-side .video-list .scrollable-video-list .list-card-b
   height: 40px;
   min-width: 40px;
 }
-main .course-content .right-side .video-list .scrollable-video-list .list-card-button:hover {
-  transition: 0.2s;
-  cursor: pointer;
-  border-radius: 7px;
-  background-color: #ffffff;
-  filter: drop-shadow(5px 2px 10px rgba(0, 0, 0, 0.233));
-}
-main .course-content .right-side .video-list .scrollable-video-list .list-card-button:hover .duration {
-  font-weight: 600;
-  color: #002B5B;
-}
-main .course-content .right-side .video-list .scrollable-video-list .list-card-button:hover .list-title {
-  width: 200px;
-  gap: 10px;
-  width: 85%;
-}
-main .course-content .right-side .video-list .scrollable-video-list .list-card-button:hover .list-title p {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-main .course-content .right-side .video-list .scrollable-video-list .list-card-button:hover .list-title button {
-  border-radius: 100px;
-  transition: 0.5s;
-  padding: 0;
-  background-image: url("../image/course-detail/play-dark.png");
-  background-repeat: no-repeat;
-  background-size: 40px 40px;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-}
 main .course-content .right-side .video-list .scrollable-video-list .quiz-card {
   transition: 0.2s;
   cursor: pointer;
@@ -398,7 +369,6 @@ main .course-content .right-side .video-list .scrollable-video-list .quiz-card .
   height: 40px;
   min-width: 40px;
 }
-main .course-content .right-side .video-list .scrollable-video-list .quiz-card:hover,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-quiz {
   transition: 0.2s;
   cursor: pointer;
@@ -406,24 +376,20 @@ main .course-content .right-side .video-list .scrollable-video-list .list-active
   background-color: white;
   filter: drop-shadow(5px 2px 10px rgba(0, 0, 0, 0.233));
 }
-main .course-content .right-side .video-list .scrollable-video-list .quiz-card:hover .duration,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-quiz .duration {
   font-weight: 600;
   color: #002B5B;
 }
-main .course-content .right-side .video-list .scrollable-video-list .quiz-card:hover .list-title,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-quiz .list-title {
   width: 200px;
   gap: 10px;
   width: 85%;
 }
-main .course-content .right-side .video-list .scrollable-video-list .quiz-card:hover .list-title p,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-quiz .list-title p {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
-main .course-content .right-side .video-list .scrollable-video-list .quiz-card:hover .list-title button,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-quiz .list-title button {
   border-radius: 100px;
   transition: 0.5s;
@@ -467,7 +433,6 @@ main .course-content .right-side .video-list .scrollable-video-list .complete .l
   height: 40px;
   min-width: 40px;
 }
-main .course-content .right-side .video-list .scrollable-video-list .complete:hover,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-complete {
   transition: 0.2s;
   cursor: pointer;
@@ -475,24 +440,20 @@ main .course-content .right-side .video-list .scrollable-video-list .list-active
   background-color: #ffffff;
   filter: drop-shadow(5px 2px 10px rgba(0, 0, 0, 0.233));
 }
-main .course-content .right-side .video-list .scrollable-video-list .complete:hover .duration,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-complete .duration {
   font-weight: 600;
   color: #002B5B;
 }
-main .course-content .right-side .video-list .scrollable-video-list .complete:hover .list-title,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-complete .list-title {
   width: 200px;
   gap: 10px;
   width: 85%;
 }
-main .course-content .right-side .video-list .scrollable-video-list .complete:hover .list-title p,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-complete .list-title p {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
-main .course-content .right-side .video-list .scrollable-video-list .complete:hover .list-title button,
 main .course-content .right-side .video-list .scrollable-video-list .list-active-complete .list-title button {
   border-radius: 100px;
   transition: 0.5s;
