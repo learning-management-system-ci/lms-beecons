@@ -16,34 +16,38 @@ class CourseBundling extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['bundling_id', 'course_id', 'created_at', 'updated_at'];
 
-    function getCourseBundling(){
+    function getCourseBundling()
+    {
         $builder = $this->db->table('course_bundling');
         $builder->select('*');
         $query = $builder->get();
         return $query->getResultArray();
-	}
+    }
 
-    function getDataBundling($data_bundling_id){
+    function getDataBundling($data_bundling_id)
+    {
         $builder = $this->db->table('bundling');
         $builder->select('*');
         $builder->where('bundling_id', $data_bundling_id);
         $query = $builder->get();
         return $query->getResultArray();
-	}
+    }
 
-    function getDataCourse($data_course_id){
+    function getDataCourse($data_course_id)
+    {
         $builder = $this->db->table('course');
         $builder->select('*');
         $builder->where('course_id', $data_course_id);
         $query = $builder->get();
         return $query->getResultArray();
-	}
+    }
 
-    function getShow($id){
+    function getShow($id)
+    {
         $builder = $this->db->table('course_bundling');
         // $builder->select('*');
         $builder->where('course_bundling_id', $id);
         $query = $builder->get();
         return $query->getResultArray();
-	}
+    }
 }
