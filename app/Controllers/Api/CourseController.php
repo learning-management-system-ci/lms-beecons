@@ -136,7 +136,7 @@ class CourseController extends ResourceController
                     if ($videoCategory[0]['title'] != '') {
                         $data['video_category'][$l]['video'] = $video;
                     } else {
-                        $data['video'][$l] = $video;
+                        $data['video'] = $video;
                     }
                 }
 
@@ -548,7 +548,7 @@ class CourseController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
             // elseif ($data['role'] != 'member') {
-            // return $this->fail('Tfidak dapat di akses selain member', 400);
+            // return $this->fail('Tidak dapat di akses selain member', 400);
             //}
 
             $modelCourse = new Course();
