@@ -8,17 +8,15 @@ $(document).ready(async function () {
         })
         
         setCourses('0')
-        handleAddCart()
 
         $('#choose-course .tags .item').on('click', function (e) {
             e.preventDefault()
             let typeId = $(this).attr('data-type-id')
             
             setCourses(typeId)
-            handleAddCart()
         })
 
-        function setCourses(type) {
+        async function setCourses(type) {
             let coursesAll = courseResponse.slice(0, 3)
             let coursesEngineering = courseResponse.filter(course => course.type[0].type_id === '1').slice(0, 3)
             let coursesIt = courseResponse.filter(course => course.type[0].type_id === '2').slice(0, 3)
@@ -29,6 +27,38 @@ $(document).ready(async function () {
             if (type === '0') courses = coursesAll
             else if (type === '1') courses = coursesEngineering
             else if (type === '2') courses = coursesIt
+
+            courses = courses.map((course) => {
+                return {
+                    ...course,
+                    isBought: false
+                }
+            })
+
+            if (Cookies.get('access_token')) {
+                let userCourses = []
+                try {
+                    const res = await $.ajax({
+                        url: `/api/user-course`,
+                        method: 'GET',
+                        dataType: 'json',
+                        headers: {
+                            Authorization: 'Bearer ' + Cookies.get("access_token")
+                        }
+                    })
+            
+                    userCourses = res
+                } catch (error) {
+                    console.log(error)
+                }
+
+                courses = courses.map((course, i) => {
+                    return {
+                        ...course,
+                        isBought: userCourses.map(userCourse => userCourse.course_id).includes(course.course_id)
+                    }
+                })
+            }
 
             $('#choose-course .choose-course-list').html(courses.map(course => {
                 return `
@@ -64,15 +94,29 @@ $(document).ready(async function () {
                                 </p>
                             </div>
                             <div class="card-course-button">
-                                <a href="${`/checkout/${course.course_id}`}">
-                                    <button class="my-btn btn-full">Beli</button>
-                                </a>
-                                <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
+                                ${(() => {
+                                    if (!course.isBought) {
+                                        return `
+                                            <a href="${`/checkout/${course.course_id}`}">
+                                                <button class="my-btn btn-full">Beli</button>
+                                            </a>
+                                            <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
+                                        `
+                                    } else {
+                                        return `
+                                            <a href="${`/course/${course.course_id}`}">
+                                                <button class="my-btn btn-full">Lihat Course</button>
+                                            </a>
+                                        `
+                                    }
+                                })()}
                             </div>
                         </div>
                     </div>
                 `
             }))
+
+            handleAddCart()
         }
 
         function handleAddCart() {

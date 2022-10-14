@@ -42,7 +42,7 @@ $(document).ready(async function () {
         }).reverse().join(''))
 
         generateListCourse(courseResponse, $('#courses-engineering'), '1', '0', '0')
-        generateListCourse(courseResponse, $('#courses-it'), '2', '0', '0')
+        // generateListCourse(courseResponse, $('#courses-it'), '2', '0', '0')
 
         $('#courses  #tab-courses-1 .tags .item').on('click', function (e) {
             e.preventDefault()
@@ -51,7 +51,6 @@ $(document).ready(async function () {
             let currentTag = $(this).data('tag_id').toString()
             localStorage.setItem('current-tag-engineering', currentTag)
             generateListCourse(courseResponse, $('#courses-engineering'), '1', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
-            handleAddCart()
         })
 
         $(`#courses #tab-courses-1 .sub-tags .item`).on('click', function(e) {
@@ -62,7 +61,6 @@ $(document).ready(async function () {
             
             localStorage.setItem('current-category-engineering', currentCategory)
             generateListCourse(courseResponse, $('#courses-engineering'), '1', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
-            handleAddCart()
         })
 
         $('#courses  #tab-courses-2 .tags .item').on('click', function (e) {
@@ -72,7 +70,6 @@ $(document).ready(async function () {
             let currentTag = $(this).data('tag_id').toString()
             localStorage.setItem('current-tag-it', currentTag)
             generateListCourse(courseResponse, $('#courses-it'), '2', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
-            handleAddCart()
         })
 
         $(`#courses #tab-courses-2 .sub-tags .item`).on('click', function(e) {
@@ -83,10 +80,9 @@ $(document).ready(async function () {
             
             localStorage.setItem('current-category-it', currentCategory)
             generateListCourse(courseResponse, $('#courses-it'), '2', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
-            handleAddCart()
         })
 
-        function generateListCourse(courses, element, type, tag, category) {
+        async function generateListCourse(courses, element, type, tag, category) {
             let currentTag = $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).html()
             $(`#courses #tab-courses-${type} .current-tag`).html(currentTag)
             $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).addClass('active')
@@ -107,7 +103,37 @@ $(document).ready(async function () {
                 result = coursesByCategory
             }
 
-            handleAddCart()
+            result = result.map((course) => {
+                return {
+                    ...course,
+                    isBought: false
+                }
+            })
+
+            if (Cookies.get('access_token')) {
+                let userCourses = []
+                try {
+                    const res = await $.ajax({
+                        url: `/api/user-course`,
+                        method: 'GET',
+                        dataType: 'json',
+                        headers: {
+                            Authorization: 'Bearer ' + Cookies.get("access_token")
+                        }
+                    })
+            
+                    userCourses = res
+                } catch (error) {
+                    console.log(error)
+                }
+
+                result = result.map((course, i) => {
+                    return {
+                        ...course,
+                        isBought: userCourses.map(userCourse => userCourse.course_id).includes(course.course_id)
+                    }
+                })
+            }
     
             element.html(result.map(course => {
                 return `
@@ -143,15 +169,29 @@ $(document).ready(async function () {
                                 </p>
                             </div>
                             <div class="card-course-button">
-                                <a href="${`/checkout/${course.course_id}`}">
-                                    <button class="my-btn btn-full">Beli</button>
-                                </a>
-                                <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
+                                ${(() => {
+                                    if (!course.isBought) {
+                                        return `
+                                            <a href="${`/checkout/${course.course_id}`}">
+                                                <button class="my-btn btn-full">Beli</button>
+                                            </a>
+                                            <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
+                                        `
+                                    } else {
+                                        return `
+                                            <a href="${`/course/${course.course_id}`}">
+                                                <button class="my-btn btn-full">Lihat Course</button>
+                                            </a>
+                                        `
+                                    }
+                                })()}
                             </div>
                         </div>
                     </div>
                 `
             }))
+
+            handleAddCart()
         }
 
         function handleAddCart() {
