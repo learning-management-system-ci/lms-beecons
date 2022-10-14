@@ -10,10 +10,11 @@ use CodeIgniter\Cookie\Cookie;
 use DateTime;
 use DateInterval;
 
-class AuthController extends ResourceController {
-    private $loginModel=NULL;
-	private $googleClient=NULL;
-	protected $session;
+class AuthController extends ResourceController
+{
+    private $loginModel = NULL;
+    private $googleClient = NULL;
+    protected $session;
 
     function __construct()
     {
@@ -89,28 +90,27 @@ class AuthController extends ResourceController {
         ];
         // session()->setFlashData("success", "Login Successful");
         $this->respondCreated($response);
-        setcookie("access_token", $token, time()+60*60, '/');
+        setcookie("access_token", $token, time() + 60 * 60, '/');
         return redirect()->to(base_url() . "/login");
     }
-    
+
     public function loginOneTapGoogle()
     {
         // set google client ID
         $google_oauth_client_id = "229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com";
-    
+
         // create google client object with client ID
         $client = new \Google_Client([
             'client_id' => $google_oauth_client_id
         ]);
-    
+
         // // verify the token sent from AJAX
         $id_token = $_POST['credential'];
 
         // print_r($id_token);
-    
+
         $payload = $client->verifyIdToken($id_token);
-        if ($payload && $payload['aud'] == $google_oauth_client_id)
-        {
+        if ($payload && $payload['aud'] == $google_oauth_client_id) {
             // get user information from Google
             $currentDateTime = date("Y-m-d H:i:s");
             $user_google_id = $payload['sub'];
@@ -145,7 +145,6 @@ class AuthController extends ResourceController {
                 'email' => $email,
             ];
             $token = JWT::encode($payload, $key, 'HS256');
-            
         } else {
             $response = [
                 'status' => 500,
@@ -164,14 +163,15 @@ class AuthController extends ResourceController {
         ];
         // session()->setFlashData("success", "Login Successful");
         $this->respondCreated($response);
-        setcookie("access_token", $token, time()+60*60, '/');
+        setcookie("access_token", $token, time() + 60 * 60, '/');
         return redirect()->to(base_url() . "/login");
     }
 
-	public function register() {
-    $rules = [
-			"email" => "required|is_unique[users.email]|valid_email",
-			"password" => "required|min_length[8]|max_length[50]",
+    public function register()
+    {
+        $rules = [
+            "email" => "required|is_unique[users.email]|valid_email",
+            "password" => "required|min_length[4]|max_length[50]",
             "password_confirm" => "matches[password]",
         ];
 
@@ -224,7 +224,6 @@ class AuthController extends ResourceController {
             ];
             return $this->respondCreated($response);
         }
-        
     }
 
     function sendActivationEmail($emailTo, $token)
@@ -261,62 +260,68 @@ class AuthController extends ResourceController {
         return redirect()->to(base_url() . "/login");
     }
 
-  public function indexLogin() {
-    $data = [
-      "title" => "Sign In",
-      "googleButton" => $this->googleClient->createAuthUrl(),
-    ];
-  	return $this->respond($data);
-  }
+    public function indexLogin()
+    {
+        $data = [
+            "title" => "Sign In",
+            "googleButton" => $this->googleClient->createAuthUrl(),
+        ];
+        return $this->respond($data);
+    }
 
-	public function indexRegister() {
-		$data = [
-      "title" => "Sign Up",
-      "googleButton" => $this->googleClient->createAuthUrl(),
-    ];
-		return $this->respond($data);
-	}
+    public function indexRegister()
+    {
+        $data = [
+            "title" => "Sign Up",
+            "googleButton" => $this->googleClient->createAuthUrl(),
+        ];
+        return $this->respond($data);
+    }
 
-	public function indexforgotPassword() {
-		$data = [
-      "title" => "Reset Password",
-    ];
-		return $this->respond($data);
-	}
+    public function indexforgotPassword()
+    {
+        $data = [
+            "title" => "Reset Password",
+        ];
+        return $this->respond($data);
+    }
 
-	public function indexSendOtp() {
-		$data = [
-      "title" => "OTP Code",
-    ];
-		return $this->respond($data);
-	}
+    public function indexSendOtp()
+    {
+        $data = [
+            "title" => "OTP Code",
+        ];
+        return $this->respond($data);
+    }
 
-	public function indexNewPassword() {
-		$data = [
-  		"title" => "Reset Password",
-    ];
-		return $this->respond($data);
-	}
+    public function indexNewPassword()
+    {
+        $data = [
+            "title" => "Reset Password",
+        ];
+        return $this->respond($data);
+    }
 
-  public function login() {
-    $rules = [
-			"email" => "required|valid_email",
-			"password" => "required",
-		];
+    public function login()
+    {
+        $rules = [
+            "email" => "required|valid_email",
+            "password" => "required",
+        ];
 
-    $messages = [
-			"email" => [
-				"required" => "{field} tidak boleh kosong",
+        $messages = [
+            "email" => [
+                "required" => "{field} tidak boleh kosong",
                 'valid_email' => 'Format email tidak sesuai'
             ],
             "password" => [
                 "required" => "{field} tidak boleh kosong"
             ],
-		];
-  	if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
+        ];
+        if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 
         $verifyEmail = $this->loginModel->where("email", $this->request->getVar('email'))->first();
-        if (!$verifyEmail) return $this->failNotFound('Alamat email tidak ditemukan');
+        if (!$verifyEmail) return $this->failNotFound('Email atau kata sandi salah');
 
         $verifyPass = password_verify($this->request->getVar('password'), $verifyEmail['password']);
         if (!$verifyPass) {
