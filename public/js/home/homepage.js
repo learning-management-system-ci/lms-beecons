@@ -64,7 +64,7 @@ $(document).ready(async function () {
                                 </p>
                             </div>
                             <div class="card-course-button">
-                                <a href="">
+                                <a href="${`/checkout/${course.course_id}`}">
                                     <button class="my-btn btn-full">Beli</button>
                                 </a>
                                 <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
