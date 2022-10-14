@@ -77,7 +77,7 @@ class ForgotPasswordController extends ResourceController {
 		];
 
 		$messages = [
-			"email" => [
+			"email" => [ 
 				"required" => "{field} tidak boleh kosong",
                 'valid_email' => 'Format email tidak sesuai'
 			],
