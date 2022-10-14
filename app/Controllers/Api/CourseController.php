@@ -14,6 +14,7 @@ use App\Models\Users;
 use App\Models\UserVideo;
 use App\Models\Review;
 use App\Models\Jobs;
+use App\Models\UserCourse;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
 use getID3;
@@ -94,6 +95,7 @@ class CourseController extends ResourceController
         $modelReview = new Review();
         $modelUser = new Users();
         $modelJob = new Jobs();
+        $modelUserCourse = new UserCourse();
 
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
@@ -225,12 +227,19 @@ class CourseController extends ResourceController
             try {
                 $decoded = JWT::decode($token, $key, ['HS256']);
                 $user = new Users;
+                $userCourse = $modelUserCourse->where('course_id', $id)->where('user_id', $decoded->uid)->first();
 
                 if($model->find($id)){
                     $tag = [];
                     $video = [];
         
                     $data = $model->where('course_id', $id)->first();
+                    
+                    if($userCourse){
+                        $data['owned'] = 1;
+                    }else{
+                        $data['owned'] = 0;
+                    }
         
                     $category = $modelCourseCategory
                         ->where('course_id', $id)
