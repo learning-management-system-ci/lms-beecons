@@ -122,6 +122,16 @@ $(document).ready(async function () {
         function handleAddCart() {
             return $('.add-cart').on('click', function() {
                 const course_id = $(this).val()
+
+                if (!Cookies.get("access_token")) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda belum login',
+                        icon: 'error',
+                        showConfirmButton: true
+                    })
+                }
+                
                 $.ajax({
                     url: `/api/cart/create/course/${course_id}`,
                     method: 'POST',
