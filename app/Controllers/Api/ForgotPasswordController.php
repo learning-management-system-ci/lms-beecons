@@ -112,7 +112,7 @@ class ForgotPasswordController extends ResourceController {
 
 	public function newPassword() {
 		$rules = [
-			"password" => "required|min_length[4]|max_length[50]",
+			"password" => "required|min_length[8]|max_length[50]",
 			"password_confirm" => "required|matches[password]",
 			"email" => "required|valid_email",
 		];
