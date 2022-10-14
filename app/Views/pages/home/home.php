@@ -6,8 +6,14 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
+<?php
+    helper("cookie");
+    if(get_cookie("access_token")){
+
+    }
+?>
 <div id="g_id_onload" data-client_id="229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com"
-    data-login_uri="<?=base_url("/login/loginOneTapGoogle")?>" data-auto_prompt="true" data-auto_select="false">
+    data-login_uri="<?=base_url("/login/loginOneTapGoogle")?>" data-auto_prompt="true" data-auto_select="false" data-skip_prompt_cookie="access_token" data-context="signin">
 </div>
 <?= $this->include('components/home/hero') ?>
 <?= $this->include('components/home/why_choose_us') ?>

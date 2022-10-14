@@ -50,8 +50,11 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            // if ($data['role'] != 'admin') {
+            //     return $this->fail('Tidak dapat di akses selain admin', 400);
+            // }
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'author') {
+                return $this->fail('Tidak dapat di akses selain admin & mentor', 400);
             }
 
             $rules = [
@@ -347,13 +350,19 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member') {
-                return $this->fail('Tidak dapat di akses selain admin & mentor', 400);
-            }
-            elseif ($data['role'] == 'partner') {
-                return $this->fail('Tidak dapat di akses selain admin & mentor', 400);
-            }
-            elseif ($data['role'] == 'author') {
+            // if ($data['role'] == 'member') {
+            //     return $this->fail('Tidak dapat di akses selain admin & mentor', 400);
+            // }
+            // elseif ($data['role'] == 'partner') {
+            //     return $this->fail('Tidak dapat di akses selain admin & mentor', 400);
+            // }
+            // elseif ($data['role'] == 'author') {
+            //     return $this->fail('Tidak dapat di akses selain admin & mentor', 400);
+            // }
+            // if ($data['role'] == 'member' && $data['role'] == 'partner' && $data['role'] == 'author') {
+            //     return $this->fail('Tidak dapat di akses selain admin & mentor', 400);
+            // }
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'author') {
                 return $this->fail('Tidak dapat di akses selain admin & mentor', 400);
             }
 
@@ -435,8 +444,11 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            // if ($data['role'] != 'admin') {
+            //     return $this->fail('Tidak dapat di akses selain admin', 400);
+            // }
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'author') {
+                return $this->fail('Tidak dapat di akses selain admin & mentor', 400);
             }
 
             $data = $this->bundling->where('bundling_id', $id)->findAll();
