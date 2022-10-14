@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verify</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
+
+        h1,
+        h3,
+        h4,
+        h5 {
+            font-family: "Plus Jakarta Sans";
+            font-style: normal;
+            font-weight: 700;
+        }
+
+        p {
+            font-family: "Plus Jakarta Sans";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            color: #000000;
+            margin-bottom: 0 !important;
+        }
+
+        button {
+            border: none !important;
+            background-color: rgba(0, 42, 91, 0);
+        }
+
+        .bold-text {
+            font-weight: 600;
+        }
+
+        .w-500 {
+            font-weight: 500;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .grey-text {
+            color: #9b9b9b;
+        }
+
+        .red-text {
+            color: #DB3232;
+        }
+
+        body {
+            background-color: #F3F6F9 !important;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+        }
+
+        body table {
+            max-width: 600px;
+        }
+
+        body table thead th {
+            border: none !important;
+        }
+
+        body table tbody tr:first-child {
+            border-radius: 10px !important;
+            background-color: white;
+        }
+
+        body table tbody tr:first-child .main-body {
+            border-bottom-width: 0 !important;
+            border-radius: 8px !important;
+        }
+
+        body table tbody tr:first-child .main-body .email-content img {
+            margin-left: -8px !important;
+        }
+
+        body table tbody tr:first-child .main-body .email-content .invoice-detail,
+        body table tbody tr:first-child .main-body .email-content .invoice-user {
+            background-color: #f7f7f7;
+        }
+
+        body table tbody tr:first-child .main-body .email-content .invoice-user {
+            line-height: 1.7em;
+        }
+
+        body table tbody tr:first-child .main-body .email-content .footer-note p:last-child {
+            font-size: 12px;
+        }
+
+        body table tbody tr:first-child .main-body .email-content .order-list .order-item .order-title {
+            gap: 12px;
+        }
+
+        body table tbody tr:first-child .main-body .email-content .order-list .order-item .order-title .order-desc {
+            line-height: 1em;
+            width: 280px;
+        }
+
+        body table tbody tr:first-child .main-body .email-content .order-list .order-item .order-title .order-desc p {
+            font-size: 14px;
+        }
+
+        body table tbody tr:first-child .main-body .email-content .order-list .order-price-list {
+            line-height: 2.5em;
+        }
+
+        body table tbody tr:first-child .main-body .email-content .order-list .order-price-list p {
+            font-size: 18px;
+        }
+
+        body table tbody tr:first-child .main-body hr {
+            height: 1px;
+            background-color: #7a7a7a;
+            border: none;
+        }
+
+        body table tbody tr:first-child .inner-footer hr {
+            background-color: rgb(0, 0, 0);
+            height: 1px;
+            border: none;
+        }
+
+        body table tbody tr:last-child th {
+            border: none !important;
+        }
+
+        body table tbody tr:last-child th .need-help {
+            font-weight: 500;
+        }
+
+        body table tbody tr:last-child th .copyright {
+            color: #9b9b9b;
+        }
+
+        /*# sourceMappingURL=email.css.map */
+    </style>
+</head>
+
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <h3><b>Pembayaran kamu berhasil dan pesanan selesai!</b></h3>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <!-- ================PEMBAYARAN TERKONFIRMASI==================== -->
+
+                <th class="main-body px-4">
+                    <div class="email-content mt-2">
+                        <img src="../image/email/Logo.png" width="130px" alt="" class="mb-4"> <br>
+                        <p>Selamat! pembayaran kamu berhasil. Sekarang kamu dapat mengakses course
+                            yang kamu sudah beli
+                            dan sudah siap unuk belajar</p>
+                        <div class="invoice-detail p-4 mt-3 mb-5">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <p class="grey-text"><b>Nomor Invoice</b></p>
+                                </div>
+                                <div class="col">
+                                    <p class="w-500">SI/BTC/2022/9/14526</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="grey-text"><b>Deskripsi</b></p>
+                                </div>
+                                <div class="col">
+                                    <p class="w-500">Frontend: Basic Course</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-list mt-5">
+                            <div class="order-item d-flex justify-content-between align-items-center ">
+                                <div class="order-title d-flex ps-2">
+                                    <img class="align-self-center" width="90px" src="../image/email/dummy_order.png"
+                                        alt="">
+                                    <div class="order-desc d-flex flex-column justify-content-center">
+                                        <p><b>Frontend:</b></p>
+                                        <p class="w-500">Pelajaran dasar yang akan dipelajari untuk menjadi frontend
+                                            engineer</p>
+                                    </div>
+                                </div>
+                                <p class="bold-text">
+                                    Rp. 200.000
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between order-price-list">
+                                <p>Total Harga Barang</p>
+                                <p class="bold-text">Rp. 200.000</p>
+                            </div>
+                            <div class="d-flex justify-content-between order-price-list">
+                                <p>Potongan Harga</p>
+                                <p class="bold-text">20%</p>
+                            </div>
+                            <div class="d-flex justify-content-between order-price-list">
+                                <p>Platform Fee</p>
+                                <p class="bold-text">Rp. 10.000</p>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between order-price-list">
+                                <p><b>Total Biaya</b></p>
+                                <p class="red-text bold-text">Rp. 170.000</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inner-footer text-center">
+                        <hr>
+                        <img src="../image/email/Logo_bnw.png" width="80px" alt="">
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th class="footer text-center pt-4">
+                    <p class="need-help mb-3">Butuh bantuan? Silahkan hubungi <a href="#">support@tender.com</a></p>
+                    <p class="copyright">Copyright &copy; 2022. All Rights Reserved</p>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

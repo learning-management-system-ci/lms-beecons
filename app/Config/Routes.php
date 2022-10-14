@@ -76,6 +76,7 @@ $routes->get('/webinar', 'Home::webinar');
 $routes->get('/training', 'Home::training');
 $routes->get('/courses', 'Home::courses');
 $routes->get('/article', 'Home::article');
+$routes->get('/email', 'Home::email');
 
 $routes->get('/send-otp', 'AuthController::indexSendOtp');
 $routes->post('/send-otp', 'AuthController::sendOtp');
