@@ -30,7 +30,7 @@
             <!-- QUIZ PANEL -->
             <div class="quiz-section text-center p-4 swiper myswiper mb-5">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
+                    <!-- <div class="swiper-slide">
                         <h4 class="quiz-title">QUESTION</h4>
                         <p class="mb-3">PILIHAN GANDA</p>
                         <div class="quiz-option-list d-flex justify-content-center align-items-center p-1 flex-wrap">
@@ -51,7 +51,7 @@
                                 <label for="D-1">Hello</label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="swiper-slide">
                         <h4 class="quiz-title">QUESTION</h4>
                         <p class="mb-3">PILIHAN GANDA</p>
@@ -221,8 +221,8 @@
                                     <p>General User</p>
                                 </div>
                                 <div class="user-score d-flex">
-                                    <span class="stars-container" >★★★★★</span>
-                                    
+                                    <span class="stars-container">★★★★★</span>
+
                                     <img src="/image/course-detail/star.png" alt="">
                                     <h6>4.9</h6>
                                 </div>
