@@ -28,7 +28,7 @@
     </a>
 </form>
 <div id="g_id_onload" data-client_id="229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com"
-    data-login_uri="<?=base_url("/login/loginOneTapGoogle")?>" data-auto_prompt="true" data-auto_select="false">
+    data-login_uri="<?=base_url("/login/loginOneTapGoogle")?>" data-auto_prompt="true" data-auto_select="false" data-context="signin">
 </div>
 <?= $this->include('components/authentication/error_modal') ?>
 <?= $this->include('components/authentication/loading') ?>
