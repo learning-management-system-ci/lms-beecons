@@ -120,7 +120,7 @@ class ForgotPasswordController extends ResourceController {
 		$messages = [
 			"password" => [
 				'required' => '{field} tidak boleh kosong',
-				'min_length' => '{field} minimal 4 karakter',
+				'min_length' => '{field} minimal 8 karakter',
 				'max_length' => '{field} maksimal 50 karakter',
 			],
 			"password_confirm" => [
