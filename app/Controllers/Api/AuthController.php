@@ -203,11 +203,10 @@ class AuthController extends ResourceController {
         if (!$this->validate($rules, $messages)) {
 
             $response = [
-                'status' => 500,
-                'error' => 500,
                 'message' => $this->validator->getErrors(),
                 'data' => []
             ];
+            return $this->fail($response);
         } else {
             $data['email'] = $this->request->getVar("email");
             $data['role'] = 'participant';
@@ -218,13 +217,14 @@ class AuthController extends ResourceController {
             $this->sendActivationEmail($this->request->getVar('email'), $token);
 
             $response = [
-                'status' => 200,
-                'success' => 200,
+                'status' => 201,
+                'success' => 201,
                 'message' => 'Akun berhasil dibuat, silakan periksa email Anda untuk aktivasi',
                 'data' => []
             ];
+            return $this->respondCreated($response);
         }
-        return $this->respondCreated($response);
+        
     }
 
     function sendActivationEmail($emailTo, $token)
