@@ -4,7 +4,7 @@
         Pilih Course Kamu
     </h1>
 
-    <div class="tags mb-4">
+    <div class="tags mb-4 d-none">
         <div class="item active" data-type-id="0"><a href="">All</a></div>
         <div class="item" data-type-id="1"><a href="">Engineering</a></div>
         <div class="item" data-type-id="2"><a href="">IT</a></div>
