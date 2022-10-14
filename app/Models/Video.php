@@ -48,5 +48,3 @@ class Video extends Model
     //     return $query->getResultArray();
     // }
 }
-
-

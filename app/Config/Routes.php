@@ -131,14 +131,14 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
         $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
-        $routes->put('update', 'Api\UserController::update/$1');
+        $routes->put('update/(:num)', 'Api\UserController::update/$1');
     });
 
     $routes->group('course/', static function ($routes) {
         $routes->get('', 'Api\CourseController::index');
         $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
         $routes->post('create', 'Api\CourseController::create');
-        $routes->put('update/(:num)', 'Api\CourseController::update/$1');
+        $routes->put('update/(:num)f', 'Api\CourseController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
