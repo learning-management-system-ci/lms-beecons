@@ -248,9 +248,13 @@ class AuthController extends ResourceController
         $key = getenv('TOKEN_SECRET');
         try {
             $decoded = JWT::decode($token, $key, array('HS256'));
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-            return;
+        }catch(\Firebase\JWT\ExpiredException $e){
+            //echo 'Caught exception: ',  $e->getMessage(), "\n";
+            $message = [
+                "message" => $e->getMessage()
+            ];
+            return view ('errors/html/error_404', $message);
+            //return;
         }
         $this->loginModel->updateUserByEmail([
             'activation_status' => 1,
