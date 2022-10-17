@@ -438,12 +438,9 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
             }
-            // elseif ($data['role'] != 'member') {
-            //    return $this->fail('Tidak dapat di akses selain member', 400);
-            // }
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
@@ -544,12 +541,9 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
             }
-            // elseif ($data['role'] != 'member') {
-            // return $this->fail('Tidak dapat di akses selain member', 400);
-            //}
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
@@ -658,12 +652,9 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
             }
-            // elseif ($data['role'] != 'member') {
-            // return $this->fail('Tidak dapat di akses selain member', 400);
-            //}
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();

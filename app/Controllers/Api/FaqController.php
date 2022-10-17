@@ -16,7 +16,7 @@ class FaqController extends ResourceController {
 		$this->faqModel = new Faq();
 	}
 
-  	public function index(){
+  public function index(){
 		$data = $this->faqModel->orderBy('faq_id', 'DESC')->findAll();
 		if(count($data) > 0){
 			return $this->respond($data);
@@ -27,18 +27,19 @@ class FaqController extends ResourceController {
 
   public function create() {
 		$key = getenv('TOKEN_SECRET');
-  		$header = $this->request->getServer('HTTP_AUTHORIZATION');
-	  	if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-	  	$token = explode(' ', $header)[1];
-	  	try {
+  	$header = $this->request->getServer('HTTP_AUTHORIZATION');
+	  if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+	  $token = explode(' ', $header)[1];
+	  
+		try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
-    		$user = new Users;
+    	$user = new Users;
 
 	    // cek role user
 	    $data = $user->select('role')->where('id', $decoded->uid)->first();
-	    if($data['role'] != 'admin'){
-	      return $this->fail('Tidak dapat di akses selain admin', 400);
-      	}
+	    if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
 
 			$rules = [
 				"question" => "required",
@@ -101,9 +102,9 @@ class FaqController extends ResourceController {
 
 	    // cek role user
 	    $data = $user->select('role')->where('id', $decoded->uid)->first();
-	    if($data['role'] != 'admin'){
-	      return $this->fail('Tidak dapat di akses selain admin', 400);
-      }
+	    if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
 
 			$input = $this->request->getRawInput();
 			$rules = [
@@ -159,9 +160,9 @@ class FaqController extends ResourceController {
 
 	    // cek role user
 	    $data = $user->select('role')->where('id', $decoded->uid)->first();
-	    if($data['role'] != 'admin'){
-	      return $this->fail('Tidak dapat di akses selain admin', 400);
-      }
+	    if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
       
 			$data = $this->faqModel->where('faq_id', $id)->findall();
       if($data){
