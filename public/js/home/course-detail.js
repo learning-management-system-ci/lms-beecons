@@ -1,4 +1,5 @@
 //inisialisasi swiperjs untuk perpindahan halaman soal
+console.log('ehllosaojksihfsdjfuisdh')
 var swiper = new Swiper(".myswiper", {
     navigation: {
         nextEl: ".quiz-next",
@@ -165,7 +166,7 @@ $(document).ready(() => {
                     data = result
                 }
             }
-            if(Cookies.get("access_token") != undefined){
+            if (Cookies.get("access_token") != undefined) {
                 option['headers'] = {
                     'Authorization': `Bearer ${Cookies.get("access_token")}`
                 }
