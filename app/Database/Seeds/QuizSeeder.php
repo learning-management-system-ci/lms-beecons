@@ -17,9 +17,8 @@ class QuizSeeder extends Seeder
                 array_push($data,     
                     [
                         'video_id' => $l,
-                        'question' => '{
-                            "quiz": [
-                              {
+                        'question' => '[
+                            {
                                 "question": "Apa itu kodok?",
                                 "answer": [
                                   "Kodok merupakan kodok",
@@ -28,8 +27,8 @@ class QuizSeeder extends Seeder
                                   "Kodok merupakan naga"
                                 ],
                                 "is_valid": 2
-                              },
-                              {
+                            },
+                            {
                                 "question": "Apa itu tanaman?",
                                 "answer": [
                                   "Tanaman merupakan kodok",
@@ -38,8 +37,8 @@ class QuizSeeder extends Seeder
                                   "Tanaman merupakan naga"
                                 ],
                                 "is_valid": 3
-                              },
-                              {
+                            },
+                            {
                                 "question": "Apa itu manusia?",
                                 "answer": [
                                   "Manusia merupakan Manusia",
@@ -48,9 +47,8 @@ class QuizSeeder extends Seeder
                                   "Manusia merupakan naga"
                                 ],
                                 "is_valid": 1
-                              }
-                            ]
-                          }',
+                            }
+                        ]',
                     ]
                 );
             }
