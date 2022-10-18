@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/app_layout') ?>
 
 <?= $this->section('css-component') ?>
-<link rel="stylesheet" href="style/course-detail.css">
+<link rel="stylesheet" href="/style/course-detail.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 <?= $this->endSection() ?>
 
@@ -15,12 +15,12 @@
 
 <div class="px-5 mt-4 mb-5">
     <section class="navigation">
-        <p class="mb-4">Courses > Information Tech (IT) ><a href="#"> Fundamental UI/UX Design</a></p>
+        <p class="mb-4">Courses > <a href="#" class="course_type_content">Information Tech (IT)</a> ><a href="#" class="course_title_content"> Fundamental UI/UX Design</a></p>
         <hr>
     </section>
     <section class="category mt-4 mb-4">
-        <h3>Fundamentals</h3>
-        <p>Information Tech (IT)</p>
+        <h3 class="course_title_content">Fundamentals</h3>
+        <p class="course_type_content"> <img src="image/course-detail/category-icon.png" alt=""> Information Tech (IT)</p>
     </section>
     <section class="course-content d-flex">
         <div class="left-side">
@@ -30,7 +30,7 @@
             <!-- QUIZ PANEL -->
             <div class="quiz-section text-center p-4 swiper myswiper mb-5">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
+                    <!-- <div class="swiper-slide">
                         <h4 class="quiz-title">QUESTION</h4>
                         <p class="mb-3">PILIHAN GANDA</p>
                         <div class="quiz-option-list d-flex justify-content-center align-items-center p-1 flex-wrap">
@@ -51,7 +51,7 @@
                                 <label for="D-1">Hello</label>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="swiper-slide">
                         <h4 class="quiz-title">QUESTION</h4>
                         <p class="mb-3">PILIHAN GANDA</p>
@@ -100,11 +100,17 @@
             </ul>
             <div class="tab-content description" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora, esse. Inventore dicta
+                    <p class="course_description_content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora, esse. Inventore dicta
                         saepe minus consectetur accusantium deleniti consequatur reprehenderit. Nihil explicabo
                         autem voluptatum atque laudantium incidunt commodi eveniet aspernatur doloribus?</p>
-                    <h3 class="mt-3">Key Takeway</h3>
-                    <ul>
+                    <h4 class="mt-3">Key Takeway</h4>
+                    <ul class="course_description-keyTakeaway_content">
+                        <li>Proxima Centauri</li>
+                        <li>Sagitarius-A</li>
+                        <li>Ursa Major</li>
+                    </ul>
+                    <h4 class="mt-3">Kelas ini cocok untuk</h4>
+                    <ul class="course_description-suitableFor_content">
                         <li>Proxima Centauri</li>
                         <li>Sagitarius-A</li>
                         <li>Ursa Major</li>
@@ -112,11 +118,13 @@
                 </div>
                 <div class="tab-pane fade curiculum " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
                     <div class="list-box pb-1">
-                        <p class="curiculum-title mb-3">Becoming Professional UI/UX Designer</p>
-                        <ul class="curiculum-list">
+                        <p class="curiculum-title mb-3 course_title_content">Becoming Professional UI/UX Designer</p>
+                        <ul class="curiculum-list course_curriculumList_content ps-2">
                             <li class="d-flex justify-content-between mb-2">
                                 <div class="d-flex align-items-center">
-                                    <button><img width="40px" src="/image/course-detail/play-light.png"></button>
+                                    <button>
+                                        <div class="play"></div>
+                                    </button>
                                     <p>Course Introduction</p>
                                 </div>
                                 <div class="d-flex">
@@ -127,56 +135,12 @@
                             <li class="d-flex justify-content-between mb-2">
                                 <div class="d-flex align-items-center">
                                     <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
+                                        <div class="locked"></div>
                                     </button>
-                                    <p>Fundamental of UI/UX</p>
+                                    <p>Course Introduction</p>
                                 </div>
-                                <div>
-                                    <p>03.05</p>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between mb-2">
-                                <div class="d-flex align-items-center">
-                                    <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
-                                    </button>
-                                    <p>User Experience</p>
-                                </div>
-                                <div>
-                                    <p>08.56</p>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between mb-2">
-                                <div class="d-flex align-items-center">
-                                    <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
-                                    </button>
-                                    <p>User Experience</p>
-                                </div>
-                                <div>
-                                    <p>08.56</p>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between mb-2">
-                                <div class="d-flex align-items-center">
-                                    <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
-                                    </button>
-                                    <p>User Experience</p>
-                                </div>
-                                <div>
-                                    <p>08.56</p>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between mb-2">
-                                <div class="d-flex align-items-center">
-                                    <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
-                                    </button>
-                                    <p>User Experience</p>
-                                </div>
-                                <div>
-                                    <p>08.56</p>
+                                <div class="d-flex">
+                                    <p>09.10</p>
                                 </div>
                             </li>
                         </ul>
@@ -205,7 +169,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="tab-pane fade user-review " id="pills-review" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
+                <div class="tab-pane fade user-review course-review-content" id="pills-review" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
                     <div class="review-card d-flex align-items-center ps-3">
                         <img class="user-image" src="/image/course-detail/person.png" alt="">
                         <div class="review-data pe-4 d-flex flex-column">
@@ -215,6 +179,7 @@
                                     <p>General User</p>
                                 </div>
                                 <div class="user-score d-flex">
+                                    <span class="stars-container">★★★★★</span>
                                     <img src="/image/course-detail/star.png" alt="">
                                     <h6>4.9</h6>
                                 </div>
@@ -232,9 +197,9 @@
             DENGAN KODE YANG LAIN. JANGAN DIHAPUS!! -->
 
             <!-- <div class="video-list mb-5 p-3 pt-4">
-                <h5 class="mb-3">8 Video</h5>
+                <h5 class="mb-3 course_videoCount_content">8 Video</h5>
                 <hr>
-                <div class="scrollable-video-list pe-3">
+                <div class="scrollable-video-list pe-3 course_videoList_content">
                     <div class="sub-chapter mb-3">
                         <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
@@ -266,9 +231,9 @@
             </div> -->
 
             <div class="video-list mb-5 p-3 pt-4">
-                <h5 class="mb-3">8 Video</h5>
+                <h5 class="mb-3 course_videoCount_content">8 Video</h5>
                 <hr>
-                <div class="scrollable-video-list pe-3" id="content-list">
+                <div class="scrollable-video-list pe-3 course_videoList_content" id="content-list">
                     <h6 class="title-chapter d-flex flex-row-reverse justify-content-between">BAB 1. Introduction
                     </h6>
                     <div class="sub-chapter mb-3 ps-3">
@@ -279,6 +244,7 @@
                             </div>
                             <p class="duration">7 mins</p>
                         </div>
+                        <!-- class list-card-button untuk mengaktifkan card video -->
                         <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
@@ -286,7 +252,7 @@
                             </div>
                             <p class="duration">7 mins</p>
                         </div>
-                        <!-- class complete untuk card yang dicentang (user menyelesaikan video/quiz) -->
+                        <!-- class complete untuk mengaktifkan card yang dicentang (user menyelesaikan video/quiz) -->
                         <div class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
@@ -330,25 +296,15 @@
             </div>
             <div class="order-card">
                 <h4>Order Summary</h4>
-                <p class="mt-4 mb-1">Mastering Frontend Developer</p>
-                <ul>
+                <p class="mt-4 mb-1 course_title_content">Mastering Frontend Developer</p>
+                <ul class="detail_order_content">
                     <li>
                         <div class="d-flex justify-content-between">
                             <p class="order-list mb-2">
-                                ReactJS
+                                Course Fee
                             </p>
-                            <p class="order-price mb-2">
+                            <p class="order-price mb-2 course_price_beforeDiscount_content">
                                 Rp.200.000
-                            </p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="d-flex justify-content-between">
-                            <p class="order-list mb-2">
-                                NodeJS
-                            </p>
-                            <p class="order-price mb-2">
-                                Rp.400.000
                             </p>
                         </div>
                     </li>
@@ -357,7 +313,7 @@
                             <p class="order-list mb-2">
                                 Platform Fee
                             </p>
-                            <p class="order-price mb-2">
+                            <p class="order-price mb-2 course_price_platformFee_content">
                                 Rp.10.000
                             </p>
                         </div>
@@ -367,19 +323,19 @@
                             <p class="order-list mb-2">
                                 Flash Sale Discount
                             </p>
-                            <p class="order-price mb-2 text-decoration-line-through">
+                            <p class="order-price mb-2 text-decoration-line-through course_price_discount_content">
                                 Rp.200.000
                             </p>
                         </div>
                     </li>
                 </ul>
                 <hr>
-                <div class="order-total d-flex justify-content-between">
+                <div class="order-total d-flex justify-content-between ">
                     <h5>Order Total</h5>
-                    <h5>Rp.610.000</h5>
+                    <h5 class="course_price_total_content">Rp.610.000</h5>
                 </div>
                 <div class="discount-info mt-2 text-center p-3">
-                    Hebat! Kamu udah hemat <b>Rp 200.000</b> pada pemesananmu.
+                    Hebat! Kamu udah hemat <b class="course_price_discount_content">Rp 200.000</b> pada pemesananmu.
                 </div>
                 <button class="mt-2">Beli</button>
                 <button class="mt-2 add-to-cart">Masukkan ke Keranjang</button>
@@ -392,9 +348,11 @@
         <img src="image/course-detail/button-quiz-light.png" alt="">
         <img src="image/course-detail/button-quiz-dark.png" alt="">
         <img src="image/course-detail/play-dark.png" alt="">
-        <img src="image/course-detail/check.png" alt="">
+        <img src="image/course-detail/check.svg" alt="">
         <img src="image/course-detail/pause-button.png" alt="">
         <img src="image/course-detail/loading-indicator.png" alt="">
+        <img src="image/course-detail/video-locked.png" alt="">
+        <img src="image/course-detail/play-project-enable.png" alt="">
     </div>
 
 
@@ -402,7 +360,9 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>
-<script src='js/library/swiper-bundle.min.js'></script>
-<script src="js/library/progress-bar.js"></script>
-<script src="js/home/course-detail.js"></script>
+<script src='/js/library/swiper-bundle.min.js'></script>
+<script src="/js/library/progress-bar.js"></script>
+<script src="/js/utils/getRupiah.js"></script>
+<script src="/js/utils/textTruncate.js"></script>
+<script src="/js/home/course-detail.js"></script>
 <?= $this->endSection() ?>

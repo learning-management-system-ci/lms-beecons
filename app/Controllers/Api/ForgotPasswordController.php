@@ -77,7 +77,7 @@ class ForgotPasswordController extends ResourceController {
 		];
 
 		$messages = [
-			"email" => [
+			"email" => [ 
 				"required" => "{field} tidak boleh kosong",
                 'valid_email' => 'Format email tidak sesuai'
 			],
@@ -112,7 +112,7 @@ class ForgotPasswordController extends ResourceController {
 
 	public function newPassword() {
 		$rules = [
-			"password" => "required|min_length[4]|max_length[50]",
+			"password" => "required|min_length[8]|max_length[50]",
 			"password_confirm" => "required|matches[password]",
 			"email" => "required|valid_email",
 		];
@@ -120,7 +120,7 @@ class ForgotPasswordController extends ResourceController {
 		$messages = [
 			"password" => [
 				'required' => '{field} tidak boleh kosong',
-				'min_length' => '{field} minimal 4 karakter',
+				'min_length' => '{field} minimal 8 karakter',
 				'max_length' => '{field} maksimal 50 karakter',
 			],
 			"password_confirm" => [

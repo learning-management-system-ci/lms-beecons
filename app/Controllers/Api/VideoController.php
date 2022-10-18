@@ -30,10 +30,20 @@ class VideoController extends ResourceController {
 		$modelQuiz = new Quiz;
 		$dataQuiz = $modelQuiz->where('video_id', $id)->findAll();
 
+		$quiz = [];
 		for($i = 0; $i < count($dataQuiz); $i++){
-			$data['quiz'][$i] = $dataQuiz[$i];
-		}
+			array_push($quiz, $dataQuiz[$i]);
+			$quizRaw = [];
 
+			$question = json_decode($dataQuiz[$i]['question']);
+			for($l = 0; $l < count($question); $l++){
+				unset($question[$l]->is_valid);
+				array_push($quizRaw, $question);
+
+			}
+			$dataQuiz[$i]['question'] = $quizRaw;
+		}
+		$data['quiz'] = $dataQuiz;
 		return $this->respond($data);
 	}
 

@@ -21,7 +21,7 @@ class AuthController extends BaseController
 		$this->googleClient = new \Google_Client();
 		$this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
 		$this->googleClient->setClientSecret("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");
-		$this->googleClient->setRedirectUri("http://localhost:8080/login/loginWithGoogle");
+		$this->googleClient->setRedirectUri(base_url()."/login/loginWithGoogle");
 		$this->googleClient->addScope("email");
 		$this->googleClient->addScope("profile");
 	}
@@ -34,7 +34,7 @@ class AuthController extends BaseController
 		}
 		$data = [
             "title" => "Sign In",
-            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img style="width: 286px;" src="image/google.png" alt=""></a>',
+            "googleButton" => $this->googleClient->createAuthUrl(),
         ];
 		return view('pages/authentication/login', $data);
 	}
@@ -113,7 +113,7 @@ class AuthController extends BaseController
 	public function indexRegister() {
 		$data = [
             "title" => "Sign Up",
-            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img style="width: 286px;" src="image/google.png" alt=""></a>',
+            "googleButton" => $this->googleClient->createAuthUrl(),
         ];
 		return view('pages/authentication/register', $data);
 	}

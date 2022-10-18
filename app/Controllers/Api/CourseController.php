@@ -37,7 +37,6 @@ class CourseController extends ResourceController
         
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['thumbnail'] = $path.$data[$i]['thumbnail'];
-
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -161,9 +160,7 @@ class CourseController extends ResourceController
 
                             $duration = ["duration" => $file['playtime_string']];
                             $data['video'][$i] += $duration;
-
                             $data['video'][$i]['video'] = $pathVideo.$data['video'][$i]['video'];
-
                         } else {
                             $duration = ["duration" => null];
                             $data['video'][$i] += $duration;
@@ -182,7 +179,6 @@ class CourseController extends ResourceController
 
                                 $duration = ["duration" => $file['playtime_string']];
                                 $data['video'][$i] += $duration;
-
                                 $data['video'][$i]['video'] = $pathVideo.$data['video'][$i]['video'];
                             } else {
                                 $duration = ["duration" => null];
@@ -333,7 +329,6 @@ class CourseController extends ResourceController
 
                                     $duration = ["duration" => $file['playtime_string']];
                                     $data['video'][$i] += $duration;
-
                                     $data['video'][$i]['video'] = $pathVideo.$data['video'][$i]['video'];
                                 } else {
                                     $duration = ["duration" => null];
@@ -515,7 +510,6 @@ class CourseController extends ResourceController
             if ($this->validate($rules, $messages)) {
                 $dataThumbnail = $this->request->getFile('thumbnail');
                 $fileName = $dataThumbnail->getRandomName();
-
                 $dataCourse = [
                     'title' => $this->request->getVar('title'),
                     'service' => $this->request->getVar('service'),

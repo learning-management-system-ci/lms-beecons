@@ -30,9 +30,6 @@ class UserCourseController extends ResourceController
             foreach($data as $value) {
                 $dataUsers[] = [
                     'course_id' => $value['course_id'],
-                    'title' => $value['title'],
-                    'description' => $value['description'],
-                    'price' => $value['price'],
                     'is_access' => $value['is_access']
                 ];
             }

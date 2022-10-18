@@ -3,6 +3,14 @@
 $color-select-tag: #6DAA82;
 
 #courses {
+    .breadcrumb {
+        font-weight: 500;
+
+        .active {
+            color: $color-primary
+        }
+    }
+    
     .courses-list{
         background-color: $color-gray-home;
     }

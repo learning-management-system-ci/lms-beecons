@@ -1,19 +1,6 @@
-window.onload = function () {
-    google.accounts.id.initialize({
-        client_id: "229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com", // Replace with your Google Client ID
-        login_uri: "http://localhost:8080/login/loginWithGoogle/submit" // We choose to handle the callback in server side, so we include a reference to a endpoint that will handle the response
-    });
-    // You can skip the next instruction if you don't want to show the "Sign-in" button
-    google.accounts.id.renderButton(
-        document.getElementById(
-            "buttonDiv"), // Ensure the element exist and it is a div to display correcctly
-        {
-            theme: "outline",
-            size: "large"
-        } // Customization attributes
-    );
-    google.accounts.id.prompt(); // Display the One Tap dialog
-}
+$('document').ready(function () {
+    $('#loading').html("Logging in...");
+})
 
 $("#login").submit(function (event) {
     // Stop form from submitting normally
@@ -25,6 +12,8 @@ $("#login").submit(function (event) {
         email_passed = $form.find("input[name='email']").val(),
         password_passed = $form.find("input[name='password']").val(),
         url = $form.attr("action");
+
+    $('#loading-modal').modal('toggle');
 
     // Send the data using post
     var posting = $.post(url, { csrf_test_name: csrf_test_name_passed, email: email_passed, password: password_passed });
@@ -41,19 +30,23 @@ $("#login").submit(function (event) {
                 "access_token": Cookies.get("access_token"),
             }),
             success: function () {
+                $('#loading-modal').modal('hide');
+                $('#loading').html("Tunggu kami mengarahkan anda ke login...");
+                $('#loading-modal').modal('toggle');
                 window.location.reload();
             }
         });
     });
     posting.fail(function (status, error) {
         var error_message = status.responseJSON.messages.error;
+        console.log(status, error);
         if (error_message != null) {
-            $('document').ready(function () {
+            $('#loading-modal').modal('hide');
+            $(document).ready(function () {
                 $('.modal-header').addClass("bg-danger");
                 $('.modal-title').html(error);
                 $('#message').html(error_message);
                 $('#message-modal').modal('toggle');
-                window.location.reload();
             })
         }
     })

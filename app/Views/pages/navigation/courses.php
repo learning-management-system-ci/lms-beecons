@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/app_layout') ?>
 
 <?= $this->section('css-component') ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <link rel="stylesheet" href="../../../style/courses.css">
 <?= $this->endSection() ?>
 
@@ -10,7 +11,6 @@
     <div class="my-container courses-list">
         <nav class="pt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Courses</li>
             </ol>
             <hr>
@@ -140,6 +140,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../../../js/utils/getRupiah.js"></script>
 <script src="../../../js/utils/textTruncate.js"></script>
 <script src="../../../js/home/courses.js"></script>

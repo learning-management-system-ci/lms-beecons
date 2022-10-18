@@ -69,12 +69,14 @@ $routes->get('/about-us', 'Home::aboutUs');
 $routes->get('/terms-and-conditions', 'Home::termsAndConditions');
 $routes->get('/courses/bundling', 'Home::bundlingCart');
 $routes->get('/course-detail', 'Home::courseDetail');
+$routes->get('/course/:num', 'Home::courseDetailNew');
 $routes->get('/cart', 'Home::cart');
 $routes->get('/checkout', 'Home::checkout');
 $routes->get('/webinar', 'Home::webinar');
 $routes->get('/training', 'Home::training');
 $routes->get('/courses', 'Home::courses');
 $routes->get('/article', 'Home::article');
+$routes->get('/email', 'Home::email');
 
 $routes->get('/send-otp', 'AuthController::indexSendOtp');
 $routes->post('/send-otp', 'AuthController::sendOtp');
@@ -129,14 +131,14 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
         $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
-        $routes->put('update', 'Api\UserController::update/$1');
+        $routes->put('update/(:num)', 'Api\UserController::update/$1');
     });
 
     $routes->group('course/', static function ($routes) {
         $routes->get('', 'Api\CourseController::index');
         $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
         $routes->post('create', 'Api\CourseController::create');
-        $routes->put('update/(:num)', 'Api\CourseController::update/$1');
+        $routes->put('update/(:num)f', 'Api\CourseController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
@@ -257,6 +259,7 @@ $routes->group('api/', static function ($routes) {
     });
 
     $routes->group('order/', static function ($routes) {
+        $routes->get('', 'Api\OrderController::index');
         $routes->get('generatesnap', 'Api\OrderController::generateSnap');
         $routes->post('notif-handler', 'Api\OrderController::notifHandler');
     });

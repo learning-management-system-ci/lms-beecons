@@ -31,7 +31,10 @@ class Testimoni extends Migration
         ]);
 
         $this->forge->addKey('testimoni_id', TRUE);
-        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'NO ACTION');
+        // $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'NO ACTION');
+        // $this->forge->addForeignKey(['users_id', 'users_name'], 'users', ['id', 'name'], 'CASCADE', 'CASCADE');
+        // $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('testimoni', TRUE);
     }
 

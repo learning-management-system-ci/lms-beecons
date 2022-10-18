@@ -31,7 +31,8 @@ class ReviewController extends ResourceController {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
             $rules = [
                 "feedback" => "required|max_length[250]",
-                "score" => "numeric",
+                // "score" => "numeric|decimal",
+                "score" => "decimal",
             ];
     
             $messages = [
@@ -40,7 +41,8 @@ class ReviewController extends ResourceController {
                     "max_length" => "{field} maksimal 255 karakter",
                 ],
                 "score" => [
-                    "numeric" => "{field} harus berisi nomor"
+                    // "numeric" => "{field} harus berisi nomor",
+                    "decimal" => "{field} harus bernilai desimal",
                 ],
             ];
     
@@ -70,6 +72,5 @@ class ReviewController extends ResourceController {
 	    } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
-
     }
 }

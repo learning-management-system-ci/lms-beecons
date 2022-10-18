@@ -16,7 +16,7 @@ $(document).ready(async function () {
             setCourses(typeId)
         })
 
-        function setCourses(type) {
+        async function setCourses(type) {
             let coursesAll = courseResponse.slice(0, 3)
             let coursesEngineering = courseResponse.filter(course => course.type[0].type_id === '1').slice(0, 3)
             let coursesIt = courseResponse.filter(course => course.type[0].type_id === '2').slice(0, 3)
@@ -28,12 +28,46 @@ $(document).ready(async function () {
             else if (type === '1') courses = coursesEngineering
             else if (type === '2') courses = coursesIt
 
+            courses = courses.map((course) => {
+                return {
+                    ...course,
+                    isBought: false
+                }
+            })
+
+            if (Cookies.get('access_token')) {
+                let userCourses = []
+                try {
+                    const res = await $.ajax({
+                        url: `/api/user-course`,
+                        method: 'GET',
+                        dataType: 'json',
+                        headers: {
+                            Authorization: 'Bearer ' + Cookies.get("access_token")
+                        }
+                    })
+            
+                    userCourses = res
+                } catch (error) {
+                    console.log(error)
+                }
+
+                courses = courses.map((course, i) => {
+                    return {
+                        ...course,
+                        isBought: userCourses.map(userCourse => userCourse.course_id).includes(course.course_id)
+                    }
+                })
+            }
+
             $('#choose-course .choose-course-list').html(courses.map(course => {
                 return `
                     <div class="col col-md-4 px-4 pb-4">
                         <div class="card-course">
                             <div class="image">
-                                <img src="image/home/img-course.jpg" alt="img">
+                                <a href="/course/${course.course_id}">
+                                    <img src="image/home/img-course.jpg" alt="img">
+                                </a>
     
                                 <div class="card-course-tags">
                                     ${course.tag.map(tag => {
@@ -42,10 +76,12 @@ $(document).ready(async function () {
                                 </div>
                             </div>
                             <div class="body">
-                                <h2 class="text-truncate">${course.title}</h2>
-                                <p>
-                                    ${textTruncate(course.description, 120)}
-                                </p>
+                                <a href="/course/${course.course_id}">
+                                    <h2 class="text-truncate">${course.title}</h2>
+                                    <p>
+                                        ${textTruncate(course.description, 120)}
+                                    </p>
+                                </a>
                                 <p class="harga">
                                     ${(() => {
                                         if (course.old_price !== '0') {
@@ -58,17 +94,72 @@ $(document).ready(async function () {
                                 </p>
                             </div>
                             <div class="card-course-button">
-                                <a href="">
-                                    <button class="my-btn btn-full">Beli</button>
-                                </a>
-                                <a href="">
-                                    <button class="button-secondary"><i class="fa-solid fa-cart-shopping"></i></button>
-                                </a>
+                                ${(() => {
+                                    if (!course.isBought) {
+                                        return `
+                                            <a href="${`/checkout/${course.course_id}`}">
+                                                <button class="my-btn btn-full">Beli</button>
+                                            </a>
+                                            <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
+                                        `
+                                    } else {
+                                        return `
+                                            <a href="${`/course/${course.course_id}`}">
+                                                <button class="my-btn btn-full">Lihat Course</button>
+                                            </a>
+                                        `
+                                    }
+                                })()}
                             </div>
                         </div>
                     </div>
                 `
             }))
+
+            handleAddCart()
+        }
+
+        function handleAddCart() {
+            return $('.add-cart').on('click', function() {
+                const course_id = $(this).val()
+
+                if (!Cookies.get("access_token")) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda belum login',
+                        icon: 'error',
+                        showConfirmButton: true
+                    })
+                }
+                
+                $.ajax({
+                    url: `/api/cart/create/course/${course_id}`,
+                    method: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        Authorization: 'Bearer ' + Cookies.get("access_token")
+                    }
+                }).then((res) => {
+                    if (res.status !== 200) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: 'Course sudah ada di keranjang',
+                            icon: 'error',
+                            showConfirmButton: true
+                        })
+                    }
+                    
+                    return new swal({
+                        title: "Berhasil!",
+                        text: "Course berhasil ditambahkan ke keranjang",
+                        icon: "success",
+                        timer: 1200,
+                        showConfirmButton: false
+                    }).then(() => window.location = '/cart')
+                }).catch((err) => {
+                    console.log(error)
+                })
+            })
         }
     } catch (error) {
         console.log(error)
