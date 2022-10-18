@@ -112,6 +112,14 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\ReviewController::create');
     });
 
+    $routes->group('jobs/', static function ($routes) {
+        $routes->get('', 'Api\JobsController::index');
+        $routes->get('detail/(:segment)', 'Api\JobsController::show/$1');
+        $routes->post('create', 'Api\JobsController::create');
+        $routes->put('update/(:segment)', 'Api\JobsController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\JobsController::delete/$1');
+    });
+
     $routes->group('testimoni/', static function ($routes) {
         $routes->get('', 'Api\TestimoniController::index');
         $routes->get('detail/(:segment)', 'Api\TestimoniController::show/$1');
