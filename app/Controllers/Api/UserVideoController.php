@@ -118,9 +118,9 @@ class UserVideoController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
-            }
+            if ($data['role'] != 'member') {
+				return $this->fail('Tidak dapat di akses selain member', 400);
+			}
 
             $rules = [
                 'user_id' => 'required',
@@ -181,9 +181,9 @@ class UserVideoController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
-            }
+            if ($data['role'] != 'member') {
+				return $this->fail('Tidak dapat di akses selain member', 400);
+			}
 
             $input = $this->request->getRawInput();
 
@@ -251,9 +251,9 @@ class UserVideoController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
-            }
+            if ($data['role'] != 'member') {
+				return $this->fail('Tidak dapat di akses selain member', 400);
+			}
             
             $data = $this->uservideo->where('user_video_id', $id)->findAll();
             if($data){
