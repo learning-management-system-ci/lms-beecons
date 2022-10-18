@@ -45,9 +45,6 @@ class NotificationController extends ResourceController
                 }
             }
 
-            if(!$data['notification']){
-                array_push($data['notification'], "Tidak ada data");
-            }
             rsort($data['notification']);
 
             return $this->respond($data);
