@@ -59,7 +59,7 @@ class Users extends Migration
 				'constraint'     => 255,
 			],
 			'role'      => [
-				'type'          => 'ENUM("admin", "partner", "author", "member")',
+				'type'          => 'ENUM("admin", "partner", "author", "member", "mentor")',
 				'default' 		=> 'member',
 				'null' 			=> false,
 			],

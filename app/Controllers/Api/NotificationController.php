@@ -4,34 +4,54 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Notification;
+use App\Models\Users;
 use CodeIgniter\HTTP\RequestInterface;
+use Firebase\JWT\JWT;
+use CodeIgniter\API\ResponseTrait;
 
 class NotificationController extends ResourceController
 {
+    use ResponseTrait;
     /**
      * Return an array of resource objects, themselves in array format
      *
      * @return mixed
      */
-    public function index($id = null)
+    public function index()
     {
-        $model = new Notification();
-        $public_notification = $model->where('user_id', null)->findAll();
-        $data = [];
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        if($model->where('user_id', $id)->findAll() || $public_notification){
-            $private_notification = $model->where('user_id', $id)->findAll();
-            $data = $private_notification;
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+            $model = new Notification();
+            $data = [];
+            $data = $user->select('id')->where('id', $decoded->uid)->first();
+            $public_notification = $model->where('user_id', null)->findAll();
+            $private_notification = $model->where('user_id', $data['id'])->findAll();
 
-            for($i = 0; $i < count($public_notification); $i++){
-                array_push($data, $public_notification[$i]);
+            $data['notification'] = [];
+            if(count($private_notification) != 0){
+                for($i = 0; $i < count($private_notification); $i++){
+                    array_push($data['notification'], $private_notification[$i]);
+                }
             }
-            rsort($data);
+            if(count($public_notification) != 0){
+                for($i = 0; $i < count($public_notification); $i++){
+                    array_push($data['notification'], $public_notification[$i]);
+                }
+            }
+
+            rsort($data['notification']);
 
             return $this->respond($data);
-        } else{
-            return $this->failNotFound('Tidak ada data');
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
+        return $this->failNotFound('Data user tidak ditemukan');
     }
 
     /**
@@ -61,51 +81,68 @@ class NotificationController extends ResourceController
      */
     public function create()
     {
-        $model = new Notification();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        $rules = [
-            'message' => 'required|min_length[8]',
-        ];
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        $messages = [
-            "message" => [
-                "required" => "{field} tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-        ];
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses', 400);
+            }
 
-        $response;
-        if($this->validate($rules, $messages)) {
-            if($this->request->getVar('user_id')){
-                $data = [
-                  'user_id' => $this->request->getVar('user_id'),
-                  'message' => $this->request->getVar('message'),
+            $model = new Notification();
+
+            $rules = [
+                'message' => 'required|min_length[8]',
+            ];
+
+            $messages = [
+                "message" => [
+                    "required" => "{field} tidak boleh kosong",
+                    'min_length' => '{field} minimal 8 karakter'
+                ],
+            ];
+
+            $response;
+            if($this->validate($rules, $messages)) {
+                if($this->request->getVar('user_id')){
+                    $data = [
+                      'user_id' => $this->request->getVar('user_id'),
+                      'message' => $this->request->getVar('message'),
+                    ];
+                }else{
+                    $data = [
+                      'message' => $this->request->getVar('message'),
+                    ];
+                }
+
+                $model->insert($data);
+
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Notification berhasil dibuat'
+                    ]
                 ];
             }else{
-                $data = [
-                  'message' => $this->request->getVar('message'),
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
                 ];
             }
 
-            $model->insert($data);
-
-            $response = [
-                'status'   => 201,
-                'success'    => 201,
-                'messages' => [
-                    'success' => 'Notification berhasil dibuat'
-                ]
-            ];
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => $this->validator->getErrors(),
-            ];
+            return $this->respondCreated($response);   
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
-
-
-        return $this->respondCreated($response);    
+        return $this->failNotFound('Data user tidak ditemukan');
     }
 
     /**
@@ -125,58 +162,76 @@ class NotificationController extends ResourceController
      */
     public function update($id = null)
     {
-        $model = new Notification();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        $rules = [
-            'message' => 'required|min_length[8]',
-        ];
+        
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        $messages = [
-            "message" => [
-                "required" => "{field} tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-        ];
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses', 400);
+            }
 
-        $response;
-        if($model->find($id)){
-            if($this->validate($rules, $messages)) {
-                if($this->request->getRawInput('user_id')){
-                    $data = [
-                      'user_id' => $this->request->getRawInput('user_id'),
-                      'message' => $this->request->getRawInput('message'),
+            $model = new Notification();
+
+            $rules = [
+                'message' => 'required|min_length[8]',
+            ];
+
+            $messages = [
+                "message" => [
+                    "required" => "{field} tidak boleh kosong",
+                    'min_length' => '{field} minimal 8 karakter'
+                ],
+            ];
+
+            $response;
+            if($model->find($id)){
+                if($this->validate($rules, $messages)) {
+                    if($this->request->getRawInput('user_id')){
+                        $data = [
+                        'user_id' => $this->request->getRawInput('user_id'),
+                        'message' => $this->request->getRawInput('message'),
+                        ];
+                    }else{
+                        $data = [
+                        'message' => $this->request->getRawInput('message'),
+                        ];
+                    }
+                    $model->update($id, $data['user_id']);
+
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Notification berhasil di perbarui'
+                        ]
                     ];
                 }else{
-                    $data = [
-                      'message' => $this->request->getRawInput('message'),
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
                     ];
                 }
-                $model->update($id, $data['user_id']);
-
-                $response = [
-                    'status'   => 201,
-                    'success'    => 201,
-                    'messages' => [
-                        'success' => 'Notification berhasil di perbarui'
-                    ]
-                ];
             }else{
                 $response = [
                     'status'   => 400,
                     'error'    => 400,
-                    'messages' => $this->validator->getErrors(),
+                    'messages' => 'Data tidak ditemukan',
                 ];
             }
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => 'Data tidak ditemukan',
-            ];
+
+            return $this->respondCreated($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
-
-
-        return $this->respondCreated($response);
+        return $this->failNotFound('Data user tidak ditemukan');
     }
 
     /**
@@ -186,21 +241,40 @@ class NotificationController extends ResourceController
      */
     public function delete($id = null)
     {
-        $model = new Notification();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        if($model->find($id)){
-            $model->delete($id);
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-            $response = [
-                'status'   => 200,
-                'success'    => 200,
-                'messages' => [
-                    'success' => 'Notification berhasil di hapus'
-                ]
-            ];
-            return $this->respondDeleted($response);
-        }else{
-            return $this->failNotFound('Data tidak di temukan');
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses', 400);
+            }
+
+            
+            $model = new Notification();
+
+            if($model->find($id)){
+                $model->delete($id);
+
+                $response = [
+                    'status'   => 200,
+                    'success'    => 200,
+                    'messages' => [
+                        'success' => 'Notification berhasil di hapus'
+                    ]
+                ];
+                return $this->respondDeleted($response);
+            }else{
+                return $this->failNotFound('Data tidak di temukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
+        return $this->failNotFound('Data user tidak ditemukan');
     }
 }

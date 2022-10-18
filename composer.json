@@ -11,9 +11,10 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "firebase/php-jwt": "5.5",
-        "google/apiclient": "2.7",
+        "google/apiclient": "^2.7",
         "kint-php/kint": "^4.1.1",
         "laminas/laminas-escaper": "^2.9",
+        "midtrans/midtrans-php": "^2.5",
         "psr/log": "^1.1"
     },
     "require-dev": {

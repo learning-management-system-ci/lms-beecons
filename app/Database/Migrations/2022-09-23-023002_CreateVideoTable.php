@@ -15,20 +15,19 @@ class CreateVideoTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
-            'course_id'       => [
+            'video_category_id'       => [
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
+                'null'			=> true,
             ],
             'title'       => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '255',
-                //'unsigned'       => true,
             ],
             'video'             => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '255',
-                //'unsigned'       => true,
             ],
             'order'       => [
                 'type'           => 'INT',
@@ -41,7 +40,7 @@ class CreateVideoTable extends Migration
         ]);
 
         $this->forge->addKey('video_id', TRUE);
-        $this->forge->addForeignKey('course_id', 'course', 'course_id');
+        $this->forge->addForeignKey('video_category_id', 'video_category', 'video_category_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('video', TRUE);
     }
 

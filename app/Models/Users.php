@@ -9,7 +9,7 @@ class Users extends Model
 	protected $table = 'users';
 	protected $primaryKey = 'id';
 	protected $DBGroup = 'default';
-	protected $allowedFields = ['oauth_id', 'job_id', 'fullname', 'email', 'password', 'phone_number', 'address', 'date_birth', 'linkedin', 'password', 'profile_picture', 'activation_status', 'activation_code', 'updated_at', 'created_at'];
+	protected $allowedFields = ['oauth_id', 'job_id', 'fullname', 'email', 'password', 'phone_number', 'address', 'date_birth', 'linkedin', 'profile_picture', 'activation_status', 'activation_code', 'updated_at', 'created_at'];
 
 	function isAlreadyRegister($authid)
 	{
@@ -21,10 +21,14 @@ class Users extends Model
 	}
 	function updateUserData($userdata, $authid)
 	{
-		$this->db->table("users")->where(['oauth_id' => $authid])->update($userdata);
+		return $this->db->table("users")->where(['oauth_id' => $authid])->update($userdata);
 	}
 	function updateUserByEmail($userdata, $email)
 	{
-		$this->db->table("users")->where(['email' => $email])->update($userdata);
+		return $this->db->table("users")->where(['email' => $email])->update($userdata);
+	}
+	function getUser($email)
+	{
+		return $this->db->table('users')->getWhere(['email' => $email])->getRowArray();
 	}
 }

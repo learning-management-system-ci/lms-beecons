@@ -13,12 +13,19 @@
     background-color: $bg_color;
     filter: drop-shadow($drop_shadow);
 
+    .duration {
+        font-weight: 600;
+        color: #002B5B;
+    }
+
     .list-title {
 
         width: 200px;
         gap: 10px;
+        width: 85%;
 
         p {
+
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
@@ -38,6 +45,15 @@
 
         }
     }
+
+
+}
+
+@mixin button-curiculum($url, $size) {
+    background-image: url($url);
+    background-size: $size;
+    background-repeat: no-repeat;
+    background-color: white;
 }
 
 h3,
@@ -59,14 +75,13 @@ button {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 
 .list-active {
     @include video-list-button(#ffffff, url("../image/course-detail/pause-button.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
 }
-
 
 main {
     .navigation {
@@ -75,7 +90,7 @@ main {
             color: #bdbdbd;
 
             a {
-                color: #002B5B;
+                color: #164520;
                 text-decoration: none;
                 @include font($weight: 600)
             }
@@ -84,11 +99,13 @@ main {
 
     .category {
         p {
-            background-color: #002B5B;
-            color: white;
+            // background-color: #164520;
+            font-size: 24px;
+            color: #164520;
             width: max-content;
-            padding: 6px 15px;
+            padding: 6px 0px;
             border-radius: 8px;
+            font-weight: 500;
         }
     }
 
@@ -126,7 +143,7 @@ main {
 
                         input {
                             width: 18px;
-                            border-radius: 0px;
+                            border-radius: 3px;
                             border: 2px solid #002B5B;
                             height: 18px;
                             -webkit-appearance: none;
@@ -135,10 +152,11 @@ main {
 
                         input:checked {
                             // background-color: #5c48a3;
-                            background-image: url('../image/course-detail/check.png');
+                            background-image: url('../image/course-detail/check.svg');
                             background-repeat: no-repeat;
                             background-size: 18px;
-                            background-position: -2px -2px;
+                            background-position: -3px -2px;
+                            background-color: #002B5B;
                         }
 
                         label {
@@ -155,15 +173,16 @@ main {
                     }
                 }
 
-                .quiz-back,
-                .quiz-next {}
-
                 .progress-box {
+
                     box-shadow: 3px 3px 15px #888888;
                     width: 100%;
                     background-color: white;
                     border-radius: 8px;
 
+                    .swiper-button-lock {
+                        display: block;
+                    }
 
                     #loading {
                         margin: 15px;
@@ -205,7 +224,7 @@ main {
 
                     .active {
                         color: #F2F4F6;
-                        background-color: #002B5B !important;
+                        background-color: #164520 !important;
                     }
                 }
             }
@@ -220,24 +239,43 @@ main {
                         border-radius: 8px 8px 0px 0px;
                         padding: 10px 20px;
                         color: white;
-                        background-color: #002B5B;
+                        background-color: #164520;
                     }
 
                     .curiculum-list {
                         list-style: none;
                         padding-left: 0;
+                        height: 350px;
+                        overflow-y: scroll;
 
                         li {
                             div {
                                 gap: 15px;
 
                                 button {
-                                    .lock-button {
+
+
+                                    div {
                                         width: 40px;
+                                        height: 40px;
                                         border-radius: 80px;
-                                        padding: 5px;
-                                        background-color: white;
                                     }
+
+                                    .play {
+                                        @include button-curiculum('../image/course-detail/play-project-enable.png', 40px)
+                                    }
+
+                                    .locked {
+                                        @include button-curiculum('../image/course-detail/video-locked.png', 30px);
+                                        background-position: center center;
+                                    }
+
+                                    // .lock-button {
+                                    //     width: 40px;
+                                    //     border-radius: 80px;
+                                    //     padding: 5px;
+                                    //     background-color: white;
+                                    // }
                                 }
                             }
                         }
@@ -257,7 +295,7 @@ main {
                         .start-button {
                             padding: 8px 40px;
                             border-radius: 6px;
-                            background-color: #002B5B;
+                            background-color: #164520;
                             color: #D8FAD7;
                         }
 
@@ -288,24 +326,30 @@ main {
             }
 
             .user-review {
+                height: 400px;
+                overflow-y: scroll;
+
                 .review-card {
-                    gap: 10px;
+                    gap: 20px;
+                    margin: 0px 0px 20px 0px;
+                    padding: 20px;
                     border-radius: 7px;
                     background-color: #F2F4F6;
-                    height: 120px;
+
 
                     .user-image {
                         width: 80px;
                         border-radius: 7px;
-                        filter: drop-shadow(0px 5px 7px rgba(0, 0, 0, 0.521));
+                        filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.321));
                     }
 
                     .review-data {
                         width: 100%;
-                        gap: 30px;
+                        gap: 20px;
 
                         .review-description {
                             color: black !important;
+                            height: max-content;
                         }
 
                         .top-section {
@@ -313,12 +357,13 @@ main {
                                 gap: 10px;
 
                                 h6 {
-                                    color: #002B5B;
+                                    color: #164520;
                                     @include font($weight: 600)
                                 }
 
                                 p {
                                     color: #797979;
+                                    font-size: 14px;
                                 }
                             }
 
@@ -331,6 +376,24 @@ main {
                                 }
                             }
 
+                            .stars {
+                                --percent: calc(var(--rating) / 5 * 100%);
+
+                                display: inline-block;
+                                font-size: 1.25rem;
+                                font-family: Times; // make sure ★ appears correctly
+                                line-height: 1;
+
+                                &::before {
+                                    content: '★★★★★';
+                                    letter-spacing: 3px;
+                                    background: linear-gradient(90deg, #E0D043 var(--percent), #ffffff var(--percent));
+                                    -webkit-background-clip: text;
+                                    background-clip: #FFCB42;
+                                    -webkit-text-fill-color: transparent;
+                                    -webkit-text-stroke: 1px #E0D043;
+                                }
+                            }
 
                         }
                     }
@@ -350,19 +413,43 @@ main {
                     height: 320px;
                     overflow: auto;
 
+                    .title-chapter {
+                        font-weight: 500;
+                        cursor: pointer;
+                        border-radius: 7px;
+                        border: 1px solid rgb(189, 189, 189);
+                        padding: 10px
+                    }
+
+                    .title-chapter:hover {
+                        background-color: #ffffff
+                    }
+
+                    .ui-state-active {
+                        background-color: #ffffff
+                    }
+
                     .list-card-button {
+
                         @include video-list-button(#DFE3E9, url("../image/course-detail/play-light.png"), 0);
                     }
 
-                    .list-card-button:hover {
-                        @include video-list-button(#ffffff, url("../image/course-detail/play-dark.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
+                    // .list-card-button:hover {
+                    //     @include video-list-button(#ffffff, url("../image/course-detail/play-dark.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
+                    // }
+
+                    .quiz-card {
+                        @include video-list-button(#DFE3E9, url("../image/course-detail/button-quiz-light.png"), 0)
+                    }
+
+                    .list-active-quiz {
+                        @include video-list-button(white, url("../image/course-detail/button-quiz-dark.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
                     }
 
                     .complete {
                         @include video-list-button(#DFE3E9, url("../image/course-detail/complete-button.png"), 0);
                     }
 
-                    .complete:hover,
                     .list-active-complete {
                         @include video-list-button(#ffffff, url("../image/course-detail/complete-button.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
                     }
@@ -375,6 +462,7 @@ main {
                 }
 
                 .scrollable-video-list::-webkit-scrollbar {
+                    position: absolute;
                     width: 8px;
 
                 }
@@ -394,7 +482,6 @@ main {
                 border-radius: 8px;
                 padding: 20px;
                 background-color: #F2F4F6;
-                width: 100%;
 
                 ul {
                     padding-left: 27px;
@@ -412,7 +499,7 @@ main {
                     width: 100%;
                     height: 40px;
                     border-radius: 10px;
-                    background-color: #002B5B;
+                    background-color: #164520;
                     color: white
                 }
 

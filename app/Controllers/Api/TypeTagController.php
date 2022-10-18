@@ -101,44 +101,44 @@ class TypeTagController extends ResourceController
         //
     }
 
-    // public function filter($key = null, $id = null)
-    // {
-    //     $key_ = ['type', 'tag'];
+    public function filter($key = null, $id = null)
+    {
+        $key_ = ['type', 'tag'];
         
-    //     if(!in_array($key, $key_)){
-    //         return $this->failValidationError('Key harus type atau tag');
-    //     }
-    //     $data = [];
+        if(!in_array($key, $key_)){
+            return $this->failValidationError('Key harus type atau tag');
+        }
+        $data = [];
 
-    //     $modelType = new Type();
-    //     $model = new TypeTag();
+        $modelType = new Type();
+        $model = new TypeTag();
 
-    //     if($key == 'type'){
-    //         $key = $key.'.'.$key.'_id';
-    //         $data = $modelType->where($key, $id)->find();
-    //     }else{
-    //         $data = $modelType->findAll();
-    //     }
+        if($key == 'type'){
+            $key = $key.'.'.$key.'_id';
+            $data = $modelType->where($key, $id)->find();
+        }else{
+            $data = $modelType->findAll();
+        }
         
-    //     for($i = 0; $i < count($data); $i++){
-    //         // $key = $key.'.'.$key.'_id';
-    //         $tag = $model
-    //             ->select('tag.*')
-    //             ->join('type', 'type.type_id = type_tag.type_id')
-    //             ->join('tag', 'tag.tag_id = type_tag.tag_id')
-    //             ->where('type.type_id', $data[$i]['type_id'])
-    //             // ->where($key, $id)
-    //             ->findAll();
+        for($i = 0; $i < count($data); $i++){
+            // $key = $key.'.'.$key.'_id';
+            $tag = $model
+                ->select('tag.*')
+                ->join('type', 'type.type_id = type_tag.type_id')
+                ->join('tag', 'tag.tag_id = type_tag.tag_id')
+                ->where('type.type_id', $data[$i]['type_id'])
+                // ->where($key, $id)
+                ->findAll();
 
-    //         for($k = 0; $k < count($tag); $k++){
-    //             $data[$i]['tag'][$k] = $tag[$k];
-    //         }
-    //     }
+            for($k = 0; $k < count($tag); $k++){
+                $data[$i]['tag'][$k] = $tag[$k];
+            }
+        }
 
-    //     if(count($data) > 0){
-    //         return $this->respond($data);
-    //     }else{
-    //         return $this->failNotFound('Tidak ada data');
-    //     }
-    // }
+        if(count($data) > 0){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Tidak ada data');
+        }
+    }
 }

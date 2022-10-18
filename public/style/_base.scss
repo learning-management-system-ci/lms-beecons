@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
+
+$padding-container: 3.5rem;
+$card-border-radius: 0.6rem;
+
+$color-primary: #164520;
+$color-secondary: #248043;
+
+$color-white: #ffffff;
+$color-black: #1F1F1F;
+$color-pink: #FFF5FD;
+$color-gray-home: #F9FFF5;
+$color-gray: #D9D9D9;
+$color-gray-1: #9ca3af;
+$color-gray-2: #ECEBF3;
+$color-gray-3: #f3f4f6;
+$color-gray-4: #D3D3D3;
+$color-yellow: #FFCB42;
+$color-star: #E0D043;
+$color-black: #1F1F1F;
+$color-orange: #FFCB424D;
+$color-blue: #0D99FF;
+
+html {
+    font-size: 16px;
+    font-family: 'Plus Jakarta Sans', 'sans-serif';
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', 'sans-serif';
+}
+
+button {
+    border: none;
+}
+
+.main-container{
+    padding-left: $padding-container;
+    padding-right: $padding-container;
+}
+
+@mixin card-setting() {
+    border-radius: $card-border-radius;
+    box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+    background-color: $color-white;
+}
+
+@mixin title() {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+@mixin padding-container() {
+    padding-left: $padding-container;
+    padding-right: $padding-container;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}

@@ -4,12 +4,14 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\PolicyAndPrivacy;
+use App\Models\Users;
 use CodeIgniter\HTTP\RequestInterface;
+use Firebase\JWT\JWT;
+
 
 class PolicyAndPrivacyController extends ResourceController
 {
-    public function index()
-    {
+    public function index() {
         $model = new PolicyAndPrivacy();
         $data = $model->orderBy('pap_id', 'DESC')->findAll();
 
@@ -20,8 +22,7 @@ class PolicyAndPrivacyController extends ResourceController
         }
     }
 
-    public function show($id = null)
-    {
+    public function show($id = null) {
         $model = new PolicyAndPrivacy();
 
         if($model->find($id)){
@@ -32,74 +33,44 @@ class PolicyAndPrivacyController extends ResourceController
         }
     }
 
-    public function create()
-    {
-        $model = new PolicyAndPrivacy();
+    public function create() {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        $rules = [
-            'value' => 'required|min_length[8]',
-        ];
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
 
-        $messages = [
-            "value" => [
-                "required" => "{field} tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-        ];
+            $model = new PolicyAndPrivacy();
 
-        $response;
-        if($this->validate($rules, $messages)) {
-            $data = [
-              'value' =>  $this->request->getVar('value')
+            $rules = [
+                'value' => 'required|min_length[8]',
             ];
-            $model->insert($data);
-            $response = [
-                'status'   => 201,
-                'success'    => 201,
-                'messages' => [
-                    'success' => 'Policy and privacy berhasil dibuat'
-                ]
+
+            $messages = [
+                "value" => [
+                    "required" => "{field} tidak boleh kosong",
+                    'min_length' => '{field} minimal 8 karakter'
+                ],
             ];
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => $this->validator->getErrors(),
-            ];
-        }
 
-
-        return $this->respondCreated($response);
-    }
-
-    public function update($id = null)
-    {
-        $model = new PolicyAndPrivacy();
-
-        $rules = [
-            'value' => 'required|min_length[8]',
-        ];
-
-        $messages = [
-            "value" => [
-                "required" => "{field} tidak boleh kosong",
-                'min_length' => '{field} minimal 8 karakter'
-            ],
-        ];
-
-        $response;
-        if($model->find($id)){
             if($this->validate($rules, $messages)) {
                 $data = [
-                  'value' => $this->request->getRawInput('value')
+                'value' =>  $this->request->getVar('value')
                 ];
-
-                $model->update($id, $data);
+                $model->insert($data);
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
                     'messages' => [
-                        'success' => 'Policy and privacy berhasil di perbarui'
+                        'success' => 'Policy and privacy berhasil dibuat'
                     ]
                 ];
             }else{
@@ -109,34 +80,107 @@ class PolicyAndPrivacyController extends ResourceController
                     'messages' => $this->validator->getErrors(),
                 ];
             }
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => 'Data tidak ditemukan',
-            ];
+            return $this->respondCreated($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
-
-
-        return $this->respond($response);
     }
 
-    public function delete($id = null)
+    public function update($id = null)
     {
-        $model = new PolicyAndPrivacy();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        if($model->find($id)){
-            $model->delete($id);
-            $response = [
-                'status'   => 200,
-                'success'    => 200,
-                'messages' => [
-                    'success' => 'Policy and privacy berhasil di hapus'
-                ]
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $model = new PolicyAndPrivacy();
+
+            $rules = [
+                'value' => 'required|min_length[8]',
             ];
-            return $this->respondDeleted($response);
-        }else{
-            return $this->failNotFound('Data tidak di temukan');
+
+            $messages = [
+                "value" => [
+                    "required" => "{field} tidak boleh kosong",
+                    'min_length' => '{field} minimal 8 karakter'
+                ],
+            ];
+
+            if($model->find($id)){
+                if($this->validate($rules, $messages)) {
+                    $data = [
+                    'value' => $this->request->getRawInput('value')
+                    ];
+
+                    $model->update($id, $data);
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Policy and privacy berhasil di perbarui'
+                        ]
+                    ];
+                }else{
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
+                    ];
+                }
+            }else{
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => 'Data tidak ditemukan',
+                ];
+            }
+            return $this->respond($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
+
+    public function delete($id = null) {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $model = new PolicyAndPrivacy();
+
+            if($model->find($id)){
+                $model->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'success'    => 200,
+                    'messages' => [
+                        'success' => 'Policy and privacy berhasil di hapus'
+                    ]
+                ];
+                return $this->respondDeleted($response);
+            }else{
+                return $this->failNotFound('Data tidak di temukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
     }
 }

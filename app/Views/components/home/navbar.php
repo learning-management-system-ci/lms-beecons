@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">
+        <a class="navbar-brand" href="/">
             <img src="../../../image/logo.png" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarApp" aria-controls="navbarApp" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,10 +12,13 @@
                     <a class="nav-link mx-2 active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active" href="">Webinar</a>
+                    <a class="nav-link mx-2 active" href="<?= base_url('/courses') ?>">Courses</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active" href="<?= base_url('/courses') ?>">Courses</a>
+                    <a class="nav-link mx-2 active" href="<?= base_url('/training') ?>">Training</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2 active" href="">Webinar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 active" href="<?= base_url('/faq') ?>">FAQ</a>
@@ -52,17 +55,17 @@
                     </div>
                 </li>
                 <li class="nav-item me-3">
-                    <div class="dropdown nav-item-icon">
-                        <button class="nav-btn-icon my-1" id="dropdown-cart" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="nav-btn-icon-amount">5</div>
+                    <a href="/cart">
+                        <button class="nav-btn-icon my-1" id="cart-count">
+                            <!-- <div class="nav-btn-icon-amount">0</div> -->
                             <i class="fa-solid fa-cart-shopping"></i>
                         </button>
-                    </div>
+                    </a>
                 </li>
                 <li class="nav-item me-3">
                     <div class="dropdown nav-item-icon">
                         <button class="nav-btn-icon my-1" id="dropdown-notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="nav-btn-icon-amount">2</div>
+                            <!-- <div class="nav-btn-icon-amount">0</div> -->
                             <i class="fa-solid fa-bell"></i>
                         </button>
                         <div class="dropdown-menu my-2 notifications" aria-labelledby="dropdown-notification">
@@ -83,7 +86,8 @@
                                 </div>
                             <?php else : ?>
                                 <div class="notifications-list">
-                                    <div class="notif unread">
+                                    <!-- unread notification -->
+                                    <!-- <div class="notif unread">
                                         <a href="" class="">
                                             <div class="icon">
                                                 <img src="/image/home/notif-icon.png" alt="icon">
@@ -96,8 +100,9 @@
                                                 <span>1 jam yang lalu</span>
                                             </div>
                                         </a>
-                                    </div>
-                                    <div class="notif unread">
+                                    </div> -->
+                                    <!-- readed notification -->
+                                    <!-- <div class="notif">
                                         <a href="" class="">
                                             <div class="icon">
                                                 <img src="/image/home/notif-icon.png" alt="icon">
@@ -110,35 +115,7 @@
                                                 <span>1 jam yang lalu</span>
                                             </div>
                                         </a>
-                                    </div>
-                                    <div class="notif">
-                                        <a href="" class="">
-                                            <div class="icon">
-                                                <img src="/image/home/notif-icon.png" alt="icon">
-                                            </div>
-                                            <div class="item">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-                                                    quae.
-                                                </p>
-                                                <span>1 jam yang lalu</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="notif">
-                                        <a href="" class="">
-                                            <div class="icon">
-                                                <img src="/image/home/notif-icon.png" alt="icon">
-                                            </div>
-                                            <div class="item">
-                                                <p>
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-                                                    quae.
-                                                </p>
-                                                <span>1 jam yang lalu</span>
-                                            </div>
-                                        </a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             <?php endif ?>
                         </div>
@@ -158,6 +135,7 @@
                             </button>
                             <div class="dropdown-menu mt-2" aria-labelledby="dropdown-profile">
                                 <a href="<?= base_url('/profile') ?>" class="dropdown-item">Profile</a>
+                                <a href="<?= base_url('/') ?>" class="dropdown-item" id="btn-logout">Logout</a>
                             </div>
                         </div>
                     </li>

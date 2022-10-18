@@ -21,7 +21,7 @@ class AuthController extends BaseController
 		$this->googleClient = new \Google_Client();
 		$this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
 		$this->googleClient->setClientSecret("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");
-		$this->googleClient->setRedirectUri("http://localhost:8080/login/loginWithGoogle");
+		$this->googleClient->setRedirectUri(base_url()."/login/loginWithGoogle");
 		$this->googleClient->addScope("email");
 		$this->googleClient->addScope("profile");
 	}
@@ -34,7 +34,7 @@ class AuthController extends BaseController
 		}
 		$data = [
             "title" => "Sign In",
-            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+            "googleButton" => $this->googleClient->createAuthUrl(),
         ];
 		return view('pages/authentication/login', $data);
 	}
@@ -80,35 +80,40 @@ class AuthController extends BaseController
 
 	public function profile() {
 		if(!get_cookie("access_token")){
-			session()->setFlashData("error", "You have Logged Out, Please Login Again.");
 			return redirect()->to(base_url());
 		}
+        $token = get_cookie("access_token");
+        $key = getenv('TOKEN_SECRET');
+        try {
+            $decoded = JWT::decode($token, $key, array('HS256'));
+        }catch(Exception $e){
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            return ;
+        }
+        
+        if ($decoded) {
+            if (!$decoded->email) {
+                    return redirect()->back();
+                }
+            $email = $decoded->email;
+        }
         $data = [
-            "title" => session()->get("email"),
+            "title" => $email,
             "profile" => "",
             "cardButton" => 'Join The Webinar',
-          ];
+        ];
 		return view('pages/navigation/profile', $data);
 	}
 
 	function logout() {
 		session()->destroy();
-		// session()->remove('LoggedUserData');
-		// session()->remove('AccessToken');
-		// if(!(session()->get('LoggedUserData') && session()->get('AccessToken') )){
-		// 	session()->setFlashData("success", "Logout Successful");
-		// 	return redirect()->to(base_url());
-		// }else{
-		// 	session()->setFlashData("error", "Failed to Logout, Please Try Again");
-		// 	return redirect()->to(base_url()."/profile");
-		// }
 		return redirect()->to(base_url());
 	}
 
 	public function indexRegister() {
 		$data = [
             "title" => "Sign Up",
-            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img src="image/google.png" alt=""></a>',
+            "googleButton" => $this->googleClient->createAuthUrl(),
         ];
 		return view('pages/authentication/register', $data);
 	}
@@ -134,25 +139,6 @@ class AuthController extends BaseController
 		return redirect()->to('/send-otp');
 	}
 
-	function sendOtpEmail($emailTo, $otp) { 
-  	$subject = 'subject';
-	  $message = $otp;
-		
-	  $email = \Config\Services::email();
-	  $email->setTo($emailTo);
-	  $email->setFrom('hendrikusozzie@gmail.com', 'OTP Reset Password');
-		
-	  $email->setSubject($subject);
-	  $email->setMessage($message);
-
-	  if ($email->send()){
-      echo 'Email successfully sent';
-  	} else{
-      $data = $email->printDebugger(['headers']);
-      print_r($data);
-    }
-  }
-
 	public function indexSendOtp() {
 		$data = [
       "title" => "OTP Code",
@@ -171,37 +157,21 @@ class AuthController extends BaseController
 		return view('pages/authentication/new_password', $data);
 	}
 
-	public function newPassword() {
-	// 	if (!$this->validate([
-	// 		'password' => [
-    //     'rules' => 'required|min_length[4]|max_length[50]',
-    //     'errors' => [
-    //       'required' => '{field} required',
-    //       'min_length' => '{field} minimum 4 characters',
-    //       'max_length' => '{field} maximum 50 characters',
-    //   	]
-    //   ],
-    //   'password_confirm' => [
-    //     'rules' => 'matches[password]',
-    //   	'errors' => [
-    //       'matches' => 'Confirm password does not match with the password',
-    //     ]
-    //   ],
-    // ])) {
-    //   session()->setFlashdata('error', $this->validator->listErrors());
-    //   return redirect()->back()->withInput();
-    // }
-
-		// $email = $this->session->get("email");
-		// $updatePassword = [
-		// 	'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
-		// ];
-
-		// $this->loginModel->updateUserByEmail($updatePassword, $email);
-		// $this->resetModel->deleteDataByEmail($email);
-
-		// session()->setFlashdata('error', 'Please login with new password');
-		// $this->session->destroy();
-    return redirect()->to('/login');
+	public function newPassword() 
+    {
+        return redirect()->to('/login');
 	}
+
+    public function referralCode()
+    {
+        if(!get_cookie("access_token")){
+			return redirect()->to(base_url());
+		}
+        $data = [
+            "title" => "Referral Code",
+            "profile" => "",
+            "cardButton" => 'Join The Webinar',
+        ];
+        return view('pages/navigation/referral_code', $data);
+    }
 }

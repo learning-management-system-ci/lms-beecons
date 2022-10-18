@@ -32,39 +32,69 @@ class Home extends BaseController
         return view('pages/authentication/new_password');
     }
 
-    
+
     public function faq()
     {
         return view('pages/navigation/faq');
     }
     public function aboutUs()
     {
-        return view('pages/navigation/about_us');
+        $data = [
+            "title" => "About Us",
+        ];
+        return view('pages/navigation/about_us', $data);
     }
     public function termsAndConditions()
     {
-        return view('pages/navigation/terms_and_condition');
+        $data = [
+            "title" => "Terms and Conditions",
+        ];
+        return view('pages/navigation/terms_and_condition', $data);
     }
     public function bundlingCart()
     {
-        return view('pages/course/bundling');
+        $data = [
+            "title" => "Bundling",
+        ];
+        return view('pages/course/bundling', $data);
     }
     public function courseDetail()
     {
-        return view('pages/course/course-detail');
+        $data = [
+            "title" => "Detail Course",
+        ];
+        return view('pages/course/course-detail', $data);
     }
+
+    public function courseDetailNew()
+    {
+        $data = [
+            "title" => "Detail Course",
+        ];
+        return view('pages/course/course-detail', $data);
+    }
+
     public function cart()
     {
-        return view('pages/course/cart');
+        $data = [
+            "title" => "Cart Anda",
+        ];
+        return view('pages/course/cart', $data);
     }
 
     public function webinar()
     {
-        return view('pages/navigation/webinar');
+        $data = [
+            "title" => "Webinar",
+        ];
+        return view('pages/navigation/webinar', $data);
     }
     public function training()
     {
-        return view('pages/navigation/training');
+        $data = [
+            "title" => "Training",
+        ];
+        return view('pages/navigation/training', $data);
     }
     public function courses()
     {
@@ -72,5 +102,23 @@ class Home extends BaseController
             "title" => "Courses",
         ];
         return view('pages/navigation/courses', $data);
+    }
+    public function article()
+    {
+        $data = [
+            "title" => "Artikel",
+        ];
+        return view('pages/navigation/article', $data);
+    }
+    public function checkout()
+    {
+        $data = [
+            "title" => "Checkout",
+        ];
+        return view('pages/course/checkout', $data);
+    }
+    public function email()
+    {
+        return view('pages/email');
     }
 }

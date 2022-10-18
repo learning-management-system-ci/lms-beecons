@@ -1,7 +1,7 @@
 <!-- why choose us -->
 <div id="why-choose-us">
     <h1>
-        Why Choose Us ?
+        Kenapa Memilih Kami?
     </h1>
 
     <div class="row justify-content-center gap-4">

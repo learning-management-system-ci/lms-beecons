@@ -19,11 +19,26 @@ class CreateCourseTable extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => '100'
             ],
+            'service'      => [
+                'type'          => "ENUM('training','course')",
+				'default' 		=> 'course',
+				'null' 			=> false
+			],
             'description'       => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '255'
             ],
-            'price'             => [
+            'key_takeaways'       => [
+                'type'           => 'VARCHAR',
+                'constraint'     => '255',
+                'null' 			=> true,
+            ],
+            'suitable_for'       => [
+                'type'           => 'VARCHAR',
+                'constraint'     => '255',
+                'null' 			=> true,
+            ],
+            'old_price'             => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '10'
             ],

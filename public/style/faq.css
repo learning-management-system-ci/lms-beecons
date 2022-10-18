@@ -1,28 +1,94 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
-h3, h4 {
+h3,
+h4 {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 600;
 }
 
-main .navigation p {
+p {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
 }
-main .navigation p a {
+
+button {
+  border: none !important;
+  background-color: rgba(0, 0, 128, 0);
+}
+
+.contact-popup {
+  width: auto;
+  gap: 15px;
+}
+.contact-popup .contact-info {
+  text-align: start !important;
+  width: 550px;
+}
+.contact-popup .contact-info div {
+  gap: 30px;
+}
+.contact-popup form {
+  text-align: start !important;
+  gap: 12px;
+  display: block;
+}
+.contact-popup form input,
+.contact-popup form textarea {
+  border-radius: 7px;
+}
+.contact-popup form input[name=useremail] {
+  border: 1px solid #9B9B9B;
+  height: 50px;
+}
+.contact-popup form label {
+  white-space: nowrap;
+  background-color: #E5EAF0;
+  max-width: min-content;
+  padding: 8px 10px;
+  color: #164520;
+  border-radius: 8px;
+}
+.contact-popup form input[type=submit] {
+  background-color: #164520;
+  border: none;
+  padding: 7px 7px;
+  color: white;
+  height: 40px;
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 500;
+}
+
+.swal2-close:focus {
+  box-shadow: none !important;
+}
+
+.hide {
+  display: none;
+}
+
+.main-section {
+  gap: 40px;
+}
+.main-section .navigation p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+}
+.main-section .navigation p a {
   color: #002B5B;
   text-decoration: none;
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 600;
 }
-main .faq .faq-list .faq-title p {
+.main-section .faq .faq-list .faq-title p {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 400;
 }
-main .faq .faq-list .faq-item .faq-title .expand {
+.main-section .faq .faq-list .faq-item .faq-title .expand {
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
@@ -34,14 +100,21 @@ main .faq .faq-list .faq-item .faq-title .expand {
   background-repeat: no-repeat;
   transform: scale(0.8);
 }
-main .faq .faq-list .faq-item .collapse > div {
+.main-section .faq .faq-list .faq-item .collapse > div {
   padding-left: 0 !important;
 }
-main .faq .faq-list .faq-item .collapse.show > div {
+.main-section .faq .faq-list .faq-item .collapse.show > div {
   padding-left: 0 !important;
 }
-main .faq .faq-list .faq-item .collapsing > div {
+.main-section .faq .faq-list .faq-item .collapsing > div {
   padding-left: 0 !important;
+}
+.main-section .right-side button {
+  padding: 7px 8px;
+  font-size: 15px;
+  border-radius: 7px;
+  background-color: #164520;
+  color: white;
 }
 
 /*# sourceMappingURL=faq.css.map */

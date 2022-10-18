@@ -31,16 +31,18 @@ class ReviewController extends ResourceController {
 		    $decoded = JWT::decode($token, $key, ['HS256']);
             $rules = [
                 "feedback" => "required|max_length[250]",
-                "score" => "numeric",
+                // "score" => "numeric|decimal",
+                "score" => "decimal",
             ];
     
             $messages = [
                 "feedback" => [
-                    "required" => "{field} is required",
-                    "max_length" => "Maximum {field} is 250 characters"
+                    "required" => "{field} tidak boleh kosong",
+                    "max_length" => "{field} maksimal 255 karakter",
                 ],
                 "score" => [
-                    "numeric" => "{field} only contain numbers",
+                    // "numeric" => "{field} harus berisi nomor",
+                    "decimal" => "{field} harus bernilai desimal",
                 ],
             ];
     
@@ -62,14 +64,13 @@ class ReviewController extends ResourceController {
                 $response = [
                     'status' => 200,
                     'error' => false,
-                    'message' => 'Review successfully created',
+                    'message' => 'Review berhasil dibuat',
                     'data' => []
                 ];
             }
             return $this->respondCreated($response);
 	    } catch (\Throwable $th) {
-            return $this->fail('Akses token tidak sesuai');
+            return $this->fail($th->getMessage());
         }
-
     }
 }

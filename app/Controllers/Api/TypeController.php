@@ -4,7 +4,9 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Type;
+use App\Models\Users;
 use CodeIgniter\HTTP\RequestInterface;
+use Firebase\JWT\JWT;
 
 class TypeController extends ResourceController
 {
@@ -59,42 +61,58 @@ class TypeController extends ResourceController
      */
     public function create()
     {
-        $model = new Type();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        $rules = [
-            'name' => 'required',
-        ];
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
 
-        $messages = [
-            "name" => [
-                "required" => "{field} tidak boleh kosong",
-            ],
-        ];
+            $model = new Type();
 
-        $response;
-        if($this->validate($rules, $messages)) {
-            $data = [
-              'name' => $this->request->getVar('name'),
+            $rules = [
+                'name' => 'required',
             ];
 
-            $model->insert($data);
-            $response = [
-                'status'   => 201,
-                'success'    => 201,
-                'messages' => [
-                    'success' => 'Type berhasil dibuat'
-                ]
+            $messages = [
+                "name" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
             ];
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => $this->validator->getErrors(),
-            ];
-        }
+
+            if($this->validate($rules, $messages)) {
+                $data = [
+                'name' => $this->request->getVar('name'),
+                ];
+
+                $model->insert($data);
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Type berhasil dibuat'
+                    ]
+                ];
+            }else{
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
+                ];
+            }
 
 
-        return $this->respondCreated($response);  
+            return $this->respondCreated($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }  
     }
 
     /**
@@ -114,50 +132,64 @@ class TypeController extends ResourceController
      */
     public function update($id = null)
     {
-        $model = new Type();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        $rules = [
-            'name' => 'required',
-        ];
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
 
-        $messages = [
-            "name" => [
-                "required" => "{field} tidak boleh kosong",
-            ],
-        ];
+            $model = new Type();
 
-        $response;
-        if($model->find($id)){
-            if($this->validate($rules, $messages)) {
-                $data = [
-                  'name' => $this->request->getRawInput('name'),
-                ];
+            $rules = [
+                'name' => 'required',
+            ];
 
-                $model->update($id, $data['name']);
-                $response = [
-                    'status'   => 201,
-                    'success'    => 201,
-                    'messages' => [
-                        'success' => 'Type berhasil di perbarui'
-                    ]
-                ];
+            $messages = [
+                "name" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+            ];
+
+            if($model->find($id)){
+                if($this->validate($rules, $messages)) {
+                    $data = [
+                    'name' => $this->request->getRawInput('name'),
+                    ];
+
+                    $model->update($id, $data['name']);
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Type berhasil di perbarui'
+                        ]
+                    ];
+                }else{
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
+                    ];
+                }
             }else{
                 $response = [
                     'status'   => 400,
                     'error'    => 400,
-                    'messages' => $this->validator->getErrors(),
+                    'messages' => 'Data tidak ditemukan',
                 ];
             }
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => 'Data tidak ditemukan',
-            ];
+            return $this->respondCreated($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
-
-
-        return $this->respondCreated($response);
     }
 
     /**
@@ -167,20 +199,37 @@ class TypeController extends ResourceController
      */
     public function delete($id = null)
     {
-        $model = new Type();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        if($model->find($id)){
-            $model->delete($id);
-            $response = [
-                'status'   => 200,
-                'success'    => 200,
-                'messages' => [
-                    'success' => 'Type berhasil di hapus'
-                ]
-            ];
-            return $this->respondDeleted($response);
-        }else{
-            return $this->failNotFound('Data tidak di temukan');
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
+
+            $model = new Type();
+
+            if($model->find($id)){
+                $model->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'success'    => 200,
+                    'messages' => [
+                        'success' => 'Type berhasil di hapus'
+                    ]
+                ];
+                return $this->respondDeleted($response);
+            }else{
+                return $this->failNotFound('Data tidak di temukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
     }
 }

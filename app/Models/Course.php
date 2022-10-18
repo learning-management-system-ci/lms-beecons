@@ -14,5 +14,17 @@ class Course extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title', 'description', 'price', 'thumbnail'];
+    protected $allowedFields    = ['title', 'service', 'description', 'key_takeaways', 'suitable_for', 'old_price', 'new_price', 'thumbnail'];
+
+    // function getDataCourse($data_course_id){
+    //     $builder = $this->db->table('course');
+    //     $builderVideo = $this->db->table('user_video');
+    //     $builder->select('*');
+    //     $builderVideo->select('*');
+    //     $builder->where('course_id', $data_course_id);
+    //     $builderVideo->where('course_id', $data_course_id);
+    //     $query = $builder->get();
+    //     $video = 
+    //     return $query->getResultArray();
+	// }
 }

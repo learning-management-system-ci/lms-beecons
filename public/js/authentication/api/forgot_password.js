@@ -1,3 +1,7 @@
+$('document').ready(function () {
+    $('#loading').html("Logging in...");
+})
+
 $("#forgot-password").submit(function (event) {
     // Stop form from submitting normally
     event.preventDefault();
@@ -10,6 +14,8 @@ $("#forgot-password").submit(function (event) {
 
     Cookies.set('email', email_passed, { expires: 1 / 96 });
 
+    $('#loading-modal').modal('toggle');
+
     // Send the data using post
     var posting = $.post(url, { csrf_test_name: csrf_test_name_passed, email: email_passed });
 
@@ -20,6 +26,7 @@ $("#forgot-password").submit(function (event) {
         console.log("error_msg", error_message);
         console.log("error", error);
         if (error_message != null) {
+            $('#loading-modal').modal('hide');
             $('document').ready(function () {
                 $('.modal-header').addClass("bg-success");
                 $('.modal-title').html(error);
