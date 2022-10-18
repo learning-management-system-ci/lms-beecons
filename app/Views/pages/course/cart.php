@@ -70,7 +70,9 @@
                     <h6>TOTAL</h6>
                     <h6 class="cart-total">Rp. 0</h6>
                 </div>
-                <button class="my-btn w-100 mt-3" id="checkout">Check Out</button>
+                <a href="/checkout">
+                    <button class="my-btn w-100 mt-3" id="checkout">Check Out</button>
+                </a>
             </div>
         </section>
     <?php endif ?>
