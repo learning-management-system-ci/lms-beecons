@@ -108,6 +108,7 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('review/', static function ($routes) {
         $routes->get('', 'Api\ReviewController::index');
+        $routes->get('detail', 'Api\ReviewController::index_review');
         $routes->post('create', 'Api\ReviewController::create');
     });
 

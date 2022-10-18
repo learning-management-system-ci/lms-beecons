@@ -199,14 +199,14 @@ class BundlingController extends ResourceController
             //     ->findAll();
 
             $course = $modelBundling
-            ->where('bundling.bundling_id', $id)
-            ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
-            ->join('course', 'course_bundling.course_id=course.course_id')
-            ->join('course_category', 'course.course_id=course_category.course_id')
-            ->join('video_category', 'course.course_id=video_category.course_id')
-            ->select('course.*, course_category.*, video_category.video_category_id')
-            ->orderBy('bundling.bundling_id', 'DESC')
-            ->findAll();
+                ->where('bundling.bundling_id', $id)
+                ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
+                ->join('course', 'course_bundling.course_id=course.course_id')
+                ->join('course_category', 'course.course_id=course_category.course_id')
+                ->join('video_category', 'course.course_id=video_category.course_id')
+                ->select('course.*, course_category.*, video_category.video_category_id')
+                ->orderBy('bundling.bundling_id', 'DESC')
+                ->findAll();
             
             $data['course'] = $course;
 
