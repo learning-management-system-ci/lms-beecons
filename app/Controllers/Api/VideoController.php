@@ -28,20 +28,28 @@ class VideoController extends ResourceController {
 			->first();
 
 		$modelQuiz = new Quiz;
-		$dataQuiz = $modelQuiz->where('video_id', $id)->findAll();
+		$dataQuiz = $modelQuiz->where('video_id', $id)->first();
 
 		$quiz = [];
-		for($i = 0; $i < count($dataQuiz); $i++){
-			array_push($quiz, $dataQuiz[$i]);
-			// $quizRaw = [];
+		// for($i = 0; $i < count($dataQuiz); $i++){
+		// 	array_push($quiz, $dataQuiz[$i]);
+		// 	// $quizRaw = [];
 
-			$question = json_decode($dataQuiz[$i]['question']);
-			for($l = 0; $l < count($question); $l++){
-				unset($question[$l]->is_valid);
-			}
-			// array_push($quizRaw, $question);
-			$dataQuiz[$i]['question'] = $question;
+		// 	$question = json_decode($dataQuiz[$i]['question']);
+		// 	for($l = 0; $l < count($question); $l++){
+		// 		unset($question[$l]->is_valid);
+		// 	}
+		// 	// array_push($quizRaw, $question);
+		// 	unset($dataQuiz[$i]['question']);
+		// 	$dataQuiz[$i]['soal'] = $question;
+		// }
+		$question = json_decode($dataQuiz['question']);
+		for($l = 0; $l < count($question); $l++){
+			unset($question[$l]->is_valid);
 		}
+		// array_push($quizRaw, $question);
+		unset($dataQuiz['question']);
+		$dataQuiz['soal'] = $question;
 		$data['quiz'] = $dataQuiz;
 		return $this->respond($data);
 	}
