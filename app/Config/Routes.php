@@ -108,7 +108,16 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('review/', static function ($routes) {
         $routes->get('', 'Api\ReviewController::index');
+        $routes->get('detail', 'Api\ReviewController::index_review');
         $routes->post('create', 'Api\ReviewController::create');
+    });
+
+    $routes->group('jobs/', static function ($routes) {
+        $routes->get('', 'Api\JobsController::index');
+        $routes->get('detail/(:segment)', 'Api\JobsController::show/$1');
+        $routes->post('create', 'Api\JobsController::create');
+        $routes->put('update/(:segment)', 'Api\JobsController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\JobsController::delete/$1');
     });
 
     $routes->group('testimoni/', static function ($routes) {
@@ -266,6 +275,9 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('quiz/', static function ($routes) {
         $routes->get('', 'Api\QuizController::index');
+        $routes->post('create', 'Api\QuizController::create');
+        $routes->put('update/(:segment)', 'Api\QuizController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\QuizController::delete/$1');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');

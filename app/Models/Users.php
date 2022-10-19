@@ -9,7 +9,7 @@ class Users extends Model
 	protected $table = 'users';
 	protected $primaryKey = 'id';
 	protected $DBGroup = 'default';
-	protected $allowedFields = ['oauth_id', 'job_id', 'fullname', 'email', 'phone_number', 'address', 'date_birth', 'linkedin', 'profile_picture', 'activation_status', 'activation_code', 'updated_at', 'created_at'];
+	protected $allowedFields = ['oauth_id', 'job_id', 'fullname', 'email', 'password', 'phone_number', 'address', 'date_birth', 'linkedin', 'profile_picture', 'activation_status', 'activation_code', 'updated_at', 'created_at'];
 
 	function isAlreadyRegister($authid)
 	{

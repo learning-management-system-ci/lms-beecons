@@ -40,7 +40,7 @@ class Voucher extends Migration
             ],
             'discount_price'      => [
                 'type'           => 'INT',
-                'constraint'     => 20,
+                'constraint'     => 10,
             ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',

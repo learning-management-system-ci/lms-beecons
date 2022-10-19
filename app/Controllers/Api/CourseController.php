@@ -33,7 +33,10 @@ class CourseController extends ResourceController
         $data = $model->orderBy('course_id', 'DESC')->findAll();
         $tag = [];
 
+        $path = site_url().'upload/course/thumbnail/';
+        
         for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $path.$data[$i]['thumbnail'];
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -85,6 +88,7 @@ class CourseController extends ResourceController
         include_once('getid3/getid3.php');
         $getID3 = new getID3;
 
+        $path = site_url().'upload/course/thumbnail/';
         $model = new Course();
         $modelCourseCategory = new CourseCategory();
         $modelCourseType = new CourseType();
@@ -100,6 +104,9 @@ class CourseController extends ResourceController
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
 
+        $path = site_url().'upload/course/thumbnail/';
+        $pathVideo = site_url().'upload/course-video/';
+
         // Jika belum login
         if (!$header) {
             if ($model->find($id)) {
@@ -107,6 +114,7 @@ class CourseController extends ResourceController
                 $video = [];
 
                 $data = $model->where('course_id', $id)->first();
+                $data['thumbnail'] = $path.$data['thumbnail'];
 
                 $category = $modelCourseCategory
                     ->where('course_id', $id)
@@ -152,6 +160,7 @@ class CourseController extends ResourceController
 
                             $duration = ["duration" => $file['playtime_string']];
                             $data['video'][$i] += $duration;
+                            $data['video'][$i]['video'] = $pathVideo.$data['video'][$i]['video'];
                         } else {
                             $duration = ["duration" => null];
                             $data['video'][$i] += $duration;
@@ -170,6 +179,7 @@ class CourseController extends ResourceController
 
                                 $duration = ["duration" => $file['playtime_string']];
                                 $data['video'][$i] += $duration;
+                                $data['video'][$i]['video'] = $pathVideo.$data['video'][$i]['video'];
                             } else {
                                 $duration = ["duration" => null];
                                 $data['video'][$i] += $duration;
@@ -234,6 +244,7 @@ class CourseController extends ResourceController
                     $video = [];
 
                     $data = $model->where('course_id', $id)->first();
+                    $data['thumbnail'] = $path.$data['thumbnail'];
 
                     if ($userCourse) {
                         $data['owned'] = 1;
@@ -298,6 +309,8 @@ class CourseController extends ResourceController
 
                                 $duration = ["duration" => $file['playtime_string']];
                                 $data['video'][$i] += $duration;
+
+                                $data['video'][$i]['video'] = $pathVideo.$data['video'][$i]['video'];
                             } else {
                                 $duration = ["duration" => null];
                                 $data['video'][$i] += $duration;
@@ -316,6 +329,7 @@ class CourseController extends ResourceController
 
                                     $duration = ["duration" => $file['playtime_string']];
                                     $data['video'][$i] += $duration;
+                                    $data['video'][$i]['video'] = $pathVideo.$data['video'][$i]['video'];
                                 } else {
                                     $duration = ["duration" => null];
                                     $data['video'][$i] += $duration;
@@ -372,59 +386,60 @@ class CourseController extends ResourceController
         }
     }
 
-    public function filter($filter = null)
-    {
-        $model = new Course();
-        $modelCourseCategory = new CourseCategory();
-        $modelCourseType = new CourseType();
-        $modelCourseTag = new CourseTag();
-        $modelTypeTag = new TypeTag();
+    // Unused
+    // public function filter($filter = null)
+    // {
+    //     $model = new Course();
+    //     $modelCourseCategory = new CourseCategory();
+    //     $modelCourseType = new CourseType();
+    //     $modelCourseTag = new CourseTag();
+    //     $modelTypeTag = new TypeTag();
 
-        $data = $model->orderBy('course_id', 'DESC')->where('service', $filter)->findAll();
-        $tag = [];
+    //     $data = $model->orderBy('course_id', 'DESC')->where('service', $filter)->findAll();
+    //     $tag = [];
 
-        for ($i = 0; $i < count($data); $i++) {
-            $category = $modelCourseCategory
-                ->where('course_id', $data[$i]['course_id'])
-                ->join('category', 'category.category_id = course_category.category_id')
-                ->orderBy('course_category.course_category_id', 'DESC')
-                ->findAll();
-            $type = $modelCourseType
-                ->where('course_id', $data[$i]['course_id'])
-                ->join('type', 'type.type_id = course_type.type_id')
-                ->orderBy('course_type.course_type_id', 'DESC')
-                ->findAll();
-            if ($type) {
-                $data[$i]['type'] = $type;
+    //     for ($i = 0; $i < count($data); $i++) {
+    //         $category = $modelCourseCategory
+    //             ->where('course_id', $data[$i]['course_id'])
+    //             ->join('category', 'category.category_id = course_category.category_id')
+    //             ->orderBy('course_category.course_category_id', 'DESC')
+    //             ->findAll();
+    //         $type = $modelCourseType
+    //             ->where('course_id', $data[$i]['course_id'])
+    //             ->join('type', 'type.type_id = course_type.type_id')
+    //             ->orderBy('course_type.course_type_id', 'DESC')
+    //             ->findAll();
+    //         if ($type) {
+    //             $data[$i]['type'] = $type;
 
-                for ($k = 0; $k < count($type); $k++) {
-                    $typeTag = $modelTypeTag
-                        ->where('course_type.course_id', $data[$i]['course_id'])
-                        ->where('type.type_id', $type[$k]['type_id'])
-                        ->join('type', 'type.type_id = type_tag.type_id')
-                        ->join('tag', 'tag.tag_id = type_tag.tag_id')
-                        ->join('course_type', 'course_type.type_id = type.type_id')
-                        ->orderBy('course_type.course_id', 'DESC')
-                        ->select('tag.*')
-                        ->findAll();
+    //             for ($k = 0; $k < count($type); $k++) {
+    //                 $typeTag = $modelTypeTag
+    //                     ->where('course_type.course_id', $data[$i]['course_id'])
+    //                     ->where('type.type_id', $type[$k]['type_id'])
+    //                     ->join('type', 'type.type_id = type_tag.type_id')
+    //                     ->join('tag', 'tag.tag_id = type_tag.tag_id')
+    //                     ->join('course_type', 'course_type.type_id = type.type_id')
+    //                     ->orderBy('course_type.course_id', 'DESC')
+    //                     ->select('tag.*')
+    //                     ->findAll();
 
-                    for ($o = 0; $o < count($typeTag); $o++) {
-                        $data[$i]['tag'][$o] = $typeTag[$o];
-                    }
-                }
-            } else {
-                $data[$i]['type'] = null;
-            }
+    //                 for ($o = 0; $o < count($typeTag); $o++) {
+    //                     $data[$i]['tag'][$o] = $typeTag[$o];
+    //                 }
+    //             }
+    //         } else {
+    //             $data[$i]['type'] = null;
+    //         }
 
-            $data[$i]['category'] = $category;
-        }
+    //         $data[$i]['category'] = $category;
+    //     }
 
-        if (count($data) > 0) {
-            return $this->respond($data);
-        } else {
-            return $this->failNotFound('Tidak ada data');
-        }
-    }
+    //     if (count($data) > 0) {
+    //         return $this->respond($data);
+    //     } else {
+    //         return $this->failNotFound('Tidak ada data');
+    //     }
+    // }
 
     public function create()
     {
@@ -438,12 +453,9 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
             }
-            // elseif ($data['role'] != 'member') {
-            //    return $this->fail('Tidak dapat di akses selain member', 400);
-            // }
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
@@ -456,7 +468,10 @@ class CourseController extends ResourceController
                 'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
                 'new_price' => 'required|numeric',
-                'thumbnail' => 'required',
+                'thumbnail' => 'uploaded[thumbnail]'
+                . '|is_image[thumbnail]'
+                . '|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]'
+                . '|max_size[thumbnail,4000]'
             ];
 
             $messages = [
@@ -478,19 +493,23 @@ class CourseController extends ResourceController
                     'max_length' => '{field} maksimal 255 karakter',
                 ],
                 "old_price" => [
-                    "required" => "field} tidak boleh kosong",
+                    "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
                 ],
                 "new_price" => [
-                    "required" => "field} tidak boleh kosong",
+                    "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
                 ],
                 "thumbnail" => [
-                    "required" => "{field} tidak boleh kosong"
+                    'uploaded' => '{field} tidak boleh kosong',
+                    'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
+                    'max_size' => 'Ukuran File Maksimal 4 MB'
                 ],
             ];
 
             if ($this->validate($rules, $messages)) {
+                $dataThumbnail = $this->request->getFile('thumbnail');
+                $fileName = $dataThumbnail->getRandomName();
                 $dataCourse = [
                     'title' => $this->request->getVar('title'),
                     'service' => $this->request->getVar('service'),
@@ -499,8 +518,9 @@ class CourseController extends ResourceController
                     'suitable_for' => $this->request->getVar('suitable_for'),
                     'old_price' => $this->request->getVar('old_price'),
                     'new_price' => $this->request->getVar('new_price'),
-                    'thumbnail' => $this->request->getVar('thumbnail'),
+                    'thumbnail' => $fileName,
                 ];
+                $dataThumbnail->move('upload/course/thumbnail/', $fileName);
                 $modelCourse->insert($dataCourse);
 
                 $dataCourseCategory = [
@@ -544,12 +564,9 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
             }
-            // elseif ($data['role'] != 'member') {
-            // return $this->fail('Tidak dapat di akses selain member', 400);
-            //}
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
@@ -658,12 +675,9 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
             }
-            // elseif ($data['role'] != 'member') {
-            // return $this->fail('Tidak dapat di akses selain member', 400);
-            //}
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
@@ -687,23 +701,25 @@ class CourseController extends ResourceController
         }
     }
 
-    public function latest($total = 4)
-    {
-        $model = new Course();
+    // Unused
+    // public function latest($total = 4)
+    // {
+    //     $model = new Course();
 
-        $data = $model->limit($total)->orderBy('course_id', 'DESC')->find();
-        return $this->respond($data);
-    }
+    //     $data = $model->limit($total)->orderBy('course_id', 'DESC')->find();
+    //     return $this->respond($data);
+    // }
 
-    public function find($key = null)
-    {
-        $model = new Course();
-        $data = $model->orderBy('course_id', 'DESC')->like('title', $key)->find();
+    // Unused
+    // public function find($key = null)
+    // {
+    //     $model = new Course();
+    //     $data = $model->orderBy('course_id', 'DESC')->like('title', $key)->find();
 
-        if (count($data) > 0) {
-            return $this->respond($data);
-        } else {
-            return $this->failNotFound('Data tidak ditemukan');
-        }
-    }
+    //     if (count($data) > 0) {
+    //         return $this->respond($data);
+    //     } else {
+    //         return $this->failNotFound('Data tidak ditemukan');
+    //     }
+    // }
 }

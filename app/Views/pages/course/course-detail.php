@@ -20,7 +20,7 @@
     </section>
     <section class="category mt-4 mb-4">
         <h3 class="course_title_content">Fundamentals</h3>
-        <p class="course_type_content">Information Tech (IT)</p>
+        <p class="course_type_content"> <img src="image/course-detail/category-icon.png" alt=""> Information Tech (IT)</p>
     </section>
     <section class="course-content d-flex">
         <div class="left-side">
@@ -119,10 +119,12 @@
                 <div class="tab-pane fade curiculum " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
                     <div class="list-box pb-1">
                         <p class="curiculum-title mb-3 course_title_content">Becoming Professional UI/UX Designer</p>
-                        <ul class="curiculum-list course_curriculumList_content">
+                        <ul class="curiculum-list course_curriculumList_content ps-2">
                             <li class="d-flex justify-content-between mb-2">
                                 <div class="d-flex align-items-center">
-                                    <button><img width="40px" src="/image/course-detail/play-light.png"></button>
+                                    <button>
+                                        <div class="play"></div>
+                                    </button>
                                     <p>Course Introduction</p>
                                 </div>
                                 <div class="d-flex">
@@ -133,56 +135,12 @@
                             <li class="d-flex justify-content-between mb-2">
                                 <div class="d-flex align-items-center">
                                     <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
+                                        <div class="locked"></div>
                                     </button>
-                                    <p>Fundamental of UI/UX</p>
+                                    <p>Course Introduction</p>
                                 </div>
-                                <div>
-                                    <p>03.05</p>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between mb-2">
-                                <div class="d-flex align-items-center">
-                                    <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
-                                    </button>
-                                    <p>User Experience</p>
-                                </div>
-                                <div>
-                                    <p>08.56</p>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between mb-2">
-                                <div class="d-flex align-items-center">
-                                    <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
-                                    </button>
-                                    <p>User Experience</p>
-                                </div>
-                                <div>
-                                    <p>08.56</p>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between mb-2">
-                                <div class="d-flex align-items-center">
-                                    <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
-                                    </button>
-                                    <p>User Experience</p>
-                                </div>
-                                <div>
-                                    <p>08.56</p>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between mb-2">
-                                <div class="d-flex align-items-center">
-                                    <button disabled>
-                                        <img class="lock-button" width="20px" src="/image/course-detail/video-locked.png">
-                                    </button>
-                                    <p>User Experience</p>
-                                </div>
-                                <div>
-                                    <p>08.56</p>
+                                <div class="d-flex">
+                                    <p>09.10</p>
                                 </div>
                             </li>
                         </ul>
@@ -222,7 +180,6 @@
                                 </div>
                                 <div class="user-score d-flex">
                                     <span class="stars-container">★★★★★</span>
-
                                     <img src="/image/course-detail/star.png" alt="">
                                     <h6>4.9</h6>
                                 </div>
@@ -287,6 +244,7 @@
                             </div>
                             <p class="duration">7 mins</p>
                         </div>
+                        <!-- class list-card-button untuk mengaktifkan card video -->
                         <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
@@ -294,7 +252,7 @@
                             </div>
                             <p class="duration">7 mins</p>
                         </div>
-                        <!-- class complete untuk card yang dicentang (user menyelesaikan video/quiz) -->
+                        <!-- class complete untuk mengaktifkan card yang dicentang (user menyelesaikan video/quiz) -->
                         <div class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
@@ -390,9 +348,11 @@
         <img src="image/course-detail/button-quiz-light.png" alt="">
         <img src="image/course-detail/button-quiz-dark.png" alt="">
         <img src="image/course-detail/play-dark.png" alt="">
-        <img src="image/course-detail/check.png" alt="">
+        <img src="image/course-detail/check.svg" alt="">
         <img src="image/course-detail/pause-button.png" alt="">
         <img src="image/course-detail/loading-indicator.png" alt="">
+        <img src="image/course-detail/video-locked.png" alt="">
+        <img src="image/course-detail/play-project-enable.png" alt="">
     </div>
 
 

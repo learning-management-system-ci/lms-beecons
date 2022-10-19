@@ -49,6 +49,13 @@
 
 }
 
+@mixin button-curiculum($url, $size) {
+    background-image: url($url);
+    background-size: $size;
+    background-repeat: no-repeat;
+    background-color: white;
+}
+
 h3,
 h4,
 h5 {
@@ -92,11 +99,13 @@ main {
 
     .category {
         p {
-            background-color: #164520;
-            color: white;
+            // background-color: #164520;
+            font-size: 24px;
+            color: #164520;
             width: max-content;
-            padding: 6px 15px;
+            padding: 6px 0px;
             border-radius: 8px;
+            font-weight: 500;
         }
     }
 
@@ -134,7 +143,7 @@ main {
 
                         input {
                             width: 18px;
-                            border-radius: 0px;
+                            border-radius: 3px;
                             border: 2px solid #002B5B;
                             height: 18px;
                             -webkit-appearance: none;
@@ -143,10 +152,11 @@ main {
 
                         input:checked {
                             // background-color: #5c48a3;
-                            background-image: url('../image/course-detail/check.png');
+                            background-image: url('../image/course-detail/check.svg');
                             background-repeat: no-repeat;
                             background-size: 18px;
-                            background-position: -2px -2px;
+                            background-position: -3px -2px;
+                            background-color: #002B5B;
                         }
 
                         label {
@@ -243,12 +253,29 @@ main {
                                 gap: 15px;
 
                                 button {
-                                    .lock-button {
+
+
+                                    div {
                                         width: 40px;
+                                        height: 40px;
                                         border-radius: 80px;
-                                        padding: 5px;
-                                        background-color: white;
                                     }
+
+                                    .play {
+                                        @include button-curiculum('../image/course-detail/play-project-enable.png', 40px)
+                                    }
+
+                                    .locked {
+                                        @include button-curiculum('../image/course-detail/video-locked.png', 30px);
+                                        background-position: center center;
+                                    }
+
+                                    // .lock-button {
+                                    //     width: 40px;
+                                    //     border-radius: 80px;
+                                    //     padding: 5px;
+                                    //     background-color: white;
+                                    // }
                                 }
                             }
                         }

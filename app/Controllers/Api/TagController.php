@@ -4,7 +4,9 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Tag;
+use App\Models\Users;
 use CodeIgniter\HTTP\RequestInterface;
+use Firebase\JWT\JWT;
 
 
 class TagController extends ResourceController
@@ -60,42 +62,57 @@ class TagController extends ResourceController
      */
     public function create()
     {
-        $model = new Tag();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        $rules = [
-            'name' => 'required',
-        ];
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        $messages = [
-            "name" => [
-                "required" => "{field} tidak boleh kosong",
-            ],
-        ];
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
 
-        $response;
-        if($this->validate($rules, $messages)) {
-            $data = [
-              'name' => $this->request->getVar('name'),
+            $model = new Tag();
+
+            $rules = [
+                'name' => 'required',
             ];
 
-            $model->insert($data);
-            $response = [
-                'status'   => 201,
-                'success'    => 201,
-                'messages' => [
-                    'success' => 'Tag berhasil dibuat'
-                ]
+            $messages = [
+                "name" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
             ];
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => $this->validator->getErrors(),
-            ];
+
+            if($this->validate($rules, $messages)) {
+                $data = [
+                'name' => $this->request->getVar('name'),
+                ];
+
+                $model->insert($data);
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Tag berhasil dibuat'
+                    ]
+                ];
+            }else{
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
+                ];
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
-
-
-        return $this->respondCreated($response);  
+        return $this->respondCreated($response);
     }
 
     /**
@@ -115,50 +132,65 @@ class TagController extends ResourceController
      */
     public function update($id = null)
     {
-        $model = new Tag();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        $rules = [
-            'name' => 'required',
-        ];
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-        $messages = [
-            "name" => [
-                "required" => "{field} tidak boleh kosong",
-            ],
-        ];
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
 
-        $response;
-        if($model->find($id)){
-            if($this->validate($rules, $messages)) {
-                $data = [
-                  'name' => $this->request->getRawInput('name'),
-                ];
+            $model = new Tag();
 
-                $model->update($id, $data['name']);
-                $response = [
-                    'status'   => 201,
-                    'success'    => 201,
-                    'messages' => [
-                        'success' => 'Tag berhasil di perbarui'
-                    ]
-                ];
+            $rules = [
+                'name' => 'required',
+            ];
+
+            $messages = [
+                "name" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
+            ];
+
+            if($model->find($id)){
+                if($this->validate($rules, $messages)) {
+                    $data = [
+                    'name' => $this->request->getRawInput('name'),
+                    ];
+
+                    $model->update($id, $data['name']);
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Tag berhasil di perbarui'
+                        ]
+                    ];
+                }else{
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
+                    ];
+                }
             }else{
                 $response = [
                     'status'   => 400,
                     'error'    => 400,
-                    'messages' => $this->validator->getErrors(),
+                    'messages' => 'Data tidak ditemukan',
                 ];
             }
-        }else{
-            $response = [
-                'status'   => 400,
-                'error'    => 400,
-                'messages' => 'Data tidak ditemukan',
-            ];
+            return $this->respondCreated($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
-
-
-        return $this->respondCreated($response);
     }
 
     /**
@@ -168,20 +200,38 @@ class TagController extends ResourceController
      */
     public function delete($id = null)
     {
-        $model = new Tag();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        if($model->find($id)){
-            $model->delete($id);
-            $response = [
-                'status'   => 200,
-                'success'    => 200,
-                'messages' => [
-                    'success' => 'Tag berhasil di hapus'
-                ]
-            ];
-            return $this->respondDeleted($response);
-        }else{
-            return $this->failNotFound('Data tidak di temukan');
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
+
+            $model = new Tag();
+
+            if($model->find($id)){
+                $model->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'success'    => 200,
+                    'messages' => [
+                        'success' => 'Tag berhasil di hapus'
+                    ]
+                ];
+                return $this->respondDeleted($response);
+            }else{
+                return $this->failNotFound('Data tidak di temukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
     }
 }
