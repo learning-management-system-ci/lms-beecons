@@ -64,6 +64,8 @@ $(document).ready(function () {
                     '</div>')
             
             $('#cart-count .nav-btn-icon-amount').remove()
+            
+            $('#cart .cart-total').html('Rp. 0')
         }
     }
 
