@@ -108,7 +108,6 @@ class NotificationController extends ResourceController
                 ],
             ];
 
-            $response;
             if($this->validate($rules, $messages)) {
                 if($this->request->getVar('user_id')){
                     $data = [
@@ -190,7 +189,6 @@ class NotificationController extends ResourceController
                 ],
             ];
 
-            $response;
             if($model->find($id)){
                 if($this->validate($rules, $messages)) {
                     if($this->request->getRawInput('user_id')){
