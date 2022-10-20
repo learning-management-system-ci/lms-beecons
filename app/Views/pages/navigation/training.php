@@ -7,11 +7,7 @@
 
 
 <?= $this->section('app-component') ?>
-<div class="container mt-4">
-    <section class="navigation">
-        <p class="mb-4">Home > <a href="#"> Peluang Karir Seorang UI/UX Designer</a></p>
-        <hr>
-    </section>
+<div class="px-5 mt-4">
     <section class="main-content d-flex">
         <section class="left-side">
             <h3>Peluang Karir Seorang UI/UX Designer</h3>

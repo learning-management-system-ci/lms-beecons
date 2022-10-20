@@ -1,5 +1,5 @@
 $('document').ready(function () {
-    $('#loading').html("Logging in...");
+    $('#loading').html("Sedang Memproses");
 })
 
 $("#forgot-password").submit(function (event) {
@@ -20,35 +20,30 @@ $("#forgot-password").submit(function (event) {
     var posting = $.post(url, { csrf_test_name: csrf_test_name_passed, email: email_passed });
 
     posting.done(function (data) {
-        console.log(data);
         var error_message = data.message;
         var error = data.status;
-        console.log("error_msg", error_message);
-        console.log("error", error);
         if (error_message != null) {
             $('#loading-modal').modal('hide');
             $('document').ready(function () {
                 $('.modal-header').addClass("bg-success");
-                $('.modal-title').html(error);
+                $('.modal-title').html("Berhasil");
                 $('#message').html(error_message);
                 $('#message-modal').modal('toggle');
             })
         }
-        $.ajax({
-            type: "GET",
-            url: "/forgot-password/submit",
-            data: {},
-            success: function () {
+        if (error !== 500) {
+            setTimeout(function () {
                 window.location.href = "/send-otp";
-            }
-        });
+            }, 2000)
+        }
     });
     posting.fail(function (status, error) {
         var error_message = status.responseJSON.messages.error;
         if (error_message != null) {
+            $('#loading-modal').modal('hide');
             $('document').ready(function () {
                 $('.modal-header').addClass("bg-danger");
-                $('.modal-title').html(error);
+                $('.modal-title').html("Gagal");
                 $('#message').html(error_message);
                 $('#message-modal').modal('toggle');
             })

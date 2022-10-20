@@ -9,10 +9,9 @@
 <div class="main-section px-5 mt-4 d-flex mb-4">
     <section class="faq mt-4">
         <div class="faq-title mb-5">
-            <H3>FAQ's</H3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A nesciunt maxime laboriosam minus iste fuga
-                odit repellat delectus iusto. Temporibus, praesentium dicta. Quae earum natus molestias ex neque
-                eveniet dimicta?</p>
+            <H3>Apa yang dapat kami bantu?</H3>
+            <p>Jika kamu memiliki pertanyaan yang belum terjawab, silahkan kirimkan pesan ke kami melalui tombol
+                "Hubungi Kami" di sudut kanan bawah layar.</p>
         </div>
         <div class="faq-list"></div>
     </section>

@@ -44,6 +44,14 @@ h5 {
   }
 }
 
+#user-courses {
+  .body {
+    p {
+      margin: 0;
+    }
+  }
+}
+
 .col-12x {
   width: 12%;
 }
@@ -74,6 +82,19 @@ h5 {
 
 .side-bar > * {
   margin: 5px 0;
+  .profile-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.profile-sidebar {
+  &:hover {
+    .profile-icon {
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(142deg)
+        brightness(103%) contrast(104%) !important;
+    }
+  }
 }
 
 .profile > * {
@@ -136,4 +157,22 @@ h5 {
     background-color: $color-primary;
     color: $color-white;
   }
+}
+
+#editButton {
+  &:disabled,
+  &.disable {
+    background-color: $color-gray-4 !important;
+    color: $color-secondary !important;
+  }
+
+  &:active,
+  &.active {
+    background-color: $color-secondary !important;
+    color: $color-white !important;
+  }
+}
+
+#date {
+  width: 100% !important;
 }

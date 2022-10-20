@@ -1,11 +1,14 @@
 <?= $this->extend('layouts/app_layout') ?>
 
 <?= $this->section('css-component') ?>
-<link rel="stylesheet" href="../../../style/profile.css">
+<link rel="stylesheet" href="style/profile.css">
+<link rel="stylesheet" href="style/loading.css">
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
 <?= $this->include('components/profile/edit_modal') ?>
+<?= $this->include('components/authentication/error_modal') ?>
+<?= $this->include('components/authentication/loading') ?>
 <div class="container text-center">
     <div class="row">
         <div class="col-20">
@@ -48,25 +51,14 @@
             <div class="card">
                 <h4 class="text-start">Ongoing courses</h4>
                 <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-12x">
-                                <img src="image/auth-image.png" class="course-image me-1" alt="">
-                            </div>
-                            <div class="col text-start">
-                                Something beside
-                            </div>
-                        </div>
-                        <hr>
+                    <div class="col-12" id="user-courses">
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <?= $this->section('js-component') ?>
 <script src="../../../js/api/profile/index.js"></script>
 <script src="../../../js/api/profile/edit_profile.js"></script>

@@ -31,41 +31,49 @@
     <?php echo $this->include('components/home/navbar.php') ?>
 
     <main>
-        <?php if (uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code' && !str_contains(uri_string(), 'courses')) : ?>
-            <div class="container mt-4">
-                <section class="navigation">
-                    <p class="mb-4"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
-                        <?php if (uri_string() == 'faq') : ?>
-                            <a> Frequently Asked Question</a>
-                        <?php endif; ?>
-                        <?php if (uri_string() == 'terms-and-conditions') : ?>
-                            <a> Terms and Conditions</a>
-                        <?php endif; ?>
-                        <?php if (uri_string() == 'about-us') : ?>
-                            <a> About-Us</a>
-                        <?php endif; ?>
-                        <?php if (uri_string() == 'bundling') : ?>
-                            <a> Bundling</a>
-                        <?php endif; ?>
-                    </p>
-                    <hr>
-                </section>
-            </div>
-        <?php endif; ?>
-        <?php if (str_contains(uri_string(), 'courses')) : ?>
-            <div class="container mt-4">
-                <section class="navigation">
-                    <p class="mb-4"><a href="<?= base_url('courses') ?>" style="font-weight: 300;">Courses</a>
-                        <?php if (uri_string() != 'courses') : ?>
-                            >
-                        <?php endif; ?>
-                        <?php if (uri_string() == 'courses/bundling') : ?>
-                            <a> Bundling</a>
-                        <?php endif; ?>
-                    </p>
-                    <hr>
-                </section>
-            </div>
+        <?php if(uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code' && !str_contains(uri_string(), 'courses')) : ?>
+        <div class="px-5 my-4">
+            <?php 
+            switch(uri_string()) {
+                case "faq":
+            ?>
+            <p class="navigation breadcrumb-anchor">Frequently Asked Question</p>
+            <?php 
+                    break;
+                case "terms-and-conditions":
+            ?>
+            <p class="navigation breadcrumb-anchor">Terms and Condditions</p>
+            <?php 
+                    break;
+                case "about-us":
+            ?>
+            <p class="navigation breadcrumb-anchor">About Us</p>
+            <?php 
+                    break;
+                case "bundling":
+            ?>
+            <p class="navigation breadcrumb-anchor"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
+                <a> Bundling</a>
+            </p>
+            <?php 
+                    break;
+                case "training":
+            ?>
+            <p class="navigation breadcrumb-anchor"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
+                <a> Peluang Karir Seorang UI/UX Designer</a>
+            </p>
+            <?php 
+                    break;
+                case "courses":
+            ?>
+            <p class="navigation breadcrumb-anchor">Courses</p>
+            <?php
+                    break;
+                default: 
+                    echo "somerthing wrong";
+            } ?>
+            <hr>
+        </div>
         <?php endif; ?>
         <?= $this->renderSection('app-component') ?>
     </main>
@@ -89,7 +97,7 @@
     <!-- myscript -->
     <script src="../../../js/utils/textTruncate.js"></script>
     <script src="../../../js/home/home.js"></script>
-    <script src="<?= base_url('/js/home/notification.js') ?>"></script>
+    <script src="../../../js/home/notification.js"></script>
     <?= $this->renderSection('js-component') ?>
 </body>
 
