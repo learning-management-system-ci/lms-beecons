@@ -38,9 +38,7 @@ $("#edit").submit(function (event) {
             linkedin: linkedin_passed,
             job: job_passed,
             profile_picture: "something",
-            password: "testPassword",
             date_birth: date_passed,
-            password_confirm: "testPassword"
         },
         success: function (data) {
             console.log(data);
