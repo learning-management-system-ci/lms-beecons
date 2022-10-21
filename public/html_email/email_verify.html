@@ -6,154 +6,65 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Verify</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
 
-        h1,
-        h3,
-        h4,
-        h5 {
-            font-family: "Plus Jakarta Sans";
-            font-style: normal;
-            font-weight: 700;
-        }
-
-        p {
-            font-family: "Plus Jakarta Sans";
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            color: #000000;
-            margin-bottom: 0 !important;
-        }
-
-        button {
-            border: none !important;
-            background-color: rgba(0, 42, 91, 0);
-        }
-
-        .bold-text {
-            font-weight: 600;
-        }
-
-        .hide {
-            display: none;
-        }
-
-        .grey-text {
-            color: #9b9b9b;
-        }
-
-        .red-text {
-            color: #DB3232;
-        }
-
-        body {
-            background-color: #F3F6F9 !important;
-            height: 100vh;
-            display: grid;
-            place-items: center;
-        }
-
-        body table {
-            max-width: 600px;
-        }
-
-        body table thead th {
-            border: none !important;
-        }
-
-        body table tbody tr:first-child {
-            border-radius: 10px !important;
-            background-color: white;
-        }
-
-        body table tbody tr:first-child .main-body {
-            border-bottom-width: 0 !important;
-            border-radius: 8px !important;
-        }
-
-        body table tbody tr:first-child .main-body .email-content img {
-            margin-left: -8px !important;
-        }
-
-        body table tbody tr:first-child .main-body .email-content button {
-            width: 100%;
-            height: 50px;
-            border-radius: 7px;
-            background-color: #164520;
-        }
-
-        body table tbody tr:first-child .main-body .email-content button p {
-            color: white;
-        }
-
-        body table tbody tr:first-child .main-body hr {
-            height: 1px;
-            background-color: #7a7a7a;
-            border: none;
-        }
-
-        body table tbody tr:first-child .inner-footer hr {
-            background-color: rgb(0, 0, 0);
-            height: 1px;
-            border: none;
-        }
-
-        body table tbody tr:last-child th {
-            border: none !important;
-        }
-
-        body table tbody tr:last-child th .need-help {
-            font-weight: 500;
-        }
-
-        body table tbody tr:last-child th .copyright {
-            color: #9b9b9b;
-        }
-    </style>
 </head>
 
-<body>
-    <table class="table">
+<body style="box-sizing: border-box;background-color: #F3F6F9 !important;">
+    <table class="table" style="margin-left: auto;margin-right: auto;max-width: 600px;">
         <thead>
             <tr>
-                <th>
-                    <h3><b>Selamat Bergabung di Tender Team!</b></h3>
+                <th style="text-align: start !important;border: none !important;">
+                    <h3 style="font-family: sans-serif;font-style: normal;font-weight: 700;font-size: 24px;">Selamat
+                        Bergabung di Tender Team!</h3>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr style="background-color: white;border-radius: 10px !important;">
 
                 <!-- =========VERIFIKASI EMAIL=============== -->
 
-                <th class="main-body px-4">
+                <th class="main-body px-4"
+                    style="text-align: start !important;padding-left: 1.25rem !important;padding-right: 1.25rem !important;">
                     <div class="email-content mt-2">
-                        <img src="../image/email/Logo.png" width="130px" alt="" class="mb-4"> <br>
-                        <p><b>Halo Haruka Nakagawa 👋</b></p>
-                        <p>Silahkan tekan tombol di bawah ini untuk melakukan verifikasi email di akun kamu ya.</p>
-                        <button class="my-3">
-                            <p><b>Verifikasi Email</b></p>
-                        </button>
-                        <p>Jika tombol bermasalah, tekan tautan <a href="#">disini</a></p>
+                        <img src="https://lms.lazy2.codes/image/email/Logo.png" width="130px" alt="" class="mb-4"> <br>
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            <b>Halo Haruka Nakagawa 👋</b>
+                        </p>
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            Silahkan tekan tombol di bawah ini untuk melakukan verifikasi email di akun kamu ya.</p>
+                        <a href="#"
+                            style="display:block;border-radius:7px;background-color:#164520;text-decoration:none;padding:1rem 0px;color:#f3f6f9;font-family:sans-serif;width:100%;text-align:center; font-size:15px;"><b>Verifikasi
+                                Email</b></a>
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            Jika tombol bermasalah, tekan tautan <a href="#">disini</a></p>
                     </div>
-                    <div class="greeting mt-5">
-                        <p>Salam hangat,</p>
-                        <p><b>Tender Team</b></p>
+                    <div class="greeting mt-5" style="margin-top: 3rem !important;">
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            Salam hangat,</p>
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            <b>Tender Team</b>
+                        </p>
                     </div>
-                    <div class="inner-footer text-center">
-                        <hr>
-                        <img src="../image/email/Logo_bnw.png" width="80px" alt="">
+                    <div class="inner-footer text-center" style="text-align: center;">
+                        <hr style="height:1px;border:none;background-color:#adadad">
+                        <img src="https://lms.lazy2.codes/image/email/Logo_bnw.png" width="80px" alt="">
                     </div>
                 </th>
             </tr>
             <tr>
-                <th class="footer text-center pt-4">
-                    <p class="need-help mb-3">Butuh bantuan? Silahkan hubungi <a href="#">support@tender.com</a></p>
-                    <p class="copyright">Copyright &copy; 2022. All Rights Reserved</p>
+                <th class="footer pt-4" style="text-align: start !important;">
+                    <p class="text-center need-help mb-3"
+                        style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;text-align: center;">
+                        Butuh bantuan? Silahkan hubungi <a href="#">support@tender.com</a></p>
+                    <p class="text-center copyright"
+                        style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;text-align: center;">
+                        Copyright &copy; 2022. All Rights Reserved</p>
                 </th>
             </tr>
         </tbody>

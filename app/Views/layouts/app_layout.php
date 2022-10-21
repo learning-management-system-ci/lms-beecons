@@ -32,40 +32,54 @@
 
     <main>
         <?php if (uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code' && !str_contains(uri_string(), 'courses')) : ?>
-            <div class="container mt-4">
+            <div class="px-5 mt-4">
                 <section class="navigation">
-                    <p class="mb-4"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
+                    <p class="mb-4">
                         <?php if (uri_string() == 'faq') : ?>
                             <a> Frequently Asked Question</a>
+                            <hr>
                         <?php endif; ?>
                         <?php if (uri_string() == 'terms-and-conditions') : ?>
                             <a> Terms and Conditions</a>
+                            <hr>
                         <?php endif; ?>
                         <?php if (uri_string() == 'about-us') : ?>
                             <a> About-Us</a>
+                            <hr>
                         <?php endif; ?>
                         <?php if (uri_string() == 'bundling') : ?>
                             <a> Bundling</a>
+                            <hr>
+                        <?php endif; ?>
+                        <?php if (uri_string() == 'cart') : ?>
+                            <a> Cart</a>
+                            <hr>
+                        <?php endif; ?>
+                        <?php if (uri_string() == 'checkout') : ?>
+                            <a> Checkout</a>
+                            <hr>
                         <?php endif; ?>
                     </p>
-                    <hr>
                 </section>
             </div>
         <?php endif; ?>
         <?php if (str_contains(uri_string(), 'courses')) : ?>
-            <div class="container mt-4">
-                <section class="navigation">
-                    <p class="mb-4"><a href="<?= base_url('courses') ?>" style="font-weight: 300;">Courses</a>
-                        <?php if (uri_string() != 'courses') : ?>
-                            >
-                        <?php endif; ?>
-                        <?php if (uri_string() == 'courses/bundling') : ?>
-                            <a> Bundling</a>
-                        <?php endif; ?>
-                    </p>
-                    <hr>
-                </section>
-            </div>
+            <?php if (uri_string() != 'courses') : ?>
+
+            <?php endif; ?>
+            <?php if (uri_string() == 'courses/bundling') : ?>
+                <div class="px-5  mt-4">
+                    <section class="navigation">
+                        <p class="mb-4"><a href="<?= base_url('courses') ?>" style="font-weight: 300;">Course &rsaquo;</a>
+                            <a class="sub-nav"> Bundling</a>
+                        </p>
+                        <hr>
+                    </section>
+                </div>
+            <?php endif; ?>
+
+
+
         <?php endif; ?>
         <?= $this->renderSection('app-component') ?>
     </main>

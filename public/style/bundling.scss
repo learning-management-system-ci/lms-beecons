@@ -20,16 +20,16 @@ p {
 
 main {
     .navigation {
-        p {
-            @include font($weight: 400);
-            color: #bdbdbd;
+        // p {
+        //     @include font($weight: 400);
+        //     color: #bdbdbd;
 
-            a {
-                color: #002B5B;
-                text-decoration: none;
-                @include font($weight: 600)
-            }
-        }
+        //     a {
+        //         color: #164520;
+        //         text-decoration: none;
+        //         @include font($weight: 600)
+        //     }
+        // }
     }
 
     .bundle {

@@ -6,162 +6,67 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Verify</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
-
-        h1,
-        h3,
-        h4,
-        h5 {
-            font-family: "Plus Jakarta Sans";
-            font-style: normal;
-            font-weight: 700;
-        }
-
-        p {
-            font-family: "Plus Jakarta Sans";
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            color: #000000;
-            margin-bottom: 0 !important;
-        }
-
-        button {
-            border: none !important;
-            background-color: rgba(0, 42, 91, 0);
-        }
-
-        .bold-text {
-            font-weight: 600;
-        }
-
-        .hide {
-            display: none;
-        }
-
-        .grey-text {
-            color: #9b9b9b;
-        }
-
-        .red-text {
-            color: #DB3232;
-        }
-
-        body {
-            background-color: #F3F6F9 !important;
-            height: 100vh;
-            display: grid;
-            place-items: center;
-        }
-
-        body table {
-            max-width: 600px;
-        }
-
-        body table thead th {
-            border: none !important;
-        }
-
-        body table tbody tr:first-child {
-            border-radius: 10px !important;
-            background-color: white;
-        }
-
-        body table tbody tr:first-child .main-body {
-            border-bottom-width: 0 !important;
-            border-radius: 8px !important;
-        }
-
-        body table tbody tr:first-child .main-body .email-content img {
-            margin-left: -8px !important;
-        }
-
-        body table tbody tr:first-child .main-body .email-content .otp-code {
-            display: grid;
-            place-items: center;
-        }
-
-        body table tbody tr:first-child .main-body .email-content .otp-code p {
-            font-size: 22px;
-            letter-spacing: 7px;
-            border-radius: 7px;
-            width: min-content;
-            border: 1px solid black;
-        }
-
-        body table tbody tr:first-child .main-body hr {
-            height: 1px;
-            background-color: #7a7a7a;
-            border: none;
-        }
-
-        body table tbody tr:first-child .inner-footer hr {
-            background-color: rgb(0, 0, 0);
-            height: 1px;
-            border: none;
-        }
-
-        body table tbody tr:last-child th {
-            border: none !important;
-        }
-
-        body table tbody tr:last-child th .need-help {
-            font-weight: 500;
-        }
-
-        body table tbody tr:last-child th .copyright {
-            color: #9b9b9b;
-        }
-
-        /*# sourceMappingURL=email.css.map */
-    </style>
 </head>
 
-<body>
-    <table class="table">
+<body style="background-color:#f3f6f9!important">
+    <table style="margin-left:auto;margin-right:auto;max-width:600px">
         <thead>
             <tr>
-                <th>
-                    <h3><b>Perminataan Reset Password</b></h3>
+                <th style="text-align:start!important;border:none!important">
+                    <h3 style="font-family:sans-serif;font-style:normal;font-weight:700;font-size:24px"><b>Perminataan
+                            Reset Password</b></h3>
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr style="background-color:white;border-radius:10px!important">
 
-                <!-- =========OTP RESET PASSWORD=============== -->
-
-                <th class="main-body px-4">
-                    <div class="email-content mt-2">
-                        <img src="../image/email/Logo.png" width="130px" alt="" class="mb-4"> <br>
-                        <p><b>Halo Haruka Nakagawa 👋</b></p>
-                        <p>Masukkan kode One Time Password (OTP) berikut untuk melakukan reset password</p>
-                        <div class="otp-code mt-5">
-                            <p class="px-5 py-3">
+                <th
+                    style="text-align:start!important;padding-left:1.25rem!important;padding-right:1.25rem!important;border-bottom-width:0!important;border-radius:8px!important">
+                    <div>
+                        <img src="https://ci4.googleusercontent.com/proxy/2ECKJJrCWAl_vZ0354Wq8S37g6TbhNipAqCo0XXlLCfjnQo6xHdlneBePM8FFc49fK6IHdxYSn_AUyzbUZYv=s0-d-e1-ft#https://lms.lazy2.codes/image/email/Logo.png"
+                            width="130px" alt="" class="CToWUd" data-bit="iit"> <br>
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            <b>Halo Haruka
+                                Nakagawa 👋</b>
+                        </p>
+                        <p
+                            style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000">
+                            Masukkan kode One Time Password (OTP) berikut untuk melakukan reset password</p>
+                        <div>
+                            <p
+                                style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;font-size:22px;letter-spacing:7px;border-radius:7px;width:min-content;border:1px solid black;display:block;margin-left:auto;margin-right:auto;padding-left:3rem!important;padding-right:3rem!important;padding-top:1rem!important;padding-bottom:1rem!important">
                                 <b> 123456</b>
                             </p>
                         </div>
                     </div>
-                    <div class="footer-note mt-5">
-                        <p class="grey-text">Catatan:</p>
-                        <p class="grey-text">Kode diatas berlaku selama 5 menit. Harap tidak menyebarkan kode kepada
+                    <div style="margin-top:1.5rem!important">
+                        <p
+                            style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;color:#9b9b9b">
+                            Catatan:</p>
+                        <p
+                            style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;color:#9b9b9b">
+                            Kode diatas berlaku selama 5 menit. Harap tidak menyebarkan kode kepada
                             siapapun
                             demi
                             menjaga keamanan akun.</p>
                     </div>
-                    <div class="inner-footer text-center">
-                        <hr>
-                        <img src="../image/email/Logo_bnw.png" width="80px" alt="">
+                    <div style="text-align:center">
+                        <hr style="height:1px;border:none;background-color:#adadad">
+                        <img src="https://ci4.googleusercontent.com/proxy/c8E79KARC9F9NX4Yla8ZmFjorYT291P7VMo7-Q5cEIkDYhLnbs4O-qeAP_9F369r7oVAWZFvQ_n7TUsE3Rsi5U-adA=s0-d-e1-ft#https://lms.lazy2.codes/image/email/Logo_bnw.png"
+                            width="80px" alt="" class="CToWUd" data-bit="iit">
                     </div>
                 </th>
             </tr>
             <tr>
-                <th class="footer text-center pt-4">
-                    <p class="need-help mb-3">Butuh bantuan? Silahkan hubungi <a href="#">support@tender.com</a></p>
-                    <p class="copyright">Copyright &copy; 2022. All Rights Reserved</p>
+                <th style="text-align:center;text-align:start!important;border:none!important">
+                    <p
+                        style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;text-align:center;font-weight:500">
+                        Butuh bantuan? Silahkan hubungi <a href="#m_3972116600508049154_">support@tender.com</a></p>
+                    <p
+                        style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;text-align:center;color:#9b9b9b">
+                        Copyright © 2022. All Rights Reserved</p>
                 </th>
             </tr>
         </tbody>
