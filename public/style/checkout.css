@@ -33,6 +33,9 @@ button {
 main .navigation p {
   color: #164520;
 }
+main .checkout-main .order-list-section {
+  width: 60%;
+}
 main .checkout-main .order-list-section .order-item .order-list-detail {
   gap: 12px;
 }
@@ -77,6 +80,7 @@ main .checkout-main .order-list-section .order-item .order-list-subtotal hr {
 main .checkout-main .order-summary-card {
   border-radius: 7px;
   box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.247);
+  width: 400px;
 }
 main .checkout-main .order-summary-card .total-count-prize {
   gap: 30px;

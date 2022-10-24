@@ -7,11 +7,11 @@
 
 
 <?= $this->section('app-component') ?>
-<div class="container mt-4 mb-5">
-    <section class="navigation">
+<div class="px-5 mt-4 mb-5">
+    <!-- <section class="navigation">
         <p class="mb-4"><b>Cart</b></p>
         <hr>
-    </section>
+    </section> -->
     <section class="checkout-main d-flex justify-content-between align-items-start">
         <div class="order-list-section">
             <h4 class="mb-3">Pesanan</h4>

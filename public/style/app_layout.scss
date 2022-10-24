@@ -67,6 +67,8 @@ h6 {
             margin-bottom: 1.5rem;
         }
 
+
+
         .harga {
             font-size: 1.25rem;
             font-weight: bold;
@@ -261,6 +263,23 @@ a:hover {
 
 main {
     min-height: 80vh;
+
+    .navigation {
+
+
+        p {
+            font-weight: 600;
+
+            a {
+                color: #bdbdbd;
+            }
+
+            .sub-nav {
+                color: #164520;
+            }
+        }
+
+    }
 }
 
 .bg-gray {
