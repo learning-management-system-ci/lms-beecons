@@ -23,6 +23,8 @@ $(document).ready(async function () {
             dataType: 'json'
         })
 
+        $('#courses-loading').hide()
+
         $('#courses #tab-courses-1 .tags').html(
             `<a href="" class="item" data-tag_id="0">All</a>` + 
             tagsResponse[0].tag.map(tag => {
