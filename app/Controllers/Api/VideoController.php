@@ -99,10 +99,6 @@ class VideoController extends ResourceController
 				}
 			}
 
-			// if ($salah > 1) {
-			// 	return $this->fail('2 dari jawaban anda salah, sialahkan kerjakan kembali', 400);
-			// }
-
 			$scoreRaw = round((count($jawaban) - $salah) / count($jawaban), 6);
 			$score = intval($scoreRaw * 100);
 			if ($score == 1) {
@@ -123,11 +119,15 @@ class VideoController extends ResourceController
 					->set('score', $score)
 					->update();
 			}
-
+			$pass = false;
+			if ($score >= 50) {
+				$pass = true;
+			}
 			$response = [
 				'status' => 200,
 				'success' => 200,
 				'message' => 'Berhasil mengirim jawaban',
+				'pass' => $pass,
 			];
 			return $this->respondCreated($response);
 		} catch (\Throwable $th) {
