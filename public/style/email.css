@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
+h1,
+h3,
+h4,
+h5 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 700;
+}
+
+p {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #000000;
+  margin-bottom: 0 !important;
+}
+
+button {
+  border: none !important;
+  background-color: rgba(0, 42, 91, 0);
+}
+
+.bold-text {
+  font-weight: 600;
+}
+
+.hide {
+  display: none;
+}
+
+.grey-text {
+  color: #9b9b9b;
+}
+
+.red-text {
+  color: #DB3232;
+}
+
+body {
+  background-color: #F3F6F9 !important;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+body table {
+  max-width: 600px;
+}
+body table thead th {
+  border: none !important;
+}
+body table tbody tr:first-child {
+  border-radius: 10px !important;
+  background-color: white;
+}
+body table tbody tr:first-child .main-body {
+  border-bottom-width: 0 !important;
+  border-radius: 8px !important;
+}
+body table tbody tr:first-child .main-body .email-content img {
+  margin-left: -8px !important;
+}
+body table tbody tr:first-child .main-body .email-content button {
+  width: 100%;
+  height: 50px;
+  border-radius: 7px;
+  background-color: #164520;
+}
+body table tbody tr:first-child .main-body .email-content button p {
+  color: white;
+}
+body table tbody tr:first-child .main-body .email-content .otp-code {
+  display: grid;
+  place-items: center;
+}
+body table tbody tr:first-child .main-body .email-content .otp-code p {
+  font-size: 22px;
+  letter-spacing: 7px;
+  border-radius: 7px;
+  width: min-content;
+  border: 1px solid black;
+}
+body table tbody tr:first-child .main-body .email-content .invoice-pay button {
+  width: 69%;
+  height: 50px;
+}
+body table tbody tr:first-child .main-body .email-content .invoice-detail,
+body table tbody tr:first-child .main-body .email-content .invoice-user {
+  background-color: #f7f7f7;
+}
+body table tbody tr:first-child .main-body .email-content .invoice-user {
+  line-height: 1.7em;
+}
+body table tbody tr:first-child .main-body .email-content .footer-note p:last-child {
+  font-size: 12px;
+}
+body table tbody tr:first-child .main-body .email-content .order-list .order-item .order-title {
+  gap: 12px;
+}
+body table tbody tr:first-child .main-body .email-content .order-list .order-item .order-title .order-desc {
+  line-height: 1em;
+  width: 280px;
+}
+body table tbody tr:first-child .main-body .email-content .order-list .order-item .order-title .order-desc p {
+  font-size: 14px;
+}
+body table tbody tr:first-child .main-body .email-content .order-list .order-price-list {
+  line-height: 2.5em;
+}
+body table tbody tr:first-child .main-body .email-content .order-list .order-price-list p {
+  font-size: 18px;
+}
+body table tbody tr:first-child .main-body hr {
+  height: 1px;
+  background-color: #7a7a7a;
+  border: none;
+}
+body table tbody tr:first-child .inner-footer hr {
+  background-color: rgb(0, 0, 0);
+  height: 1px;
+  border: none;
+}
+body table tbody tr:last-child th {
+  border: none !important;
+}
+body table tbody tr:last-child th .need-help {
+  font-weight: 500;
+}
+body table tbody tr:last-child th .copyright {
+  color: #9b9b9b;
+}
+
+/*# sourceMappingURL=email.css.map */

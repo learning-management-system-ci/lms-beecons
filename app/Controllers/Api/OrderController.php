@@ -6,7 +6,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Controllers\BaseController;
 use Firebase\JWT\JWT;
 use App\Models\Cart;
-use App\Models\Order;
+use App\Models\Order; 
 use App\Models\OrderCourse;
 use App\Models\OrderBundling;
 use App\Models\Users;
@@ -14,6 +14,53 @@ use App\Models\Users;
 class OrderController extends BaseController
 {
     use ResponseTrait;
+
+    public function index() {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+            $order = new Order;
+            $orderCourse = new OrderCourse;
+            $orderBundling = new OrderBundling;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $dataOrder = $order->select('users.email, users.fullname, order.order_id, order.transaction_status, order.gross_amount as total_price')->join('users', 'users.id = order.user_id')->findAll();
+            $response['order'] = $dataOrder;
+
+            for($i=0; $i<count($dataOrder); $i++) {
+                $itemCourse = $orderCourse ->select('course.title, course.new_price')
+                                            ->join('course', 'order_course.course_id = course.course_id')
+                                            ->where('order_id', $dataOrder[$i]['order_id'])
+                                            ->findAll();
+                $response['order'][$i]['course-item'] = $itemCourse;
+
+                $itemBundling = $orderBundling  ->select('bundling.title, bundling.new_price')
+                                                ->join('bundling', 'order_bundling.bundling_id = bundling.bundling_id')
+                                                ->where('order_id', $dataOrder[$i]['order_id'])
+                                                ->findAll();
+                $response['order'][$i]['bundling-item'] = $itemBundling;
+            }
+            
+            return $this->respond($response);
+
+            if(count($data) > 0){
+                return $this->respond($data);
+            } else {
+                return $this->failNotFound('Tidak ada data');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
 
     public function generateSnap() {
         $key = getenv('TOKEN_SECRET');
@@ -39,7 +86,12 @@ class OrderController extends BaseController
             $user = new Users;
             $temp = 0;
             $userId = $decoded->uid;
+            //$userId = 16;
+
             $getTotalCart = $cart->select('total')->where('user_id', $userId)->findAll();
+            if ($getTotalCart == NULL) {
+                return $this->fail('Keranjang belanja kosong');
+            }
             $getUser = $user->where('id', $userId)->first();
 
             $totalPrice = 0;
@@ -57,9 +109,7 @@ class OrderController extends BaseController
             
             $dataOrderCourse=[];
             $getCourseCart = $cart->select('course_id')->where('user_id', $userId)->where('course_id !=',NULL )->findAll();
-            if ($getCourseCart == null) {
-                return $this->fail('Keranjang belanja kosong');
-            } else {
+            if ($getCourseCart != null) {
                 foreach ($getCourseCart as $value) {
                     $dataOrderCourse[] = [
                         'order_id' => $orderId,
@@ -72,32 +122,40 @@ class OrderController extends BaseController
             $dataOrderBundling=[];
             $getBundlingCart = $cart->select('bundling_id')->where('user_id', $userId)->where('bundling_id !=',NULL )->findAll();
             //var_dump($getBundlingCart);
-            foreach ($getBundlingCart as $value) {
-                $dataOrderBundling[] = [
-                    'order_id' => $orderId,
-                    'bundling_id' => $value['bundling_id'],
-                ];
+            if ($getBundlingCart != null) {
+                foreach ($getBundlingCart as $value) {
+                    $dataOrderBundling[] = [
+                        'order_id' => $orderId,
+                        'bundling_id' => $value['bundling_id'],
+                    ];
+                }
+                $orderBundling->insertBatch($dataOrderBundling);
             }
-            $orderBundling->insertBatch($dataOrderBundling);
 
             $getCourse = $orderCourse->getData($orderId)->getResultArray();
-            foreach ($getCourse as $value) {
-                $dataCourse[] = [
-                    'id' => "c".$value['order_course_id'],
-                    'name' => $value['title'],
-                    'price' => $value['new_price'],
-                    'quantity' => 1
-                ];
+            $dataCourse = [];
+            if ($getCourse != null) {
+                foreach ($getCourse as $value) {
+                    $dataCourse[] = [
+                        'id' => "c".$value['order_course_id'],
+                        'name' => $value['title'],
+                        'price' => $value['new_price'],
+                        'quantity' => 1
+                    ];
+                }
             }
 
             $getBundling = $orderBundling->getData($orderId)->getResultArray();
-            foreach ($getBundling as $value) {
-                $dataBundling[] = [
-                    'id' => "b".$value['order_bundling_id'],
-                    'name' => $value['title'],
-                    'price' => (isset($value['new_price'])) ? $value['new_price'] : $value['price'],
-                    'quantity' => 1
-                ];
+            $dataBundling = [];
+            if ($getBundling != null) {
+                foreach ($getBundling as $value) {
+                    $dataBundling[] = [
+                        'id' => "b".$value['order_bundling_id'],
+                        'name' => $value['title'],
+                        'price' => (isset($value['new_price'])) ? $value['new_price'] : $value['price'],
+                        'quantity' => 1
+                    ];
+                }
             }
 
             $cart->where('user_id', $userId)->delete();
@@ -119,10 +177,10 @@ class OrderController extends BaseController
                 'customer_details' => $cust_detail,
                 'item_details' => $item
             ];
-            return $this->respond($params);
+           //return $this->respond($params);
 
-            //$token = \Midtrans\Snap::getSnapToken($params);
-            //return view ('pages/transaction/snap-pay', ['token' => $token]);
+            $token = \Midtrans\Snap::getSnapToken($params);
+            return view ('pages/transaction/snap-pay', ['token' => $token]);
 
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
@@ -190,6 +248,5 @@ class OrderController extends BaseController
             "transaction_id" => $this->request->getVar("transaction_id"),
 	    ];
         $order->update($id, $data);
-    }
-		
+    }		
 }

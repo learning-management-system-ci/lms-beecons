@@ -47,7 +47,7 @@ class CartController extends ResourceController
                 $response = [
                     'user' => $user_data,
                     'item' => $items,
-                    'total' => $temp += $value['total']
+                    'total' => $temp += $total
                 ];
             }
 
@@ -71,6 +71,14 @@ class CartController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] != 'member') {
+                return $this->fail('Tidak dapat di akses selain member', 400);
+            }
+
             $cart = new Cart;
 
             if ($type == 'course') {
@@ -126,6 +134,13 @@ class CartController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] != 'member') {
+                return $this->fail('Tidak dapat di akses selain member', 400);
+            }
 
             $model = new Cart();
 

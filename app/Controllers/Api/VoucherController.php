@@ -52,16 +52,16 @@ class VoucherController extends ResourceController
 
   		// cek role user
 		  $data = $user->select('role')->where('id', $decoded->uid)->first();
-		  if($data['role'] != 'admin'){
-		    return $this->fail('Tidak dapat di akses selain admin', 400);
-		  }
+		  if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
 
 			$rules = [
 				"title" => "required",
 				"start_date" => "required|valid_date",
 				"due_date" => "required|valid_date",
 				"code" => "required|is_unique[voucher.code]|max_length[10]|alpha_numeric",
-				"discount_price" => "required|numeric",
+				"discount_price" => "required|numeric|max_length[2]",
 				"is_active" => "less_than_equal_to[1]",
 			];
 	
@@ -84,7 +84,9 @@ class VoucherController extends ResourceController
 					"alpha_numeric" => "{field} harus berisi alfabet dan numerik",
 				],
 				"discount_price" => [
-					"required" => "{field} tidak boleh kosong"
+					"required" => "{field} tidak boleh kosong",
+					"numeric" => "{field} harus berisi numerik",
+					"max_length" => "{field} maksimal 2 karakter (discount bernilai persen)",
 				],
 				"is_active" => [
 					"less_than_equal_to" => "{field} harus berisi 0 (tidak aktif) atau 1 (aktif)"
@@ -156,9 +158,9 @@ class VoucherController extends ResourceController
 
   		// cek role user
 		  $data = $user->select('role')->where('id', $decoded->uid)->first();
-		  if($data['role'] != 'admin'){
-		    return $this->fail('Tidak dapat di akses selain admin', 400);
-		  }
+		  if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
 
 			$input = $this->request->getRawInput();
 			$rules = [
@@ -246,9 +248,9 @@ class VoucherController extends ResourceController
 
   		// cek role user
 		  $data = $user->select('role')->where('id', $decoded->uid)->first();
-		  if($data['role'] != 'admin'){
-		    return $this->fail('Tidak dapat di akses selain admin', 400);
-		  }
+		  if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
 
 			$data = $this->voucherModel->where('voucher_id', $id)->findAll();
 			if ($data) {

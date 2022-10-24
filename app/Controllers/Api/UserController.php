@@ -132,4 +132,41 @@ class UserController extends ResourceController
             return $this->fail($th->getMessage());
         }
     }
+
+    public function delete($id = null)
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] != 'admin') {
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $data = $user->where('id', $id)->findAll();
+            if ($data) {
+                $user->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'error'    => null,
+                    'messages' => [
+                        'success' => 'User berhasil dihapus'
+                    ]
+                ];
+                return $this->respondDeleted($response);
+            } else {
+                return $this->failNotFound('Data User tidak ditemukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+        return $this->failNotFound('Data User tidak ditemukan');
+    }
 }

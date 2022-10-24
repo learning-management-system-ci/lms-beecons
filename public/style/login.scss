@@ -1,8 +1,16 @@
 @import "_base";
 
 body {
-  background-color: #e8f9fd;
+  background-color: $color-white;
   overflow-x: hidden;
+}
+
+.btn {
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: $color-primary !important;
 }
 
 .page-flex {
@@ -20,17 +28,45 @@ body {
   min-width: 290px;
 }
 
-.active {
-  background-color: $color-secondary !important;
-  color: $color-white !important;
+#button {
+  border: 0;
+  &:disabled,
+  &.disable {
+    background-color: $color-gray-4 !important;
+    color: $color-secondary !important;
+  }
+
+  &:active,
+  &.active {
+    background-color: $color-secondary !important;
+    color: $color-white !important;
+  }
 }
 
-.disable {
-  background-color: $color-gray-4 !important;
-  color: $color-secondary !important;
+#googleButton {
+  position: relative;
+  display: flex;
+  background-color: transparent !important;
+  color: $color-black !important;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  border: 1px solid $color-gray-5 !important;
+
+  img {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: auto;
+  }
+
+  p {
+    margin: 0;
+  }
 }
 
 form {
+  width: 290px;
   .welcome-text {
     font-weight: 400;
   }
@@ -40,10 +76,22 @@ form {
     margin: 0 12px 0 0 !important;
     font-size: 20px;
   }
+
   .info-text {
     font-weight: 400;
     font-size: 13px;
   }
+
+  #terms {
+    height: 15px;
+  }
+
+  .checkbox {
+    label.error {
+      display: none !important;
+    }
+  }
+
   .form-label {
     font-weight: 500;
   }
@@ -51,6 +99,7 @@ form {
   input {
     font-weight: 400;
     border: 1px solid;
+    border-color: $color-gray-5;
     border-radius: 7px;
     height: 40px;
     padding-left: 20px;
@@ -70,16 +119,30 @@ form {
         height: 15px;
       }
     }
+
     a {
       font-weight: 400;
       font-size: 11px !important;
     }
   }
+
+  .priv-pol {
+    margin-top: 0 !important;
+    text-align: start !important;
+  }
+
   .sign-up {
+    text-align: center;
     font-weight: 300;
     font-size: 12px;
-    margin-top: 20px !important;
+    margin-top: 20px;
+    a {
+      text-decoration: none;
+      font-weight: 700;
+      color: $color-primary;
+    }
   }
+
   .horizontal {
     font-weight: 500;
     font-size: 12px;
@@ -98,9 +161,11 @@ form {
     vertical-align: middle;
     width: 40%;
   }
+
   .horizontal::after {
     margin-left: 10px;
   }
+
   .horizontal::before {
     margin-right: 10px;
   }
@@ -112,6 +177,7 @@ a {
   width: auto;
   border-radius: 30px;
   background-color: transparent !important;
+
   img {
     width: 290px;
     height: 45px;

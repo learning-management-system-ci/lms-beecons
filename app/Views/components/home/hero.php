@@ -8,7 +8,7 @@
             <p>
                 The learning program in the tender is carried out collaboratively and with the guidance of experienced mentors who make the online learning experience fun and focused.
             </p>
-            <a href="">
+            <a href="/about-us">
                 <button class="my-btn">
                     Pelajari Lebih Lanjut
                 </button>

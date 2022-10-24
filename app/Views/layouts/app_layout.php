@@ -31,44 +31,56 @@
     <?php echo $this->include('components/home/navbar.php') ?>
 
     <main>
-        <?php if(uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code' && !str_contains(uri_string(), 'courses')) : ?>
-        <div class="container mt-4">
-            <section class="navigation">
-                <p class="mb-4"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
-                    <?php if(uri_string() == 'faq') : ?>
-                    <a> Frequently Asked Question</a>
-                    <?php endif; ?>
-                    <?php if(uri_string() == 'terms-and-conditions') : ?>
-                    <a> Terms and Conditions</a>
-                    <?php endif; ?>
-                    <?php if(uri_string() == 'about-us') : ?>
-                    <a> About-Us</a>
-                    <?php endif; ?>
-                    <?php if(uri_string() == 'bundling') : ?>
-                    <a> Bundling</a>
-                    <?php endif; ?>
-                </p>
-                <hr>
-            </section>
-        </div>
-        <?php endif; ?>
-        <?php if (str_contains(uri_string(), 'courses')) : ?>
-            <div class="container mt-4">
+        <?php if (uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code' && !str_contains(uri_string(), 'courses')) : ?>
+            <div class="px-5 mt-4">
                 <section class="navigation">
-                    <p class="mb-4"><a href="<?= base_url('courses') ?>" style="font-weight: 300;">Courses</a>
-                        <?php if (uri_string() != 'courses') : ?>
-                            >
+                    <p class="mb-4">
+                        <?php if (uri_string() == 'faq') : ?>
+                            <a> Frequently Asked Question</a>
+                            <hr>
                         <?php endif; ?>
-                        <?php if (uri_string() == 'courses/bundling') : ?>
+                        <?php if (uri_string() == 'terms-and-conditions') : ?>
+                            <a> Terms and Conditions</a>
+                            <hr>
+                        <?php endif; ?>
+                        <?php if (uri_string() == 'about-us') : ?>
+                            <a> About-Us</a>
+                            <hr>
+                        <?php endif; ?>
+                        <?php if (uri_string() == 'bundling') : ?>
                             <a> Bundling</a>
+                            <hr>
+                        <?php endif; ?>
+                        <?php if (uri_string() == 'cart') : ?>
+                            <a> Cart</a>
+                            <hr>
+                        <?php endif; ?>
+                        <?php if (uri_string() == 'checkout') : ?>
+                            <a> Checkout</a>
+                            <hr>
                         <?php endif; ?>
                     </p>
-                    <hr>
                 </section>
             </div>
         <?php endif; ?>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+        <?php if (str_contains(uri_string(), 'courses')) : ?>
+            <?php if (uri_string() != 'courses') : ?>
+
+            <?php endif; ?>
+            <?php if (uri_string() == 'courses/bundling') : ?>
+                <div class="px-5  mt-4">
+                    <section class="navigation">
+                        <p class="mb-4"><a href="<?= base_url('courses') ?>" style="font-weight: 300;">Course &rsaquo;</a>
+                            <a class="sub-nav"> Bundling</a>
+                        </p>
+                        <hr>
+                    </section>
+                </div>
+            <?php endif; ?>
+
+
+
+        <?php endif; ?>
         <?= $this->renderSection('app-component') ?>
     </main>
 
@@ -89,8 +101,9 @@
     <script src="../../../js/home/slick.js"></script>
 
     <!-- myscript -->
+    <script src="../../../js/utils/textTruncate.js"></script>
     <script src="../../../js/home/home.js"></script>
-    <script src="<?= base_url('/js/home/notification.js') ?>"></script>
+    <script src="../../../js/home/notification.js"></script>
     <?= $this->renderSection('js-component') ?>
 </body>
 

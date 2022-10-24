@@ -48,7 +48,7 @@ $routes->post('/register', 'AuthController::register');
 
 $routes->get('/profile', 'AuthController::profile');
 $routes->get('/login/loginWithGoogle', 'Api\AuthController::loginWithGoogle');
-// $routes->post('/login/loginWithGoogle/submit', 'Api\AuthController::loginWithGoogle');
+$routes->post('/login/loginOneTapGoogle', 'Api\AuthController::loginOneTapGoogle');
 $routes->get('/logout', 'AuthController::logout');
 $routes->get('/activateuser', 'AuthController::activateUser');
 
@@ -69,11 +69,14 @@ $routes->get('/about-us', 'Home::aboutUs');
 $routes->get('/terms-and-conditions', 'Home::termsAndConditions');
 $routes->get('/courses/bundling', 'Home::bundlingCart');
 $routes->get('/course-detail', 'Home::courseDetail');
+$routes->get('/course/:num', 'Home::courseDetailNew');
 $routes->get('/cart', 'Home::cart');
+$routes->get('/checkout', 'Home::checkout');
 $routes->get('/webinar', 'Home::webinar');
 $routes->get('/training', 'Home::training');
 $routes->get('/courses', 'Home::courses');
 $routes->get('/article', 'Home::article');
+$routes->get('/email', 'Home::email');
 
 $routes->get('/send-otp', 'AuthController::indexSendOtp');
 $routes->post('/send-otp', 'AuthController::sendOtp');
@@ -105,7 +108,16 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('review/', static function ($routes) {
         $routes->get('', 'Api\ReviewController::index');
+        $routes->get('detail', 'Api\ReviewController::index_review');
         $routes->post('create', 'Api\ReviewController::create');
+    });
+
+    $routes->group('jobs/', static function ($routes) {
+        $routes->get('', 'Api\JobsController::index');
+        $routes->get('detail/(:segment)', 'Api\JobsController::show/$1');
+        $routes->post('create', 'Api\JobsController::create');
+        $routes->put('update/(:segment)', 'Api\JobsController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\JobsController::delete/$1');
     });
 
     $routes->group('testimoni/', static function ($routes) {
@@ -128,14 +140,14 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
         $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
-        $routes->put('update', 'Api\UserController::update/$1');
+        $routes->put('update/(:num)', 'Api\UserController::update/$1');
     });
 
     $routes->group('course/', static function ($routes) {
         $routes->get('', 'Api\CourseController::index');
         $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
         $routes->post('create', 'Api\CourseController::create');
-        $routes->put('update/(:num)', 'Api\CourseController::update/$1');
+        $routes->put('update/(:num)f', 'Api\CourseController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
@@ -256,12 +268,16 @@ $routes->group('api/', static function ($routes) {
     });
 
     $routes->group('order/', static function ($routes) {
+        $routes->get('', 'Api\OrderController::index');
         $routes->get('generatesnap', 'Api\OrderController::generateSnap');
         $routes->post('notif-handler', 'Api\OrderController::notifHandler');
     });
 
     $routes->group('quiz/', static function ($routes) {
         $routes->get('', 'Api\QuizController::index');
+        $routes->post('create', 'Api\QuizController::create');
+        $routes->put('update/(:segment)', 'Api\QuizController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\QuizController::delete/$1');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');

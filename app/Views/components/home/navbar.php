@@ -12,10 +12,13 @@
                     <a class="nav-link mx-2 active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link mx-2 active" href="<?= base_url('/courses') ?>">Courses</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link mx-2 active" href="<?= base_url('/training') ?>">Training</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active" href="<?= base_url('/courses') ?>">Courses</a>
+                    <a class="nav-link mx-2 active" href="">Webinar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 active" href="<?= base_url('/faq') ?>">FAQ</a>
@@ -53,10 +56,8 @@
                 </li>
                 <li class="nav-item me-3">
                     <a href="/cart">
-                        <button class="nav-btn-icon my-1">
-                            <?php if (get_cookie("access_token")) : ?>
-                                <div class="nav-btn-icon-amount" id="cart-count">0</div>
-                            <?php endif ?>
+                        <button class="nav-btn-icon my-1" id="cart-count">
+                            <!-- <div class="nav-btn-icon-amount">0</div> -->
                             <i class="fa-solid fa-cart-shopping"></i>
                         </button>
                     </a>
@@ -64,9 +65,7 @@
                 <li class="nav-item me-3">
                     <div class="dropdown nav-item-icon">
                         <button class="nav-btn-icon my-1" id="dropdown-notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php if (get_cookie("access_token")) : ?>
-                                <div class="nav-btn-icon-amount">0</div>
-                            <?php endif ?>
+                            <!-- <div class="nav-btn-icon-amount">0</div> -->
                             <i class="fa-solid fa-bell"></i>
                         </button>
                         <div class="dropdown-menu my-2 notifications" aria-labelledby="dropdown-notification">

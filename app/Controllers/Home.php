@@ -65,6 +65,15 @@ class Home extends BaseController
         ];
         return view('pages/course/course-detail', $data);
     }
+
+    public function courseDetailNew()
+    {
+        $data = [
+            "title" => "Detail Course",
+        ];
+        return view('pages/course/course-detail', $data);
+    }
+
     public function cart()
     {
         $data = [
@@ -100,5 +109,16 @@ class Home extends BaseController
             "title" => "Artikel",
         ];
         return view('pages/navigation/article', $data);
+    }
+    public function checkout()
+    {
+        $data = [
+            "title" => "Checkout",
+        ];
+        return view('pages/course/checkout', $data);
+    }
+    public function email()
+    {
+        return view('pages/email');
     }
 }

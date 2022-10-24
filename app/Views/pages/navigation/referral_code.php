@@ -95,9 +95,6 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <?= $this->section('js-component') ?>
 <script src="../../../js/api/referral/index.js"></script>
 <script src="../../../js/api/profile/index.js"></script>

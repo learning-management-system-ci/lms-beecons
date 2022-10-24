@@ -10,18 +10,15 @@ use DateInterval;
 class AuthController extends BaseController
 {
 	private $googleClient=NULL;
-	protected $session;
 
 	function __construct(){
-    	$this->session = \Config\Services::session();
-    	$this->session->start();
         helper("cookie");
 
 		require_once APPPATH. "../vendor/autoload.php";
 		$this->googleClient = new \Google_Client();
 		$this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
 		$this->googleClient->setClientSecret("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");
-		$this->googleClient->setRedirectUri("http://localhost:8080/login/loginWithGoogle");
+		$this->googleClient->setRedirectUri(base_url()."/login/loginWithGoogle");
 		$this->googleClient->addScope("email");
 		$this->googleClient->addScope("profile");
 	}
@@ -29,12 +26,11 @@ class AuthController extends BaseController
 	public function indexLogin()
 	{
 		if(get_cookie("access_token")){
-			session()->setFlashData("error", "You have Already Logged In");
 			return redirect()->to(base_url()."/profile");
 		}
 		$data = [
             "title" => "Sign In",
-            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img style="width: 286px;" src="image/google.png" alt=""></a>',
+            "googleButton" => $this->googleClient->createAuthUrl(),
         ];
 		return view('pages/authentication/login', $data);
 	}
@@ -56,18 +52,10 @@ class AuthController extends BaseController
         
         if ($decoded) {
             if (!$decoded->email) {
-                    session()->setFlashdata('error', 'User is not activated');
                     return redirect()->back();
-                } else {
-                    session()->set([
-                        'email' => $decoded->email,
-                        'LoggedUserData' => TRUE
-                    ]);
-                }
-                session()->setFlashData("success", "Login Successful");
+                } 
                 return redirect()->to(base_url()."/profile");
         } else {
-            session()->setFlashdata('error', 'Wrong email & password');
             return redirect()->back();
         }
     }
@@ -106,14 +94,13 @@ class AuthController extends BaseController
 	}
 
 	function logout() {
-		session()->destroy();
 		return redirect()->to(base_url());
 	}
 
 	public function indexRegister() {
 		$data = [
             "title" => "Sign Up",
-            "googleButton" => '<a href="'.$this->googleClient->createAuthUrl().'"><img style="width: 286px;" src="image/google.png" alt=""></a>',
+            "googleButton" => $this->googleClient->createAuthUrl(),
         ];
 		return view('pages/authentication/register', $data);
 	}

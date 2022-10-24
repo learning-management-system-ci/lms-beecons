@@ -10,21 +10,6 @@ class CourseNew extends Seeder
     {
         $data = [
             [
-                'title' => 'Agile Execution, Effective Communication & Powerfull Delivery',
-                'service' => 'course',
-                'description' => 'Pada pembelajaran individu, peserta akan mengikuti pembelajaran synchronous dan asynchronous, serta praktek implementasi partial sesuai materi. Pembelajaran yang dilakukan adalah pembelajaran terkait: 
-                1. Agile Execution (soft skills)
-                2. Powerfull Delivery (soft skills)
-                3. Effective Communication (soft skills)',
-                'key_takeaways' => '- Peserta memahami dan mampu dalam menerapkan metode Agile Execution untuk menyelesaiakan setiap tahapan sprint pembelajaran dan implementasi proyek lintas disiplin serta mampu mengoptimalkan Trello sebagai tool pendukung
-                - Peserta memahami dan mampu bagaimana caranya berkomunikasi dengan lebih cakap, baik terhadap rekan satu tim, tim lain, atasan, mentor maupun pihak eksternal lain demi memperlancar berjalannya pekerjaan
-                - Peserta memahami dan mampu membuat presentasi dan paparan yang menarik, baik dalam hal self branding maupun presentasi atas pekerjaan yang dilakukan kepada pihak eksternal',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
-                'thumbnail' => 'course.jpg',
-            ],
-            [
                 'title' => 'Bim Introduction & Fundamental Knowlegde',
                 'service' => 'course',
                 'description' => 'Pada pembelajaran individu, peserta akan mengikuti pembelajaran synchronous dan asynchronous, serta praktek implementasi partial sesuai materi. Pembelajaran yang dilakukan adalah pembelajaran terkait:
@@ -65,9 +50,9 @@ class CourseNew extends Seeder
                 - Peserta memahami tools dan kaidah dasar proyek BIM dan mampu mengimplementasikan dalam proyek
                 - Peserta memahami cara memulai project BIM dengan beberapa metode dan mampu mengimplementasikannya
                 - Peserta mampu membuat pemodelan site dan mengimplemantasikan dalam proyek',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '640000',
+                'new_price' => '400000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -91,9 +76,9 @@ class CourseNew extends Seeder
                 'key_takeaways' => '- Peserta mampu menerapkan prinsip kolaborasi baik kalaborasi lokal maupun cloud serta memvisualkan dengan baik serta mengimplemensasikannya
                 - Peserta mampu berkolaborasi lintas disiplin untuk implementasi pekerjaan sesuai dengan sprint dan tatakala yang sudah ditentukan
                 - Peserta mampu membuat visualisasi yang menarik kaitan proyek BIM yang sedang dikerjakan',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '640000',
+                'new_price' => '400000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -126,9 +111,9 @@ class CourseNew extends Seeder
                 'key_takeaways' => '- Peserta mampu dan memahami semua hal kaitan disiplin BIM Architecture
                 - Peserta mampu dan memahami semua element, tool dan family dalam disipin Architecture dan menerapkan pada proyek yang sedang dikerjakan
                 - Peserta mampu membuat pemodelan architecture dengan Level of Details yang baik',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '1200000',
+                'new_price' => '750000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -164,9 +149,9 @@ class CourseNew extends Seeder
                 - Peserta mampu memahami dan menerapkan seputar Analytical Model untuk dilanjutkan pada tahapan analisa selanjutnya
                 - Peserta mampu memodelkan struktur Precast Concrete dalam BIM
                 - Peserta mampu membuat pemodelan Struktur Baja dan pembuatan sambungan baja termasuk detail lainnya',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '1200000',
+                'new_price' => '750000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -201,9 +186,9 @@ class CourseNew extends Seeder
                 - Peserta mampu merancang dan memodelkan Electrical dan Lighting untuk diterapkan pada proyek yang dikerjakan
                 - Peserta mampu memodelkan untuk MEP spacial element dan mengenerate heeting/cooling load reportnya
                 - Peserta mampu membuat pemodelan MEP untuk jenis fabrication material',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '1200000',
+                'new_price' => '750000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -238,9 +223,9 @@ class CourseNew extends Seeder
                 'key_takeaways' => '- Peserta mampu dan memahami seluk beluk kaitan BIM Family dan menerapkannya pada proyek
                 - Peserta mampu mengelola BIM Family dengan baik sehingga proyek yang dikerjakan bisa lebih efisien
                 - Peserta mampu membuat dan memodifikasi berbagai jenis BIM Family yang dibutuhkan untuk mendukung penerapakan pekerjaan',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '800000',
+                'new_price' => '500000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -255,9 +240,9 @@ class CourseNew extends Seeder
                 'key_takeaways' => '- Peserta mampu menyajikan visualisasi arsitektur yang baik, mulai dari 3D sampai dengan animasi eksterior maupun interiornya
                 - Peserta mampu menentukan seting untuk lighting object render
                 - Peserta mampu membuat ilustrasi visual yang baik sebagai sarana delivery desain kepada klien pada pekerjaan',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '640000',
+                'new_price' => '400000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -278,9 +263,9 @@ class CourseNew extends Seeder
                 - Peserta mampu melakukan analisa struktur secara menyeluruh dan parsial serta menyajikan report hasil analisa dengan baik
             Untuk mengaktifkan dukungan pembaca layar, tekan Ctrl+Alt+Z. Untuk mempelajari pintasan keyboard, tekan Ctrl+garis miring.
                 ',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '640000',
+                'new_price' => '400000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -299,9 +284,9 @@ class CourseNew extends Seeder
                 - Peserta mampu melakukan export project information untuk membuat extention XML
                 - Peserta mampu membuat building electrical load calculation dan membuat laporannya
                 - Peserta mampu membuat electrical panel schedule pada model BIM yang dirancang',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '640000',
+                'new_price' => '400000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -319,9 +304,9 @@ class CourseNew extends Seeder
                 - Peserta mampu mendefinisikan harga dasar material dan upah pekerja sesuai dengan lokasi pekerjaan yang spesifik dengan sumber yang terpercaya
             Untuk mengaktifkan dukungan pembaca layar, tekan Ctrl+Alt+Z. Untuk mempelajari pintasan keyboard, tekan Ctrl+garis miring.
                 ',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '900000',
+                'new_price' => '600000',
                 'thumbnail' => 'course.jpg',
             ],
             [
@@ -339,13 +324,13 @@ class CourseNew extends Seeder
                 'key_takeaways' => '- Peserta mampu melakukan tahapan clash detection multi disiplin untuk model BIM yang dibuat
                 - Peserta mampu menggunakan software pendukung untuk clash detection dengan baik (navisworks)
                 - Peserta mampu membuat dan mengorganisir clash report',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '800000',
+                'new_price' => '500000',
                 'thumbnail' => 'course.jpg',
             ],
             [
-                'title' => 'Documentation Report',
+                'title' => 'Documentations Report',
                 'service' => 'course',
                 'description' => 'Pada pembelajaran individu, peserta akan mengikuti pembelajaran synchronous dan asynchronous, serta praktek implementasi partial sesuai materi. Pembelajaran yang dilakukan adalah pembelajaran terkait:
             1. Annotations, Symbols, and Details        
@@ -370,49 +355,9 @@ class CourseNew extends Seeder
                 - Peserta mampu membuat dan setting sheet untuk disiapkan dalam bentuk print out, termasuk ekport model dalam extension lain yang diperlukan
             Untuk mengaktifkan dukungan pembaca layar, tekan Ctrl+Alt+Z. Untuk mempelajari pintasan keyboard, tekan Ctrl+garis miring.
                 ',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
-                'thumbnail' => 'course.jpg',
-            ],
-            [
-                'title' => 'BIM Project Implementation',
-                'service' => 'course',
-                'description' => 'Pada pembelajaran individu, peserta akan mengikuti pembelajaran synchronous dan asynchronous, serta praktek implementasi partial sesuai materi. Pembelajaran yang dilakukan adalah pembelajaran terkait:
-                1. Conseptual Design
-            2. Rendering & Visualisation Architecture
-            3. Schematic Design
-            4. Detailed Engineering Drawing
-            5. Detailed Cost Estimate',
-                'key_takeaways' => '- Peserta mampu menerapkan dalam proyek nyata untuk menghasilkan produk BIM pada tahapan pembuatan Conseptual Design
-                - Peserta mampu menerapkan dalam proyek nyata untuk menghasilkan produk BIM pada tahapan pembuatan Rendering & Visualisation Architecture
-                - Peserta mampu menerapkan dalam proyek nyata untuk menghasilkan produk BIM pada tahapan pembuatan Schematic Design
-                - Peserta mampu menerapkan dalam proyek nyata untuk menghasilkan produk BIM pada tahapan pembuatan Detailed Engineering Drawing
-                - Peserta mampu menerapkan dalam proyek nyata untuk menghasilkan produk BIM pada tahapan pembuatan Detailed Cost Estimate
-            Untuk mengaktifkan dukungan pembaca layar, tekan Ctrl+Alt+Z. Untuk mempelajari pintasan keyboard, tekan Ctrl+garis miring.
-                
-                ',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
-                'thumbnail' => 'course.jpg',
-            ],
-            [
-                'title' => 'Final Project Report',
-                'service' => 'course',
-                'description' => 'Pada pembelajaran individu, peserta akan mengikuti pembelajaran synchronous dan asynchronous, serta praktek implementasi partial sesuai materi. Pembelajaran yang dilakukan adalah pembelajaran terkait:
-                1. Conseptual Design
-            2. Rendering & Visualisation Architecture
-            3. Schematic Design
-            4. Detailed Engineering Drawing
-            5. Detailed Cost Estimate',
-                'key_takeaways' => '- Peserta mampu membuat laporan akhir Rendering & Visualisation Architecture sesuai dengan format yang sudah ditentukan
-                - Peserta mampu membuat laporan akhir Schematic Design sesuai dengan format yang sudah ditentukan
-                - Peserta mampu membuat laporan akhir Detailed Engineering Drawing sesuai dengan format yang sudah ditentukan
-                - Peserta mampu membuat laporan akhir Detailed Cost Estimate sesuai dengan format yang sudah ditentukan',
-                'suitable_for' => '',
-                'old_price' => '0',
-                'new_price' => '',
+                'suitable_for' => 'Mahasiswa atau umum',
+                'old_price' => '800000',
+                'new_price' => '500000',
                 'thumbnail' => 'course.jpg',
             ],
         ];

@@ -5,7 +5,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
-<div class="container mt-4">
+<div class="px-5 mt-4">
     <!-- <section class="navigation">
         <p class="mb-4">Courses > <a href="#"> Mastering Frontend Developer</a></p>
         <hr>
@@ -105,7 +105,7 @@
                 <button class="mt-2">Checkout</button>
             </div>
             <div class="cheap-info text-center mt-3">
-                <img src="image/bundling/Wallet.png" width="75px">
+                <img src="/image/bundling/Wallet.png" width="75px">
                 <h5>Cheaper + Worthy</h5>
                 <p>The most affordable price with many benefits you can get</p>
             </div>
