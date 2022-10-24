@@ -163,7 +163,7 @@ class AuthController extends ResourceController
     {
         $rules = [
             "email" => "required|is_unique[users.email]|valid_email",
-            "password" => "required|min_length[4]|max_length[50]",
+            "password" => "required|min_length[8]|max_length[50]",
             "password_confirm" => "matches[password]",
         ];
 
