@@ -10,11 +10,8 @@ use DateInterval;
 class AuthController extends BaseController
 {
 	private $googleClient=NULL;
-	protected $session;
 
 	function __construct(){
-    	$this->session = \Config\Services::session();
-    	$this->session->start();
         helper("cookie");
 
 		require_once APPPATH. "../vendor/autoload.php";
@@ -29,7 +26,6 @@ class AuthController extends BaseController
 	public function indexLogin()
 	{
 		if(get_cookie("access_token")){
-			session()->setFlashData("error", "You have Already Logged In");
 			return redirect()->to(base_url()."/profile");
 		}
 		$data = [
@@ -56,18 +52,10 @@ class AuthController extends BaseController
         
         if ($decoded) {
             if (!$decoded->email) {
-                    session()->setFlashdata('error', 'User is not activated');
                     return redirect()->back();
-                } else {
-                    session()->set([
-                        'email' => $decoded->email,
-                        'LoggedUserData' => TRUE
-                    ]);
-                }
-                session()->setFlashData("success", "Login Successful");
+                } 
                 return redirect()->to(base_url()."/profile");
         } else {
-            session()->setFlashdata('error', 'Wrong email & password');
             return redirect()->back();
         }
     }
@@ -106,7 +94,6 @@ class AuthController extends BaseController
 	}
 
 	function logout() {
-		session()->destroy();
 		return redirect()->to(base_url());
 	}
 

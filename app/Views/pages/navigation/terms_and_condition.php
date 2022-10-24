@@ -7,7 +7,7 @@
 
 
 <?= $this->section('app-component') ?>
-<div class="container mt-4">
+<div class="px-5 mt-4">
     <section class="faq mt-4">
         <div class="faq-title mb-5">
             <H3>Terms and Conditions</H3>

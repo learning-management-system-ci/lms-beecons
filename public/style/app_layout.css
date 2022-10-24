@@ -255,6 +255,15 @@ a:hover {
 main {
   min-height: 80vh;
 }
+main .navigation p {
+  font-weight: 600;
+}
+main .navigation p a {
+  color: #bdbdbd;
+}
+main .navigation p .sub-nav {
+  color: #164520;
+}
 
 .bg-gray {
   background-color: #ECEBF3;

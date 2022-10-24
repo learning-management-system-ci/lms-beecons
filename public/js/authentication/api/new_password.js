@@ -8,7 +8,6 @@ $("#new-password").submit(function (event) {
 
     // Get some values from elements on the page:
     var $form = $(this),
-        csrf_test_name_passed = $form.find("input[name='csrf_test_name']").val(),
         password_passed = $form.find("input[name='password']").val(),
         password_confirm_passed = $form.find("input[name='password_confirm']").val(),
         url = $form.attr("action");
@@ -17,37 +16,48 @@ $("#new-password").submit(function (event) {
 
     $('#loading-modal').modal('toggle');
 
-    // Send the data using post
-    var posting = $.post(url, { csrf_test_name: csrf_test_name_passed, password: password_passed, password_confirm: password_confirm_passed, email: email_passed });
-
-    posting.done(function (data) {
-        console.log(data);
-        var error_message = data.message;
-        var error = data.status;
-        if (error_message != null) {
-            $('#loading-modal').modal('hide');
-            $('document').ready(function () {
-                $('.modal-header').addClass("bg-success");
-                $('.modal-title').html("Berhasil");
-                $('#message').html(error_message);
-                $('#message-modal').modal('toggle');
-            })
-        };
-        if (error !== 500) {
-            setTimeout(function () {
-                window.location.href = "/login";
-            }, 2000)
-        }
+    $.ajax({
+        url: url,
+        type: "post",
+        data: {
+            password: password_passed,
+            password_confirm: password_confirm_passed,
+            email: email_passed
+        },
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "Accept": "aplication/json",
+        },
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            var error_message = data.message;
+            var error = data.status;
+            if (error_message != null) {
+                $('#loading-modal').modal('hide');
+                $('document').ready(function () {
+                    $('.modal-header').addClass("bg-success");
+                    $('.modal-title').html("Berhasil");
+                    $('#message').html(error_message);
+                    $('#message-modal').modal('toggle');
+                })
+            };
+            if (error !== 500) {
+                setTimeout(function () {
+                    window.location.href = "/login";
+                }, 2000)
+            }
+        },
+        error: function (status, error) {
+            var error_message = status.responseJSON.messages.error;
+            if (error_message != null) {
+                $('document').ready(function () {
+                    $('.modal-header').addClass("bg-danger");
+                    $('.modal-title').html("Gagal");
+                    $('#message').html(error_message);
+                    $('#message-modal').modal('toggle');
+                })
+            }
+        },
     });
-    posting.fail(function (status, error) {
-        var error_message = status.responseJSON.messages.error;
-        if (error_message != null) {
-            $('document').ready(function () {
-                $('.modal-header').addClass("bg-danger");
-                $('.modal-title').html("Gagal");
-                $('#message').html(error_message);
-                $('#message-modal').modal('toggle');
-            })
-        }
-    })
 });
