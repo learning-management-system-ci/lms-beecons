@@ -12,6 +12,8 @@ $(document).ready(async function () {
             dataType: 'json'
         })
 
+        $('.courses-bundling-loading').hide()
+
         let rekomendasi = response.slice(0, 3)
 
         $('#courses .courses-bundlings .courses-bundling-list').slick({
