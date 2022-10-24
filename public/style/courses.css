@@ -183,6 +183,28 @@ button {
   color: #1F1F1F;
   font-weight: normal;
 }
+#courses .courses-bundlings {
+  padding-left: 3.5rem;
+}
+#courses .courses-bundlings .slick-list {
+  padding-left: 10px !important;
+  padding-right: 10rem !important;
+}
+#courses .courses-bundlings .slick-prev:before,
+#courses .courses-bundlings .slick-next:before {
+  color: gray;
+  font-size: 26px;
+}
+#courses .courses-bundlings .slick-arrow {
+  top: 0%;
+}
+#courses .courses-bundlings .slick-next {
+  right: 40px;
+}
+#courses .courses-bundlings .slick-prev {
+  right: 80px;
+  left: auto;
+}
 #courses .courses-bundlings h2 {
   font-size: 1.8rem;
   font-weight: bold;
