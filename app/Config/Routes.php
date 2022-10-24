@@ -147,6 +147,7 @@ $routes->group('api/', static function ($routes) {
 
         $routes->group('video/', static function ($routes) {
             $routes->get('(:num)', 'Api\VideoController::index/$1');
+            $routes->post('(:num)', 'Api\VideoController::answer/$1');
             $routes->post('create', 'Api\VideoController::create');
             $routes->post('update/(:segment)', 'Api\VideoController::update/$1');
             $routes->delete('delete/(:segment)', 'Api\VideoController::delete/$1');
