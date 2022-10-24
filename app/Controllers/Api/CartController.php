@@ -187,7 +187,7 @@ class CartController extends ResourceController
     {
         $voucher = new Voucher();
         $referral = new Referral();
-        $ref_user = new ReferralUser();
+        $ref_user = new ReferralUser;
 
         $check_voucher = $voucher->select('discount_price')->where('code', $code)->first();
         $check_referral = $referral->select('discount_price')->where('referral_code', $code)->first();
@@ -211,7 +211,7 @@ class CartController extends ResourceController
 
                 do {
                     $ref_code = strtoupper(bin2hex(random_bytes(4)));
-                    $check_code = $referral->where('referral_code', $code)->first();
+                    $check_code = $referral->where('referral_code', $ref_code)->first();
                 } while ($check_code);
 
                 $data = [
@@ -230,17 +230,16 @@ class CartController extends ResourceController
 
                 return $check_referral['discount_price'];
             }
-
-            if ($check_ref_user) {
-
-                $coupon = $check_ref_user['discount_price'];
-                if ($ref_user->find($check_ref_user['referral_user_id'])) {
-                    $ref_user->delete($check_ref_user['referral_user_id']);
-                }
-                return $coupon;
-            }
-
-            return 0;
         }
+        if ($check_ref_user) {
+
+            $coupon = $check_ref_user['discount_price'];
+            if ($ref_user->find($check_ref_user['referral_user_id'])) {
+                $ref_user->delete($check_ref_user['referral_user_id']);
+            }
+            return $coupon;
+        }
+
+        return 0;
     }
 }
