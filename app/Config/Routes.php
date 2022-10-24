@@ -280,6 +280,11 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:segment)', 'Api\QuizController::delete/$1');
     });
 
+    $routes->group('referral/', static function ($routes) {
+        $routes->get('', 'Api\ReferralController::index');
+        $routes->post('create', 'Api\ReferralController::create');
+    });
+
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
 });
