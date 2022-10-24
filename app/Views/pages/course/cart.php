@@ -8,14 +8,14 @@
 
 <?= $this->section('app-component') ?>
 <div id="cart" class="main-container mb-5">
-    <section>
+    <!-- <section>
         <nav class="pt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">Cart</li>
             </ol>
             <hr>
         </nav>
-    </section>
+    </section> -->
     <?php if (!get_cookie("access_token")) : ?>
         <div class="section-no-login">
             <h1 class="mb-3">Kamu belum masuk</h1>
@@ -82,5 +82,5 @@
 <?= $this->section('js-component') ?>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../../../js/utils/getRupiah.js"></script>
-<script src="js/home/cart.js"></script>
+<script src="js/cart/cart.js"></script>
 <?= $this->endSection() ?>

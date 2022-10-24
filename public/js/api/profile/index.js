@@ -145,20 +145,75 @@ $.ajax({
     }
 });
 
+$.ajax({
+    type: "GET",
+    url: "api/user-course",
+    contentType: "application/json",
+    headers: { "Authorization": "Bearer " + Cookies.get("access_token"), "Content-Type": "application/json" },
+    success: async function (data) {
+        async function getCourseData(item, index) {
+            const response = await $.ajax({
+                type: "GET",
+                url: `api/course/detail/${item.course_id}`,
+                contentType: "application/json",
+                headers: { "Authorization": "Bearer " + Cookies.get("access_token"), "Content-Type": "application/json" },
+                success: function (data) {
+                    return data;
+                }
+            })
+            return await response;
+        }
+
+        const courseList = await Promise.all(
+            data.map(getCourseData)
+        );
+
+        console.log(courseList);
+
+        var coursesResource =
+            courseList.map(({
+                title, description
+            }) => {
+                return (`
+                <div class="row">
+                    <div class="col-12x">
+                        <img src="image/auth-image.png" class="course-image me-1" alt="">
+                    </div>
+                    <div class="d-flex col text-start align-items-center body">
+                        <div>
+                            <h5>
+                                ${title}
+                            </h5>
+                            <p>
+                                ${description}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                `)
+            })
+
+        $("div#user-courses").html(coursesResource);
+    }
+})
+
 const pages = [{
     page: "profile",
     url: "/profile",
+    imageUrl: "image/profile/profile-icon.svg",
 },
 {
     page: "referral code",
     url: "/referral-code",
+    imageUrl: "image/profile/referral-icon.svg",
 }
 ]
 
 var resources = pages.map((page) => {
     return (`
-        <a class="btn btn-grey-200 text-capitalize d-flex px-2" href="${page.url}">
-            <img src="" alt="icon" class="pe-2"/>
+        <a class="btn profile-sidebar btn-grey-200 text-capitalize d-flex px-2" href="${page.url}">
+            <img src="${page.imageUrl}" alt="icon" class="pe-2 profile-icon"/>
             ${page.page}
         </a>
     `)

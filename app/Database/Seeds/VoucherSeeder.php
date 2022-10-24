@@ -33,7 +33,7 @@ class VoucherSeeder extends Seeder
                 'start_date'    => '2022-08-22',
                 'due_date'    => '2022-08-29',
                 'is_active'    => 1,
-                'code' => 'dfasgweo2384134',
+                'code' => 'jjflas43523',
                 'discount_price' => '50',
             ],
             [
@@ -42,7 +42,7 @@ class VoucherSeeder extends Seeder
                 'start_date'    => '2022-08-22',
                 'due_date'    => '2022-08-29',
                 'is_active'    => 1,
-                'code' => 'dfasgweo2384134',
+                'code' => 'dfasfag3424342',
                 'discount_price' => '50',
             ],
             [
@@ -51,7 +51,7 @@ class VoucherSeeder extends Seeder
                 'start_date'    => '2022-08-22',
                 'due_date'    => '2022-08-29',
                 'is_active'    => 0,
-                'code' => 'dfasgweo2384134',
+                'code' => 'dfasdgegaweawraf',
                 'discount_price' => '50',
             ],
 

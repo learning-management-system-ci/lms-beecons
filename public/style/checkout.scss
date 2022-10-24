@@ -50,8 +50,12 @@ main {
     }
 
     .checkout-main {
+
         .order-list-section {
+            width: 60%;
+
             .order-item {
+
                 .order-list-detail {
 
                     gap: 12px;
@@ -103,8 +107,10 @@ main {
         }
 
         .order-summary-card {
+
             border-radius: 7px;
             box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.247);
+            width: 400px;
 
             .total-count-prize {
                 gap: 30px
