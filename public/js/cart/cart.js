@@ -62,6 +62,10 @@ $(document).ready(function () {
                 .after('<div class="empty-cart-info d-flex justify-content-center align-items-center">' +
                     '<h6> Keranjang kamu kosong.Pilih course terbaik kami</h6>' +
                     '</div>')
+            
+            $('#cart-count .nav-btn-icon-amount').remove()
+            
+            $('#cart .cart-total').html('Rp. 0')
         }
     }
 
@@ -109,6 +113,10 @@ $(document).ready(function () {
                     `
                 }))
 
+                $('#cart-count').append(
+                    `<div class="nav-btn-icon-amount">${cartList.length}</div>`
+                );
+
                 $('#cart .cart-total').html(getRupiah(total + ''))
                 
                 $('#cart .cart-btn-remove').on('click', function(e) {
@@ -122,14 +130,12 @@ $(document).ready(function () {
                             Authorization: 'Bearer ' + Cookies.get("access_token")
                         }
                     }).then((res) => {
-                        window.location.reload()
-                    }).catch((err) => {
-                        console.log(err)
+                        $(this).parent().parent().remove()
+                        handleCartApi()
                     })
                 })
             }
         } catch (error) {
-            // console.log(error)
             empty_cart()
         }
     }

@@ -9,6 +9,11 @@ h6 {
     font-weight: bold
 }
 
+.breadcrumb-anchor {
+    color: $color-primary;
+    font-weight: 600;
+}
+
 .card-course {
     @include card-setting();
     padding: .8rem;

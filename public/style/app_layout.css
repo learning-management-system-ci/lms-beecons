@@ -27,6 +27,11 @@ h6 {
   font-weight: bold;
 }
 
+.breadcrumb-anchor {
+  color: #164520;
+  font-weight: 600;
+}
+
 .card-course {
   border-radius: 0.6rem;
   box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
