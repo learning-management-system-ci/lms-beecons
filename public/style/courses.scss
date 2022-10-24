@@ -93,6 +93,7 @@ $color-select-tag: #6DAA82;
     .bundle {
         @include card-setting();
         position: relative;
+        border: 1px solid $color-gray-1;
 
         .label {
             position: absolute;

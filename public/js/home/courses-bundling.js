@@ -88,7 +88,7 @@ $(document).ready(async function () {
 
             $('#courses .courses-bundlings .courses-bundling-list').html(result.map((item) => {
                 return `
-                    <div class="pe-4 ps-0 py-4">
+                    <div class="pe-3 ps-0 py-4">
                         <div class="my-card bundle">
                             <div class="content">
                                 <div class="badges">
