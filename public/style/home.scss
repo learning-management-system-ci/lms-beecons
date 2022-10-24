@@ -265,9 +265,6 @@
 
 // testimoni
 #testimoni {
-    // @include padding-container();
-    padding-bottom: 6rem;
-
     h1 {
         @include title();
         margin-bottom: 4rem;

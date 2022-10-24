@@ -88,21 +88,22 @@
         </div>
     </div>
 
-    <div class="my-container">
-        <nav class="mt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <!-- <li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Home</a></li> -->
-                <li class="breadcrumb-item active" aria-current="page">Bundling</li>
-            </ol>
-            <hr>
-        </nav>
-
+    <div>
+        <div class="my-container">
+            <nav class="mt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <!-- <li class="breadcrumb-item"><a href="<?= base_url('/') ?>">Home</a></li> -->
+                    <li class="breadcrumb-item active" aria-current="page">Bundling</li>
+                </ol>
+                <hr>
+            </nav>
+        </div>
         <div class="courses-bundlings">
             <h2>Paket yang tersedia</h2>
 
             <div class="tags pt-2 pb-4"></div>
 
-            <div class="courses-bundling-list row gap-0 py-3 mx-0">
+            <div class="courses-bundling-list py-2">
                 <!-- <div class="col-md-3 pe-4 pb-4 ps-0">
                     <div class="my-card bundle">
                         <div class="content">

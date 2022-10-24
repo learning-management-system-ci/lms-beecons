@@ -157,6 +157,7 @@ $routes->group('api/', static function ($routes) {
 
         $routes->group('video/', static function ($routes) {
             $routes->get('(:num)', 'Api\VideoController::index/$1');
+            $routes->post('(:num)', 'Api\VideoController::answer/$1');
             $routes->post('create', 'Api\VideoController::create');
             $routes->post('update/(:segment)', 'Api\VideoController::update/$1');
             $routes->delete('delete/(:segment)', 'Api\VideoController::delete/$1');
@@ -279,6 +280,11 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\QuizController::create');
         $routes->put('update/(:segment)', 'Api\QuizController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\QuizController::delete/$1');
+    });
+
+    $routes->group('referral/', static function ($routes) {
+        $routes->get('', 'Api\ReferralController::index');
+        $routes->post('create', 'Api\ReferralController::create');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');

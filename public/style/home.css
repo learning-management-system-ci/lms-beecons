@@ -8,6 +8,15 @@ body {
   font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
+button {
+  border: none;
+}
+
+.main-container {
+  padding-left: 3.5rem;
+  padding-right: 3.5rem;
+}
+
 #hero {
   min-height: 90vh;
   height: 100vh;
@@ -250,9 +259,6 @@ body {
   font-size: 0.85rem;
 }
 
-#testimoni {
-  padding-bottom: 6rem;
-}
 #testimoni h1 {
   font-size: 2rem;
   text-align: center;
