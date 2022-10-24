@@ -263,6 +263,7 @@ a:hover {
 
 main {
     min-height: 80vh;
+    padding-bottom: 6rem;
 
     .navigation {
 
@@ -295,6 +296,16 @@ main {
     .container-fluid {
         padding-left: 0;
         padding-right: 0;
+    }
+
+    .navbar-brand {
+        margin-right: 2rem;
+
+        img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
     }
 
     .nav-profile {
@@ -536,8 +547,30 @@ footer {
     gap: 4rem;
     font-size: 1rem;
 
+    a {
+        font-weight: 500;
+        white-space: nowrap;
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+
+    .footer-app-download {
+        img {
+            height: 40px;
+            width: 100%;
+            object-fit: contain;
+        }
+    }
+
     .item {
         max-width: 25%;
+
+        .app-logo {
+            height: 80px;
+            object-fit: contain;
+        }
     }
 
     h2 {
