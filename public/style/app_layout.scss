@@ -9,6 +9,11 @@ h6 {
     font-weight: bold
 }
 
+.breadcrumb-anchor {
+    color: $color-primary;
+    font-weight: 600;
+}
+
 .card-course {
     @include card-setting();
     padding: .8rem;
@@ -61,6 +66,8 @@ h6 {
             line-height: 1.2rem;
             margin-bottom: 1.5rem;
         }
+
+
 
         .harga {
             font-size: 1.25rem;
@@ -256,6 +263,23 @@ a:hover {
 
 main {
     min-height: 80vh;
+
+    .navigation {
+
+
+        p {
+            font-weight: 600;
+
+            a {
+                color: #bdbdbd;
+            }
+
+            .sub-nav {
+                color: #164520;
+            }
+        }
+
+    }
 }
 
 .bg-gray {

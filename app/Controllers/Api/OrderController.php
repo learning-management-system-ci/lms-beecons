@@ -86,7 +86,12 @@ class OrderController extends BaseController
             $user = new Users;
             $temp = 0;
             $userId = $decoded->uid;
+            //$userId = 16;
+
             $getTotalCart = $cart->select('total')->where('user_id', $userId)->findAll();
+            if ($getTotalCart == NULL) {
+                return $this->fail('Keranjang belanja kosong');
+            }
             $getUser = $user->where('id', $userId)->first();
 
             $totalPrice = 0;
@@ -104,9 +109,7 @@ class OrderController extends BaseController
             
             $dataOrderCourse=[];
             $getCourseCart = $cart->select('course_id')->where('user_id', $userId)->where('course_id !=',NULL )->findAll();
-            if ($getCourseCart == null) {
-                return $this->fail('Keranjang belanja kosong');
-            } else {
+            if ($getCourseCart != null) {
                 foreach ($getCourseCart as $value) {
                     $dataOrderCourse[] = [
                         'order_id' => $orderId,
@@ -119,32 +122,40 @@ class OrderController extends BaseController
             $dataOrderBundling=[];
             $getBundlingCart = $cart->select('bundling_id')->where('user_id', $userId)->where('bundling_id !=',NULL )->findAll();
             //var_dump($getBundlingCart);
-            foreach ($getBundlingCart as $value) {
-                $dataOrderBundling[] = [
-                    'order_id' => $orderId,
-                    'bundling_id' => $value['bundling_id'],
-                ];
+            if ($getBundlingCart != null) {
+                foreach ($getBundlingCart as $value) {
+                    $dataOrderBundling[] = [
+                        'order_id' => $orderId,
+                        'bundling_id' => $value['bundling_id'],
+                    ];
+                }
+                $orderBundling->insertBatch($dataOrderBundling);
             }
-            $orderBundling->insertBatch($dataOrderBundling);
 
             $getCourse = $orderCourse->getData($orderId)->getResultArray();
-            foreach ($getCourse as $value) {
-                $dataCourse[] = [
-                    'id' => "c".$value['order_course_id'],
-                    'name' => $value['title'],
-                    'price' => $value['new_price'],
-                    'quantity' => 1
-                ];
+            $dataCourse = [];
+            if ($getCourse != null) {
+                foreach ($getCourse as $value) {
+                    $dataCourse[] = [
+                        'id' => "c".$value['order_course_id'],
+                        'name' => $value['title'],
+                        'price' => $value['new_price'],
+                        'quantity' => 1
+                    ];
+                }
             }
 
             $getBundling = $orderBundling->getData($orderId)->getResultArray();
-            foreach ($getBundling as $value) {
-                $dataBundling[] = [
-                    'id' => "b".$value['order_bundling_id'],
-                    'name' => $value['title'],
-                    'price' => (isset($value['new_price'])) ? $value['new_price'] : $value['price'],
-                    'quantity' => 1
-                ];
+            $dataBundling = [];
+            if ($getBundling != null) {
+                foreach ($getBundling as $value) {
+                    $dataBundling[] = [
+                        'id' => "b".$value['order_bundling_id'],
+                        'name' => $value['title'],
+                        'price' => (isset($value['new_price'])) ? $value['new_price'] : $value['price'],
+                        'quantity' => 1
+                    ];
+                }
             }
 
             $cart->where('user_id', $userId)->delete();
@@ -166,10 +177,10 @@ class OrderController extends BaseController
                 'customer_details' => $cust_detail,
                 'item_details' => $item
             ];
-           return $this->respond($params);
+           //return $this->respond($params);
 
-            //$token = \Midtrans\Snap::getSnapToken($params);
-            //return view ('pages/transaction/snap-pay', ['token' => $token]);
+            $token = \Midtrans\Snap::getSnapToken($params);
+            return view ('pages/transaction/snap-pay', ['token' => $token]);
 
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());

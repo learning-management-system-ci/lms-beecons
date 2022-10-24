@@ -58,8 +58,8 @@ class CategoryBundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member' || $data['role'] == 'mentor' || $data['role'] == 'partner') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
             }
 
             $rules = [
@@ -109,8 +109,8 @@ class CategoryBundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member' || $data['role'] == 'mentor' || $data['role'] == 'partner') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
             }
 
             $input = $this->request->getRawInput();
@@ -168,8 +168,8 @@ class CategoryBundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member' || $data['role'] == 'mentor' || $data['role'] == 'partner') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
             }
 
             $data = $this->categorybundling->where('category_bundling_id', $id)->findAll();

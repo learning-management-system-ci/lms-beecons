@@ -14,12 +14,9 @@ class AuthController extends ResourceController
 {
     private $loginModel = NULL;
     private $googleClient = NULL;
-    protected $session;
 
     function __construct()
     {
-        $this->session = \Config\Services::session();
-        $this->session->start();
         helper("cookie");
 
         require_once APPPATH . "../vendor/autoload.php";
@@ -37,7 +34,6 @@ class AuthController extends ResourceController
         $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
         if (!isset($token['error'])) {
             $this->googleClient->setAccessToken($token['access_token']);
-            session()->set("AccessToken", $token['access_token']);
 
             $googleService = new \Google\Service\Oauth2($this->googleClient);
             $data = $googleService->userinfo->get();
@@ -79,7 +75,6 @@ class AuthController extends ResourceController
                 'message' => 'Terdapat Masalah Saat Login',
                 'data' => []
             ];
-            // session()->setFlashData("error", "Something went Wrong");
             $this->respondCreated($response);
             return;
         }
@@ -88,7 +83,6 @@ class AuthController extends ResourceController
             'error' => false,
             'data' => [$token]
         ];
-        // session()->setFlashData("success", "Login Successful");
         $this->respondCreated($response);
         setcookie("access_token", $token, time() + 60 * 60, '/');
         return redirect()->to(base_url() . "/login");
@@ -152,7 +146,6 @@ class AuthController extends ResourceController
                 'message' => 'Terdapat Masalah Saat Login',
                 'data' => []
             ];
-            // session()->setFlashData("error", "Something went Wrong");
             $this->respondCreated($response);
             return;
         }
@@ -161,7 +154,6 @@ class AuthController extends ResourceController
             'error' => false,
             'data' => [$token]
         ];
-        // session()->setFlashData("success", "Login Successful");
         $this->respondCreated($response);
         setcookie("access_token", $token, time() + 60 * 60, '/');
         return redirect()->to(base_url() . "/login");
@@ -260,7 +252,6 @@ class AuthController extends ResourceController
             'activation_status' => 1,
             'activation_code' => ''
         ], $decoded->email);
-        session()->setFlashdata('error', 'Akun Anda telah berhasil diaktifkan, silahkan login');
         return redirect()->to(base_url() . "/login");
     }
 

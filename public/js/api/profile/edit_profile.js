@@ -1,3 +1,13 @@
+$('document').ready(function () {
+    $('#loading').html("Sedang Memproses");
+})
+
+$(document).on('show.bs.modal', '.modal', function () {
+    const zIndex = 1040 + 10 * $('.modal:visible').length;
+    $(this).css('z-index', zIndex);
+    setTimeout(() => $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack'));
+})
+
 $("#edit").submit(function (event) {
     // Stop form from submitting normally
     event.preventDefault();
@@ -13,6 +23,8 @@ $("#edit").submit(function (event) {
         url = $form.attr("action"),
         job_passed = $('#job_id').find(":selected").val();
 
+    $('#loading-modal').modal('toggle');
+
     $.ajax({
         type: "PUT",
         url: url,
@@ -26,15 +38,33 @@ $("#edit").submit(function (event) {
             linkedin: linkedin_passed,
             job: job_passed,
             profile_picture: "something",
-            password: "testPassword",
             date_birth: date_passed,
-            password_confirm: "testPassword"
         },
-        success: function () {
-            window.location.reload();
+        success: function (data) {
+            console.log(data);
+            var error = data.status;
+            if (error != null) {
+                $('#loading-modal').modal('hide');
+                $('.modal-header').addClass("bg-success");
+                $('.modal-title').html("Berhasil");
+                $('#message').html("Mohon tunggu untuk memperbarui pembaruan");
+                $('#message-modal').modal('toggle');
+            }
+            setTimeout(function () {
+                window.location.reload();
+            }, 2000)
         },
-        error: function (data, status) {
-            console.log(data, status)
+        error: function (status, error) {
+            var error_message = status.responseJSON.messages.error;
+            if (error_message != null) {
+                $('#loading-modal').modal('hide');
+                $('document').ready(function () {
+                    $('.modal-header').addClass("bg-danger");
+                    $('.modal-title').html("Gagal");
+                    $('#message').html(error_message);
+                    $('#message-modal').modal('toggle');
+                })
+            }
         }
     });
 });
