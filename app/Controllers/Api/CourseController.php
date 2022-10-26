@@ -104,11 +104,13 @@ class CourseController extends ResourceController
 
     public function getCourseById($id, $loggedIn = false)
     {
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        $token = explode(' ', $header)[1];
-        $decoded = JWT::decode($token, $this->key, ['HS256']);
-        $user = new Users;
-        $userCourse = $this->modelUserCourse->where('course_id', $id)->where('user_id', $decoded->uid)->first();
+        if ($loggedIn) {
+            $header = $this->request->getServer('HTTP_AUTHORIZATION');
+            $token = explode(' ', $header)[1];
+            $decoded = JWT::decode($token, $this->key, ['HS256']);
+            $user = new Users;
+            $userCourse = $this->modelUserCourse->where('course_id', $id)->where('user_id', $decoded->uid)->first();
+        }
 
         if ($this->model->find($id)) {
             $video = [];
