@@ -259,7 +259,7 @@ class AuthController extends ResourceController
             "link" => $link,
             "email" => $emailTo
         ];
-        $message = view('/html_email/email_verify.html', $data);
+        $message = view('html_email/email_verify.html', $data);
 
         $email = \Config\Services::email();
         $email->setTo($emailTo);
