@@ -1,5 +1,7 @@
 $('document').ready(function () {
-    $('#loading').html("Logging in...");
+    $('#loading-modal').on('hide.bs.modal', function () {
+        return false
+    });
 })
 
 $("#otp-code").submit(function (event) {
@@ -32,12 +34,15 @@ $("#otp-code").submit(function (event) {
             var error_message = data.message;
             var error = data.status;
             if (error_message != null) {
-                $('#loading-modal').modal('hide');
-                $('document').ready(function () {
-                    $('.modal-header').addClass("bg-success");
-                    $('.modal-title').html("Berhasil");
-                    $('#message').html(error_message);
-                    $('#message-modal').modal('toggle');
+                $('#loading-modal').on('hide.bs.modal', function () { });
+                $('#loading-modal').hide();
+                $('.modal-backdrop').remove();
+                new swal({
+                    title: "Berhasil!",
+                    text: error_message,
+                    icon: "success",
+                    timer: 0,
+                    showConfirmButton: false
                 })
             }
             if (error !== 500) {
@@ -49,12 +54,13 @@ $("#otp-code").submit(function (event) {
         error: function (status, error) {
             var error_message = status.responseJSON.messages.error;
             if (error_message != null) {
-                $('#loading-modal').modal('hide');
-                $('document').ready(function () {
-                    $('.modal-header').addClass("bg-danger");
-                    $('.modal-title').html("Gagal");
-                    $('#message').html(error_message);
-                    $('#message-modal').modal('toggle');
+                $('#loading-modal').on('hide.bs.modal', function () { });
+                $('#loading-modal').hide();
+                $('.modal-backdrop').remove();
+                new swal({
+                    title: 'Gagal',
+                    text: error_message,
+                    showConfirmButton: true
                 })
             }
         },

@@ -19,7 +19,7 @@
                     <div class="content d-flex align-items-start flex-column mb-2" style="height: 175px;">
                         <h5 class="text-uppercase font-weight-light mb-2">Referral Code</h5>
                         <div class="d-flex align-items-center flex-row mb-2">
-                            <h4 class="m-0 me-2">ReferralCode</h4>
+                            <h4 class="m-0 me-2 referral-code"></h4>
                             <button type="button" class="btn-grey-200" style="height: 30px; border-radius: 5px;">
                                 Copy
                             </button>
@@ -41,7 +41,7 @@
                                     <img src="image/auth-image.png" class="course-image me-1" alt="">
                                 </div>
                                 <div class="col d-flex align-items-start flex-column" style="height: 35px;">
-                                    <h5 class="mb-auto">5 Voucher</h5>
+                                    <h5 class="mb-auto voucher-total"></h5>
                                     <p class="m-0">Lihat voucher kamu disini</p>
                                 </div>
                             </div>
@@ -49,19 +49,7 @@
                     </div>
                     <div class="card voucher-container collapse" id="voucher">
                         <h5>Voucher</h5>
-                        <div class="row">
-                            <div class="col mb-4 voucher">
-                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
-                            </div>
-                            <div class="col mb-4 voucher">
-                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
-                            </div>
-                            <div class="col mb-4 voucher">
-                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
-                            </div>
-                            <div class="col mb-4 voucher">
-                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
-                            </div>
+                        <div class="row vouchers">
                         </div>
                     </div>
                 </div>
