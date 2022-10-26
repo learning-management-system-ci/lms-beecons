@@ -22,6 +22,7 @@ class AuthController extends ResourceController
 
         require_once APPPATH . "../vendor/autoload.php";
         $this->loginModel = new Users();
+        $this->referral = new Referral();
         $this->googleClient = new \Google_Client();
         $this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
         $this->googleClient->setClientSecret("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");
@@ -58,6 +59,21 @@ class AuthController extends ResourceController
                     'role' => 'member'
                 ];
                 $this->loginModel->save($userdata);
+
+                // referral
+                $email = $data['email'];
+                $datauser = $this->loginModel->getUser($email);
+                do {
+                    $code = strtoupper(bin2hex(random_bytes(4)));
+                    $code_check = $this->referral->where('referral_code', $code)->first();
+                } while ($code_check);
+    
+                $data = [
+                    'user_id' => $datauser['id'],
+                    'referral_code' => $code,
+                    'discount_price' => 15
+                ];
+                $this->referral->save($data);
             }
             $datauser = $this->loginModel->getUser($data['email']);
             $key = getenv('TOKEN_SECRET');
@@ -129,6 +145,20 @@ class AuthController extends ResourceController
                     'role' => 'member'
                 ];
                 $this->loginModel->save($userdata);
+
+                // referral
+                $datauser = $this->loginModel->getUser($email);
+                do {
+                    $code = strtoupper(bin2hex(random_bytes(4)));
+                    $code_check = $this->referral->where('referral_code', $code)->first();
+                } while ($code_check);
+    
+                $data = [
+                    'user_id' => $datauser['id'],
+                    'referral_code' => $code,
+                    'discount_price' => 15
+                ];
+                $this->referral->save($data);
             }
             $datauser = $this->loginModel->getUser($email);
             $key = getenv('TOKEN_SECRET');
@@ -164,7 +194,7 @@ class AuthController extends ResourceController
     {
         $rules = [
             "email" => "required|is_unique[users.email]|valid_email",
-            "password" => "required|min_length[4]|max_length[50]",
+            "password" => "required|min_length[8]|max_length[50]",
             "password_confirm" => "matches[password]",
         ];
 

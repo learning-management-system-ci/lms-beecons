@@ -140,7 +140,8 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\UserController::profile');
         $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
-        $routes->post('update/(:num)', 'Api\UserController::update/$1');
+        $routes->put('update/(:num)', 'Api\UserController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\UserController::delete/$1');
     });
 
     $routes->group('course/', static function ($routes) {

@@ -2,10 +2,12 @@
 
 namespace App\Controllers\Api;
 
+use App\Models\Cart;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Users;
 use App\Models\Jobs;
+use App\Models\Notification;
 use Firebase\JWT\JWT;
 
 class UserController extends ResourceController
@@ -165,6 +167,8 @@ class UserController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
+            $cart = new Cart;
+            $notification = new Notification;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
@@ -174,6 +178,8 @@ class UserController extends ResourceController
 
             $data = $user->where('id', $id)->findAll();
             if ($data) {
+                $cart->delete($data);
+                $notification->delete($data);
                 $user->delete($id);
                 $response = [
                     'status'   => 200,
