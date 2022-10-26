@@ -187,12 +187,12 @@ class CourseController extends ResourceController
                             $data['owned'] = true;
                         } else {
                             $data['owned'] = false;
-                            if ($i != 0) {
+                            if ($i > 2) {
                                 $data['video'][$i]['video'] = null;
                             }
                         }
                     } else {
-                        if ($i != 0) {
+                        if ($i > 2) {
                             $data['video'][$i]['video'] = null;
                         }
                     }
