@@ -30,46 +30,52 @@ $("#edit").submit(function (event) {
 
   $("#loading-modal").modal("toggle");
 
-  $.ajax({
-    type: "PUT",
-    url: url,
-    headers: {
-      Authorization: "Bearer " + Cookies.get("access_token"),
-    },
-    data: {
-      fullname: name_passed,
-      address: address_passed,
-      phone_number: phone_number_passed,
-      linkedin: linkedin_passed,
-      job: job_passed,
-      profile_picture: "something",
-      date_birth: date_passed,
-    },
-    success: function (data) {
-      console.log(data);
-      var error = data.status;
-      if (error != null) {
-        $("#loading-modal").modal("hide");
-        $(".modal-header").addClass("bg-success");
-        $(".modal-title").html("Berhasil");
-        $("#message").html("Mohon tunggu untuk memperbarui pembaruan");
-        $("#message-modal").modal("toggle");
-      }
-      setTimeout(function () {
-        window.location.reload();
-      }, 2000);
-    },
-    error: function (status, error) {
-      var error_message = status.responseJSON.messages.error;
-      if (error_message != null) {
-        $("#loading-modal").modal("hide");
-        $("document").ready(function () {
-          $(".modal-header").addClass("bg-danger");
-          $(".modal-title").html("Gagal");
-          $("#message").html(error_message);
-          $("#message-modal").modal("toggle");
-        });
-      }
-    },
-  });
+    $.ajax({
+        type: "PUT",
+        url: url,
+        headers: {
+            "Authorization": "Bearer " + Cookies.get("access_token"),
+        },
+        data: {
+            fullname: name_passed,
+            address: address_passed,
+            phone_number: phone_number_passed,
+            linkedin: linkedin_passed,
+            job: job_passed,
+            profile_picture: "something",
+            date_birth: date_passed,
+        },
+        success: function (data) {
+            console.log(data);
+            var error = data.status;
+            if (error != null) {
+                $('#loading-modal').on('hide.bs.modal', function () { });
+                $('#loading-modal').hide();
+                $('.modal-backdrop').remove();
+                new swal({
+                    title: "Berhasil!",
+                    text: "Mohon tunggu untuk memperbarui pembaruan",
+                    icon: "success",
+                    timer: 0,
+                    showConfirmButton: false
+                })
+            }
+            setTimeout(function () {
+                window.location.reload();
+            }, 2000)
+        },
+        error: function (status, error) {
+            var error_message = status.responseJSON.messages.error;
+            if (error_message != null) {
+                $('#loading-modal').on('hide.bs.modal', function () { });
+                $('#loading-modal').hide();
+                $('.modal-backdrop').remove();
+                new swal({
+                    title: 'Gagal',
+                    text: error_message,
+                    showConfirmButton: true
+                })
+            }
+        }
+    });
 });

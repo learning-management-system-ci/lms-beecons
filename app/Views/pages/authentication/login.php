@@ -20,7 +20,7 @@
         In</button>
     <p class="sign-up">Belum punya akun? <a href="<?= base_url('register'); ?>">Sign up</a>
     </p>
-    <p class="horizontal">Or</p>
+    <p class="horizontal">Atau</p>
     <a href="<?= $googleButton; ?>" class="btn" id="googleButton">
         <img src="image/google-logo.svg" alt="">
         <p>Sign In</p>

@@ -30,13 +30,13 @@ $.ajax({
                     <div class="col">
                         <div class="row px-5">
                             <div class="col-12 text-start">
-                                <h3>${data.fullname ? data.fullname : "Lengkapi Data!"}</h3 >
+                                <h3>${data.fullname ? data.fullname : data.email}</h3 >
                             </div >
                             <div class="col-12 text-start py-1">
-                                <h5 class="font-weight-light">${data.job_name ? data.job_name : "Lengkapi Data!"}</h5>
+                                <h5 class="font-weight-light">${data.job_name ? data.job_name : "-"}</h5>
                             </div>
                             <div class="col-12 text-start py-1">
-                                <h5 class="font-weight-light">${data.address ? data.address : "Lengkapi Data!"}</h5>
+                                <h5 class="font-weight-light">${data.address ? data.address : "-"}</h5>
                             </div>
                         </div >
                     </div >
@@ -56,10 +56,10 @@ $.ajax({
                             </div>
                             <div class="col-6">
                                 <div class="row">
-                                    <div class="text-end py-1">${data.date_birth ? day : "Lengkapi Data!"}</div>
-                                    <div class="text-end py-1">${data.phone_number ? phone_num : "Lengkapi Data!"}</div>
+                                    <div class="text-end py-1">${data.date_birth ? day : day}</div>
+                                    <div class="text-end py-1">${data.phone_number ? phone_num : "-"}</div>
                                     <div class="text-end py-1">${data.email}</div>
-                                    <div class="text-end py-1"><a target="_blank" href="${data.linkedin ? link_ref : ""}" style="text-decoration: underline;">${data.linkedin ? data.linkedin : "Lengkapi Data!"}</a></div>
+                                    <div class="text-end py-1"><a target="_blank" href="${data.linkedin ? link_ref : ""}" style="text-decoration: underline;">${data.linkedin && data.linkedin}</a></div>
                                 </div>
                             </div>
                         </div>
