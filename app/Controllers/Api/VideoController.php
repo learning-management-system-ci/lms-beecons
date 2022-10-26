@@ -108,17 +108,18 @@ class VideoController extends ResourceController
 			$userVideo = $this->userVideoModel->where('user_id', $decoded->uid)->where('video_id', $id)->first();
 
 			// return $this->fail($userVideo, 400);
-			if (!$userVideo) {
+			if (!$userVideo && $score >= 50) {
 				$this->userVideoModel->insert([
 					'user_id' => $decoded->uid,
 					'video_id' => $id,
 					'score' => $score
 				]);
-			} else {
+			} elseif ($userVideo && $score >= 50) {
 				$this->userVideoModel->where('user_id', $decoded->uid)->where('video_id', $id)
 					->set('score', $score)
 					->update();
 			}
+
 			$pass = false;
 			if ($score >= 50) {
 				$pass = true;
@@ -126,7 +127,6 @@ class VideoController extends ResourceController
 			$response = [
 				'status' => 200,
 				'success' => 200,
-				'message' => 'Berhasil mengirim jawaban',
 				'pass' => $pass,
 			];
 			return $this->respondCreated($response);
