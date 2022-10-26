@@ -3,6 +3,8 @@
 <?= $this->section('css-component') ?>
 <link rel="stylesheet" href="style/profile.css">
 <link rel="stylesheet" href="style/loading.css">
+<link rel="stylesheet" href="style/fileinput.css">
+<link rel="stylesheet" href="style/fileinput-rtl.css">
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
@@ -60,6 +62,7 @@
     </div>
 </div>
 <?= $this->section('js-component') ?>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../../../js/api/profile/index.js"></script>
 <script src="../../../js/api/profile/edit_profile.js"></script>
 <?= $this->endSection() ?>

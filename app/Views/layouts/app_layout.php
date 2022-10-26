@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="../../../style/slick.css">
     <link rel="stylesheet" href="../../../style/slick-theme.css">
 
+    <link rel="stylesheet" href="../../../style/fileinput.css">
+    <link rel="stylesheet" href="../../../style/fileinput-rtl.css">
+
     <!-- mystyle -->
     <link rel="stylesheet" href="../../../style/app_layout.css">
     <?= $this->renderSection('css-component') ?>
@@ -104,6 +107,7 @@
     <script src="../../../js/utils/textTruncate.js"></script>
     <script src="../../../js/home/home.js"></script>
     <script src="../../../js/home/notification.js"></script>
+    <script src="../../../js/library/fileinput.js"></script>
     <?= $this->renderSection('js-component') ?>
 </body>
 
