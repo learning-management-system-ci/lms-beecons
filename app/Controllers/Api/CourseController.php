@@ -21,6 +21,29 @@ use getID3;
 
 class CourseController extends ResourceController
 {
+    function __construct()
+    {
+        include_once('getid3/getid3.php');
+        $this->getID3 = new getID3;
+
+        $this->key = getenv('TOKEN_SECRET');
+
+        $this->path = site_url() . 'upload/course/thumbnail/';
+        $this->pathVideo = site_url() . 'upload/course-video/';
+
+        $this->path = site_url() . 'upload/course/thumbnail/';
+        $this->model = new Course();
+        $this->modelCourseCategory = new CourseCategory();
+        $this->modelCourseType = new CourseType();
+        $this->modelTypeTag = new TypeTag();
+        $this->modelVideo = new Video();
+        $this->modelVideoCategory = new VideoCategory();
+        $this->modelReview = new Review();
+        $this->modelUser = new Users();
+        $this->modelJob = new Jobs();
+        $this->modelUserCourse = new UserCourse();
+        $this->userVideo = new UserVideo();
+    }
 
     public function index()
     {
@@ -79,111 +102,136 @@ class CourseController extends ResourceController
         }
     }
 
-    public function show($id = null)
+    public function getCourseById($id, $loggedIn = false)
     {
-        // Jika tag kosong, berarti karena tidak ada data type_tag, atau tidak ada type_tag yang berelasi dengan course_type
-        // Jika type null, berarti course tidak ada relasi dengan type
-
-        // To get video duration
-        include_once('getid3/getid3.php');
-        $getID3 = new getID3;
-
-        $path = site_url() . 'upload/course/thumbnail/';
-        $model = new Course();
-        $modelCourseCategory = new CourseCategory();
-        $modelCourseType = new CourseType();
-        $modelCourseTag = new CourseTag();
-        $modelTypeTag = new TypeTag();
-        $modelVideo = new Video();
-        $modelVideoCategory = new VideoCategory();
-        $modelReview = new Review();
-        $modelUser = new Users();
-        $modelJob = new Jobs();
-        $modelUserCourse = new UserCourse();
-
-        $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        $token = explode(' ', $header)[1];
+        $decoded = JWT::decode($token, $this->key, ['HS256']);
+        $user = new Users;
+        $userCourse = $this->modelUserCourse->where('course_id', $id)->where('user_id', $decoded->uid)->first();
 
-        $path = site_url() . 'upload/course/thumbnail/';
-        $pathVideo = site_url() . 'upload/course-video/';
+        if ($this->model->find($id)) {
+            $video = [];
 
-        // Jika belum login
-        if (!$header) {
-            if ($model->find($id)) {
-                $tag = [];
-                $video = [];
+            $data = $this->model->where('course_id', $id)->first();
+            $data['thumbnail'] = $this->path . $data['thumbnail'];
 
-                $data = $model->where('course_id', $id)->first();
-                $data['thumbnail'] = $path . $data['thumbnail'];
+            $category = $this->modelCourseCategory
+                ->where('course_id', $id)
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->orderBy('course_category.course_category_id', 'DESC')
+                ->first();
+            $type = $this->modelCourseType
+                ->where('course_id', $id)
+                ->join('type', 'type.type_id = course_type.type_id')
+                ->orderBy('course_type.course_type_id', 'DESC')
+                ->first();
+            $videoCategory = $this->modelVideoCategory
+                ->where('course_id', $id)
+                ->orderBy('video_category.video_category_id', 'DESC')
+                ->findAll();
 
-                $category = $modelCourseCategory
-                    ->where('course_id', $id)
-                    ->join('category', 'category.category_id = course_category.category_id')
-                    ->orderBy('course_category.course_category_id', 'DESC')
-                    ->first();
-                $type = $modelCourseType
-                    ->where('course_id', $id)
-                    ->join('type', 'type.type_id = course_type.type_id')
-                    ->orderBy('course_type.course_type_id', 'DESC')
-                    ->first();
-                $videoCategory = $modelVideoCategory
-                    ->where('course_id', $id)
-                    ->orderBy('video_category.video_category_id', 'DESC')
+            if (isset($videoCategory[0]) && $videoCategory[0]['title'] != '') {
+                $data['video_category'] = $videoCategory;
+            }
+
+            for ($l = 0; $l < count($videoCategory); $l++) {
+                $video = $this->modelVideo
+                    ->where('video_category_id', $videoCategory[$l]['video_category_id'])
+                    ->orderBy('order', 'ASC')
                     ->findAll();
 
                 if ($videoCategory[0]['title'] != '') {
-                    $data['video_category'] = $videoCategory;
+                    $data['video_category'][$l]['video'] = $video;
+                } else {
+                    $data['video'] = $video;
                 }
 
-                for ($l = 0; $l < count($videoCategory); $l++) {
-                    $video = $modelVideo
-                        ->where('video_category_id', $videoCategory[$l]['video_category_id'])
-                        ->orderBy('order', 'DESC')
-                        ->findAll();
-
-                    if ($videoCategory[0]['title'] != '') {
-                        $data['video_category'][$l]['video'] = $video;
-                    } else {
-                        $data['video'] = $video;
-                    }
-                }
-
-                if (isset($data['video'])) {
-                    for ($i = 0; $i < count($data['video']); $i++) {
-                        $path = 'upload/course-video/';
-                        $filename = $data['video'][$i]['video'];
-
-                        $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
-
-                        if (!$checkIfVideoIsLink) {
-                            $file = $getID3->analyze($path . $filename);
-
-                            $duration = ["duration" => $file['playtime_string']];
-                            $data['video'][$i] += $duration;
-                            $data['video'][$i]['video'] = $pathVideo . $data['video'][$i]['video'];
+                if ($loggedIn)
+                    for ($p = 0; $p < count($video); $p++) {
+                        $user_video = $this->userVideo
+                            ->select('score')
+                            ->where('user_id', $decoded->uid)
+                            ->where('video_id', $video[$p]['video_id'])
+                            ->findAll();
+                        if ($user_video) {
+                            $data['video'][$p]['score'] = $user_video[0]['score'];
                         } else {
-                            $duration = ["duration" => null];
-                            $data['video'][$i] += $duration;
+                            $data['video'][$p]['score'] = null;
                         }
+                    }
+            }
 
+            if (isset($data['video'])) {
+                for ($i = 0; $i < count($data['video']); $i++) {
+                    $this->path = 'upload/course-video/';
+                    $filename = $data['video'][$i]['video'];
+
+                    $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
+
+                    if (!$checkIfVideoIsLink) {
+                        $file = $this->getID3->analyze($this->path . $filename);
+
+                        $duration = ["duration" => $file['playtime_string']];
+                        $data['video'][$i] += $duration;
+                        $data['video'][$i]['video'] = $this->pathVideo . $data['video'][$i]['video'];
+                    } else {
+                        $duration = ["duration" => null];
+                        $data['video'][$i] += $duration;
+                    }
+
+                    if ($loggedIn) {
+                        if (isset($userCourse)) {
+                            $data['owned'] = true;
+                        } else {
+                            $data['owned'] = false;
+                            if ($i != 0) {
+                                $data['video'][$i]['video'] = null;
+                            }
+                        }
+                    } else {
                         if ($i != 0) {
                             $data['video'][$i]['video'] = null;
                         }
                     }
-                } elseif (isset($data['video_category'])) {
-                    for ($l = 0; $l < count($videoCategory); $l++) {
-                        for ($i = 0; $i < count($data['video_category'][$l]['video']); $i++) {
+                }
+            } elseif (isset($data['video_category'])) {
+                for ($l = 0; $l < count($videoCategory); $l++) {
+                    if ($loggedIn) {
+                        for ($i = 0; $i < count($data['video_category'][$l]); $i++) {
                             $path = 'upload/course-video/';
                             $filename = $data['video_category'][$l]['video'][$i]['video'];
 
                             $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
 
                             if (!$checkIfVideoIsLink) {
-                                $file = $getID3->analyze($path . $filename);
+                                $file = $this->getID3->analyze($path . $filename);
 
                                 $duration = ["duration" => $file['playtime_string']];
                                 $data['video_category'][$l]['video'][$i] += $duration;
-                                $data['video_category'][$l]['video'][$i]['video'] = $pathVideo . $data['video_category'][$l]['video'][$i]['video'];
+                                $data['video_category'][$l]['video'][$i]['video'] = $this->pathVideo . $data['video_category'][$l]['video'][$i]['video'];
+                            } else {
+                                $duration = ["duration" => null];
+                                $data['video_category'][$l]['video'][$i] += $duration;
+                            }
+
+                            if ($data['owned'] && $i != 0) {
+                                $data['video_category'][$l]['video'][$i]['video'] = null;
+                            }
+                        }
+                    } else {
+                        for ($i = 0; $i < count($data['video_category'][$l]['video']); $i++) {
+                            $this->path = 'upload/course-video/';
+                            $filename = $data['video_category'][$l]['video'][$i]['video'];
+
+                            $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
+
+                            if (!$checkIfVideoIsLink) {
+                                $file = $this->getID3->analyze($this->path . $filename);
+
+                                $duration = ["duration" => $file['playtime_string']];
+                                $data['video_category'][$l]['video'][$i] += $duration;
+                                $data['video_category'][$l]['video'][$i]['video'] = $this->pathVideo . $data['video_category'][$l]['video'][$i]['video'];
                             } else {
                                 $duration = ["duration" => null];
                                 $data['video_category'][$l]['video'][$i] += $duration;
@@ -195,214 +243,65 @@ class CourseController extends ResourceController
                         }
                     }
                 }
-
-                if (isset($type)) {
-                    $typeTag = $modelTypeTag
-                        ->where('course_type.course_id', $id)
-                        ->where('type.type_id', $type['type_id'])
-                        ->join('type', 'type.type_id = type_tag.type_id')
-                        ->join('tag', 'tag.tag_id = type_tag.tag_id')
-                        ->join('course_type', 'course_type.type_id = type.type_id')
-                        ->orderBy('course_type.course_id', 'DESC')
-                        ->select('tag.*')
-                        ->findAll();
-
-                    $data['type'] = $type;
-
-                    for ($i = 0; $i < count($typeTag); $i++) {
-                        $data['tag'][$i] = $typeTag[$i];
-                    }
-                } else {
-                    $data['type'] = null;
-                }
-
-                $data['category'] = $category;
-
-                $review = $modelReview->where('course_id', $id)->select('user_review_id, user_id, feedback, score')->orderBy('user_review_id', 'DESC')->findAll();
-
-                for ($i = 0; $i < count($review); $i++) {
-                    $user = $modelUser
-                        ->where('id', $review[$i]['user_id'])
-                        ->select('fullname, email, job_id')
-                        ->first();
-                    $job = $modelJob
-                        ->where('job_id', $user['job_id'])
-                        ->select('job_name')
-                        ->first();
-                    $review[$i] += $user;
-
-                    if ($user['job_id'] != null) {
-                        $review[$i] += $job;
-                    }
-                }
-                $data['review'] = $review;
-
-                return $this->respond($data);
-            } else {
-                return $this->failNotFound('Tidak ada data');
             }
-        } else {
-            $userVideo = new UserVideo();
-            $token = explode(' ', $header)[1];
 
-            try {
-                $decoded = JWT::decode($token, $key, ['HS256']);
-                $user = new Users;
-                $userCourse = $modelUserCourse->where('course_id', $id)->where('user_id', $decoded->uid)->first();
+            if (isset($type)) {
+                $typeTag = $this->modelTypeTag
+                    ->where('course_type.course_id', $id)
+                    ->where('type.type_id', $type['type_id'])
+                    ->join('type', 'type.type_id = type_tag.type_id')
+                    ->join('tag', 'tag.tag_id = type_tag.tag_id')
+                    ->join('course_type', 'course_type.type_id = type.type_id')
+                    ->orderBy('course_type.course_id', 'DESC')
+                    ->select('tag.*')
+                    ->findAll();
 
-                if ($model->find($id)) {
-                    $tag = [];
-                    $video = [];
+                $data['type'] = $type;
 
-                    $data = $model->where('course_id', $id)->first();
-                    $data['thumbnail'] = $path . $data['thumbnail'];
-
-                    if ($userCourse) {
-                        $data['owned'] = true;
-                    } else {
-                        $data['owned'] = false;
-                    }
-
-                    $category = $modelCourseCategory
-                        ->where('course_id', $id)
-                        ->join('category', 'category.category_id = course_category.category_id')
-                        ->orderBy('course_category.course_category_id', 'DESC')
-                        ->first();
-                    $type = $modelCourseType
-                        ->where('course_id', $id)
-                        ->join('type', 'type.type_id = course_type.type_id')
-                        ->orderBy('course_type.course_type_id', 'DESC')
-                        ->first();
-                    $videoCategory = $modelVideoCategory
-                        ->where('course_id', $id)
-                        ->orderBy('video_category.video_category_id', 'DESC')
-                        ->findAll();
-
-                    if ($videoCategory[0]['title'] != '') {
-                        $data['video_category'] = $videoCategory;
-                    }
-
-                    for ($l = 0; $l < count($videoCategory); $l++) {
-                        $video = $modelVideo
-                            ->where('video_category_id', $videoCategory[$l]['video_category_id'])
-                            ->orderBy('order', 'DESC')
-                            ->findAll();
-
-                        if ($videoCategory[0]['title'] != '') {
-                            $data['video_category'][$l]['video'] = $video;
-                        } else {
-                            $data['video'] = $video;
-                        }
-
-                        for ($p = 0; $p < count($video); $p++) {
-                            $user_video = $userVideo
-                                ->select('score')
-                                ->where('user_id', $decoded->uid)
-                                ->where('video_id', $video[$p]['video_id'])
-                                ->findAll();
-                            if ($user_video) {
-                                $data['video'][$p]['score'] = $user_video[0]['score'];
-                            } else {
-                                $data['video'][$p]['score'] = null;
-                            }
-                        }
-                    }
-
-                    if (isset($data['video'])) {
-                        for ($i = 0; $i < count($data['video']); $i++) {
-                            $path = 'upload/course-video/';
-                            $filename = $data['video'][$i]['video'];
-
-                            $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
-
-                            if (!$checkIfVideoIsLink) {
-                                $file = $getID3->analyze($path . $filename);
-
-                                $duration = ["duration" => $file['playtime_string']];
-                                $data['video'][$i] += $duration;
-
-                                $data['video'][$i]['video'] = $pathVideo . $data['video'][$i]['video'];
-                            } else {
-                                $duration = ["duration" => null];
-                                $data['video'][$i] += $duration;
-                            }
-
-                            if ($data['owned'] && $i != 0) {
-                                $data['video'][$i]['video'] = null;
-                            }
-                        }
-                    } elseif (isset($data['video_category'])) {
-                        for ($l = 0; $l < count($videoCategory); $l++) {
-                            for ($i = 0; $i < count($data['video_category'][$l]); $i++) {
-                                $path = 'upload/course-video/';
-                                $filename = $data['video_category'][$l]['video'][$i]['video'];
-
-                                $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
-
-                                if (!$checkIfVideoIsLink) {
-                                    $file = $getID3->analyze($path . $filename);
-
-                                    $duration = ["duration" => $file['playtime_string']];
-                                    $data['video_category'][$l]['video'][$i] += $duration;
-                                    $data['video_category'][$l]['video'][$i]['video'] = $pathVideo . $data['video_category'][$l]['video'][$i]['video'];
-                                } else {
-                                    $duration = ["duration" => null];
-                                    $data['video_category'][$l]['video'][$i] += $duration;
-                                }
-
-                                if ($data['owned'] && $i != 0) {
-                                    $data['video_category'][$l]['video'][$i]['video'] = null;
-                                }
-                            }
-                        }
-                    }
-
-                    if (isset($type)) {
-                        $typeTag = $modelTypeTag
-                            ->where('course_type.course_id', $id)
-                            ->where('type.type_id', $type['type_id'])
-                            ->join('type', 'type.type_id = type_tag.type_id')
-                            ->join('tag', 'tag.tag_id = type_tag.tag_id')
-                            ->join('course_type', 'course_type.type_id = type.type_id')
-                            ->orderBy('course_type.course_id', 'DESC')
-                            ->select('tag.*')
-                            ->findAll();
-
-                        $data['type'] = $type;
-
-                        for ($i = 0; $i < count($typeTag); $i++) {
-                            $data['tag'][$i] = $typeTag[$i];
-                        }
-                    } else {
-                        $data['type'] = null;
-                    }
-
-                    $data['category'] = $category;
-
-                    $review = $modelReview->where('course_id', $id)->select('user_review_id, user_id, feedback, score')->orderBy('user_review_id', 'DESC')->findAll();
-
-                    for ($i = 0; $i < count($review); $i++) {
-                        $user = $modelUser
-                            ->where('id', $review[$i]['user_id'])
-                            ->select('fullname, email, job_id')
-                            ->first();
-                        $job = $modelJob
-                            ->where('job_id', $user['job_id'])
-                            ->select('job_name')
-                            ->first();
-                        $review[$i] += $user;
-                        // $review[$i] += $job;
-
-                        if ($user['job_id'] != null) {
-                            $review[$i] += $job;
-                        }
-                    }
-                    $data['review'] = $review;
-
-                    return $this->respond($data);
-                } else {
-                    return $this->failNotFound('Tidak ada data');
+                for ($i = 0; $i < count($typeTag); $i++) {
+                    $data['tag'][$i] = $typeTag[$i];
                 }
+            } else {
+                $data['type'] = null;
+            }
+
+            $data['category'] = $category;
+
+            $review = $this->modelReview->where('course_id', $id)->select('user_review_id, user_id, feedback, score')->orderBy('user_review_id', 'DESC')->findAll();
+
+            for ($i = 0; $i < count($review); $i++) {
+                $user = $this->modelUser
+                    ->where('id', $review[$i]['user_id'])
+                    ->select('fullname, email, job_id')
+                    ->first();
+                $job = $this->modelJob
+                    ->where('job_id', $user['job_id'])
+                    ->select('job_name')
+                    ->first();
+                $review[$i] += $user;
+
+                if ($user['job_id'] != null) {
+                    $review[$i] += $job;
+                }
+            }
+            $data['review'] = $review;
+
+            return $this->respond($data);
+        } else {
+            return $this->failNotFound('Tidak ada data');
+        }
+    }
+
+    public function show($id = null)
+    {
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+
+        // Jika belum login
+        if (!$header) {
+            return $this->getCourseById($id);
+        } else {
+            try {
+                return $this->getCourseById($id, true);
             } catch (\Throwable $th) {
                 return $this->fail($th->getMessage());
             }
