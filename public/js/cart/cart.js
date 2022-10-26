@@ -3,6 +3,65 @@ $(document).ready(function () {
         handleCartApi()
     }
 
+    $("#reedem-button").on('click', function (event) {
+        Swal.fire({
+            width: '570px',
+            html: ` 
+            <div class="reedem-menu mt-3">
+                <div class="reedem-menu-header d-flex justify-content-between align-self-center">
+                    <h5>Promo</h5>
+                    <div class='d-flex align-self-center'>
+                        <button>Reset Diskon</button>
+                        <button type="button" class="close-modal"><i class="bi bi-x-lg" style="font-size:24px;"></i></button>
+                    </div>
+                </div>
+                <hr >
+                <h5>Kode voucher</h5>
+                <p>Hanya bisa pilih 1 kupon</p>
+                <form class="input-voucher-code d-flex">
+                    <input type="text" name="voucher-code" id="voucher-box" placeholder="Masukkan kode promo atau referral">
+                    <button class="px-3">Reedem</button>
+                </form>
+                <hr>
+                <h5>Voucher yang kamu punya</h5>
+                <p>Hanya bisa pilih 1 voucher</p>
+                <div class="coupon-list d-flex flex-wrap justify-content-between">
+                    <button class="user-coupon" id="coupon-1">
+                        <div>15%</div>
+                    </button>
+                    <button class="user-coupon" id="coupon-2">
+                        <div>15%</div>
+                    </button>
+                    <button class="user-coupon" id="coupon-3">
+                        <div>15%</div>
+                    </button>
+                    <button class="user-coupon" id="coupon-4">
+                        <div>15%</div>
+                    </button>
+                    <button class="user-coupon" id="coupon-4">
+                        <div>15%</div>
+                    </button>
+                </div>
+            </div>`,
+            showConfirmButton: false,
+            showClass: {
+                popup: 'animate__animated animate__fadeIn animate__fast'
+            },
+        })
+        $(".user-coupon").on("click", function (event) {
+            $(this).siblings().removeClass("selected")
+            $(this).addClass("selected")
+        })
+
+        $(".close-modal").on('click', function (event) {
+            Swal.close()
+
+        })
+    })
+
+
+
+
     //aksi tombol redeem
     $("#cart-form-redeem").on("submit", function (event) {
         event.preventDefault();
@@ -62,9 +121,9 @@ $(document).ready(function () {
                 .after('<div class="empty-cart-info d-flex justify-content-center align-items-center">' +
                     '<h6> Keranjang kamu kosong.Pilih course terbaik kami</h6>' +
                     '</div>')
-            
+
             $('#cart-count .nav-btn-icon-amount').remove()
-            
+
             $('#cart .cart-total').html('Rp. 0')
         }
     }
@@ -82,7 +141,7 @@ $(document).ready(function () {
 
             const cartList = res.item
             const total = cartList.reduce((prev, curr) => prev + parseInt(curr.sub_total), 0)
-            
+
             if (cartList.length == 0) {
                 empty_cart()
             } else {
@@ -118,8 +177,8 @@ $(document).ready(function () {
                 );
 
                 $('#cart .cart-total').html(getRupiah(total + ''))
-                
-                $('#cart .cart-btn-remove').on('click', function(e) {
+
+                $('#cart .cart-btn-remove').on('click', function (e) {
                     const cart_id = $(this).val()
 
                     $.ajax({

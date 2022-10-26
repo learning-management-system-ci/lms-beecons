@@ -1,5 +1,4 @@
 $("#contact-us").on("click", function (event) {
-    console.log('helllosfisfjdsjfgusdgfyuzfugdfjyg')
     event.preventDefault();
     Swal.fire({
         width: '1200px',

@@ -71,6 +71,12 @@ button {
 #cart .cart-list table tr td .price {
   text-align: center;
 }
+#cart .voucher-order-total #reedem-button {
+  background-color: rgba(255, 255, 255, 0);
+}
+#cart .voucher-order-total #reedem-button img {
+  width: 220px;
+}
 #cart .voucher-order-total #cart-form-redeem input:focus {
   box-shadow: none;
   border-color: #164520;
@@ -80,6 +86,77 @@ button {
 }
 #cart .voucher-order-total .order-total div h6 {
   font-size: 20px;
+}
+
+.reedem-menu {
+  width: min-content;
+}
+.reedem-menu hr {
+  border: 2px solid #acacac;
+}
+.reedem-menu h5,
+.reedem-menu p {
+  text-align: left;
+  color: #1F1F1F;
+}
+.reedem-menu .reedem-menu-header h5 {
+  margin-bottom: 0;
+}
+.reedem-menu .reedem-menu-header div {
+  gap: 10px;
+}
+.reedem-menu .reedem-menu-header div button {
+  width: auto;
+  font-weight: 600;
+  color: #747474;
+  background-color: rgba(245, 222, 179, 0);
+}
+.reedem-menu .reedem-menu-header div .swal2-close {
+  margin-top: -16px;
+}
+.reedem-menu .input-voucher-code {
+  gap: 20px;
+}
+.reedem-menu .input-voucher-code input {
+  padding-left: 1em;
+  font-weight: 600;
+  width: 400px;
+  height: 50px;
+  border-radius: 9px;
+  border: 1px solid #cccccc;
+  color: #000000;
+}
+.reedem-menu .input-voucher-code input::placeholder {
+  color: #acacac;
+}
+.reedem-menu .input-voucher-code button {
+  min-width: 90px;
+  font-size: 14px;
+  background-color: #164520;
+  color: white;
+  border-radius: 7px;
+}
+.reedem-menu .coupon-list {
+  gap: 18px;
+}
+.reedem-menu .coupon-list button {
+  background-color: rgba(0, 0, 0, 0);
+  width: 220px;
+  height: 45px;
+  background-image: url("../image/cart/voucher-bg.png");
+  background-repeat: no-repeat;
+  background-size: 225px 45px;
+}
+.reedem-menu .coupon-list button div {
+  font-size: 18px;
+  color: white;
+  padding-left: 80px;
+  font-weight: 600;
+}
+.reedem-menu .coupon-list .selected {
+  border: 2px solid green;
+  background-size: 212px 39px;
+  background-position: center;
 }
 
 .empty-cart-info {

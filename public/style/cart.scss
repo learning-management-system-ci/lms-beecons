@@ -79,6 +79,15 @@
     }
 
     .voucher-order-total {
+
+        #reedem-button {
+            background-color: rgba(255, 255, 255, 0);
+
+            img {
+                width: 220px;
+            }
+        }
+
         #cart-form-redeem {
             input:focus {
                 box-shadow: none;
@@ -97,7 +106,109 @@
             }
         }
     }
+
+
 }
+
+
+// reedem popup menu
+.reedem-menu {
+    width: min-content;
+
+    hr {
+        border: 2px solid #acacac;
+    }
+
+    h5,
+    p {
+        text-align: left;
+        color: $color-black;
+    }
+
+    .reedem-menu-header {
+
+
+        h5 {
+            margin-bottom: 0;
+        }
+
+        div {
+            gap: 10px;
+
+            button {
+                width: auto;
+                font-weight: 600;
+                color: #747474;
+                background-color: rgba(245, 222, 179, 0);
+            }
+
+            .swal2-close {
+                margin-top: -16px;
+            }
+        }
+
+    }
+
+    .input-voucher-code {
+        gap: 20px;
+
+        input {
+            padding-left: 1em;
+            font-weight: 600;
+            width: 400px;
+            height: 50px;
+            border-radius: 9px;
+            border: 1px solid #cccccc;
+            color: #000000;
+        }
+
+        input::placeholder {
+            color: #acacac;
+        }
+
+        button {
+            min-width: 90px;
+            font-size: 14px;
+            background-color: #164520;
+            color: white;
+            border-radius: 7px;
+        }
+    }
+
+    .coupon-list {
+        gap: 18px;
+
+        button {
+
+            background-color: rgba(0, 0, 0, 0);
+            width: 220px;
+            height: 45px;
+            background-image: url("../image/cart/voucher-bg.png");
+            background-repeat: no-repeat;
+            background-size: 225px 45px;
+
+            div {
+
+                font-size: 18px;
+                color: white;
+                padding-left: 80px;
+                font-weight: 600;
+            }
+        }
+
+        .selected {
+            border: 2px solid green;
+            background-size: 212px 39px;
+            background-position: center;
+        }
+
+
+    }
+
+
+}
+
+
 
 @mixin font($weight) {
     font-family: 'Plus Jakarta Sans';

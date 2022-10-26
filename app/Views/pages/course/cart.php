@@ -8,14 +8,6 @@
 
 <?= $this->section('app-component') ?>
 <div id="cart" class="main-container mb-5">
-    <!-- <section>
-        <nav class="pt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">Cart</li>
-            </ol>
-            <hr>
-        </nav>
-    </section> -->
     <?php if (!get_cookie("access_token")) : ?>
         <div class="section-no-login">
             <h1 class="mb-3">Kamu belum masuk</h1>
@@ -48,12 +40,14 @@
             <hr>
         </section>
         <section class="voucher-order-total d-flex justify-content-between align-items-start">
-            <form id="cart-form-redeem">
+            <!-- <form id="cart-form-redeem">
                 <div class="input-group mb-3 d-none">
                     <input type="text" class="form-control" placeholder="Kode Voucher" required>
                     <button type="submit" id="redeem" class="my-btn">Redeem</button>
                 </div>
-            </form>
+            </form> -->
+
+            <button id="reedem-button"><img src="image/cart/reedem-button.png" alt=""></button>
             <div class="order-total">
                 <div class="d-none">
                     <div class="d-flex justify-content-between mb-2">
@@ -75,6 +69,12 @@
                 </a>
             </div>
         </section>
+
+        <div class="hide">
+            <img src="image/cart/voucher-bg.png" alt="">
+        </div>
+
+
     <?php endif ?>
 </div>
 <?= $this->endSection() ?>
