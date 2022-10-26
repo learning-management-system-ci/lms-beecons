@@ -251,9 +251,14 @@ class AuthController extends ResourceController
 
     function sendActivationEmail($emailTo, $token)
     {
-        //$to = $this->request->getVar('mailTo');
-        $subject = 'subject';
-        $message = base_url() . "/api/activateuser?token=" . $token;
+        //$to = $this->request->getVar('mailTo'); 
+        $subject = 'Link Aktivasi Akun';
+        $link = base_url() . "/api/activateuser?token=" . $token;
+        $data = [
+            "link" => $link,
+            "email" => $emailTo
+        ];
+        $message = view('/html_email/email_verify.html', $data);
 
         $email = \Config\Services::email();
         $email->setTo($emailTo);

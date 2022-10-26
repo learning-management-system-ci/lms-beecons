@@ -57,9 +57,13 @@ class ForgotPasswordController extends ResourceController {
 	}
 
 	function sendOtpEmail($emailTo, $otp) { 
-		$subject = 'subject';
-		$message = $otp;
-		  
+		$subject = 'Kode OTP Reset Kata Sandi';
+		$data = [
+			"otp" => $otp,
+			"email" => $emailTo
+		];
+
+		$message = view('/html_email/otp_request.html', $data);
 		$email = \Config\Services::email();
 		$email->setTo($emailTo);
 		$email->setFrom('hendrikusozzie@gmail.com', 'OTP Reset Password');

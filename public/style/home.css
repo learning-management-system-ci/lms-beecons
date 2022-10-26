@@ -130,6 +130,10 @@ button {
   color: #164520;
   font-weight: bold;
 }
+#choose-course .choose-course-list {
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+}
 
 #webinar {
   padding-left: 3.5rem;
@@ -286,35 +290,36 @@ button {
   right: 0;
 }
 #testimoni .slider {
-  padding: 1rem 3rem;
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+  padding-left: 3.5rem;
 }
 #testimoni .slick-list {
   padding-left: 0 !important;
   padding-right: 10rem !important;
 }
 #testimoni .slick-arrow {
-  top: 50%;
+  bottom: -34px;
 }
 #testimoni .slick-next {
-  right: 1rem;
+  right: 30px;
+  top: auto;
 }
 #testimoni .slick-prev {
-  left: 1rem;
-  z-index: 1;
+  top: auto;
+  right: 250px;
+  left: auto;
 }
 #testimoni .slick-dots {
   width: auto;
   align-items: center;
-  right: 4%;
+  right: 60px;
 }
 #testimoni .slick-slide {
   padding: 0.5rem;
 }
 #testimoni .slick-dots li button:before {
   font-size: 0.5rem;
-}
-#testimoni .slick-prev {
-  right: 0;
 }
 #testimoni .slick-prev:before,
 #testimoni .slick-next:before {
