@@ -60,7 +60,7 @@ $(document).ready(function () {
 
             $("table")
                 .after('<div class="empty-cart-info d-flex justify-content-center align-items-center">' +
-                    '<h6> Keranjang kamu kosong.Pilih course terbaik kami</h6>' +
+                    '<h6> Keranjang kamu kosong, pilih course terbaik kamu.</h6>' +
                     '</div>')
             
             $('#cart-count .nav-btn-icon-amount').remove()

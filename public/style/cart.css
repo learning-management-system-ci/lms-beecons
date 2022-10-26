@@ -81,6 +81,110 @@ button {
 #cart .voucher-order-total .order-total div h6 {
   font-size: 20px;
 }
+#cart .btn-modal-referral {
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-weight: 500;
+  color: #248043;
+  border-radius: 8px;
+  background-color: white;
+}
+#cart .btn-modal-referral:hover {
+  background-color: #f3f4f6;
+}
+#cart #cart-referral-modal .modal-dialog {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#cart .cart-referral-modal-container {
+  padding: 1.5rem;
+}
+#cart .cart-referral-modal-container .cart-referral-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #f3f4f6;
+}
+#cart .cart-referral-modal-container .cart-referral-modal-header-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+#cart .cart-referral-modal-container .cart-referral-modal-header-btn a {
+  font-weight: 500;
+  color: gray;
+}
+#cart .cart-referral-modal-container .cart-referral-modal-header-btn .btn-close {
+  width: 6px;
+  height: 6px;
+}
+#cart .cart-referral-modal-container .cart-referral-modal-form {
+  border-bottom: 3px solid #f3f4f6;
+}
+#cart .cart-referral-modal-container .cart-referral-modal-form form {
+  padding-top: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+#cart .cart-referral-modal-container .cart-referral-modal-form form input:focus {
+  box-shadow: none;
+  border-color: gray;
+}
+#cart .cart-referral-modal-container .referral-item {
+  display: flex;
+}
+#cart .cart-referral-modal-container .referral-item .icon {
+  background-color: #164520;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+#cart .cart-referral-modal-container .referral-item .icon img {
+  height: 1rem;
+}
+#cart .cart-referral-modal-container .referral-item .icon::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#cart .cart-referral-modal-container .referral-item .disc {
+  background-color: #70BD81;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 2rem;
+  padding-left: 1.5rem;
+  color: white;
+  font-weight: bold;
+  position: relative;
+}
+#cart .cart-referral-modal-container .referral-item .disc::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
 .empty-cart-info {
   width: 100%;
