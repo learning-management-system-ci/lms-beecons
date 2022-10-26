@@ -14,17 +14,16 @@
     <div class="option d-flex my-2">
         <div class="checkbox d-flex align-items-start">
             <input class="me-2" type="checkbox" id="terms" name="terms">
-            <label for="terms" class="priv-pol sign-up">By signing up you agree to our <a
+            <label for="terms" class="priv-pol sign-up">Dengan mendaftar anda menyetujui <a
                     href="<?= base_url('/terms-and-conditions') ?>">Terms &
-                    Condition and
-                    Privacy
-                    Policy.*</a>
+                    Condition*</a>
+                    kami
             </label>
         </div>
     </div>
     <button class="btn mt-3" id="button" type="submit" disabled="disabled">Sign Up</button>
     <p class="sign-up">Sudah punya akun? <a href="<?= base_url('login'); ?>">Sign in</a></p>
-    <p class="horizontal">Or</p>
+    <p class="horizontal">Atau</p>
     <a href="<?= $googleButton; ?>" class="btn" id="googleButton">
         <img src="image/google-logo.svg" alt="">
         <p>Sign Up</p>

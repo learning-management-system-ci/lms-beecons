@@ -1,5 +1,9 @@
 @import "_base";
 
+#loading-modal {
+  top: 40%;
+}
+
 .snippet {
   position: relative;
   background-color: $color-white;

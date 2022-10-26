@@ -34,9 +34,7 @@
                         <div style="padding:1.5rem;background-color:#f7f7f7;margin-top:1rem!important">
                             <table
                                 style="display:block;margin-left:auto;margin-right:auto;max-width:600px;border-collapse:collapse;table-layout: fixed;">
-                                <tbody
-                                    style="width: 100%;vertical-align: baseline;"
-                                >
+                                <tbody style="width: 100%;vertical-align: baseline;">
                                     <tr
                                         style="background-color:white;background-color:#f7f7f7!important;border-radius:10px!important;">
                                         <td style="width:65%">
@@ -48,50 +46,71 @@
                                         <td>
                                             <p
                                                 style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin:0!important">
-                                                <?= $order_id ?></p>
+                                                <?= $order_id ?>
+                                            </p>
                                         </td>
                                     </tr>
                                     <tr style="background-color:#f7f7f7!important">
                                         <td style="width:65%">
                                             <p
                                                 style="margin:0!important;background-color:#f7f7f7;font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#9b9b9b;line-height:30px">
-                                                <b>Deskripsi</b>
+                                                <b>Tanggal Checkout</b>
                                             </p>
                                         </td>
                                         <td style="display:flex;width:150px">
                                             <p
                                                 style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin:0!important;word-wrap:break-word;width:100%;">
-                                                Frontend: Basic Coursessssssssssssssssssssssssssssssssssssssssssssssssssssssss
+                                                Frontend: Basic
+                                                Coursessssssssssssssssssssssssssssssssssssssssssssssssssssssss
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#f7f7f7!important">
+                                        <td style="width:65%">
+                                            <p
+                                                style="margin:0!important;background-color:#f7f7f7;font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#9b9b9b;line-height:30px">
+                                                <b>Tanggal Pembayaran</b>
+                                            </p>
+                                        </td>
+                                        <td style="display:flex;width:150px">
+                                            <p
+                                                style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin:0!important;word-wrap:break-word;width:100%;">
+                                                Frontend: Basic
+                                                Coursessssssssssssssssssssssssssssssssssssssssssssssssssssssss
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color:#f7f7f7!important">
+                                        <td style="width:65%">
+                                            <p
+                                                style="margin:0!important;background-color:#f7f7f7;font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#9b9b9b;line-height:30px">
+                                                <b>Jenis Pembayaran</b>
+                                            </p>
+                                        </td>
+                                        <td style="display:flex;width:150px">
+                                            <p
+                                                style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin:0!important;word-wrap:break-word;width:100%;">
+                                                Frontend: Basic
+                                                Coursessssssssssssssssssssssssssssssssssssssssssssssssssssssss
                                             </p>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+                        <hr style="height:1px;border:none;margin:1em 0;background-color:#dfdfdf">
                         <div style="margin-top:1rem!important;padding-left:0.5em">
                             <table
                                 style="display:block;margin-left:auto;margin-right:auto;max-width:600px;border-collapse:collapse">
                                 <tbody>
                                     <tr style="border-radius:10px!important;background-color:white">
-                                        <td style="width:65%">
-                                            <img style="float:left;margin-right:0.75em" width="90px"
-                                                src="https://lms.lazy2.codes/image/email/dummy_order.png" alt=""
-                                                class="CToWUd" data-bit="iit">
-                                            <div style="display:inline">
-                                                <p
-                                                    style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin-top:0!important;margin-bottom: 0px !important;">
-                                                    <b>Frontend:</b>
-                                                </p>
-                                                <p
-                                                    style="font-family:sans-serif;font-style:normal;font-weight:400;color:#000000;margin:0!important;font-size:12px">
-                                                    Pelajaran
-                                                    dasar yang akan
-                                                    dipelajari untuk menjadi
-                                                    frontend
-                                                    engineer</p>
-                                            </div>
+                                        <td style="min-width:150px">
+                                            <p
+                                                style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin-top:0!important;margin-bottom: 0px !important;">
+                                                <b>Frontend</b>
+                                            </p>
                                         </td>
-                                        <td>
+                                        <td style="width:75%">
                                             <p
                                                 style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;font-style:normal;font-weight:600;font-size:16px;color:#000000;margin:0!important;text-align:right">
                                                 Rp. 200.000
@@ -114,7 +133,8 @@
                                     <td style="width:75%">
                                         <p
                                             style="padding-bottom:0.5em;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;font-style:normal;font-weight:500;font-size:16px;color:#000000;margin:0!important;text-align:right">
-                                            Rp. <?= $total_price ?>
+                                            Rp.
+                                            <?= $total_price ?>
                                         </p>
                                     </td>
                                 </tr>
@@ -170,7 +190,7 @@
                     </div>
                     <div style="text-align:center">
                         <hr style="height:1px;border:none;background-color:#adadad">
-                        <img src="https://ci4.googleusercontent.com/proxy/c8E79KARC9F9NX4Yla8ZmFjorYT291P7VMo7-Q5cEIkDYhLnbs4O-qeAP_9F369r7oVAWZFvQ_n7TUsE3Rsi5U-adA=s0-d-e1-ft#https://lms.lazy2.codes/image/email/Logo_bnw.png"
+                        <img src="https://ci4.googleusercontent.com/proxy/c8E79KARC9F9NX4Yla8ZmFjorYT291P7VMo7-Q5cEIkDYhLnbs4O-qeAP_9F369r7oVAWZFvQ_n7TUsE3Rsi5U-adA=s0-d-e1-ft#https://lms.lazy2.codes/image/email/logo-white.svg"
                             width="80px" alt="" class="CToWUd" data-bit="iit">
                     </div>
                 </th>
