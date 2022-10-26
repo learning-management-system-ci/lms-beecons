@@ -28,9 +28,11 @@ class UserController extends ResourceController
             $data = $user->where('id', $decoded->uid)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
 
+            $path = site_url() . 'upload/users/';
+
             $response = [
                 'id' => $decoded->uid,
-                'profile_picture' => $data['profile_picture'],
+                'profile_picture' => $path . $data['profile_picture'],
                 'fullname' =>  $data['fullname'],
                 'email' => $decoded->email,
                 'date_birth' => $data['date_birth'],
@@ -46,9 +48,9 @@ class UserController extends ResourceController
         return $this->failNotFound('Data user tidak ditemukan');
     }
 
+    // TODO: Opsi untuk user ketika ingin menghapus foto profile dan otomatis terganti ke default
     public function update($id = null)
     {
-        $input = $this->request->getRawInput();
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -65,6 +67,10 @@ class UserController extends ResourceController
                 'fullname' => 'required',
                 'date_birth' => 'required|valid_date',
                 'phone_number' => 'required|numeric',
+                'profile_picture' => 'uploaded[profile_picture]'
+                    . '|is_image[profile_picture]'
+                    . '|mime_in[profile_picture,image/jpg,image/jpeg,image/png,image/webp]'
+                    . '|max_size[profile_picture,4000]'
             ];
 
             $messages = [
@@ -77,36 +83,52 @@ class UserController extends ResourceController
                     'required' => '{field} tidak boleh kosong',
                     'numeric' => '{field} harus berisi numerik'
                 ],
+                'profile_pciture' => [
+                    'uploaded' => '{field} tidak boleh kosong',
+                    'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
+                    'max_size' => 'Ukuran File Maksimal 4 MB'
+                ],
             ];
 
-            $data = [
-                'profile_picture' => $input['profile_picture'],
-                'fullname' => $input['fullname'],
-                'job_id' => $input['job'],
-                'address' => $input['address'],
-                'date_birth' => $input['date_birth'],
-                'phone_number' => $input['phone_number'],
-                'linkedin' => $input['linkedin'],
-            ];
+            if ($this->validate($rules, $messages)) {
+                $profilePicture = $this->request->getFile('profile_picture');
+                if (is_null($profilePicture)) {
+                    $fileName = $cek['profile_picture'];
+                } else {
+                    $fileName = $profilePicture->getRandomName();
+                }
 
-            $response = [
-                'status'   => 200,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'Profil berhasil diupdate'
-                ]
-            ];
+                $data = [
+                    'fullname' => $this->request->getVar('fullname'),
+                    'job_id' => $this->request->getVar('job_id'),
+                    'address' => $this->request->getVar('address'),
+                    'date_birth' => $this->request->getVar('date_birth'),
+                    'phone_number' => $this->request->getVar('phone_number'),
+                    'linkedin' => $this->request->getVar('linkedin'),
+                    'profile_picture' => $fileName,
+                ];
+                $profilePicture->move('upload/users/', $fileName);
+                $user->update($id, $data);
 
-            if ($user->update($id, $data)) {
-                return $this->respond($response);
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Profil berhasil diupdate'
+                    ]
+                ];
+            } else {
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
+                ];
             }
+
+            return $this->respondCreated($response);
         } catch (\Throwable $th) {
             if (!$cek) {
                 return $this->failNotFound('Data user tidak ditemukan');
-            }
-
-            if (!$this->validate($rules, $messages)) {
-                return $this->failValidationErrors($this->validator->getErrors());
             }
 
             return $this->fail($th->getMessage());
