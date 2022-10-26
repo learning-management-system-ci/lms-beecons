@@ -130,6 +130,10 @@ button {
   color: #164520;
   font-weight: bold;
 }
+#choose-course .choose-course-list {
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+}
 
 #webinar {
   padding-left: 3.5rem;
