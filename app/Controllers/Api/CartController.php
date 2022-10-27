@@ -66,6 +66,7 @@ class CartController extends ResourceController
                 $reedem = 0;
                 $total = $temp;
             }
+            setcookie("coupon", $reedem, '/');
 
             $response = [
                 'user' => $user_data,
