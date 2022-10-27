@@ -63,13 +63,14 @@ class OrderController extends BaseController
     }
 
     public function generateSnap() {
-        $key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+        helper ("cookie");
+        // $key = getenv('TOKEN_SECRET');
+        // $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        // if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        // $token = explode(' ', $header)[1];
 
-        try {
-            $decoded = JWT::decode($token, $key, ['HS256']);
+        // try {
+        //     $decoded = JWT::decode($token, $key, ['HS256']);
             // Set your Merchant Server Key
             \Midtrans\Config::$serverKey = 'SB-Mid-server-F7J9pzrwMAM5Af2mTxYpD-kx';
             // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
@@ -85,8 +86,8 @@ class OrderController extends BaseController
             $orderBundling = new OrderBundling;
             $user = new Users;
             $temp = 0;
-            $userId = $decoded->uid;
-            //$userId = 16;
+            //$userId = $decoded->uid;
+            $userId = 16;
 
             $getTotalCart = $cart->select('total')->where('user_id', $userId)->findAll();
             if ($getTotalCart == NULL) {
@@ -94,16 +95,27 @@ class OrderController extends BaseController
             }
             $getUser = $user->where('id', $userId)->first();
 
-            $totalPrice = 0;
+            $subTotal = 0;
             foreach ($getTotalCart as $value) {
-                $totalPrice = $temp += $value['total'];
+                $subTotal = $temp += $value['total'];
+            }
+
+            $getCoupon = get_cookie("coupon");
+
+            if ($getCoupon > 0) {
+                $discount = ($getCoupon / 100) * $subTotal;
+                $total = $subTotal - $discount;
+            } else if ($getCoupon == 0) {
+                $total = $subTotal;
             }
 
             $orderId = rand();
             $dataOrder = [
                 'order_id'  => $orderId,
                 'user_id' => $userId,
-                'gross_amount' => $totalPrice,
+                'discount_price' => $getCoupon,
+                'sub_total' => $subTotal,
+                'gross_amount' => $total,
             ];
             $order->insert($dataOrder);
             
@@ -158,11 +170,13 @@ class OrderController extends BaseController
                 }
             }
 
-            $cart->where('user_id', $userId)->delete();
+            //$cart->where('user_id', $userId)->delete();
+            // unset($_COOKIE["coupon"]);
+            // setcookie ("coupon", "", time() - 3600, '/api');
 
             $transaction = [
                 'order_id' => $orderId,
-                'gross_amount' => $totalPrice
+                'gross_amount' => $total
             ];
 
             $cust_detail = [
@@ -182,102 +196,125 @@ class OrderController extends BaseController
             $token = \Midtrans\Snap::getSnapToken($params);
             return view ('pages/transaction/snap-pay', ['token' => $token]);
 
-        } catch (\Throwable $th) {
-            return $this->fail($th->getMessage());
-        }
+        // } catch (\Throwable $th) {
+        //     return $this->fail($th->getMessage());
+        // }
     }
 
     public function notifHandler() {
-        // // Set your Merchant Server Key
-        // \Midtrans\Config::$serverKey = 'SB-Mid-server-F7J9pzrwMAM5Af2mTxYpD-kx';
-        // // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-        // \Midtrans\Config::$isProduction = false;
-        // // Set sanitization on (default)
-        // \Midtrans\Config::$isSanitized = true;
-        // // Set 3DS transaction for credit card to true
-        // \Midtrans\Config::$is3ds = true;
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = 'SB-Mid-server-F7J9pzrwMAM5Af2mTxYpD-kx';
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = false;
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = true;
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = true;
 
-        // $notif = new \Midtrans\Notification();
-        // //var_dump($notif);
-        // $notif = $notif->getResponse();
-        // $transaction = $notif->transaction_status;
-        // $fraud = $notif->fraud_status;
+        $notif = new \Midtrans\Notification();
+        //var_dump($notif);
+        $notif = $notif->getResponse();
+        $transaction = $notif->transaction_status;
+        $fraud = $notif->fraud_status;
 
-        // error_log("Order ID $notif->order_id: "."transaction status = $transaction, fraud status = $fraud");
+        error_log("Order ID $notif->order_id: "."transaction status = $transaction, fraud status = $fraud");
 
-        // if ($transaction == 'capture') {
-        //     // For credit card transaction, we need to check whether transaction is challenge by FDS or not
-        //     if ($type == 'credit_card') {
-        //         if ($fraud == 'challenge') {
-        //             // TODO set payment status in merchant's database to 'Challenge by FDS'
-        //             // TODO merchant should decide whether this transaction is authorized or not in MAP
-        //             echo "Transaction order_id: " . $notif->order_id ." is challenged by FDS";
-        //         } else {
-        //             // TODO set payment status in merchant's database to 'Success'
-        //             echo "Transaction order_id: " . $notif->order_id ." successfully captured using " . $notif->payment_type;
-        //         }
-        //     }
-        // } else if ($transaction == 'settlement') {
-        //     $status = 'paid';
-        //     // TODO set payment status in merchant's database to 'Settlement'
-        //     echo "Transaction order_id: " . $notif->order_id ." successfully transfered using " . $notif->payment_type;
-        // } else if ($transaction == 'pending') {
-        //     $status = 'pending';
-        //     // TODO set payment status in merchant's database to 'Pending'
-        //     echo "Waiting customer to finish transaction order_id: " . $notif->order_id . " using " . $notif->payment_type;
-        // } else if ($transaction == 'deny') {
-        //     $status = 'cancel';
-        //     // TODO set payment status in merchant's database to 'Denied'
-        //     echo "Payment using " . $type . " for transaction order_id: " . $notif->order_id . " is denied.";
-        // } else if ($transaction == 'expire') {
-        //     $status = 'cancel';
-        //     // TODO set payment status in merchant's database to 'expire'
-        //     echo "Payment using " . $type . " for transaction order_id: " . $notif->order_id . " is expired.";
-        // } else if ($transaction == 'cancel') {
-        //     $status = 'cancel';
-        //     // TODO set payment status in merchant's database to 'Denied'
-        //     echo "Payment using " . $type . " for transaction order_id: " . $notif->order_id . " is canceled.";
-        // }
+        if ($transaction == 'capture') {
+            // For credit card transaction, we need to check whether transaction is challenge by FDS or not
+            if ($type == 'credit_card') {
+                if ($fraud == 'challenge') {
+                    // TODO set payment status in merchant's database to 'Challenge by FDS'
+                    // TODO merchant should decide whether this transaction is authorized or not in MAP
+                    echo "Transaction order_id: " . $notif->order_id ." is challenged by FDS";
+                } else {
+                    // TODO set payment status in merchant's database to 'Success'
+                    echo "Transaction order_id: " . $notif->order_id ." successfully captured using " . $notif->payment_type;
+                }
+            }
+        } else if ($transaction == 'settlement') {
+            $status = 'paid';
+            // TODO set payment status in merchant's database to 'Settlement'
+            echo "Transaction order_id: " . $notif->order_id ." successfully transfered using " . $notif->payment_type;
+        } else if ($transaction == 'pending') {
+            $status = 'pending';
+            // TODO set payment status in merchant's database to 'Pending'
+            echo "Waiting customer to finish transaction order_id: " . $notif->order_id . " using " . $notif->payment_type;
+        } else if ($transaction == 'deny') {
+            $status = 'cancel';
+            // TODO set payment status in merchant's database to 'Denied'
+            echo "Payment using " . $type . " for transaction order_id: " . $notif->order_id . " is denied.";
+        } else if ($transaction == 'expire') {
+            $status = 'cancel';
+            // TODO set payment status in merchant's database to 'expire'
+            echo "Payment using " . $type . " for transaction order_id: " . $notif->order_id . " is expired.";
+        } else if ($transaction == 'cancel') {
+            $status = 'cancel';
+            // TODO set payment status in merchant's database to 'Denied'
+            echo "Payment using " . $type . " for transaction order_id: " . $notif->order_id . " is canceled.";
+        }
         
-
         $order = new Order;
+        $order_course = new OrderCourse;
+        $order_bundling = new OrderBundling;
         $id = $this->request->getVar("order_id");
-		// $data = [
-		// 	"order_id" => $this->request->getVar("order_id"),
-		// 	"transaction_status" => $status,
-        //     "transaction_id" => $this->request->getVar("transaction_id"),
-	    // ];
-        // $order->update($id, $data);
+        //$id = 916110939;
 
-        // send receipt payment
-        // $getEmail = $order
-        //     ->select('users.email')
-        //     ->where('order.order_id', $id)
-        //     ->join('users', 'order.user_id=users.id')
-        //     ->findAll();
+		$dataUpdate = [
+			"order_id" => $this->request->getVar("order_id"),
+			"transaction_status" => $status,
+            "transaction_id" => $this->request->getVar("transaction_id"),
+	    ];
+        $order->update($id, $dataUpdate);
         
         $getOrderData = $order
             ->select('*')
-            ->where('order.order_id', 1484076229)
-            ->join('order_course', 'order.order_id=order_course.order_id')
+            ->where('order.order_id', $id)
             ->findAll();
-        
-        $data = [
+
+        $getOrder = [
             "order_id" => $getOrderData[0]["order_id"],
-            "total_price" => $getOrderData[0]["gross_amount"]
+            "checkout_date" => $getOrderData[0]["transaction_time"],
+            "sub_total" => $getOrderData[0]["sub_total"],
+            "total" => $getOrderData[0]["gross_amount"],
+            "discount_price" => $getOrderData[0]["discount_price"],
+            "payment_type" => $this->request->getVar("payment_type"),
+            "transaction_time" => $this->request->getVar("transaction_time")
         ];
         
-        //var_dump($getOrderData);
-        //return 0;
-       // $subject = 'Pembelian Selesai';
-        //$getEmail = $getEmail[0]["email"];
-        return view('/html_email/payment_success.html', $data);
+        $getCourse = $order_course
+            ->select('course.title, course.new_price')
+            ->where('order_course.order_id', $id)
+            ->join('course', 'order_course.course_id=course.course_id')
+            ->findAll();
+
+        $getCourse['getCourse'] = $getCourse;
+
+        $getBundling = $order_bundling
+            ->select('bundling.title, bundling.new_price')
+            ->where('order_bundling.order_id', $id)
+            ->join('bundling', 'order_bundling.bundling_id=bundling.bundling_id')
+            ->findAll();
         
-        //$message = view('/html_email/otp_request.html', $data);
+        $getBundling['getBundling'] = $getBundling;
+       
+        $data = array_merge($getCourse, $getBundling, $getOrder);
+        
+        //send receipt payment
+        $getEmail = $order
+            ->select('users.email')
+            ->where('order.order_id', $id)
+            ->join('users', 'order.user_id=users.id')
+            ->findAll();
+
+
+        $subject = 'Pembelian Selesai';
+        $getEmail = $getEmail[0]["email"];
+        //return view('/html_email/payment_success.html',$data);
+        
+        $message = view('/html_email/payment_success.html', $data);
         $email = \Config\Services::email();
         $email->setTo($getEmail);
-        $email->setFrom('hendrikusozzie@gmail.com', 'OTP Reset Password');
-        $message = 'sddsddd';
+        $email->setFrom('hendrikusozzie@gmail.com', 'Pembelian berhasil');
         $email->setSubject($subject);
         $email->setMessage($message);
           
