@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\Order; 
 use App\Models\OrderCourse;
 use App\Models\OrderBundling;
+use App\Models\UserCourse;
 use App\Models\Users;
 
 class OrderController extends BaseController
@@ -256,9 +257,11 @@ class OrderController extends BaseController
         $order = new Order;
         $order_course = new OrderCourse;
         $order_bundling = new OrderBundling;
+        $user_course = new UserCourse;
         $id = $this->request->getVar("order_id");
         //$id = 916110939;
 
+        //update order status
 		$dataUpdate = [
 			"order_id" => $this->request->getVar("order_id"),
 			"transaction_status" => $status,
@@ -270,6 +273,40 @@ class OrderController extends BaseController
             ->select('*')
             ->where('order.order_id', $id)
             ->findAll();
+
+        //add usercourse
+        $userCourse=[];
+        $course = $order_course->select('course_id')->where('order_id', $id)->findAll();
+        if ($course != null) {
+            foreach ($course as $value) {
+                $userCourse[] = [
+                    'user_id' => $getOrderData[0]["user_id"],
+                    'course_id' => $value['course_id'],
+                    'is_access' => '0'
+                ];
+            }
+            $user_course->insertBatch($userCourse);
+        }
+
+        $userBundling=[];
+        $bundling = $order_bundling
+            ->select('course_id')
+            ->where('order_id', $id)
+            ->join('course_bundling', 'order_bundling.bundling_id=course_bundling.bundling_id')
+            ->findAll();
+        if ($bundling != null) {
+             foreach ($bundling as $value) {
+                 $userBundling[] = [
+                    'user_id' => $getOrderData[0]["user_id"],
+                    'course_id' => $value['course_id'],
+                    'is_access' => '0'
+                 ];
+            }
+            $user_course->insertBatch($userBundling);
+        }
+
+
+        return 0;
 
         $getOrder = [
             "order_id" => $getOrderData[0]["order_id"],
