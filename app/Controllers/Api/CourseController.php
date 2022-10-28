@@ -186,7 +186,11 @@ class CourseController extends ResourceController
 
                     if (!$checkIfVideoIsLink) {
                         $file = $this->getID3->analyze($this->path . $filename);
-                        $checkFileIsExist = stristr($file['error'][0], '!file_exists') ? false : true;
+                        if (isset($file['error'][0]) && stristr($file['error'][0], '!file_exists') ? false : true) {
+                            $checkFileIsExist = false;
+                        } else {
+                            $checkFileIsExist = true;
+                        }
 
                         if ($checkFileIsExist) {
                             $duration = ["duration" => $file['playtime_string']];
