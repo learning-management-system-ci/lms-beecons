@@ -83,6 +83,14 @@ button {
     @include video-list-button(#ffffff, url("../image/course-detail/pause-button.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
 }
 
+// #loading-page{
+//     position: fixed;
+//     width: 100vw;
+//     height: 100%;
+//     background: #fff;
+//     z-index: 9999;
+// }
+
 main {
     .navigation {
         p {
@@ -448,6 +456,11 @@ main {
 
                     .complete {
                         @include video-list-button(#DFE3E9, url("../image/course-detail/complete-button.png"), 0);
+                    }
+
+                    .disabled{
+                        cursor: not-allowed;
+                        opacity: 0.7;
                     }
 
                     .list-active-complete {
