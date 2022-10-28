@@ -25,7 +25,7 @@ $.ajax({
             <div class="card">
                 <div class="row py-2 px-1">
                     <div class="col-12x">
-                        <img src="image/auth-image.png" class="image-circle me-1" alt="">
+                        <img src="${data.profile_picture ? data.profile_picture : image / auth - image.png}" class="image-circle me-1" alt="">
                     </div>
                     <div class="col">
                         <div class="row px-5">
@@ -71,13 +71,14 @@ $.ajax({
 
         var modalresources = () => {
             return (`
+            <input id="profile_picture" name="profile_picture" type="file" class="file" />
             <label for= "email" class= "form-label"> Email</label>
             <input type="text" id="email" value="${data.email}" class="form-control" disabled aria-describedby="passwordHelpBlock">
             <label for="fullname" class="form-label">Nama Lengkap</label>
             <input type="text" id="fullname" name="fullname" value="${data.fullname ? data.fullname : ""}" class="form-control" aria-describedby="passwordHelpBlock">
             <label for="date" class="col-1 col-form-label">Date</label>
             <div class="input-group date" id="datepicker">
-                <input type="date" class="form-control" id="date" name="date" value="${data.date_birth ? data.date_birth : ""}"/>
+                <input type="date" class="form-control" id="date_birth" name="date_birth" value="${data.date_birth ? data.date_birth : ""}"/>
             </div>
             <label for="job" class="form-label">Pekerjaan</label>
             <select class="form-select form-select-sm" id="job_id" aria-label=".form-select-sm example">
@@ -99,6 +100,12 @@ $.ajax({
         $("form#edit").html(modalresources);
 
         $('document').ready(function () {
+            $("#profile_picture").fileinput({
+                showCaption: true,
+                dropZoneEnabled: true,
+                allowedFileExtensions: ["jpg", "png", "gif", "svg"],
+                showUpload: true,
+            });
             const tx = document.getElementsByTagName("textarea");
             for (let i = 0; i < tx.length; i++) {
                 tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
@@ -167,8 +174,6 @@ $.ajax({
         const courseList = await Promise.all(
             data.map(getCourseData)
         );
-
-        console.log(courseList);
 
         var coursesResource =
             courseList.map(({
