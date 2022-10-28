@@ -34,49 +34,51 @@ class CartController extends ResourceController
 
             $cart_data = $cart->where('user_id', $decoded->uid)->findAll();
 
-            $temp = 0;
 
-            foreach ($cart_data as $value) {
-                $course_data = $course->select('title, old_price, new_price, thumbnail')->where('course_id', $value['course_id'])->first();
-                $bundling_data = $bundling->select('title, old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
-                $user_data = $user->select('id, email, date_birth, address, phone_number')->where('id', $decoded->uid)->first();
-
-                $items[] = [
-                    'cart_id' => $value['cart_id'],
-                    'course' => $course_data,
-                    'bundling' => $bundling_data,
-                    'sub_total' => $value['total']
-                ];
-
-                $subtotal = (int)$value['total'];
-                $temp += $subtotal;
-            }
-
-            if (isset($_GET['code'])) {
-                $data = $_GET['code'];
-            } else {
-                $data = null;
-            }
-
-            $reedem = $this->reedem($data, $decoded->uid);
-            if ($reedem > 0) {
-                $discount = ($reedem / 100) * $temp;
-                $total = $temp - $discount;
-            } else {
-                $reedem = 0;
-                $total = $temp;
-            }
-            setcookie("coupon", $reedem, '/');
-
-            $response = [
-                'user' => $user_data,
-                'item' => $items,
-                'coupon' => $reedem,
-                'sub_total' => $temp,
-                'total' => $total
-            ];
 
             if (count($cart_data) > 0) {
+                $temp = 0;
+
+                foreach ($cart_data as $value) {
+                    $course_data = $course->select('title, old_price, new_price, thumbnail')->where('course_id', $value['course_id'])->first();
+                    $bundling_data = $bundling->select('title, old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
+                    $user_data = $user->select('id, email, date_birth, address, phone_number')->where('id', $decoded->uid)->first();
+
+                    $items[] = [
+                        'cart_id' => $value['cart_id'],
+                        'course' => $course_data,
+                        'bundling' => $bundling_data,
+                        'sub_total' => $value['total']
+                    ];
+
+                    $subtotal = (int)$value['total'];
+                    $temp += $subtotal;
+                }
+
+                if (isset($_GET['code'])) {
+                    $data = $_GET['code'];
+                } else {
+                    $data = null;
+                }
+
+                $reedem = $this->reedem($data, $decoded->uid);
+                if ($reedem > 0) {
+                    $discount = ($reedem / 100) * $temp;
+                    $total = $temp - $discount;
+                } else {
+                    $reedem = 0;
+                    $total = $temp;
+                }
+                // setcookie("coupon", $reedem, '/');
+
+                $response = [
+                    'user' => $user_data,
+                    'item' => $items,
+                    'coupon' => $reedem,
+                    'sub_total' => $temp,
+                    'total' => $total
+                ];
+
                 return $this->respond($response);
             } else {
                 return $this->failNotFound('Tidak ada data');
