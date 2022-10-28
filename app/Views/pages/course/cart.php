@@ -41,7 +41,7 @@
         </section>
         <section class="voucher-order-total d-flex justify-content-between align-items-start">
             <div class="">
-                <button type="button" class="btn-modal-referral border border-2" data-bs-toggle="modal" data-bs-target="#cart-referral-modal">
+                <button type="button" class="btn-modal-referral border border-2 d-none" data-bs-toggle="modal" data-bs-target="#cart-referral-modal">
                     <span>
                         <img src="/image/cart/referral-icon.png" alt="icon">
                     </span>
@@ -78,8 +78,8 @@
                                     <h6 class="m-0">Voucher yang kamu punya</h6>
                                     <small>Hanya bisa pilih 1 kupon</small>
 
-                                    <div class="row m-0 pt-3">
-                                        <div class="col-6 pb-3 pe-2 ps-0">
+                                    <div id="cart-voucher-list" class="row m-0 pt-3">
+                                        <!-- <div class="col-6 pb-3 pe-2 ps-0">
                                             <button class="cart-referral-modal-coucher-btn">
                                                 <div class="referral-item">
                                                     <div class="icon">
@@ -90,7 +90,7 @@
                                                     </div>
                                                 </div>
                                             </button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -99,20 +99,20 @@
                 </div>
             </div>
             <div class="order-total">
-                <div class="d-none">
+                <div class="order-total-container d-none">
                     <div class="d-flex justify-content-between mb-2">
                         <p>Total</p>
                         <p class="cart-total"></p>
                     </div>
                     <div class="d-flex justify-content-between">
                         <p>Coupon</p>
-                        <p>20%</p>
+                        <p class="order-total-coupon">20%</p>
                     </div>
                     <hr>
                 </div>
                 <div class="d-flex justify-content-between">
                     <h6>TOTAL</h6>
-                    <h6 class="cart-total">Rp. 0</h6>
+                    <h6 class="cart-total-final">Rp. 0</h6>
                 </div>
                 <a href="/checkout">
                     <button class="my-btn w-100 mt-3" id="checkout">Check Out</button>
