@@ -7,6 +7,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\Users;
 use Firebase\JWT\JWT;
 use CodeIgniter\Cookie\Cookie;
+use App\Models\Referral;
 use DateTime;
 use DateInterval;
 
@@ -21,6 +22,7 @@ class AuthController extends ResourceController
 
         require_once APPPATH . "../vendor/autoload.php";
         $this->loginModel = new Users();
+        $this->referral = new Referral();
         $this->googleClient = new \Google_Client();
         $this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
         $this->googleClient->setClientSecret("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");
@@ -39,33 +41,48 @@ class AuthController extends ResourceController
             $data = $googleService->userinfo->get();
             $currentDateTime = date("Y-m-d H:i:s");
             $userdata = array();
-            if ($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($data['email'])) {
+            $email = $data['email'];
+            if ($this->loginModel->isAlreadyRegister($data['id']) || $this->loginModel->isAlreadyRegisterByEmail($email)) {
                 $userdata = [
                     'oauth_id' => $data['id'],
-                    'email' => $data['email'],
+                    'email' => $email,
                     'updated_at' => $currentDateTime,
-                    'activation_status' => '1'
+                    'activation_status' => '1',
                 ];
-                $email = $data['email'];
                 $this->loginModel->updateUserByEmail($userdata, $email);
             } else {
                 $userdata = [
                     'oauth_id' => $data['id'],
-                    'email' => $data['email'],
+                    'email' => $email,
                     'created_at' => $currentDateTime,
                     'activation_status' => '1',
-                    'role' => 'member'
+                    'profile_picture' => 'default.png',
+                    'role' => 'member',
                 ];
                 $this->loginModel->save($userdata);
+
+                // referral
+                $datauser = $this->loginModel->getUser($email);
+                do {
+                    $code = strtoupper(bin2hex(random_bytes(4)));
+                    $code_check = $this->referral->where('referral_code', $code)->first();
+                } while ($code_check);
+    
+                $data = [
+                    'user_id' => $datauser['id'],
+                    'referral_code' => $code,
+                    'discount_price' => 15
+                ];
+                $this->referral->save($data);
             }
-            $datauser = $this->loginModel->getUser($data['email']);
+            $datauser = $this->loginModel->getUser($email);
             $key = getenv('TOKEN_SECRET');
             $payload = [
                 'iat'   => 1356999524,
                 'nbf'   => 1357000000,
                 "exp" => time() + (60 * 60),
                 'uid'   => $datauser['id'],
-                'email' => $data['email'],
+                'email' => $email,
             ];
             $token = JWT::encode($payload, $key, 'HS256');
         } else {
@@ -125,9 +142,24 @@ class AuthController extends ResourceController
                     'email' => $email,
                     'updated_at' => $currentDateTime,
                     'activation_status' => '1',
-                    'role' => 'member'
+                    'profile_picture' => 'default.png',
+                    'role' => 'member',
                 ];
                 $this->loginModel->save($userdata);
+
+                // referral
+                $datauser = $this->loginModel->getUser($email);
+                do {
+                    $code = strtoupper(bin2hex(random_bytes(4)));
+                    $code_check = $this->referral->where('referral_code', $code)->first();
+                } while ($code_check);
+    
+                $data = [
+                    'user_id' => $datauser['id'],
+                    'referral_code' => $code,
+                    'discount_price' => 15
+                ];
+                $this->referral->save($data);
             }
             $datauser = $this->loginModel->getUser($email);
             $key = getenv('TOKEN_SECRET');
@@ -163,7 +195,7 @@ class AuthController extends ResourceController
     {
         $rules = [
             "email" => "required|is_unique[users.email]|valid_email",
-            "password" => "required|min_length[4]|max_length[50]",
+            "password" => "required|min_length[8]|max_length[50]",
             "password_confirm" => "matches[password]",
         ];
 
@@ -220,9 +252,14 @@ class AuthController extends ResourceController
 
     function sendActivationEmail($emailTo, $token)
     {
-        //$to = $this->request->getVar('mailTo');
-        $subject = 'subject';
-        $message = base_url() . "/api/activateuser?token=" . $token;
+        //$to = $this->request->getVar('mailTo'); 
+        $subject = 'Link Aktivasi Akun';
+        $link = base_url() . "/api/activateuser?token=" . $token;
+        $data = [
+            "link" => $link,
+            "email" => $emailTo
+        ];
+        $message = view('html_email/email_verify.html', $data);
 
         $email = \Config\Services::email();
         $email->setTo($emailTo);
@@ -238,19 +275,40 @@ class AuthController extends ResourceController
         $token = $this->request->getVar('token');
         //echo $token;
         $key = getenv('TOKEN_SECRET');
+
+        $referral = new Referral();
         try {
             $decoded = JWT::decode($token, $key, array('HS256'));
-        }catch(\Firebase\JWT\ExpiredException $e){
+
+            $uid = $this->loginModel->select('id')->where('email', $decoded->email)->first();
+            $check = $referral->where('user_id',  $uid)->first();
+
+            do {
+                $code = strtoupper(bin2hex(random_bytes(4)));
+                $code_check = $referral->where('referral_code', $code)->first();
+            } while ($code_check);
+
+            if (!$check) {
+                $data = [
+                    'user_id' => $uid,
+                    'referral_code' => $code,
+                    'discount_price' => 15
+                ];
+                $referral->save($data);
+            }
+        } catch (\Firebase\JWT\ExpiredException $e) {
             //echo 'Caught exception: ',  $e->getMessage(), "\n";
             $message = [
                 "message" => $e->getMessage()
             ];
-            return view ('errors/html/error_404', $message);
+            return view('errors/html/error_404', $message);
             //return;
         }
+
         $this->loginModel->updateUserByEmail([
             'activation_status' => 1,
-            'activation_code' => ''
+            'activation_code' => '',
+            'profile_picture' => 'default.png',
         ], $decoded->email);
         return redirect()->to(base_url() . "/login");
     }

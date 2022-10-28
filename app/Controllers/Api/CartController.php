@@ -52,11 +52,13 @@ class CartController extends ResourceController
                 $temp += $subtotal;
             }
 
-            $data = [
-                'code' => $input['code'],
-            ];
+            if (isset($_GET['code'])) {
+                $data = $_GET['code'];
+            } else {
+                $data = null;
+            }
 
-            $reedem = $this->reedem($data['code'], $decoded->uid);
+            $reedem = $this->reedem($data, $decoded->uid);
             if ($reedem > 0) {
                 $discount = ($reedem / 100) * $temp;
                 $total = $temp - $discount;
@@ -64,6 +66,7 @@ class CartController extends ResourceController
                 $reedem = 0;
                 $total = $temp;
             }
+            setcookie("coupon", $reedem, '/');
 
             $response = [
                 'user' => $user_data,
@@ -73,7 +76,7 @@ class CartController extends ResourceController
                 'total' => $total
             ];
 
-            if (count($data) > 0) {
+            if (count($cart_data) > 0) {
                 return $this->respond($response);
             } else {
                 return $this->failNotFound('Tidak ada data');
@@ -202,10 +205,13 @@ class CartController extends ResourceController
             $ref_data = $referral->select('referral_id, user_id, referral_user')->where('referral_code', $code)->first();
             $check = $ref_user->where('user_id', $id)->where('referral_id', $ref_data['referral_id'])->first();
 
+            // tidak bisa menggunakan kode referral milik diri sendiri
+            // tidak bisa memakai kode referral orang lain lebih dari 1 kali
             if (($ref_data['user_id'] == $id) || $check) {
                 return 0;
             }
 
+            // batas kode referral dapat dipakai orang lain 5 kali
             if ($ref_data['referral_user'] < 5) {
                 $ref_data['referral_user'] += 1;
 
@@ -234,12 +240,10 @@ class CartController extends ResourceController
         if ($check_ref_user) {
 
             $coupon = $check_ref_user['discount_price'];
-            if ($ref_user->find($check_ref_user['referral_user_id'])) {
-                $ref_user->delete($check_ref_user['referral_user_id']);
-            }
+            // if ($ref_user->find($check_ref_user['referral_user_id'])) {
+            //     $ref_user->delete($check_ref_user['referral_user_id']);
+            // }
             return $coupon;
         }
-
-        return 0;
     }
 }

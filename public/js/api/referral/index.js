@@ -10,3 +10,43 @@ $(expand_faq).on('click', function () {
         $(".collapse").removeClass("show");
     }
 })
+
+$.ajax({
+    type: "GET",
+    url: "api/referral",
+    contentType: "application/json",
+    headers: { "Authorization": "Bearer " + Cookies.get("access_token"), "Content-Type": "application/json" },
+    success: function (data) {
+        var referralresources = () => {
+            return (`
+            ${data.referral_code}
+            `);
+        };
+
+        $(".referral-code").html(referralresources);
+    }
+})
+
+$.ajax({
+    type: "GET",
+    url: "api/voucher",
+    contentType: "application/json",
+    headers: { "Authorization": "Bearer " + Cookies.get("access_token"), "Content-Type": "application/json" },
+    success: function (data) {
+        var vouchers = () => (
+            data.length + " Voucher"
+        );
+        $(".voucher-total").html(vouchers);
+
+        var voucherresources = data.map((page) => {
+            return (`
+            <div class="col mb-4 voucher">
+                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
+            </div>
+            `)
+        });
+
+        $(".vouchers").html(voucherresources);
+    }
+})
+

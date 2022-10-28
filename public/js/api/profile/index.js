@@ -25,18 +25,18 @@ $.ajax({
             <div class="card">
                 <div class="row py-2 px-1">
                     <div class="col-12x">
-                        <img src="image/auth-image.png" class="image-circle me-1" alt="">
+                        <img src="${data.profile_picture ? data.profile_picture : image / auth - image.png}" class="image-circle me-1" alt="">
                     </div>
                     <div class="col">
                         <div class="row px-5">
                             <div class="col-12 text-start">
-                                <h3>${data.fullname ? data.fullname : "Lengkapi Data!"}</h3 >
+                                <h3>${data.fullname ? data.fullname : data.email}</h3 >
                             </div >
                             <div class="col-12 text-start py-1">
-                                <h5 class="font-weight-light">${data.job_name ? data.job_name : "Lengkapi Data!"}</h5>
+                                <h5 class="font-weight-light">${data.job_name ? data.job_name : "-"}</h5>
                             </div>
                             <div class="col-12 text-start py-1">
-                                <h5 class="font-weight-light">${data.address ? data.address : "Lengkapi Data!"}</h5>
+                                <h5 class="font-weight-light">${data.address ? data.address : "-"}</h5>
                             </div>
                         </div >
                     </div >
@@ -56,10 +56,10 @@ $.ajax({
                             </div>
                             <div class="col-6">
                                 <div class="row">
-                                    <div class="text-end py-1">${data.date_birth ? day : "Lengkapi Data!"}</div>
-                                    <div class="text-end py-1">${data.phone_number ? phone_num : "Lengkapi Data!"}</div>
+                                    <div class="text-end py-1">${data.date_birth ? day : day}</div>
+                                    <div class="text-end py-1">${data.phone_number ? phone_num : "-"}</div>
                                     <div class="text-end py-1">${data.email}</div>
-                                    <div class="text-end py-1"><a target="_blank" href="${data.linkedin ? link_ref : ""}" style="text-decoration: underline;">${data.linkedin ? data.linkedin : "Lengkapi Data!"}</a></div>
+                                    <div class="text-end py-1"><a target="_blank" href="${data.linkedin ? link_ref : ""}" style="text-decoration: underline;">${data.linkedin && data.linkedin}</a></div>
                                 </div>
                             </div>
                         </div>
@@ -71,13 +71,14 @@ $.ajax({
 
         var modalresources = () => {
             return (`
+            <input id="profile_picture" name="profile_picture" type="file" class="file" />
             <label for= "email" class= "form-label"> Email</label>
             <input type="text" id="email" value="${data.email}" class="form-control" disabled aria-describedby="passwordHelpBlock">
             <label for="fullname" class="form-label">Nama Lengkap</label>
             <input type="text" id="fullname" name="fullname" value="${data.fullname ? data.fullname : ""}" class="form-control" aria-describedby="passwordHelpBlock">
             <label for="date" class="col-1 col-form-label">Date</label>
             <div class="input-group date" id="datepicker">
-                <input type="date" class="form-control" id="date" name="date" value="${data.date_birth ? data.date_birth : ""}"/>
+                <input type="date" class="form-control" id="date_birth" name="date_birth" value="${data.date_birth ? data.date_birth : ""}"/>
             </div>
             <label for="job" class="form-label">Pekerjaan</label>
             <select class="form-select form-select-sm" id="job_id" aria-label=".form-select-sm example">
@@ -99,6 +100,12 @@ $.ajax({
         $("form#edit").html(modalresources);
 
         $('document').ready(function () {
+            $("#profile_picture").fileinput({
+                showCaption: true,
+                dropZoneEnabled: true,
+                allowedFileExtensions: ["jpg", "png", "gif", "svg"],
+                showUpload: true,
+            });
             const tx = document.getElementsByTagName("textarea");
             for (let i = 0; i < tx.length; i++) {
                 tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
@@ -167,8 +174,6 @@ $.ajax({
         const courseList = await Promise.all(
             data.map(getCourseData)
         );
-
-        console.log(courseList);
 
         var coursesResource =
             courseList.map(({

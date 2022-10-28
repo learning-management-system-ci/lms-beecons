@@ -63,13 +63,14 @@ class OrderController extends BaseController
     }
 
     public function generateSnap() {
-        $key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+        helper ("cookie");
+        // $key = getenv('TOKEN_SECRET');
+        // $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        // if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        // $token = explode(' ', $header)[1];
 
-        try {
-            $decoded = JWT::decode($token, $key, ['HS256']);
+        // try {
+        //     $decoded = JWT::decode($token, $key, ['HS256']);
             // Set your Merchant Server Key
             \Midtrans\Config::$serverKey = 'SB-Mid-server-F7J9pzrwMAM5Af2mTxYpD-kx';
             // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
@@ -85,8 +86,8 @@ class OrderController extends BaseController
             $orderBundling = new OrderBundling;
             $user = new Users;
             $temp = 0;
-            $userId = $decoded->uid;
-            //$userId = 16;
+            //$userId = $decoded->uid;
+            $userId = 16;
 
             $getTotalCart = $cart->select('total')->where('user_id', $userId)->findAll();
             if ($getTotalCart == NULL) {
@@ -94,16 +95,27 @@ class OrderController extends BaseController
             }
             $getUser = $user->where('id', $userId)->first();
 
-            $totalPrice = 0;
+            $subTotal = 0;
             foreach ($getTotalCart as $value) {
-                $totalPrice = $temp += $value['total'];
+                $subTotal = $temp += $value['total'];
+            }
+
+            $getCoupon = get_cookie("coupon");
+
+            if ($getCoupon > 0) {
+                $discount = ($getCoupon / 100) * $subTotal;
+                $total = $subTotal - $discount;
+            } else if ($getCoupon == 0) {
+                $total = $subTotal;
             }
 
             $orderId = rand();
             $dataOrder = [
                 'order_id'  => $orderId,
                 'user_id' => $userId,
-                'gross_amount' => $totalPrice,
+                'discount_price' => $getCoupon,
+                'sub_total' => $subTotal,
+                'gross_amount' => $total,
             ];
             $order->insert($dataOrder);
             
@@ -158,11 +170,13 @@ class OrderController extends BaseController
                 }
             }
 
-            $cart->where('user_id', $userId)->delete();
+            //$cart->where('user_id', $userId)->delete();
+            // unset($_COOKIE["coupon"]);
+            // setcookie ("coupon", "", time() - 3600, '/api');
 
             $transaction = [
                 'order_id' => $orderId,
-                'gross_amount' => $totalPrice
+                'gross_amount' => $total
             ];
 
             $cust_detail = [
@@ -182,9 +196,9 @@ class OrderController extends BaseController
             $token = \Midtrans\Snap::getSnapToken($params);
             return view ('pages/transaction/snap-pay', ['token' => $token]);
 
-        } catch (\Throwable $th) {
-            return $this->fail($th->getMessage());
-        }
+        // } catch (\Throwable $th) {
+        //     return $this->fail($th->getMessage());
+        // }
     }
 
     public function notifHandler() {
@@ -239,14 +253,78 @@ class OrderController extends BaseController
             echo "Payment using " . $type . " for transaction order_id: " . $notif->order_id . " is canceled.";
         }
         
-
         $order = new Order;
+        $order_course = new OrderCourse;
+        $order_bundling = new OrderBundling;
         $id = $this->request->getVar("order_id");
-		$data = [
+        //$id = 916110939;
+
+		$dataUpdate = [
 			"order_id" => $this->request->getVar("order_id"),
 			"transaction_status" => $status,
             "transaction_id" => $this->request->getVar("transaction_id"),
 	    ];
-        $order->update($id, $data);
-    }		
+        $order->update($id, $dataUpdate);
+        
+        $getOrderData = $order
+            ->select('*')
+            ->where('order.order_id', $id)
+            ->findAll();
+
+        $getOrder = [
+            "order_id" => $getOrderData[0]["order_id"],
+            "checkout_date" => $getOrderData[0]["transaction_time"],
+            "sub_total" => $getOrderData[0]["sub_total"],
+            "total" => $getOrderData[0]["gross_amount"],
+            "discount_price" => $getOrderData[0]["discount_price"],
+            "payment_type" => $this->request->getVar("payment_type"),
+            "transaction_time" => $this->request->getVar("transaction_time")
+        ];
+        
+        $getCourse = $order_course
+            ->select('course.title, course.new_price')
+            ->where('order_course.order_id', $id)
+            ->join('course', 'order_course.course_id=course.course_id')
+            ->findAll();
+
+        $getCourse['getCourse'] = $getCourse;
+
+        $getBundling = $order_bundling
+            ->select('bundling.title, bundling.new_price')
+            ->where('order_bundling.order_id', $id)
+            ->join('bundling', 'order_bundling.bundling_id=bundling.bundling_id')
+            ->findAll();
+        
+        $getBundling['getBundling'] = $getBundling;
+       
+        $data = array_merge($getCourse, $getBundling, $getOrder);
+        
+        //send receipt payment
+        $getEmail = $order
+            ->select('users.email')
+            ->where('order.order_id', $id)
+            ->join('users', 'order.user_id=users.id')
+            ->findAll();
+
+
+        $subject = 'Pembelian Selesai';
+        $getEmail = $getEmail[0]["email"];
+        //return view('/html_email/payment_success.html',$data);
+        
+        $message = view('/html_email/payment_success.html', $data);
+        $email = \Config\Services::email();
+        $email->setTo($getEmail);
+        $email->setFrom('hendrikusozzie@gmail.com', 'Pembelian berhasil');
+        $email->setSubject($subject);
+        $email->setMessage($message);
+          
+        $email->send();
+    }
+    
+    public function send() {
+                // send receipt payment
+                $order = new Order;
+                $user = new Users;
+               
+    }
 }

@@ -22,6 +22,33 @@ class ReferralController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
             $referral = new Referral();
+
+            $data = $referral->select('referral_code')->where('user_id', $decoded->uid)->first();
+            $response = [
+                'referral_code' => $data['referral_code'],
+            ];
+
+            if (count($data) > 0) {
+                return $this->respond($response);
+            } else {
+                return $this->failNotFound('Tidak ada data');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+        return $this->failNotFound('Data user tidak ditemukan');
+    }
+    
+    public function getOthers()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $referral = new Referral();
             $used = new ReferralUser();
 
             $referral_id = $referral->select('referral_id')->where('user_id', $decoded->uid)->first();

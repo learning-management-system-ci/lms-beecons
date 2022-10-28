@@ -1,5 +1,7 @@
 $('document').ready(function () {
-    $('#loading').html("Logging in...");
+    $('#loading-modal').on('hide.bs.modal', function () {
+        return false
+    });
 })
 
 $("#login").submit(function (event) {
@@ -32,12 +34,15 @@ $("#login").submit(function (event) {
             $('#login').unbind("submit");
             var error = data.status;
             if (error != null) {
-                $('#loading-modal').modal('hide');
-                $('document').ready(function () {
-                    $('.modal-header').addClass("bg-success");
-                    $('.modal-title').html("Berhasil");
-                    $('#message').html("Tunggu kami mengarahkan anda ke halaman profile...");
-                    $('#message-modal').modal('toggle');
+                $('#loading-modal').on('hide.bs.modal', function () { });
+                $('#loading-modal').hide();
+                $('.modal-backdrop').remove();
+                new swal({
+                    title: "Berhasil!",
+                    text: "Tunggu kami mengarahkan anda ke halaman profile...",
+                    icon: "success",
+                    timer: 0,
+                    showConfirmButton: false
                 })
             };
             if (error !== 500) {
@@ -49,12 +54,13 @@ $("#login").submit(function (event) {
         error: function (status, error) {
             var error_message = status.responseJSON.messages.error;
             if (error_message != null) {
-                $('#loading-modal').modal('hide');
-                $(document).ready(function () {
-                    $('.modal-header').addClass("bg-danger");
-                    $('.modal-title').html("Gagal");
-                    $('#message').html(error_message);
-                    $('#message-modal').modal('toggle');
+                $('#loading-modal').on('hide.bs.modal', function () { });
+                $('#loading-modal').hide();
+                $('.modal-backdrop').remove();
+                new swal({
+                    title: 'Gagal',
+                    text: error_message,
+                    showConfirmButton: true
                 })
             }
         },

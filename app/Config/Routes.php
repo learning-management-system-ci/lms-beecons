@@ -141,6 +141,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->post('update/(:num)', 'Api\UserController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\UserController::delete/$1');
     });
 
     $routes->group('course/', static function ($routes) {
@@ -271,7 +272,9 @@ $routes->group('api/', static function ($routes) {
     $routes->group('order/', static function ($routes) {
         $routes->get('', 'Api\OrderController::index');
         $routes->get('generatesnap', 'Api\OrderController::generateSnap');
-        $routes->post('notif-handler', 'Api\OrderController::notifHandler');
+        $routes->get('notif-handler', 'Api\OrderController::notifHandler');
+
+        $routes->post('coba', 'Api\OrderController::send');
     });
 
     $routes->group('quiz/', static function ($routes) {

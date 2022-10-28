@@ -17,6 +17,10 @@ button {
   padding-right: 3.5rem;
 }
 
+#loading-modal {
+  top: 40%;
+}
+
 .snippet {
   position: relative;
   background-color: #ffffff;
