@@ -142,26 +142,39 @@ class CourseController extends ResourceController
                     ->where('video_category_id', $videoCategory[$l]['video_category_id'])
                     ->orderBy('order', 'ASC')
                     ->findAll();
-
                 if ($videoCategory[0]['title'] != '') {
                     $data['video_category'][$l]['video'] = $video;
+
+                    if ($loggedIn)
+                        for ($p = 0; $p < count($video); $p++) {
+                            $user_video = $this->userVideo
+                                ->select('score')
+                                ->where('user_id', $decoded->uid)
+                                ->where('video_id', $video[$p]['video_id'])
+                                ->findAll();
+                            if ($user_video) {
+                                $data['video_category'][$l]['video'][$p]['score'] = $user_video[0]['score'];
+                            } else {
+                                $data['video_category'][$l]['video'][$p]['score'] = null;
+                            }
+                        }
                 } else {
                     $data['video'] = $video;
-                }
 
-                if ($loggedIn)
-                    for ($p = 0; $p < count($video); $p++) {
-                        $user_video = $this->userVideo
-                            ->select('score')
-                            ->where('user_id', $decoded->uid)
-                            ->where('video_id', $video[$p]['video_id'])
-                            ->findAll();
-                        if ($user_video) {
-                            $data['video'][$p]['score'] = $user_video[0]['score'];
-                        } else {
-                            $data['video'][$p]['score'] = null;
+                    if ($loggedIn)
+                        for ($p = 0; $p < count($video); $p++) {
+                            $user_video = $this->userVideo
+                                ->select('score')
+                                ->where('user_id', $decoded->uid)
+                                ->where('video_id', $video[$p]['video_id'])
+                                ->findAll();
+                            if ($user_video) {
+                                $data['video'][$p]['score'] = $user_video[0]['score'];
+                            } else {
+                                $data['video'][$p]['score'] = null;
+                            }
                         }
-                    }
+                }
             }
 
             if (isset($data['video'])) {
@@ -173,10 +186,16 @@ class CourseController extends ResourceController
 
                     if (!$checkIfVideoIsLink) {
                         $file = $this->getID3->analyze($this->path . $filename);
+                        $checkFileIsExist = stristr($file['error'][0], '!file_exists') ? false : true;
 
-                        $duration = ["duration" => $file['playtime_string']];
-                        $data['video'][$i] += $duration;
-                        $data['video'][$i]['video'] = $this->pathVideo . $data['video'][$i]['video'];
+                        if ($checkFileIsExist) {
+                            $duration = ["duration" => $file['playtime_string']];
+                            $data['video'][$i] += $duration;
+                            $data['video'][$i]['video'] = $this->pathVideo . $data['video'][$i]['video'];
+                        } else {
+                            $duration = ["duration" => null];
+                            $data['video'][$i] += $duration;
+                        }
                     } else {
                         $duration = ["duration" => null];
                         $data['video'][$i] += $duration;
@@ -200,7 +219,7 @@ class CourseController extends ResourceController
             } elseif (isset($data['video_category'])) {
                 for ($l = 0; $l < count($videoCategory); $l++) {
                     if ($loggedIn) {
-                        for ($i = 0; $i < count($data['video_category'][$l]); $i++) {
+                        for ($i = 0; $i < count($data['video_category'][$l]['video']); $i++) {
                             $path = 'upload/course-video/';
                             $filename = $data['video_category'][$l]['video'][$i]['video'];
 
@@ -208,16 +227,22 @@ class CourseController extends ResourceController
 
                             if (!$checkIfVideoIsLink) {
                                 $file = $this->getID3->analyze($path . $filename);
+                                $checkFileIsExist = stristr($file['error'][0], '!file_exists') ? false : true;
 
-                                $duration = ["duration" => $file['playtime_string']];
-                                $data['video_category'][$l]['video'][$i] += $duration;
-                                $data['video_category'][$l]['video'][$i]['video'] = $this->pathVideo . $data['video_category'][$l]['video'][$i]['video'];
+                                if ($checkFileIsExist) {
+                                    $duration = ["duration" => $file['playtime_string']];
+                                    $data['video_category'][$l]['video'][$i] += $duration;
+                                    $data['video_category'][$l]['video'][$i]['video'] = $this->pathVideo . $data['video_category'][$l]['video'][$i]['video'];
+                                } else {
+                                    $duration = ["duration" => null];
+                                    $data['video_category'][$l]['video'][$i] += $duration;
+                                }
                             } else {
                                 $duration = ["duration" => null];
                                 $data['video_category'][$l]['video'][$i] += $duration;
                             }
 
-                            if ($data['owned'] && $i != 0) {
+                            if (isset($data['owned']) && $i != 0) {
                                 $data['video_category'][$l]['video'][$i]['video'] = null;
                             }
                         }
@@ -230,10 +255,16 @@ class CourseController extends ResourceController
 
                             if (!$checkIfVideoIsLink) {
                                 $file = $this->getID3->analyze($this->path . $filename);
+                                $checkFileIsExist = stristr($file['error'][0], '!file_exists') ? false : true;
 
-                                $duration = ["duration" => $file['playtime_string']];
-                                $data['video_category'][$l]['video'][$i] += $duration;
-                                $data['video_category'][$l]['video'][$i]['video'] = $this->pathVideo . $data['video_category'][$l]['video'][$i]['video'];
+                                if ($checkFileIsExist) {
+                                    $duration = ["duration" => $file['playtime_string']];
+                                    $data['video_category'][$l]['video'][$i] += $duration;
+                                    $data['video_category'][$l]['video'][$i]['video'] = $this->pathVideo . $data['video_category'][$l]['video'][$i]['video'];
+                                } else {
+                                    $duration = ["duration" => null];
+                                    $data['video_category'][$l]['video'][$i] += $duration;
+                                }
                             } else {
                                 $duration = ["duration" => null];
                                 $data['video_category'][$l]['video'][$i] += $duration;

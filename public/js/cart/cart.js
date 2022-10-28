@@ -60,19 +60,23 @@ $(document).ready(function () {
 
             $("table")
                 .after('<div class="empty-cart-info d-flex justify-content-center align-items-center">' +
-                    '<h6> Keranjang kamu kosong.Pilih course terbaik kami</h6>' +
+                    '<h6> Keranjang kamu kosong, pilih course terbaik kamu.</h6>' +
                     '</div>')
             
             $('#cart-count .nav-btn-icon-amount').remove()
             
-            $('#cart .cart-total').html('Rp. 0')
+            $('#cart .cart-total-final').html('Rp. 0')
+
+            $('.order-total-container').addClass('d-none')
+
+            $('.btn-modal-referral').addClass('d-none')
         }
     }
 
-    async function handleCartApi() {
+    async function handleCartApi(code=null) {
         try {
             const res = await $.ajax({
-                url: '/api/cart',
+                url: `/api/cart?code=${code}`,
                 method: 'GET',
                 dataType: 'json',
                 headers: {
@@ -81,11 +85,11 @@ $(document).ready(function () {
             })
 
             const cartList = res.item
-            const total = cartList.reduce((prev, curr) => prev + parseInt(curr.sub_total), 0)
             
             if (cartList.length == 0) {
                 empty_cart()
             } else {
+                $('.btn-modal-referral').removeClass('d-none')
                 $('#cart-list tbody').html(cartList.map((item) => {
                     return `
                         <tr>
@@ -116,8 +120,14 @@ $(document).ready(function () {
                 $('#cart-count').append(
                     `<div class="nav-btn-icon-amount">${cartList.length}</div>`
                 );
+                
+                if (code) {
+                    $('.order-total-container').removeClass('d-none')
+                    $('#cart .cart-total').html(getRupiah(res.sub_total + ''))
+                    $('.order-total-coupon').html(`${res.coupon}%`)
+                }
 
-                $('#cart .cart-total').html(getRupiah(total + ''))
+                $('#cart .cart-total-final').html(getRupiah(res.total + ''))
                 
                 $('#cart .cart-btn-remove').on('click', function(e) {
                     const cart_id = $(this).val()
@@ -131,8 +141,41 @@ $(document).ready(function () {
                         }
                     }).then((res) => {
                         $(this).parent().parent().remove()
-                        handleCartApi()
+                        handleCartApi(code)
                     })
+                })
+
+                const voucherRes = await $.ajax({
+                    url: `/api/voucher`,
+                    method: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        Authorization: 'Bearer ' + Cookies.get("access_token")
+                    }
+                })
+
+                $('#cart-voucher-list').html(voucherRes.map((voucher) => {
+                    return `
+                        <div class="col-6 pb-3 pe-2 ps-0">
+                            <button class="cart-referral-modal-coucher-btn" data-code=${voucher.code}>
+                                <div class="referral-item">
+                                    <div class="icon">
+                                        <img src="/image/cart/voucher-icon.png" alt="">
+                                    </div>
+                                    <div class="disc">
+                                        ${voucher.discount_price}%
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    `
+                }))
+
+                $('.cart-referral-modal-coucher-btn').on('click', function(e) {
+                    const code = $(this).data('code')
+                    $('#cart-referral-modal').modal('hide')
+
+                    handleCartApi(code)
                 })
             }
         } catch (error) {

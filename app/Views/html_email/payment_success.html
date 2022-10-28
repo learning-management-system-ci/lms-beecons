@@ -24,8 +24,8 @@
                 <th
                     style="padding-left:1.25rem!important;padding-right:1.25rem!important;text-align:start!important;border-bottom-width:0!important;border-radius:8px!important">
                     <div style="margin-top:0.5rem!important">
-                        <img src="https://ci4.googleusercontent.com/proxy/2ECKJJrCWAl_vZ0354Wq8S37g6TbhNipAqCo0XXlLCfjnQo6xHdlneBePM8FFc49fK6IHdxYSn_AUyzbUZYv=s0-d-e1-ft#https://lms.lazy2.codes/image/email/Logo.png"
-                            width="130px" alt="" class="CToWUd" data-bit="iit"> <br>
+                        <img src="https://lms.lazy2.codes/image/email/logo.png" width="130px" alt="" class="CToWUd"
+                            data-bit="iit"> <br>
                         <p
                             style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000">
                             Selamat! pembayaran kamu berhasil. Sekarang kamu dapat mengakses course
@@ -98,65 +98,69 @@
                         <hr style="height:1px;border:none;margin:1em 0;background-color:#dfdfdf">
                         <div style="margin-top:1rem!important;padding-left:0.5em">
                             <?php if ($getCourse != NULL) { ?>
-                                <table
-                                    style="display:block;margin-left:auto;margin-right:auto;max-width:600px;border-collapse:collapse">
-                                    <tbody>
-                                        <tr style="border-radius:10px!important;background-color:white">
-                                            <td style="min-width:150px">
-                                                <?php foreach($getCourse as $value) { ?>
-                                                    <p
-                                                        style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin-top:0!important;margin-bottom: 0px !important;">
-                                                        <b><?php echo $value['title']; ?></b>
-                                                    </p>
-                                                    <br>
-                                                <?php } ?>
-                                            </td>
-                                            <td style="width:75%">
-                                                <?php foreach($getCourse as $value) { ?>
-                                                    <p
-                                                        style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;font-style:normal;font-weight:600;font-size:16px;color:#000000;margin:0!important;text-align:right">
-                                                        <?php
+                            <table
+                                style="display:block;margin-left:auto;margin-right:auto;max-width:600px;border-collapse:collapse">
+                                <tbody>
+                                    <tr style="border-radius:10px!important;background-color:white">
+                                        <td style="min-width:150px">
+                                            <?php foreach($getCourse as $value) { ?>
+                                            <p
+                                                style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin-top:0!important;margin-bottom: 0px !important;">
+                                                <b>
+                                                    <?php echo $value['title']; ?>
+                                                </b>
+                                            </p>
+                                            <br>
+                                            <?php } ?>
+                                        </td>
+                                        <td style="width:75%">
+                                            <?php foreach($getCourse as $value) { ?>
+                                            <p
+                                                style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;font-style:normal;font-weight:600;font-size:16px;color:#000000;margin:0!important;text-align:right">
+                                                <?php
                                                             helper('number');
                                                             echo number_to_currency($value['new_price'], 'IDR', 'id_ID', 2);
                                                         ?>
-                                                    </p>
-                                                    <br>
-                                                <?php } ?>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                            </p>
+                                            <br>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <?php } ?>
 
                             <?php if ($getBundling != NULL) { ?>
-                                <table
-                                    style="display:block;margin-left:auto;margin-right:auto;max-width:600px;border-collapse:collapse">
-                                    <tbody>
-                                        <tr style="border-radius:10px!important;background-color:white">
-                                            <td style="min-width:150px">
-                                                <?php foreach($getBundling as $value) { ?>
-                                                    <p
-                                                        style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin-top:0!important;margin-bottom: 0px !important;">
-                                                        <b><?php echo $value['title']; ?></b>
-                                                    </p>
-                                                    <br>
-                                                <?php } ?>
-                                            </td>
-                                            <td style="width:75%">
-                                                <?php foreach($getBundling as $value) { ?>
-                                                    <p
-                                                        style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;font-style:normal;font-weight:600;font-size:16px;color:#000000;margin:0!important;text-align:right">
-                                                        <?php
+                            <table
+                                style="display:block;margin-left:auto;margin-right:auto;max-width:600px;border-collapse:collapse">
+                                <tbody>
+                                    <tr style="border-radius:10px!important;background-color:white">
+                                        <td style="min-width:150px">
+                                            <?php foreach($getBundling as $value) { ?>
+                                            <p
+                                                style="font-family:sans-serif;font-style:normal;font-weight:400;font-size:16px;color:#000000;margin-top:0!important;margin-bottom: 0px !important;">
+                                                <b>
+                                                    <?php echo $value['title']; ?>
+                                                </b>
+                                            </p>
+                                            <br>
+                                            <?php } ?>
+                                        </td>
+                                        <td style="width:75%">
+                                            <?php foreach($getBundling as $value) { ?>
+                                            <p
+                                                style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;font-style:normal;font-weight:600;font-size:16px;color:#000000;margin:0!important;text-align:right">
+                                                <?php
                                                             helper('number');
                                                             echo number_to_currency($value['new_price'], 'IDR', 'id_ID', 2);
                                                         ?>
-                                                    </p>
-                                                    <br>
-                                                <?php } ?>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                            </p>
+                                            <br>
+                                            <?php } ?>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <?php } ?>
                         </div>
                         <hr style="height:1px;border:none;margin:1em 0;background-color:#dfdfdf">
@@ -242,8 +246,8 @@
                     </div>
                     <div style="text-align:center">
                         <hr style="height:1px;border:none;background-color:#adadad">
-                        <img src="https://ci4.googleusercontent.com/proxy/c8E79KARC9F9NX4Yla8ZmFjorYT291P7VMo7-Q5cEIkDYhLnbs4O-qeAP_9F369r7oVAWZFvQ_n7TUsE3Rsi5U-adA=s0-d-e1-ft#https://lms.lazy2.codes/image/email/logo-white.svg"
-                            width="80px" alt="" class="CToWUd" data-bit="iit">
+                        <img src="https://lms.lazy2.codes/image/email/logo_bnw.png" width="80px" alt="" class="CToWUd"
+                            data-bit="iit">
                     </div>
                 </th>
             </tr>
