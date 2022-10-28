@@ -137,6 +137,10 @@ button {
   box-shadow: none;
   border-color: gray;
 }
+#cart .cart-referral-modal-container .cart-referral-modal-coucher-btn {
+  background-color: transparent;
+  padding: 0;
+}
 #cart .cart-referral-modal-container .referral-item {
   display: flex;
 }

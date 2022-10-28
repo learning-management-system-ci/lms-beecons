@@ -8,14 +8,6 @@
 
 <?= $this->section('app-component') ?>
 <div id="cart" class="main-container mb-5">
-    <!-- <section>
-        <nav class="pt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">Cart</li>
-            </ol>
-            <hr>
-        </nav>
-    </section> -->
     <?php if (!get_cookie("access_token")) : ?>
         <div class="section-no-login">
             <h1 class="mb-3">Kamu belum masuk</h1>
@@ -48,12 +40,6 @@
             <hr>
         </section>
         <section class="voucher-order-total d-flex justify-content-between align-items-start">
-            <!-- <form id="cart-form-redeem">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Kode Voucher" required>
-                    <button type="submit" id="redeem" class="my-btn">Redeem</button>
-                </div>
-            </form> -->
             <div class="">
                 <button type="button" class="btn-modal-referral border border-2" data-bs-toggle="modal" data-bs-target="#cart-referral-modal">
                     <span>
@@ -92,36 +78,18 @@
                                     <h6 class="m-0">Voucher yang kamu punya</h6>
                                     <small>Hanya bisa pilih 1 kupon</small>
 
-                                    <div class="row py-2">
-                                        <div class="col-6 pb-3 pe-2">
-                                            <div class="referral-item">
-                                                <div class="icon">
-                                                    <img src="/image/cart/voucher-icon.png" alt="">
+                                    <div class="row m-0 pt-3">
+                                        <div class="col-6 pb-3 pe-2 ps-0">
+                                            <button class="cart-referral-modal-coucher-btn">
+                                                <div class="referral-item">
+                                                    <div class="icon">
+                                                        <img src="/image/cart/voucher-icon.png" alt="">
+                                                    </div>
+                                                    <div class="disc">
+                                                        15%
+                                                    </div>
                                                 </div>
-                                                <div class="disc">
-                                                    15%
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 pb-3 pe-2">
-                                            <div class="referral-item">
-                                                <div class="icon">
-                                                    <img src="/image/cart/voucher-icon.png" alt="">
-                                                </div>
-                                                <div class="disc">
-                                                    15%
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 pb-3 pe-2">
-                                            <div class="referral-item">
-                                                <div class="icon">
-                                                    <img src="/image/cart/voucher-icon.png" alt="">
-                                                </div>
-                                                <div class="disc">
-                                                    15%
-                                                </div>
-                                            </div>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
