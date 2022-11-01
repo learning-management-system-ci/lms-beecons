@@ -39,8 +39,8 @@ class ReferralUser extends Migration
         ]);
 
         $this->forge->addKey('referral_user_id', TRUE);
-        $this->forge->addForeignKey('referral_id', 'referral', 'referral_id');
-        $this->forge->addForeignKey('user_id', 'users', 'id');
+        $this->forge->addForeignKey('referral_id', 'referral', 'referral_id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('referral_user', TRUE);
     }
 

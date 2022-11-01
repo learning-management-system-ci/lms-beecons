@@ -30,7 +30,7 @@ class Notification extends Migration
         ]);
 
         $this->forge->addKey('notification_id', TRUE);
-        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('notification', TRUE);
     }
 

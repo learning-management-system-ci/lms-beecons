@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CategoryBundling;
+use App\Models\Bundling;
 use App\Models\Users;
 use Firebase\JWT\JWT;
 
@@ -15,6 +16,7 @@ class CategoryBundlingController extends ResourceController
     public function __construct()
     {
         $this->categorybundling = new CategoryBundling();
+        $this->bundling = new Bundling();
     }
     
     public function index() {
@@ -174,7 +176,7 @@ class CategoryBundlingController extends ResourceController
 
             $data = $this->categorybundling->where('category_bundling_id', $id)->findAll();
             if($data){
-            $this->categorybundling->delete($id);
+                $this->categorybundling->delete($id);
                 $response = [
                     'status'   => 200,
                     'error'    => null,
@@ -185,8 +187,7 @@ class CategoryBundlingController extends ResourceController
             }
             return $this->respondDeleted($response);
         } catch (\Throwable $th) {
-            // return $this->fail($th->getMessage());
-            exit($th->getMessage());
+            return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data Category Bundling tidak ditemukan');
     }

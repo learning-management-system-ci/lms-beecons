@@ -18,19 +18,21 @@ class CourseBundling extends Migration
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
+                'null'       => true,
             ],
             'course_id'          => [
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
+                'null'       => true,
             ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
 
         $this->forge->addKey('course_bundling_id', TRUE);
-        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id',  'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('course_id', 'course', 'course_id');
+        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id',  'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('course_bundling', TRUE);
    }
 

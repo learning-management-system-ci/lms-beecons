@@ -42,8 +42,8 @@ class Cart extends Migration
 
         $this->forge->addKey('cart_id', TRUE);
         $this->forge->addForeignKey('user_id', 'users', 'id');
-        $this->forge->addForeignKey('course_id', 'course', 'course_id');
-        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id');
+        $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('cart', TRUE);
     }
 

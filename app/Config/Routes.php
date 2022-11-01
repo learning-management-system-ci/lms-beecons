@@ -137,6 +137,7 @@ $routes->group('api/', static function ($routes) {
     });
 
     $routes->group('users/', static function ($routes) {
+        $routes->get('admin', 'Api\UserController::index');
         $routes->get('', 'Api\UserController::profile');
         $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');

@@ -39,7 +39,7 @@ class Referral extends Migration
         ]);
 
         $this->forge->addKey('referral_id', TRUE);
-        $this->forge->addForeignKey('user_id', 'users', 'id');
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('referral', TRUE);
     }
 

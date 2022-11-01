@@ -16,6 +16,29 @@ class UserController extends ResourceController
 {
     use ResponseTrait;
 
+    public function index()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] != 'admin') {
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $data = $user->orderBy('id', 'DESC')->findAll();
+            return $this->respond($data);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
+
     public function profile()
     {
         $key = getenv('TOKEN_SECRET');
