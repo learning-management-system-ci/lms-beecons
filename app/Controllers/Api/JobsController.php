@@ -168,20 +168,15 @@ class JobsController extends ResourceController
 			}
 
             $data = $this->jobs->where('job_id', $id)->findAll();
-            $cek = $this->users->where('job_id', $id)->findAll();
-            if($cek){
-                $this->jobs->updateDataUsers($id);
-
-                if($data){
-                    $this->jobs->delete($id);
-                    $response = [
-                        'status'   => 200,
-                        'error'    => null,
-                        'messages' => [
-                            'success' => 'Data pekerjaan berhasil dihapus'
-                        ]
-                    ];
-                }
+            if($data){
+                $this->jobs->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'error'    => null,
+                    'messages' => [
+                        'success' => 'Data pekerjaan berhasil dihapus'
+                    ]
+                ];
             }
             return $this->respondDeleted($response);
         } catch (\Throwable $th) {

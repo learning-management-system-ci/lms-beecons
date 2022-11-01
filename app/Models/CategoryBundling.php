@@ -16,10 +16,4 @@ class CategoryBundling extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['category_bundling_id', 'name', 'created_at', 'updated_at'];
 
-    function updateDataBundling($id){
-        $builder = $this->db->table('bundling');
-        $builder->set('category_bundling_id', null);
-        $builder->where('category_bundling_id', $id);
-        $builder->update();
-	}
 }

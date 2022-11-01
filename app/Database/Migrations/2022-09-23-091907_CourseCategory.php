@@ -32,8 +32,8 @@ class CourseCategory extends Migration
         ]);
 
         $this->forge->addKey('course_category_id', TRUE);
-        $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'NO ACTION');
-        $this->forge->addForeignKey('category_id', 'category', 'category_id', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('category_id', 'category', 'category_id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('course_category', TRUE);
     }
 

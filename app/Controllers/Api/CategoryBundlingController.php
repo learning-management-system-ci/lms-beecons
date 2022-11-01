@@ -175,21 +175,15 @@ class CategoryBundlingController extends ResourceController
             }
 
             $data = $this->categorybundling->where('category_bundling_id', $id)->findAll();
-            $cek = $this->bundling->where('category_bundling_id', $id)->findAll();
-
-            if($cek){
-                $this->categorybundling->updateDataBundling($id);
-
-                if($data){
-                    $this->categorybundling->delete($id);
-                    $response = [
-                        'status'   => 200,
-                        'error'    => null,
-                        'messages' => [
-                            'success' => 'Data Category Bundling berhasil dihapus'
-                        ]
-                    ];
-                }
+            if($data){
+                $this->categorybundling->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'error'    => null,
+                    'messages' => [
+                        'success' => 'Data Category Bundling berhasil dihapus'
+                    ]
+                ];
             }
             return $this->respondDeleted($response);
         } catch (\Throwable $th) {
