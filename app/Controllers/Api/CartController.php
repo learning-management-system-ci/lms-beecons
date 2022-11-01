@@ -68,15 +68,14 @@ class CartController extends ResourceController
                     $data = null;
                 }
 
-            $reedem = $this->reedem($data, $decoded->uid);
-            if ($reedem > 0) {
-                $discount = ($reedem / 100) * $temp;
-                $total = $temp - $discount;
-            } else {
-                $reedem = 0;
-                $total = $temp;
-            }
-            setcookie("coupon", $reedem, '/');
+                $reedem = $this->reedem($data, $decoded->uid);
+                if ($reedem > 0) {
+                    $discount = ($reedem / 100) * $temp;
+                    $total = $temp - $discount;
+                } else {
+                    $reedem = 0;
+                    $total = $temp;
+                }
 
                 $response = [
                     'user' => $user_data,

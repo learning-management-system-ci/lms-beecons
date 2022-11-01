@@ -14,5 +14,5 @@ class Order extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['order_id', 'snap_token', 'user_id', 'discount_price', 'sub_total', 'gross_amount', 'transaction_status', 'transaction_time', 'transaction_id'];
+    protected $allowedFields    = ['order_id', 'snap_token', 'user_id', 'coupon_code', 'discount_price', 'sub_total', 'gross_amount', 'transaction_status', 'transaction_time', 'transaction_id'];
 }

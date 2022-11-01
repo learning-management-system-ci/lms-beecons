@@ -24,6 +24,11 @@ class CreateOrderTable extends Migration
                 'constraint'     => 5,
                 'unsigned'       => true,
             ],
+            'coupon_code'   => [
+                'type'          => 'VARCHAR',
+                'constraint'    => 50,
+                'null'          => true,
+            ],
             'discount_price'   => [
                 'type'          => 'VARCHAR',
                 'constraint'    => 50,
