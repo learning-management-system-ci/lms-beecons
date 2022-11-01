@@ -14,13 +14,14 @@ class Cart extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'course_id', 'bundling_id', 'total'];
+    protected $allowedFields    = ['user_id', 'course_id', 'bundling_id'];
 
-    function getCart($userId) {
+    function getCart($userId)
+    {
         $builder = $this->db->table('cart');
-                    $builder->select('*');
-                    $builder->where('user_id', $userId);
-                    $query = $builder->get();
-                    return $query;
+        $builder->select('*');
+        $builder->where('user_id', $userId);
+        $query = $builder->get();
+        return $query;
     }
 }
