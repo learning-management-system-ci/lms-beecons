@@ -41,65 +41,10 @@
         </section>
         <section class="voucher-order-total d-flex justify-content-between align-items-start">
             <div class="">
-                <button type="button" class="btn-modal-referral border border-2 d-none" data-bs-toggle="modal" data-bs-target="#cart-referral-modal">
-                    <span>
-                        <img src="/image/cart/referral-icon.png" alt="icon">
-                    </span>
-                    <span>
-                        Pakai promo atau referral
-                    </span>
-                </button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="cart-referral-modal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog my-0">
-                        <div class="modal-content">
-                            <div class="cart-referral-modal-container">
-                                <div class="cart-referral-modal-header">
-                                    <h5 class="m-0">Promo</h5>
-                                    <div class="cart-referral-modal-header-btn">
-                                        <a href="/cart">Reset Diskon</a>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                </div>
-
-                                <div class="cart-referral-modal-form py-3">
-                                    <h6 class="m-0">Kode voucher</h6>
-                                    <small>Hanya bisa pilih 1 kupon</small>
-                                    <div>
-                                        <form id="cart-referral-modal-form">
-                                            <input type="text" class="form-control" name="code" placeholder="Masukkan kode promo atau referral" required>
-                                            <button type="submit" id="redeem" class="my-btn">Redeem</button>
-                                        </form>
-                                    </div>
-                                </div>
-
-                                <div class="cart-referral-modal-vouchers pt-3">
-                                    <h6 class="m-0">Voucher yang kamu punya</h6>
-                                    <small>Hanya bisa pilih 1 kupon</small>
-
-                                    <div id="cart-voucher-list" class="row m-0 pt-3">
-                                        <!-- <div class="col-6 pb-3 pe-2 ps-0">
-                                            <button class="cart-referral-modal-coucher-btn">
-                                                <div class="referral-item">
-                                                    <div class="icon">
-                                                        <img src="/image/cart/voucher-icon.png" alt="">
-                                                    </div>
-                                                    <div class="disc">
-                                                        15%
-                                                    </div>
-                                                </div>
-                                            </button>
-                                        </div> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <div class="order-total">
-                <div class="order-total-container d-none">
+                <!-- <div class="order-total-container d-none">
                     <div class="d-flex justify-content-between mb-2">
                         <p>Total</p>
                         <p class="cart-total"></p>
@@ -109,7 +54,7 @@
                         <p class="order-total-coupon">20%</p>
                     </div>
                     <hr>
-                </div>
+                </div> -->
                 <div class="d-flex justify-content-between">
                     <h6>TOTAL</h6>
                     <h6 class="cart-total-final">Rp. 0</h6>

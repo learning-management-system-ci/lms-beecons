@@ -8,6 +8,8 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\Users;
 use App\Models\Jobs;
 use App\Models\Notification;
+use App\Models\UserCourse;
+use App\Models\Course;
 use Firebase\JWT\JWT;
 
 class UserController extends ResourceController
@@ -48,10 +50,21 @@ class UserController extends ResourceController
             $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
             $job = new Jobs;
+            $modelUserCourse = new UserCourse;
+            $modelCourse = new Course;
+
             $data = $user->where('id', $decoded->uid)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
 
             $path = site_url() . 'upload/users/';
+
+            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
+
+            $course = $userCourse;
+            for ($i = 0; $i < count($userCourse); $i++) {
+                $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
+                $course[$i] = $course_;
+            }
 
             $response = [
                 'id' => $decoded->uid,
@@ -63,6 +76,7 @@ class UserController extends ResourceController
                 'address' => $data['address'],
                 'phone_number' => $data['phone_number'],
                 'linkedin' => $data['linkedin'],
+                'course' => $course
             ];
             return $this->respond($response);
         } catch (\Throwable $th) {
