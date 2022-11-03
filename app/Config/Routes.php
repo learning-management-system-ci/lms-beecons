@@ -101,7 +101,7 @@ $routes->group('api/', static function ($routes) {
     $routes->group('voucher/', static function ($routes) {
         $routes->get('', 'Api\VoucherController::index');
         $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
-        $routes->get('code-detail/(:segment)', 'Api\VoucherController::show_code/$1');
+        $routes->get('code-detail', 'Api\VoucherController::show_code');
         $routes->post('create', 'Api\VoucherController::create');
         $routes->put('update/(:segment)', 'Api\VoucherController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');

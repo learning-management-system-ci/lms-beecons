@@ -145,8 +145,9 @@ class VoucherController extends ResourceController
     }
 	}
 
-	public function show_code($code = null)
+	public function show_code()
 	{
+		$input = $this->request->getRawInput();
 		$key = getenv('TOKEN_SECRET');
   	$header = $this->request->getServer('HTTP_AUTHORIZATION');
 	  if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -154,6 +155,8 @@ class VoucherController extends ResourceController
 
 	  try {
 			$decoded = JWT::decode($token, $key, ['HS256']);
+
+			$code = $_GET['code'];
 
 			$data = $this->voucherModel->where('code', $code)->first();
 			if ($data) {
