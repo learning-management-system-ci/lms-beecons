@@ -230,7 +230,7 @@ class VideoController extends ResourceController
 			$rules = [
 				"video_category_id" => "required",
 				"title" => "required",
-				"video" => "uploaded[video]|mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
+				"video" => "mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
 				"order" => "required",
 			];
 
@@ -242,7 +242,7 @@ class VideoController extends ResourceController
 					"required" => "{field} tidak boleh kosong"
 				],
 				"video" => [
-					'uploaded' => '{field} tidak boleh kosong',
+					// 'uploaded' => '{field} tidak boleh kosong',
 					'mime_in' => 'File Extention Harus Berupa mp4, 3gp, atau flv',
 					'max_size' => 'Ukuran File Maksimal 2 MB'
 				],
