@@ -62,8 +62,8 @@ class CartController extends ResourceController
                     $temp += $subtotal;
                 }
 
-                if (isset($_GET['code'])) {
-                    $data = $_GET['code'];
+                if (isset($_GET['c'])) {
+                    $data = $_GET['c'];
                 } else {
                     $data = null;
                 }
