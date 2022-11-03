@@ -11,6 +11,8 @@ use App\Models\OrderCourse;
 use App\Models\OrderBundling;
 use App\Models\UserCourse;
 use App\Models\Users;
+use App\Models\Referral;
+use App\Models\Voucher;
 
 class OrderController extends BaseController
 {
@@ -64,7 +66,6 @@ class OrderController extends BaseController
     }
 
     public function generateSnap() {
-        helper ("cookie");
         // $key = getenv('TOKEN_SECRET');
         // $header = $this->request->getServer('HTTP_AUTHORIZATION');
         // if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -86,6 +87,8 @@ class OrderController extends BaseController
             $orderCourse = new OrderCourse;
             $orderBundling = new OrderBundling;
             $user = new Users;
+            $referral = new Referral;
+            $voucher = new Voucher;
             $temp = 0;
             //$userId = $decoded->uid;
             $userId = 16;
@@ -101,23 +104,36 @@ class OrderController extends BaseController
                 $subTotal = $temp += $value['total'];
             }
 
-            $getCoupon = get_cookie("coupon");
+            $getCode = $_GET['c'];
+            $getDiscount = 0;
+            $verifyReferral = $referral->where("referral_code", $getCode)->first();
+            $verifyVoucher = $voucher->where("code", $getCode)->first();
+            if ($verifyReferral != NULL) {
+                $code = $verifyReferral['referral_code'];
+                $getDiscount = $verifyReferral['discount_price'];
+            } else if ($verifyVoucher != NULL) {
+                $code = $verifyVoucher['code'];
+                $getDiscount = $verifyVoucher['discount_price'];
+            } else {
+                $code = NULL;
+            }
 
-            if ($getCoupon > 0) {
-                $discount = ($getCoupon / 100) * $subTotal;
+            if ($getDiscount > 0) {
+                $discount = ($getDiscount / 100) * $subTotal;
                 $total = $subTotal - $discount;
-            } else if ($getCoupon == 0) {
+            } else if ($getDiscount == 0) {
                 $total = $subTotal;
             }
 
             $orderId = rand();
-            $dataOrder = [
-                'order_id'  => $orderId,
-                'user_id' => $userId,
-                'discount_price' => $getCoupon,
-                'sub_total' => $subTotal,
-                'gross_amount' => $total,
-            ];
+                $dataOrder = [
+                    'order_id'  => $orderId,
+                    'user_id' => $userId,
+                    'coupon_code' => $code,
+                    'discount_price' => $getDiscount,
+                    'sub_total' => $subTotal,
+                    'gross_amount' => $total,
+                ];
             $order->insert($dataOrder);
             
             $dataOrderCourse=[];

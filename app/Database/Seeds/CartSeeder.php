@@ -13,25 +13,21 @@ class CartSeeder extends Seeder
                 'user_id' => 1,
                 'course_id'    => 1,
                 'bundling_id'   => null,
-                'total' => 50000
             ],
             [
                 'user_id' => 1,
                 'course_id'    => 2,
                 'bundling_id'   => null,
-                'total' => 50000
             ],
             [
                 'user_id' => 1,
                 'course_id'    => null,
                 'bundling_id'   => 1,
-                'total' => 50000
             ],
             [
                 'user_id' => 1,
                 'course_id'    => null,
                 'bundling_id'   => 2,
-                'total' => 50000
             ],
         ];
 

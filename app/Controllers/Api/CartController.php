@@ -8,6 +8,7 @@ use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Bundling;
 use App\Models\Users;
+use App\Models\UserCourse;
 use App\Models\Voucher;
 use App\Models\Referral;
 use App\Models\ReferralUser;
@@ -33,8 +34,7 @@ class CartController extends ResourceController
             $user = new Users;
 
             $cart_data = $cart->where('user_id', $decoded->uid)->findAll();
-
-
+            $user_data = $user->select('id, email, date_birth, address, phone_number')->where('id', $decoded->uid)->first();
 
             if (count($cart_data) > 0) {
                 $temp = 0;
@@ -42,16 +42,23 @@ class CartController extends ResourceController
                 foreach ($cart_data as $value) {
                     $course_data = $course->select('title, old_price, new_price, thumbnail')->where('course_id', $value['course_id'])->first();
                     $bundling_data = $bundling->select('title, old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
-                    $user_data = $user->select('id, email, date_birth, address, phone_number')->where('id', $decoded->uid)->first();
+
+                    if ($course_data) {
+                        $price = (isset($course_data['new_price'])) ? $course_data['new_price'] : $course_data['old_price'];
+                    }
+
+                    if ($bundling_data) {
+                        $price = (isset($bundling_data['new_price'])) ? $bundling_data['new_price'] : $bundling_data['old_price'];
+                    }
 
                     $items[] = [
                         'cart_id' => $value['cart_id'],
                         'course' => $course_data,
                         'bundling' => $bundling_data,
-                        'sub_total' => $value['total']
+                        'sub_total' => $price
                     ];
 
-                    $subtotal = (int)$value['total'];
+                    $subtotal = (int)$price;
                     $temp += $subtotal;
                 }
 
@@ -61,15 +68,14 @@ class CartController extends ResourceController
                     $data = null;
                 }
 
-            $reedem = $this->reedem($data, $decoded->uid);
-            if ($reedem > 0) {
-                $discount = ($reedem / 100) * $temp;
-                $total = $temp - $discount;
-            } else {
-                $reedem = 0;
-                $total = $temp;
-            }
-            setcookie("coupon", $reedem, '/');
+                $reedem = $this->reedem($data, $decoded->uid);
+                if ($reedem > 0) {
+                    $discount = ($reedem / 100) * $temp;
+                    $total = $temp - $discount;
+                } else {
+                    $reedem = 0;
+                    $total = $temp;
+                }
 
                 $response = [
                     'user' => $user_data,
@@ -81,7 +87,16 @@ class CartController extends ResourceController
 
                 return $this->respond($response);
             } else {
-                return $this->failNotFound('Tidak ada data');
+                // return $this->failNotFound('Tidak ada data');
+                $response = [
+                    'user' => $user_data,
+                    'item' => [],
+                    'coupon' => 0,
+                    'sub_total' => 0,
+                    'total' => 0
+                ];
+
+                return $this->respond($response);
             }
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
@@ -99,6 +114,8 @@ class CartController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
+            $cart = new Cart;
+            $userCourse = new UserCourse;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
@@ -106,20 +123,26 @@ class CartController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain member', 400);
             }
 
-            $cart = new Cart;
-
             if ($type == 'course') {
-                $course = new Course;
-                $modal = $course->where('course_id', $id)->first();
                 $check = $cart->where('course_id', $id)->where('user_id', $decoded->uid)->first();
+                $check2 = $userCourse->where('user_id', $decoded->uid)->where('course_id', $id)->first();
                 $messages = 'course';
             }
 
             if ($type == 'bundling') {
-                $bundling = new Bundling;
-                $modal = $bundling->where('bundling_id', $id)->first();
                 $check = $cart->where('bundling_id', $id)->where('user_id', $decoded->uid)->first();
                 $messages = 'bundling';
+            }
+
+            if ($check2) {
+                $response = [
+                    'status' => 400,
+                    'success' => 400,
+                    'message' => $messages . ' sudah dibeli',
+                    'data' => []
+                ];
+
+                return $this->respondCreated($response);
             }
 
             if (!$check) {
@@ -127,7 +150,6 @@ class CartController extends ResourceController
                     'user_id' => $decoded->uid,
                     'course_id' => ($type == 'course') ? $id : null,
                     'bundling_id' => ($type == 'bundling') ? $id : null,
-                    'total' => (isset($modal['new_price'])) ? $modal['new_price'] : $modal['old_price']
                 ];
                 $cart->save($data);
                 $response = [
@@ -215,26 +237,27 @@ class CartController extends ResourceController
 
             // batas kode referral dapat dipakai orang lain 5 kali
             if ($ref_data['referral_user'] < 5) {
-                $ref_data['referral_user'] += 1;
+                // $ref_data['referral_user'] += 1;
 
-                do {
-                    $ref_code = strtoupper(bin2hex(random_bytes(4)));
-                    $check_code = $referral->where('referral_code', $ref_code)->first();
-                } while ($check_code);
+                // do {
+                //     $ref_code = strtoupper(bin2hex(random_bytes(4)));
+                //     $check_code = $referral->where('referral_code', $ref_code)->first();
+                //     $check_code2 = $ref_user->where('referral_code', $ref_code)->first();
+                // } while ($check_code || $check_code2);
 
-                $data = [
-                    'referral_user' => $ref_data['referral_user'],
-                ];
+                // $data = [
+                //     'referral_user' => $ref_data['referral_user'],
+                // ];
 
-                $ref_used = [
-                    'referral_id' => $ref_data['referral_id'],
-                    'user_id' => $id,
-                    'referral_code' => $ref_code,
-                    'discount_price' => 15
-                ];
+                // $ref_used = [
+                //     'referral_id' => $ref_data['referral_id'],
+                //     'user_id' => $id,
+                //     'referral_code' => $ref_code,
+                //     'discount_price' => 15
+                // ];
 
-                $referral->update($ref_data['referral_id'], $data);
-                $ref_user->save($ref_used);
+                // $referral->update($ref_data['referral_id'], $data);
+                // $ref_user->save($ref_used);
 
                 return $check_referral['discount_price'];
             }

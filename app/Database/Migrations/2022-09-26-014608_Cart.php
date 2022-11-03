@@ -32,10 +32,6 @@ class Cart extends Migration
                 'unsigned' => true,
                 'null' => true
             ],
-            'total' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
-            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
