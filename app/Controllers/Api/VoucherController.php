@@ -145,6 +145,27 @@ class VoucherController extends ResourceController
     }
 	}
 
+	public function show_code($code = null)
+	{
+		$key = getenv('TOKEN_SECRET');
+  	$header = $this->request->getServer('HTTP_AUTHORIZATION');
+	  if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+	  $token = explode(' ', $header)[1];
+
+	  try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+
+			$data = $this->voucherModel->where('code', $code)->first();
+			if ($data) {
+				return $this->respond($data);
+			} else {
+				return $this->failNotFound('Data voucher tidak ditemukan');
+			}
+		} catch (\Throwable $th) {
+      return $this->fail($th->getMessage());
+    }
+	}
+
 	public function update($id = null)
 	{
 		$key = getenv('TOKEN_SECRET');

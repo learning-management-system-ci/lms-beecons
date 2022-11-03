@@ -101,6 +101,7 @@ $routes->group('api/', static function ($routes) {
     $routes->group('voucher/', static function ($routes) {
         $routes->get('', 'Api\VoucherController::index');
         $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
+        $routes->get('code-detail/(:segment)', 'Api\VoucherController::show_code/$1');
         $routes->post('create', 'Api\VoucherController::create');
         $routes->put('update/(:segment)', 'Api\VoucherController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
@@ -139,7 +140,7 @@ $routes->group('api/', static function ($routes) {
     $routes->group('users/', static function ($routes) {
         $routes->get('admin', 'Api\UserController::index');
         $routes->get('', 'Api\UserController::profile');
-        $routes->get('jobs', 'Api\UserController::jobs');
+        // $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->post('update/(:num)', 'Api\UserController::update/$1');
         $routes->delete('delete/(:num)', 'Api\UserController::delete/$1');
