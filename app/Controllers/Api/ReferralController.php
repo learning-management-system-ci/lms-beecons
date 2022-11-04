@@ -34,13 +34,13 @@ class ReferralController extends ResourceController
                     ];
                 }
             } else {
-                $refs = null;
+                $refs = [];
             }
 
             $response = [
                 'referral_code' => $data['referral_code'],
                 'referral_user' => $data['referral_user'],
-                'refferal_voucher' => $refs,
+                'referral_voucher' => $refs,
             ];
 
             if (count($data) > 0) {

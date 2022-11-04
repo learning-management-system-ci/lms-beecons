@@ -66,13 +66,13 @@ class OrderController extends BaseController
     }
 
     public function generateSnap() {
-        // $key = getenv('TOKEN_SECRET');
-        // $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        // if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        // $token = explode(' ', $header)[1];
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-        // try {
-        //     $decoded = JWT::decode($token, $key, ['HS256']);
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
             // Set your Merchant Server Key
             \Midtrans\Config::$serverKey = 'SB-Mid-server-F7J9pzrwMAM5Af2mTxYpD-kx';
             // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
@@ -90,8 +90,8 @@ class OrderController extends BaseController
             $referral = new Referral;
             $voucher = new Voucher;
             $temp = 0;
-            //$userId = $decoded->uid;
-            $userId = 16;
+            $userId = $decoded->uid;
+            //$userId = 16;
 
             $getTotalCart = $cart->select('total')->where('user_id', $userId)->findAll();
             if ($getTotalCart == NULL) {
@@ -187,9 +187,7 @@ class OrderController extends BaseController
                 }
             }
 
-            //$cart->where('user_id', $userId)->delete();
-            // unset($_COOKIE["coupon"]);
-            // setcookie ("coupon", "", time() - 3600, '/api');
+            $cart->where('user_id', $userId)->delete();
 
             $transaction = [
                 'order_id' => $orderId,
@@ -208,14 +206,15 @@ class OrderController extends BaseController
                 'customer_details' => $cust_detail,
                 'item_details' => $item
             ];
-           //return $this->respond($params);
-
             $token = \Midtrans\Snap::getSnapToken($params);
-            return view ('pages/transaction/snap-pay', ['token' => $token]);
 
-        // } catch (\Throwable $th) {
-        //     return $this->fail($th->getMessage());
-        // }
+            $data = ['token' => $token];
+            return $this->respond($data);
+            //return view ('pages/transaction/snap-pay', ['token' => $token]);
+
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
     }
 
     public function notifHandler() {
