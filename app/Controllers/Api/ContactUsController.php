@@ -1,0 +1,236 @@
+<?php
+
+namespace App\Controllers\Api;
+
+use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\API\ResponseTrait;
+use App\Models\ContactUs;
+use App\Models\Users;
+use Firebase\JWT\JWT;
+
+class ContactUsController extends ResourceController
+{
+    function __construct(){
+		$this->contactus = new ContactUs();
+	}
+
+    public function index()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
+
+            $data = $this->contactus->orderBy('contact_us_id', 'DESC')->findAll();
+            if ($data) {
+                return $this->respond($data);
+            } else {
+                return $this->failNotFound('Data Pertanyaan tidak ditemukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
+
+    public function show($id = null){
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
+
+            $data = $this->contactus->where('contact_us_id', $id)->first();
+            if($data){
+                return $this->respond($data);
+            }else{
+                return $this->failNotFound('Data Pertanyaan tidak ditemukan');
+            }
+	    } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
+
+    public function answer() {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+		    $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'mentor' || $data['role'] == 'partner') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
+
+            $rules = [
+                "email" => "required",
+                "answer" => "required",
+            ];
+    
+            $messages = [
+                "email" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
+                "answer" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
+            ];
+    
+            if($this->validate($rules, $messages)) {
+                $data = [
+                    'email' => $this->request->getVar('email'),
+                    'answer' => $this->request->getVar('answer'),
+                ];
+                
+                $email = \Config\Services::email();
+                $email->setTo($data['email']);
+                $email->setFrom('hendrikusozzie@gmail.com');
+              
+                $email->setSubject('Jawaban Dari Pertanyaan ' . $data['email']);
+                $email->setMessage($data['answer']);
+    
+                if ($email->send()){
+                    $response = [
+                        'status'   => 201,
+                        'messages' => [
+                            'success' => 'Jawaban berhasil dikirim'
+                        ]
+                    ];
+                } else {
+                    $response = [
+                        'status'   => 400,
+                        'messages' => [
+                            'error' => 'Jawaban gagal dikirim'
+                        ]
+                    ];
+                }
+            }else{
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
+                ];
+            }
+            return $this->respondCreated($response);
+	    } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
+
+    public function question()
+	{
+		$rules = [
+			"email" => "required",
+			"question" => "required",
+			"image" => "required",
+		];
+
+		$messages = [
+			"email" => [
+				"required" => "{field} tidak boleh kosong"
+			],
+			"question" => [
+				"required" => "{field} tidak boleh kosong"
+			],
+			"image" => [
+				"required" => "{field} tidak boleh kosong"
+			],
+		];
+
+		if($this->validate($rules, $messages)) {
+			$data = [
+				'email' => $this->request->getVar('email'),
+				'question' => $this->request->getVar('question'),
+				'image' => $this->request->getVar('image'),
+			];
+			
+			$email = \Config\Services::email();
+			$email->setTo('hendrikusozzie@gmail.com');
+			$email->setFrom($data['email']);
+		  
+			$email->setSubject('Pertanyaan Dari ' . $data['email']);
+			$email->setMessage($data['question']);
+
+			if ($email->send()){
+				$response = [
+					'status'   => 201,
+					'messages' => [
+						'success' => 'Pertanyaan berhasil dikirim'
+					]
+				];
+			} else {
+				$response = [
+					'status'   => 400,
+					'messages' => [
+						'error' => 'Pertanyaan gagal dikirim'
+					]
+				];
+			}
+		}else{
+			$response = [
+				'status'   => 400,
+				'error'    => 400,
+				'messages' => $this->validator->getErrors(),
+			];
+		}
+
+		return $this->respondCreated($response); 
+	}
+
+    public function delete($id = null){
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'mentor' || $data['role'] == 'partner') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
+
+            $data = $this->contactus->where('contact_us_id', $id)->findAll();
+            if($data){
+                $this->contactus->delete($id);
+                $response = [
+                    'status'   => 200,
+                    'error'    => null,
+                    'messages' => [
+                        'success' => 'Data Pertanyaan berhasil dihapus'
+                    ]
+                ];
+            }
+            return $this->respondDeleted($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+        return $this->failNotFound('Data Pertanyaan tidak ditemukan');
+    }
+}

@@ -243,6 +243,14 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
     });
 
+    $routes->group('contactus/', static function ($routes) {
+        $routes->get('', 'Api\ContactUsController::index');
+        $routes->get('detail/(:num)', 'Api\ContactUsController::show/$1');
+        $routes->post('answer', 'Api\ContactUsController::answer');
+        $routes->post('question', 'Api\ContactUsController::question');
+        $routes->delete('delete/(:num)', 'Api\ContactUsController::delete/$1');
+    });
+
     $routes->group('type/', static function ($routes) {
         $routes->get('', 'Api\TypeController::index');
         $routes->get('detail/(:num)', 'Api\TypeController::show/$1');
