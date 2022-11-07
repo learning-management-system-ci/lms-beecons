@@ -145,7 +145,10 @@ class ContactUsController extends ResourceController
 		$rules = [
 			"email" => "required",
 			"question" => "required",
-			"image" => "required",
+			"question_picture" => 'uploaded[question_picture]'
+                . '|is_image[question_picture]'
+                . '|mime_in[question_picture,image/jpg,image/jpeg,image/png,image/webp]'
+                . '|max_size[question_picture,4000]',
 		];
 
 		$messages = [
@@ -155,17 +158,24 @@ class ContactUsController extends ResourceController
 			"question" => [
 				"required" => "{field} tidak boleh kosong"
 			],
-			"image" => [
-				"required" => "{field} tidak boleh kosong"
+			"question_picture" => [
+				'uploaded' => '{field} tidak boleh kosong',
+                'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
+                'max_size' => 'Ukuran File Maksimal 4 MB'
 			],
 		];
 
 		if($this->validate($rules, $messages)) {
+            $dataquestion_picture = $this->request->getFile('question_picture');
+            $fileName = $dataquestion_picture->getRandomName();
+
 			$data = [
 				'email' => $this->request->getVar('email'),
 				'question' => $this->request->getVar('question'),
-				'image' => $this->request->getVar('image'),
+				'question_picture' => $fileName,
 			];
+
+            $dataquestion_picture->move('upload/question/', $fileName);
 			
 			$email = \Config\Services::email();
 			$email->setTo('hendrikusozzie@gmail.com');
@@ -173,8 +183,9 @@ class ContactUsController extends ResourceController
 		  
 			$email->setSubject('Pertanyaan Dari ' . $data['email']);
 			$email->setMessage($data['question']);
+            $email->attach('upload/question/' . $fileName);
 
-			if ($email->send()){
+			if ($email->send() && $this->contactus->insert($data)){
 				$response = [
 					'status'   => 201,
 					'messages' => [
