@@ -84,6 +84,8 @@ $(document).ready(function () {
                 }
             })
 
+            $('#loading').hide()
+
             const cartList = res.item
             
             if (cartList.length == 0) {
