@@ -14,5 +14,5 @@ class Voucher extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title', 'description', 'start_date', 'due_date', 'is_active', 'code', 'discount_price', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['title', 'description', 'start_date', 'due_date', 'is_active', 'quota', 'code', 'discount_price', 'created_at', 'updated_at'];
 }
