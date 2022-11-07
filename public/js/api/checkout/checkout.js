@@ -151,6 +151,8 @@ $(document).ready(() => {
   const populateVoucher = async() => {
     let voucher = await getListVoucher()
     const checkout_voucherList_content = $("#cart-voucher-list")
+    const redeem_input = $("#redeem-input")
+    const redeem_button = $("#redeem-btn")
     checkout_voucherList_content.empty()
     voucher.forEach((item) => {
       let voucher_item = `
@@ -171,12 +173,18 @@ $(document).ready(() => {
 
     $("#cart-voucher-list").children().each((index, element) => {
       $(element).on('click', () => {
-        console.log("clicked")
         let thisPage = new URL(window.location.href);
         let code = $(element).children().data('code')
         thisPage.searchParams.append('code', code)
         window.location.href = thisPage
       })
+    })
+
+    $("#redeem-btn").on('click', () => {
+      let thisPage = new URL(window.location.href);
+      let code = redeem_input.val()
+      thisPage.searchParams.append('code', code)
+      window.location.href = thisPage
     })
   }
 

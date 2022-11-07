@@ -56,8 +56,8 @@
                                 <small>Hanya bisa pilih 1 kupon</small>
                                 <div>
                                     <form id="cart-referral-modal-form">
-                                        <input type="text" class="form-control" name="code" placeholder="Masukkan kode promo atau referral" required>
-                                        <button type="submit" id="redeem" class="my-btn">Redeem</button>
+                                        <input type="text" id="redeem-input" class="form-control" name="code" placeholder="Masukkan kode promo atau referral" required>
+                                        <button type="submit" id="redeem-btn" class="my-btn">Redeem</button>
                                     </form>
                                 </div>
                             </div>
