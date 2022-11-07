@@ -202,7 +202,7 @@ class OrderController extends BaseController
                 }
             }
 
-            //$cart->where('user_id', $userId)->delete();
+            $cart->where('user_id', $userId)->delete();
 
             $transaction = [
                 'order_id' => $orderId,
