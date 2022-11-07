@@ -13,6 +13,8 @@ use App\Models\UserCourse;
 use App\Models\Users;
 use App\Models\Referral;
 use App\Models\Voucher;
+use App\Models\Course;
+use App\Models\Bundling;
 
 class OrderController extends BaseController
 {
@@ -89,40 +91,53 @@ class OrderController extends BaseController
             $user = new Users;
             $referral = new Referral;
             $voucher = new Voucher;
+            $course = new Course;
+            $bundling = new Bundling;
             $temp = 0;
             $userId = $decoded->uid;
             //$userId = 16;
-
-            $getTotalCart = $cart->select('total')->where('user_id', $userId)->findAll();
-            if ($getTotalCart == NULL) {
-                return $this->fail('Keranjang belanja kosong');
-            }
             $getUser = $user->where('id', $userId)->first();
 
-            $subTotal = 0;
-            foreach ($getTotalCart as $value) {
-                $subTotal = $temp += $value['total'];
+            $cartData = $cart->where('user_id', $decoded->uid)->findAll();
+            foreach ($cartData as $value) {
+                $course_data = $course->select('old_price, new_price')->where('course_id', $value['course_id'])->first();
+                $bundling_data = $bundling->select('old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
+
+                if ($course_data) {
+                    $price = (isset($course_data['new_price'])) ? $course_data['new_price'] : $course_data['old_price'];
+                }
+
+                if ($bundling_data) {
+                    $price = (isset($bundling_data['new_price'])) ? $bundling_data['new_price'] : $bundling_data['old_price'];
+                }
+
+                $subTotal = (int)$price;
+                $temp += $subTotal;
             }
 
-            $getCode = $_GET['c'];
             $getDiscount = 0;
-            $verifyReferral = $referral->where("referral_code", $getCode)->first();
-            $verifyVoucher = $voucher->where("code", $getCode)->first();
-            if ($verifyReferral != NULL) {
-                $code = $verifyReferral['referral_code'];
-                $getDiscount = $verifyReferral['discount_price'];
-            } else if ($verifyVoucher != NULL) {
-                $code = $verifyVoucher['code'];
-                $getDiscount = $verifyVoucher['discount_price'];
+            if (isset($_GET['c'])) {
+                $getCode = $_GET['c'];
+                $verifyReferral = $referral->where("referral_code", $getCode)->first();
+                $verifyVoucher = $voucher->where("code", $getCode)->first();
+                if ($verifyReferral != NULL) {
+                    $code = $verifyReferral['referral_code'];
+                    $getDiscount = $verifyReferral['discount_price'];
+                } else if ($verifyVoucher != NULL) {
+                    $code = $verifyVoucher['code'];
+                    $getDiscount = $verifyVoucher['discount_price'];
+                } else {
+                    $code = null;
+                }
             } else {
-                $code = NULL;
+                $code = null;
             }
-
+                
             if ($getDiscount > 0) {
-                $discount = ($getDiscount / 100) * $subTotal;
-                $total = $subTotal - $discount;
+                $discount = ($getDiscount / 100) * $temp;
+                $total = $temp - $discount;
             } else if ($getDiscount == 0) {
-                $total = $subTotal;
+                $total = $temp;
             }
 
             $orderId = rand();
@@ -131,7 +146,7 @@ class OrderController extends BaseController
                     'user_id' => $userId,
                     'coupon_code' => $code,
                     'discount_price' => $getDiscount,
-                    'sub_total' => $subTotal,
+                    'sub_total' => $temp,
                     'gross_amount' => $total,
                 ];
             $order->insert($dataOrder);
