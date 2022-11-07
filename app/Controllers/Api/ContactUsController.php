@@ -143,31 +143,37 @@ class ContactUsController extends ResourceController
     public function question()
 	{
 		$rules = [
-			"email" => "required",
+			"email" => "required|valid_email",
 			"question" => "required",
 			"question_picture" => 'uploaded[question_picture]'
                 . '|is_image[question_picture]'
                 . '|mime_in[question_picture,image/jpg,image/jpeg,image/png,image/webp]'
-                . '|max_size[question_picture,4000]',
+                . '|max_size[question_picture,2000]',
 		];
 
 		$messages = [
 			"email" => [
-				"required" => "{field} tidak boleh kosong"
+				"required" => "{field} tidak boleh kosong",
+                'valid_email' => 'Format {field} tidak sesuai'
 			],
 			"question" => [
 				"required" => "{field} tidak boleh kosong"
 			],
 			"question_picture" => [
 				'uploaded' => '{field} tidak boleh kosong',
-                'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
-                'max_size' => 'Ukuran File Maksimal 4 MB'
+                'mime_in' => 'File Image Harus Berupa png, jpg, atau jpeg',
+                'max_size' => 'Ukuran File Maksimal 2 MB'
 			],
 		];
 
 		if($this->validate($rules, $messages)) {
             $dataquestion_picture = $this->request->getFile('question_picture');
-            $fileName = $dataquestion_picture->getRandomName();
+            if (is_null($dataquestion_picture)) {
+                $fileName = null;
+            } else {
+                $fileName = $dataquestion_picture->getRandomName();
+            }
+            // $fileName = $dataquestion_picture->getRandomName();
 
 			$data = [
 				'email' => $this->request->getVar('email'),
