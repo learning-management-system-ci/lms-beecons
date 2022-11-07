@@ -221,7 +221,17 @@ class CartController extends ResourceController
         $check_ref_user = $ref_user->select('referral_user_id, discount_price, is_active')->where('referral_code', $code)->first();
 
         if ($check_voucher) {
-            return $check_voucher['discount_price'];
+            $voucher_data = $voucher->where('code', $code)->first();
+
+            if ($voucher_data['quota'] == 0) {
+                return 0;
+            } else {
+                if ($voucher_data['start_date'] <= date("Y-m-d") && $voucher_data['due_date'] >= date("Y-m-d")) {
+                    return $check_voucher['discount_price'];
+                } else {
+                    return 0;
+                }
+            }
         }
 
         if ($check_referral) {

@@ -322,6 +322,7 @@ class OrderController extends BaseController
             $getCode = $coupon['coupon_code'];
             $verifyReferral = $referral->where("referral_code", $getCode)->first();
             $verifyRefUser = $referralUser->where("referral_code", $getCode)->first();
+            $verifyVoucher = $voucher->where("code", $getCode)->first();
 
             if ($verifyReferral != NULL) {
                 $verifyReferral['referral_user'] += 1;
@@ -353,6 +354,16 @@ class OrderController extends BaseController
                     ];
                     $referralUser->update($verifyRefUser['referral_user_id'], $used);
                 }
+            }
+
+            if ($verifyVoucher != NULL) {
+                $verifyVoucher['quota'] -= 1;
+
+                $data = [
+                    'quota' => $verifyVoucher['quota'],
+                ];
+
+                $voucher->update($verifyVoucher['voucher_id'], $data);
             }
         }
 

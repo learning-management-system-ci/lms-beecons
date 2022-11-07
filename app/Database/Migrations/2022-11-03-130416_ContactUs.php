@@ -23,7 +23,7 @@ class ContactUs extends Migration
                 'type'           => 'VARCHAR',
                 'constraint'     => 2500,
             ],
-            'question_picture'      => [
+            'question_image'      => [
                 'type'           => 'VARCHAR',
 				'constraint'     => 255,
                 'null'           => true

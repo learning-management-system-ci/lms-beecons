@@ -145,10 +145,6 @@ class ContactUsController extends ResourceController
 		$rules = [
 			"email" => "required|valid_email",
 			"question" => "required",
-			"question_picture" => 'uploaded[question_picture]'
-                . '|is_image[question_picture]'
-                . '|mime_in[question_picture,image/jpg,image/jpeg,image/png,image/webp]'
-                . '|max_size[question_picture,2000]',
 		];
 
 		$messages = [
@@ -159,29 +155,30 @@ class ContactUsController extends ResourceController
 			"question" => [
 				"required" => "{field} tidak boleh kosong"
 			],
-			"question_picture" => [
-				'uploaded' => '{field} tidak boleh kosong',
-                'mime_in' => 'File Image Harus Berupa png, jpg, atau jpeg',
-                'max_size' => 'Ukuran File Maksimal 2 MB'
-			],
+			// "question_image" => [
+			// 	'uploaded' => '{field} tidak boleh kosong',
+            //     'mime_in' => 'File Image Harus Berupa png, jpg, atau jpeg',
+            //     'max_size' => 'Ukuran File Maksimal 2 MB'
+			// ],
 		];
 
 		if($this->validate($rules, $messages)) {
-            $dataquestion_picture = $this->request->getFile('question_picture');
-            if (is_null($dataquestion_picture)) {
+            $dataquestion_image = $this->request->getFile('question_image');
+            if (is_null($dataquestion_image)) {
                 $fileName = null;
             } else {
-                $fileName = $dataquestion_picture->getRandomName();
+                $fileName = $dataquestion_image->getRandomName();
             }
-            // $fileName = $dataquestion_picture->getRandomName();
 
 			$data = [
 				'email' => $this->request->getVar('email'),
 				'question' => $this->request->getVar('question'),
-				'question_picture' => $fileName,
+				'question_image' => $fileName,
 			];
 
-            $dataquestion_picture->move('upload/question/', $fileName);
+            if ($fileName != null) {
+                $dataquestion_image->move('upload/question/', $fileName);
+            }
 			
 			$email = \Config\Services::email();
 			$email->setTo('hendrikusozzie@gmail.com');
