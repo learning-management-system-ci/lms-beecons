@@ -13,7 +13,7 @@ class VoucherSeeder extends Seeder
                 'title' => 'Voucher 1',
                 'description'    => 'Lorem ipsum dolor sit amet',
                 'start_date'    => '2022-08-22',
-                'due_date'    => '2022-08-29',
+                'due_date'    => '2022-12-29',
                 'is_active'    => 1,
                 'quota' => '150',
                 'code' => 'NewMember',
