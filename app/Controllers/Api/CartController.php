@@ -44,11 +44,11 @@ class CartController extends ResourceController
                     $bundling_data = $bundling->select('title, old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
 
                     if ($course_data) {
-                        $price = (isset($course_data['new_price'])) ? $course_data['new_price'] : $course_data['old_price'];
+                        $price = (empty($course_data['new_price'])) ? $course_data['old_price'] : $course_data['new_price'];
                     }
 
                     if ($bundling_data) {
-                        $price = (isset($bundling_data['new_price'])) ? $bundling_data['new_price'] : $bundling_data['old_price'];
+                        $price = (empty($bundling_data['new_price'])) ? $bundling_data['old_price'] : $bundling_data['new_price'];
                     }
 
                     $items[] = [
