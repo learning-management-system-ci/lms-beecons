@@ -3,6 +3,7 @@
 
 <?= $this->section('css-component') ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="/style/loading.css">
 <link rel="stylesheet" href="style/cart.css">
 <?= $this->endSection() ?>
 
@@ -37,11 +38,18 @@
                 <tbody></tbody>
             </table>
 
+            <div id="loading">
+                <div class="stage">
+                    <div class="dot-pulse">
+                    </div>
+                </div>
+            </div>
+
             <hr>
         </section>
         <section class="voucher-order-total d-flex justify-content-between align-items-start">
             <div class="">
-                
+
             </div>
             <div class="order-total">
                 <!-- <div class="order-total-container d-none">

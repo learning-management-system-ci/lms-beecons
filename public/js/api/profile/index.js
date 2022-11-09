@@ -25,13 +25,13 @@ $.ajax({
             <div class="card">
                 <div class="row py-2 px-1">
                     <div class="col-12x">
-                        <img src="${data.profile_picture ? data.profile_picture : image / auth - image.png}" class="image-circle me-1" alt="">
+                        <img src="${data.profile_picture ? data.profile_picture : "image/auth-image.png"}" class="image-circle me-1" alt="">
                     </div>
                     <div class="col">
                         <div class="row px-5">
                             <div class="col-12 text-start">
                                 <h3>${data.fullname ? data.fullname : data.email}</h3 >
-                            </div >
+                            </div>
                             <div class="col-12 text-start py-1">
                                 <h5 class="font-weight-light">${data.job_name ? data.job_name : "-"}</h5>
                             </div>
@@ -99,12 +99,41 @@ $.ajax({
 
         $("form#edit").html(modalresources);
 
+        var coursesResource =
+            data.course.map(({
+                title, description, thumbnail
+            }) => {
+                return (`
+                <div class="row">
+                    <div class="col-12x">
+                        <img src="image/${thumbnail}" class="course-image me-1" alt="">
+                    </div>
+                    <div class="d-flex col text-start align-items-center body">
+                        <div>
+                            <h5>
+                                ${title}
+                            </h5>
+                            <p>
+                                ${description}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                `)
+            })
+
+        $("div#user-courses").html(coursesResource);
+
         $('document').ready(function () {
             $("#profile_picture").fileinput({
                 showCaption: true,
                 dropZoneEnabled: true,
                 allowedFileExtensions: ["jpg", "png", "gif", "svg"],
                 showUpload: true,
+                initialPreview: [
+                    `<img src="${data.profile_picture}" class="file-preview-image" alt="profile" title="profile" />`
+                ],
             });
             const tx = document.getElementsByTagName("textarea");
             for (let i = 0; i < tx.length; i++) {
@@ -152,56 +181,56 @@ $.ajax({
     }
 });
 
-$.ajax({
-    type: "GET",
-    url: "api/user-course",
-    contentType: "application/json",
-    headers: { "Authorization": "Bearer " + Cookies.get("access_token"), "Content-Type": "application/json" },
-    success: async function (data) {
-        async function getCourseData(item, index) {
-            const response = await $.ajax({
-                type: "GET",
-                url: `api/course/detail/${item.course_id}`,
-                contentType: "application/json",
-                headers: { "Authorization": "Bearer " + Cookies.get("access_token"), "Content-Type": "application/json" },
-                success: function (data) {
-                    return data;
-                }
-            })
-            return await response;
-        }
+// $.ajax({
+//     type: "GET",
+//     url: "api/user-course",
+//     contentType: "application/json",
+//     headers: { "Authorization": "Bearer " + Cookies.get("access_token"), "Content-Type": "application/json" },
+//     success: async function (data) {
+//         async function getCourseData(item, index) {
+//             const response = await $.ajax({
+//                 type: "GET",
+//                 url: `api/course/detail/${item.course_id}`,
+//                 contentType: "application/json",
+//                 headers: { "Authorization": "Bearer " + Cookies.get("access_token"), "Content-Type": "application/json" },
+//                 success: function (data) {
+//                     return data;
+//                 }
+//             })
+//             return await response;
+//         }
 
-        const courseList = await Promise.all(
-            data.map(getCourseData)
-        );
+//         const courseList = await Promise.all(
+//             data.map(getCourseData)
+//         );
 
-        var coursesResource =
-            courseList.map(({
-                title, description
-            }) => {
-                return (`
-                <div class="row">
-                    <div class="col-12x">
-                        <img src="image/auth-image.png" class="course-image me-1" alt="">
-                    </div>
-                    <div class="d-flex col text-start align-items-center body">
-                        <div>
-                            <h5>
-                                ${title}
-                            </h5>
-                            <p>
-                                ${description}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                `)
-            })
+//         var coursesResource =
+//             courseList.map(({
+//                 title, description
+//             }) => {
+//                 return (`
+//                 <div class="row">
+//                     <div class="col-12x">
+//                         <img src="image/auth-image.png" class="course-image me-1" alt="">
+//                     </div>
+//                     <div class="d-flex col text-start align-items-center body">
+//                         <div>
+//                             <h5>
+//                                 ${title}
+//                             </h5>
+//                             <p>
+//                                 ${description}
+//                             </p>
+//                         </div>
+//                     </div>
+//                 </div>
+//                 <hr>
+//                 `)
+//             })
 
-        $("div#user-courses").html(coursesResource);
-    }
-})
+//         $("div#user-courses").html(coursesResource);
+//     }
+// })
 
 const pages = [{
     page: "profile",
