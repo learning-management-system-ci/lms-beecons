@@ -99,11 +99,11 @@ class OrderController extends BaseController
             $bundling = new Bundling;
             $temp = 0;
             $userId = $decoded->uid;
-            //$userId = 16;
+            //$userId = 17;
             $getUser = $user->where('id', $userId)->first();
 
             if (!isset($_GET['cr']) && !isset($_GET['bd'])) {
-                $cartData = $cart->where('user_id', $decoded->uid)->findAll();
+                $cartData = $cart->where('user_id', $userId)->findAll();
                 foreach ($cartData as $value) {
                     $course_data = $course->select('old_price, new_price')->where('course_id', $value['course_id'])->first();
                     $bundling_data = $bundling->select('old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
@@ -306,33 +306,31 @@ class OrderController extends BaseController
                     $orderBundling->insert($dataOrderBundling);
                 }
 
-            
+            // $getCourse = $orderCourse->getData($orderId)->getResultArray();
+            // $dataCourse = [];
+            // if ($getCourse != null) {
+            //     foreach ($getCourse as $value) {
+            //         $dataCourse[] = [
+            //             'id' => "c" . $value['order_course_id'],
+            //             'name' => $value['title'],
+            //             //'price' => $value['new_price'],
+            //             'quantity' => 1
+            //         ];
+            //     }
+            // }
 
-            $getCourse = $orderCourse->getData($orderId)->getResultArray();
-            $dataCourse = [];
-            if ($getCourse != null) {
-                foreach ($getCourse as $value) {
-                    $dataCourse[] = [
-                        'id' => "c" . $value['order_course_id'],
-                        'name' => $value['title'],
-                        'price' => $value['new_price'],
-                        'quantity' => 1
-                    ];
-                }
-            }
-
-            $getBundling = $orderBundling->getData($orderId)->getResultArray();
-            $dataBundling = [];
-            if ($getBundling != null) {
-                foreach ($getBundling as $value) {
-                    $dataBundling[] = [
-                        'id' => "b" . $value['order_bundling_id'],
-                        'name' => $value['title'],
-                        'price' => (isset($value['new_price'])) ? $value['new_price'] : $value['price'],
-                        'quantity' => 1
-                    ];
-                }
-            }
+            // $getBundling = $orderBundling->getData($orderId)->getResultArray();
+            // $dataBundling = [];
+            // if ($getBundling != null) {
+            //     foreach ($getBundling as $value) {
+            //         $dataBundling[] = [
+            //             'id' => "b" . $value['order_bundling_id'],
+            //             'name' => $value['title'],
+            //             //'price' => (isset($value['new_price'])) ? $value['new_price'] : $value['price'],
+            //             'quantity' => 1
+            //         ];
+            //     }
+            // }
 
             $cart->where('user_id', $userId)->delete();
 
@@ -346,12 +344,12 @@ class OrderController extends BaseController
                 'phone' => $getUser['phone_number']
             ];
 
-            $item = array_merge($dataBundling, $dataCourse);
+            //$item = array_merge($dataBundling, $dataCourse);
 
             $params = [
                 'transaction_details' => $transaction,
                 'customer_details' => $cust_detail,
-                'item_details' => $item
+                //'item_details' => $item
             ];
             $token = \Midtrans\Snap::getSnapToken($params);
 
