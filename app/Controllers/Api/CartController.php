@@ -44,11 +44,11 @@ class CartController extends ResourceController
                     $bundling_data = $bundling->select('title, old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
 
                     if ($course_data) {
-                        $price = (isset($course_data['new_price'])) ? $course_data['new_price'] : $course_data['old_price'];
+                        $price = (empty($course_data['new_price'])) ? $course_data['old_price'] : $course_data['new_price'];
                     }
 
                     if ($bundling_data) {
-                        $price = (isset($bundling_data['new_price'])) ? $bundling_data['new_price'] : $bundling_data['old_price'];
+                        $price = (empty($bundling_data['new_price'])) ? $bundling_data['old_price'] : $bundling_data['new_price'];
                     }
 
                     $items[] = [
@@ -218,10 +218,20 @@ class CartController extends ResourceController
 
         $check_voucher = $voucher->select('discount_price')->where('code', $code)->first();
         $check_referral = $referral->select('discount_price')->where('referral_code', $code)->first();
-        $check_ref_user = $ref_user->select('referral_user_id, discount_price')->where('referral_code', $code)->first();
+        $check_ref_user = $ref_user->select('referral_user_id, discount_price, is_active')->where('referral_code', $code)->first();
 
         if ($check_voucher) {
-            return $check_voucher['discount_price'];
+            $voucher_data = $voucher->where('code', $code)->first();
+
+            if ($voucher_data['quota'] == 0) {
+                return 0;
+            } else {
+                if ($voucher_data['start_date'] <= date("Y-m-d") && $voucher_data['due_date'] >= date("Y-m-d")) {
+                    return $check_voucher['discount_price'];
+                } else {
+                    return 0;
+                }
+            }
         }
 
         if ($check_referral) {
@@ -237,38 +247,15 @@ class CartController extends ResourceController
 
             // batas kode referral dapat dipakai orang lain 5 kali
             if ($ref_data['referral_user'] < 5) {
-                // $ref_data['referral_user'] += 1;
-
-                // do {
-                //     $ref_code = strtoupper(bin2hex(random_bytes(4)));
-                //     $check_code = $referral->where('referral_code', $ref_code)->first();
-                //     $check_code2 = $ref_user->where('referral_code', $ref_code)->first();
-                // } while ($check_code || $check_code2);
-
-                // $data = [
-                //     'referral_user' => $ref_data['referral_user'],
-                // ];
-
-                // $ref_used = [
-                //     'referral_id' => $ref_data['referral_id'],
-                //     'user_id' => $id,
-                //     'referral_code' => $ref_code,
-                //     'discount_price' => 15
-                // ];
-
-                // $referral->update($ref_data['referral_id'], $data);
-                // $ref_user->save($ref_used);
-
                 return $check_referral['discount_price'];
             }
         }
         if ($check_ref_user) {
-
-            $coupon = $check_ref_user['discount_price'];
-            // if ($ref_user->find($check_ref_user['referral_user_id'])) {
-            //     $ref_user->delete($check_ref_user['referral_user_id']);
-            // }
-            return $coupon;
+            if ($check_ref_user['is_active'] == 0) {
+                return $check_ref_user['discount_price'];
+            } else {
+                return 0;
+            }
         }
     }
 }

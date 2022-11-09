@@ -262,15 +262,22 @@ class VideoController extends ResourceController
 					return $this->failNotFound('Data video tidak ditemukan');
 				}
 				$oldVideo = $findVideo['video'];
-				$dataVideo = $this->request->getFile('video');
-				if ($dataVideo->isValid() && !$dataVideo->hasMoved()) {
-					if (file_exists("upload/course-video/" . $oldVideo)) {
-						unlink("upload/course-video/" . $oldVideo);
+
+				$dataVideo = $this->request->getVar('video_url');
+
+				if (empty($dataVideo)) {
+					$dataVideo = $this->request->getFile('video');
+					if ($dataVideo->isValid() && !$dataVideo->hasMoved()) {
+						if (file_exists("upload/course-video/" . $oldVideo)) {
+							unlink("upload/course-video/" . $oldVideo);
+						}
+						$fileName = $dataVideo->getRandomName();
+						$dataVideo->move('upload/course-video/', $fileName);
+					} else {
+						$fileName = $oldVideo['video'];
 					}
-					$fileName = $dataVideo->getRandomName();
-					$dataVideo->move('upload/course-video/', $fileName);
 				} else {
-					$fileName = $oldVideo['video'];
+					$fileName = $dataVideo;
 				}
 
 				$data = [

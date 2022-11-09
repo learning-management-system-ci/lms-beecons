@@ -34,6 +34,11 @@ class ReferralUser extends Migration
                 'constraint'     => 5,
                 'unsigned'       => true,
             ],
+            'is_active'      => [
+                'type' => 'TINYINT',
+                'constraint' => 1,
+                'default' => 0,
+            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);

@@ -186,7 +186,11 @@ class CourseController extends ResourceController
 
                     if (!$checkIfVideoIsLink) {
                         $file = $this->getID3->analyze($this->path . $filename);
-                        $checkFileIsExist = stristr($file['error'][0], '!file_exists') ? false : true;
+                        if (isset($file['error'][0]) && stristr($file['error'][0], '!file_exists')) {
+                            $checkFileIsExist = false;
+                        } else {
+                            $checkFileIsExist = true;
+                        }
 
                         if ($checkFileIsExist) {
                             $duration = ["duration" => $file['playtime_string']];
@@ -421,7 +425,7 @@ class CourseController extends ResourceController
                 'key_takeaways' => 'max_length[255]',
                 'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
-                'new_price' => 'required|numeric',
+                'new_price' => 'permit_empty|numeric',
                 'thumbnail' => 'uploaded[thumbnail]'
                     . '|is_image[thumbnail]'
                     . '|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]'
