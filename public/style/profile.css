@@ -167,4 +167,9 @@ h5.font-weight-bold {
   width: 100% !important;
 }
 
+.referral-code {
+  border: 0;
+  font-weight: 600;
+}
+
 /*# sourceMappingURL=profile.css.map */

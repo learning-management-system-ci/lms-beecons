@@ -107,6 +107,7 @@
     <script src="../../../js/utils/textTruncate.js"></script>
     <script src="../../../js/home/home.js"></script>
     <script src="../../../js/home/notification.js"></script>
+    <script src="../../../js/home/profile.js"></script>
     <script src="../../../js/library/fileinput.js"></script>
     <?= $this->renderSection('js-component') ?>
 </body>
