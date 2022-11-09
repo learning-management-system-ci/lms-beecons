@@ -334,7 +334,7 @@ class OrderController extends BaseController
                 }
             }
 
-            //$cart->where('user_id', $userId)->delete();
+            $cart->where('user_id', $userId)->delete();
 
             $transaction = [
                 'order_id' => $orderId,
@@ -356,7 +356,7 @@ class OrderController extends BaseController
             $token = \Midtrans\Snap::getSnapToken($params);
 
             $data = ['token' => $token];
-            return $this->respond($params);
+            return $this->respond($data);
             //return view ('pages/transaction/snap-pay', ['token' => $token]);
 
         } catch (\Throwable $th) {
