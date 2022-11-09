@@ -19,8 +19,9 @@
                     <div class="content d-flex align-items-start flex-column mb-2" style="height: 175px;">
                         <h5 class="text-uppercase font-weight-light mb-2">Referral Code</h5>
                         <div class="d-flex align-items-center flex-row mb-2">
-                            <h4 class="m-0 me-2 referral-code"></h4>
-                            <button type="button" class="btn-grey-200" style="height: 30px; border-radius: 5px;">
+                            <input class="m-0 me-2 referral-code" disabled id="myInput">
+                            <button class="btn-grey-200" style="height: 30px; border-radius: 5px;"
+                                onclick="copyFunction()" onmouseout="outFunc()">
                                 Copy
                             </button>
                         </div>
@@ -30,7 +31,7 @@
                                     <img src="image/auth-image.png" class="course-image me-1" alt="">
                                 </div>
                                 <div class="col d-flex align-items-start flex-column" style="height: 35px;">
-                                    <h5 class="mb-auto">10 Orang</h5>
+                                    <h5 class="mb-auto referral-users"></h5>
                                     <p class="m-0">Menerima kode referral anda</p>
                                 </div>
                             </div>
