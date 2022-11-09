@@ -175,7 +175,7 @@ $(document).ready(() => {
       $(element).on('click', () => {
         let thisPage = new URL(window.location.href);
         let code = $(element).children().data('code')
-        thisPage.searchParams.append('code', code)
+        thisPage.searchParams.set('code', code)
         window.location.href = thisPage
       })
     })
@@ -183,16 +183,30 @@ $(document).ready(() => {
     $("#redeem-btn").on('click', () => {
       let thisPage = new URL(window.location.href);
       let code = redeem_input.val()
-      thisPage.searchParams.append('code', code)
+      thisPage.searchParams.set('code', code)
       window.location.href = thisPage
     })
   }
 
-  const checkout = async () => {
+  const checkout = async (data) => {
     try {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const id = urlParams.get('id') || null;
+      const type = urlParams.get('type') || null;
+      const code = urlParams.get('code') || null;
+      let url = "http://localhost:8080/api/order/generatesnap?"
+      if(type == "course"){ 
+        url += "cr=" + id + "&"
+      } else if (type == "bundling"){
+        url += "bd=" + id + "&"
+      }
+      if(code){
+        url += type ? "&c=" + code : "c=" + code
+      }
       let option = {
         type: "GET",
-        url: "http://localhost:8080/api/order/generatesnap",
+        url: url,
         dataType: "json",
         headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -216,6 +230,7 @@ $(document).ready(() => {
           }); 
         }
       }
+      console.log(option)
       await $.ajax(option)
     } catch (error) {
       console.log(error);
@@ -285,7 +300,7 @@ $(document).ready(() => {
 
     // checkout button on click, call checkout func
     checkout_btn.on("click", () => {
-      checkout()
+      checkout(data)
     })
   }
 
