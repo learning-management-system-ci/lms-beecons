@@ -126,6 +126,29 @@ $.ajax({
         $("div#user-courses").html(coursesResource);
 
         $('document').ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/jobs",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Bearer " + Cookies.get("access_token"),
+                    "Content-Type": "application/json"
+                },
+                success: function (data) {
+                    var resources = data
+                        .sort((a, b) => a.job_id - b.job_id)
+                        .map(({
+                            job_id,
+                            job_name,
+                        }) => {
+                            return (`
+                                    <option value="${job_id}">${job_name}</option>
+                                `);
+                        });
+
+                    $("select.form-select").html(resources);
+                }
+            });
             $("#profile_picture").fileinput({
                 showCaption: true,
                 dropZoneEnabled: true,
