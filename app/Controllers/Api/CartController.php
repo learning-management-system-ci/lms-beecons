@@ -69,11 +69,18 @@ class CartController extends ResourceController
                 }
 
                 $reedem = $this->reedem($data, $decoded->uid);
-                if ($reedem > 0) {
+
+                if ($reedem > 0 && $reedem <= 100) {
                     $discount = ($reedem / 100) * $temp;
                     $total = $temp - $discount;
                 } else {
-                    $reedem = 0;
+                    if ($reedem == 400) {
+                        $reedem = 'Kuota kode telah habis';
+                    } elseif ($reedem == 401) {
+                        $reedem = 'Voucher kadaluarsa';
+                    } elseif ($reedem == 402) {
+                        $reedem = 'Kode tidak dapat digunakan';
+                    }
                     $total = $temp;
                 }
 
@@ -224,12 +231,12 @@ class CartController extends ResourceController
             $voucher_data = $voucher->where('code', $code)->first();
 
             if ($voucher_data['quota'] == 0) {
-                return 0;
+                return 400;
             } else {
                 if ($voucher_data['start_date'] <= date("Y-m-d") && $voucher_data['due_date'] >= date("Y-m-d")) {
                     return $check_voucher['discount_price'];
                 } else {
-                    return 0;
+                    return 401;
                 }
             }
         }
@@ -242,19 +249,25 @@ class CartController extends ResourceController
             // tidak bisa menggunakan kode referral milik diri sendiri
             // tidak bisa memakai kode referral orang lain lebih dari 1 kali
             if (($ref_data['user_id'] == $id) || $check) {
-                return 0;
+                return 402;
             }
 
             // batas kode referral dapat dipakai orang lain 5 kali
             if ($ref_data['referral_user'] < 5) {
                 return $check_referral['discount_price'];
+            } else {
+                return 400;
             }
         }
+
         if ($check_ref_user) {
-            if ($check_ref_user['is_active'] == 0) {
+
+            $check = $ref_user->where('user_id', $id)->first();
+
+            if ($check_ref_user['is_active'] == 0 && !$check) {
                 return $check_ref_user['discount_price'];
             } else {
-                return 0;
+                return 402;
             }
         }
     }
