@@ -14,5 +14,5 @@ class ContactUs extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['contact_us_id', 'email', 'question', 'question_picture', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['contact_us_id', 'email', 'question', 'question_image', 'created_at', 'updated_at'];
 }
