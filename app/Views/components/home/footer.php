@@ -1,7 +1,7 @@
 <footer class="footer-container">
     <div class="item">
         <a href="/">
-            <img src="/image/logo.svg" class="app-logo" alt="logo">
+            <img src="/image/logo.svg" class="app-logo" alt="logo" height="80px" width="98.13px">
         </a>
         <div class="mt-5">
             <p>Download the app by clicking the link below :</p>
