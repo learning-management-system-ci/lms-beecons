@@ -1,0 +1,113 @@
+@import "_base";
+
+#loading-modal {
+  top: 40%;
+}
+
+.snippet {
+  position: relative;
+  background-color: $color-white;
+  padding: 2rem 5%;
+  margin: 1.5rem 0;
+  box-shadow: 0 0.4rem 0.8rem -0.1rem rgba(0, 32, 128, 0.1),
+    0 0 0 1px $color-primary;
+
+  &:before {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 5px;
+    font-size: 0.75rem;
+    color: $color-white;
+    background-color: $color-primary;
+  }
+}
+
+.stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 2rem 0;
+  margin: 0 -5%;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.dot-pulse {
+  position: relative;
+  left: -9999px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: $color-primary;
+  color: $color-primary;
+  box-shadow: 9999px 0 0 -5px $color-primary;
+  animation: dotPulse 1.5s infinite linear;
+  animation-delay: 0.25s;
+
+  &::before,
+  &::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: $color-primary;
+    color: $color-primary;
+  }
+
+  &::before {
+    box-shadow: 9984px 0 0 -5px $color-primary;
+    animation: dotPulseBefore 1.5s infinite linear;
+    animation-delay: 0s;
+  }
+
+  &::after {
+    box-shadow: 10014px 0 0 -5px $color-primary;
+    animation: dotPulseAfter 1.5s infinite linear;
+    animation-delay: 0.5s;
+  }
+}
+
+@keyframes dotPulseBefore {
+  0% {
+    box-shadow: 9984px 0 0 -5px $color-primary;
+  }
+  30% {
+    box-shadow: 9984px 0 0 2px $color-primary;
+  }
+  60%,
+  100% {
+    box-shadow: 9984px 0 0 -5px $color-primary;
+  }
+}
+
+@keyframes dotPulse {
+  0% {
+    box-shadow: 9999px 0 0 -5px $color-primary;
+  }
+  30% {
+    box-shadow: 9999px 0 0 2px $color-primary;
+  }
+  60%,
+  100% {
+    box-shadow: 9999px 0 0 -5px $color-primary;
+  }
+}
+
+@keyframes dotPulseAfter {
+  0% {
+    box-shadow: 10014px 0 0 -5px $color-primary;
+  }
+  30% {
+    box-shadow: 10014px 0 0 2px $color-primary;
+  }
+  60%,
+  100% {
+    box-shadow: 10014px 0 0 -5px $color-primary;
+  }
+}

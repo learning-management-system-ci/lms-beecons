@@ -5,7 +5,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
-<div class="container mt-4">
+<div class="px-5 mt-4">
     <!-- <section class="navigation">
         <p class="mb-4">Courses > <a href="#"> Mastering Frontend Developer</a></p>
         <hr>

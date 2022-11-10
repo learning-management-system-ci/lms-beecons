@@ -38,8 +38,8 @@ class UserVideo extends Migration
         ]);
 
         $this->forge->addKey('user_video_id', TRUE);
-        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'NO ACTION');
-        $this->forge->addForeignKey('video_id', 'video', 'video_id', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('video_id', 'video', 'video_id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('user_video', TRUE);
     }
 

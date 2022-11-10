@@ -15,19 +15,6 @@ p {
   color: #525252;
 }
 
-main .navigation p {
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 400;
-  color: #bdbdbd;
-}
-main .navigation p a {
-  color: #002B5B;
-  text-decoration: none;
-  font-family: "Plus Jakarta Sans";
-  font-style: normal;
-  font-weight: 600;
-}
 main .bundle {
   gap: 50px;
 }

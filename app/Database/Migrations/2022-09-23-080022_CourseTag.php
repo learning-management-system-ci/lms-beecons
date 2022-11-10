@@ -32,8 +32,8 @@ class CourseTag extends Migration
         ]);
 
         $this->forge->addKey('course_tag_id', TRUE);
-        $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'NO ACTION');
-        $this->forge->addForeignKey('tag_id', 'tag', 'tag_id', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('tag_id', 'tag', 'tag_id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('course_tag', TRUE);
     }
 

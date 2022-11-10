@@ -30,7 +30,7 @@ class VideoCategory extends Migration
         ]);
 
         $this->forge->addKey('video_category_id', TRUE);
-        $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('video_category', TRUE);
     }
 

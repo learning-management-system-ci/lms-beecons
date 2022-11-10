@@ -52,14 +52,15 @@ class VoucherController extends ResourceController
 
   		// cek role user
 		  $data = $user->select('role')->where('id', $decoded->uid)->first();
-		  if($data['role'] != 'mentor'){
-		    return $this->fail('Tidak dapat di akses selain admin', 400);
-		  }
+		  if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
 
 			$rules = [
 				"title" => "required",
 				"start_date" => "required|valid_date",
 				"due_date" => "required|valid_date",
+				"quota" => "required|numeric|max_length[5]",
 				"code" => "required|is_unique[voucher.code]|max_length[10]|alpha_numeric",
 				"discount_price" => "required|numeric|max_length[2]",
 				"is_active" => "less_than_equal_to[1]",
@@ -76,6 +77,11 @@ class VoucherController extends ResourceController
 				"due_date" => [
 					"required" => "{field} tidak boleh kosong",
 					"valid_date" => "{field} format tanggal tidak sesuai"
+				],
+				"quota" => [
+					"required" => "{field} tidak boleh kosong",
+					"numeric" => "{field} harus berisi numerik",
+					"max_length" => "{field} maksimal 5 karakter",
 				],
 				"code" => [
 					"required" => "{field} tidak boleh kosong",
@@ -145,6 +151,30 @@ class VoucherController extends ResourceController
     }
 	}
 
+	public function show_code()
+	{
+		$input = $this->request->getRawInput();
+		$key = getenv('TOKEN_SECRET');
+  	$header = $this->request->getServer('HTTP_AUTHORIZATION');
+	  if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+	  $token = explode(' ', $header)[1];
+
+	  try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+
+			$code = $_GET['code'];
+
+			$data = $this->voucherModel->where('code', $code)->first();
+			if ($data) {
+				return $this->respond($data);
+			} else {
+				return $this->failNotFound('Data voucher tidak ditemukan');
+			}
+		} catch (\Throwable $th) {
+      return $this->fail($th->getMessage());
+    }
+	}
+
 	public function update($id = null)
 	{
 		$key = getenv('TOKEN_SECRET');
@@ -158,15 +188,16 @@ class VoucherController extends ResourceController
 
   		// cek role user
 		  $data = $user->select('role')->where('id', $decoded->uid)->first();
-		  if($data['role'] != 'admin'){
-		    return $this->fail('Tidak dapat di akses selain admin', 400);
-		  }
+		  if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
 
 			$input = $this->request->getRawInput();
 			$rules = [
 				"title" => "required",
 				"start_date" => "required|valid_date",
 				"due_date" => "required|valid_date",
+				"quota" => "required|numeric|max_length[5]",
 				"code" => "required|is_unique[voucher.code,voucher_id,$id]|max_length[10]|alpha_numeric",
 				"discount_price" => "required|numeric",
 				"is_active" => "less_than_equal_to[1]",
@@ -183,6 +214,11 @@ class VoucherController extends ResourceController
 				"due_date" => [
 					"required" => "{field} tidak boleh kosong",
 					"valid_date" => "{field} format tanggal tidak sesuai"
+				],
+				"quota" => [
+					"required" => "{field} tidak boleh kosong",
+					"numeric" => "{field} harus berisi numerik",
+					"max_length" => "{field} maksimal 5 karakter",
 				],
 				"code" => [
 					"required" => "{field} tidak boleh kosong",
@@ -248,9 +284,9 @@ class VoucherController extends ResourceController
 
   		// cek role user
 		  $data = $user->select('role')->where('id', $decoded->uid)->first();
-		  if($data['role'] != 'admin'){
-		    return $this->fail('Tidak dapat di akses selain admin', 400);
-		  }
+		  if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
 
 			$data = $this->voucherModel->where('voucher_id', $id)->findAll();
 			if ($data) {

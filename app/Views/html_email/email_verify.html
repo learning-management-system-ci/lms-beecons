@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verify</title>
+
+</head>
+
+<body style="box-sizing: border-box;background-color: #F3F6F9 !important;">
+    <table class="table" style="margin-left: auto;margin-right: auto;max-width: 600px;">
+        <thead>
+            <tr>
+                <th style="text-align: start !important;border: none !important;">
+                    <h3 style="font-family: sans-serif;font-style: normal;font-weight: 700;font-size: 24px;">Selamat
+                        Bergabung di Tender Team!</h3>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="background-color: white;border-radius: 10px !important;">
+
+                <!-- =========VERIFIKASI EMAIL=============== -->
+
+                <th class="main-body px-4"
+                    style="text-align: start !important;padding-left: 1.25rem !important;padding-right: 1.25rem !important;">
+                    <div class="email-content mt-2">
+                        <img src="https://lms.lazy2.codes/image/email/logo.png" width="130px" alt="" class="mb-4"> <br>
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            <b>Halo
+                                <?= $email ?> 👋
+                            </b>
+                        </p>
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            Silahkan tekan tombol di bawah ini untuk melakukan verifikasi email di akun kamu ya.</p>
+                        <a href="<?= $link ?>"
+                            style="display:block;border-radius:7px;background-color:#164520;text-decoration:none;padding:1rem 0px;color:#f3f6f9;font-family:sans-serif;width:100%;text-align:center; font-size:15px;"><b>Verifikasi
+                                Email</b></a>
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            Jika tombol bermasalah, tekan tautan <a href="#">disini</a></p>
+                    </div>
+                    <div class="greeting mt-5" style="margin-top: 3rem !important;">
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            Salam hangat,</p>
+                        <p
+                            style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;">
+                            <b>Tender Team</b>
+                        </p>
+                    </div>
+                    <div class="inner-footer text-center" style="text-align: center;">
+                        <hr style="height:1px;border:none;background-color:#adadad">
+                        <img src="https://lms.lazy2.codes/image/email/logo_bnw.png" width="80px" alt="" class="CToWUd"
+                            data-bit="iit">
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th class="footer pt-4" style="text-align: start !important;">
+                    <p class="text-center need-help mb-3"
+                        style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;text-align: center;">
+                        Butuh bantuan? Silahkan hubungi <a href="#">support@tender.com</a></p>
+                    <p class="text-center copyright"
+                        style="font-family: sans-serif;font-style: normal;font-weight: 400;font-size: 16px;color: #000000;text-align: center;">
+                        Copyright &copy; 2022. All Rights Reserved</p>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

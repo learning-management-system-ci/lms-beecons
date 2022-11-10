@@ -71,10 +71,6 @@ button {
 #cart .cart-list table tr td .price {
   text-align: center;
 }
-#cart .voucher-order-total #cart-form-redeem input:focus {
-  box-shadow: none;
-  border-color: #164520;
-}
 #cart .voucher-order-total .order-total div {
   gap: 100px;
 }

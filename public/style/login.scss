@@ -1,12 +1,16 @@
 @import "_base";
 
 body {
-  background-color: #e8f9fd;
+  background-color: $color-white;
   overflow-x: hidden;
 }
 
+.btn {
+  font-weight: 500;
+}
+
 .btn-primary {
-  background-color: #164520 !important;
+  background-color: $color-primary !important;
 }
 
 .page-flex {
@@ -25,12 +29,15 @@ body {
 }
 
 #button {
-  &:disabled {
+  border: 0;
+  &:disabled,
+  &.disable {
     background-color: $color-gray-4 !important;
     color: $color-secondary !important;
   }
 
-  &:active {
+  &:active,
+  &.active {
     background-color: $color-secondary !important;
     color: $color-white !important;
   }
@@ -44,7 +51,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 42px;
-  border: 1px solid $color-black !important;
+  border: 1px solid $color-gray-5 !important;
 
   img {
     position: absolute;
@@ -59,6 +66,7 @@ body {
 }
 
 form {
+  width: 290px;
   .welcome-text {
     font-weight: 400;
   }
@@ -74,6 +82,16 @@ form {
     font-size: 13px;
   }
 
+  #terms {
+    height: 15px;
+  }
+
+  .checkbox {
+    label.error {
+      display: none !important;
+    }
+  }
+
   .form-label {
     font-weight: 500;
   }
@@ -81,6 +99,7 @@ form {
   input {
     font-weight: 400;
     border: 1px solid;
+    border-color: $color-gray-5;
     border-radius: 7px;
     height: 40px;
     padding-left: 20px;
@@ -107,10 +126,21 @@ form {
     }
   }
 
+  .priv-pol {
+    margin-top: 0 !important;
+    text-align: start !important;
+  }
+
   .sign-up {
+    text-align: center;
     font-weight: 300;
     font-size: 12px;
-    margin-top: 20px !important;
+    margin-top: 20px;
+    a {
+      text-decoration: none;
+      font-weight: 700;
+      color: $color-primary;
+    }
   }
 
   .horizontal {

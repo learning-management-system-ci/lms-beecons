@@ -1,5 +1,7 @@
 @import '_base';
 
+$color-voucher: #70BD81;
+
 #cart {
     .breadcrumb {
         font-weight: 500;
@@ -79,15 +81,7 @@
     }
 
     .voucher-order-total {
-        #cart-form-redeem {
-            input:focus {
-                box-shadow: none;
-                border-color: $color-primary;
-            }
-        }
-
         .order-total {
-
             div {
                 h6 {
                     font-size: 20px
