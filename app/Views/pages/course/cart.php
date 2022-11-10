@@ -3,19 +3,12 @@
 
 <?= $this->section('css-component') ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="/style/loading.css">
 <link rel="stylesheet" href="style/cart.css">
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
 <div id="cart" class="main-container mb-5">
-    <section>
-        <nav class="pt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">Cart</li>
-            </ol>
-            <hr>
-        </nav>
-    </section>
     <?php if (!get_cookie("access_token")) : ?>
         <div class="section-no-login">
             <h1 class="mb-3">Kamu belum masuk</h1>
@@ -45,32 +38,38 @@
                 <tbody></tbody>
             </table>
 
+            <div id="loading">
+                <div class="stage">
+                    <div class="dot-pulse">
+                    </div>
+                </div>
+            </div>
+
             <hr>
         </section>
         <section class="voucher-order-total d-flex justify-content-between align-items-start">
-            <form id="cart-form-redeem">
-                <div class="input-group mb-3 d-none">
-                    <input type="text" class="form-control" placeholder="Kode Voucher" required>
-                    <button type="submit" id="redeem" class="my-btn">Redeem</button>
-                </div>
-            </form>
+            <div class="">
+
+            </div>
             <div class="order-total">
-                <div class="d-none">
+                <!-- <div class="order-total-container d-none">
                     <div class="d-flex justify-content-between mb-2">
                         <p>Total</p>
                         <p class="cart-total"></p>
                     </div>
                     <div class="d-flex justify-content-between">
                         <p>Coupon</p>
-                        <p>20%</p>
+                        <p class="order-total-coupon">20%</p>
                     </div>
                     <hr>
-                </div>
+                </div> -->
                 <div class="d-flex justify-content-between">
                     <h6>TOTAL</h6>
-                    <h6 class="cart-total">Rp. 0</h6>
+                    <h6 class="cart-total-final">Rp. 0</h6>
                 </div>
-                <button class="my-btn w-100 mt-3" id="checkout">Check Out</button>
+                <a href="/checkout">
+                    <button class="my-btn w-100 mt-3" id="checkout">Check Out</button>
+                </a>
             </div>
         </section>
     <?php endif ?>
@@ -80,5 +79,5 @@
 <?= $this->section('js-component') ?>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../../../js/utils/getRupiah.js"></script>
-<script src="js/home/cart.js"></script>
+<script src="js/cart/cart.js"></script>
 <?= $this->endSection() ?>

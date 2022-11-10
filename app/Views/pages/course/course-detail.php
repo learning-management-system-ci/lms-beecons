@@ -13,24 +13,34 @@
 
 <!-- kalian bisa tambahkan class "hide" pada element untuk menyembunyikan element -->
 
-<div class="px-5 mt-4 mb-5">
+<!-- <div id="loading-page">
+</div> -->
+<div class="px-5 mt-4 mb-5 d-none" id="course-detail-page">
     <section class="navigation">
         <p class="mb-4">Courses > <a href="#" class="course_type_content">Information Tech (IT)</a> ><a href="#" class="course_title_content"> Fundamental UI/UX Design</a></p>
         <hr>
     </section>
     <section class="category mt-4 mb-4">
         <h3 class="course_title_content">Fundamentals</h3>
-        <p class="course_type_content"> <img src="image/course-detail/category-icon.png" alt=""> Information Tech (IT)</p>
+        <p class="course_type_content"> <img src="/image/course-detail/category-icon.png" alt=""> Information Tech (IT)</p>
     </section>
     <section class="course-content d-flex">
         <div class="left-side">
             <!-- VIDEO EMBED -->
-            <!-- <iframe class="mb-5" width="727" height="400" src="https://www.youtube.com/embed/mRttyh1GQ5I"></iframe> -->
-
+            <!-- <iframe class="mb-5 course-video-content" width="727" height="400" src="https://www.youtube.com/embed/mRttyh1GQ5I"></iframe> -->
+            <div class="video-panel">
+                <video class="course-video-wraper mb-5" width="727" height="400" class="mb-5" controls>
+                    <source class="course-video-content" src="/upload/course-video/1.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
             <!-- QUIZ PANEL -->
-            <div class="quiz-section text-center p-4 swiper myswiper mb-5">
+            <div class="quiz-panel">
+
+            </div>
+            <!-- <div class="quiz-section text-center p-4 swiper myswiper mb-5 ">
                 <div class="swiper-wrapper">
-                    <!-- <div class="swiper-slide">
+                    <div class="swiper-slide">
                         <h4 class="quiz-title">QUESTION</h4>
                         <p class="mb-3">PILIHAN GANDA</p>
                         <div class="quiz-option-list d-flex justify-content-center align-items-center p-1 flex-wrap">
@@ -51,7 +61,7 @@
                                 <label for="D-1">Hello</label>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="swiper-slide">
                         <h4 class="quiz-title">QUESTION</h4>
                         <p class="mb-3">PILIHAN GANDA</p>
@@ -76,12 +86,12 @@
                     </div>
                 </div>
                 <div class="progress-box d-flex align-items-center justify-content-center p-1 mt-5">
-                    <button class="quiz-back"><img width="34px" src="image/course-detail/back.png" alt=""></button>
+                    <button class="quiz-back"><img width="34px" src="/image/course-detail/back.png" alt=""></button>
                     <div id="loading"></div>
-                    <button class="quiz-next"><img width="110px" src="image/course-detail/next.png" alt=""></button>
-                    <button class="quiz-finish hide"><img width="110px" src="image/course-detail/finish.png" alt=""></button>
+                    <button class="quiz-next"><img width="110px" src="/image/course-detail/next.png" alt=""></button>
+                    <button class="quiz-finish hide"><img width="110px" src="/image/course-detail/finish.png" alt=""></button>
                 </div>
-            </div>
+            </div> -->
 
 
             <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
@@ -196,11 +206,12 @@
             USER UNPAID (PENGGUNA BELUM BAYAR). JADI KODE DIBAWAH SAMA PENTINGNYA
             DENGAN KODE YANG LAIN. JANGAN DIHAPUS!! -->
 
+
             <!-- <div class="video-list mb-5 p-3 pt-4">
                 <h5 class="mb-3 course_videoCount_content">8 Video</h5>
                 <hr>
-                <div class="scrollable-video-list pe-3 course_videoList_content">
-                    <div class="sub-chapter mb-3">
+                <div class="scrollable-video-list pe-3 ">
+                    <div class="sub-chapter mb-3 course_videoList_content">
                         <div class="list-card-button d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
@@ -294,6 +305,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="order-card">
                 <h4>Order Summary</h4>
                 <p class="mt-4 mb-1 course_title_content">Mastering Frontend Developer</p>
@@ -338,31 +350,33 @@
                     Hebat! Kamu udah hemat <b class="course_price_discount_content">Rp 200.000</b> pada pemesananmu.
                 </div>
                 <button class="mt-2">Beli</button>
-                <button class="mt-2 add-to-cart">Masukkan ke Keranjang</button>
+                <button class="mt-2 add-to-cart" id="add-to-card">Masukkan ke Keranjang</button>
             </div>
         </div>
     </section>
 
     <!-- image caching (agar gambar dari css maupun javascript bisa langsung dimuat ga pake delay) -->
     <div class="hide">
-        <img src="image/course-detail/button-quiz-light.png" alt="">
-        <img src="image/course-detail/button-quiz-dark.png" alt="">
-        <img src="image/course-detail/play-dark.png" alt="">
-        <img src="image/course-detail/check.svg" alt="">
-        <img src="image/course-detail/pause-button.png" alt="">
-        <img src="image/course-detail/loading-indicator.png" alt="">
-        <img src="image/course-detail/video-locked.png" alt="">
-        <img src="image/course-detail/play-project-enable.png" alt="">
+        <img src="/image/course-detail/button-quiz-light.png" alt="">
+        <img src="/image/course-detail/button-quiz-dark.png" alt="">
+        <img src="/image/course-detail/play-dark.png" alt="">
+        <img src="/image/course-detail/check.svg" alt="">
+        <img src="/image/course-detail/pause-button.png" alt="">
+        <img src="/image/course-detail/loading-indicator.png" alt="">
+        <img src="/image/course-detail/video-locked.png" alt="">
+        <img src="/image/course-detail/play-project-enable.png" alt="">
     </div>
 
 
 </div>
+
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>
-<script src='/js/library/swiper-bundle.min.js'></script>
-<script src="/js/library/progress-bar.js"></script>
-<script src="/js/utils/getRupiah.js"></script>
-<script src="/js/utils/textTruncate.js"></script>
-<script src="/js/home/course-detail.js"></script>
+    <script src="/js/library/swiper-bundle.min.js"></script>
+    <script src="/js/library/progress-bar.js"></script>
+    <script src="/js/utils/getRupiah.js"></script>
+    <script src="/js/utils/textTruncate.js"></script>
+    <script src="/js/home/course-detail.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?= $this->endSection() ?>

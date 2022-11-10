@@ -38,6 +38,8 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+$routes->get('/admin', 'Home::adminIndex');
+
 $routes->get('/', 'Home::index');
 
 $routes->get('/login', 'AuthController::indexLogin');
@@ -101,6 +103,7 @@ $routes->group('api/', static function ($routes) {
     $routes->group('voucher/', static function ($routes) {
         $routes->get('', 'Api\VoucherController::index');
         $routes->get('detail/(:segment)', 'Api\VoucherController::show/$1');
+        $routes->get('code-detail', 'Api\VoucherController::show_code');
         $routes->post('create', 'Api\VoucherController::create');
         $routes->put('update/(:segment)', 'Api\VoucherController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\VoucherController::delete/$1');
@@ -108,7 +111,16 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('review/', static function ($routes) {
         $routes->get('', 'Api\ReviewController::index');
+        $routes->get('detail', 'Api\ReviewController::index_review');
         $routes->post('create', 'Api\ReviewController::create');
+    });
+
+    $routes->group('jobs/', static function ($routes) {
+        $routes->get('', 'Api\JobsController::index');
+        $routes->get('detail/(:segment)', 'Api\JobsController::show/$1');
+        $routes->post('create', 'Api\JobsController::create');
+        $routes->put('update/(:segment)', 'Api\JobsController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\JobsController::delete/$1');
     });
 
     $routes->group('testimoni/', static function ($routes) {
@@ -128,10 +140,12 @@ $routes->group('api/', static function ($routes) {
     });
 
     $routes->group('users/', static function ($routes) {
+        $routes->get('admin', 'Api\UserController::index');
         $routes->get('', 'Api\UserController::profile');
-        $routes->get('jobs', 'Api\UserController::jobs');
+        // $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
-        $routes->put('update/(:num)', 'Api\UserController::update/$1');
+        $routes->post('update/(:num)', 'Api\UserController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\UserController::delete/$1');
     });
 
     $routes->group('course/', static function ($routes) {
@@ -148,6 +162,7 @@ $routes->group('api/', static function ($routes) {
 
         $routes->group('video/', static function ($routes) {
             $routes->get('(:num)', 'Api\VideoController::index/$1');
+            $routes->post('(:num)', 'Api\VideoController::answer/$1');
             $routes->post('create', 'Api\VideoController::create');
             $routes->post('update/(:segment)', 'Api\VideoController::update/$1');
             $routes->delete('delete/(:segment)', 'Api\VideoController::delete/$1');
@@ -231,6 +246,14 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
     });
 
+    $routes->group('contactus/', static function ($routes) {
+        $routes->get('', 'Api\ContactUsController::index');
+        $routes->get('detail/(:num)', 'Api\ContactUsController::show/$1');
+        $routes->post('answer', 'Api\ContactUsController::answer');
+        $routes->post('question', 'Api\ContactUsController::question');
+        $routes->delete('delete/(:num)', 'Api\ContactUsController::delete/$1');
+    });
+
     $routes->group('type/', static function ($routes) {
         $routes->get('', 'Api\TypeController::index');
         $routes->get('detail/(:num)', 'Api\TypeController::show/$1');
@@ -262,11 +285,21 @@ $routes->group('api/', static function ($routes) {
     $routes->group('order/', static function ($routes) {
         $routes->get('', 'Api\OrderController::index');
         $routes->get('generatesnap', 'Api\OrderController::generateSnap');
-        $routes->post('notif-handler', 'Api\OrderController::notifHandler');
+        $routes->get('notif-handler', 'Api\OrderController::notifHandler');
+
+        $routes->post('coba', 'Api\OrderController::send');
     });
 
     $routes->group('quiz/', static function ($routes) {
         $routes->get('', 'Api\QuizController::index');
+        $routes->post('create', 'Api\QuizController::create');
+        $routes->put('update/(:segment)', 'Api\QuizController::update/$1');
+        $routes->delete('delete/(:segment)', 'Api\QuizController::delete/$1');
+    });
+
+    $routes->group('referral/', static function ($routes) {
+        $routes->get('', 'Api\ReferralController::index');
+        $routes->post('create', 'Api\ReferralController::create');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');

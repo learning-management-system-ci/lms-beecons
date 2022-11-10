@@ -34,6 +34,11 @@ class Voucher extends Migration
                 'constraint' => 1,
                 'default'=> 0,
             ],
+            'quota'      => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+            ],
             'code'      => [
                 'type'           => 'VARCHAR',
                 'constraint'     => 20,

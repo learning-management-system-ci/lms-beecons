@@ -75,7 +75,7 @@ class Users extends Migration
 		]);
 
 		$this->forge->addKey('id', TRUE);
-		$this->forge->addForeignKey('job_id', 'jobs', 'job_id', 'CASCADE', 'NO ACTION');
+		$this->forge->addForeignKey('job_id', 'jobs', 'job_id', 'CASCADE', 'SET NULL');
 		$this->forge->createTable('users', TRUE);
 	}
 

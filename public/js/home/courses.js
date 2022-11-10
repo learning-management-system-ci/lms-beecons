@@ -23,6 +23,8 @@ $(document).ready(async function () {
             dataType: 'json'
         })
 
+        $('#courses-loading').hide()
+
         $('#courses #tab-courses-1 .tags').html(
             `<a href="" class="item" data-tag_id="0">All</a>` + 
             tagsResponse[0].tag.map(tag => {
@@ -195,7 +197,7 @@ $(document).ready(async function () {
         }
 
         function handleAddCart() {
-            return $('.add-cart').on('click', function() {
+            return $('.add-cart').on('click', async function() {
                 const course_id = $(this).val()
 
                 if (!Cookies.get("access_token")) {
@@ -207,14 +209,16 @@ $(document).ready(async function () {
                     })
                 }
 
-                $.ajax({
-                    url: `/api/cart/create/course/${course_id}`,
-                    method: 'POST',
-                    dataType: 'json',
-                    headers: {
-                        Authorization: 'Bearer ' + Cookies.get("access_token")
-                    }
-                }).then((res) => {
+                try {
+                    const res = await $.ajax({
+                        url: `/api/cart/create/course/${course_id}`,
+                        method: 'POST',
+                        dataType: 'json',
+                        headers: {
+                            Authorization: 'Bearer ' + Cookies.get("access_token")
+                        }
+                    })
+
                     if (res.status !== 200) {
                         return new swal({
                             title: 'Gagal',
@@ -224,16 +228,31 @@ $(document).ready(async function () {
                         })
                     }
                     
-                    return new swal({
+                    new swal({
                         title: "Berhasil!",
                         text: "Course berhasil ditambahkan ke keranjang",
                         icon: "success",
                         timer: 1200,
                         showConfirmButton: false
-                    }).then(() => window.location = '/courses')
-                }).catch((err) => {
+                    })
+
+                    const { item } = await $.ajax({
+                        url: '/api/cart',
+                        method: 'GET',
+                        dataType: 'json',
+                        headers: {
+                            Authorization: 'Bearer ' + Cookies.get("access_token")
+                        }
+                    })
+
+                    if (item.length > 0) {
+                        $('#cart-count').append(
+                            `<div class="nav-btn-icon-amount">${item.length}</div>`
+                        );
+                    }
+                } catch (error) {
                     console.log(error)
-                })
+                }
             })
         }
     } catch (error) {

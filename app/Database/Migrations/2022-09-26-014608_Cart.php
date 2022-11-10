@@ -32,18 +32,14 @@ class Cart extends Migration
                 'unsigned' => true,
                 'null' => true
             ],
-            'total' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255
-            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
 
         $this->forge->addKey('cart_id', TRUE);
         $this->forge->addForeignKey('user_id', 'users', 'id');
-        $this->forge->addForeignKey('course_id', 'course', 'course_id');
-        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id');
+        $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('cart', TRUE);
     }
 

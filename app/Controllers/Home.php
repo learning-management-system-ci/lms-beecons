@@ -119,6 +119,16 @@ class Home extends BaseController
     }
     public function email()
     {
-        return view('pages/email');
+        $data = [
+            "order_id" => 1,
+            "total_price" => 200000,
+        ];
+        return view('html_email/payment_success.html', $data);
+    }
+    public function adminIndex()
+    {
+        $data = [
+        ];
+        return view('pages/admin/index', $data);
     }
 }

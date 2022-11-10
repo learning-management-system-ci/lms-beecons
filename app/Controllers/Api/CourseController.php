@@ -483,7 +483,7 @@ class CourseController extends ResourceController
                 'key_takeaways' => 'max_length[255]',
                 'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
-                'new_price' => 'required|numeric',
+                'new_price' => 'permit_empty|numeric',
                 'thumbnail' => 'uploaded[thumbnail]'
                     . '|is_image[thumbnail]'
                     . '|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]'

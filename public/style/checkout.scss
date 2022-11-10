@@ -1,3 +1,5 @@
+
+@import '_base';
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 @mixin font($weight) {
@@ -36,6 +38,7 @@ button {
     background-color: #002a5b00;
 }
 
+$color-voucher: #70BD81;
 
 //hide element
 .hide {
@@ -50,8 +53,12 @@ main {
     }
 
     .checkout-main {
+
         .order-list-section {
+            width: 60%;
+
             .order-item {
+
                 .order-list-detail {
 
                     gap: 12px;
@@ -103,8 +110,10 @@ main {
         }
 
         .order-summary-card {
+
             border-radius: 7px;
             box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.247);
+            width: 400px;
 
             .total-count-prize {
                 gap: 30px
@@ -137,6 +146,144 @@ main {
                 border-radius: 7px;
                 width: 100%;
                 background-color: #164520;
+            }
+
+            #cart-form-redeem {
+                input:focus {
+                    box-shadow: none;
+                    border-color: $color-primary;
+                }
+            }
+            .btn-modal-referral {
+                padding: .5rem 1.5rem;
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                font-weight: 500;
+                color: $color-secondary;
+                border-radius: 8px;
+                background-color: white;
+        
+                &:hover {
+                    background-color: $color-gray-3;
+                }
+            }
+        
+            #cart-referral-modal {
+                .modal-dialog {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+        
+            .cart-referral-modal-container {
+                padding: 1.5rem;
+        
+                .cart-referral-modal-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding-bottom: 1rem;
+                    border-bottom: 3px solid $color-gray-3;
+                }
+        
+                .cart-referral-modal-header-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+        
+                    a {
+                        font-weight: 500;
+                        color: gray;
+                    }
+        
+                    .btn-close {
+                        width: 6px;
+                        height: 6px;
+                    }
+                }
+        
+                .cart-referral-modal-form {
+                    border-bottom: 3px solid $color-gray-3;
+        
+                    form {
+                        padding-top: .8rem;
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 1rem;
+        
+                        input:focus {
+                            box-shadow: none;
+                            border-color: gray;
+                        }
+                    }
+                }
+        
+                .cart-referral-modal-coucher-btn {
+                    background-color: transparent;
+                    padding: 0;
+                }
+        
+                .referral-item {
+                    display: flex;
+        
+                    .icon {
+                        background-color: $color-primary;
+                        padding: {
+                            top: .5rem;
+                            bottom: .5rem;
+                            right: 1.5rem;
+                            left: 1.5rem;
+                        };
+                        display: flex;
+                        align-items: center;
+                        position: relative;
+        
+                        img {
+                            height: 1rem;
+                        }
+        
+                        &::after {
+                            content: '';
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 50%;
+                            background-color: white;
+                            position: absolute;
+                            left: -10px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                        }
+                    }
+        
+                    .disc {
+                        background-color: $color-voucher;
+                        padding: {
+                            top: .5rem;
+                            bottom: .5rem;
+                            right: 2rem;
+                            left: 1.5rem;
+                        };
+                        color: white;
+                        font-weight: bold;
+                        position: relative;
+        
+                        &::after {
+                            content: '';
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 50%;
+                            background-color: white;
+                            position: absolute;
+                            right: -10px;
+                            top: 50%;
+                            transform: translateY(-50%);
+                        }
+                    }
+                }
             }
         }
     }

@@ -19,8 +19,9 @@
                     <div class="content d-flex align-items-start flex-column mb-2" style="height: 175px;">
                         <h5 class="text-uppercase font-weight-light mb-2">Referral Code</h5>
                         <div class="d-flex align-items-center flex-row mb-2">
-                            <h4 class="m-0 me-2">ReferralCode</h4>
-                            <button type="button" class="btn-grey-200" style="height: 30px; border-radius: 5px;">
+                            <input class="m-0 me-2 referral-code" disabled id="myInput">
+                            <button class="btn-grey-200" style="height: 30px; border-radius: 5px;"
+                                onclick="copyFunction()" onmouseout="outFunc()">
                                 Copy
                             </button>
                         </div>
@@ -30,7 +31,7 @@
                                     <img src="image/auth-image.png" class="course-image me-1" alt="">
                                 </div>
                                 <div class="col d-flex align-items-start flex-column" style="height: 35px;">
-                                    <h5 class="mb-auto">10 Orang</h5>
+                                    <h5 class="mb-auto referral-users"></h5>
                                     <p class="m-0">Menerima kode referral anda</p>
                                 </div>
                             </div>
@@ -41,7 +42,7 @@
                                     <img src="image/auth-image.png" class="course-image me-1" alt="">
                                 </div>
                                 <div class="col d-flex align-items-start flex-column" style="height: 35px;">
-                                    <h5 class="mb-auto">5 Voucher</h5>
+                                    <h5 class="mb-auto voucher-total"></h5>
                                     <p class="m-0">Lihat voucher kamu disini</p>
                                 </div>
                             </div>
@@ -49,19 +50,7 @@
                     </div>
                     <div class="card voucher-container collapse" id="voucher">
                         <h5>Voucher</h5>
-                        <div class="row">
-                            <div class="col mb-4 voucher">
-                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
-                            </div>
-                            <div class="col mb-4 voucher">
-                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
-                            </div>
-                            <div class="col mb-4 voucher">
-                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
-                            </div>
-                            <div class="col mb-4 voucher">
-                                <img style="height: inherit;" src="image/profile/voucher.png" alt="">
-                            </div>
+                        <div class="row vouchers">
                         </div>
                     </div>
                 </div>
@@ -95,9 +84,6 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <?= $this->section('js-component') ?>
 <script src="../../../js/api/referral/index.js"></script>
 <script src="../../../js/api/profile/index.js"></script>

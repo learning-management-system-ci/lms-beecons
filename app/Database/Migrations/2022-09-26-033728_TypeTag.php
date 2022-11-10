@@ -32,8 +32,8 @@ class TypeTag extends Migration
         ]);
 
         $this->forge->addKey('type_tag_id', TRUE);
-        $this->forge->addForeignKey('type_id', 'type', 'type_id', 'CASCADE', 'NO ACTION');
-        $this->forge->addForeignKey('tag_id', 'tag', 'tag_id', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('type_id', 'type', 'type_id', 'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('tag_id', 'tag', 'tag_id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('type_tag', TRUE);
     }
 

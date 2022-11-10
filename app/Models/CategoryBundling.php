@@ -15,4 +15,5 @@ class CategoryBundling extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['category_bundling_id', 'name', 'created_at', 'updated_at'];
+
 }

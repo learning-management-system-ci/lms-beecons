@@ -28,7 +28,7 @@
     $('document').ready(async function () {
         $.ajax({
             type: "GET",
-            url: "/api/users/jobs",
+            url: "/api/jobs",
             contentType: "application/json",
             headers: {
                 "Authorization": "Bearer " + Cookies.get("access_token"),

@@ -12,7 +12,17 @@ $(document).ready(async function () {
             dataType: 'json'
         })
 
+        $('.courses-bundling-loading').hide()
+
         let rekomendasi = response.slice(0, 3)
+
+        $('#courses .courses-bundlings .courses-bundling-list').slick({
+            dots: false,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            touchMove: true,
+            centerMode: true,
+        })
 
         $('.courses-bundlings .tags').html(
             `<a href="" class="item" data-category_bundling_id="0">All</a>` + 
@@ -67,6 +77,7 @@ $(document).ready(async function () {
         }
 
         function setBundles(tag = 0) {
+            $('#courses .courses-bundlings .courses-bundling-list').slick('unslick')
             $(`.courses-bundlings .tags .item[data-category_bundling_id="${tag}"]`).addClass('active').siblings().removeClass('active')
             
             let result = []
@@ -79,7 +90,7 @@ $(document).ready(async function () {
 
             $('#courses .courses-bundlings .courses-bundling-list').html(result.map((item) => {
                 return `
-                    <div class="col-md-3 pe-4 pb-4 ps-0">
+                    <div class="pe-3 ps-0 py-4">
                         <div class="my-card bundle">
                             <div class="content">
                                 <div class="badges">
@@ -109,6 +120,14 @@ $(document).ready(async function () {
                     </div>
                 `
             }))
+
+            $('#courses .courses-bundlings .courses-bundling-list').slick({
+                dots: false,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                touchMove: true,
+                centerMode: true,
+            })
         }
     } catch (error) {
         console.log(error)
