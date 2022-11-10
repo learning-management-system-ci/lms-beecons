@@ -231,12 +231,12 @@ class CartController extends ResourceController
             $voucher_data = $voucher->where('code', $code)->first();
 
             if ($voucher_data['quota'] == 0) {
-                return 0;
+                return 400;
             } else {
                 if ($voucher_data['start_date'] <= date("Y-m-d") && $voucher_data['due_date'] >= date("Y-m-d")) {
                     return $check_voucher['discount_price'];
                 } else {
-                    return 0;
+                    return 401;
                 }
             }
         }

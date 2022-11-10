@@ -144,7 +144,11 @@ class ContactUsController extends ResourceController
 	{
 		$rules = [
 			"email" => "required|valid_email",
-			"question" => "required",
+			"question" => "required|max_lenght[2500]",
+            "question_image" => 'uploaded[question_image]'
+                . '|is_image[question_image]'
+                . '|mime_in[question_image,image/jpg,image/jpeg,image/png,image/webp]'
+                . '|max_size[question_image,4000]',
 		];
 
 		$messages = [
@@ -153,13 +157,15 @@ class ContactUsController extends ResourceController
                 'valid_email' => 'Format {field} tidak sesuai'
 			],
 			"question" => [
-				"required" => "{field} tidak boleh kosong"
+				"required" => "{field} tidak boleh kosong",
+                "max_length" => "{field} maksimal 2500 karakter",
 			],
-			// "question_image" => [
-			// 	'uploaded' => '{field} tidak boleh kosong',
-            //     'mime_in' => 'File Image Harus Berupa png, jpg, atau jpeg',
-            //     'max_size' => 'Ukuran File Maksimal 2 MB'
-			// ],
+			"question_image" => [
+				'uploaded' => '{field} tidak boleh kosong',
+				'is_image' => '{field} hanya dapat diisi dengan image',
+                'mime_in' => 'File image Harus Berupa png, jpg, atau jpeg',
+                'max_size' => 'Ukuran file maksimal 2 MB'
+			],
 		];
 
 		if($this->validate($rules, $messages)) {
