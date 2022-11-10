@@ -50,19 +50,19 @@ class CreateCourseTable extends Migration
                 'type'          => 'VARCHAR',
                 'constraint'    => '255'
             ],
-
             'author_id'          => [
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
                 'null'            => true,
             ],
+
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
 
         $this->forge->addKey('course_id', TRUE);
-        $this->forge->addForeignKey('author_id', 'users', 'user_id', 'CASCADE', 'NO ACTION');
+        $this->forge->addForeignKey('author_id', 'users', 'id', 'CASCADE', 'NO ACTION');
         $this->forge->createTable('course', TRUE);
     }
 
