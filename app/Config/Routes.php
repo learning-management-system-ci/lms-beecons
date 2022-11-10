@@ -302,6 +302,12 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\ReferralController::create');
     });
 
+    $routes->group('webinar/', static function ($routes) {
+        $routes->get('', 'Api\WebinarController::index');
+        $routes->get('detail/(:num)', 'Api\WebinarController::show/$1');
+        $routes->post('create', 'Api\WebinarController::create');
+    });
+
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
 });

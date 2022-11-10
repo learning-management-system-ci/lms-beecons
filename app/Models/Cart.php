@@ -14,7 +14,7 @@ class Cart extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'course_id', 'bundling_id'];
+    protected $allowedFields    = ['user_id', 'course_id', 'bundling_id', 'webinar_id'];
 
     function getCart($userId)
     {

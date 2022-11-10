@@ -12,6 +12,8 @@ use App\Models\UserCourse;
 use App\Models\Voucher;
 use App\Models\Referral;
 use App\Models\ReferralUser;
+use App\Models\Webinar;
+use App\Models\UserWebinar;
 use Firebase\JWT\JWT;
 
 class CartController extends ResourceController
@@ -20,7 +22,6 @@ class CartController extends ResourceController
 
     public function index()
     {
-        $input = $this->request->getRawInput();
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -32,6 +33,7 @@ class CartController extends ResourceController
             $course = new Course;
             $bundling = new Bundling;
             $user = new Users;
+            $webinar = new Webinar;
 
             $cart_data = $cart->where('user_id', $decoded->uid)->findAll();
             $user_data = $user->select('id, email, date_birth, address, phone_number')->where('id', $decoded->uid)->first();
@@ -42,6 +44,7 @@ class CartController extends ResourceController
                 foreach ($cart_data as $value) {
                     $course_data = $course->select('title, old_price, new_price, thumbnail')->where('course_id', $value['course_id'])->first();
                     $bundling_data = $bundling->select('title, old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
+                    $webinar_data = $webinar->select('title, old_price, new_price')->where('webinar_id', $value['webinar_id'])->first();
 
                     if ($course_data) {
                         $price = (empty($course_data['new_price'])) ? $course_data['old_price'] : $course_data['new_price'];
@@ -51,10 +54,15 @@ class CartController extends ResourceController
                         $price = (empty($bundling_data['new_price'])) ? $bundling_data['old_price'] : $bundling_data['new_price'];
                     }
 
+                    if ($webinar_data) {
+                        $price = (empty($webinar_data['new_price'])) ? $webinar_data['old_price'] : $webinar_data['new_price'];
+                    }
+
                     $items[] = [
                         'cart_id' => $value['cart_id'],
                         'course' => $course_data,
                         'bundling' => $bundling_data,
+                        'webinar' => $webinar_data,
                         'sub_total' => $price
                     ];
 
@@ -123,6 +131,7 @@ class CartController extends ResourceController
             $user = new Users;
             $cart = new Cart;
             $userCourse = new UserCourse;
+            $userWebinar = new UserWebinar;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
@@ -130,8 +139,9 @@ class CartController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain member', 400);
             }
 
+            $check2 = false;
             if ($type == 'course') {
-                $check = $cart->where('course_id', $id)->where('user_id', $decoded->uid)->first();
+                $check = $cart->where('course_id', $id)->where('user_id ', $decoded->uid)->first();
                 $check2 = $userCourse->where('user_id', $decoded->uid)->where('course_id', $id)->first();
                 $messages = 'course';
             }
@@ -139,6 +149,12 @@ class CartController extends ResourceController
             if ($type == 'bundling') {
                 $check = $cart->where('bundling_id', $id)->where('user_id', $decoded->uid)->first();
                 $messages = 'bundling';
+            }
+
+            if ($type == 'webinar') {
+                $check = $cart->where('webinar_id', $id)->where('user_id', $decoded->uid)->first();
+                $check2 = $userWebinar->where('user_id', $decoded->uid)->where('webinar_id', $id)->first();
+                $messages = 'webinar';
             }
 
             if ($check2) {
@@ -157,6 +173,7 @@ class CartController extends ResourceController
                     'user_id' => $decoded->uid,
                     'course_id' => ($type == 'course') ? $id : null,
                     'bundling_id' => ($type == 'bundling') ? $id : null,
+                    'webinar_id' => ($type == 'webinar') ? $id : null,
                 ];
                 $cart->save($data);
                 $response = [

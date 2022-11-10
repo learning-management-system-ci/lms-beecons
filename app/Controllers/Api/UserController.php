@@ -154,15 +154,9 @@ class UserController extends ResourceController
                         'success' => 'Profil berhasil diupdate'
                     ]
                 ];
-            } else {
-                $response = [
-                    'status'   => 400,
-                    'error'    => 400,
-                    'messages' => $this->validator->getErrors(),
-                ];
-            }
 
-            return $this->respondCreated($response);
+                return $this->respondCreated($response);
+            }
         } catch (\Throwable $th) {
             if (!$cek) {
                 return $this->failNotFound('Data user tidak ditemukan');
