@@ -17,6 +17,77 @@ button {
   background-color: rgba(0, 0, 128, 0);
 }
 
+.status-loading {
+  font-size: 20px;
+  color: black;
+  height: 100%;
+  width: max-content;
+  text-align: center;
+}
+.status-loading .loading-icon {
+  height: 180px;
+}
+.status-loading .success-icon {
+  width: 70px;
+}
+.status-loading h5 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 700;
+  color: black;
+  font-size: 22px;
+}
+.status-loading p {
+  color: #8F8585;
+}
+
+.status-success {
+  padding-top: 50px;
+  height: 100%;
+  width: max-content;
+  text-align: center;
+}
+.status-success .loading-icon {
+  height: 180px;
+}
+.status-success .success-icon {
+  width: 70px;
+}
+.status-success h5 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 700;
+  color: black;
+  font-size: 22px;
+}
+.status-success p {
+  color: #8F8585;
+}
+
+.status-warning {
+  padding-top: 50px;
+  height: 100%;
+  width: max-content;
+  text-align: center;
+  width: auto;
+}
+.status-warning .loading-icon {
+  height: 180px;
+}
+.status-warning .success-icon {
+  width: 70px;
+}
+.status-warning h5 {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 700;
+  color: black;
+  font-size: 22px;
+}
+.status-warning p {
+  color: #8F8585;
+}
+
 .contact-popup {
   width: auto;
   gap: 15px;
@@ -37,7 +108,7 @@ button {
 .contact-popup form textarea {
   border-radius: 7px;
 }
-.contact-popup form input[name=useremail] {
+.contact-popup form input[name=email] {
   border: 1px solid #9B9B9B;
   height: 50px;
 }
@@ -58,6 +129,15 @@ button {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
   font-weight: 500;
+}
+.contact-popup form .file-group {
+  gap: 12px;
+}
+.contact-popup form .file-group .filename {
+  width: 234px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .swal2-close:focus {

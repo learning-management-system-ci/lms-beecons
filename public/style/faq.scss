@@ -28,6 +28,50 @@ button {
     background-color: rgba(0, 0, 128, 0);
 }
 
+@mixin status-popup() {
+    height: 100%;
+    width: max-content;
+    text-align: center;
+
+    .loading-icon {
+        height: 180px;
+    }
+
+    .success-icon {
+        width: 70px;
+    }
+
+    h5 {
+        @include font($weight: 700);
+        color: black;
+        font-size: 22px;
+    }
+
+    p {
+        color: #8F8585;
+    }
+}
+
+.status-loading {
+    font-size: 20px;
+    color: black;
+    @include status-popup();
+
+}
+
+.status-success {
+    padding-top: 50px;
+    @include status-popup();
+}
+
+.status-warning {
+    padding-top: 50px;
+    @include status-popup();
+    width: auto;
+}
+
+
+
 .contact-popup {
     width: auto;
     gap: 15px;
@@ -51,7 +95,7 @@ button {
             border-radius: 7px;
         }
 
-        input[name="useremail"] {
+        input[name="email"] {
             border: 1px solid #9B9B9B;
             height: 50px;
         }
@@ -74,9 +118,20 @@ button {
             @include font($weight: 500)
         }
 
-        // .image-upload {
+        .file-group {
+            gap: 12px;
 
-        //     width: 100px;
+            .filename {
+                width: 234px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+        }
+
+        // #image-upload {
+
+        //     width: 100%;
         // }
     }
 }
