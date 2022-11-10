@@ -513,7 +513,6 @@ class CourseController extends ResourceController
                     "numeric" => "{field} harus berisi nomor",
                 ],
                 "new_price" => [
-                    "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
                 ],
                 "thumbnail" => [

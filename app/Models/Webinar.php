@@ -7,14 +7,14 @@ use CodeIgniter\Model;
 class Webinar extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'webinars';
+    protected $table            = 'webinar';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['webinar_id', 'webinar_type', 'description', 'old_price', 'new_price', 'thubmnail'];
 
     // Dates
     protected $useTimestamps = false;

@@ -17,23 +17,27 @@ class Webinar extends Migration
             ],
             'category_id' => [
                 'type'           => 'INT',
-				'constraint'     => 5,
-				'unsigned'       => true,
-				'null'			=> true,
+                'constraint'     => 5,
+                'unsigned'       => true,
+                'null'            => true,
             ],
-			'title' => [
+            'title' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => 255,
             ],
             'webinar_type'      => [
                 'type'          => "ENUM('Online Webinar','Offline Webinar')",
-				'null' 			=> false
-			],
+                'null'             => false
+            ],
             'description'       => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '2500'
             ],
-            'price'             => [
+            'old_price'             => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '10'
+            ],
+            'new_price'             => [
                 'type'          => 'VARCHAR',
                 'constraint'    => '10'
             ],
@@ -51,6 +55,6 @@ class Webinar extends Migration
 
     public function down()
     {
-		$this->forge->dropTable('webinar');
+        $this->forge->dropTable('webinar');
     }
 }

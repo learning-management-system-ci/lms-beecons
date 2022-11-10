@@ -36,6 +36,7 @@ class MainCourse extends Seeder
         $this->call('ContactUsSeeder');
         $this->call('ArticleSeeder');
         $this->call('WebinarSeeder');
+        $this->call('UserWebinarSeeder');
 
         $this->call('QuizSeeder');
     }
