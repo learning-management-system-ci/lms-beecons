@@ -60,6 +60,7 @@ class VoucherController extends ResourceController
 				"title" => "required",
 				"start_date" => "required|valid_date",
 				"due_date" => "required|valid_date",
+				"quota" => "required|numeric|max_length[5]",
 				"code" => "required|is_unique[voucher.code]|max_length[10]|alpha_numeric",
 				"discount_price" => "required|numeric|max_length[2]",
 				"is_active" => "less_than_equal_to[1]",
@@ -76,6 +77,11 @@ class VoucherController extends ResourceController
 				"due_date" => [
 					"required" => "{field} tidak boleh kosong",
 					"valid_date" => "{field} format tanggal tidak sesuai"
+				],
+				"quota" => [
+					"required" => "{field} tidak boleh kosong",
+					"numeric" => "{field} harus berisi numerik",
+					"max_length" => "{field} maksimal 5 karakter",
 				],
 				"code" => [
 					"required" => "{field} tidak boleh kosong",
@@ -191,6 +197,7 @@ class VoucherController extends ResourceController
 				"title" => "required",
 				"start_date" => "required|valid_date",
 				"due_date" => "required|valid_date",
+				"quota" => "required|numeric|max_length[5]",
 				"code" => "required|is_unique[voucher.code,voucher_id,$id]|max_length[10]|alpha_numeric",
 				"discount_price" => "required|numeric",
 				"is_active" => "less_than_equal_to[1]",
@@ -207,6 +214,11 @@ class VoucherController extends ResourceController
 				"due_date" => [
 					"required" => "{field} tidak boleh kosong",
 					"valid_date" => "{field} format tanggal tidak sesuai"
+				],
+				"quota" => [
+					"required" => "{field} tidak boleh kosong",
+					"numeric" => "{field} harus berisi numerik",
+					"max_length" => "{field} maksimal 5 karakter",
 				],
 				"code" => [
 					"required" => "{field} tidak boleh kosong",
