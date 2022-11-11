@@ -161,6 +161,7 @@ class OrderController extends BaseController
                     'discount_price' => $getDiscount,
                     'sub_total' => $temp,
                     'gross_amount' => $total,
+                    'transaction_status' => 'pending'
                 ];
                 $order->insert($dataOrder);
                         

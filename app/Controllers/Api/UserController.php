@@ -7,6 +7,7 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Users;
 use App\Models\Jobs;
+use App\Models\Order;
 use App\Models\Notification;
 use App\Models\UserCourse;
 use App\Models\Course;
@@ -15,6 +16,72 @@ use Firebase\JWT\JWT;
 class UserController extends ResourceController
 {
     use ResponseTrait;
+
+    public function userDetail($id = null) {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+            
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] != 'admin') {
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+
+            $job = new Jobs;
+            $modelOrder = new Order;
+            $modelUserCourse = new UserCourse;
+            $modelCourse = new Course;
+
+            $data = $user->where('id', $id)->first();
+            $job_data = $job->where('job_id', $data['job_id'])->first();
+
+            $path = site_url() . 'upload/users/';
+
+            $userCourse = $modelUserCourse->where('user_id', $id)->findAll();
+
+            $course = $userCourse;
+            for ($i = 0; $i < count($userCourse); $i++) {
+                $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
+                $course[$i] = $course_;
+            }
+
+            $order = $modelOrder->where('user_id', $id)->findAll();
+            $orderData = [];
+            if ($order != NULL) {
+                foreach ($order as $value) {
+                    $orderData[] = [
+                        'order_id' => $value['order_id'],
+                        'gross_amount' => $value['gross_amount'],
+                        'transaction_status' => $value['transaction_status'],
+                        'order_time' => $value['created_at']
+                    ];
+                }
+            }
+
+            $response = [
+                'id' => $id,
+                'profile_picture' => $path . $data['profile_picture'],
+                'fullname' =>  $data['fullname'],
+                'email' => $data['email'],
+                'date_birth' => $data['date_birth'],
+                'job_name' => (is_null($data['job_id'])) ? null : $job_data['job_name'],
+                'address' => $data['address'],
+                'phone_number' => $data['phone_number'],
+                'linkedin' => $data['linkedin'],
+                'transaction' => $orderData,
+                'course' => $course
+            ];
+            return $this->respond($response);
+
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
 
     public function index()
     {
