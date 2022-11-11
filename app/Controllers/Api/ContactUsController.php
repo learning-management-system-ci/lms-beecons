@@ -61,9 +61,21 @@ class ContactUsController extends ResourceController
             }
 
             $data = $this->contactus->where('contact_us_id', $id)->first();
-            if ($data) {
-                return $this->respond($data);
-            } else {
+
+            $path = site_url() . 'upload/question/';
+
+            $response = [
+                "contact_us_id" => $data['contact_us_id'],
+                "email" =>  $data['email'],
+                "question" => $data['question'],
+                "question_image" => $path . $data['question_image'],
+                "created_at" => $data['created_at'],
+                "updated_at" => $data['updated_at'],
+            ];
+
+            if($response){
+                return $this->respond($response);
+            }else{
                 return $this->failNotFound('Data Pertanyaan tidak ditemukan');
             }
         } catch (\Throwable $th) {

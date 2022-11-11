@@ -414,6 +414,10 @@ class CourseController extends ResourceController
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            
+            $user = $modelUser->select('fullname')->where('id', $id)->first();
+            $data[$i]['author_name'] = $user['fullname'];
+
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -447,9 +451,6 @@ class CourseController extends ResourceController
             }
 
             $data[$i]['category'] = $category;
-
-            $user = $modelUser->select('fullname')->where('id', $id)->first();
-            $data[$i]['author_name'] = $user['fullname'];
         }
 
         if (count($data) > 0) {

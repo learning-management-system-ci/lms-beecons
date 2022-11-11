@@ -306,7 +306,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\ArticleController::index');
         $routes->get('detail/(:num)', 'Api\ArticleController::show/$1');
         $routes->post('create', 'Api\ArticleController::create');
-        $routes->put('update/(:num)', 'Api\ArticleController::update/$1');
+        $routes->post('update/(:num)', 'Api\ArticleController::update/$1');
         $routes->delete('delete/(:num)', 'Api\ArticleController::delete/$1');
     });
 
