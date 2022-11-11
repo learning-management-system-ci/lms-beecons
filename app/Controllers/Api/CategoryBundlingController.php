@@ -5,7 +5,6 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CategoryBundling;
-use App\Models\Bundling;
 use App\Models\Users;
 use Firebase\JWT\JWT;
 
@@ -16,7 +15,6 @@ class CategoryBundlingController extends ResourceController
     public function __construct()
     {
         $this->categorybundling = new CategoryBundling();
-        $this->bundling = new Bundling();
     }
     
     public function index() {

@@ -15,7 +15,7 @@ class Article extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
-            'category_article_id' => [
+            'tag_article_id' => [
                 'type'           => 'INT',
 				'constraint'     => 5,
 				'unsigned'       => true,
@@ -43,6 +43,7 @@ class Article extends Migration
         ]);
 
         $this->forge->addKey('article_id', TRUE);
+        $this->forge->addForeignKey('tag_article_id', 'tag_article', 'tag_article_id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('article', TRUE);
     }
 
