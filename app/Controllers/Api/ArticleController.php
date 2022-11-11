@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Article;
+use App\Models\TagArticle;
 use App\Models\Users;
 use Firebase\JWT\JWT;
 
@@ -15,6 +16,7 @@ class ArticleController extends ResourceController
     public function __construct()
     {
         $this->article = new Article();
+        $this->tagarticle = new TagArticle();
     }
 
     public function index(){
@@ -24,8 +26,23 @@ class ArticleController extends ResourceController
     
     public function show($id = null){
         $data = $this->article->where('article_id', $id)->first();
-        if($data){
-            return $this->respond($data);
+        $tag_article_data = $this->tagarticle->where('tag_article_id', $data['tag_article_id'])->first();
+
+        $path = site_url() . 'upload/article/';
+
+        $response = [
+            "article_id" => $data['article_id'],
+            "name_tag" => (is_null($data['tag_article_id'])) ? null : $tag_article_data['name_tag'],
+            "title" =>  $data['title'],
+            "sub_title" => $data['sub_title'],
+            "content" => $data['content'],
+            "content_image" => $path . $data['content_image'],
+            "created_at" => $data['created_at'],
+            "updated_at" => $data['updated_at'],
+        ];
+        
+        if($response){
+            return $this->respond($response);
         }else{
             return $this->failNotFound('Data Artikel tidak ditemukan');
         }
@@ -49,7 +66,7 @@ class ArticleController extends ResourceController
             }
 
             $rules = [
-                'category_article_id' => 'required|max_length[255]',
+                'tag_article_id' => 'required|max_length[255]',
                 'title' => 'required|max_length[255]',
                 'sub_title' => 'required|max_length[255]',
                 'content' => 'required|max_length[10000]',
@@ -60,7 +77,7 @@ class ArticleController extends ResourceController
             ];
 
             $messages = [
-                "category_article_id" => [
+                "tag_article_id" => [
                     "required" => "{field} tidak boleh kosong",
                 ],
                 "title" => [
@@ -87,7 +104,7 @@ class ArticleController extends ResourceController
                 $fileName = $datacontent_image->getRandomName();
                 
                 $data = [
-                    'category_article_id' => $this->request->getVar('category_article_id'),
+                    'tag_article_id' => $this->request->getVar('tag_article_id'),
                     'title' => $this->request->getVar('title'),
                     'sub_title' => $this->request->getVar('sub_title'),
                     'content' => $this->request->getVar('content'),
@@ -95,7 +112,7 @@ class ArticleController extends ResourceController
                 ];
                 $datacontent_image->move('upload/article/', $fileName);
                 
-                $this->article->insert($data);
+                $this->article->update($data);
 
                 $response = [
                     'status'   => 201,
@@ -134,19 +151,25 @@ class ArticleController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
+            $cek = $this->article->where('article_id', $id)->findAll();
+
+            if (!$cek) {
+                return $this->failNotFound('Data Article tidak ditemukan');
+            }
+            
             $rules = [
-                'category_article_id' => 'required|max_length[255]',
+                'tag_article_id' => 'required|max_length[255]',
                 'title' => 'required|max_length[255]',
                 'sub_title' => 'required|max_length[255]',
                 'content' => 'required|max_length[10000]',
                 'content_image' => 'uploaded[content_image]'
-                    . '|is_image[content_image]'
-                    . '|mime_in[content_image,image/jpg,image/jpeg,image/png,image/webp]'
-                    . '|max_size[content_image,4000]'
+                . '|is_image[content_image]'
+                . '|mime_in[content_image,image/jpg,image/jpeg,image/png,image/webp]'
+                . '|max_size[content_image,4000]'
             ];
 
             $messages = [
-                "category_article_id" => [
+                "tag_article_id" => [
                     "required" => "{field} tidak boleh kosong",
                 ],
                 "title" => [
@@ -167,11 +190,11 @@ class ArticleController extends ResourceController
                     'max_size' => 'Ukuran File Maksimal 4 MB'
                 ],
             ];
-
-            if ($this->validate($rules, $messages)) {
+            
+            if ($this->validate($rules, $messages)) {                
                 $datacontent_image = $this->request->getFile('content_image');
                 $cek = $this->article->where('article_id', $id)->findAll();
-
+                
                 if (is_null($datacontent_image)) {
                     $fileName = $cek['content_image'];
                 } else {
@@ -179,7 +202,7 @@ class ArticleController extends ResourceController
                 }
 
                 $data = [
-                    'category_article_id' => $this->request->getVar('category_article_id'),
+                    'tag_article_id' => $this->request->getVar('tag_article_id'),
                     'title' => $this->request->getVar('title'),
                     'sub_title' => $this->request->getVar('sub_title'),
                     'content' => $this->request->getVar('content'),
@@ -205,10 +228,6 @@ class ArticleController extends ResourceController
 
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
-            if (!$cek) {
-                return $this->failNotFound('Data Article tidak ditemukan');
-            }
-
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data Article tidak ditemukan');

@@ -4,45 +4,36 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
-use App\Models\CategoryBundling;
+use App\Models\TagArticle;
 use App\Models\Users;
 use Firebase\JWT\JWT;
 
-class CategoryBundlingController extends ResourceController
+class TagArticleController extends ResourceController
 {
     use ResponseTrait;
 
     public function __construct()
     {
-        $this->categorybundling = new CategoryBundling();
+        $this->tagarticle = new TagArticle();
     }
     
     public function index() {
-        $data = $this->categorybundling->orderBy('category_bundling_id', 'DESC')->findAll();
+        $data = $this->tagarticle->orderBy('tag_article_id', 'DESC')->findAll();
 
         if (count($data) > 0) {
             return $this->respond($data);
         } else {
-            return $this->failNotFound('Tidak category bundling ada data');
+            return $this->failNotFound('Data Tag Artikel tidak ditemukan');
         }
     }
 
     public function show($id = null){
-        $key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
-
-        try {
-		    $decoded = JWT::decode($token, $key, ['HS256']);
-            $data = $this->categorybundling->where('category_bundling_id', $id)->first();
-            if($data){
-                return $this->respond($data);
-            }else{
-                return $this->failNotFound('Data category bundling tidak ditemukan');
-            }
-	    } catch (\Throwable $th) {
-            return $this->fail($th->getMessage());
+        $data = $this->tagarticle->where('tag_article_id', $id)->first();
+        
+        if($data){
+            return $this->respond($data);
+        }else{
+            return $this->failNotFound('Data Tag Artikel tidak ditemukan');
         }
     }
 
@@ -63,12 +54,13 @@ class CategoryBundlingController extends ResourceController
             }
 
             $rules = [
-                "name" => "required",
+                "name_tag" => "required|max_length[255]",
             ];
     
             $messages = [
-                "name" => [
-                    "required" => "{field} tidak boleh kosong"
+                "name_tag" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "max_length" => "{field} maksimal 255 karakter",
                 ],
             ];
     
@@ -80,14 +72,14 @@ class CategoryBundlingController extends ResourceController
                     'data' => []
                 ];
             } else {
-                $data['name'] = $this->request->getVar("name");
+                $data['name_tag'] = $this->request->getVar("name_tag");
     
-                $this->categorybundling->save($data);
+                $this->tagarticle->save($data);
     
                 $response = [
                     'status' => 200,
                     'error' => false,
-                    'message' => 'Data Category Bundling berhasil dibuat',
+                    'message' => 'Data Tag Artikel berhasil dibuat',
                     'data' => []
                 ];
             }
@@ -116,44 +108,44 @@ class CategoryBundlingController extends ResourceController
             $input = $this->request->getRawInput();
 
             $rules = [
-                "name" => "required",
+                "name_tag" => "required|max_length[255]",
             ];
-
+    
             $messages = [
-                "name" => [
-                    "required" => "{field} tidak boleh kosong"
+                "name_tag" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "max_length" => "{field} maksimal 255 karakter",
                 ],
             ];
 
             $data = [
-                "name" => $input["name"],
+                "name_tag" => $input["name_tag"],
             ];
     
             $response = [
                 'status'   => 200,
                 'error'    => null,
                 'messages' => [
-                    'success' => 'Category Bundling berhasil diperbarui'
+                    'success' => 'Data Tag Artikel berhasil diperbarui'
                 ]
             ];
     
-            $cek = $this->categorybundling->where('category_bundling_id', $id)->findAll();
+            $cek = $this->tagarticle->where('tag_article_id', $id)->findAll();
             if(!$cek){
-                return $this->failNotFound('Data Category Bundling tidak ditemukan');
+                return $this->failNotFound('Data Tag Artikel tidak ditemukan');
             }
 
 	    	if (!$this->validate($rules, $messages)) {
                 return $this->failValidationErrors($this->validator->getErrors());
             }
           
-            if ($this->categorybundling->update($id, $data)){
+            if ($this->tagarticle->update($id, $data)){
                 return $this->respond($response);
             }
         } catch (\Throwable $th) {
-            // return $this->fail($th->getMessage());
             exit($th->getMessage());
         }
-        return $this->failNotFound('Data Category Bundling tidak ditemukan');
+        return $this->failNotFound('Data Tag Artikel tidak ditemukan');
 	}
 
     public function delete($id = null){
@@ -172,14 +164,14 @@ class CategoryBundlingController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain admin & author', 400);
             }
 
-            $data = $this->categorybundling->where('category_bundling_id', $id)->findAll();
+            $data = $this->tagarticle->where('tag_article_id', $id)->findAll();
             if($data){
-                $this->categorybundling->delete($id);
+                $this->tagarticle->delete($id);
                 $response = [
                     'status'   => 200,
                     'error'    => null,
                     'messages' => [
-                        'success' => 'Data Category Bundling berhasil dihapus'
+                        'success' => 'Data Tag Artikel berhasil dihapus'
                     ]
                 ];
             }
@@ -187,6 +179,6 @@ class CategoryBundlingController extends ResourceController
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
-        return $this->failNotFound('Data Category Bundling tidak ditemukan');
+        return $this->failNotFound('Data Tag Artikel tidak ditemukan');
     }
 }

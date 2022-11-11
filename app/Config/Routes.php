@@ -302,6 +302,22 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\ReferralController::create');
     });
 
+    $routes->group('artikel/', static function ($routes) {
+        $routes->get('', 'Api\ArticleController::index');
+        $routes->get('detail/(:num)', 'Api\ArticleController::show/$1');
+        $routes->post('create', 'Api\ArticleController::create');
+        $routes->post('update/(:num)', 'Api\ArticleController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\ArticleController::delete/$1');
+    });
+
+    $routes->group('tag-artikel/', static function ($routes) {
+        $routes->get('', 'Api\TagArticleController::index');
+        $routes->get('detail/(:num)', 'Api\TagArticleController::show/$1');
+        $routes->post('create', 'Api\TagArticleController::create');
+        $routes->put('update/(:num)', 'Api\TagArticleController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\TagArticleController::delete/$1');
+    });
+
     $routes->group('webinar/', static function ($routes) {
         $routes->get('', 'Api\WebinarController::index');
         $routes->get('detail/(:num)', 'Api\WebinarController::show/$1');

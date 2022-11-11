@@ -34,6 +34,7 @@ class MainCourse extends Seeder
         $this->call('NotificationPublicSeeder');
         $this->call('NotificationSeeder');
         $this->call('ContactUsSeeder');
+        $this->call('TagArticleSeeder');
         $this->call('ArticleSeeder');
         $this->call('WebinarSeeder');
         $this->call('UserWebinarSeeder');
