@@ -8,7 +8,88 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        $no = 15;
+        $data = [
+            [
+                'job_id' => rand(1, 3),
+                'oauth_id' => rand(1, 1000),
+                'fullname' => 'PT. Multi Citra Graha',
+                'email' => 'multicitra@gmail.com',
+                'password' => password_hash('multicitra123', PASSWORD_BCRYPT),
+                'date_birth' => '2022-'.rand(1, 12).'-'.rand(1, 25),
+                'address' => 'jl. melati no.'.rand(1, 100),
+                'phone_number' => rand(10000, 100000),
+                'linkedin' => 'bambang'.rand(1, 100),
+                'profile_picture' => 'bambang'.rand(1, 100).'.jpg',
+                'role' => 'author',
+                'activation_code' => rand(1, 1000),
+                'activation_status' => 1,
+            ],
+            [
+                'job_id' => rand(1, 3),
+                'oauth_id' => rand(1, 1000),
+                'fullname' => 'PT. Multi Visi Karya',
+                'email' => 'musika@gmail.com',
+                'password' => password_hash('musika123', PASSWORD_BCRYPT),
+                'date_birth' => '2022-'.rand(1, 12).'-'.rand(1, 25),
+                'address' => 'jl. melati no.'.rand(1, 100),
+                'phone_number' => rand(10000, 100000),
+                'linkedin' => 'bambang'.rand(1, 100),
+                'profile_picture' => 'bambang'.rand(1, 100).'.jpg',
+                'role' => 'author',
+                'activation_code' => rand(1, 1000),
+                'activation_status' => 1,
+            ],
+            [
+                'job_id' => rand(1, 3),
+                'oauth_id' => rand(1, 1000),
+                'fullname' => 'PT. Mandutama Teknik',
+                'email' => 'mandutama@gmail.com',
+                'password' => password_hash('mandutama123', PASSWORD_BCRYPT),
+                'date_birth' => '2022-'.rand(1, 12).'-'.rand(1, 25),
+                'address' => 'jl. melati no.'.rand(1, 100),
+                'phone_number' => rand(10000, 100000),
+                'linkedin' => 'bambang'.rand(1, 100),
+                'profile_picture' => 'bambang'.rand(1, 100).'.jpg',
+                'role' => 'author',
+                'activation_code' => rand(1, 1000),
+                'activation_status' => 1,
+            ],
+            [
+                'job_id' => rand(1, 3),
+                'oauth_id' => rand(1, 1000),
+                'fullname' => 'PT. Solusi Utama',
+                'email' => 'solusiutama@gmail.com',
+                'password' => password_hash('solusiutama123', PASSWORD_BCRYPT),
+                'date_birth' => '2022-'.rand(1, 12).'-'.rand(1, 25),
+                'address' => 'jl. melati no.'.rand(1, 100),
+                'phone_number' => rand(10000, 100000),
+                'linkedin' => 'bambang'.rand(1, 100),
+                'profile_picture' => 'bambang'.rand(1, 100).'.jpg',
+                'role' => 'author',
+                'activation_code' => rand(1, 1000),
+                'activation_status' => 1,
+            ],
+            [
+                'job_id' => rand(1, 3),
+                'oauth_id' => rand(1, 1000),
+                'fullname' => 'PT. Paraduta',
+                'email' => 'paraduta@gmail.com',
+                'password' => password_hash('paraduta123', PASSWORD_BCRYPT),
+                'date_birth' => '2022-'.rand(1, 12).'-'.rand(1, 25),
+                'address' => 'jl. melati no.'.rand(1, 100),
+                'phone_number' => rand(10000, 100000),
+                'linkedin' => 'bambang'.rand(1, 100),
+                'profile_picture' => 'bambang'.rand(1, 100).'.jpg',
+                'role' => 'author',
+                'activation_code' => rand(1, 1000),
+                'activation_status' => 1,
+            ],
+
+        ];
+        $this->db->table('users')->insertBatch($data);
+
+
+        $no = 10;
         $user = [];
 
         // USER
