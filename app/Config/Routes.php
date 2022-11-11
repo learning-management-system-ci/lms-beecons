@@ -158,6 +158,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
+        $routes->get('author/(:num)', 'Api\CourseController::author/$1');
 
         $routes->group('video/', static function ($routes) {
             $routes->get('(:num)', 'Api\VideoController::index/$1');
@@ -299,6 +300,12 @@ $routes->group('api/', static function ($routes) {
     $routes->group('referral/', static function ($routes) {
         $routes->get('', 'Api\ReferralController::index');
         $routes->post('create', 'Api\ReferralController::create');
+    });
+
+    $routes->group('webinar/', static function ($routes) {
+        $routes->get('', 'Api\WebinarController::index');
+        $routes->get('detail/(:num)', 'Api\WebinarController::show/$1');
+        $routes->post('create', 'Api\WebinarController::create');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');

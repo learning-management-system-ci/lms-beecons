@@ -32,6 +32,12 @@ class Cart extends Migration
                 'unsigned' => true,
                 'null' => true
             ],
+            'webinar_id' => [
+                'type' => 'INT',
+                'constraint' => 5,
+                'unsigned' => true,
+                'null' => true
+            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
@@ -40,6 +46,7 @@ class Cart extends Migration
         $this->forge->addForeignKey('user_id', 'users', 'id');
         $this->forge->addForeignKey('course_id', 'course', 'course_id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('webinar_id', 'webinar', 'webinar_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('cart', TRUE);
     }
 
