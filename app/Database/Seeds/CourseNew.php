@@ -1823,6 +1823,184 @@ class CourseNew extends Seeder
                     'thumbnail' => 'course.jpg',
                     'author_id' => '1'
                 ],
+
+
+                [
+                        'title' => 'Agile Execution',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1500000',
+                        'new_price' => '1500000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '5'
+                ],
+                [
+                        'title' => 'Agile Execution',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1250000',
+                        'new_price' => '1250000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '2'
+                ],
+                [
+                        'title' => 'Agile Execution',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1000000',
+                        'new_price' => '1000000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '4'
+                ],
+                [
+                        'title' => 'Agile Execution',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1100000',
+                        'new_price' => '1100000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '3'
+                ],
+                [
+                        'title' => 'Agile Execution',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1200000',
+                        'new_price' => '1200000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '1'
+                ],
+
+
+                
+
+
+
+
+                [
+                        'title' => 'Powerful Delivery',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1500000',
+                        'new_price' => '1500000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '5'
+                ],
+                [
+                        'title' => 'Powerful Delivery',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1250000',
+                        'new_price' => '1250000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '2'
+                ],
+                [
+                        'title' => 'Powerful Delivery',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1000000',
+                        'new_price' => '1000000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '4'
+                ],
+                [
+                        'title' => 'Powerful Delivery',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1100000',
+                        'new_price' => '1100000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '3'
+                ],
+                [
+                        'title' => 'Powerful Delivery',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1200000',
+                        'new_price' => '1200000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '1'
+                ],
+
+
+
+
+                [
+                        'title' => 'Effective Communication',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1500000',
+                        'new_price' => '1500000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '5'
+                ],
+                [
+                        'title' => 'Effective Communication',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1250000',
+                        'new_price' => '1250000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '2'
+                ],
+                [
+                        'title' => 'Effective Communication',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1000000',
+                        'new_price' => '1000000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '4'
+                ],
+                [
+                        'title' => 'Effective Communication',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1100000',
+                        'new_price' => '1100000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '3'
+                ],
+                [
+                        'title' => 'Effective Communication',
+                        'service' => 'training',
+                        'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'key_takeaways' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                        'suitable_for' => 'Mahasiswa atau umum',
+                        'old_price' => '1200000',
+                        'new_price' => '1200000',
+                        'thumbnail' => 'course.jpg',
+                        'author_id' => '1'
+                ],
         ];
 
         $this->db->table('course')->insertBatch($data);

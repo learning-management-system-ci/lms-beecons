@@ -159,6 +159,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
         $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+        $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
         $routes->get('author/(:segment)', 'Api\CourseController::author/$1');
 
