@@ -105,7 +105,9 @@ class CourseController extends ResourceController
     public function getLatestCourseByAuthor($id = null) {
         $model = new Course();
 
-        $data = $model->limit(3)
+        if (isset($_GET['limit'])) {
+            $key = $_GET['limit'];
+            $data = $model->limit($key)
                 ->select('course.*, users.fullname as author_name, category.name as category')
                 ->join('users', 'users.id = course.author_id')
                 ->join('course_category', 'course_category.course_category_id = course.course_id')
@@ -113,6 +115,17 @@ class CourseController extends ResourceController
                 ->where('users.id', $id)
                 ->where('service', 'course')
                 ->orderBy('course.course_id', 'DESC')->find();
+
+        } else {
+            $key = null;
+            $data = $model->select('course.*, users.fullname as author_name, category.name as category')
+                ->join('users', 'users.id = course.author_id')
+                ->join('course_category', 'course_category.course_category_id = course.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->where('users.id', $id)
+                ->where('service', 'course')
+                ->orderBy('course.course_id', 'DESC')->find();
+        }
 
         if (count($data) > 0) {
             return $this->respond($data);
