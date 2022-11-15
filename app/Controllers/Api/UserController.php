@@ -11,13 +11,17 @@ use App\Models\Order;
 use App\Models\Notification;
 use App\Models\UserCourse;
 use App\Models\Course;
+use App\Models\VideoCategory;
+use App\Models\Video;
+use App\Models\UserVideo;
 use Firebase\JWT\JWT;
 
 class UserController extends ResourceController
 {
     use ResponseTrait;
 
-    public function userDetail($id = null) {
+    public function userDetail($id = null)
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -26,7 +30,7 @@ class UserController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
-            
+
             $data = $user->select('role')->where('id', $decoded->uid)->first();
             if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
@@ -36,6 +40,9 @@ class UserController extends ResourceController
             $modelOrder = new Order;
             $modelUserCourse = new UserCourse;
             $modelCourse = new Course;
+            $modelVideoCategory = new VideoCategory;
+            $modelVideo = new Video;
+            $modelUserVideo = new UserVideo;
 
             $data = $user->where('id', $id)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
@@ -44,10 +51,61 @@ class UserController extends ResourceController
 
             $userCourse = $modelUserCourse->where('user_id', $id)->findAll();
 
-            $course = $userCourse;
+            $course = [];
+            $videoCategory = [];
+
             for ($i = 0; $i < count($userCourse); $i++) {
                 $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
                 $course[$i] = $course_;
+
+                array_push($videoCategory, $modelVideoCategory
+                    ->where('course_id', $userCourse[$i]['course_id'])
+                    ->orderBy('video_category.video_category_id', 'DESC')
+                    ->first());
+
+                if (isset($videoCategory[0]) && $videoCategory[0]['title'] != '') {
+                    $course[$i]['video_category'] = $videoCategory;
+                }
+
+
+                for ($l = 0; $l < count($videoCategory); $l++) {
+                    $video = $modelVideo
+                        ->where('video_category_id', $videoCategory[$l]['video_category_id'])
+                        ->orderBy('order', 'ASC')
+                        ->findAll();
+
+                    if ($videoCategory[0]['title'] != '') {
+                        $course[$i]['video_category'][$l]['video'] = $video;
+
+                        for ($p = 0; $p < count($video); $p++) {
+                            $user_video = $modelUserVideo
+                                ->select('score')
+                                ->where('user_id', $decoded->uid)
+                                ->where('video_id', $video[$p]['video_id'])
+                                ->findAll();
+                            if ($user_video) {
+                                $course[$i]['video_category'][$l]['video'][$p]['score'] = $user_video[0]['score'];
+                            } else {
+                                $course[$i]['video_category'][$l]['video'][$p]['score'] = null;
+                            }
+                        }
+                    } else {
+                        $course[$i]['video'] = $video;
+
+                        for ($p = 0; $p < count($video); $p++) {
+                            $user_video = $modelUserVideo
+                                ->select('score')
+                                ->where('user_id', $decoded->uid)
+                                ->where('video_id', $video[$p]['video_id'])
+                                ->findAll();
+                            if ($user_video) {
+                                $course[$i]['video'][$p]['score'] = $user_video[0]['score'];
+                            } else {
+                                $course[$i]['video'][$p]['score'] = null;
+                            }
+                        }
+                    }
+                }
             }
 
             $order = $modelOrder->where('user_id', $id)->findAll();
@@ -77,7 +135,6 @@ class UserController extends ResourceController
                 'course' => $course
             ];
             return $this->respond($response);
-
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
