@@ -157,18 +157,54 @@ class ArticleController extends ResourceController
                 return $this->failNotFound('Data Article tidak ditemukan');
             }
             
-            $rules = [
+            // $rules = [
+            //     'tag_article_id' => 'required|max_length[255]',
+            //     'title' => 'required|max_length[255]',
+            //     'sub_title' => 'required|max_length[255]',
+            //     'content' => 'required|max_length[10000]',
+            //     'content_image' => 'uploaded[content_image]'
+            //     . '|is_image[content_image]'
+            //     . '|mime_in[content_image,image/jpg,image/jpeg,image/png,image/webp]'
+            //     . '|max_size[content_image,4000]'
+            // ];
+
+            $rules_a = [
                 'tag_article_id' => 'required|max_length[255]',
                 'title' => 'required|max_length[255]',
                 'sub_title' => 'required|max_length[255]',
-                'content' => 'required|max_length[10000]',
+                'content' => 'required|max_length[10000]'
+            ];
+            $rules_b = [
                 'content_image' => 'uploaded[content_image]'
                 . '|is_image[content_image]'
                 . '|mime_in[content_image,image/jpg,image/jpeg,image/png,image/webp]'
                 . '|max_size[content_image,4000]'
             ];
 
-            $messages = [
+            // $messages = [
+            //     "tag_article_id" => [
+            //         "required" => "{field} tidak boleh kosong",
+            //     ],
+            //     "title" => [
+            //         "required" => "{field} tidak boleh kosong",
+            //         "max_length" => "{field} maksimal 255 karakter",
+            //     ],
+            //     "sub_title" => [
+            //         "required" => "{field} tidak boleh kosong",
+            //         "max_length" => "{field} maksimal 255 karakter",
+            //     ],
+            //     "content" => [
+            //         "required" => "{field} tidak boleh kosong",
+            //         "max_length" => "{field} maksimal 10000 karakter",
+            //     ],
+            //     'content_image' => [
+            //         'uploaded' => '{field} tidak boleh kosong',
+            //         'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
+            //         'max_size' => 'Ukuran File Maksimal 4 MB'
+            //     ],
+            // ];
+
+            $messages_a = [
                 "tag_article_id" => [
                     "required" => "{field} tidak boleh kosong",
                 ],
@@ -183,7 +219,10 @@ class ArticleController extends ResourceController
                 "content" => [
                     "required" => "{field} tidak boleh kosong",
                     "max_length" => "{field} maksimal 10000 karakter",
-                ],
+                ]
+            ];
+
+            $messages_b = [
                 'content_image' => [
                     'uploaded' => '{field} tidak boleh kosong',
                     'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
@@ -191,26 +230,79 @@ class ArticleController extends ResourceController
                 ],
             ];
             
-            if ($this->validate($rules, $messages)) {                
-                $datacontent_image = $this->request->getFile('content_image');
-                $cek = $this->article->where('article_id', $id)->findAll();
+            // if ($this->validate($rules, $messages)) {                
+            //     $datacontent_image = $this->request->getFile('content_image');
+            //     $cek = $this->article->where('article_id', $id)->findAll();
                 
-                if (is_null($datacontent_image)) {
-                    $fileName = $cek['content_image'];
-                } else {
-                    $fileName = $datacontent_image->getRandomName();
-                }
+            //     if (is_null($datacontent_image)) {
+            //         $fileName = $cek['content_image'];
+            //     } else {
+            //         $fileName = $datacontent_image->getRandomName();
+            //     }
 
+            //     $data = [
+            //         'tag_article_id' => $this->request->getVar('tag_article_id'),
+            //         'title' => $this->request->getVar('title'),
+            //         'sub_title' => $this->request->getVar('sub_title'),
+            //         'content' => $this->request->getVar('content'),
+            //         'content_image' => $fileName,
+            //     ];
+            //     $datacontent_image->move('upload/article/', $fileName);
+            //     $this->article->update($id, $data);
+
+            //     $response = [
+            //         'status'   => 201,
+            //         'success'    => 201,
+            //         'messages' => [
+            //             'success' => 'Data Article berhasil diupdate'
+            //         ]
+            //     ];
+            // } else {
+            //     $response = [
+            //         'status'   => 400,
+            //         'error'    => 400,
+            //         'messages' => $this->validator->getErrors(),
+            //     ];
+            // }
+
+            if ($this->validate($rules_a, $messages_a)) {
+                if ($this->validate($rules_b, $messages_b)){
+                    // $data = $this->article->select('content_image')->where('article_id', $id)->get();
+                    $datacontent_image = $this->request->getFile('content_image');
+                    $fileName = $datacontent_image->getRandomName();
+                    $data = [
+                        'tag_article_id' => $this->request->getVar('tag_article_id'),
+                        'title' => $this->request->getVar('title'),
+                        'sub_title' => $this->request->getVar('sub_title'),
+                        'content' => $this->request->getVar('content'),
+                        'content_image' => $fileName,
+                    ];
+                    $datacontent_image->move('upload/article/', $fileName);
+                    $this->article->update($id, $data);
+                    
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Data Article berhasil diupdate'
+                        ]
+                    ];
+                } else {
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
+                    ];
+                }
                 $data = [
                     'tag_article_id' => $this->request->getVar('tag_article_id'),
                     'title' => $this->request->getVar('title'),
                     'sub_title' => $this->request->getVar('sub_title'),
-                    'content' => $this->request->getVar('content'),
-                    'content_image' => $fileName,
+                    'content' => $this->request->getVar('content')
                 ];
-                $datacontent_image->move('upload/article/', $fileName);
-                $this->article->update($id, $data);
 
+                $this->article->update($id, $data);
+                
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
