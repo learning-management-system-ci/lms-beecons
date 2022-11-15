@@ -126,8 +126,6 @@ class CourseController extends ResourceController
 
         if (isset($_GET['cat'])) {
             $key = $_GET['cat'];
-            $data = $model->orderBy('course_id', 'DESC')->like('title', $key)->where('author_id', $id)->find();
-
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
                     ->join('users', 'users.id = course.author_id')
                     ->join('course_category', 'course_category.course_category_id = course.course_id')
@@ -854,64 +852,29 @@ class CourseController extends ResourceController
         }
     }
 
-    public function findbyauthor($id = null)
+    public function filterCourseByTitle($id = null)
     {
         $model = new Course();
-        $modelCourseCategory = new CourseCategory();
-        $modelCourseType = new CourseType();
-        $modelCourseTag = new CourseTag();
-        $modelTypeTag = new TypeTag();
-        $modelUser = new Users();
 
         if (isset($_GET['title'])) {
             $key = $_GET['title'];
-            $data = $model->orderBy('course_id', 'DESC')->like('title', $key)->where('author_id', $id)->find();
+            $data = $model->select('course.*, users.fullname as author_name, category.name as category')
+                    ->join('users', 'users.id = course.author_id')
+                    ->join('course_category', 'course_category.course_category_id = course.course_id')
+                    ->join('category', 'category.category_id = course_category.category_id')
+                    ->where('users.id', $id)
+                    ->where('service', 'course')
+                    ->like('course.title', $key)
+                    ->orderBy('course.course_id', 'DESC')->find();
         } else {
             $key = null;
-            $data = $model->orderBy('course_id', 'DESC')->where('author_id', $id)->find();
-        }
-
-        $path = site_url() . 'upload/course/thumbnail/';
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
-            
-            $user = $modelUser->select('fullname')->where('id', $id)->first();
-            $data[$i]['author_name'] = $user['fullname'];
-
-            $category = $modelCourseCategory
-                ->where('course_id', $data[$i]['course_id'])
-                ->join('category', 'category.category_id = course_category.category_id')
-                ->orderBy('course_category.course_category_id', 'DESC')
-                ->findAll();
-            $type = $modelCourseType
-                ->where('course_id', $data[$i]['course_id'])
-                ->join('type', 'type.type_id = course_type.type_id')
-                ->orderBy('course_type.course_type_id', 'DESC')
-                ->findAll();
-            if ($type) {
-                $data[$i]['type'] = $type;
-
-                for ($k = 0; $k < count($type); $k++) {
-                    $typeTag = $modelTypeTag
-                        ->where('course_type.course_id', $data[$i]['course_id'])
-                        ->where('type.type_id', $type[$k]['type_id'])
-                        ->join('type', 'type.type_id = type_tag.type_id')
-                        ->join('tag', 'tag.tag_id = type_tag.tag_id')
-                        ->join('course_type', 'course_type.type_id = type.type_id')
-                        ->orderBy('course_type.course_id', 'DESC')
-                        ->select('tag.*')
-                        ->findAll();
-
-                    for ($o = 0; $o < count($typeTag); $o++) {
-                        $data[$i]['tag'][$o] = $typeTag[$o];
-                    }
-                }
-            } else {
-                $data[$i]['type'] = null;
-            }
-
-            $data[$i]['category'] = $category;
+            $data = $model->select('course.*, users.fullname as author_name, category.name as category')
+                    ->join('users', 'users.id = course.author_id')
+                    ->join('course_category', 'course_category.course_category_id = course.course_id')
+                    ->join('category', 'category.category_id = course_category.category_id')
+                    ->where('users.id', $id)
+                    ->where('service', 'course')
+                    ->orderBy('course.course_id', 'DESC')->find();
         }
 
         if (count($data) > 0) {
