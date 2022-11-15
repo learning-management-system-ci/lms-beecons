@@ -137,7 +137,8 @@ button {
   content: "\f058";
   color: #FFCB42;
   font-family: FontAwesome;
-  display: inline-block;
+  display: block;
+  position: absolute;
   margin-left: -1.5em;
   width: 1.5em;
 }

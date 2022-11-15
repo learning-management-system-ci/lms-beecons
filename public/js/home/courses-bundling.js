@@ -54,7 +54,7 @@ $(document).ready(async function () {
                                 <h3>What will you get?</h3>
                                 <ul>
                                     ${item.course.map((course) => {
-                                        return `<li>${course.title}</li>`
+                                        return `<li><div class='text-truncate'>${course.title}</div></li>`
                                     })}
                                 </ul>
     
@@ -100,7 +100,7 @@ $(document).ready(async function () {
                                 <h3>What will you get?</h3>
                                 <ul>
                                     ${item.course.map((course) => {
-                                        return `<li>${course.title}</li>`
+                                        return `<li><div class='text-truncate'>${course.title}</div></li>`
                                     })}
                                 </ul>
 
