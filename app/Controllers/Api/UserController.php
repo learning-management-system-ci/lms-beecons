@@ -126,6 +126,7 @@ class UserController extends ResourceController
                 'profile_picture' => $path . $data['profile_picture'],
                 'fullname' =>  $data['fullname'],
                 'email' => $data['email'],
+                'role' => $data['role'],
                 'date_birth' => $data['date_birth'],
                 'job_name' => (is_null($data['job_id'])) ? null : $job_data['job_name'],
                 'address' => $data['address'],
@@ -139,6 +140,8 @@ class UserController extends ResourceController
             return $this->fail($th->getMessage());
         }
     }
+
+
 
     public function index()
     {
