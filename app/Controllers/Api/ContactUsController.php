@@ -157,16 +157,19 @@ class ContactUsController extends ResourceController
 
     public function question()
     {
-        $rules = [
+        $rules_a = [
             "email" => "required|valid_email",
-            "question" => "required|max_length[2500]",
+            "question" => "required|max_length[2500]"
+        ];
+
+        $rules_b = [
             "question_image" => 'uploaded[question_image]'
                 . '|is_image[question_image]'
                 . '|mime_in[question_image,image/jpg,image/jpeg,image/png,image/webp]'
                 . '|max_size[question_image,4000]',
         ];
 
-        $messages = [
+        $messages_a = [
             "email" => [
                 "required" => "{field} tidak boleh kosong",
                 'valid_email' => 'Format {field} tidak sesuai'
@@ -174,32 +177,124 @@ class ContactUsController extends ResourceController
             "question" => [
                 "required" => "{field} tidak boleh kosong",
                 "max_length" => "{field} maksimal 2500 karakter",
-            ],
+            ]
+        ];
+
+        $messages_b = [
             "question_image" => [
                 'uploaded' => '{field} tidak boleh kosong',
                 'is_image' => '{field} hanya dapat diisi dengan image',
                 'mime_in' => 'File image Harus Berupa png, jpg, atau jpeg',
                 'max_size' => 'Ukuran file maksimal 2 MB'
-            ],
+            ]
         ];
 
-        if ($this->validate($rules, $messages)) {
-            $dataquestion_image = $this->request->getFile('question_image');
-            if (is_null($dataquestion_image)) {
-                $fileName = null;
-            } else {
-                $fileName = $dataquestion_image->getRandomName();
-            }
+        if ($this->validate($rules_a, $messages_a) == TRUE && $this->validate($rules_b, $messages_b) == FALSE) {
+            $data = [
+                'email' => $this->request->getVar('email'),
+                'question' => $this->request->getVar('question'),
+            ];
 
+            $email = \Config\Services::email();
+            $email->setTo('hendrikusozzie@gmail.com');
+            $email->setFrom($data['email']);
+
+            $email->setSubject('Pertanyaan Dari ' . $data['email']);
+            $email->setMessage($data['question']);
+            $email->send();
+            
+            $this->contactus->insert($data);
+
+            $response = [
+                'status'   => 201,
+                'messages' => [
+                    'success' => 'Pertanyaan berhasil dikirim'
+                ]
+            ];
+        } elseif ($this->validate($rules_b, $messages_b) == TRUE && $this->validate($rules_a, $messages_a) == TRUE) {
+            // $dataquestion_image = $this->request->getFile('question_image');
+            // if (is_null($dataquestion_image)) {
+            //     $fileName = null;
+            // } else {
+            //     $fileName = $dataquestion_image->getRandomName();
+            // }
+
+            // $data = [
+            //     'email' => $this->request->getVar('email'),
+            //     'question' => $this->request->getVar('question'),
+            //     'question_image' => $fileName,
+            // ];
+
+            // if ($fileName != null) {
+            //     $dataquestion_image->move('upload/question/', $fileName);
+            // }
+
+            // $email = \Config\Services::email();
+            // $email->setTo('hendrikusozzie@gmail.com');
+            // $email->setFrom($data['email']);
+
+            // $email->setSubject('Pertanyaan Dari ' . $data['email']);
+            // $email->setMessage($data['question']);
+            // $email->attach('upload/question/' . $fileName);
+
+            // if ($email->send() && $this->contactus->insert($data)) {
+            //     $response = [
+            //         'status'   => 201,
+            //         'messages' => [
+            //             'success' => 'Pertanyaan berhasil dikirim'
+            //         ]
+            //     ];
+            // } else {
+            //     $response = [
+            //         'status'   => 400,
+            //         'messages' => [
+            //             'error' => 'Pertanyaan gagal dikirim'
+            //         ]
+            //     ];
+            // }
+
+            // if ($this->validate($rules_b, $messages_b)){
+            //     $dataquestion_image = $this->request->getFile('question_image');
+            //     $fileName = $dataquestion_image->getName();
+            //     $data = [
+            //         'email' => $this->request->getVar('email'),
+            //         'question' => $this->request->getVar('question'),
+            //         'question_image' => $fileName,
+            //     ];
+            //     $dataquestion_image->move('upload/question/', $fileName);
+
+            //     $email = \Config\Services::email();
+            //     $email->setTo('hendrikusozzie@gmail.com');
+            //     $email->setFrom($data['email']);
+
+            //     $email->setSubject('Pertanyaan Dari ' . $data['email']);
+            //     $email->setMessage($data['question']);
+            //     $email->attach('upload/question/' . $fileName);
+            //     $email->send();
+                
+            //     $this->contactus->insert($data);
+
+            //     $response = [
+            //         'status'   => 201,
+            //         'messages' => [
+            //             'success' => 'Pertanyaan berhasil dikirim'
+            //         ]
+            //     ];
+            // } else {
+            //     $response = [
+            //         'status'   => 400,
+            //         'error'    => 400,
+            //         'messages' => $this->validator->getErrors(),
+            //     ];
+            // }
+            $dataquestion_image = $this->request->getFile('question_image');
+            $fileName = $dataquestion_image->getName();
             $data = [
                 'email' => $this->request->getVar('email'),
                 'question' => $this->request->getVar('question'),
                 'question_image' => $fileName,
             ];
-
-            if ($fileName != null) {
-                $dataquestion_image->move('upload/question/', $fileName);
-            }
+            $dataquestion_image->move('upload/question/', $fileName);
 
             $email = \Config\Services::email();
             $email->setTo('hendrikusozzie@gmail.com');
@@ -208,22 +303,16 @@ class ContactUsController extends ResourceController
             $email->setSubject('Pertanyaan Dari ' . $data['email']);
             $email->setMessage($data['question']);
             $email->attach('upload/question/' . $fileName);
+            $email->send();
+                
+            $this->contactus->insert($data);
 
-            if ($email->send() && $this->contactus->insert($data)) {
-                $response = [
-                    'status'   => 201,
-                    'messages' => [
-                        'success' => 'Pertanyaan berhasil dikirim'
-                    ]
-                ];
-            } else {
-                $response = [
-                    'status'   => 400,
-                    'messages' => [
-                        'error' => 'Pertanyaan gagal dikirim'
-                    ]
-                ];
-            }
+            $response = [
+                'status'   => 201,
+                'messages' => [
+                    'success' => 'Pertanyaan berhasil dikirim'
+                ]
+            ];
         } else {
             $response = [
                 'status'   => 400,
@@ -231,7 +320,6 @@ class ContactUsController extends ResourceController
                 'messages' => $this->validator->getErrors(),
             ];
         }
-
         return $this->respondCreated($response);
     }
 
