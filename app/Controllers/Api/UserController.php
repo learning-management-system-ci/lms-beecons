@@ -167,17 +167,20 @@ class UserController extends ResourceController
             $user = new Users;
             $cek = $user->where('id', $id)->findAll();
 
-            $rules = [
+            $rules_a = [
                 'fullname' => 'required',
                 'date_birth' => 'required|valid_date',
-                'phone_number' => 'required|numeric',
+                'phone_number' => 'required|numeric'
+            ];
+
+            $rules_b = [
                 'profile_picture' => 'uploaded[profile_picture]'
                     . '|is_image[profile_picture]'
                     . '|mime_in[profile_picture,image/jpg,image/jpeg,image/png,image/webp]'
                     . '|max_size[profile_picture,4000]'
             ];
 
-            $messages = [
+            $messages_a = [
                 'fullname' => ['required' => '{field} tidak boleh kosong'],
                 'date_birth' => [
                     'required' => '{field} tidak boleh kosong',
@@ -186,7 +189,10 @@ class UserController extends ResourceController
                 'phone_number' => [
                     'required' => '{field} tidak boleh kosong',
                     'numeric' => '{field} harus berisi numerik'
-                ],
+                ]
+            ];
+
+            $messages_b = [
                 'profile_pciture' => [
                     'uploaded' => '{field} tidak boleh kosong',
                     'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
@@ -194,14 +200,66 @@ class UserController extends ResourceController
                 ],
             ];
 
-            if ($this->validate($rules, $messages)) {
-                $profilePicture = $this->request->getFile('profile_picture');
-                if (is_null($profilePicture)) {
-                    $fileName = $cek['profile_picture'];
-                } else {
-                    $fileName = $profilePicture->getRandomName();
-                }
+            // if ($this->validate($rules, $messages)) {
+            //     $profilePicture = $this->request->getFile('profile_picture');
+            //     if (is_null($profilePicture)) {
+            //         $fileName = $cek['profile_picture'];
+            //     } else {
+            //         $fileName = $profilePicture->getRandomName();
+            //     }
 
+            //     $data = [
+            //         'fullname' => $this->request->getVar('fullname'),
+            //         'job_id' => $this->request->getVar('job_id'),
+            //         'address' => $this->request->getVar('address'),
+            //         'date_birth' => $this->request->getVar('date_birth'),
+            //         'phone_number' => $this->request->getVar('phone_number'),
+            //         'linkedin' => $this->request->getVar('linkedin'),
+            //         'profile_picture' => $fileName,
+            //     ];
+            //     $profilePicture->move('upload/users/', $fileName);
+            //     $user->update($id, $data);
+
+            //     $response = [
+            //         'status'   => 201,
+            //         'success'    => 201,
+            //         'messages' => [
+            //             'success' => 'Profil berhasil diupdate'
+            //         ]
+            //     ];
+
+            //     return $this->respondCreated($response);
+            // }
+            if ($this->validate($rules_a, $messages_a)) {
+                if ($this->validate($rules_b, $messages_b)){
+                    $profilePicture = $this->request->getFile('profile_picture');
+                    $fileName = $profilePicture->getRandomName();
+                    $data = [
+                        'fullname' => $this->request->getVar('fullname'),
+                        'job_id' => $this->request->getVar('job_id'),
+                        'address' => $this->request->getVar('address'),
+                        'date_birth' => $this->request->getVar('date_birth'),
+                        'phone_number' => $this->request->getVar('phone_number'),
+                        'linkedin' => $this->request->getVar('linkedin'),
+                        'profile_picture' => $fileName,
+                    ];
+                    $profilePicture->move('upload/users/', $fileName);
+                    $user->update($id, $data);
+                    
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Profil berhasil diupdate'
+                        ]
+                    ];
+                } else {
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
+                    ];
+                }
                 $data = [
                     'fullname' => $this->request->getVar('fullname'),
                     'job_id' => $this->request->getVar('job_id'),
@@ -209,11 +267,10 @@ class UserController extends ResourceController
                     'date_birth' => $this->request->getVar('date_birth'),
                     'phone_number' => $this->request->getVar('phone_number'),
                     'linkedin' => $this->request->getVar('linkedin'),
-                    'profile_picture' => $fileName,
                 ];
-                $profilePicture->move('upload/users/', $fileName);
-                $user->update($id, $data);
 
+                $user->update($id, $data);
+                
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
@@ -221,9 +278,14 @@ class UserController extends ResourceController
                         'success' => 'Profil berhasil diupdate'
                     ]
                 ];
-
-                return $this->respondCreated($response);
+            } else {
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
+                ];
             }
+            return $this->respondCreated($response);
         } catch (\Throwable $th) {
             if (!$cek) {
                 return $this->failNotFound('Data user tidak ditemukan');
