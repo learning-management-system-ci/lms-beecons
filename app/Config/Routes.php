@@ -123,10 +123,6 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:segment)', 'Api\JobsController::delete/$1');
     });
 
-    $routes->group('role/', static function ($routes) {
-        $routes->get('', 'Api\RoleController::index');
-    });
-
     $routes->group('testimoni/', static function ($routes) {
         $routes->get('', 'Api\TestimoniController::index');
         $routes->get('detail/(:segment)', 'Api\TestimoniController::show/$1');
@@ -150,8 +146,8 @@ $routes->group('api/', static function ($routes) {
         $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->post('update/(:num)', 'Api\UserController::update/$1');
         $routes->delete('delete/(:num)', 'Api\UserController::delete/$1');
-        $routes->get('(:num)', 'Api\UserController::userDetail/$1');
-
+        $routes->get('(:num)', 'Api\Controller::userDetail/$1');
+        $routes->get('role', 'Api\UserController::getRole');
     });
 
     $routes->group('course/', static function ($routes) {
