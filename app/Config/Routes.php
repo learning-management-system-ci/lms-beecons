@@ -123,6 +123,10 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:segment)', 'Api\JobsController::delete/$1');
     });
 
+    $routes->group('role/', static function ($routes) {
+        $routes->get('', 'Api\RoleController::index');
+    });
+
     $routes->group('testimoni/', static function ($routes) {
         $routes->get('', 'Api\TestimoniController::index');
         $routes->get('detail/(:segment)', 'Api\TestimoniController::show/$1');
