@@ -53,7 +53,7 @@ class CourseController extends ResourceController
         $modelCourseTag = new CourseTag();
         $modelTypeTag = new TypeTag();
 
-        $data = $model->orderBy('course_id', 'DESC')->findAll();
+        $data = $model->orderBy('course_id', 'DESC')->where('service', 'course')->findAll();
         $tag = [];
 
         $path = site_url() . 'upload/course/thumbnail/';
