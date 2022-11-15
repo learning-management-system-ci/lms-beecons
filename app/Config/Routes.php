@@ -145,6 +145,7 @@ $routes->group('api/', static function ($routes) {
         // $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->post('update/(:num)', 'Api\UserController::update/$1');
+        $routes->post('admin/update/(:num)', 'Api\UserController::updateUserByAdmin/$1');
         $routes->delete('delete/(:num)', 'Api\UserController::delete/$1');
         $routes->get('(:num)', 'Api\UserController::userDetail/$1');
         $routes->get('role', 'Api\UserController::getRole');

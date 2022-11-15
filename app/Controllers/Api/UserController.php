@@ -141,8 +141,6 @@ class UserController extends ResourceController
         }
     }
 
-
-
     public function index()
     {
         $key = getenv('TOKEN_SECRET');
@@ -267,36 +265,6 @@ class UserController extends ResourceController
                 ],
             ];
 
-            // if ($this->validate($rules, $messages)) {
-            //     $profilePicture = $this->request->getFile('profile_picture');
-            //     if (is_null($profilePicture)) {
-            //         $fileName = $cek['profile_picture'];
-            //     } else {
-            //         $fileName = $profilePicture->getRandomName();
-            //     }
-
-            //     $data = [
-            //         'fullname' => $this->request->getVar('fullname'),
-            //         'job_id' => $this->request->getVar('job_id'),
-            //         'address' => $this->request->getVar('address'),
-            //         'date_birth' => $this->request->getVar('date_birth'),
-            //         'phone_number' => $this->request->getVar('phone_number'),
-            //         'linkedin' => $this->request->getVar('linkedin'),
-            //         'profile_picture' => $fileName,
-            //     ];
-            //     $profilePicture->move('upload/users/', $fileName);
-            //     $user->update($id, $data);
-
-            //     $response = [
-            //         'status'   => 201,
-            //         'success'    => 201,
-            //         'messages' => [
-            //             'success' => 'Profil berhasil diupdate'
-            //         ]
-            //     ];
-
-            //     return $this->respondCreated($response);
-            // }
             if ($this->validate($rules_a, $messages_a)) {
                 if ($this->validate($rules_b, $messages_b)){
                     $profilePicture = $this->request->getFile('profile_picture');
@@ -363,26 +331,126 @@ class UserController extends ResourceController
         return $this->failNotFound('Data user tidak ditemukan');
     }
 
-    // public function jobs()
-    // {
-    //     $key = getenv('TOKEN_SECRET');
-    //     $header = $this->request->getServer('HTTP_AUTHORIZATION');
-    //     if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-    //     $token = explode(' ', $header)[1];
+    public function updateUserByAdmin($id = null)
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-    //     try {
-    //         $decoded = JWT::decode($token, $key, ['HS256']);
-    //         $job = new Jobs;
-    //         $data = $job->select('job_id, job_name')->findAll();
-    //         if ($data) {
-    //             return $this->respond($data);
-    //         } else {
-    //             return $this->failNotFound('Data pekerjaan tidak ditemukan');
-    //         }
-    //     } catch (\Throwable $th) {
-    //         return $this->fail($th->getMessage());
-    //     }
-    // }
+        $decoded = JWT::decode($token, $key, ['HS256']);
+        $id = $decoded->uid;
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if($data['role'] != 'admin'){
+                return $this->fail('Tidak dapat di akses selain admin', 400);
+            }
+            
+            $cek = $user->where('id', $id)->findAll();
+
+            $rules_a = [
+                'fullname' => 'required',
+                'date_birth' => 'required|valid_date',
+                'phone_number' => 'required|numeric'
+            ];
+
+            $rules_b = [
+                'profile_picture' => 'uploaded[profile_picture]'
+                    . '|is_image[profile_picture]'
+                    . '|mime_in[profile_picture,image/jpg,image/jpeg,image/png,image/webp]'
+                    . '|max_size[profile_picture,4000]'
+            ];
+
+            $messages_a = [
+                'fullname' => ['required' => '{field} tidak boleh kosong'],
+                'date_birth' => [
+                    'required' => '{field} tidak boleh kosong',
+                    'valid_date' => '{field} format tanggal tidak sesuai'
+                ],
+                'phone_number' => [
+                    'required' => '{field} tidak boleh kosong',
+                    'numeric' => '{field} harus berisi numerik'
+                ]
+            ];
+
+            $messages_b = [
+                'profile_pciture' => [
+                    'uploaded' => '{field} tidak boleh kosong',
+                    'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
+                    'max_size' => 'Ukuran File Maksimal 4 MB'
+                ],
+            ];
+
+            if ($this->validate($rules_a, $messages_a)) {
+                if ($this->validate($rules_b, $messages_b)){
+                    $profilePicture = $this->request->getFile('profile_picture');
+                    $fileName = $profilePicture->getRandomName();
+                    $data = [
+                        'fullname' => $this->request->getVar('fullname'),
+                        'job_id' => $this->request->getVar('job_id'),
+                        'address' => $this->request->getVar('address'),
+                        'date_birth' => $this->request->getVar('date_birth'),
+                        'phone_number' => $this->request->getVar('phone_number'),
+                        'linkedin' => $this->request->getVar('linkedin'),
+                        'profile_picture' => $fileName,
+                    ];
+                    $profilePicture->move('upload/users/', $fileName);
+                    $user->update($id, $data);
+                    
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Profil berhasil diupdate'
+                        ]
+                    ];
+                } else {
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
+                    ];
+                }
+                $data = [
+                    'fullname' => $this->request->getVar('fullname'),
+                    'job_id' => $this->request->getVar('job_id'),
+                    'address' => $this->request->getVar('address'),
+                    'date_birth' => $this->request->getVar('date_birth'),
+                    'phone_number' => $this->request->getVar('phone_number'),
+                    'linkedin' => $this->request->getVar('linkedin'),
+                ];
+
+                $user->update($id, $data);
+                
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Profil berhasil diupdate'
+                    ]
+                ];
+            } else {
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
+                ];
+            }
+            return $this->respondCreated($response);
+        } catch (\Throwable $th) {
+            if (!$cek) {
+                return $this->failNotFound('Data user tidak ditemukan');
+            }
+
+            return $this->fail($th->getMessage());
+        }
+        return $this->failNotFound('Data user tidak ditemukan');
+    }
 
     public function delete($id = null)
     {
