@@ -163,7 +163,9 @@ $routes->group('api/', static function ($routes) {
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
         $routes->get('author/(:segment)', 'Api\CourseController::author/$1');
         $routes->get('latest/author/(:num)', 'Api\CourseController::getLatestCourseByAuthor/$1');
-        $routes->get('author/filter/(:num)', 'Api\CourseController::findbyauthor/$1');
+        $routes->get('author/filter/title/(:num)', 'Api\CourseController::findbyauthor/$1');
+        $routes->get('author/filter/category/(:num)', 'Api\CourseController::filterCourseByCategory/$1');
+
 
         $routes->group('video/', static function ($routes) {
             $routes->get('(:num)', 'Api\VideoController::index/$1');
