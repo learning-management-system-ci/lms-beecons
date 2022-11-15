@@ -163,6 +163,13 @@ class UserController extends ResourceController
         }
     }
 
+    public function getRole()
+    {
+        $data['role'] = ['admin', 'partner', 'author', 'member', 'mentor'];
+
+        return $this->respond($data);
+    }
+
     public function profile()
     {
         $key = getenv('TOKEN_SECRET');

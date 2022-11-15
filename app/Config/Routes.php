@@ -146,8 +146,8 @@ $routes->group('api/', static function ($routes) {
         $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->post('update/(:num)', 'Api\UserController::update/$1');
         $routes->delete('delete/(:num)', 'Api\UserController::delete/$1');
-        $routes->get('(:num)', 'Api\UserController::userDetail/$1');
-
+        $routes->get('(:num)', 'Api\Controller::userDetail/$1');
+        $routes->get('role', 'Api\UserController::getRole');
     });
 
     $routes->group('course/', static function ($routes) {
