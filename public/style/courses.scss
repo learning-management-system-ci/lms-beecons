@@ -145,7 +145,8 @@ $color-select-tag: #6DAA82;
                 content: "\f058";
                 color: $color-yellow;
                 font-family: FontAwesome;
-                display: inline-block;
+                display: block;
+                position: absolute;
                 margin-left: -1.5em;
                 width: 1.5em;
             }
