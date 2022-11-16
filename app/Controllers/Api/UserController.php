@@ -355,8 +355,11 @@ class UserController extends ResourceController
 
             $rules_a = [
                 'fullname' => 'required',
+                'job_id' => 'required',
+                'role' => 'required',
                 'date_birth' => 'required|valid_date',
-                'phone_number' => 'required|numeric'
+                'phone_number' => 'required|numeric',
+                'address' => 'required',
             ];
 
             $rules_b = [
@@ -368,6 +371,8 @@ class UserController extends ResourceController
 
             $messages_a = [
                 'fullname' => ['required' => '{field} tidak boleh kosong'],
+                'job_id' => ['required' => '{field} tidak boleh kosong'],
+                'role' => ['required' => '{field} tidak boleh kosong'],
                 'date_birth' => [
                     'required' => '{field} tidak boleh kosong',
                     'valid_date' => '{field} format tanggal tidak sesuai'
@@ -375,7 +380,8 @@ class UserController extends ResourceController
                 'phone_number' => [
                     'required' => '{field} tidak boleh kosong',
                     'numeric' => '{field} harus berisi numerik'
-                ]
+                ],
+                'address' => ['required' => '{field} tidak boleh kosong'],
             ];
 
             $messages_b = [
@@ -393,10 +399,10 @@ class UserController extends ResourceController
                     $data = [
                         'fullname' => $this->request->getVar('fullname'),
                         'job_id' => $this->request->getVar('job_id'),
+                        'role' => $this->request->getVar('role'),
                         'address' => $this->request->getVar('address'),
                         'date_birth' => $this->request->getVar('date_birth'),
                         'phone_number' => $this->request->getVar('phone_number'),
-                        'linkedin' => $this->request->getVar('linkedin'),
                         'profile_picture' => $fileName,
                     ];
                     $profilePicture->move('upload/users/', $fileName);
@@ -419,10 +425,10 @@ class UserController extends ResourceController
                 $data = [
                     'fullname' => $this->request->getVar('fullname'),
                     'job_id' => $this->request->getVar('job_id'),
+                    'role' => $this->request->getVar('role'),
                     'address' => $this->request->getVar('address'),
                     'date_birth' => $this->request->getVar('date_birth'),
                     'phone_number' => $this->request->getVar('phone_number'),
-                    'linkedin' => $this->request->getVar('linkedin'),
                 ];
 
                 $user->update($id, $data);
