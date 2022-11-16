@@ -152,20 +152,24 @@ $routes->group('api/', static function ($routes) {
     });
 
     $routes->group('course/', static function ($routes) {
-        $routes->get('', 'Api\CourseController::index');
-        $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
         $routes->post('create', 'Api\CourseController::create');
         $routes->put('update/(:num)f', 'Api\CourseController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
-        $routes->get('latest', 'Api\CourseController::latest');
-        $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
-        $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+        $routes->get('latest', 'Api\CourseController::latest'); 
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
+       
+
+        //OTHER PLATFORM ROUTE
+        $routes->get('', 'Api\CourseController::index');
+        $routes->get('detail/(:num)', 'Api\CourseController::show/$1');
         $routes->get('author/(:segment)', 'Api\CourseController::author/$1');
-        $routes->get('latest/author/(:num)', 'Api\CourseController::getLatestCourseByAuthor/$1');
         $routes->get('author/filter/(:segment)/title/(:num)', 'Api\CourseController::filterByTitle/$1/$2');
         $routes->get('author/filter/(:segment)/category/(:num)', 'Api\CourseController::filterByCategory/$1/$2');
+        $routes->get('latest/(:num)', 'Api\CourseController::latest/$1');
+        $routes->get('find/(:segment)', 'Api\CourseController::find/$1');
+        $routes->get('latest/author/(:num)', 'Api\CourseController::getLatestCourseByAuthor/$1');
+        $routes->get('topic/(:num)', 'Api\CourseController::getTopic/$1');
 
 
         $routes->group('video/', static function ($routes) {
@@ -187,11 +191,13 @@ $routes->group('api/', static function ($routes) {
     });
 
     $routes->group('bundling/', static function ($routes) {
-        $routes->get('', 'Api\BundlingController::index');
-        $routes->get('detail/(:segment)', 'Api\BundlingController::show/$1');
         $routes->post('create', 'Api\BundlingController::create');
         $routes->put('update/(:segment)', 'Api\BundlingController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\BundlingController::delete/$1');
+
+        //OTHER PLATFORM ROUTE
+        $routes->get('', 'Api\BundlingController::index');
+        $routes->get('detail/(:segment)', 'Api\BundlingController::show/$1');
     });
 
     $routes->group('course-bundling/', static function ($routes) {
