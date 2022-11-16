@@ -134,7 +134,7 @@ class CourseController extends ResourceController
         }
     }
 
-    public function filterCourseByCategory($id = null) {
+    public function filterByCategory($filter = null, $id = null) {
         $model = new Course();
 
         if (isset($_GET['cat'])) {
@@ -144,7 +144,7 @@ class CourseController extends ResourceController
                     ->join('course_category', 'course_category.course_category_id = course.course_id')
                     ->join('category', 'category.category_id = course_category.category_id')
                     ->where('users.id', $id)
-                    ->where('service', 'course')
+                    ->where('service', $filter)
                     ->like('category.name', $key)
                     ->orderBy('course.course_id', 'DESC')->find();
         } else {
@@ -154,7 +154,7 @@ class CourseController extends ResourceController
                     ->join('course_category', 'course_category.course_category_id = course.course_id')
                     ->join('category', 'category.category_id = course_category.category_id')
                     ->where('users.id', $id)
-                    ->where('service', 'course')
+                    ->where('service', $filter)
                     ->orderBy('course.course_id', 'DESC')->find();
         }
 
@@ -865,7 +865,7 @@ class CourseController extends ResourceController
         }
     }
 
-    public function filterCourseByTitle($id = null)
+    public function filterByTitle($filter = null, $id = null)
     {
         $model = new Course();
 
@@ -876,7 +876,7 @@ class CourseController extends ResourceController
                     ->join('course_category', 'course_category.course_category_id = course.course_id')
                     ->join('category', 'category.category_id = course_category.category_id')
                     ->where('users.id', $id)
-                    ->where('service', 'course')
+                    ->where('service', $filter)
                     ->like('course.title', $key)
                     ->orderBy('course.course_id', 'DESC')->find();
         } else {
@@ -886,7 +886,7 @@ class CourseController extends ResourceController
                     ->join('course_category', 'course_category.course_category_id = course.course_id')
                     ->join('category', 'category.category_id = course_category.category_id')
                     ->where('users.id', $id)
-                    ->where('service', 'course')
+                    ->where('service', $filter)
                     ->orderBy('course.course_id', 'DESC')->find();
         }
 
