@@ -164,8 +164,8 @@ $routes->group('api/', static function ($routes) {
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
         $routes->get('author/(:segment)', 'Api\CourseController::author/$1');
         $routes->get('latest/author/(:num)', 'Api\CourseController::getLatestCourseByAuthor/$1');
-        $routes->get('author/filter/title/(:num)', 'Api\CourseController::filterCourseByTitle/$1');
-        $routes->get('author/filter/category/(:num)', 'Api\CourseController::filterCourseByCategory/$1');
+        $routes->get('author/filter/(:segment)/title/(:num)', 'Api\CourseController::filterByTitle/$1/$2');
+        $routes->get('author/filter/(:segment)/category/(:num)', 'Api\CourseController::filterByCategory/$1/$2');
 
 
         $routes->group('video/', static function ($routes) {
