@@ -45,6 +45,23 @@ class CourseController extends ResourceController
         $this->userVideo = new UserVideo();
     }
 
+    public function getTopic($id = null) {
+        $model = new Course;
+
+        $data = $model
+                ->select('video.*')
+                ->join('video_category', 'video_category.course_id = course.course_id')
+                ->join('video', 'video.video_category_id = video_category.video_category_id')
+                ->where('course.course_id', $id)
+                ->findAll();
+
+        if (count($data) > 0) {
+            return $this->respond($data);
+        } else {
+            return $this->failNotFound('Tidak ada data');
+        }
+    }
+
     public function index()
     {
         $model = new Course();
