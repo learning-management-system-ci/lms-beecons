@@ -139,10 +139,17 @@ class BundlingController extends ResourceController
         $modelBundling = new Bundling();
         $modelVideo = new Video();
 
-        $path = site_url() . 'upload/course/thumbnail/';
+        $path_bundling = site_url() . 'upload/bundling/';
+        $path_course = site_url() . 'upload/course/thumbnail/';
 
         if ($modelBundling->find($id)) {
-            $data['bundling'] = $modelBundling->where('bundling_id', $id)->first();
+            // $data['bundling'] = $modelBundling->where('bundling_id', $id)->first();
+
+            $data = $modelBundling->where('bundling_id', $id)->first();
+            
+            if ($data) {
+                $data['thumbnail'] = $path_bundling . $data['thumbnail'];
+            }
 
             $course_bundling = $modelBundling
                 ->where('bundling.bundling_id', $id)
@@ -173,17 +180,12 @@ class BundlingController extends ResourceController
                 ->findAll();
 
             for ($i = 0; $i < count($course); $i++) {
-                $course[$i]['thumbnail'] = $path . $course[$i]['thumbnail'];
+                $course[$i]['thumbnail'] = $path_course . $course[$i]['thumbnail'];
             }
 
             $data['course'] = $course;
 
-            // for ($i = 0; $i < count($course); $i++) {
-            //     $course[$i]['thumbnail'] = $path . $course[$i]['thumbnail'];
-            // }
-
             for ($l = 0; $l < count($course); $l++) {
-                // $course[$l]['thumbnail'] = $path . $course[$l]['thumbnail'];
                 $video = $modelVideo
                     ->where('video_category_id', $course[$l]['video_category_id'])
                     ->orderBy('order', 'DESC')
@@ -232,17 +234,22 @@ class BundlingController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
             }
 
-            $input = $this->request->getRawInput();
-
-            $rules = [
+            $rules_a = [
                 "category_bundling_id" => "required",
                 "title" => "required",
                 "description" => "required|max_length[255]",
-                "new_price" => "required|numeric",
                 "old_price" => "required|numeric",
+                "new_price" => "required|numeric"
             ];
 
-            $messages = [
+            $rules_b = [
+                'thumbnail' => 'uploaded[thumbnail]'
+                    . '|is_image[thumbnail]'
+                    . '|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]'
+                    . '|max_size[thumbnail,4000]'
+            ];
+
+            $messages_a = [
                 "category_bundling_id" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
@@ -253,44 +260,95 @@ class BundlingController extends ResourceController
                     "required" => "{field} tidak boleh kosong",
                     "max_length" => "{field} maksimal 255 karakter",
                 ],
-                "old_price" => [
-                    "required" => "{field} tidak boleh kosong",
-                    "numeric" => "{field} harus berisi angka"
-                ],
                 "new_price" => [
                     "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi angka"
                 ],
-            ];
-
-            $data = [
-                "category_bundling_id" => $input["category_bundling_id"],
-                "title" => $input["title"],
-                "description" => $input["description"],
-                "new_price" => $input["new_price"],
-                "old_price" => $input["old_price"],
-            ];
-
-            $response = [
-                'status'   => 200,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'Bundling berhasil diperbarui'
+                "old_price" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi angka"
                 ]
             ];
 
-            $cek = $this->bundling->where('bundling_id', $id)->findAll();
-            if (!$cek) {
-                return $this->failNotFound('Data bundling tidak ditemukan');
+            $messages_b = [
+                "thumbnail" => [
+                    'uploaded' => '{field} tidak boleh kosong',
+                    'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
+                    'max_size' => 'Ukuran File Maksimal 4 MB'
+                ],
+            ];
+
+            $findBundling = $this->bundling->where('bundling_id', $id)->first();
+            if ($findBundling) {
+                if ($this->validate($rules_a, $messages_a)) {
+                    if ($this->validate($rules_b, $messages_b)) {
+
+                        $oldThumbnail = $findBundling['thumbnail'];
+                        $dataThumbnail = $this->request->getFile('thumbnail');
+
+                        if ($dataThumbnail->isValid() && !$dataThumbnail->hasMoved()) {
+                            if (file_exists("upload/bundling/" . $oldThumbnail)) {
+                                unlink("upload/bundling/" . $oldThumbnail);
+                            }
+                            $fileName = $dataThumbnail->getRandomName();
+                            $dataThumbnail->move('upload/bundling/', $fileName);
+                        } else {
+                            $fileName = $oldThumbnail['thumbnail'];
+                        }
+
+                        $data = [
+                            'category_bundling_id' => $this->request->getVar("category_bundling_id"),
+                            'title' => $this->request->getVar("title"),
+                            'description' => $this->request->getVar("description"),
+                            'new_price' => $this->request->getVar("new_price"),
+                            'old_price' => $this->request->getVar("old_price"),
+                            'thumbnail' => $fileName,
+                        ];
+
+                        $this->bundling->update($id, $data);
+
+                        $response = [
+                            'status'   => 201,
+                            'success'    => 201,
+                            'messages' => [
+                                'success' => 'Bundling berhasil diubah'
+                            ]
+                        ];
+                    }
+
+                    $data = [
+                        'category_bundling_id' => $this->request->getVar("category_bundling_id"),
+                        'title' => $this->request->getVar("title"),
+                        'description' => $this->request->getVar("description"),
+                        'new_price' => $this->request->getVar("new_price"),
+                        'old_price' => $this->request->getVar("old_price")
+                    ];
+
+                    $this->bundling->update($id, $data);
+
+                    $response = [
+                        'status'   => 201,
+                        'success'    => 201,
+                        'messages' => [
+                            'success' => 'Bundling berhasil diubah'
+                        ]
+                    ];
+                } else {
+                    $response = [
+                        'status'   => 400,
+                        'error'    => 400,
+                        'messages' => $this->validator->getErrors(),
+                    ];
+                }
+            } else {
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => 'Data tidak ditemukan',
+                ];
             }
 
-            if (!$this->validate($rules, $messages)) {
-                return $this->failValidationErrors($this->validator->getErrors());
-            }
-
-            if ($this->bundling->update($id, $data)) {
-                return $this->respond($response);
-            }
+            return $this->respondCreated($response);
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
