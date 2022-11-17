@@ -19,11 +19,15 @@ class CreateVideoTable extends Migration
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
-                'null'			=> true,
+                'null'            => true,
             ],
             'title'       => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '255',
+            ],
+            'thumbnail'         => [
+                'type'          => 'VARCHAR',
+                'constraint'    => '255'
             ],
             'video'             => [
                 'type'           => 'VARCHAR',
@@ -34,13 +38,13 @@ class CreateVideoTable extends Migration
                 'constraint'     => 5,
                 'unsigned'       => true,
             ],
-            
+
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
 
         $this->forge->addKey('video_id', TRUE);
-        $this->forge->addForeignKey('video_category_id', 'video_category', 'video_category_id', 'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('video_category_id', 'video_category', 'video_category_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('video', TRUE);
     }
 

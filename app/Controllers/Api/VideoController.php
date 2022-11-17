@@ -155,6 +155,7 @@ class VideoController extends ResourceController
 			$rules = [
 				"video_category_id" => "required",
 				"title" => "required",
+				"thumbnail" => "is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png]|max_size[thumbnail,262144]",
 				"video" => "mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
 				"order" => "required",
 			];
@@ -164,6 +165,10 @@ class VideoController extends ResourceController
 				],
 				"title" => [
 					"required" => "{field} tidak boleh kosong"
+				],
+				"thumbnail" => [
+					'mime_in' => 'File Extention Harus Berupa jpg, jpeg, png atau webp',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
 				],
 				"video" => [
 					// 'uploaded' => '{field} tidak boleh kosong',
@@ -182,6 +187,10 @@ class VideoController extends ResourceController
 			} else {
 				$dataVideo = $this->request->getVar('video_url');
 
+				$dataThumbnail = $this->request->getFile('thumbnail');
+				$thumbnailFileName = $dataThumbnail->getRandomName();
+				$dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
+
 				if (empty($dataVideo)) {
 					$dataVideo = $this->request->getFile('video');
 					$fileName = $dataVideo->getRandomName();
@@ -193,6 +202,7 @@ class VideoController extends ResourceController
 				$this->videoModel->insert([
 					'video_category_id' => $this->request->getVar("video_category_id"),
 					'title' => $this->request->getVar("title"),
+					'thumbnail' => $thumbnailFileName,
 					'order' => $this->request->getVar("order"),
 					'video' => $fileName
 				]);
@@ -230,6 +240,7 @@ class VideoController extends ResourceController
 			$rules = [
 				"video_category_id" => "required",
 				"title" => "required",
+				"thumbnail" => "is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png]|max_size[thumbnail,262144]",
 				"video" => "mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
 				"order" => "required",
 			];
@@ -240,6 +251,10 @@ class VideoController extends ResourceController
 				],
 				"title" => [
 					"required" => "{field} tidak boleh kosong"
+				],
+				"thumbnail" => [
+					'mime_in' => 'File Extention Harus Berupa jpg, jpeg, png atau webp',
+					'max_size' => 'Ukuran File Maksimal 2 MB'
 				],
 				"video" => [
 					// 'uploaded' => '{field} tidak boleh kosong',
@@ -253,7 +268,7 @@ class VideoController extends ResourceController
 
 			if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 
-			$verifyCourse = $this->courseModel->where("video_category_id", $this->request->getVar('video_category_id'))->first();
+			$verifyCourse = $this->videoCategory->where("video_category_id", $this->request->getVar('video_category_id'))->first();
 			if (!$verifyCourse) {
 				return $this->failNotFound('Course tidak ditemukan');
 			} else {
@@ -261,11 +276,31 @@ class VideoController extends ResourceController
 				if (!$findVideo) {
 					return $this->failNotFound('Data video tidak ditemukan');
 				}
+
+				$oldThumbnail = $findVideo['thumbnail'];
 				$oldVideo = $findVideo['video'];
+
+				$dataThumbnail = $this->request->getFile('thumbnail');
+				$thumbnailFileName = $dataThumbnail->getRandomName();
+
+				if (file_exists("upload/course-video/thumbnail/" . $oldThumbnail)) {
+					if ($oldThumbnail != '') {
+						print_r("te1s");
+						unlink("upload/course-video/thumbnail/" . $oldThumbnail);
+						$dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
+					} else {
+						print_r("te32s");
+						$dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
+					}
+				} else {
+					print_r("te2s");
+					$dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
+				}
 
 				$dataVideo = $this->request->getVar('video_url');
 
 				if (empty($dataVideo)) {
+
 					$dataVideo = $this->request->getFile('video');
 					if ($dataVideo->isValid() && !$dataVideo->hasMoved()) {
 						if (file_exists("upload/course-video/" . $oldVideo)) {
@@ -283,6 +318,7 @@ class VideoController extends ResourceController
 				$data = [
 					'video_category_id' => $this->request->getVar("video_category_id"),
 					'title' => $this->request->getVar("title"),
+					'thumbnail' => $thumbnailFileName,
 					'order' => $this->request->getVar("order"),
 					'video' => $fileName
 				];
