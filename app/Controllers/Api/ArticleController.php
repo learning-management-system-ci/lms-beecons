@@ -20,8 +20,27 @@ class ArticleController extends ResourceController
     }
 
     public function index(){
-        $data['article'] = $this->article->findAll();
-        return $this->respond($data);
+        $data = $this->article->findAll();
+        
+        $path = site_url() . 'upload/article/';
+        
+        $response = [];
+        
+        for ($i = 0; $i < count($data); $i++) {
+            $tag_article_data = $this->tagarticle->where('tag_article_id', $data[$i]['tag_article_id'])->first();
+            array_push($response, [
+                "article_id" => $data[$i]['article_id'],
+                "name_tag" => (is_null($data[$i]['tag_article_id'])) ? null : $tag_article_data['name_tag'],
+                "title" =>  $data[$i]['title'],
+                "sub_title" => $data[$i]['sub_title'],
+                "content" => $data[$i]['content'],
+                "content_image" => $path . $data[$i]['content_image'],
+                "created_at" => $data[$i]['created_at'],
+                "updated_at" => $data[$i]['updated_at'],
+            ]);
+        }
+
+        return $this->respond($response);
     }
     
     public function show($id = null){
@@ -112,7 +131,7 @@ class ArticleController extends ResourceController
                 ];
                 $datacontent_image->move('upload/article/', $fileName);
                 
-                $this->article->update($data);
+                $this->article->insert($data);
 
                 $response = [
                     'status'   => 201,
