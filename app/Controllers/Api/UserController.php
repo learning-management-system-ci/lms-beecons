@@ -339,7 +339,6 @@ class UserController extends ResourceController
         $token = explode(' ', $header)[1];
 
         $decoded = JWT::decode($token, $key, ['HS256']);
-        $id = $decoded->uid;
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
@@ -385,7 +384,7 @@ class UserController extends ResourceController
             ];
 
             $messages_b = [
-                'profile_pciture' => [
+                'profile_picture' => [
                     'uploaded' => '{field} tidak boleh kosong',
                     'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
                     'max_size' => 'Ukuran File Maksimal 4 MB'
