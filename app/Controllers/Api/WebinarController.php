@@ -297,12 +297,10 @@ class WebinarController extends ResourceController
             $userWebinar = new UserWebinar;
 
             // cek role user
-            // $data = $user->select('role')->where('id', $decoded->uid)->first();
-            // if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-            //     return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
-            // }
-
-
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            }
 
             if ($this->webinar->find($id)) {
                 $findCart = $cart->where('webinar_id', $id)->findAll();
