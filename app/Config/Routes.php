@@ -83,6 +83,12 @@ $routes->get('/email', 'Home::email');
 $routes->get('/send-otp', 'AuthController::indexSendOtp');
 $routes->post('/send-otp', 'AuthController::sendOtp');
 
+$routes->group('admin/', static function ($routes) {
+    $routes->get('', 'AdminController::index');
+    $routes->get('user', 'AdminController::user');
+    $routes->get('user/(:segment)', 'AdminController::userDetail/$1');
+});
+
 $routes->group('api/', static function ($routes) {
     $routes->post('register', 'Api\AuthController::register');
     $routes->post('login', 'Api\AuthController::login');
