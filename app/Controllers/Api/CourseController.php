@@ -192,6 +192,10 @@ class CourseController extends ResourceController
                 ->orderBy('course.course_id', 'DESC')->find();
         }
 
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+        }
+
         if (count($data) > 0) {
             return $this->respond($data);
         } else {

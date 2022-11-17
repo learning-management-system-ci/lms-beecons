@@ -146,6 +146,8 @@ class BundlingController extends ResourceController
         $modelBundling = new Bundling();
         $modelVideo = new Video();
 
+        $path = site_url() . 'upload/course/thumbnail/';
+
         if ($modelBundling->find($id)) {
             $data['bundling'] = $modelBundling->where('bundling_id', $id)->first();
 
@@ -206,9 +208,18 @@ class BundlingController extends ResourceController
                 ->orderBy('bundling.bundling_id', 'DESC')
                 ->findAll();
 
+            for ($i = 0; $i < count($course); $i++) {
+                $course[$i]['thumbnail'] = $path . $course[$i]['thumbnail'];
+            }
+
             $data['course'] = $course;
 
+            // for ($i = 0; $i < count($course); $i++) {
+            //     $course[$i]['thumbnail'] = $path . $course[$i]['thumbnail'];
+            // }
+
             for ($l = 0; $l < count($course); $l++) {
+                // $course[$l]['thumbnail'] = $path . $course[$l]['thumbnail'];
                 $video = $modelVideo
                     ->where('video_category_id', $course[$l]['video_category_id'])
                     ->orderBy('order', 'DESC')
