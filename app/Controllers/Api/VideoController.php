@@ -31,7 +31,7 @@ class VideoController extends ResourceController
 	{
 		$data = $this->videoModel->where('video_id', $id)->first();
 
-		$path_thumbnail = site_url() . 'upload/course-video/thumbnail';
+		$path_thumbnail = site_url() . 'upload/course-video/thumbnail/';
 		$path_video = site_url() . 'upload/course-video/';
 
 		$data = [

@@ -33,7 +33,6 @@ class CourseController extends ResourceController
         $this->path = site_url() . 'upload/course/thumbnail/';
         $this->pathVideo = site_url() . 'upload/course-video/';
 
-        $this->path = site_url() . 'upload/course/thumbnail/';
         $this->model = new Course();
         $this->modelCourseCategory = new CourseCategory();
         $this->modelCourseType = new CourseType();
@@ -58,6 +57,11 @@ class CourseController extends ResourceController
             ->where('course.course_id', $id)
             ->findAll();
 
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+            $data[$i]['video'] = $this->pathVideo . $data[$i]['video'];
+        }
+
         if (count($data) > 0) {
             return $this->respond($data);
         } else {
@@ -78,14 +82,12 @@ class CourseController extends ResourceController
 
         $tag = [];
 
-        $path = site_url() . 'upload/course/thumbnail/';
-
         for ($i = 0; $i < count($data); $i++) {
             $author = $modelUser->where('id', $data[$i]['author_id'])->first();
             $data[$i]['author'] = $author['fullname'];
             unset($data[$i]['author_id']);
 
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -131,9 +133,6 @@ class CourseController extends ResourceController
     public function getLatestCourseByAuthor($id = null)
     {
         $model = new Course();
-        $path = site_url() . 'upload/course/thumbnail/';
-
-        $path = site_url() . 'upload/course/thumbnail';
 
         if (isset($_GET['limit'])) {
             $key = $_GET['limit'];
@@ -158,7 +157,7 @@ class CourseController extends ResourceController
         }
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {
@@ -171,9 +170,6 @@ class CourseController extends ResourceController
     public function filterByCategory($filter = null, $id = null)
     {
         $model = new Course();
-        $path = site_url() . 'upload/course/thumbnail/';
-
-        $path = site_url() . 'upload/course/thumbnail/';
 
         if (isset($_GET['cat'])) {
             $key = $_GET['cat'];
@@ -325,13 +321,13 @@ class CourseController extends ResourceController
                 for ($l = 0; $l < count($videoCategory); $l++) {
                     if ($loggedIn) {
                         for ($i = 0; $i < count($data['video_category'][$l]['video']); $i++) {
-                            $path = 'upload/course-video/';
+                            $this->path = 'upload/course-video/';
                             $filename = $data['video_category'][$l]['video'][$i]['video'];
 
                             $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
 
                             if (!$checkIfVideoIsLink) {
-                                $file = $this->getID3->analyze($path . $filename);
+                                $file = $this->getID3->analyze($this->path . $filename);
                                 $checkFileIsExist = stristr($file['error'][0], '!file_exists') ? false : true;
 
                                 if ($checkFileIsExist) {
@@ -455,9 +451,6 @@ class CourseController extends ResourceController
         $modelTypeTag = new TypeTag();
         $modelUser = new Users();
 
-        $path = site_url() . 'upload/course/thumbnail/';
-
-
         $data = $model->select('course.*, users.fullname as author_name')
             ->orderBy('course_id', 'DESC')
             ->where('service', $filter)
@@ -504,7 +497,7 @@ class CourseController extends ResourceController
         }
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {
@@ -581,10 +574,8 @@ class CourseController extends ResourceController
 
         $data = $model->orderBy('course_id', 'DESC')->where('author_id', $id)->find();
 
-        $path = site_url() . 'upload/course/thumbnail/';
-
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
 
             $user = $modelUser->select('fullname')->where('id', $id)->first();
             $data[$i]['author_name'] = $user['fullname'];
@@ -986,11 +977,10 @@ class CourseController extends ResourceController
     public function latest($total = 4)
     {
         $model = new Course();
-        $path = site_url() . 'upload/course/thumbnail/';
 
         $data = $model->limit($total)->orderBy('course_id', 'DESC')->find();
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
         }
         return $this->respond($data);
     }
@@ -999,10 +989,10 @@ class CourseController extends ResourceController
     {
         $model = new Course();
         $data = $model->orderBy('course_id', 'DESC')->like('title', $key)->find();
-        $path = site_url() . 'upload/course/thumbnail/';
+        
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {
@@ -1015,8 +1005,6 @@ class CourseController extends ResourceController
     public function filterByTitle($filter = null, $id = null)
     {
         $model = new Course();
-
-        $path = site_url() . 'upload/course/thumbnail/';
 
         if (isset($_GET['title'])) {
             $key = $_GET['title'];
@@ -1040,7 +1028,7 @@ class CourseController extends ResourceController
         }
 
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {
