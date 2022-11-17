@@ -15,6 +15,8 @@ use App\Models\UserVideo;
 use App\Models\Review;
 use App\Models\Jobs;
 use App\Models\UserCourse;
+use App\Models\Cart;
+use App\Models\CourseBundling;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
 use getID3;
@@ -914,10 +916,26 @@ class CourseController extends ResourceController
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
+            $modelCart = new Cart;
+            $modelUserCourse = new UserCourse;
+            $modelCourseTag = new CourseTag;
+            $modelUserReview = new Review;
+            $modelCourseType = new CourseType;
+            $modelCourseBundling = new CourseBundling;
+            $modelVideoCategory = new VideoCategory;
+
 
             if ($modelCourse->find($id)) {
                 $modelCourseCategory->where('course_id', $id)->delete();
+                $modelUserCourse->where('course_id', $id)->delete();
+                $modelCourseTag->where('course_id', $id)->delete();
+                $modelUserReview->where('course_id', $id)->delete();
+                $modelCourseType->where('course_id', $id)->delete();
+                $modelCourseBundling->where('course_id', $id)->delete();
+                $modelVideoCategory->where('course_id', $id)->delete();
+                $modelCart->where('course_id', $id)->delete();
                 $modelCourse->delete($id);
+
                 $response = [
                     'status'   => 200,
                     'success'    => 200,

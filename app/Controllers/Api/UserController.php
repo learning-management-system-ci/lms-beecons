@@ -265,10 +265,23 @@ class UserController extends ResourceController
                 ],
             ];
 
+
             if ($this->validate($rules_a, $messages_a)) {
-                if ($this->validate($rules_b, $messages_b)){
+                if ($this->validate($rules_b, $messages_b)) {
+
+                    $oldThumbnail = $cek['profile_picture'];
                     $profilePicture = $this->request->getFile('profile_picture');
-                    $fileName = $profilePicture->getRandomName();
+
+                    if ($profilePicture->isValid() && !$profilePicture->hasMoved()) {
+                        if (file_exists("upload/users/" . $oldThumbnail)) {
+                            unlink("upload/users/" . $oldThumbnail);
+                        }
+                        $fileName = $profilePicture->getRandomName();
+                        $profilePicture->move('upload/users/', $fileName);
+                    } else {
+                        $fileName = $oldThumbnail['profile_picture'];
+                    }
+
                     $data = [
                         'fullname' => $this->request->getVar('fullname'),
                         'job_id' => $this->request->getVar('job_id'),
@@ -278,9 +291,9 @@ class UserController extends ResourceController
                         'linkedin' => $this->request->getVar('linkedin'),
                         'profile_picture' => $fileName,
                     ];
-                    $profilePicture->move('upload/users/', $fileName);
+
                     $user->update($id, $data);
-                    
+
                     $response = [
                         'status'   => 201,
                         'success'    => 201,
@@ -305,7 +318,7 @@ class UserController extends ResourceController
                 ];
 
                 $user->update($id, $data);
-                
+
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
@@ -346,10 +359,10 @@ class UserController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
-            
+
             $cek = $user->where('id', $id)->findAll();
 
             $rules_a = [
@@ -392,7 +405,7 @@ class UserController extends ResourceController
             ];
 
             if ($this->validate($rules_a, $messages_a)) {
-                if ($this->validate($rules_b, $messages_b)){
+                if ($this->validate($rules_b, $messages_b)) {
                     $profilePicture = $this->request->getFile('profile_picture');
                     $fileName = $profilePicture->getRandomName();
                     $data = [
@@ -406,7 +419,7 @@ class UserController extends ResourceController
                     ];
                     $profilePicture->move('upload/users/', $fileName);
                     $user->update($id, $data);
-                    
+
                     $response = [
                         'status'   => 201,
                         'success'    => 201,
@@ -431,7 +444,7 @@ class UserController extends ResourceController
                 ];
 
                 $user->update($id, $data);
-                
+
                 $response = [
                     'status'   => 201,
                     'success'    => 201,

@@ -12,19 +12,28 @@ class Bundling extends Model
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['bundling_id', 'category_bundling_id', 'title', 'description', 'old_price', 'new_price', 'created_at', 'updated_at'];
 
-    function getShow($id){
+    // Dates
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
+
+    function getShow($id)
+    {
         $builder = $this->db->table('bundling');
         // $builder->select('*');
         $builder->where('bundling_id', $id);
         $query = $builder->get();
         return $query->getResultArray();
-	}
+    }
 
-    function getData($id){
+    function getData($id)
+    {
         $builder = $this->db->table('bundling');
         // $builder->select('course_bundling.bundling_id as bun');
         $builder->select('course_bundling.bundling_id as bund, course_bundling.course_id');
@@ -37,5 +46,5 @@ class Bundling extends Model
         $builder->where('bundling_id', $id);
         $query = $builder->get();
         return $query->getResultArray();
-	}
+    }
 }
