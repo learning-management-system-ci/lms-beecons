@@ -133,16 +133,19 @@ class CourseController extends ResourceController
         $model = new Course();
         $path = site_url() . 'upload/course/thumbnail/';
 
+        $path = site_url() . 'upload/course/thumbnail';
+
         if (isset($_GET['limit'])) {
             $key = $_GET['limit'];
             $data = $model->limit($key)
-                ->select('course.*, users.fullname as author_name, category.name as category')
+                ->select('course.*,  users.fullname as author_name, category.name as category')
                 ->join('users', 'users.id = course.author_id')
                 ->join('course_category', 'course_category.course_category_id = course.course_id')
                 ->join('category', 'category.category_id = course_category.category_id')
                 ->where('users.id', $id)
                 ->where('service', 'course')
                 ->orderBy('course.course_id', 'DESC')->find();
+
         } else {
             $key = null;
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
@@ -170,6 +173,8 @@ class CourseController extends ResourceController
         $model = new Course();
         $path = site_url() . 'upload/course/thumbnail/';
 
+        $path = site_url() . 'upload/course/thumbnail/';
+
         if (isset($_GET['cat'])) {
             $key = $_GET['cat'];
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
@@ -189,10 +194,6 @@ class CourseController extends ResourceController
                 ->where('users.id', $id)
                 ->where('service', $filter)
                 ->orderBy('course.course_id', 'DESC')->find();
-        }
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {
@@ -766,7 +767,8 @@ class CourseController extends ResourceController
                 'key_takeaways' => 'max_length[255]',
                 'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
-                'new_price' => 'required|numeric'
+                'new_price' => 'required|numeric',
+                'category_id' => 'required|numeric',
             ];
 
             $rules_b = [
@@ -795,11 +797,15 @@ class CourseController extends ResourceController
                     'max_length' => '{field} maksimal 255 karakter',
                 ],
                 "old_price" => [
-                    "required" => "field} tidak boleh kosong",
+                    "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
                 ],
                 "new_price" => [
-                    "required" => "field} tidak boleh kosong",
+                    "required" => "{field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor",
+                ],
+                "category_id" => [
+                    "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
                 ]
             ];
@@ -856,24 +862,28 @@ class CourseController extends ResourceController
             // }
 
             if ($this->validate($rules_a, $messages_a)) {
-                if ($this->validate($rules_b, $messages_b)) {
+                if ($this->validate($rules_b, $messages_b)){
                     $datacontent_image = $this->request->getFile('content_image');
                     $fileName = $datacontent_image->getRandomName();
                     $data = [
                         'tag_article_id' => $this->request->getVar('tag_article_id'),
                         'title' => $this->request->getVar('title'),
-                        'sub_title' => $this->request->getVar('sub_title'),
-                        'content' => $this->request->getVar('content'),
-                        'content_image' => $fileName,
+                        'service' => $this->request->getVar('service'),
+                        'description' => $this->request->getVar('description'),
+                        'key_takeaways' => $this->request->getVar('key_takeaways'),
+                        'suitable_for' => $this->request->getVar('suitable_for'),
+                        'old_price' => $this->request->getVar('old_price'),
+                        'new_price' => $this->request->getVar('new_price'),
+                        'thumbnail' => $fileName,
                     ];
                     $datacontent_image->move('upload/article/', $fileName);
                     $this->article->update($id, $data);
-
+                    
                     $response = [
                         'status'   => 201,
                         'success'    => 201,
                         'messages' => [
-                            'success' => 'Data Article berhasil diupdate'
+                            'success' => 'Data Course berhasil diupdate'
                         ]
                     ];
                 } else {
@@ -883,20 +893,24 @@ class CourseController extends ResourceController
                         'messages' => $this->validator->getErrors(),
                     ];
                 }
-                $data = [
-                    'tag_article_id' => $this->request->getVar('tag_article_id'),
+
+                $dataCourse = [
                     'title' => $this->request->getVar('title'),
-                    'sub_title' => $this->request->getVar('sub_title'),
-                    'content' => $this->request->getVar('content')
+                    'service' => $this->request->getVar('service'),
+                    'description' => $this->request->getVar('description'),
+                    'key_takeaways' => $this->request->getVar('key_takeaways'),
+                    'suitable_for' => $this->request->getVar('suitable_for'),
+                    'old_price' => $this->request->getVar('old_price'),
+                    'new_price' => $this->request->getVar('new_price'),
                 ];
 
                 $this->article->update($id, $data);
-
+                
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
                     'messages' => [
-                        'success' => 'Data Article berhasil diupdate'
+                        'success' => 'Data Course berhasil diupdate'
                     ]
                 ];
             } else {
@@ -909,9 +923,9 @@ class CourseController extends ResourceController
 
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
-            // return $this->fail($th->getMessage());
-            exit($th->getMessage());
+            return $this->fail($th->getMessage());
         }
+        return $this->failNotFound('Data Course tidak ditemukan');
     }
 
     public function delete($id = null)
@@ -1002,6 +1016,8 @@ class CourseController extends ResourceController
     {
         $model = new Course();
 
+        $path = site_url() . 'upload/course/thumbnail/';
+
         if (isset($_GET['title'])) {
             $key = $_GET['title'];
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
@@ -1021,6 +1037,10 @@ class CourseController extends ResourceController
                 ->where('users.id', $id)
                 ->where('service', $filter)
                 ->orderBy('course.course_id', 'DESC')->find();
+        }
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {

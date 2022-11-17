@@ -29,9 +29,21 @@ class VideoController extends ResourceController
 
 	public function index($id = null)
 	{
-		$data = $this->videoModel
-			->where('video_id', $id)
-			->first();
+		$data = $this->videoModel->where('video_id', $id)->first();
+
+		$path_thumbnail = site_url() . 'upload/course-video/thumbnail';
+		$path_video = site_url() . 'upload/course-video/';
+
+		$data = [
+			"video_id" => $data['video_id'],
+			"video_category_id" => $data['video_category_id'],
+			"title" =>  $data['title'],
+			"thumbnail" => $path_thumbnail . $data['thumbnail'],
+			"video" => $path_video . $data['video'],
+			"order" =>  $data['order'],
+			"created_at" => $data['created_at'],
+			"updated_at" => $data['updated_at'],
+		];
 
 		$modelQuiz = new Quiz;
 		$dataQuiz = $modelQuiz->where('video_id', $id)->first();
