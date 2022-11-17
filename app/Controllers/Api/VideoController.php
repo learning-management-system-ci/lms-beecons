@@ -276,7 +276,6 @@ class VideoController extends ResourceController
 				if (!$findVideo) {
 					return $this->failNotFound('Data video tidak ditemukan');
 				}
-
 				$oldThumbnail = $findVideo['thumbnail'];
 				$oldVideo = $findVideo['video'];
 
