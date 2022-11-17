@@ -202,8 +202,6 @@ class WebinarController extends ResourceController
                 ],
             ];
 
-
-
             $findWebinar = $this->webinar->where('webinar_id', $id)->first();
             if ($findWebinar) {
                 if ($this->validate($rules_a, $messages_a)) {

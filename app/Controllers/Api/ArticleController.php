@@ -216,18 +216,53 @@ class ArticleController extends ResourceController
                 ],
             ];
             
-            if ($this->validate($rules_a, $messages_a)) {
-                if ($this->validate($rules_b, $messages_b)){
-                    $datacontent_image = $this->request->getFile('content_image');
-                    $fileName = $datacontent_image->getRandomName();
+            $findWebinar = $this->article->where('article_id', $id)->first();
+            if ($findWebinar) {
+                if ($this->validate($rules_a, $messages_a)) {
+                    if ($this->validate($rules_b, $messages_b)){
+                        $oldContent_image = $findWebinar['content_image'];
+                        $dataContent_image = $this->request->getFile('content_image');
+
+                        if ($dataContent_image->isValid() && !$dataContent_image->hasMoved()) {
+                            if (file_exists("upload/article/" . $oldContent_image)) {
+                                unlink("upload/article/" . $oldContent_image);
+                            }
+                            $fileName = $dataContent_image->getRandomName();
+                            $dataContent_image->move('upload/article/', $fileName);
+                        } else {
+                            $fileName = $oldContent_image['content_image'];
+                        }
+                        $data = [
+                            'tag_article_id' => $this->request->getVar('tag_article_id'),
+                            'title' => $this->request->getVar('title'),
+                            'sub_title' => $this->request->getVar('sub_title'),
+                            'content' => $this->request->getVar('content'),
+                            'content_image' => $fileName,
+                        ];
+
+                        $this->article->update($id, $data);
+                        
+                        $response = [
+                            'status'   => 201,
+                            'success'    => 201,
+                            'messages' => [
+                                'success' => 'Data Article berhasil diupdate'
+                            ]
+                        ];
+                    } else {
+                        $response = [
+                            'status'   => 400,
+                            'error'    => 400,
+                            'messages' => $this->validator->getErrors(),
+                        ];
+                    }
                     $data = [
                         'tag_article_id' => $this->request->getVar('tag_article_id'),
                         'title' => $this->request->getVar('title'),
                         'sub_title' => $this->request->getVar('sub_title'),
-                        'content' => $this->request->getVar('content'),
-                        'content_image' => $fileName,
+                        'content' => $this->request->getVar('content')
                     ];
-                    $datacontent_image->move('upload/article/', $fileName);
+
                     $this->article->update($id, $data);
                     
                     $response = [
@@ -244,28 +279,6 @@ class ArticleController extends ResourceController
                         'messages' => $this->validator->getErrors(),
                     ];
                 }
-                $data = [
-                    'tag_article_id' => $this->request->getVar('tag_article_id'),
-                    'title' => $this->request->getVar('title'),
-                    'sub_title' => $this->request->getVar('sub_title'),
-                    'content' => $this->request->getVar('content')
-                ];
-
-                $this->article->update($id, $data);
-                
-                $response = [
-                    'status'   => 201,
-                    'success'    => 201,
-                    'messages' => [
-                        'success' => 'Data Article berhasil diupdate'
-                    ]
-                ];
-            } else {
-                $response = [
-                    'status'   => 400,
-                    'error'    => 400,
-                    'messages' => $this->validator->getErrors(),
-                ];
             }
 
             return $this->respondCreated($response);

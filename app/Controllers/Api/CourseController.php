@@ -856,12 +856,53 @@ class CourseController extends ResourceController
             //     ];
             // }
 
-            if ($this->validate($rules_a, $messages_a)) {
-                if ($this->validate($rules_b, $messages_b)){
-                    $datacontent_image = $this->request->getFile('content_image');
-                    $fileName = $datacontent_image->getRandomName();
-                    $data = [
-                        'tag_article_id' => $this->request->getVar('tag_article_id'),
+            $findCourse = $this->model->where('course_id', $id)->first();
+            if ($findCourse) {
+                if ($this->validate($rules_a, $messages_a)) {
+                    if ($this->validate($rules_b, $messages_b)){
+                        $oldThumbnail = $findCourse['thumbnail'];
+                        $dataThumbnail = $this->request->getFile('thumbnail');
+
+                        if ($dataThumbnail->isValid() && !$dataThumbnail->hasMoved()) {
+                            if (file_exists("upload/course/thumbnail/" . $oldThumbnail)) {
+                                unlink("upload/course/thumbnail/" . $oldThumbnail);
+                            }
+                            $fileName = $dataThumbnail->getRandomName();
+                            $dataThumbnail->move('upload/course/thumbnail/', $fileName);
+                        } else {
+                            $fileName = $oldThumbnail['thumbnail'];
+                        }
+
+                        $data = [
+                            'tag_article_id' => $this->request->getVar('tag_article_id'),
+                            'title' => $this->request->getVar('title'),
+                            'service' => $this->request->getVar('service'),
+                            'description' => $this->request->getVar('description'),
+                            'key_takeaways' => $this->request->getVar('key_takeaways'),
+                            'suitable_for' => $this->request->getVar('suitable_for'),
+                            'old_price' => $this->request->getVar('old_price'),
+                            'new_price' => $this->request->getVar('new_price'),
+                            'thumbnail' => $fileName,
+                        ];
+
+                        $this->article->update($id, $data);
+                        
+                        $response = [
+                            'status'   => 201,
+                            'success'    => 201,
+                            'messages' => [
+                                'success' => 'Data Course berhasil diupdate'
+                            ]
+                        ];
+                    } else {
+                        $response = [
+                            'status'   => 400,
+                            'error'    => 400,
+                            'messages' => $this->validator->getErrors(),
+                        ];
+                    }
+
+                    $dataCourse = [
                         'title' => $this->request->getVar('title'),
                         'service' => $this->request->getVar('service'),
                         'description' => $this->request->getVar('description'),
@@ -869,9 +910,8 @@ class CourseController extends ResourceController
                         'suitable_for' => $this->request->getVar('suitable_for'),
                         'old_price' => $this->request->getVar('old_price'),
                         'new_price' => $this->request->getVar('new_price'),
-                        'thumbnail' => $fileName,
                     ];
-                    $datacontent_image->move('upload/article/', $fileName);
+
                     $this->article->update($id, $data);
                     
                     $response = [
@@ -888,32 +928,6 @@ class CourseController extends ResourceController
                         'messages' => $this->validator->getErrors(),
                     ];
                 }
-
-                $dataCourse = [
-                    'title' => $this->request->getVar('title'),
-                    'service' => $this->request->getVar('service'),
-                    'description' => $this->request->getVar('description'),
-                    'key_takeaways' => $this->request->getVar('key_takeaways'),
-                    'suitable_for' => $this->request->getVar('suitable_for'),
-                    'old_price' => $this->request->getVar('old_price'),
-                    'new_price' => $this->request->getVar('new_price'),
-                ];
-
-                $this->article->update($id, $data);
-                
-                $response = [
-                    'status'   => 201,
-                    'success'    => 201,
-                    'messages' => [
-                        'success' => 'Data Course berhasil diupdate'
-                    ]
-                ];
-            } else {
-                $response = [
-                    'status'   => 400,
-                    'error'    => 400,
-                    'messages' => $this->validator->getErrors(),
-                ];
             }
 
             return $this->respondCreated($response);

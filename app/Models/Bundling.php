@@ -14,7 +14,7 @@ class Bundling extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['bundling_id', 'category_bundling_id', 'title', 'description', 'old_price', 'new_price', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['bundling_id', 'category_bundling_id', 'title', 'description', 'old_price', 'new_price', 'thumbnail', 'created_at', 'updated_at'];
 
     // Dates
     protected $useTimestamps = true;
