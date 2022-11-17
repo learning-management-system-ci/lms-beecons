@@ -154,7 +154,10 @@ $(document).ready(async function () {
                             </div>
                             <div class="body">
                                 <a href="/course/${course.course_id}">
-                                    <h2 class="text-truncate">${course.title}</h2>
+                                    <div class='mb-2'>
+                                        <h2 class="text-truncate m-0">${course.title}</h2>
+                                        <small class='fw-bold'>${course.author}</small>
+                                    </div>
                                     <p>
                                         ${textTruncate(course.description, 120)}
                                     </p>
