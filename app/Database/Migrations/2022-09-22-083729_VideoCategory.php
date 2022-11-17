@@ -19,7 +19,7 @@ class VideoCategory extends Migration
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
-                'null'			=> true,
+                'null'            => true,
             ],
             'title'       => [
                 'type'           => 'VARCHAR',
@@ -27,6 +27,7 @@ class VideoCategory extends Migration
             ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at datetime',
         ]);
 
         $this->forge->addKey('video_category_id', TRUE);
