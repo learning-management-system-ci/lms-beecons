@@ -732,18 +732,24 @@ class CourseController extends ResourceController
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
 
-            $rules = [
+            $rules_a = [
                 'title' => 'required|min_length[8]',
                 'service' => 'required',
                 'description' => 'required|min_length[8]',
                 'key_takeaways' => 'max_length[255]',
                 'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
-                'new_price' => 'required|numeric',
-                'thumbnail' => 'required',
+                'new_price' => 'required|numeric'
             ];
 
-            $messages = [
+            $rules_b = [
+                'thumbnail' => 'uploaded[thumbnail]'
+                    . '|is_image[thumbnail]'
+                    . '|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]'
+                    . '|max_size[thumbnail,4000]'
+            ];
+
+            $messages_a = [
                 "title" => [
                     "required" => "{field}  tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
@@ -768,38 +774,79 @@ class CourseController extends ResourceController
                 "new_price" => [
                     "required" => "field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
-                ],
+                ]
+            ];
+
+            $messages_b = [
                 "thumbnail" => [
-                    "required" => "{field}  tidak boleh kosong"
+                    'uploaded' => '{field} tidak boleh kosong',
+                    'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
+                    'max_size' => 'Ukuran File Maksimal 4 MB'
                 ],
             ];
 
-            if ($modelCourse->find($id)) {
-                if ($this->validate($rules, $messages)) {
-                    $dataCourse = [
-                        'title' => $this->request->getRawInput('title'),
-                        'service' => $this->request->getRawInput('service'),
-                        'description' => $this->request->getRawInput('description'),
-                        'key_takeaways' => $this->request->getRawInput('key_takeaways'),
-                        'suitable_for' => $this->request->getRawInput('suitable_for'),
-                        'old_price' => $this->request->getRawInput('old_price'),
-                        'new_price' => $this->request->getRawInput('new_price'),
-                        'thumbnail' => $this->request->getRawInput('thumbnail')
-                    ];
-                    $modelCourse->update($id, $dataCourse['title']);
+            // if ($modelCourse->find($id)) {
+            //     if ($this->validate($rules, $messages)) {
+            //         $dataCourse = [
+            //             'title' => $this->request->getRawInput('title'),
+            //             'service' => $this->request->getRawInput('service'),
+            //             'description' => $this->request->getRawInput('description'),
+            //             'key_takeaways' => $this->request->getRawInput('key_takeaways'),
+            //             'suitable_for' => $this->request->getRawInput('suitable_for'),
+            //             'old_price' => $this->request->getRawInput('old_price'),
+            //             'new_price' => $this->request->getRawInput('new_price'),
+            //             'thumbnail' => $this->request->getRawInput('thumbnail')
+            //         ];
+            //         $modelCourse->update($id, $dataCourse['title']);
 
-                    $dataCourseCategory = [
-                        'course_id' => $id,
-                        'category_id' => $this->request->getRawInput('category_id')['category_id']
-                    ];
-                    $courseCategoryID = $modelCourseCategory->where('course_id', $id)->find();
-                    $modelCourseCategory->where('course_id', $id)->update($courseCategoryID[0]['course_category_id'], $dataCourseCategory);
+            //         $dataCourseCategory = [
+            //             'course_id' => $id,
+            //             'category_id' => $this->request->getRawInput('category_id')['category_id']
+            //         ];
+            //         $courseCategoryID = $modelCourseCategory->where('course_id', $id)->find();
+            //         $modelCourseCategory->where('course_id', $id)->update($courseCategoryID[0]['course_category_id'], $dataCourseCategory);
 
+            //         $response = [
+            //             'status'   => 201,
+            //             'success'    => 201,
+            //             'messages' => [
+            //                 'success' => 'Course berhasil di perbarui'
+            //             ]
+            //         ];
+            //     } else {
+            //         $response = [
+            //             'status'   => 400,
+            //             'error'    => 400,
+            //             'messages' => $this->validator->getErrors(),
+            //         ];
+            //     }
+            // } else {
+            //     $response = [
+            //         'status'   => 400,
+            //         'error'    => 400,
+            //         'messages' => 'Data tidak ditemukan',
+            //     ];
+            // }
+
+            if ($this->validate($rules_a, $messages_a)) {
+                if ($this->validate($rules_b, $messages_b)){
+                    $datacontent_image = $this->request->getFile('content_image');
+                    $fileName = $datacontent_image->getRandomName();
+                    $data = [
+                        'tag_article_id' => $this->request->getVar('tag_article_id'),
+                        'title' => $this->request->getVar('title'),
+                        'sub_title' => $this->request->getVar('sub_title'),
+                        'content' => $this->request->getVar('content'),
+                        'content_image' => $fileName,
+                    ];
+                    $datacontent_image->move('upload/article/', $fileName);
+                    $this->article->update($id, $data);
+                    
                     $response = [
                         'status'   => 201,
                         'success'    => 201,
                         'messages' => [
-                            'success' => 'Course berhasil di perbarui'
+                            'success' => 'Data Article berhasil diupdate'
                         ]
                     ];
                 } else {
@@ -809,13 +856,30 @@ class CourseController extends ResourceController
                         'messages' => $this->validator->getErrors(),
                     ];
                 }
+                $data = [
+                    'tag_article_id' => $this->request->getVar('tag_article_id'),
+                    'title' => $this->request->getVar('title'),
+                    'sub_title' => $this->request->getVar('sub_title'),
+                    'content' => $this->request->getVar('content')
+                ];
+
+                $this->article->update($id, $data);
+                
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Data Article berhasil diupdate'
+                    ]
+                ];
             } else {
                 $response = [
                     'status'   => 400,
                     'error'    => 400,
-                    'messages' => 'Data tidak ditemukan',
+                    'messages' => $this->validator->getErrors(),
                 ];
             }
+
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
             // return $this->fail($th->getMessage());
