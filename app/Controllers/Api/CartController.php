@@ -132,6 +132,9 @@ class CartController extends ResourceController
             $cart = new Cart;
             $userCourse = new UserCourse;
             $userWebinar = new UserWebinar;
+            $webinar = new Webinar;
+            $course = new Course;
+            $bundling = new Bundling;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
@@ -140,21 +143,38 @@ class CartController extends ResourceController
             }
 
             $check2 = false;
+            $check3 = false;
             if ($type == 'course') {
                 $check = $cart->where('course_id', $id)->where('user_id ', $decoded->uid)->first();
                 $check2 = $userCourse->where('user_id', $decoded->uid)->where('course_id', $id)->first();
+                $check3 = $course->select('deleted_at')->where('course_id', $id)->first();
                 $messages = 'course';
             }
 
             if ($type == 'bundling') {
                 $check = $cart->where('bundling_id', $id)->where('user_id', $decoded->uid)->first();
+                $check3 = $bundling->select('deleted_at')->where('bundling_id', $id)->first();
                 $messages = 'bundling';
             }
 
             if ($type == 'webinar') {
+                //cek apakah webinar sudah ada di cart
                 $check = $cart->where('webinar_id', $id)->where('user_id', $decoded->uid)->first();
+                //cek apakah webinar sudah pernah dibeli
                 $check2 = $userWebinar->where('user_id', $decoded->uid)->where('webinar_id', $id)->first();
+                //cek apakah webinar tersedia
+                $check3 = $webinar->select('deleted_at')->where('webinar_id', $id)->first();
                 $messages = 'webinar';
+            }
+
+            if (!$check3) {
+                $response = [
+                    'status' => 400,
+                    'success' => 400,
+                    'message' => $messages . ' tidak ditemukan',
+                    'data' => []
+                ];
+                return $this->respondCreated($response);
             }
 
             if ($check2) {
@@ -164,7 +184,6 @@ class CartController extends ResourceController
                     'message' => $messages . ' sudah dibeli',
                     'data' => []
                 ];
-
                 return $this->respondCreated($response);
             }
 

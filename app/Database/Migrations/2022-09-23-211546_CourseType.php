@@ -15,20 +15,21 @@ class CourseType extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
-			'course_id'          => [
-				'type'           => 'INT',
-				'constraint'     => 5,
-				'unsigned'       => true,
-				'null'			=> true,
-			],
-			'type_id'          => [
-				'type'           => 'INT',
-				'constraint'     => 5,
-				'unsigned'       => true,
-				'null'			=> true,
-			],
+            'course_id'          => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+                'null'            => true,
+            ],
+            'type_id'          => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+                'null'            => true,
+            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at datetime',
         ]);
 
         $this->forge->addKey('course_type_id', TRUE);
@@ -39,6 +40,6 @@ class CourseType extends Migration
 
     public function down()
     {
-		$this->forge->dropTable('course_type');
+        $this->forge->dropTable('course_type');
     }
 }
