@@ -8,6 +8,48 @@ $('#content-list').accordion({
     }
 });
 
+const add_to_cart = async (id, type) => {
+    if(Cookies.get('token') == undefined){
+        Swal.fire({
+            title: 'Anda Belum Login!',
+            text: 'Silahkan untuk login dahulu untuk membeli course ini',
+            icon: 'error',
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        }).then((result)=> {
+            if ((result.dismiss === Swal.DismissReason.timer)) {
+                window.location.href = "/login"
+            }
+        })
+    } else {
+        let option = {
+            url: `http://localhost:8080/api/cart/create/${type}/${id}`,
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                authorization: `Bearer ${Cookies.get('access_token')}`
+            },
+            success: function (result) {
+                console.log(result)
+                window.location.href = "http://localhost:8080/cart";
+            }
+        }
+    
+        $.ajax(option)
+    }
+
+}
+
 
 
 $(document).ready(() => {
@@ -499,6 +541,12 @@ $(document).ready(() => {
             $('.course_price_discount_content').html(data_detail_order.discount)
             $('.course_price_platformFee_content').html(data_detail_order.platform_fee)
             $('.course_price_total_content').html(data_detail_order.total)
+            $('#btn-buy-course').on('click', function () {
+                window.location.href = `/checkout?id=${course_id}&type=course`
+            })
+            $('#btn-add-to-cart').on('click', function () {
+                add_to_cart(course_id, 'course')
+            })
             $('.scrollable-video-list').append(`
             <div class="buy-course d-flex align-items-center justify-content-between p-2 px-3">
                         <img width="20px" src="/image/course-detail/paid-lock.png" alt="">
