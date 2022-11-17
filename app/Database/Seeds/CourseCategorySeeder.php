@@ -255,6 +255,66 @@ class CourseCategorySeeder extends Seeder
                 'course_id' => 60,
                 'category_id' => 2, 
             ],
+            [
+                'course_id' => 61,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 62,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 63,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 64,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 65,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 66,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 67,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 68,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 69,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 70,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 71,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 72,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 73,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 74,
+                'category_id' => 2, 
+            ],
+            [
+                'course_id' => 75,
+                'category_id' => 2, 
+            ],
 
         ];
 
