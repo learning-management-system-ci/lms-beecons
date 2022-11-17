@@ -131,6 +131,7 @@ class CourseController extends ResourceController
     public function getLatestCourseByAuthor($id = null)
     {
         $model = new Course();
+        $path = site_url() . 'upload/course/thumbnail/';
 
         if (isset($_GET['limit'])) {
             $key = $_GET['limit'];
@@ -153,6 +154,10 @@ class CourseController extends ResourceController
                 ->orderBy('course.course_id', 'DESC')->find();
         }
 
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+        }
+
         if (count($data) > 0) {
             return $this->respond($data);
         } else {
@@ -163,6 +168,7 @@ class CourseController extends ResourceController
     public function filterByCategory($filter = null, $id = null)
     {
         $model = new Course();
+        $path = site_url() . 'upload/course/thumbnail/';
 
         if (isset($_GET['cat'])) {
             $key = $_GET['cat'];
@@ -183,6 +189,10 @@ class CourseController extends ResourceController
                 ->where('users.id', $id)
                 ->where('service', $filter)
                 ->orderBy('course.course_id', 'DESC')->find();
+        }
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {
@@ -444,6 +454,9 @@ class CourseController extends ResourceController
         $modelTypeTag = new TypeTag();
         $modelUser = new Users();
 
+        $path = site_url() . 'upload/course/thumbnail/';
+
+
         $data = $model->select('course.*, users.fullname as author_name')
             ->orderBy('course_id', 'DESC')
             ->where('service', $filter)
@@ -487,6 +500,10 @@ class CourseController extends ResourceController
             }
 
             $data[$i]['category'] = $category;
+        }
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {
@@ -839,7 +856,7 @@ class CourseController extends ResourceController
             // }
 
             if ($this->validate($rules_a, $messages_a)) {
-                if ($this->validate($rules_b, $messages_b)){
+                if ($this->validate($rules_b, $messages_b)) {
                     $datacontent_image = $this->request->getFile('content_image');
                     $fileName = $datacontent_image->getRandomName();
                     $data = [
@@ -851,7 +868,7 @@ class CourseController extends ResourceController
                     ];
                     $datacontent_image->move('upload/article/', $fileName);
                     $this->article->update($id, $data);
-                    
+
                     $response = [
                         'status'   => 201,
                         'success'    => 201,
@@ -874,7 +891,7 @@ class CourseController extends ResourceController
                 ];
 
                 $this->article->update($id, $data);
-                
+
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
@@ -955,8 +972,12 @@ class CourseController extends ResourceController
     public function latest($total = 4)
     {
         $model = new Course();
+        $path = site_url() . 'upload/course/thumbnail/';
 
         $data = $model->limit($total)->orderBy('course_id', 'DESC')->find();
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+        }
         return $this->respond($data);
     }
 
@@ -964,6 +985,11 @@ class CourseController extends ResourceController
     {
         $model = new Course();
         $data = $model->orderBy('course_id', 'DESC')->like('title', $key)->find();
+        $path = site_url() . 'upload/course/thumbnail/';
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+        }
 
         if (count($data) > 0) {
             return $this->respond($data);
