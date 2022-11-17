@@ -126,7 +126,7 @@ $(document).ready(async function () {
             
                     userCourses = res
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                 }
 
                 result = result.map((course, i) => {
@@ -273,7 +273,7 @@ $(document).ready(async function () {
                         );
                     }
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                 }
             })
         }

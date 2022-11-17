@@ -49,7 +49,7 @@ $(document).ready(async function () {
             
                     userCourses = res
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                 }
 
                 courses = courses.map((course, i) => {
@@ -77,7 +77,10 @@ $(document).ready(async function () {
                             </div>
                             <div class="body">
                                 <a href="/course/${course.course_id}">
-                                    <h2 class="text-truncate">${course.title}</h2>
+                                    <div class='mb-2'>
+                                        <h2 class="text-truncate m-0">${course.title}</h2>
+                                        <small class='fw-bold'>${course.author}</small>
+                                    </div>
                                     <p>
                                         ${textTruncate(course.description, 120)}
                                     </p>
@@ -157,12 +160,12 @@ $(document).ready(async function () {
                         showConfirmButton: false
                     }).then(() => window.location = '/cart')
                 }).catch((err) => {
-                    console.log(error)
+                    // console.log(error)
                 })
             })
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 
     // handle mentor slider
@@ -230,7 +233,7 @@ $(document).ready(async function () {
             autoplaySpeed: 1200,
         })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 
     // handle articles
@@ -304,7 +307,7 @@ $(document).ready(async function () {
             )
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 
     // handle testimoni
@@ -357,6 +360,6 @@ $(document).ready(async function () {
             centerMode: true,
         })
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 })
