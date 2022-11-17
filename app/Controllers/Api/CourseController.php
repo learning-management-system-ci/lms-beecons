@@ -435,12 +435,12 @@ class CourseController extends ResourceController
         $modelUser = new Users();
 
         $data = $model->select('course.*, users.fullname as author_name')
-                ->orderBy('course_id', 'DESC')
-                ->where('service', $filter)
-                ->where('author_id', $author_id)
-                ->join('users', 'users.id = course.author_id')
-                ->findAll();
-       
+            ->orderBy('course_id', 'DESC')
+            ->where('service', $filter)
+            ->where('author_id', $author_id)
+            ->join('users', 'users.id = course.author_id')
+            ->findAll();
+
         $tag = [];
 
         for ($i = 0; $i < count($data); $i++) {
@@ -496,7 +496,7 @@ class CourseController extends ResourceController
         $modelUser = new Users();
 
         $data = $model->orderBy('course_id', 'DESC')->where('service', $filter)->findAll();
-       
+
         $tag = [];
 
         for ($i = 0; $i < count($data); $i++) {
@@ -557,7 +557,7 @@ class CourseController extends ResourceController
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
-            
+
             $user = $modelUser->select('fullname')->where('id', $id)->first();
             $data[$i]['author_name'] = $user['fullname'];
 

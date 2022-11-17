@@ -27,6 +27,7 @@ class UserWebinar extends Migration
             ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at datetime',
         ]);
 
         $this->forge->addKey('user_webinar_id', TRUE);

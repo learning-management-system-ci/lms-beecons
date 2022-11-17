@@ -15,20 +15,21 @@ class CourseCategory extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
-			'course_id'          => [
-				'type'           => 'INT',
-				'constraint'     => 5,
-				'unsigned'       => true,
-				'null'			=> true,
-			],
-			'category_id'          => [
-				'type'           => 'INT',
-				'constraint'     => 5,
-				'unsigned'       => true,
-				'null'			=> true,
-			],
+            'course_id'          => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+                'null'            => true,
+            ],
+            'category_id'          => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+                'null'            => true,
+            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at datetime',
         ]);
 
         $this->forge->addKey('course_category_id', TRUE);
@@ -39,6 +40,6 @@ class CourseCategory extends Migration
 
     public function down()
     {
-		$this->forge->dropTable('course_category');
+        $this->forge->dropTable('course_category');
     }
 }

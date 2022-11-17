@@ -15,11 +15,15 @@ class Webinar extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
-            'category_id' => [
+            'author_id'          => [
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
-                'null'            => true,
+            ],
+            'tag_id'          => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
             ],
             'title' => [
                 'type'           => 'VARCHAR',
@@ -47,9 +51,12 @@ class Webinar extends Migration
             ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at datetime',
         ]);
 
         $this->forge->addKey('webinar_id', TRUE);
+        $this->forge->addForeignKey('author_id', 'users', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('tag_id', 'tag', 'tag_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('webinar', TRUE);
     }
 
