@@ -45,15 +45,16 @@ class CourseController extends ResourceController
         $this->userVideo = new UserVideo();
     }
 
-    public function getTopic($id = null) {
+    public function getTopic($id = null)
+    {
         $model = new Course;
 
         $data = $model
-                ->select('video.*')
-                ->join('video_category', 'video_category.course_id = course.course_id')
-                ->join('video', 'video.video_category_id = video_category.video_category_id')
-                ->where('course.course_id', $id)
-                ->findAll();
+            ->select('video.*')
+            ->join('video_category', 'video_category.course_id = course.course_id')
+            ->join('video', 'video.video_category_id = video_category.video_category_id')
+            ->where('course.course_id', $id)
+            ->findAll();
 
         if (count($data) > 0) {
             return $this->respond($data);
@@ -69,13 +70,19 @@ class CourseController extends ResourceController
         $modelCourseType = new CourseType();
         $modelCourseTag = new CourseTag();
         $modelTypeTag = new TypeTag();
+        $modelUser = new Users();
 
         $data = $model->orderBy('course_id', 'DESC')->where('service', 'course')->findAll();
+
         $tag = [];
 
         $path = site_url() . 'upload/course/thumbnail/';
 
         for ($i = 0; $i < count($data); $i++) {
+            $author = $modelUser->where('id', $data[$i]['author_id'])->first();
+            $data[$i]['author'] = $author['fullname'];
+            unset($data[$i]['author_id']);
+
             $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
@@ -119,7 +126,8 @@ class CourseController extends ResourceController
         }
     }
 
-    public function getLatestCourseByAuthor($id = null) {
+    public function getLatestCourseByAuthor($id = null)
+    {
         $model = new Course();
 
         if (isset($_GET['limit'])) {
@@ -132,7 +140,6 @@ class CourseController extends ResourceController
                 ->where('users.id', $id)
                 ->where('service', 'course')
                 ->orderBy('course.course_id', 'DESC')->find();
-
         } else {
             $key = null;
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
@@ -151,28 +158,29 @@ class CourseController extends ResourceController
         }
     }
 
-    public function filterByCategory($filter = null, $id = null) {
+    public function filterByCategory($filter = null, $id = null)
+    {
         $model = new Course();
 
         if (isset($_GET['cat'])) {
             $key = $_GET['cat'];
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
-                    ->join('users', 'users.id = course.author_id')
-                    ->join('course_category', 'course_category.course_category_id = course.course_id')
-                    ->join('category', 'category.category_id = course_category.category_id')
-                    ->where('users.id', $id)
-                    ->where('service', $filter)
-                    ->like('category.name', $key)
-                    ->orderBy('course.course_id', 'DESC')->find();
+                ->join('users', 'users.id = course.author_id')
+                ->join('course_category', 'course_category.course_category_id = course.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->where('users.id', $id)
+                ->where('service', $filter)
+                ->like('category.name', $key)
+                ->orderBy('course.course_id', 'DESC')->find();
         } else {
             $key = null;
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
-                    ->join('users', 'users.id = course.author_id')
-                    ->join('course_category', 'course_category.course_category_id = course.course_id')
-                    ->join('category', 'category.category_id = course_category.category_id')
-                    ->where('users.id', $id)
-                    ->where('service', $filter)
-                    ->orderBy('course.course_id', 'DESC')->find();
+                ->join('users', 'users.id = course.author_id')
+                ->join('course_category', 'course_category.course_category_id = course.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->where('users.id', $id)
+                ->where('service', $filter)
+                ->orderBy('course.course_id', 'DESC')->find();
         }
 
         if (count($data) > 0) {
@@ -933,7 +941,7 @@ class CourseController extends ResourceController
         $data = $model->limit($total)->orderBy('course_id', 'DESC')->find();
         return $this->respond($data);
     }
- 
+
     public function find($key = null)
     {
         $model = new Course();
@@ -953,22 +961,22 @@ class CourseController extends ResourceController
         if (isset($_GET['title'])) {
             $key = $_GET['title'];
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
-                    ->join('users', 'users.id = course.author_id')
-                    ->join('course_category', 'course_category.course_category_id = course.course_id')
-                    ->join('category', 'category.category_id = course_category.category_id')
-                    ->where('users.id', $id)
-                    ->where('service', $filter)
-                    ->like('course.title', $key)
-                    ->orderBy('course.course_id', 'DESC')->find();
+                ->join('users', 'users.id = course.author_id')
+                ->join('course_category', 'course_category.course_category_id = course.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->where('users.id', $id)
+                ->where('service', $filter)
+                ->like('course.title', $key)
+                ->orderBy('course.course_id', 'DESC')->find();
         } else {
             $key = null;
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
-                    ->join('users', 'users.id = course.author_id')
-                    ->join('course_category', 'course_category.course_category_id = course.course_id')
-                    ->join('category', 'category.category_id = course_category.category_id')
-                    ->where('users.id', $id)
-                    ->where('service', $filter)
-                    ->orderBy('course.course_id', 'DESC')->find();
+                ->join('users', 'users.id = course.author_id')
+                ->join('course_category', 'course_category.course_category_id = course.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->where('users.id', $id)
+                ->where('service', $filter)
+                ->orderBy('course.course_id', 'DESC')->find();
         }
 
         if (count($data) > 0) {
