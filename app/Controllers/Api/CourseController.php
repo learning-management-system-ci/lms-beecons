@@ -576,7 +576,7 @@ class CourseController extends ResourceController
         $modelTypeTag = new TypeTag();
         $modelUser = new Users();
 
-        $data = $model->orderBy('course_id', 'DESC')->where('author_id', $id)->find();
+        $data = $model->orderBy('course_id', 'DESC')->where('author_id', $id)->where('service', 'course')->find();
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
