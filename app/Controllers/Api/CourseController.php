@@ -15,6 +15,8 @@ use App\Models\UserVideo;
 use App\Models\Review;
 use App\Models\Jobs;
 use App\Models\UserCourse;
+use App\Models\Cart;
+use App\Models\CourseBundling;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
 use getID3;
@@ -31,7 +33,6 @@ class CourseController extends ResourceController
         $this->path = site_url() . 'upload/course/thumbnail/';
         $this->pathVideo = site_url() . 'upload/course-video/';
 
-        $this->path = site_url() . 'upload/course/thumbnail/';
         $this->model = new Course();
         $this->modelCourseCategory = new CourseCategory();
         $this->modelCourseType = new CourseType();
@@ -45,15 +46,21 @@ class CourseController extends ResourceController
         $this->userVideo = new UserVideo();
     }
 
-    public function getTopic($id = null) {
+    public function getTopic($id = null)
+    {
         $model = new Course;
 
         $data = $model
-                ->select('video.*')
-                ->join('video_category', 'video_category.course_id = course.course_id')
-                ->join('video', 'video.video_category_id = video_category.video_category_id')
-                ->where('course.course_id', $id)
-                ->findAll();
+            ->select('video.*')
+            ->join('video_category', 'video_category.course_id = course.course_id')
+            ->join('video', 'video.video_category_id = video_category.video_category_id')
+            ->where('course.course_id', $id)
+            ->findAll();
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+            $data[$i]['video'] = $this->pathVideo . $data[$i]['video'];
+        }
 
         if (count($data) > 0) {
             return $this->respond($data);
@@ -69,14 +76,18 @@ class CourseController extends ResourceController
         $modelCourseType = new CourseType();
         $modelCourseTag = new CourseTag();
         $modelTypeTag = new TypeTag();
+        $modelUser = new Users();
 
         $data = $model->orderBy('course_id', 'DESC')->where('service', 'course')->findAll();
+
         $tag = [];
 
-        $path = site_url() . 'upload/course/thumbnail/';
-
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            $author = $modelUser->where('id', $data[$i]['author_id'])->first();
+            $data[$i]['author'] = $author['fullname'];
+            unset($data[$i]['author_id']);
+
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -119,13 +130,14 @@ class CourseController extends ResourceController
         }
     }
 
-    public function getLatestCourseByAuthor($id = null) {
+    public function getLatestCourseByAuthor($id = null)
+    {
         $model = new Course();
 
         if (isset($_GET['limit'])) {
             $key = $_GET['limit'];
             $data = $model->limit($key)
-                ->select('course.*, users.fullname as author_name, category.name as category')
+                ->select('course.*,  users.fullname as author_name, category.name as category')
                 ->join('users', 'users.id = course.author_id')
                 ->join('course_category', 'course_category.course_category_id = course.course_id')
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -142,6 +154,10 @@ class CourseController extends ResourceController
                 ->where('users.id', $id)
                 ->where('service', 'course')
                 ->orderBy('course.course_id', 'DESC')->find();
+        }
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {
@@ -151,28 +167,33 @@ class CourseController extends ResourceController
         }
     }
 
-    public function filterByCategory($filter = null, $id = null) {
+    public function filterByCategory($filter = null, $id = null)
+    {
         $model = new Course();
 
         if (isset($_GET['cat'])) {
             $key = $_GET['cat'];
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
-                    ->join('users', 'users.id = course.author_id')
-                    ->join('course_category', 'course_category.course_category_id = course.course_id')
-                    ->join('category', 'category.category_id = course_category.category_id')
-                    ->where('users.id', $id)
-                    ->where('service', $filter)
-                    ->like('category.name', $key)
-                    ->orderBy('course.course_id', 'DESC')->find();
+                ->join('users', 'users.id = course.author_id')
+                ->join('course_category', 'course_category.course_category_id = course.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->where('users.id', $id)
+                ->where('service', $filter)
+                ->like('category.name', $key)
+                ->orderBy('course.course_id', 'DESC')->find();
         } else {
             $key = null;
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
-                    ->join('users', 'users.id = course.author_id')
-                    ->join('course_category', 'course_category.course_category_id = course.course_id')
-                    ->join('category', 'category.category_id = course_category.category_id')
-                    ->where('users.id', $id)
-                    ->where('service', $filter)
-                    ->orderBy('course.course_id', 'DESC')->find();
+                ->join('users', 'users.id = course.author_id')
+                ->join('course_category', 'course_category.course_category_id = course.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->where('users.id', $id)
+                ->where('service', $filter)
+                ->orderBy('course.course_id', 'DESC')->find();
+        }
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {
@@ -304,13 +325,13 @@ class CourseController extends ResourceController
                 for ($l = 0; $l < count($videoCategory); $l++) {
                     if ($loggedIn) {
                         for ($i = 0; $i < count($data['video_category'][$l]['video']); $i++) {
-                            $path = 'upload/course-video/';
+                            $this->path = 'upload/course-video/';
                             $filename = $data['video_category'][$l]['video'][$i]['video'];
 
                             $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
 
                             if (!$checkIfVideoIsLink) {
-                                $file = $this->getID3->analyze($path . $filename);
+                                $file = $this->getID3->analyze($this->path . $filename);
                                 $checkFileIsExist = stristr($file['error'][0], '!file_exists') ? false : true;
 
                                 if ($checkFileIsExist) {
@@ -479,6 +500,10 @@ class CourseController extends ResourceController
             $data[$i]['category'] = $category;
         }
 
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+        }
+
         if (count($data) > 0) {
             return $this->respond($data);
         } else {
@@ -553,10 +578,8 @@ class CourseController extends ResourceController
 
         $data = $model->orderBy('course_id', 'DESC')->where('author_id', $id)->find();
 
-        $path = site_url() . 'upload/course/thumbnail/';
-
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
 
             $user = $modelUser->select('fullname')->where('id', $id)->first();
             $data[$i]['author_name'] = $user['fullname'];
@@ -739,7 +762,8 @@ class CourseController extends ResourceController
                 'key_takeaways' => 'max_length[255]',
                 'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
-                'new_price' => 'required|numeric'
+                'new_price' => 'required|numeric',
+                'category_id' => 'required|numeric',
             ];
 
             $rules_b = [
@@ -768,11 +792,15 @@ class CourseController extends ResourceController
                     'max_length' => '{field} maksimal 255 karakter',
                 ],
                 "old_price" => [
-                    "required" => "field} tidak boleh kosong",
+                    "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
                 ],
                 "new_price" => [
-                    "required" => "field} tidak boleh kosong",
+                    "required" => "{field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor",
+                ],
+                "category_id" => [
+                    "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
                 ]
             ];
@@ -828,25 +856,69 @@ class CourseController extends ResourceController
             //     ];
             // }
 
-            if ($this->validate($rules_a, $messages_a)) {
-                if ($this->validate($rules_b, $messages_b)){
-                    $datacontent_image = $this->request->getFile('content_image');
-                    $fileName = $datacontent_image->getRandomName();
-                    $data = [
-                        'tag_article_id' => $this->request->getVar('tag_article_id'),
+            $findCourse = $this->model->where('course_id', $id)->first();
+            if ($findCourse) {
+                if ($this->validate($rules_a, $messages_a)) {
+                    if ($this->validate($rules_b, $messages_b)){
+                        $oldThumbnail = $findCourse['thumbnail'];
+                        $dataThumbnail = $this->request->getFile('thumbnail');
+
+                        if ($dataThumbnail->isValid() && !$dataThumbnail->hasMoved()) {
+                            if (file_exists("upload/course/thumbnail/" . $oldThumbnail)) {
+                                unlink("upload/course/thumbnail/" . $oldThumbnail);
+                            }
+                            $fileName = $dataThumbnail->getRandomName();
+                            $dataThumbnail->move('upload/course/thumbnail/', $fileName);
+                        } else {
+                            $fileName = $oldThumbnail['thumbnail'];
+                        }
+
+                        $data = [
+                            'tag_article_id' => $this->request->getVar('tag_article_id'),
+                            'title' => $this->request->getVar('title'),
+                            'service' => $this->request->getVar('service'),
+                            'description' => $this->request->getVar('description'),
+                            'key_takeaways' => $this->request->getVar('key_takeaways'),
+                            'suitable_for' => $this->request->getVar('suitable_for'),
+                            'old_price' => $this->request->getVar('old_price'),
+                            'new_price' => $this->request->getVar('new_price'),
+                            'thumbnail' => $fileName,
+                        ];
+
+                        $this->article->update($id, $data);
+                        
+                        $response = [
+                            'status'   => 201,
+                            'success'    => 201,
+                            'messages' => [
+                                'success' => 'Data Course berhasil diupdate'
+                            ]
+                        ];
+                    } else {
+                        $response = [
+                            'status'   => 400,
+                            'error'    => 400,
+                            'messages' => $this->validator->getErrors(),
+                        ];
+                    }
+
+                    $dataCourse = [
                         'title' => $this->request->getVar('title'),
-                        'sub_title' => $this->request->getVar('sub_title'),
-                        'content' => $this->request->getVar('content'),
-                        'content_image' => $fileName,
+                        'service' => $this->request->getVar('service'),
+                        'description' => $this->request->getVar('description'),
+                        'key_takeaways' => $this->request->getVar('key_takeaways'),
+                        'suitable_for' => $this->request->getVar('suitable_for'),
+                        'old_price' => $this->request->getVar('old_price'),
+                        'new_price' => $this->request->getVar('new_price'),
                     ];
-                    $datacontent_image->move('upload/article/', $fileName);
+
                     $this->article->update($id, $data);
                     
                     $response = [
                         'status'   => 201,
                         'success'    => 201,
                         'messages' => [
-                            'success' => 'Data Article berhasil diupdate'
+                            'success' => 'Data Course berhasil diupdate'
                         ]
                     ];
                 } else {
@@ -856,35 +928,13 @@ class CourseController extends ResourceController
                         'messages' => $this->validator->getErrors(),
                     ];
                 }
-                $data = [
-                    'tag_article_id' => $this->request->getVar('tag_article_id'),
-                    'title' => $this->request->getVar('title'),
-                    'sub_title' => $this->request->getVar('sub_title'),
-                    'content' => $this->request->getVar('content')
-                ];
-
-                $this->article->update($id, $data);
-                
-                $response = [
-                    'status'   => 201,
-                    'success'    => 201,
-                    'messages' => [
-                        'success' => 'Data Article berhasil diupdate'
-                    ]
-                ];
-            } else {
-                $response = [
-                    'status'   => 400,
-                    'error'    => 400,
-                    'messages' => $this->validator->getErrors(),
-                ];
             }
 
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
-            // return $this->fail($th->getMessage());
-            exit($th->getMessage());
+            return $this->fail($th->getMessage());
         }
+        return $this->failNotFound('Data Course tidak ditemukan');
     }
 
     public function delete($id = null)
@@ -906,10 +956,26 @@ class CourseController extends ResourceController
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
+            $modelCart = new Cart;
+            $modelUserCourse = new UserCourse;
+            $modelCourseTag = new CourseTag;
+            $modelUserReview = new Review;
+            $modelCourseType = new CourseType;
+            $modelCourseBundling = new CourseBundling;
+            $modelVideoCategory = new VideoCategory;
+
 
             if ($modelCourse->find($id)) {
                 $modelCourseCategory->where('course_id', $id)->delete();
+                $modelUserCourse->where('course_id', $id)->delete();
+                $modelCourseTag->where('course_id', $id)->delete();
+                $modelUserReview->where('course_id', $id)->delete();
+                $modelCourseType->where('course_id', $id)->delete();
+                $modelCourseBundling->where('course_id', $id)->delete();
+                $modelVideoCategory->where('course_id', $id)->delete();
+                $modelCart->where('course_id', $id)->delete();
                 $modelCourse->delete($id);
+
                 $response = [
                     'status'   => 200,
                     'success'    => 200,
@@ -931,13 +997,21 @@ class CourseController extends ResourceController
         $model = new Course();
 
         $data = $model->limit($total)->orderBy('course_id', 'DESC')->find();
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+        }
         return $this->respond($data);
     }
- 
+
     public function find($key = null)
     {
         $model = new Course();
         $data = $model->orderBy('course_id', 'DESC')->like('title', $key)->find();
+        
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+        }
 
         if (count($data) > 0) {
             return $this->respond($data);
@@ -953,22 +1027,26 @@ class CourseController extends ResourceController
         if (isset($_GET['title'])) {
             $key = $_GET['title'];
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
-                    ->join('users', 'users.id = course.author_id')
-                    ->join('course_category', 'course_category.course_category_id = course.course_id')
-                    ->join('category', 'category.category_id = course_category.category_id')
-                    ->where('users.id', $id)
-                    ->where('service', $filter)
-                    ->like('course.title', $key)
-                    ->orderBy('course.course_id', 'DESC')->find();
+                ->join('users', 'users.id = course.author_id')
+                ->join('course_category', 'course_category.course_category_id = course.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->where('users.id', $id)
+                ->where('service', $filter)
+                ->like('course.title', $key)
+                ->orderBy('course.course_id', 'DESC')->find();
         } else {
             $key = null;
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
-                    ->join('users', 'users.id = course.author_id')
-                    ->join('course_category', 'course_category.course_category_id = course.course_id')
-                    ->join('category', 'category.category_id = course_category.category_id')
-                    ->where('users.id', $id)
-                    ->where('service', $filter)
-                    ->orderBy('course.course_id', 'DESC')->find();
+                ->join('users', 'users.id = course.author_id')
+                ->join('course_category', 'course_category.course_category_id = course.course_id')
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->where('users.id', $id)
+                ->where('service', $filter)
+                ->orderBy('course.course_id', 'DESC')->find();
+        }
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
         }
 
         if (count($data) > 0) {

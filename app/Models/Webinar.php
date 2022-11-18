@@ -14,7 +14,7 @@ class Webinar extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['webinar_id', 'author_id', 'title', 'webinar_type', 'description', 'old_price', 'new_price', 'thumbnail'];
+    protected $allowedFields    = ['webinar_id', 'author_id', 'title', 'webinar_type', 'description', 'tag_id', 'old_price', 'new_price', 'thumbnail'];
 
     // Dates
     protected $useTimestamps = true;

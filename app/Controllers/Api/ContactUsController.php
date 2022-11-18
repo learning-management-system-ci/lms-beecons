@@ -32,9 +32,24 @@ class ContactUsController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain admin & author', 400);
             }
 
-            $data = $this->contactus->orderBy('contact_us_id', 'DESC')->findAll();
-            if ($data) {
-                return $this->respond($data);
+            $data = $this->contactus->findAll();
+
+            $path = site_url() . 'upload/users/';
+
+            $response = [];
+            
+            for ($i = 0; $i < count($data); $i++) {
+                array_push($response, [
+                    "contact_us_id" => $data[$i]['contact_us_id'],
+                    "email" =>  $data[$i]['email'],
+                    "question" => $data[$i]['question'],
+                    "question_image" => $path . $data[$i]['question_image'],
+                    "created_at" => $data[$i]['created_at'],
+                    "updated_at" => $data[$i]['updated_at'],
+                ]);
+            }
+            if ($response) {
+                return $this->respond($response);
             } else {
                 return $this->failNotFound('Data Pertanyaan tidak ditemukan');
             }
@@ -212,83 +227,8 @@ class ContactUsController extends ResourceController
                 ]
             ];
         } elseif ($this->validate($rules_b, $messages_b) == TRUE && $this->validate($rules_a, $messages_a) == TRUE) {
-            // $dataquestion_image = $this->request->getFile('question_image');
-            // if (is_null($dataquestion_image)) {
-            //     $fileName = null;
-            // } else {
-            //     $fileName = $dataquestion_image->getRandomName();
-            // }
-
-            // $data = [
-            //     'email' => $this->request->getVar('email'),
-            //     'question' => $this->request->getVar('question'),
-            //     'question_image' => $fileName,
-            // ];
-
-            // if ($fileName != null) {
-            //     $dataquestion_image->move('upload/question/', $fileName);
-            // }
-
-            // $email = \Config\Services::email();
-            // $email->setTo('hendrikusozzie@gmail.com');
-            // $email->setFrom($data['email']);
-
-            // $email->setSubject('Pertanyaan Dari ' . $data['email']);
-            // $email->setMessage($data['question']);
-            // $email->attach('upload/question/' . $fileName);
-
-            // if ($email->send() && $this->contactus->insert($data)) {
-            //     $response = [
-            //         'status'   => 201,
-            //         'messages' => [
-            //             'success' => 'Pertanyaan berhasil dikirim'
-            //         ]
-            //     ];
-            // } else {
-            //     $response = [
-            //         'status'   => 400,
-            //         'messages' => [
-            //             'error' => 'Pertanyaan gagal dikirim'
-            //         ]
-            //     ];
-            // }
-
-            // if ($this->validate($rules_b, $messages_b)){
-            //     $dataquestion_image = $this->request->getFile('question_image');
-            //     $fileName = $dataquestion_image->getName();
-            //     $data = [
-            //         'email' => $this->request->getVar('email'),
-            //         'question' => $this->request->getVar('question'),
-            //         'question_image' => $fileName,
-            //     ];
-            //     $dataquestion_image->move('upload/question/', $fileName);
-
-            //     $email = \Config\Services::email();
-            //     $email->setTo('hendrikusozzie@gmail.com');
-            //     $email->setFrom($data['email']);
-
-            //     $email->setSubject('Pertanyaan Dari ' . $data['email']);
-            //     $email->setMessage($data['question']);
-            //     $email->attach('upload/question/' . $fileName);
-            //     $email->send();
-                
-            //     $this->contactus->insert($data);
-
-            //     $response = [
-            //         'status'   => 201,
-            //         'messages' => [
-            //             'success' => 'Pertanyaan berhasil dikirim'
-            //         ]
-            //     ];
-            // } else {
-            //     $response = [
-            //         'status'   => 400,
-            //         'error'    => 400,
-            //         'messages' => $this->validator->getErrors(),
-            //     ];
-            // }
             $dataquestion_image = $this->request->getFile('question_image');
-            $fileName = $dataquestion_image->getName();
+            $fileName = $dataquestion_image->getRandomName();
             $data = [
                 'email' => $this->request->getVar('email'),
                 'question' => $this->request->getVar('question'),

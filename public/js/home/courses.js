@@ -126,7 +126,7 @@ $(document).ready(async function () {
             
                     userCourses = res
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                 }
 
                 result = result.map((course, i) => {
@@ -154,7 +154,10 @@ $(document).ready(async function () {
                             </div>
                             <div class="body">
                                 <a href="/course/${course.course_id}">
-                                    <h2 class="text-truncate">${course.title}</h2>
+                                    <div class='mb-2'>
+                                        <h2 class="text-truncate m-0">${course.title}</h2>
+                                        <small class='fw-bold'>${course.author}</small>
+                                    </div>
                                     <p>
                                         ${textTruncate(course.description, 120)}
                                     </p>
@@ -174,7 +177,7 @@ $(document).ready(async function () {
                                 ${(() => {
                                     if (!course.isBought) {
                                         return `
-                                            <a href="${`/checkout/${course.course_id}`}">
+                                            <a href="${`/checkout/${course.course_id}`}" class='btn-checkout'>
                                                 <button class="my-btn btn-full">Beli</button>
                                             </a>
                                             <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
@@ -193,7 +196,26 @@ $(document).ready(async function () {
                 `
             }))
 
+            handleCheckout()
+
             handleAddCart()
+        }
+
+        function handleCheckout() {
+            return $('.btn-checkout').on('click', function(e) {
+                e.preventDefault()
+                let href = $(this).attr('href')
+                if (!Cookies.get('access_token')) {
+                    return new swal({
+                        title: 'Login',
+                        text: 'Silahkan login terlebih dahulu',
+                        icon: 'warning',
+                        showConfirmButton: true
+                    })
+                } else {
+                    window.location.href = href
+                }
+            })
         }
 
         function handleAddCart() {
@@ -202,9 +224,9 @@ $(document).ready(async function () {
 
                 if (!Cookies.get("access_token")) {
                     return new swal({
-                        title: 'Gagal',
-                        text: 'Anda belum login',
-                        icon: 'error',
+                        title: 'Login',
+                        text: 'Silahkan login terlebih dahulu',
+                        icon: 'warning',
                         showConfirmButton: true
                     })
                 }
@@ -251,11 +273,11 @@ $(document).ready(async function () {
                         );
                     }
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                 }
             })
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 })

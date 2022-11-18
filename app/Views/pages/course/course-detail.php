@@ -349,8 +349,8 @@
                 <div class="discount-info mt-2 text-center p-3">
                     Hebat! Kamu udah hemat <b class="course_price_discount_content">Rp 200.000</b> pada pemesananmu.
                 </div>
-                <button class="mt-2">Beli</button>
-                <button class="mt-2 add-to-cart" id="add-to-card">Masukkan ke Keranjang</button>
+                <button class="mt-2" id="btn-buy-course">Beli</button>
+                <button class="mt-2 add-to-cart" id="btn-add-to-cart">Masukkan ke Keranjang</button>
             </div>
         </div>
     </section>

@@ -255,9 +255,11 @@ class AuthController extends ResourceController
         //$to = $this->request->getVar('mailTo'); 
         $subject = 'Link Aktivasi Akun';
         $link = base_url() . "/api/activateuser?token=" . $token;
+        $path = base_url();
         $data = [
             "link" => $link,
-            "email" => $emailTo
+            "email" => $emailTo,
+            "path" => $path,
         ];
         $message = view('html_email/email_verify.html', $data);
 

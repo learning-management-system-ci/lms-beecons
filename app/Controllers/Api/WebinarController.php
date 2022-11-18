@@ -21,14 +21,22 @@ class WebinarController extends ResourceController
 
     public function index()
     {
-        $data['webinar'] = $this->webinar->findAll();
+        $path = site_url() . 'upload/webinar/';
+        $data = $this->webinar->findAll();
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $path . $data[$i]['thumbnail'];
+        }
+
         return $this->respond($data);
     }
 
     public function show($id = null)
     {
+        $path = site_url() . 'upload/webinar/';
         $data = $this->webinar->where('webinar_id', $id)->first();
         if ($data) {
+            $data['thumbnail'] = $path . $data['thumbnail'];
             return $this->respond($data);
         } else {
             return $this->failNotFound('Data Webinar tidak ditemukan');
@@ -146,20 +154,23 @@ class WebinarController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
             }
 
-            $rules = [
+            $rules_a = [
                 'title' => 'required|min_length[8]',
                 'webinar_type' => 'required',
                 'description' => 'required|min_length[8]',
                 'tag_id' => 'required',
                 'old_price' => 'required|numeric',
                 'new_price' => 'permit_empty|numeric',
+            ];
+
+            $rules_b = [
                 'thumbnail' => 'uploaded[thumbnail]'
                     . '|is_image[thumbnail]'
                     . '|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]'
                     . '|max_size[thumbnail,4000]'
             ];
 
-            $messages = [
+            $messages_a = [
                 "title" => [
                     "required" => "{field} tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
@@ -181,6 +192,9 @@ class WebinarController extends ResourceController
                 "new_price" => [
                     "numeric" => "{field} harus berisi nomor",
                 ],
+            ];
+
+            $messages_b = [
                 "thumbnail" => [
                     'uploaded' => '{field} tidak boleh kosong',
                     'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
@@ -190,21 +204,42 @@ class WebinarController extends ResourceController
 
             $findWebinar = $this->webinar->where('webinar_id', $id)->first();
             if ($findWebinar) {
-                if ($this->validate($rules, $messages)) {
+                if ($this->validate($rules_a, $messages_a)) {
+                    if ($this->validate($rules_b, $messages_b)) {
 
-                    $oldThumbnail = $findWebinar['thumbnail'];
+                        $oldThumbnail = $findWebinar['thumbnail'];
+                        $dataThumbnail = $this->request->getFile('thumbnail');
 
-                    $dataThumbnail = $this->request->getFile('thumbnail');
-
-
-                    if ($dataThumbnail->isValid() && !$dataThumbnail->hasMoved()) {
-                        if (file_exists("upload/webinar/" . $oldThumbnail)) {
-                            unlink("upload/webinar/" . $oldThumbnail);
+                        if ($dataThumbnail->isValid() && !$dataThumbnail->hasMoved()) {
+                            if (file_exists("upload/webinar/" . $oldThumbnail)) {
+                                unlink("upload/webinar/" . $oldThumbnail);
+                            }
+                            $fileName = $dataThumbnail->getRandomName();
+                            $dataThumbnail->move('upload/webinar/', $fileName);
+                        } else {
+                            $fileName = $oldThumbnail['thumbnail'];
                         }
-                        $fileName = $dataThumbnail->getRandomName();
-                        $dataThumbnail->move('upload/webinar/', $fileName);
-                    } else {
-                        $fileName = $oldThumbnail['thumbnail'];
+
+                        $dataWebinar = [
+                            'author_id' => $decoded->uid,
+                            'title' => $this->request->getVar('title'),
+                            'webinar_type' => $this->request->getVar('webinar_type'),
+                            'description' => $this->request->getVar('description'),
+                            'tag_id' => $this->request->getVar('tag_id'),
+                            'old_price' => $this->request->getVar('old_price'),
+                            'new_price' => $this->request->getVar('new_price'),
+                            'thumbnail' => $fileName,
+                        ];
+
+                        $this->webinar->update($id, $dataWebinar);
+
+                        $response = [
+                            'status'   => 201,
+                            'success'    => 201,
+                            'messages' => [
+                                'success' => 'Webinar berhasil diubah'
+                            ]
+                        ];
                     }
 
                     $dataWebinar = [
@@ -215,7 +250,6 @@ class WebinarController extends ResourceController
                         'tag_id' => $this->request->getVar('tag_id'),
                         'old_price' => $this->request->getVar('old_price'),
                         'new_price' => $this->request->getVar('new_price'),
-                        'thumbnail' => $fileName,
                     ];
 
                     $this->webinar->update($id, $dataWebinar);
@@ -261,12 +295,10 @@ class WebinarController extends ResourceController
             $userWebinar = new UserWebinar;
 
             // cek role user
-            // $data = $user->select('role')->where('id', $decoded->uid)->first();
-            // if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-            //     return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
-            // }
-
-
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
+                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            }
 
             if ($this->webinar->find($id)) {
                 $findCart = $cart->where('webinar_id', $id)->findAll();

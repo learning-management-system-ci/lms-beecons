@@ -76,7 +76,7 @@ $(document).ready(function () {
     async function handleCartApi(code=null) {
         try {
             const res = await $.ajax({
-                url: `/api/cart?code=${code}`,
+                url: `/api/cart`,
                 method: 'GET',
                 dataType: 'json',
                 headers: {

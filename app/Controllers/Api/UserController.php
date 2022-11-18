@@ -150,15 +150,41 @@ class UserController extends ResourceController
 
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
-            $user = new Users;
 
+            $user = new Users;
+            
             $data = $user->select('role')->where('id', $decoded->uid)->first();
             if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
+            
+            $job = new Jobs;
+            
+            $data = $user->findAll();
+            
+            $path = site_url() . 'upload/users/';
 
-            $data = $user->orderBy('id', 'DESC')->findAll();
-            return $this->respond($data);
+            $response = [];
+            
+            for ($i = 0; $i < count($data); $i++) {
+                $job_data = $job->where('job_id', $data[$i]['job_id'])->first();
+                array_push($response, [
+                    'id' => $data[$i]['id'],
+                    'profile_picture' => $path . $data[$i]['profile_picture'],
+                    'fullname' =>  $data[$i]['fullname'],
+                    'email' => $data[$i]['email'],
+                    'role' => $data[$i]['role'],
+                    'date_birth' => $data[$i]['date_birth'],    
+                    'job_name' => (is_null($data[$i]['job_id'])) ? null : $job_data['job_name'],
+                    'address' => $data[$i]['address'],
+                    'phone_number' => $data[$i]['phone_number'],
+                    'linkedin' => $data[$i]['linkedin'],
+                    "created_at" => $data[$i]['created_at'],
+                    "updated_at" => $data[$i]['updated_at'],
+                ]);
+            }
+            
+            return $this->respond($response);
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
@@ -226,11 +252,19 @@ class UserController extends ResourceController
         $token = explode(' ', $header)[1];
 
         $decoded = JWT::decode($token, $key, ['HS256']);
-        $id = $decoded->uid;
 
         try {
             $user = new Users;
-            $cek = $user->where('id', $id)->findAll();
+
+            if ($decoded->uid != $id){
+                return $this->failNotFound('Parameters & Token user tidak sesuai');
+            };
+            
+            $cek = $user->where('id', $decoded->uid)->findAll();
+
+            if (!$cek) {
+                return $this->failNotFound('Data user tidak ditemukan');
+            }
 
             $rules_a = [
                 'fullname' => 'required',
@@ -265,10 +299,23 @@ class UserController extends ResourceController
                 ],
             ];
 
+
             if ($this->validate($rules_a, $messages_a)) {
-                if ($this->validate($rules_b, $messages_b)){
+                if ($this->validate($rules_b, $messages_b)) {
+
+                    $oldThumbnail = $cek['profile_picture'];
                     $profilePicture = $this->request->getFile('profile_picture');
-                    $fileName = $profilePicture->getRandomName();
+
+                    if ($profilePicture->isValid() && !$profilePicture->hasMoved()) {
+                        if (file_exists("upload/users/" . $oldThumbnail)) {
+                            unlink("upload/users/" . $oldThumbnail);
+                        }
+                        $fileName = $profilePicture->getRandomName();
+                        $profilePicture->move('upload/users/', $fileName);
+                    } else {
+                        $fileName = $oldThumbnail['profile_picture'];
+                    }
+
                     $data = [
                         'fullname' => $this->request->getVar('fullname'),
                         'job_id' => $this->request->getVar('job_id'),
@@ -278,9 +325,9 @@ class UserController extends ResourceController
                         'linkedin' => $this->request->getVar('linkedin'),
                         'profile_picture' => $fileName,
                     ];
-                    $profilePicture->move('upload/users/', $fileName);
+
                     $user->update($id, $data);
-                    
+
                     $response = [
                         'status'   => 201,
                         'success'    => 201,
@@ -305,7 +352,7 @@ class UserController extends ResourceController
                 ];
 
                 $user->update($id, $data);
-                
+
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
@@ -322,10 +369,6 @@ class UserController extends ResourceController
             }
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
-            if (!$cek) {
-                return $this->failNotFound('Data user tidak ditemukan');
-            }
-
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
@@ -346,11 +389,15 @@ class UserController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
+            if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
-            
+
             $cek = $user->where('id', $id)->findAll();
+
+            if (!$cek) {
+                return $this->failNotFound('Data user tidak ditemukan');
+            }
 
             $rules_a = [
                 'fullname' => 'required',
@@ -392,7 +439,7 @@ class UserController extends ResourceController
             ];
 
             if ($this->validate($rules_a, $messages_a)) {
-                if ($this->validate($rules_b, $messages_b)){
+                if ($this->validate($rules_b, $messages_b)) {
                     $profilePicture = $this->request->getFile('profile_picture');
                     $fileName = $profilePicture->getRandomName();
                     $data = [
@@ -406,7 +453,7 @@ class UserController extends ResourceController
                     ];
                     $profilePicture->move('upload/users/', $fileName);
                     $user->update($id, $data);
-                    
+
                     $response = [
                         'status'   => 201,
                         'success'    => 201,
@@ -431,7 +478,7 @@ class UserController extends ResourceController
                 ];
 
                 $user->update($id, $data);
-                
+
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
@@ -448,10 +495,6 @@ class UserController extends ResourceController
             }
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
-            if (!$cek) {
-                return $this->failNotFound('Data user tidak ditemukan');
-            }
-
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
