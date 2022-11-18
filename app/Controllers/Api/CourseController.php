@@ -144,7 +144,6 @@ class CourseController extends ResourceController
                 ->where('users.id', $id)
                 ->where('service', 'course')
                 ->orderBy('course.course_id', 'DESC')->find();
-
         } else {
             $key = null;
             $data = $model->select('course.*, users.fullname as author_name, category.name as category')
@@ -294,7 +293,12 @@ class CourseController extends ResourceController
                         }
 
                         if ($checkFileIsExist) {
-                            $duration = ["duration" => $file['playtime_string']];
+                            if (isset($file['playtime_string'])) {
+                                $duration = ["duration" => $file['playtime_string']];
+                            } else {
+                                $duration = ["duration" => null];
+                            }
+
                             $data['video'][$i] += $duration;
                             $data['video'][$i]['video'] = $this->pathVideo . $data['video'][$i]['video'];
                         } else {
@@ -859,7 +863,7 @@ class CourseController extends ResourceController
             $findCourse = $this->model->where('course_id', $id)->first();
             if ($findCourse) {
                 if ($this->validate($rules_a, $messages_a)) {
-                    if ($this->validate($rules_b, $messages_b)){
+                    if ($this->validate($rules_b, $messages_b)) {
                         $oldThumbnail = $findCourse['thumbnail'];
                         $dataThumbnail = $this->request->getFile('thumbnail');
 
@@ -886,7 +890,7 @@ class CourseController extends ResourceController
                         ];
 
                         $this->article->update($id, $data);
-                        
+
                         $response = [
                             'status'   => 201,
                             'success'    => 201,
@@ -913,7 +917,7 @@ class CourseController extends ResourceController
                     ];
 
                     $this->article->update($id, $data);
-                    
+
                     $response = [
                         'status'   => 201,
                         'success'    => 201,
@@ -1007,7 +1011,7 @@ class CourseController extends ResourceController
     {
         $model = new Course();
         $data = $model->orderBy('course_id', 'DESC')->like('title', $key)->find();
-        
+
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
