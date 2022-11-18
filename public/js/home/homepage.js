@@ -66,7 +66,7 @@ $(document).ready(async function () {
                         <div class="card-course">
                             <div class="image">
                                 <a href="/course/${course.course_id}">
-                                    <img src="image/home/img-course.jpg" alt="img">
+                                    <img src="${course.thumbnail}" alt="img">
                                 </a>
     
                                 <div class="card-course-tags">
