@@ -15,22 +15,22 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 <?php if(uri_string() == 'courses') : echo 'active'; endif ?>"
-                        href="<?= base_url('/courses') ?>">Courses</a>
+                        href="/courses">Courses</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 <?php if(uri_string() == 'training') : echo 'active'; endif ?>"
-                        href="<?= base_url('/training') ?>">Training</a>
+                        href="/training">Training</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 <?php if(uri_string() == '/') : echo 'active'; endif ?>" href="">Webinar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 <?php if(uri_string() == 'faq') : echo 'active'; endif ?>"
-                        href="<?= base_url('/faq') ?>">FAQ</a>
+                        href="/faq">FAQ</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2 <?php if(uri_string() == 'about-us') : echo 'active'; endif ?>"
-                        href="<?= base_url('/about-us') ?>">About Us</a>
+                        href="/about-us">About Us</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
@@ -88,7 +88,7 @@
                                     Silakan daftar terlebih dahulu untuk melihat detail keranjang belanja kamu dan
                                     melakukan transaksi pembelian
                                 </p>
-                                <a href="<?= base_url('/login') ?>" class="nav-link-btn">
+                                <a href="/login" class="nav-link-btn">
                                     <button class="my-btn btn-sign-in">Sign in</button>
                                 </a>
                             </div>
@@ -131,7 +131,7 @@
                 </li>
                 <?php if (!get_cookie("access_token")) : ?>
                 <li class="nav-item">
-                    <a href="<?= base_url('/login') ?>" class="nav-link-btn">
+                    <a href="/login" class="nav-link-btn">
                         <button class="my-btn btn-sign-in">Sign in</button>
                     </a>
                 </li>
@@ -142,8 +142,8 @@
                             aria-haspopup="true" aria-expanded="false">
                         </button>
                         <div class="dropdown-menu mt-2" aria-labelledby="dropdown-profile">
-                            <a href="<?= base_url('/profile') ?>" class="dropdown-item">Profile</a>
-                            <a href="<?= base_url('/') ?>" class="dropdown-item" id="btn-logout">Logout</a>
+                            <a href="/profile" class="dropdown-item">Profile</a>
+                            <a href="/" class="dropdown-item" id="btn-logout">Logout</a>
                         </div>
                     </div>
                 </li>
