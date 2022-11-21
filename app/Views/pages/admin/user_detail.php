@@ -327,7 +327,7 @@
           </div>
         </div>
       </footer>
-    </div>
+  </div>
 
   <?= $this->endSection() ?>
 

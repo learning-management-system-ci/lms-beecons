@@ -27,4 +27,20 @@ class AdminController extends BaseController
         ];
         return view('pages/admin/user_detail', $data);
     }
+
+    public function transaction()
+    {
+        $data = [
+            "title" => "Transaction",
+        ];
+        return view('pages/admin/transaction', $data);
+    }
+
+    public function transactionDetail()
+    {
+        $data = [
+            "title" => "Transaction Detail",
+        ];
+        return view('pages/admin/transaction_detail', $data);
+    }
 }

@@ -87,6 +87,9 @@ $routes->group('admin/', static function ($routes) {
     $routes->get('', 'AdminController::index');
     $routes->get('user', 'AdminController::user');
     $routes->get('user/(:segment)', 'AdminController::userDetail/$1');
+
+    $routes->get('transaction', 'AdminController::transaction');
+    $routes->get('transaction/(:segment)', 'AdminController::transactionDetail/$1');
 });
 
 $routes->group('api/', static function ($routes) {
