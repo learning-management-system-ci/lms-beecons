@@ -40,7 +40,7 @@ class OrderController extends BaseController
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
 
-            $dataOrder = $order->select('users.email, users.fullname, order.order_id, order.transaction_status, order.gross_amount as total_price')->join('users', 'users.id = order.user_id')->findAll();
+            $dataOrder = $order->select('users.email, users.fullname, order.order_id, order.transaction_status, order.gross_amount as total_price, order.created_at as order_date')->join('users', 'users.id = order.user_id')->findAll();
             $response['order'] = $dataOrder;
 
             for ($i = 0; $i < count($dataOrder); $i++) {
