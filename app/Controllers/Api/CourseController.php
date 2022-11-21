@@ -92,7 +92,7 @@ class CourseController extends ResourceController
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
                 ->orderBy('course_category.course_category_id', 'DESC')
-                ->findAll();
+                ->first();
             $type = $modelCourseType
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('type', 'type.type_id = course_type.type_id')
@@ -105,7 +105,8 @@ class CourseController extends ResourceController
                 ->orderBy('course_tag.course_tag_id', 'DESC')
                 ->findAll();
             if ($type) {
-                $data[$i]['type'] = $type;
+
+                $data[$i]['type'] = $type[0]["name"];
 
                 for ($k = 0; $k < count($type); $k++) {
                     $typeTag = $modelTypeTag
@@ -131,7 +132,7 @@ class CourseController extends ResourceController
                 $data[$i]['tag'] = null;
             }
 
-            $data[$i]['category'] = $category;
+            $data[$i]['category'] = $category["name"];
         }
 
         if (count($data) > 0) {
@@ -183,7 +184,7 @@ class CourseController extends ResourceController
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
                 ->orderBy('course_category.course_category_id', 'DESC')
-                ->findAll();
+                ->first();
             $type = $modelCourseType
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('type', 'type.type_id = course_type.type_id')
@@ -196,7 +197,7 @@ class CourseController extends ResourceController
                 ->orderBy('course_tag.course_tag_id', 'DESC')
                 ->findAll();
             if ($type) {
-                $data[$i]['type'] = $type;
+                $data[$i]['type'] = $type[0]["name"];
 
                 for ($k = 0; $k < count($type); $k++) {
                     $typeTag = $modelTypeTag
@@ -222,7 +223,7 @@ class CourseController extends ResourceController
                 $data[$i]['tag'] = null;
             }
 
-            $data[$i]['category'] = $category;
+            $data[$i]['category'] = $category["name"];
         }
 
         if (count($data) > 0) {
@@ -269,7 +270,7 @@ class CourseController extends ResourceController
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
                 ->orderBy('course_category.course_category_id', 'DESC')
-                ->findAll();
+                ->first();
             $type = $modelCourseType
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('type', 'type.type_id = course_type.type_id')
@@ -282,7 +283,7 @@ class CourseController extends ResourceController
                 ->orderBy('course_tag.course_tag_id', 'DESC')
                 ->findAll();
             if ($type) {
-                $data[$i]['type'] = $type;
+                $data[$i]['type'] = $type[0]["name"];
 
                 for ($k = 0; $k < count($type); $k++) {
                     $typeTag = $modelTypeTag
@@ -308,7 +309,7 @@ class CourseController extends ResourceController
                 $data[$i]['tag'] = null;
             }
 
-            $data[$i]['category'] = $category;
+            $data[$i]['category'] = $category["name"];
         }
 
         if (count($data) > 0) {
@@ -333,6 +334,10 @@ class CourseController extends ResourceController
             $modelCourseTag = new CourseTag();
 
             $data = $this->model->where('course_id', $id)->first();
+            $author = $this->modelUser->where('id', $data['author_id'])->first();
+            unset($data['author_id']);
+            $data['author'] = $author['fullname'];
+
             $data['thumbnail'] = $this->path . $data['thumbnail'];
 
             $category = $this->modelCourseCategory
@@ -521,7 +526,7 @@ class CourseController extends ResourceController
                     ->select('tag.*')
                     ->findAll();
 
-                $data['type'] = $type;
+                $data['type'] = $type["name"];
 
                 // for ($i = 0; $i < count($typeTag); $i++) {
                 //     $data['tag'][$i] = $typeTag[$i];
@@ -535,7 +540,7 @@ class CourseController extends ResourceController
                 $data['tag'] = null;
             }
 
-            $data['category'] = $category;
+            $data['category'] = $category['name'];
 
             $review = $this->modelReview->where('course_id', $id)->select('user_review_id, user_id, feedback, score')->orderBy('user_review_id', 'DESC')->findAll();
 
