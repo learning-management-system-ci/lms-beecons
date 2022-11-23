@@ -218,7 +218,7 @@ class AuthController extends ResourceController
         $payload = array(
             "iat" => 1356999524,
             "nbf" => 1357000000,
-            "exp" => time() + (60 * 2),
+            "exp" => time() + (60 * 60),
             "email" => $this->request->getVar('email')
         );
         $token = JWT::encode($payload, $key);
