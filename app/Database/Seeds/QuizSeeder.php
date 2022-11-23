@@ -8,12 +8,12 @@ class QuizSeeder extends Seeder
 {
     public function run()
     {
-        $no = 15;
+        $no = 310;
         $data = [];
 
         for($l = 1; $l <= $no; $l++){
 
-            for($i = 1; $i <= 3; $i++){
+            for($i = 1; $i <= 1; $i++){
                 array_push($data,     
                     [
                         'video_id' => $l,

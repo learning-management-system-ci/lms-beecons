@@ -34,6 +34,10 @@ class VideoController extends ResourceController
 		$path_thumbnail = site_url() . 'upload/course-video/thumbnail/';
 		$path_video = site_url() . 'upload/course-video/';
 
+		if (!$data) {
+			return $this->failNotFound('Data Video tidak ditemukan');
+		}
+
 		$data = [
 			"video_id" => $data['video_id'],
 			"video_category_id" => $data['video_category_id'],
@@ -61,13 +65,17 @@ class VideoController extends ResourceController
 		// 	unset($dataQuiz[$i]['question']);
 		// 	$dataQuiz[$i]['soal'] = $question;
 		// }
-		$question = json_decode($dataQuiz['question']);
-		for ($l = 0; $l < count($question); $l++) {
-			unset($question[$l]->is_valid);
+		if ($dataQuiz != null) {
+			$question = json_decode($dataQuiz['question']);
+			for ($l = 0; $l < count($question); $l++) {
+				unset($question[$l]->is_valid);
+			}
+			// array_push($quizRaw, $question);
+			unset($dataQuiz['question']);
+			$dataQuiz['soal'] = $question;
+		} else {
+			$dataQuiz['soal'] = null;
 		}
-		// array_push($quizRaw, $question);
-		unset($dataQuiz['question']);
-		$dataQuiz['soal'] = $question;
 		$data['quiz'] = $dataQuiz;
 		return $this->respond($data);
 	}
@@ -167,8 +175,9 @@ class VideoController extends ResourceController
 			$rules = [
 				"video_category_id" => "required",
 				"title" => "required",
-				"thumbnail" => "uploaded[thumbnail]|is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png]|max_size[thumbnail,262144]",
-				"video" => "uploaded[video]|mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
+				"thumbnail" => "uploaded[thumbnail]|is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png]|max_size[thumbnail,4000]",
+				"video" => "mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
+				// "video" => "max_size[video,262144]",
 				"order" => "required",
 			];
 			$messages = [
@@ -180,18 +189,19 @@ class VideoController extends ResourceController
 				],
 				"thumbnail" => [
 					'uploaded' => '{field} tidak boleh kosong',
-					'mime_in' => 'File Extention Harus Berupa jpg, jpeg, png atau webp',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
+					'mime_in' => '{field} Harus Berupa jpg, jpeg, png atau webp',
+					'max_size' => 'Ukuran {field} Maksimal 4 MB'
 				],
 				"video" => [
-					'uploaded' => '{field} tidak boleh kosong',
-					'mime_in' => 'File Extention Harus Berupa mp4, 3gp, atau flv',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
+					// 'uploaded' => '{field} tidak boleh kosong',
+					'mime_in' => '{field} Harus Berupa mp4, 3gp, atau flv',
+					'max_size' => 'Ukuran {field} Maksimal 256 MB'
 				],
 				"order" => [
 					"required" => "{field} tidak boleh kosong"
 				],
 			];
+
 			if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 
 			$verifyCourse = $this->videoCategory->where("video_category_id", $this->request->getVar('video_category_id'))->first();
@@ -250,100 +260,198 @@ class VideoController extends ResourceController
 				return $this->fail('Tidak dapat di akses selain admin & author', 400);
 			}
 
-			$rules = [
+			$rules_a = [
 				"video_category_id" => "required",
 				"title" => "required",
-				"thumbnail" => "is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png]|max_size[thumbnail,262144]",
-				"video" => "mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
 				"order" => "required",
 			];
 
-			$messages = [
+			$rules_b = [
+				"thumbnail" => "uploaded[thumbnail]|is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png]|max_size[thumbnail,4000]",
+			];
+
+			$rules_c = [
+				"video" => "uploaded[video]|mime_in[video,video/mp4,video/3gp,video/flv]|max_size[video,262144]",
+			];
+
+			$messages_a = [
 				"video_category_id" => [
 					"required" => "{field} tidak boleh kosong"
 				],
 				"title" => [
 					"required" => "{field} tidak boleh kosong"
 				],
-				"thumbnail" => [
-					'mime_in' => 'File Extention Harus Berupa jpg, jpeg, png atau webp',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-				],
-				"video" => [
-					// 'uploaded' => '{field} tidak boleh kosong',
-					'mime_in' => 'File Extention Harus Berupa mp4, 3gp, atau flv',
-					'max_size' => 'Ukuran File Maksimal 2 MB'
-				],
 				"order" => [
 					"required" => "{field} tidak boleh kosong"
 				],
 			];
 
-			if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
+			$messages_b = [
+				"thumbnail" => [
+					'uploaded' => '{field} tidak boleh kosong',
+					'mime_in' => 'File Extention Harus Berupa jpg, jpeg, png atau webp',
+					'max_size' => 'Ukuran File Maksimal 4 MB'
+				],
+			];
+
+			$messages_c = [
+				"video" => [
+					'uploaded' => '{field} tidak boleh kosong',
+					'mime_in' => 'File Extention Harus Berupa mp4, 3gp, atau flv',
+					'max_size' => 'Ukuran File Maksimal 256 MB'
+				],
+			];
 
 			$verifyCourse = $this->videoCategory->where("video_category_id", $this->request->getVar('video_category_id'))->first();
-			if (!$verifyCourse) {
+			
+			if (!$verifyCourse){
 				return $this->failNotFound('Course tidak ditemukan');
-			} else {
-				$findVideo = $this->videoModel->find($id);
-				if (!$findVideo) {
-					return $this->failNotFound('Data video tidak ditemukan');
-				}
-				$oldThumbnail = $findVideo['thumbnail'];
-				$oldVideo = $findVideo['video'];
-
-				$dataThumbnail = $this->request->getFile('thumbnail');
-				$thumbnailFileName = $dataThumbnail->getRandomName();
-
-				if (file_exists("upload/course-video/thumbnail/" . $oldThumbnail)) {
-					if ($oldThumbnail != '') {
-						print_r("te1s");
-						unlink("upload/course-video/thumbnail/" . $oldThumbnail);
-						$dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
-					} else {
-						print_r("te32s");
-						$dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
-					}
-				} else {
-					print_r("te2s");
-					$dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
-				}
-
-				$dataVideo = $this->request->getVar('video_url');
-
-				if (empty($dataVideo)) {
-
-					$dataVideo = $this->request->getFile('video');
-					if ($dataVideo->isValid() && !$dataVideo->hasMoved()) {
-						if (file_exists("upload/course-video/" . $oldVideo)) {
-							unlink("upload/course-video/" . $oldVideo);
-						}
-						$fileName = $dataVideo->getRandomName();
-						$dataVideo->move('upload/course-video/', $fileName);
-					} else {
-						$fileName = $oldVideo['video'];
-					}
-				} else {
-					$fileName = $dataVideo;
-				}
-
-				$data = [
-					'video_category_id' => $this->request->getVar("video_category_id"),
-					'title' => $this->request->getVar("title"),
-					'thumbnail' => $thumbnailFileName,
-					'order' => $this->request->getVar("order"),
-					'video' => $fileName
-				];
-				$this->videoModel->update($id, $data);
-
-				$response = [
-					'status' => 200,
-					'success' => 200,
-					'message' => 'Video berhasil diperbarui',
-					'data' => []
-				];
 			}
-			return $this->respond($response);
+
+			$findvideo = $this->videoModel->where('video_id', $id)->first();
+      if ($findvideo) {
+        if ($this->validate($rules_a, $messages_a)) {
+          if ($this->validate($rules_b, $messages_b)) {
+						$oldThumbnail = $findvideo['thumbnail'];
+            $dataThumbnail = $this->request->getFile('thumbnail');
+
+            if ($dataThumbnail->isValid() && !$dataThumbnail->hasMoved()) {
+              if (file_exists("upload/course-video/thumbnail/" . $oldThumbnail)) {
+                unlink("upload/course-video/thumbnail/" . $oldThumbnail);
+              }
+              $thumbnailFileName = $dataThumbnail->getRandomName();
+              $dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
+            } else {
+              $thumbnailFileName = $oldThumbnail['thumbnail'];
+            }
+
+						$dataVideo = $this->request->getVar('video_url');
+
+						if ($this->validate($rules_c, $messages_c) || $dataVideo != null) {
+							$oldVideo = $findvideo['video'];
+							$dataVideo = $this->request->getVar('video_url');
+
+							if (empty($dataVideo)) {
+								$dataVideo = $this->request->getFile('video');
+								if ($dataVideo->isValid() && !$dataVideo->hasMoved()) {
+									if (file_exists("upload/course-video/" . $oldVideo)) {
+										unlink("upload/course-video/" . $oldVideo);
+									}
+									$fileName = $dataVideo->getRandomName();
+									$dataVideo->move('upload/course-video/', $fileName);
+								} else {
+									$fileName = $oldVideo['video'];
+								}
+							} else {
+								$fileName = $dataVideo;
+							}
+	
+							$data = [
+								'video_category_id' => $this->request->getVar("video_category_id"),
+								'title' => $this->request->getVar("title"),
+								'thumbnail' => $thumbnailFileName,
+								'order' => $this->request->getVar("order"),
+								'video' => $fileName
+							];
+	
+							$this->videoModel->update($id, $data);
+	
+							$response = [
+								'status'   => 201,
+								'success'    => 201,
+								'messages' => [
+									'success' => 'Video berhasil diperbarui'
+								]
+							];
+						}
+
+						$data = [
+							'video_category_id' => $this->request->getVar("video_category_id"),
+							'title' => $this->request->getVar("title"),
+							'thumbnail' => $thumbnailFileName,
+							'order' => $this->request->getVar("order"),
+						];
+
+            $this->videoModel->update($id, $data);
+
+            $response = [
+              'status'   => 201,
+              'success'    => 201,
+              'messages' => [
+                'success' => 'Video berhasil diperbarui'
+              ]
+            ];
+          }
+
+					$dataVideo = $this->request->getVar('video_url');
+
+					if ($this->validate($rules_c, $messages_c) || $dataVideo != null) {
+						$oldVideo = $findvideo['video'];
+						$dataVideo = $this->request->getVar('video_url');
+
+						if (empty($dataVideo)) {
+							$dataVideo = $this->request->getFile('video');
+							if ($dataVideo->isValid() && !$dataVideo->hasMoved()) {
+								if (file_exists("upload/course-video/" . $oldVideo)) {
+									unlink("upload/course-video/" . $oldVideo);
+								}
+								$fileName = $dataVideo->getRandomName();
+								$dataVideo->move('upload/course-video/', $fileName);
+							} else {
+								$fileName = $oldVideo['video'];
+							}
+						} else {
+							$fileName = $dataVideo;
+						}
+	
+						$data = [
+							'video_category_id' => $this->request->getVar("video_category_id"),
+							'title' => $this->request->getVar("title"),
+							'order' => $this->request->getVar("order"),
+							'video' => $fileName
+						];
+	
+						$this->videoModel->update($id, $data);
+	
+						$response = [
+							'status'   => 201,
+							'success'    => 201,
+							'messages' => [
+								'success' => 'Video berhasil diperbarui'
+							]
+						];
+					}
+					
+					$data = [
+						'video_category_id' => $this->request->getVar("video_category_id"),
+						'title' => $this->request->getVar("title"),
+						'order' => $this->request->getVar("order"),
+					];	
+					
+					$this->videoModel->update($id, $data);
+
+          $response = [
+            'status'   => 201,
+            'success'    => 201,
+            'messages' => [
+              'success' => 'Video berhasil diperbarui'
+            ]
+          ];
+        } else {
+          $response = [
+            'status'   => 400,
+            'error'    => 400,
+            'messages' => $this->validator->getErrors(),
+          ];
+        }
+      } else {
+        $response = [
+          'status'   => 400,
+          'error'    => 400,
+          'messages' => 'Data Video tidak ditemukan',
+        ];
+      }
+			return $this->respondCreated($response);
 		} catch (\Throwable $th) {
 			return $this->fail($th->getMessage());
 		}

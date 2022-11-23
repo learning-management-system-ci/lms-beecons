@@ -8,6 +8,7 @@ use App\Models\CourseCategory;
 use App\Models\CourseType;
 use App\Models\CourseTag;
 use App\Models\TypeTag;
+use App\Models\Tag;
 use App\Models\Video;
 use App\Models\VideoCategory;
 use App\Models\Users;
@@ -76,6 +77,7 @@ class CourseController extends ResourceController
         $modelCourseType = new CourseType();
         $modelCourseTag = new CourseTag();
         $modelTypeTag = new TypeTag();
+        $modelTag = new Tag();
         $modelUser = new Users();
 
         $data = $model->orderBy('course_id', 'DESC')->where('service', 'course')->findAll();
@@ -111,6 +113,7 @@ class CourseController extends ResourceController
                 for ($k = 0; $k < count($type); $k++) {
                     $typeTag = $modelTypeTag
                         ->where('course_type.course_id', $data[$i]['course_id'])
+                        // ->where('course_tag.course_id', $data[$i]['course_id'])
                         ->where('type.type_id', $type[$k]['type_id'])
                         ->join('type', 'type.type_id = type_tag.type_id')
                         ->join('tag', 'tag.tag_id = type_tag.tag_id')
@@ -119,9 +122,9 @@ class CourseController extends ResourceController
                         ->select('tag.*')
                         ->findAll();
 
-                    // for ($o = 0; $o < count($typeTag); $o++) {
-                    //     $data[$i]['tag'][$o] = $typeTag[$o];
-                    // }
+                    for ($o = 0; $o < count($typeTag); $o++) {
+                        $data[$i]['tag'][$o] = $typeTag[$o];
+                    }
                 }
             } else {
                 $data[$i]['type'] = null;
@@ -132,7 +135,7 @@ class CourseController extends ResourceController
                 $data[$i]['tag'] = null;
             }
 
-            $data[$i]['category'] = $category["name"];
+            $data[$i]['category'] = $category;
         }
 
         if (count($data) > 0) {

@@ -115,7 +115,7 @@ class AuthController extends ResourceController
             'client_id' => $google_oauth_client_id
         ]);
 
-        // // verify the token sent from AJAX
+        // verify the token sent from AJAX
         $id_token = $_POST['credential'];
 
         // print_r($id_token);

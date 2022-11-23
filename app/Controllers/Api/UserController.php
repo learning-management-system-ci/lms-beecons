@@ -292,7 +292,7 @@ class UserController extends ResourceController
             ];
 
             $messages_b = [
-                'profile_pciture' => [
+                'profile_picture' => [
                     'uploaded' => '{field} tidak boleh kosong',
                     'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
                     'max_size' => 'Ukuran File Maksimal 4 MB'
