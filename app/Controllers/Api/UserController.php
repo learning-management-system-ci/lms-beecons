@@ -168,9 +168,14 @@ class UserController extends ResourceController
             
             for ($i = 0; $i < count($data); $i++) {
                 $job_data = $job->where('job_id', $data[$i]['job_id'])->first();
+                if ($data[$i]['profile_picture'] == null){
+                    $profilenull = $path . "dafault.png";
+                } else {
+                    $profilenull = $path . $data[$i]['profile_picture'];
+                }
                 array_push($response, [
                     'id' => $data[$i]['id'],
-                    'profile_picture' => $path . $data[$i]['profile_picture'],
+                    'profile_picture' => $profilenull,
                     'fullname' =>  $data[$i]['fullname'],
                     'email' => $data[$i]['email'],
                     'role' => $data[$i]['role'],
