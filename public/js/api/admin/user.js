@@ -8,7 +8,7 @@ $(document).ready(() => {
     try {
       let option = {
         type: "GET",
-        url: "http://localhost:8080/api/users/admin",
+        url: "/api/users/admin",
         dataType: "json",
         headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,

@@ -33,7 +33,7 @@ const add_to_cart = async (id, type) => {
         })
     } else {
         let option = {
-            url: `http://localhost:8080/api/cart/create/${type}/${id}`,
+            url: `/api/cart/create/${type}/${id}`,
             type: 'POST',
             dataType: 'json',
             headers: {
@@ -41,7 +41,7 @@ const add_to_cart = async (id, type) => {
             },
             success: function (result) {
                 console.log(result)
-                window.location.href = "http://localhost:8080/cart";
+                window.location.href = "/cart";
             }
         }
     
@@ -61,7 +61,7 @@ $(document).ready(() => {
     const getCourseData = async () => {
         try {
             let option = {
-                url: `http://localhost:8080/api/course/detail/${course_id}`,
+                url: `/api/course/detail/${course_id}`,
                 type: 'GET',
                 dataType: 'json',
                 success: function (result) {
@@ -84,7 +84,7 @@ $(document).ready(() => {
     const getQuizData = async (video_id) => {
         try {
             let option = {
-                url: `http://localhost:8080/api/course/video/${video_id}`,
+                url: `/api/course/video/${video_id}`,
                 type: 'GET',
                 dataType: 'json',
                 success: function (result) {
@@ -127,7 +127,7 @@ $(document).ready(() => {
         $('.course_type_content').html(type.name)
 
         // implement href course type
-        $('a.course_type_content').attr('href', `http://localhost:8080/course/type/detail/${type.type_id}`)
+        $('a.course_type_content').attr('href', `/course/type/detail/${type.type_id}`)
 
         // implement course description
         $('.course_description_content').html(description)
@@ -223,13 +223,13 @@ $(document).ready(() => {
                     if(!Cookies.get("access_token")){
                         let feedback = confirm("You need to login and buy course to continue")
                         if(feedback){
-                            window.location.href = "http://localhost:8080/login"
+                            window.location.href = "/login"
                         }
                         return 
                     }else{
                         let feedback = confirm("You need to buy course to continue")
                         if(feedback){
-                            window.location.href = "http://localhost:8080/checkout"
+                            window.location.href = "/checkout"
                         }
                         return 
                     }
@@ -407,7 +407,7 @@ $(document).ready(() => {
                     // with answerArr as body as raw json
                     // and get response as json
                     $.ajax({
-                        url: `http://localhost:8080/api/course/video/${videoId}`,
+                        url: `/api/course/video/${videoId}`,
                         type: 'POST',
                         data: JSON.stringify(
                             {

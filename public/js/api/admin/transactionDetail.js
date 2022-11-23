@@ -8,7 +8,7 @@ $(document).ready(() => {
   const getDetailOrder = async (id) => {
     let option = {
       type: "GET",
-      url: `http://localhost:8080/api/order`,
+      url: `/api/order`,
       dataType: "json",
       headers: {
         "Authorization": `Bearer ${Cookies.get("access_token")}`,

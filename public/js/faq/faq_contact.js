@@ -37,7 +37,7 @@ $("#contact-us").on("click", function (event) {
             let form = new FormData($('.contact-form')[0])
             return $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/api/contactus/question',
+                url: '/api/contactus/question',
                 data: form,
                 dataType: 'json',
                 contentType: false,

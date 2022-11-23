@@ -34,7 +34,7 @@ const getUserData = async (id) => {
   try {
     let option = {
       type: "GET",
-      url: `http://localhost:8080/api/users/${id}`,
+      url: `/api/users/${id}`,
       dataType: "json",
       headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -55,7 +55,7 @@ const getListJob = async () => {
   try {
     let option = {
       type: "GET",
-      url: `http://localhost:8080/api/jobs`,
+      url: `/api/jobs`,
       dataType: "json",
       headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -76,7 +76,7 @@ const getListRole = async () => {
   try {
     let option = {
       type: "GET",
-      url: `http://localhost:8080/api/users/role`,
+      url: `/api/users/role`,
       dataType: "json",
       headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -109,7 +109,7 @@ const postUserProfileData = async () => {
 
   let option = {
     type: "POST",
-    url: `http://localhost:8080/api/users/admin/update/${user_id}`,
+    url: `/api/users/admin/update/${user_id}`,
     dataType: "json",
     headers: {
       "Authorization": `Bearer ${Cookies.get("access_token")}`,
