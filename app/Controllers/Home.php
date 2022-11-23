@@ -125,10 +125,4 @@ class Home extends BaseController
         ];
         return view('html_email/payment_success.html', $data);
     }
-    public function adminIndex()
-    {
-        $data = [
-        ];
-        return view('pages/admin/index', $data);
-    }
 }

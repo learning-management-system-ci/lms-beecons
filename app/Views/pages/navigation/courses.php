@@ -10,13 +10,6 @@
 
 <div id="courses">
     <div class="my-container courses-list">
-        <nav class="pt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">Courses</li>
-            </ol>
-            <hr>
-        </nav>
-
         <div class="bg-white rounded courses-list border">
             <ul class="nav nav-tabs nav-fill mb-3 bg-gray" role="tablist">
                 <li class="nav-item" role="presentation">

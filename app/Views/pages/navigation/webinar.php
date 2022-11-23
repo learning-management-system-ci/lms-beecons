@@ -7,9 +7,13 @@
 
 
 <?= $this->section('app-component') ?>
-<div class="px-5 mt-4">
-    <section class="navigation">
-        <p class="mb-4">Home > <a href="#"> Peluang Karir Seorang UI/UX Designer</a></p>
+<div class="main-container">
+    <section style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb navigation">
+            <a class="breadcrumb-item active" aria-current="page" href="/">Home</a>
+            <li class="breadcrumb-item course_title_content breadcrumb-anchor" aria-current="page" href="">Peluang Karir
+                Seorang UI/UX Designer</li>
+        </ol>
         <hr>
     </section>
     <section class="main-content d-flex">
@@ -54,28 +58,28 @@
                 aplikasi. UI Design berfokus pada bagaimana membuat tampilan (interface) yang menarik bagi pengguna.
                 Proses desain yang
                 akan dilakukan oleh UI/UX Designer diantaranya: <br>
-            <ul>
-                <li>
-                    <p>
-                        UX Research Membuat konsep produk
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        Membuat rangka gambar (wireframes)
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        Melakukan pengujian Membuat visual desain
-                    </p>
-                </li>
-                <li>
-                    <p>
-                        Implementasi hasil desain oleh programmer
-                    </p>
-                </li>
-            </ul>
+                <ul>
+                    <li>
+                        <p>
+                            UX Research Membuat konsep produk
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            Membuat rangka gambar (wireframes)
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            Melakukan pengujian Membuat visual desain
+                        </p>
+                    </li>
+                    <li>
+                        <p>
+                            Implementasi hasil desain oleh programmer
+                        </p>
+                    </li>
+                </ul>
             </p>
         </section>
         <section class="right-side">
