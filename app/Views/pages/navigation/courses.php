@@ -20,15 +20,15 @@
         <div class="bg-white rounded courses-list border">
             <ul class="nav nav-tabs nav-fill mb-3 bg-gray" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#tab-courses-1" role="tab" aria-controls="tab-courses-1" aria-selected="true">Engineering</a>
+                    <a class="nav-link active" data-bs-toggle="tab" href="#tab-courses-engineering" role="tab" aria-controls="tab-courses-1" aria-selected="true">Engineering</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link disabled" id="ex2-tab-2" data-bs-toggle="tab" href="#tab-courses-2" role="tab" aria-controls="tab-courses-2" aria-selected="false">Information Technology</a>
+                    <a class="nav-link disabled" id="ex2-tab-2" data-bs-toggle="tab" href="#tab-courses-it" role="tab" aria-controls="tab-courses-2" aria-selected="false">Information Technology</a>
                 </li>
             </ul>
 
             <div class="tab-content mb-5 p-4 pb-5">
-                <div class="tab-pane fade show active" id="tab-courses-1" role="tabpanel">
+                <div class="tab-pane fade show active" id="tab-courses-engineering" role="tabpanel">
                     <div id="courses-loading">
                         <div class="stage">
                             <div class="dot-pulse">
@@ -44,7 +44,7 @@
 
                     <div id="courses-engineering" class="row px-5"></div>
                 </div>
-                <div class="tab-pane fade" id="tab-courses-2" role="tabpanel">
+                <div class="tab-pane fade" id="tab-courses-it" role="tabpanel">
                     <div class="tags pt-2 pb-4"></div>
 
                     <h2 class="text-center mb-4 current-tag"></h2>

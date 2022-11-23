@@ -25,13 +25,13 @@ $(document).ready(async function () {
 
         $('#courses-loading').hide()
 
-        $('#courses #tab-courses-1 .tags').html(
+        $('#courses #tab-courses-engineering .tags').html(
             `<a href="" class="item" data-tag_id="0">All</a>` + 
             tagsResponse[0].tag.map(tag => {
             return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
         }).reverse().join(''))
 
-        $('#courses #tab-courses-2 .tags').html(
+        $('#courses #tab-courses-it .tags').html(
             `<a href="" class="item" data-tag_id="0">All</a>` + 
             tagsResponse[1]?.tag.map(tag => {
             return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
@@ -43,45 +43,44 @@ $(document).ready(async function () {
             return `<a href="" class="item" data-category_id="${category.category_id}">${category.name}</a>`
         }).reverse().join(''))
 
-        generateListCourse(courseResponse, $('#courses-engineering'), '1', '0', '0')
-        // generateListCourse(courseResponse, $('#courses-it'), '2', '0', '0')
+        generateListCourse(courseResponse, $('#courses-engineering'), 'engineering', '0', '0')
 
-        $('#courses  #tab-courses-1 .tags .item').on('click', function (e) {
+        $('#courses  #tab-courses-engineering .tags .item').on('click', function (e) {
             e.preventDefault()
-            $(`#courses #tab-courses-1 .tags .item`).removeClass('active')
+            $(`#courses #tab-courses-engineering .tags .item`).removeClass('active')
     
             let currentTag = $(this).data('tag_id').toString()
             localStorage.setItem('current-tag-engineering', currentTag)
-            generateListCourse(courseResponse, $('#courses-engineering'), '1', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
+            generateListCourse(courseResponse, $('#courses-engineering'), 'engineering', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
         })
 
-        $(`#courses #tab-courses-1 .sub-tags .item`).on('click', function(e) {
+        $(`#courses #tab-courses-engineering .sub-tags .item`).on('click', function(e) {
             e.preventDefault()
-            $('#courses #tab-courses-1 .sub-tags .item').removeClass('active')
+            $('#courses #tab-courses-engineering .sub-tags .item').removeClass('active')
 
             let currentCategory = $(this).data('category_id').toString()
             
             localStorage.setItem('current-category-engineering', currentCategory)
-            generateListCourse(courseResponse, $('#courses-engineering'), '1', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
+            generateListCourse(courseResponse, $('#courses-engineering'), 'engineering', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
         })
 
-        $('#courses  #tab-courses-2 .tags .item').on('click', function (e) {
+        $('#courses  #tab-courses-it .tags .item').on('click', function (e) {
             e.preventDefault()
-            $(`#courses #tab-courses-2 .tags .item`).removeClass('active')
+            $(`#courses #tab-courses-it .tags .item`).removeClass('active')
 
             let currentTag = $(this).data('tag_id').toString()
             localStorage.setItem('current-tag-it', currentTag)
-            generateListCourse(courseResponse, $('#courses-it'), '2', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
+            generateListCourse(courseResponse, $('#courses-it'), 'it', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
         })
 
-        $(`#courses #tab-courses-2 .sub-tags .item`).on('click', function(e) {
+        $(`#courses #tab-courses-it .sub-tags .item`).on('click', function(e) {
             e.preventDefault()
-            $('#courses #tab-courses-2 .sub-tags .item').removeClass('active')
+            $('#courses #tab-courses-it .sub-tags .item').removeClass('active')
 
             let currentCategory = $(this).data('category_id').toString()
             
             localStorage.setItem('current-category-it', currentCategory)
-            generateListCourse(courseResponse, $('#courses-it'), '2', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
+            generateListCourse(courseResponse, $('#courses-it'), 'it', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
         })
 
         async function generateListCourse(courses, element, type, tag, category) {
@@ -90,9 +89,9 @@ $(document).ready(async function () {
             $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).addClass('active')
             $(`#courses #tab-courses-${type} .sub-tags .item[data-category_id=${category}]`).addClass('active')
     
-            let coursesByType = courses.filter(course => course.type[0].type_id === type)
+            let coursesByType = courses.filter(course => course.type.toLowerCase() === type.toLowerCase())
             let coursesBytag = coursesByType.filter(course => course.tag.map(tag => tag.tag_id).includes(tag))
-            let coursesByCategory = coursesBytag.filter(course => course.category[0].category_id === category)
+            let coursesByCategory = coursesBytag.filter(course => course.category.category_id === category)
             
             let result = []
             if (tag === '0' && category === '0') {
@@ -136,7 +135,7 @@ $(document).ready(async function () {
                     }
                 })
             }
-    
+
             element.html(result.map(course => {
                 return `
                     <div class="col-4 pb-4">
