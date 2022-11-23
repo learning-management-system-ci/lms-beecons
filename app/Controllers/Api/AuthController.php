@@ -194,7 +194,7 @@ class AuthController extends ResourceController
     public function register()
     {
         $rules = [
-            "email" => "required|is_unique[users.email]|valid_email",
+            "email" => "required|valid_email",
             "password" => "required|min_length[8]|max_length[50]",
             "password_confirm" => "matches[password]",
         ];
@@ -202,7 +202,6 @@ class AuthController extends ResourceController
         $messages = [
             "email" => [
                 'required' => '{field} tidak boleh kosong',
-                'is_unique' => 'Email telah digunakan',
                 'valid_email' => 'Format email tidak sesuai'
             ],
             "password" => [
@@ -219,7 +218,7 @@ class AuthController extends ResourceController
         $payload = array(
             "iat" => 1356999524,
             "nbf" => 1357000000,
-            "exp" => time() + (60 * 60),
+            "exp" => time() + (60 * 2),
             "email" => $this->request->getVar('email')
         );
         $token = JWT::encode($payload, $key);
@@ -232,12 +231,27 @@ class AuthController extends ResourceController
             ];
             return $this->fail($response);
         } else {
-            $data['email'] = $this->request->getVar("email");
-            $data['role'] = 'participant';
-            $data['password'] = password_hash($this->request->getVar('password'), PASSWORD_BCRYPT);
-            $data['activation_code'] = $token;
+            $email =  $this->request->getVar('email');
+            $verifyEmail = $this->loginModel
+                            ->where("email", $email)
+                            ->where("activation_status", 0)
+                            ->first();
+            $verifyActivation = $this->loginModel
+                                ->where("email", $email)
+                                ->where("activation_status", 1)
+                                ->first();
+            $userdata['email'] = $email;
+            $userdata['role'] = 'participant';
+            $userdata['password'] = password_hash($this->request->getVar('password'), PASSWORD_BCRYPT);
+            $userdata['activation_code'] = $token;
 
-            $this->loginModel->save($data);
+            if ($verifyActivation) return $this->failNotFound('Email telah digunakan');
+            
+            if ($verifyEmail == NULL) {
+                $this->loginModel->save($userdata);
+            } else {
+                $this->loginModel->updateUserByEmail($userdata, $email);
+            }
             $this->sendActivationEmail($this->request->getVar('email'), $token);
 
             $response = [
