@@ -35,7 +35,6 @@ $color-voucher: #70BD81;
                 }
 
                 td {
-                    // text-align: center;
                     gap: 12px;
 
                     button {
@@ -46,6 +45,11 @@ $color-voucher: #70BD81;
 
                     img {
                         width: 110px;
+                    }
+
+                    .item-thumbnail {
+                        border-radius: 6px;
+                        border: 1px solid $color-gray-1;
                     }
 
                     .discount {
@@ -91,59 +95,4 @@ $color-voucher: #70BD81;
             }
         }
     }
-}
-
-@mixin font($weight) {
-    font-family: 'Plus Jakarta Sans';
-    font-style: normal;
-    font-weight: $weight;
-}
-
-//reedem popup utilization
-@mixin redeem-popup() {
-    height: 100%;
-    width: max-content;
-    text-align: center;
-
-    .loading-icon {
-        height: 180px;
-    }
-
-    .success-icon {
-        width: 70px;
-    }
-
-    h5 {
-        @include font($weight: 700);
-        color: black;
-        font-size: 22px;
-    }
-
-    p {
-        color: #8F8585;
-    }
-}
-
-.empty-cart-info {
-    width: 100%;
-    height: 110px;
-
-    h6 {
-        color: #c5c5c5;
-        font-weight: 400;
-    }
-
-
-}
-
-
-// remove auto focus border in swal close button
-.swal2-close:focus {
-    box-shadow: none !important;
-}
-
-
-//hide element
-.hide {
-    display: none;
 }
