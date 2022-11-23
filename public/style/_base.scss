@@ -58,3 +58,23 @@ button {
     padding-top: 6rem;
     padding-bottom: 6rem;
 }
+
+.app-btn {
+    background-color: $color-primary;
+    color: $color-white;
+    padding: .5rem 1rem;
+    min-width: 110px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.app-btn:hover {
+    opacity: 0.8;
+}
+
+.btn-full {
+    width: 100%;
+}
