@@ -241,7 +241,8 @@ class AuthController extends ResourceController
                                 ->where("activation_status", 1)
                                 ->first();
             $userdata['email'] = $email;
-            $userdata['role'] = 'participant';
+            $userdata['role'] = 'member';
+            $userdata['profile_picture'] = 'default.png';
             $userdata['password'] = password_hash($this->request->getVar('password'), PASSWORD_BCRYPT);
             $userdata['activation_code'] = $token;
 
