@@ -1833,7 +1833,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1500000',
                         'new_price' => '1500000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '61.jpg',
                         'author_id' => '5'
                 ],
                 [
@@ -1844,7 +1844,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1250000',
                         'new_price' => '1250000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '62.jpg',
                         'author_id' => '2'
                 ],
                 [
@@ -1855,7 +1855,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1000000',
                         'new_price' => '1000000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '63.jpg',
                         'author_id' => '4'
                 ],
                 [
@@ -1866,7 +1866,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1100000',
                         'new_price' => '1100000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '64.jpg',
                         'author_id' => '3'
                 ],
                 [
@@ -1877,7 +1877,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1200000',
                         'new_price' => '1200000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '65.jpg',
                         'author_id' => '1'
                 ],
 
@@ -1895,7 +1895,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1500000',
                         'new_price' => '1500000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '66.jpg',
                         'author_id' => '5'
                 ],
                 [
@@ -1906,7 +1906,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1250000',
                         'new_price' => '1250000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '67.jpg',
                         'author_id' => '2'
                 ],
                 [
@@ -1917,7 +1917,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1000000',
                         'new_price' => '1000000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '68.jpg',
                         'author_id' => '4'
                 ],
                 [
@@ -1928,7 +1928,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1100000',
                         'new_price' => '1100000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '69.jpg',
                         'author_id' => '3'
                 ],
                 [
@@ -1939,7 +1939,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1200000',
                         'new_price' => '1200000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '70.jpg',
                         'author_id' => '1'
                 ],
 
@@ -1954,7 +1954,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1500000',
                         'new_price' => '1500000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '71.jpg',
                         'author_id' => '5'
                 ],
                 [
@@ -1965,7 +1965,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1250000',
                         'new_price' => '1250000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '72.jpg',
                         'author_id' => '2'
                 ],
                 [
@@ -1976,7 +1976,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1000000',
                         'new_price' => '1000000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '73.jpg',
                         'author_id' => '4'
                 ],
                 [
@@ -1987,7 +1987,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1100000',
                         'new_price' => '1100000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '74.jpg',
                         'author_id' => '3'
                 ],
                 [
@@ -1998,7 +1998,7 @@ class CourseNew extends Seeder
                         'suitable_for' => 'Mahasiswa atau umum',
                         'old_price' => '1200000',
                         'new_price' => '1200000',
-                        'thumbnail' => 'course.jpg',
+                        'thumbnail' => '75.jpg',
                         'author_id' => '1'
                 ],
         ];
