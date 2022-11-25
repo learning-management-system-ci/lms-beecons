@@ -69,7 +69,7 @@ $routes->get('/referral-code', 'AuthController::referralCode');
 $routes->get('/faq', 'Client\FaqController::index');
 $routes->get('/about-us', 'Home::aboutUs');
 $routes->get('/terms-and-conditions', 'Home::termsAndConditions');
-$routes->get('/courses/bundling', 'Home::bundlingCart');
+$routes->get('/courses/bundling/(:num)', 'Home::bundlingCart/$1');
 $routes->get('/course-detail', 'Home::courseDetail');
 $routes->get('/course/:num', 'Home::courseDetailNew');
 $routes->get('/cart', 'Home::cart');
