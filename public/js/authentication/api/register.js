@@ -53,7 +53,7 @@ $("#sign-up").submit(function (event) {
             }
         },
         error: function (status, error) {
-            var error_message = status.responseJSON.messages.message.email;
+            var error_message = status.responseJSON.messages.error;
             if (error_message != null) {
                 $('#loading-modal').on('hide.bs.modal', function () { });
                 $('#loading-modal').hide();

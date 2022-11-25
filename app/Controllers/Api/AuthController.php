@@ -402,6 +402,7 @@ class AuthController extends ResourceController
             return $this->fail('Pengguna belum aktif');
         } else {
         }
+        $datauser = $verifyEmail;
         $key = getenv('TOKEN_SECRET');
         $payload = [
             'iat'   => 1356999524,
@@ -409,6 +410,7 @@ class AuthController extends ResourceController
             "exp" => time() + (60 * 60),
             'uid'   => $verifyEmail['id'],
             'email' => $verifyEmail['email'],
+            'role' => $datauser['role'],
         ];
         $token = JWT::encode($payload, $key, 'HS256');
 
