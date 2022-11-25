@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/a35fe366cf.js" crossorigin="anonymous"></script>
@@ -38,23 +39,26 @@
     <?php echo $this->include('components/home/navbar.php') ?>
 
     <main>
-        <?php if(uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code' && !str_contains(uri_string(), 'courses')) : ?>
-        <div class="px-5 my-4">
+        <?php if(uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code'  && !str_contains(uri_string(), 'webinar')) : ?>
+        <div class="main-container pt-4">
             <?php 
             switch(uri_string()) {
                 case "faq":
             ?>
             <p class="navigation breadcrumb-anchor">Frequently Asked Question</p>
+            <hr>
             <?php 
                     break;
                 case "terms-and-conditions":
             ?>
             <p class="navigation breadcrumb-anchor">Terms and Condditions</p>
+            <hr>
             <?php 
                     break;
                 case "about-us":
             ?>
             <p class="navigation breadcrumb-anchor">About Us</p>
+            <hr>
             <?php 
                     break;
                 case "bundling":
@@ -62,24 +66,17 @@
             <p class="navigation breadcrumb-anchor"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
                 <a> Bundling</a>
             </p>
-            <?php 
-                    break;
-                case "training":
-            ?>
-            <p class="navigation breadcrumb-anchor"><a href="<?= base_url('/') ?>" style="font-weight: 300;">Home</a> >
-                <a> Peluang Karir Seorang UI/UX Designer</a>
-            </p>
+            <hr>
             <?php 
                     break;
                 case "courses":
             ?>
             <p class="navigation breadcrumb-anchor">Courses</p>
+            <hr>
             <?php
                     break;
-                default: 
-                    echo "somerthing wrong";
+                default:
             } ?>
-            <hr>
         </div>
         <?php endif; ?>
         <?= $this->renderSection('app-component') ?>
