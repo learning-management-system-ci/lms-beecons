@@ -51,11 +51,10 @@ class Home extends BaseController
         ];
         return view('pages/navigation/terms_and_condition', $data);
     }
-    public function bundlingCart($id)
+    public function bundlingCart()
     {
         $data = [
             "title" => "Bundling",
-            "id" => $id,
         ];
         return view('pages/course/bundling', $data);
     }

@@ -1,44 +1,103 @@
-@import '_base';
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap");
 
-$color-label: #FFD361;
+@mixin font($weight) {
+    font-family: 'Plus Jakarta Sans';
+    font-style: normal;
+    font-weight: $weight;
+}
 
-#detail-bundling {
-    .label-category {
-        width: auto;
-        display: inline-block;
-        background-color: $color-label;
-        border-radius: 10px;
-        font-weight: 500;
-        font-size: .8rem;
+h3,
+h4,
+h5 {
+    @include font($weight: 600)
+}
+
+p {
+    @include font($weight: 400);
+    font-size: 16px;
+    color: #525252;
+}
+
+main {
+    .navigation {
+        // p {
+        //     @include font($weight: 400);
+        //     color: #bdbdbd;
+
+        //     a {
+        //         color: #164520;
+        //         text-decoration: none;
+        //         @include font($weight: 600)
+        //     }
+        // }
     }
 
-    .item-number {
-        background-color: $color-gray-2;
-        border-radius: 5px;
-        padding: 10px;
-    }
+    .bundle {
+        gap: 50px;
 
-    .ringkasan {
-        background-color: $color-gray-3;
-        padding: 20px;
-        border-radius: 12px;
-    }
-
-    .ringkasan-list {
-        li {
-            margin-bottom: .5rem;
+        .level {
+            background-color: #FFD361;
+            width: min-content;
+            padding: 4px 13px;
+            border-radius: 8px;
         }
-    }
 
-    .info-hemat {
-        padding: .8rem;
-        background-color: #c6f7c4;
-        border-radius: 10px;
-        color: #2A8728;
-    }
+        .left-section {
+            width: 750px;
 
-    .bundling-icon {
-        width: 15%;
-        object-fit: contain;
+            ul {
+                list-style: none;
+                padding-left: 0;
+
+                li {
+                    div {
+                        align-items: center;
+                        gap: 30px;
+
+                        .course-number {
+                            padding-top: 3px;
+                            font-size: 15px;
+                            color: #002B5B;
+                            background-color: #E6EAEF;
+                            border-radius: 5px;
+
+                            text-align: center;
+                            width: 70px;
+                            height: 70px;
+                        }
+
+                        .course-name {}
+                    }
+                }
+            }
+        }
+
+        .right-section {
+            .order-card {
+                border-radius: 8px;
+                padding: 20px;
+                background-color: #F2F4F6;
+
+                ul {
+                    padding-left: 27px;
+                }
+
+                .discount-info {
+                    background-color: #D8FAD7;
+                    color: #2A8728;
+                    border-radius: 7px;
+                }
+
+                button {
+                    border: none;
+                    width: 100%;
+                    height: 40px;
+                    border-radius: 10px;
+                    background-color: #164520;
+                    color: white
+                }
+            }
+
+        }
     }
 }

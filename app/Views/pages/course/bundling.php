@@ -5,59 +5,111 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
-<div id="detail-bundling">
-    <span class="d-none"><?= $id ?></span>
-    <input type="text" id="bundling-id" value="<?= $id ?>" class="d-none">
-    <div class="main-container mt-4">
-        <div class="row m-0">
-            <div class="col-md-8 p-0 pe-4">
-                <div class="mb-5">
-                    <h3 class="detail-bundling-title mb-2"></h3>
-                    <div class="label-category py-2 px-3">Fundamental</div>
-                </div>
-                <p class="detail-bundling-description mb-4"></p>
-                <h5>Berikut kursus dalam bundling ini</h5>
-                <ul class="course-list list-group list-group-flush mt-4"></ul>
-            </div>
-            <div class="col-md-4 p-0">
-                <div class="ringkasan">
-                    <div>
-                        <h5 class="mb-4">Ringkasan Pesanan</h5>
-                        <p class="detail-bundling-title mb-1"></p>
-                        <ul class="ringkasan-list"></ul>
-                    </div>
-
-                    <hr>
-
-                    <div>
-                        <div class="d-flex justify-content-between mb-4">
-                            <div class="flex-fill fw-bold">Order Total</div>
-                            <div class="order-total text-end fw-bold"></div>
+<div class="px-5 mt-4">
+    <!-- <section class="navigation">
+        <p class="mb-4">Courses > <a href="#"> Mastering Frontend Developer</a></p>
+        <hr>
+    </section> -->
+    <section class="bundle d-flex mt-4">
+        <div class="left-section">
+            <h3>Mastering Frontend Developer</h3>
+            <div class="level">Fundamental</div>
+            <p class="description mt-4">In this bundling, you will learn how to become a professional front-end
+                developer. Two courses will
+                be obtained, and
+                several video materials and evaluations will be in each class.</p>
+            <h5>There are 2 courses in this bundling</h5>
+            <ul class="mt-4">
+                <li>
+                    <div class="list-course d-flex">
+                        <div class="course-number">
+                            Course <br>
+                            1
                         </div>
-                        <div class="info-hemat mb-2 d-none">
-                            <p class="text-center mb-0">
-                                Luar biasa! Kamu hemat <b class="total-hemat">Rp 200.000</b> untuk pesananmu.
+                        <div class="course-name">
+                            <h5>ReactJS</h5>
+                            <p>8 Video</p>
+                        </div>
+                    </div>
+                    <hr>
+                </li>
+                <li>
+                    <div class="list-course d-flex">
+                        <div class="course-number">
+                            Course <br>
+                            2
+                        </div>
+                        <div class="course-name">
+                            <h5>NodeJS</h5>
+                            <p>19 Video</p>
+                        </div>
+                    </div>
+                    <hr>
+                </li>
+            </ul>
+        </div>
+        <div class="right-section">
+            <div class="order-card">
+                <h4>Order Summary</h4>
+                <p class="mt-4 mb-1">Mastering Frontend Developer</p>
+                <ul>
+                    <li>
+                        <div class="d-flex justify-content-between">
+                            <p class="order-list mb-2">
+                                ReactJS
+                            </p>
+                            <p class="order-price mb-2">
+                                Rp.200.000
                             </p>
                         </div>
-                        <a href="/checkout">
-                            <button class="app-btn btn-full">Checkout</button>
-                        </a>
-                    </div>
+                    </li>
+                    <li>
+                        <div class="d-flex justify-content-between">
+                            <p class="order-list mb-2">
+                                NodeJS
+                            </p>
+                            <p class="order-price mb-2">
+                                Rp.400.000
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex justify-content-between">
+                            <p class="order-list mb-2">
+                                Platform Fee
+                            </p>
+                            <p class="order-price mb-2">
+                                Rp.10.000
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex justify-content-between">
+                            <p class="order-list mb-2">
+                                Flash Sale Discount
+                            </p>
+                            <p class="order-price mb-2 text-decoration-line-through">
+                                Rp.200.000
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+                <hr>
+                <div class="order-total d-flex justify-content-between">
+                    <h5>Order Total</h5>
+                    <h5>Rp.610.000</h5>
                 </div>
-                <div class="text-center px-3">
-                    <img src="/image/bundling/bundling-icon.png" class="bundling-icon my-4" alt="bundling icon">
-                    <h5>Termurah!</h5>
-                    <p>
-                        Harga paling terjangkau dengan banyak keuntungan yang bisa kamu dapatkan
-                    </p>
+                <div class="discount-info mt-2 text-center p-3">
+                    Awesome! You saved a total of <b>Rp 200.000</b> on your order.
                 </div>
+                <button class="mt-2">Checkout</button>
+            </div>
+            <div class="cheap-info text-center mt-3">
+                <img src="/image/bundling/Wallet.png" width="75px">
+                <h5>Cheaper + Worthy</h5>
+                <p>The most affordable price with many benefits you can get</p>
             </div>
         </div>
-    </div>
+    </section>
 </div>
-<?= $this->endSection() ?>
-
-<?= $this->section('js-component') ?>
-<script src="../../../js/utils/getRupiah.js"></script>
-<script src="/js/bundling/bundling.js"></script>
 <?= $this->endSection() ?>
