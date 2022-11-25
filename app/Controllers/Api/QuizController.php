@@ -4,6 +4,8 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Quiz;
+use App\Models\Users;
+use Firebase\JWT\JWT;
 
 class QuizController extends ResourceController
 {
