@@ -5,7 +5,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
-<div class="container" id="profile">
+<div class="main-container" id="profile">
     <div class="row justify-content-between">
         <div class="col-6">
             <div class="images">
@@ -33,7 +33,7 @@
         </div>
     </div>
 </div>
-<div class="container-fluid my-4" id="why">
+<div class="main-container my-4" id="why">
     <div class="row py-4 justify-content-center">
         <div class="col-12 title">
             <h1>Mengapa belajar di Stufast Learning Center?</h1>
@@ -76,7 +76,7 @@
         </div>
     </div>
 </div>
-<div class="container my-4" id="location">
+<div class="main-container my-4" id="location">
     <div class="row">
         <div class="col-6">
             <img src="/image/about-us/office.png" alt="">

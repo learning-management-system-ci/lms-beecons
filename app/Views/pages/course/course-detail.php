@@ -15,14 +15,19 @@
 
 <!-- <div id="loading-page">
 </div> -->
-<div class="px-5 mt-4 mb-5 d-none" id="course-detail-page">
-    <section class="navigation">
-        <p class="mb-4">Courses > <a href="#" class="course_type_content">Information Tech (IT)</a> ><a href="#" class="course_title_content"> Fundamental UI/UX Design</a></p>
+<div class="px-5 mb-5 d-none" id="course-detail-page">
+    <section style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb navigation">
+            <a class="breadcrumb-item active" aria-current="page" href="/courses">Courses</a>
+            <a class="breadcrumb-item course_type_content active" aria-current="page" href="#">Courses</a>
+            <li class="breadcrumb-item course_title_content breadcrumb-anchor" aria-current="page" href="">Courses</li>
+        </ol>
         <hr>
     </section>
     <section class="category mt-4 mb-4">
         <h3 class="course_title_content">Fundamentals</h3>
-        <p class="course_type_content"> <img src="/image/course-detail/category-icon.png" alt=""> Information Tech (IT)</p>
+        <p class="course_type_content"> <img src="/image/course-detail/category-icon.png" alt=""> Information Tech (IT)
+        </p>
     </section>
     <section class="course-content d-flex">
         <div class="left-side">
@@ -96,21 +101,30 @@
 
             <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Tentang</button>
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                        aria-selected="true">Tentang</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Kurikulum</button>
+                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                        aria-selected="false">Kurikulum</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Projek</button>
+                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
+                        aria-selected="false">Projek</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-review" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Review</button>
+                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-review"
+                        type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Review</button>
                 </li>
             </ul>
             <div class="tab-content description" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
-                    <p class="course_description_content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempora, esse. Inventore dicta
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
+                    tabindex="0">
+                    <p class="course_description_content">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                        Tempora, esse. Inventore dicta
                         saepe minus consectetur accusantium deleniti consequatur reprehenderit. Nihil explicabo
                         autem voluptatum atque laudantium incidunt commodi eveniet aspernatur doloribus?</p>
                     <h4 class="mt-3">Key Takeway</h4>
@@ -126,7 +140,8 @@
                         <li>Ursa Major</li>
                     </ul>
                 </div>
-                <div class="tab-pane fade curiculum " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                <div class="tab-pane fade curiculum " id="pills-profile" role="tabpanel"
+                    aria-labelledby="pills-profile-tab" tabindex="0">
                     <div class="list-box pb-1">
                         <p class="curiculum-title mb-3 course_title_content">Becoming Professional UI/UX Designer</p>
                         <ul class="curiculum-list course_curriculumList_content ps-2">
@@ -156,7 +171,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="tab-pane fade project" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+                <div class="tab-pane fade project" id="pills-contact" role="tabpanel"
+                    aria-labelledby="pills-contact-tab" tabindex="0">
                     <h4>Create Tokopedia Responsive Learning</h4>
                     <img class="project-banner mb-2" src="/image/course-detail/banner.png" alt="">
                     <p>Membuat desain antarmuka untuk website pembelajaran online yang dapat diakses menggunakan
@@ -179,7 +195,8 @@
                         </button>
                     </div>
                 </div>
-                <div class="tab-pane fade user-review course-review-content" id="pills-review" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
+                <div class="tab-pane fade user-review course-review-content" id="pills-review" role="tabpanel"
+                    aria-labelledby="pills-disabled-tab" tabindex="0">
                     <div class="review-card d-flex align-items-center ps-3">
                         <img class="user-image" src="/image/course-detail/person.png" alt="">
                         <div class="review-data pe-4 d-flex flex-column">
@@ -248,7 +265,8 @@
                     <h6 class="title-chapter d-flex flex-row-reverse justify-content-between">BAB 1. Introduction
                     </h6>
                     <div class="sub-chapter mb-3 ps-3">
-                        <div class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div
+                            class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
                                 <p>Introduction of ReactJS</p>
@@ -264,7 +282,8 @@
                             <p class="duration">7 mins</p>
                         </div>
                         <!-- class complete untuk mengaktifkan card yang dicentang (user menyelesaikan video/quiz) -->
-                        <div class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div
+                            class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
                                 <p>Introduction of ReactJS</p>
@@ -272,7 +291,8 @@
                             <p class="duration">7 mins</p>
                         </div>
                         <!-- class quiz untuk mengaktifkan quiz -->
-                        <div class="list-card-button quiz-card d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div
+                            class="list-card-button quiz-card d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
                                 <p>Introduction</p>
@@ -282,7 +302,8 @@
                     <h6 class="title-chapter  d-flex flex-row-reverse justify-content-between">BAB 2. Perancangan
                         dan Desain dengan AutoCAD</h6>
                     <div class="sub-chapter mb-3 ps-3">
-                        <div class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div
+                            class="list-card-button complete d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
                                 <p>Introduction</p>
@@ -296,7 +317,8 @@
                             </div>
                             <p class="duration">7 mins</p>
                         </div>
-                        <div class="list-card-button quiz-card d-flex justify-content-between align-items-center p-3 mb-3">
+                        <div
+                            class="list-card-button quiz-card d-flex justify-content-between align-items-center p-3 mb-3">
                             <div class="list-title d-flex align-items-center">
                                 <button></button>
                                 <p>Introduction</p>
@@ -373,10 +395,10 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>
-    <script src="/js/library/swiper-bundle.min.js"></script>
-    <script src="/js/library/progress-bar.js"></script>
-    <script src="/js/utils/getRupiah.js"></script>
-    <script src="/js/utils/textTruncate.js"></script>
-    <script src="/js/home/course-detail.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/library/swiper-bundle.min.js"></script>
+<script src="/js/library/progress-bar.js"></script>
+<script src="/js/utils/getRupiah.js"></script>
+<script src="/js/utils/textTruncate.js"></script>
+<script src="/js/home/course-detail.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?= $this->endSection() ?>
