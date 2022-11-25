@@ -90,6 +90,11 @@ $routes->group('admin/', static function ($routes) {
 
     $routes->get('transaction', 'AdminController::transaction');
     $routes->get('transaction/(:segment)', 'AdminController::transactionDetail/$1');
+
+    $routes->get('course', 'AdminController::course');
+    $routes->get('course/(:segment)', 'AdminController::courseDetail/$1');
+
+    $routes->get('video/(:segment)', 'AdminController::videoDetail/$1');
 });
 
 $routes->group('api/', static function ($routes) {

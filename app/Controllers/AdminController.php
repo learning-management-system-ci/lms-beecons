@@ -43,4 +43,28 @@ class AdminController extends BaseController
         ];
         return view('pages/admin/transaction_detail', $data);
     }
+
+    public function course()
+    {
+        $data = [
+            "title" => "Course",
+        ];
+        return view('pages/admin/course', $data);
+    }
+
+    public function courseDetail()
+    {
+        $data = [
+            "title" => "Course Detail",
+        ];
+        return view('pages/admin/course_detail', $data);
+    }
+
+    public function videoDetail()
+    {
+        $data = [
+            "title" => "Video Detail",
+        ];
+        return view('pages/admin/video_detail', $data);
+    }
 }
