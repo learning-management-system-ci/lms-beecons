@@ -9,45 +9,19 @@ use Firebase\JWT\JWT;
 
 class QuizController extends ResourceController
 {
-    /**
-     * Return an array of resource objects, themselves in array format
-     *
-     * @return mixed
-     */
+    public function __construct()
+    {
+        $this->quiz = new Quiz();
+    }
+
     public function index()
     {
-        $model = new Quiz;
-        $data = $model->orderBy('quiz_id', 'DESC')->findAll();
+        $data = $this->quiz->orderBy('quiz_id', 'DESC')->findAll();
         // $test = json_decode($data[0]['question']);
         // return $this->respond($test->quiz[0]);
         return $this->respond($data);
     }
 
-    /**
-     * Return the properties of a resource object
-     *
-     * @return mixed
-     */
-    public function show($id = null)
-    {
-        //
-    }
-
-    /**
-     * Return a new resource object, with default properties
-     *
-     * @return mixed
-     */
-    public function new()
-    {
-        //
-    }
-
-    /**
-     * Create a new resource object, from "posted" parameters
-     *
-     * @return mixed
-     */
     public function create()
     {
         $key = getenv('TOKEN_SECRET');
@@ -79,47 +53,34 @@ class QuizController extends ResourceController
                 ],
             ];
 
-            if (!$this->validate($rules, $messages)) {
-                $response = [
-                    'status' => 500,
-                    'error' => true,
-                    'message' => $this->validator->getErrors(),
-                    'data' => []
+            if($this->validate($rules, $messages)) {
+                $data = [
+                    'video_id' => $this->request->getVar('video_id'),
+                    'question' => $this->request->getVar('question'),
                 ];
-            } else {
-                $data['video_id'] = $this->request->getVar("video_id");
-                $data['question'] = $this->request->getVar("question");
-    
+                
                 $this->quiz->insert($data);
-    
+
                 $response = [
-                    'status' => 200,
-                    'error' => false,
-                    'message' => 'Quiz berhasil dibuat',
-                    'data' => []
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Data Quiz berhasil dibuat'
+                    ]
+                ];
+            }else{
+                $response = [
+                    'status'   => 400,
+                    'error'    => 400,
+                    'messages' => $this->validator->getErrors(),
                 ];
             }
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
-        return $this->respondCreated($response);
+        return $this->respondCreated($response);    
     }
 
-    /**
-     * Return the editable properties of a resource object
-     *
-     * @return mixed
-     */
-    public function edit($id = null)
-    {
-        //
-    }
-
-    /**
-     * Add or update a model resource, from "posted" properties
-     *
-     * @return mixed
-     */
     public function update($id = null)
     {
         $key = getenv('TOKEN_SECRET');
