@@ -1,39 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">
-            <img src="../../../image/logo.svg" alt="logo" height="60px" width="60px">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarApp"
-            aria-controls="navbarApp" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarApp">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
-                <li class="nav-item">
-                    <a class="nav-link mx-2 <?php if(uri_string() == '/') : echo 'active'; endif ?>" aria-current="page"
-                        href="/">Home</a>
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
+    data-scroll="false">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                <?php if(str_contains(uri_string(), 'admin')) : ?>
+                <?php 
+                    switch(uri_string()) {
+                        case "admin":
+                    ?>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+                <?php 
+                            break;
+                        case "admin/user":
+                    ?>
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="/admin">Dashboard</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link mx-2 <?php if(uri_string() == 'courses' || str_contains(uri_string(), 'course')) : echo 'active'; endif ?>"
-                        href="/courses">Courses</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link mx-2 <?php if(uri_string() == 'training') : echo 'active'; endif ?>"
-                        href="/training">Training</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link mx-2 <?php if(uri_string() == 'webinar') : echo 'active'; endif ?>"
-                        href="/webinar">Webinar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link mx-2 <?php if(uri_string() == 'faq') : echo 'active'; endif ?>"
-                        href="/faq">FAQ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link mx-2 <?php if(uri_string() == 'about-us') : echo 'active'; endif ?>"
-                        href="/about-us">About Us</a>
-                </li>
-            </ul>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">User</li>
+                <?php 
+                            break;
+                        default: 
+                            echo "somerthing wrong";
+                    } ?>
+                <?php endif; ?>
+            </ol>
+            <h6 class="font-weight-bolder text-white mb-0"><?= $title ?></h6>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
                 <li class="nav-item me-3">
                     <div class="nav-item-search">
@@ -63,21 +55,13 @@
                     </div>
                 </li>
                 <li class="nav-item me-3">
-                    <a href="/cart">
-                        <button class="nav-btn-icon my-1" id="cart-count">
-                            <!-- <div class="nav-btn-icon-amount">0</div> -->
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </button>
-                    </a>
-                </li>
-                <li class="nav-item me-3">
                     <div class="dropdown nav-item-icon">
                         <button class="nav-btn-icon my-1" id="dropdown-notification" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             <!-- <div class="nav-btn-icon-amount">0</div> -->
                             <i class="fa-solid fa-bell"></i>
                         </button>
-                        <div class="dropdown-menu notifications dropdown-menu-end" aria-labelledby="dropdown-notification">
+                        <div class="dropdown-menu my-2 notifications" aria-labelledby="dropdown-notification">
                             <div class="header shadow-sm">
                                 <h3 class="mb-0">Notifikasi</h3>
                                 <a href="" class="notifications-baca">Sudah dibaca</a>
