@@ -863,6 +863,7 @@ class CourseController extends ResourceController
                     'suitable_for' => $this->request->getVar('suitable_for'),
                     'old_price' => $this->request->getVar('old_price'),
                     'new_price' => $this->request->getVar('new_price'),
+                    'author_id' => $this->request->getVar('author_id'),
                     'thumbnail' => $fileName,
                 ];
                 $dataThumbnail->move('upload/course/thumbnail/', $fileName);
@@ -917,14 +918,13 @@ class CourseController extends ResourceController
             $modelCourseCategory = new CourseCategory();
 
             $rules_a = [
-                'title' => 'required|min_length[8]',
+                'title' => 'required',
                 'service' => 'required',
                 'description' => 'required|min_length[8]',
                 'key_takeaways' => 'max_length[255]',
                 'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
                 'new_price' => 'required|numeric',
-                'category_id' => 'required|numeric',
             ];
 
             $rules_b = [
@@ -937,7 +937,6 @@ class CourseController extends ResourceController
             $messages_a = [
                 "title" => [
                     "required" => "{field}  tidak boleh kosong",
-                    'min_length' => '{field} minimal 8 karakter'
                 ],
                 "service" => [
                     "required" => "{field} tidak boleh kosong",
@@ -959,10 +958,6 @@ class CourseController extends ResourceController
                 "new_price" => [
                     "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
-                ],
-                "category_id" => [
-                    "required" => "{field} tidak boleh kosong",
-                    "numeric" => "{field} harus berisi nomor",
                 ]
             ];
 
@@ -973,49 +968,6 @@ class CourseController extends ResourceController
                     'max_size' => 'Ukuran File Maksimal 4 MB'
                 ],
             ];
-
-            // if ($modelCourse->find($id)) {
-            //     if ($this->validate($rules, $messages)) {
-            //         $dataCourse = [
-            //             'title' => $this->request->getRawInput('title'),
-            //             'service' => $this->request->getRawInput('service'),
-            //             'description' => $this->request->getRawInput('description'),
-            //             'key_takeaways' => $this->request->getRawInput('key_takeaways'),
-            //             'suitable_for' => $this->request->getRawInput('suitable_for'),
-            //             'old_price' => $this->request->getRawInput('old_price'),
-            //             'new_price' => $this->request->getRawInput('new_price'),
-            //             'thumbnail' => $this->request->getRawInput('thumbnail')
-            //         ];
-            //         $modelCourse->update($id, $dataCourse['title']);
-
-            //         $dataCourseCategory = [
-            //             'course_id' => $id,
-            //             'category_id' => $this->request->getRawInput('category_id')['category_id']
-            //         ];
-            //         $courseCategoryID = $modelCourseCategory->where('course_id', $id)->find();
-            //         $modelCourseCategory->where('course_id', $id)->update($courseCategoryID[0]['course_category_id'], $dataCourseCategory);
-
-            //         $response = [
-            //             'status'   => 201,
-            //             'success'    => 201,
-            //             'messages' => [
-            //                 'success' => 'Course berhasil di perbarui'
-            //             ]
-            //         ];
-            //     } else {
-            //         $response = [
-            //             'status'   => 400,
-            //             'error'    => 400,
-            //             'messages' => $this->validator->getErrors(),
-            //         ];
-            //     }
-            // } else {
-            //     $response = [
-            //         'status'   => 400,
-            //         'error'    => 400,
-            //         'messages' => 'Data tidak ditemukan',
-            //     ];
-            // }
 
             $findCourse = $this->model->where('course_id', $id)->first();
             if ($findCourse) {
@@ -1035,7 +987,6 @@ class CourseController extends ResourceController
                         }
 
                         $data = [
-                            'tag_article_id' => $this->request->getVar('tag_article_id'),
                             'title' => $this->request->getVar('title'),
                             'service' => $this->request->getVar('service'),
                             'description' => $this->request->getVar('description'),
@@ -1043,10 +994,11 @@ class CourseController extends ResourceController
                             'suitable_for' => $this->request->getVar('suitable_for'),
                             'old_price' => $this->request->getVar('old_price'),
                             'new_price' => $this->request->getVar('new_price'),
+                            'author_id' => $this->request->getVar('author_id'),
                             'thumbnail' => $fileName,
                         ];
 
-                        $this->article->update($id, $data);
+                        $modelCourse->update($id, $data);
 
                         $response = [
                             'status'   => 201,
@@ -1071,9 +1023,10 @@ class CourseController extends ResourceController
                         'suitable_for' => $this->request->getVar('suitable_for'),
                         'old_price' => $this->request->getVar('old_price'),
                         'new_price' => $this->request->getVar('new_price'),
+                        'author_id' => $this->request->getVar('author_id')
                     ];
 
-                    $this->article->update($id, $data);
+                    $modelCourse->update($id, $dataCourse);
 
                     $response = [
                         'status'   => 201,
