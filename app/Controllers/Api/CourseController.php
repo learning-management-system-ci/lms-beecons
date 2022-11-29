@@ -952,7 +952,6 @@ class CourseController extends ResourceController
 
             $rules_a = [
                 'title' => 'required',
-                'service' => 'required',
                 'description' => 'required|min_length[8]',
                 'key_takeaways' => 'max_length[255]',
                 'suitable_for' => 'max_length[255]',
@@ -972,9 +971,6 @@ class CourseController extends ResourceController
             $messages_a = [
                 "title" => [
                     "required" => "{field}  tidak boleh kosong",
-                ],
-                "service" => [
-                    "required" => "{field} tidak boleh kosong",
                 ],
                 "description" => [
                     "required" => "{field}  tidak boleh kosong",
