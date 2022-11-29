@@ -168,10 +168,10 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\CourseController::create');
         $routes->post('update/(:num)', 'Api\CourseController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
-        $routes->get('latest', 'Api\CourseController::latest'); 
+        $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
-       
+
 
         //OTHER PLATFORM ROUTE
         $routes->get('', 'Api\CourseController::index');
