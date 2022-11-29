@@ -805,6 +805,8 @@ class CourseController extends ResourceController
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
+            $modelCourseType = new CourseType();
+            $modelCourseTag = new CourseTag();
 
             $rules = [
                 'title' => 'required|min_length[8]',
@@ -817,7 +819,9 @@ class CourseController extends ResourceController
                 'thumbnail' => 'uploaded[thumbnail]'
                     . '|is_image[thumbnail]'
                     . '|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]'
-                    . '|max_size[thumbnail,4000]'
+                    . '|max_size[thumbnail,4000]',
+                'category_id' => 'required|numeric',
+                'type_id' => 'required|numeric',
             ];
 
             $messages = [
@@ -850,6 +854,14 @@ class CourseController extends ResourceController
                     'mime_in' => 'File Extention Harus Berupa png, jpg, atau jpeg',
                     'max_size' => 'Ukuran File Maksimal 4 MB'
                 ],
+                "category_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor",
+                ],
+                "type_id" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "numeric" => "{field} harus berisi nomor",
+                ],
             ];
 
             if ($this->validate($rules, $messages)) {
@@ -865,6 +877,7 @@ class CourseController extends ResourceController
                     'new_price' => $this->request->getVar('new_price'),
                     'author_id' => $this->request->getVar('author_id'),
                     'thumbnail' => $fileName,
+                    'author_id' => $decoded->uid,
                 ];
                 $dataThumbnail->move('upload/course/thumbnail/', $fileName);
                 $modelCourse->insert($dataCourse);
@@ -873,7 +886,25 @@ class CourseController extends ResourceController
                     'course_id' => $modelCourse->insertID(),
                     'category_id' => $this->request->getVar('category_id')
                 ];
+                $dataCourseType = [
+                    'course_id' => $modelCourse->insertID(),
+                    'type_id' => $this->request->getVar('type_id')
+                ];
+
+                if ($this->request->getVar('tag') !== null) {
+                    $dataCourseTag = [];
+                    $tag = json_decode($this->request->getVar('tag'));
+                    for ($i = 0; $i < count($tag); $i++) {
+                        $dataCourseTag[$i] = [
+                            'course_id' => $modelCourse->insertID(),
+                            'tag_id' => $tag[$i]
+                        ];
+                    }
+                    $modelCourseTag->insertBatch($dataCourseTag);
+                }
+
                 $modelCourseCategory->insert($dataCourseCategory);
+                $modelCourseType->insert($dataCourseType);
 
                 $response = [
                     'status'   => 201,
@@ -916,6 +947,8 @@ class CourseController extends ResourceController
 
             $modelCourse = new Course();
             $modelCourseCategory = new CourseCategory();
+            $modelCourseType = new CourseType();
+            $modelCourseTag = new CourseTag();
 
             $rules_a = [
                 'title' => 'required',
@@ -925,6 +958,8 @@ class CourseController extends ResourceController
                 'suitable_for' => 'max_length[255]',
                 'old_price' => 'required|numeric',
                 'new_price' => 'required|numeric',
+                'category_id' => 'numeric',
+                'type_id' => 'numeric',
             ];
 
             $rules_b = [
@@ -958,7 +993,13 @@ class CourseController extends ResourceController
                 "new_price" => [
                     "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi nomor",
-                ]
+                ],
+                "category_id" => [
+                    "numeric" => "{field} harus berisi nomor",
+                ],
+                "type_id" => [
+                    "numeric" => "{field} harus berisi nomor",
+                ],
             ];
 
             $messages_b = [
@@ -996,9 +1037,37 @@ class CourseController extends ResourceController
                             'new_price' => $this->request->getVar('new_price'),
                             'author_id' => $this->request->getVar('author_id'),
                             'thumbnail' => $fileName,
+                            'author_id' => $decoded->uid,
                         ];
 
                         $modelCourse->update($id, $data);
+
+                        if ($this->request->getVar('category_id') !== null) {
+                            $dataCourseCategory = [
+                                'category_id' => $this->request->getVar('category_id')
+                            ];
+                            $modelCourseCategory->where('course_id', $id)->set($dataCourseCategory)->update();
+                        };
+
+                        if ($this->request->getVar('type_id') !== null) {
+                            $dataCourseType = [
+                                'type_id' => $this->request->getVar('type_id')
+                            ];
+                            $modelCourseType->where('course_id', $id)->set($dataCourseType)->update();
+                        };
+
+                        if ($this->request->getVar('tag') !== null) {
+                            $dataCourseTag = [];
+                            $tag = json_decode($this->request->getVar('tag'));
+                            for ($i = 0; $i < count($tag); $i++) {
+                                $dataCourseTag[$i] = [
+                                    'course_id' => $id,
+                                    'tag_id' => $tag[$i]
+                                ];
+                            }
+                            $modelCourseTag->where('course_id', $id)->delete();
+                            $modelCourseTag->insertBatch($dataCourseTag);
+                        }
 
                         $response = [
                             'status'   => 201,
@@ -1008,33 +1077,60 @@ class CourseController extends ResourceController
                             ]
                         ];
                     } else {
+                        // $response = [
+                        //     'status'   => 400,
+                        //     'error'    => 400,
+                        //     'messages' => $this->validator->getErrors(),
+                        // ];
+                        $dataCourse = [
+                            'title' => $this->request->getVar('title'),
+                            'service' => $this->request->getVar('service'),
+                            'description' => $this->request->getVar('description'),
+                            'key_takeaways' => $this->request->getVar('key_takeaways'),
+                            'suitable_for' => $this->request->getVar('suitable_for'),
+                            'old_price' => $this->request->getVar('old_price'),
+                            'new_price' => $this->request->getVar('new_price'),
+                            'author_id' => $decoded->uid,
+                        ];
+
+                        $modelCourse->update($id, $dataCourse);
+
+                        if ($this->request->getVar('category_id') !== null) {
+                            $dataCourseCategory = [
+                                'category_id' => $this->request->getVar('category_id')
+                            ];
+                            $modelCourseCategory->where('course_id', $id)->set($dataCourseCategory)->update();
+                        };
+
+                        if ($this->request->getVar('type_id') !== null) {
+                            $dataCourseType = [
+                                'type_id' => $this->request->getVar('type_id')
+                            ];
+                            $modelCourseType->where('course_id', $id)->set($dataCourseType)->update();
+                        };
+
+                        if ($this->request->getVar('tag') !== null) {
+                            $dataCourseTag = [];
+                            $tag = json_decode($this->request->getVar('tag'));
+                            for ($i = 0; $i < count($tag); $i++) {
+                                $dataCourseTag[$i] = [
+                                    'course_id' => $id,
+                                    'tag_id' => $tag[$i]
+                                ];
+                            }
+                            $modelCourseTag->where('course_id', $id)->delete();
+                            $modelCourseTag->insertBatch($dataCourseTag);
+                        }
+
                         $response = [
-                            'status'   => 400,
-                            'error'    => 400,
-                            'messages' => $this->validator->getErrors(),
+                            'status'   => 201,
+                            'success'    => 201,
+                            'messages' => [
+                                'success' => 'Data Course berhasil diupasdasddate'
+                            ]
                         ];
                     }
-
-                    $dataCourse = [
-                        'title' => $this->request->getVar('title'),
-                        'service' => $this->request->getVar('service'),
-                        'description' => $this->request->getVar('description'),
-                        'key_takeaways' => $this->request->getVar('key_takeaways'),
-                        'suitable_for' => $this->request->getVar('suitable_for'),
-                        'old_price' => $this->request->getVar('old_price'),
-                        'new_price' => $this->request->getVar('new_price'),
-                        'author_id' => $this->request->getVar('author_id')
-                    ];
-
-                    $modelCourse->update($id, $dataCourse);
-
-                    $response = [
-                        'status'   => 201,
-                        'success'    => 201,
-                        'messages' => [
-                            'success' => 'Data Course berhasil diupdate'
-                        ]
-                    ];
+                    // Kalau disini ada update, maka update 2 kali
                 } else {
                     $response = [
                         'status'   => 400,
