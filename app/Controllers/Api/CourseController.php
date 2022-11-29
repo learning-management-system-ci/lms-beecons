@@ -1082,7 +1082,6 @@ class CourseController extends ResourceController
                         //     'error'    => 400,
                         //     'messages' => $this->validator->getErrors(),
                         // ];
-
                         $dataCourse = [
                             'title' => $this->request->getVar('title'),
                             'service' => $this->request->getVar('service'),
