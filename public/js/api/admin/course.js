@@ -4,6 +4,16 @@ if(!Cookies.get('access_token')){
   window.location.href = '/login'
 }
 
+const createCourseShow = () => {
+  $("#create-course-card").removeClass("d-none")
+  $("#table-course-card").addClass("d-none")
+}
+
+const createCourseHide = () => {
+  $("#create-course-card").addClass("d-none")
+  $("#table-course-card").removeClass("d-none")
+}
+
 $(document).ready(() => {
   const getCourseData = async () => {
     let option = {
@@ -59,7 +69,7 @@ $(document).ready(() => {
         <td>
           <div class="d-flex flex-column justify-content-center px-3">
             <h6 class="mb-0 text-sm font-weight-bold">${textTruncate(title, 30)}</h6>
-            <p class="text-xs text-secondary mb-0">${type.name}</p>
+            <p class="text-xs text-secondary mb-0">${type}</p>
           </div>
         </td>
         <td class="text-xs">

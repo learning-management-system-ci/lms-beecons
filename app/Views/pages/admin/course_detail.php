@@ -98,7 +98,9 @@
                 </div>
                 <div class="col-md-12 mb-3">
                   <p class="mb-0 text-sm font-weight-bold">Thumbnail</p>
-                  <span class="text-sm thumbnail-content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, esse!Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, esse!Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, esse!Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem, esse!</span>
+                  <div class="col-md-3">
+                    <img id="frame" src="" class="img-thumbnail thumbnail-content" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -127,13 +129,27 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Type</label>
-                    <input class="form-control type-content-setting" type="text" id="type-input">
+                    <!-- select type input -->
+                    <select class="form-select type-content-setting" id="type-input-wraper">
+                      <option disabled>Select Course Type</option>
+                      <!-- <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option> -->
+                    </select>
+                    <!-- <input class="form-control type-content-setting" type="text" id="type-input"> -->
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Category</label>
-                    <input class="form-control category-content-setting" type="text" id="category-input">
+                    <!-- select category input -->
+                    <select class="form-select category-content-setting" id="category-input-wraper">
+                      <option disabled>Select Course Category</option>
+                      <!-- <option value="1">Category 1</option>
+                      <option value="2">Category 2</option>
+                      <option value="3">Category 3</option> -->
+                    </select>
+                    <!-- <input class="form-control category-content-setting" type="text"> -->
                   </div>
                 </div>
                 <div class="col-md-12">
@@ -175,11 +191,13 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Thumbnail</label>
-                    <textarea  class="form-control address-content-setting" row="3" id="address-input"> </textarea>
+                    <div class="mb-5">
+                      <input class="form-control" type="file" id="thumbnail-input">
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-12 d-flex justify-content-center">
-                  <button class="btn btn-primary btn" onclick="postCourseProfileData()">Save</button>
+                  <button class="btn btn-primary btn" id="submit-btn-course-detail-setting">Save</button>
                 </div>
               </div>
             </div>
@@ -188,6 +206,7 @@
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
                 <p class="mb-0"><strong>Video List</strong></p>
+                <button class="btn btn-primary btn-sm ms-auto" onclick="stopSetting()">Add New Video</button>
               </div>
             </div>
             <div class="card-body">
@@ -220,6 +239,103 @@
                   </div>
                 </li>
               </ol>
+            </div>
+          </div>
+          <div class="card fade d-none" id="create-video">
+            <div class="card-header pb-0">
+              <div class="d-flex align-items-center">
+                <p class="mb-0"><strong>Setting</strong></p>
+                <button class="btn btn-danger btn-sm ms-auto" onclick="stopSetting()">Cancel</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row ">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Title</label>
+                    <input class="form-control title-content-setting" type="text" id="title-input">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Author</label>
+                    <input class="form-control author-content-setting" type="text" id="author-input" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Type</label>
+                    <!-- select type input -->
+                    <select class="form-select type-content-setting" id="type-input-wraper">
+                      <option disabled>Select Course Type</option>
+                      <!-- <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option> -->
+                    </select>
+                    <!-- <input class="form-control type-content-setting" type="text" id="type-input"> -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Category</label>
+                    <!-- select category input -->
+                    <select class="form-select category-content-setting" id="category-input-wraper">
+                      <option disabled>Select Course Category</option>
+                      <!-- <option value="1">Category 1</option>
+                      <option value="2">Category 2</option>
+                      <option value="3">Category 3</option> -->
+                    </select>
+                    <!-- <input class="form-control category-content-setting" type="text"> -->
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Description</label>
+                    <textarea  class="form-control description-content-setting" row="3" id="description-input"> </textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Key Takeways</label>
+                    <textarea  class="form-control key-takeaways-content-setting" row="3" id="key-takeaways-input"> </textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Suitable For</label>
+                    <textarea  class="form-control suitable-for-content-setting" row="3" id="suitable-for-input"> </textarea>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Price</label>
+                    <div class="input-group">
+                      <span class="input-group-text" id="basic-addon1">Rp. </span>
+                      <input class="form-control price-content-setting" type="number" id="price-input">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">After Discount Price</label>
+                    <div class="input-group">
+                      <span class="input-group-text" id="basic-addon1">Rp. </span>
+                      <input class="form-control after-discount-price-content-setting" type="number" id="after-discount-price-input">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Thumbnail</label>
+                    <div class="mb-5">
+                      <input class="form-control" type="file" id="thumbnail-input">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 d-flex justify-content-center">
+                  <button class="btn btn-primary btn" id="submit-btn-course-detail-setting">Save</button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="card tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">

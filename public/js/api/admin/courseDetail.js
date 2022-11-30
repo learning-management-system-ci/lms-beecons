@@ -16,6 +16,10 @@ const stopSetting = () => {
   general_page.removeClass('d-none').addClass("show active")
 }
 
+const previewImage = () => {
+  frame.src = URL.createObjectURL(event.target.files[0]);
+}
+
 $(document).ready(() => {
   // check the cookies if the user is logged in
   if(!Cookies.get('access_token')){
@@ -50,6 +54,83 @@ $(document).ready(() => {
     await $.ajax(option)
     return data
   }
+
+  const getCourseCategoryListData = async () => {
+    let option = {
+      type: "GET",
+      url: document.location.origin + `/api/category`,
+      dataType: "json",
+      headers: {
+        "Authorization": `Bearer ${Cookies.get("access_token")}`,
+      },
+      success: function (categories) {
+        data = categories
+      }
+    }
+
+    let data
+    await $.ajax(option)
+    return data
+  }
+
+  const getCourseTypeListData = async () => {
+    const option = {
+      type: "GET",
+      url: document.location.origin + `/api/type`,
+      dataType: "json",
+      headers: {
+        "Authorization": `Bearer ${Cookies.get("access_token")}`,
+      },
+      success: function (types) {
+        data = types
+      }
+    }
+    let data
+    await $.ajax(option)
+    return data
+  }
+
+  const submitCourseDetailSetting = async (course_id) => {
+    const data = {
+      title: $("#title-input").val(),
+      description: $("#description-input").val(),
+      category_id: parseInt($("#category-input-wraper").val()),
+      type_id: parseInt($("#type-input-wraper").val()),
+      tags: $("#tags-input").val(),
+      key_takeaways: $("#key-takeaways-input").val(),
+      suitable_for: $("#suitable-for-input").val(),
+      old_price: parseInt($("#price-input").val()),
+      new_price: parseInt($("#after-discount-price-input").val()),
+      thumbnail: $("#thumbnail-input")[0].files[0]
+    }
+    const formData = new FormData()
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key])
+    })
+    console.log(data)
+
+    let option = {
+      type: "POST",
+      url: document.location.origin + `/api/course/update/${course_id}`,
+      processData: false,
+      contentType: false,
+      data: formData,
+      headers: {
+        "Authorization": `Bearer ${Cookies.get("access_token")}`,
+      },
+      success: async function (course) {
+        alert("upload success")
+        console.log(course)
+        let course_data = await getCourseDetailData(course_id)
+        populateCourseDetailGeneral(course_data)
+        stopSetting()
+
+      },
+    }
+
+    await $.ajax(option)
+    // console.log(data)
+  } 
 
   const populateCourseDetailGeneral = data => {
     const content = {
@@ -161,7 +242,58 @@ $(document).ready(() => {
     })
   }
 
-  const populateCourseDetailData = async () => {
+  const populateCourseDetailSetting = data => {
+    const url = window.location.href
+    const course_id = url.substring(url.lastIndexOf('/') + 1)
+
+    const wraper = {
+      type: $('#type-input-wraper'),
+      category: $('#category-input-wraper'),
+    }
+    const content = {
+      title: $('.title-content-setting'),
+      author: $('.author-content-setting'),
+      tags: $('.tags-content-setting'),
+      description: $('.description-content-setting'),
+      key_takeaways: $('.key-takeaways-content-setting'),
+      suitable_for: $('.suitable-for-content-setting'),
+      price: $('.price-content-setting'),
+      after_discount_price: $('.after-discount-price-content-setting'),
+      thumbnail: $('.thumbnail-content-setting'),
+      submit_btn: $('#submit-btn-course-detail-setting')
+    }
+
+    // paralel request promise all
+    Promise.all([
+      getCourseCategoryListData(),
+      getCourseTypeListData()
+    ]).then(values => {
+      const [categories, types] = values
+      categories.forEach(category => {
+        isSelected = category.name == data.category ? 'selected' : ''
+        wraper.category.append(`<option value="${category.category_id}" ${isSelected}>${category.name}</option>`)
+      })
+
+      types.forEach(type => {
+        isSelected = type.name == data.type ? 'selected' : ''
+        wraper.type.append(`<option value="${type.type_id}" ${isSelected}>${type.name}</option>`)
+      })
+    })
+
+    content.title.val(data.title)
+    content.author.val(data.author)
+    content.description.text(data.description)
+    content.key_takeaways.text(data.key_takeaways)
+    content.suitable_for.text(data.suitable_for)
+    content.price.val(data.old_price)
+    content.after_discount_price.val(data.new_price)
+
+    content.submit_btn.click(() => {
+      submitCourseDetailSetting(course_id)
+    })
+  }
+
+  const populateCourseDetailPage = async () => {
     let url = window.location.href
     let course_id = url.substring(url.lastIndexOf('/') + 1)
 
@@ -172,13 +304,11 @@ $(document).ready(() => {
       videos,
     } = course
 
-    console.log(videos)
-
     populateCourseDetailGeneral(course)
     populateCourseDetailReview(reviews)
     populateCourseDetailVideo(videos)
-
+    populateCourseDetailSetting(course)
   }
 
-  populateCourseDetailData()
+  populateCourseDetailPage()
 })

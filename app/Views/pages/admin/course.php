@@ -7,9 +7,10 @@
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
+          <div class="card mb-4" id="table-course-card">
+            <div class="card-header pb-0 d-flex align-items-center">
               <h6>Course Table</h6>
+              <button class="btn btn-primary btn-sm ms-auto" onclick="createCourseShow()">Add Course</button>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -83,6 +84,94 @@
                     </tr>
                   </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-4 d-none" id="create-course-card">
+            <div class="card-header pb-0 d-flex align-items-center">
+              <h6>Create New Course</h6>
+              <button class="btn btn-danger btn-sm ms-auto" onclick="createCourseHide()">Back</button>
+            </div>
+            <div class="card-body pb-2">
+              <div class="row ">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Title</label>
+                    <input class="form-control title-content-create" type="text" id="title-input">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Author</label>
+                    <input class="form-control author-content-create" type="text" id="author-input" disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Type</label>
+                    <!-- select type input -->
+                    <select class="form-select type-content-create" id="type-input-wraper">
+                      <option disabled>Select Course Type</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Category</label>
+                    <!-- select category input -->
+                    <select class="form-select category-content-create" id="category-input-wraper">
+                      <option disabled>Select Course Category</option>
+                    </select>
+                    <!-- <input class="form-control category-content-create" type="text"> -->
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Description</label>
+                    <textarea  class="form-control description-content-create" row="3" id="description-input"> </textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="exampleFormControlSelect1">Key Takeways</label>
+                    <textarea  class="form-control key-takeaways-content-create" row="3" id="key-takeaways-input"> </textarea>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Suitable For</label>
+                    <textarea  class="form-control suitable-for-content-create" row="3" id="suitable-for-input"> </textarea>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Price</label>
+                    <div class="input-group">
+                      <span class="input-group-text" id="basic-addon1">Rp. </span>
+                      <input class="form-control price-content-create" type="number" id="price-input">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">After Discount Price</label>
+                    <div class="input-group">
+                      <span class="input-group-text" id="basic-addon1">Rp. </span>
+                      <input class="form-control after-discount-price-content-create" type="number" id="after-discount-price-input">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Thumbnail</label>
+                    <div class="mb-5">
+                      <input class="form-control" type="file" id="thumbnail-input">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 d-flex justify-content-center">
+                  <button class="btn btn-primary btn" id="submit-btn-course-detail-create">Save</button>
+                </div>
               </div>
             </div>
           </div>
