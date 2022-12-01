@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/admin_layout') ?>
 
   <?= $this->section('css-component') ?>
+    <link rel="stylesheet" href="<?= base_url('style/datatable.css') ?>">
   <?= $this->endSection() ?>
 
   <?= $this->section('app-component') ?>
@@ -13,9 +14,10 @@
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
+                <table class="table align-items-center mb-0" id="transaction-table">
                   <thead>
                     <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Username</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
@@ -24,7 +26,7 @@
                     </tr>
                   </thead>
                   <tbody id="transaction-list-content">
-                    <tr>
+                    <!-- <tr>
                       <td>
                         <p class="mb-0 text-sm font-weight-bold px-3 ">23/04/18</p>
                       </td>
@@ -80,7 +82,7 @@
                           Edit
                         </a>
                       </td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                   
                 </table>
@@ -119,5 +121,7 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script src="/js/utils/getRupiah.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.13.1/date-1.2.0/fh-3.3.1/r-2.4.0/sc-2.0.7/sb-1.4.0/sp-2.1.0/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.13.1/date-1.2.0/fh-3.3.1/r-2.4.0/sc-2.0.7/sb-1.4.0/sp-2.1.0/datatables.min.js"></script>
     <script src="/js/api/admin/transaction.js"></script>
   <?= $this->endSection() ?>

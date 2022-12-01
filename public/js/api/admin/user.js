@@ -8,7 +8,7 @@ $(document).ready(() => {
     try {
       let option = {
         type: "GET",
-        url: "/api/users/admin",
+        url: document.location.origin + "/api/users/admin",
         dataType: "json",
         headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -28,47 +28,72 @@ $(document).ready(() => {
 
   const populateUserList = async () => {
     let users = await getUserList()
-    const user_list_content = $("#user-list-content")
-    user_list_content.empty()
-    users.forEach((user) => {
-      let badge_bg = ''
-      if (user.role === 'admin') {
-        badge_bg = 'bg-danger'
-      } else if (user.role === 'member') {
-        badge_bg = 'bg-success'
-      } else if (user.role === 'author') {
-        badge_bg = 'bg-secondary'
-      } else if (user.role === 'partner') {
-        badge_bg = 'bg-warning'
-      } else if (user.role === 'mentor') {
-        badge_bg = 'bg-primary'
-      }
-      let html = `
-          <tr>
-          <td>
-            <div class="d-flex px-2 py-1">
-              <div class="d-flex flex-column justify-content-center">
-                <h6 class="mb-0 text-sm">${user.fullname}</h6>
+    const bg_badge_role = {
+      "admin": "bg-danger",
+      "member": "bg-success",
+      "author": "bg-secondary",
+      'partner': "bg-warning",
+      "mentor": "bg-info"
+    }
+
+    $('#table-user').dataTable({
+      data: users,
+      language: {
+        paginate: {
+          next: `<i class="ni ni-bold-right" aria-hidden="true"></i>`,
+          previous: `<i class="ni ni-bold-left" aria-hidden="true"></i>`
+        }
+      },
+      dom:  "<'row mx-4 mt-4'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row mx-4 mb-2'<'col-sm-12 col-md-6 text-sm'i><'col-sm-12 col-md-6'p>>",
+      columns: [
+        { 
+          data: "id",
+          render: function (data, type, row, meta) {
+            return `<a href="/admin/user/${data}" class="mb-0 text-sm px-2">${meta.row+1}</a>`
+          }
+        },
+        { 
+          data: "fullname",
+          render: function (data, type, row) {
+            return `
+              <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                  <h6 class="mb-0 text-sm">${data}</h6>
+                </div>
               </div>
-            </div>
-          </td>
-          <td>
-            <p class="text-xs font-weight-bold mb-0">${user.email}</p>
-          </td>
-          <td class="align-middle text-center text-xs">
-            <span class="badge badge-sm ${badge_bg}">${user.role}</span>
-          </td>
-          <td class="align-middle">
-            <a href="javascript:;" class="text-secondary font-weight-bold text-sm" data-toggle="tooltip" data-original-title="Edit user">
-              Edit
-            </a>
-            <a href="javascript:;" class="text-secondary font-weight-bold text-sm" data-toggle="tooltip" data-original-title="Delete user">
-              Delete
-            </a>
-          </td>
-        </tr>
-      `
-      user_list_content.append(html)
+            `
+          }
+        },
+        { 
+          data: "email",
+          render: function (data, type, row) {
+            return `
+              <p class="text-xs font-weight-bold mb-0">${data}</p>
+            `
+          },
+        },
+        { 
+          data: "role",
+          render: function (data, type, row) {
+            return `  
+              <span class="badge badge-sm ${bg_badge_role[data]}">${data}</span>
+            `
+          },
+          className: "align-middle text-center text-xs"
+        },
+        {
+          data: "id",
+          render: function (data, type, row) {
+            return `
+              <a href="/admin/user/${data}" class="text-secondary font-weight-bold text-sm" data-toggle="tooltip" data-original-title="Edit user">
+                Detail
+              </a>
+            `
+          }
+        }
+      ],
     })
   }
 

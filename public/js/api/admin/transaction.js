@@ -8,7 +8,7 @@ $(document).ready(() => {
   const getListOrder = async () => {
     let option = {
       type: "GET",
-      url: "/api/order",
+      url: document.location.origin + "/api/order",
       dataType: "json",
       headers: {
         "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -24,46 +24,68 @@ $(document).ready(() => {
 
   const populateListOrder = async () => {
     let transactions = await getListOrder()
-    const transaction_list_content = $("#transaction-list-content")
-    transaction_list_content.empty()
-    transactions.forEach((transaction) => {
-      let {
-        fullname,
-        total_price,
-        transaction_status,
-        order_id,
-        order_date,
-        transaction_date = moment(order_date, 'YYYY/MM/DD hh:mm:ss').format('LLL'),
-      } = transaction
+    const transaction_table = $("#transaction-table")
+    const status_color = {
+      SUCCESS: "bg-gradient-success",
+      PENDING: "bg-gradient-warning",
+      FAILED: "bg-gradient-danger"
+    }
 
-      let status_color = {
-        SUCCESS: "bg-gradient-success",
-        PENDING: "bg-gradient-warning",
-        FAILED: "bg-gradient-danger"
-      }
+    transaction_table.dataTable({
+      data: transactions,
+      language: {
+        paginate: {
+          next: `<i class="ni ni-bold-right" aria-hidden="true"></i>`,
+          previous: `<i class="ni ni-bold-left" aria-hidden="true"></i>`
+        }
+      },
+      dom:  "<'row mx-4 mt-4'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row mx-4 mb-2'<'col-sm-12 col-md-6 text-sm'i><'col-sm-12 col-md-6'p>>",
+      columns: [
+        {
+          data: "order_id",
+          render: function (data, type, row, meta) {
+            return `<a href="/admin/course/${data}" class="mb-0 text-sm px-3">${meta.row+1}</a>`
+          }
+        },
+        {
+          data: "order_date",
+          render: function (data, type, row, meta) {
+            return `<p class="mb-0 text-sm font-weight-bold px-3">${moment(data, 'YYYY/MM/DD hh:mm:ss').format('LLL')}</p>`
+          }
+        },
+        {
+          data: "fullname",
+          render: function (data, type, row, meta) {
+            return `<p class="text-sm font-weight-bold mb-0">${data}</p>`
+          }
+        },
+        {
+          data: "total_price",
+          render: function (data, type, row, meta) {
+            return `<span class="text-secondary text-sm font-weight-bold">${getRupiah(data)}</span>`
+          }
+        },
+        {
+          data: "transaction_status",
+          render: function (data, type, row, meta) {
+            return `
+              <span class="badge badge-sm ${status_color[data]}">${data}</span>
+            `
+          }
+        },
+        {
+          data: "order_id",
+          render: function (data, type, row) {
+            return `
+            <a href="/admin/transaction/${data}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Detail Transaction">
+              Detail
+            </a>`
+          }
+        }
 
-      let html = `
-      <tr>
-        <td>
-          <p class="mb-0 text-sm font-weight-bold px-3">${transaction_date}</p>
-        </td>
-        <td>
-          <p class="text-sm font-weight-bold mb-0">${fullname}</p>
-        </td>
-        <td class="align-middle text-center">
-          <span class="text-secondary text-sm font-weight-bold">${getRupiah(total_price)}</span>
-        </td>
-        <td class="align-middle text-center text-sm">
-          <span class="badge badge-sm ${status_color[transaction_status]}">${transaction_status}</span>
-        </td>
-        <td class="align-middle">
-          <a href="/admin/transaction/${order_id}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-            Detail
-          </a>
-        </td>
-      </tr>`
-
-      transaction_list_content.append(html)
+      ]
     })
   }
 
