@@ -160,7 +160,13 @@ $(document).ready(async function () {
                         showConfirmButton: false
                     })
                 }).catch((err) => {
-                    // console.log(error)
+                    let error = err.responseJSON
+                    return new swal({
+                        title: 'Gagal',
+                        text: error.messages.error,
+                        icon: 'error',
+                        showConfirmButton: true
+                    })
                 })
             })
         }
