@@ -1,5 +1,4 @@
 $(document).ready(() => {
-    // handle search
     $('.nav-search-input').eq(0).hide(200)
 
     $('#nav-btn-search').on('click', (e) => {
@@ -12,15 +11,29 @@ $(document).ready(() => {
         e.preventDefault()
         $('.nav-search-input').eq(0).hide()
         $('#nav-btn-search').show(200)
+        $('.nav-search-input form input').val('')
+        $('#search-result').html('')
+        $('#search-result-initial').show()
     })
 
     $('.nav-search-input form').on('submit', (e) => {
         e.preventDefault()
     })
 
-    // handle search
     $('#nav-btn-search-x').on('click', (e) => {
         $('.nav-item-search .dropdown-menu.show').removeClass('show')
+    })
+
+    // close search when user clicks outside of search inpput
+    $(document).on('click', (e) => {
+        if (e.target !== $('.form-control')[0] && e.target !== $('#nav-btn-search')[0] && e.target !== $('#nav-btn-search-x')[0] && e.target !== $('#nav-btn-search')[0] && e.target !== $('#nav-btn-search i')[0]) {
+            $('.nav-search-input').eq(0).hide()
+            $('#nav-btn-search').show(200)
+            $('.nav-search-input form input').val('')
+            $('#search-result').html('')
+            $('#search-result-initial').show()
+            $('.nav-item-search .dropdown-menu.show').removeClass('show')
+        }
     })
 
     // handle logout
@@ -58,10 +71,10 @@ $(document).ready(() => {
 
                     coursesResult.forEach(course => {
                         htmlSearchResult += `
-                            <a href="" data-search-id="${course.course_id}">
+                            <a href="/course/${course.course_id}" data-search-id="${course.course_id}">
                                 <div class="search-item">
                                     <div class="icon">
-                                        <img src="/image/home/img-course.jpg" alt="">
+                                        <img src="${course.thumbnail}" alt="thumbnail">
                                     </div>
                                     <div class="desc">
                                         <h5>${course.title}</h5>
@@ -90,10 +103,10 @@ $(document).ready(() => {
 
             if (courseRecent) {
                 let htmlSearchRecent = `
-                    <a href="">
+                    <a href="/course/${courseRecent.course_id}">
                         <div class="search-item">
                             <div class="icon">
-                                <img src="/image/home/img-course.jpg" alt="">
+                                <img src="${courseRecent.thumbnail}" alt="">
                             </div>
                             <div class="desc">
                                 <h5>${courseRecent.title}</h5>
@@ -112,10 +125,10 @@ $(document).ready(() => {
 
             coursesRekomendasi.forEach(course => {
                 htmlSearchRekomendasi += `
-                    <a href="">
+                    <a href="/course/${course.course_id}">
                         <div class="search-item">
                             <div class="icon">
-                                <img src="/image/home/img-course.jpg" alt="">
+                                <img src="${course.thumbnail}" alt="">
                             </div>
                             <div class="desc">
                                 <h5>${course.title}</h5>

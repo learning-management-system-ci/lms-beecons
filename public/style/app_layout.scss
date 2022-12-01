@@ -427,8 +427,7 @@ main {
             .icon {
                 img {
                     width: 3rem;
-                    height: 3rem;
-                    border-radius: 10px;
+                    object-fit: contain;
                 }
             }
 
