@@ -130,12 +130,23 @@ h6 {
         }
     }
 
-    .harga {
-        margin-top: 1.2rem;
-        margin-bottom: 1.2rem;
-        font-size: 1.2rem;
-        font-weight: bolder;
-        color: $color-yellow;
+    .price {
+        display: flex;
+        gap: .5rem;
+        align-items: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+
+        del {
+            font-size: .9rem;
+            color: $color-gray-1;
+        }
+
+        .harga {
+            font-size: 1.2rem;
+            font-weight: bolder;
+            color: $color-yellow;
+        }
     }
 }
 

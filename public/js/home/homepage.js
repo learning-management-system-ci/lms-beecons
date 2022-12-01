@@ -189,6 +189,47 @@ $(document).ready(async function () {
         // console.log(error)
     }
 
+    // handle webinar
+    try {
+        const webinarResponse = await $.ajax({
+            url: '/api/webinar',
+            method: 'GET',
+            dataType: 'json'
+        })
+
+        $('#webinar .webinar-wrapper').html(webinarResponse.map(webinar => {
+            return `
+                <div class="col col-md-3">
+                    <div class="card-webinar">
+                        <div class="image">
+                            <img src="${webinar.thumbnail}" alt="img">
+                        </div>
+
+                        <h2>${webinar.title}</h2>
+                        <div class="item-info">
+                            <i class="fa-solid fa-video"></i>
+                            <p>${webinar.webinar_type}</p>
+                        </div>
+                        <div class="item-info">
+                            <i class="fa-solid fa-file-video"></i>
+                            <p>Soft file Rekaman Webinar</p>
+                        </div>
+                        <div class="price">
+                            <del class="harga-diskon">${getRupiah(webinar.old_price)}</del>
+                            <h2 class="harga m-0">${getRupiah(webinar.new_price)}</h2>
+                        </div>
+
+                        <a href="">
+                            <button class="my-btn btn-full">Ikut Webinar</button>
+                        </a>
+                    </div>
+                </div>
+            `
+        }))
+    } catch (error) {
+        // console.log(error)
+    }
+
     // handle mentor slider
     try {
         const mentorResponse = await $.ajax({

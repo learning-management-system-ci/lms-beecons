@@ -152,9 +152,18 @@ h6 {
   font-size: 0.8rem;
   margin: 0;
 }
-.card-webinar .harga {
-  margin-top: 1.2rem;
-  margin-bottom: 1.2rem;
+.card-webinar .price {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.card-webinar .price del {
+  font-size: 0.9rem;
+  color: #9ca3af;
+}
+.card-webinar .price .harga {
   font-size: 1.2rem;
   font-weight: bolder;
   color: #FFCB42;
