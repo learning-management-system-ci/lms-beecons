@@ -14,5 +14,12 @@
         <a href="/courses" class="text-decoration-underline text-primary-color">Lihat Semua</a>
     </div>
 
+    <div class="courses-loading">
+        <div class="stage">
+            <div class="dot-pulse">
+            </div>
+        </div>
+    </div>
+
     <div class="row choose-course-list"></div>
 </div>

@@ -52,6 +52,8 @@ $(document).ready(() => {
                 dataType: 'json'
             })
 
+            $('.courses-loading').hide()
+
             let courses = response
 
             let coursesRekomendasi = courses.slice(0, 5)

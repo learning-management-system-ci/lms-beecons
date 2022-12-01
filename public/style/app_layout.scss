@@ -23,11 +23,10 @@ h6 {
 
         img {
             width: 100%;
-            height: 12rem;
             margin-bottom: 1.5rem;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: $card-border-radius;
-            border: 1px solid $color-gray;
+            border: 1px solid $color-gray !important;
         }
 
         .card-course-tags {
@@ -428,6 +427,7 @@ main {
                 img {
                     width: 3rem;
                     object-fit: contain;
+                    border-radius: 4px;
                 }
             }
 
