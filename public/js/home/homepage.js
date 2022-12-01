@@ -152,12 +152,27 @@ $(document).ready(async function () {
                         })
                     }
 
-                    return new swal({
-                        title: "Berhasil!",
-                        text: "Course berhasil ditambahkan ke keranjang",
-                        icon: "success",
-                        timer: 1200,
-                        showConfirmButton: false
+                    $.ajax({
+                        url: '/api/cart',
+                        method: 'GET',
+                        dataType: 'json',
+                        headers: {
+                            Authorization: 'Bearer ' + Cookies.get("access_token")
+                        }
+                    }).then((res) => {
+                        if (res.item.length > 0) {
+                            $('#cart-count').append(
+                                `<div class="nav-btn-icon-amount">${res.item.length}</div>`
+                            );
+                        }
+                    }).then(() => {
+                        return new swal({
+                            title: "Berhasil!",
+                            text: "Course berhasil ditambahkan ke keranjang",
+                            icon: "success",
+                            timer: 1200,
+                            showConfirmButton: false
+                        })
                     })
                 }).catch((err) => {
                     let error = err.responseJSON
