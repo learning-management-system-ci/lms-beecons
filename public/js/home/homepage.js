@@ -6,13 +6,13 @@ $(document).ready(async function () {
             method: 'GET',
             dataType: 'json'
         })
-        
+
         setCourses('0')
 
         $('#choose-course .tags .item').on('click', function (e) {
             e.preventDefault()
             let typeId = $(this).attr('data-type-id')
-            
+
             setCourses(typeId)
         })
 
@@ -46,7 +46,7 @@ $(document).ready(async function () {
                             Authorization: 'Bearer ' + Cookies.get("access_token")
                         }
                     })
-            
+
                     userCourses = res
                 } catch (error) {
                     // console.log(error)
@@ -71,8 +71,8 @@ $(document).ready(async function () {
     
                                 <div class="card-course-tags">
                                     ${course.tag.map(tag => {
-                                        return `<div class="item">${tag.name}</div>`
-                                    }).join('')}
+                    return `<div class="item">${tag.name}</div>`
+                }).join('')}
                                 </div>
                             </div>
                             <div class="body">
@@ -87,32 +87,32 @@ $(document).ready(async function () {
                                 </a>
                                 <p class="harga">
                                     ${(() => {
-                                        if (course.old_price !== '0') {
-                                            return `<del>${getRupiah(course.old_price)}</del>`
-                                        } else {
-                                            return ''
-                                        }
-                                    })()}
+                        if (course.old_price !== '0') {
+                            return `<del>${getRupiah(course.old_price)}</del>`
+                        } else {
+                            return ''
+                        }
+                    })()}
                                     ${getRupiah(course.new_price)}
                                 </p>
                             </div>
                             <div class="card-course-button">
                                 ${(() => {
-                                    if (!course.isBought) {
-                                        return `
+                        if (!course.isBought) {
+                            return `
                                             <a href="${`/checkout/${course.course_id}`}">
                                                 <button class="my-btn btn-full">Beli</button>
                                             </a>
                                             <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
                                         `
-                                    } else {
-                                        return `
+                        } else {
+                            return `
                                             <a href="${`/course/${course.course_id}`}">
                                                 <button class="my-btn btn-full">Lihat Course</button>
                                             </a>
                                         `
-                                    }
-                                })()}
+                        }
+                    })()}
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@ $(document).ready(async function () {
         }
 
         function handleAddCart() {
-            return $('.add-cart').on('click', function() {
+            return $('.add-cart').on('click', function () {
                 const course_id = $(this).val()
 
                 if (!Cookies.get("access_token")) {
@@ -134,7 +134,7 @@ $(document).ready(async function () {
                         showConfirmButton: true
                     })
                 }
-                
+
                 $.ajax({
                     url: `/api/cart/create/course/${course_id}`,
                     method: 'POST',
@@ -151,19 +151,81 @@ $(document).ready(async function () {
                             showConfirmButton: true
                         })
                     }
-                    
-                    return new swal({
-                        title: "Berhasil!",
-                        text: "Course berhasil ditambahkan ke keranjang",
-                        icon: "success",
-                        timer: 1200,
-                        showConfirmButton: false
-                    }).then(() => window.location = '/cart')
+
+                    $.ajax({
+                        url: '/api/cart',
+                        method: 'GET',
+                        dataType: 'json',
+                        headers: {
+                            Authorization: 'Bearer ' + Cookies.get("access_token")
+                        }
+                    }).then((res) => {
+                        if (res.item.length > 0) {
+                            $('#cart-count').append(
+                                `<div class="nav-btn-icon-amount">${res.item.length}</div>`
+                            );
+                        }
+                    }).then(() => {
+                        return new swal({
+                            title: "Berhasil!",
+                            text: "Course berhasil ditambahkan ke keranjang",
+                            icon: "success",
+                            timer: 1200,
+                            showConfirmButton: false
+                        })
+                    })
                 }).catch((err) => {
-                    // console.log(error)
+                    let error = err.responseJSON
+                    return new swal({
+                        title: 'Gagal',
+                        text: error.messages.error,
+                        icon: 'error',
+                        showConfirmButton: true
+                    })
                 })
             })
         }
+    } catch (error) {
+        // console.log(error)
+    }
+
+    // handle webinar
+    try {
+        const webinarResponse = await $.ajax({
+            url: '/api/webinar',
+            method: 'GET',
+            dataType: 'json'
+        })
+
+        $('#webinar .webinar-wrapper').html(webinarResponse.map(webinar => {
+            return `
+                <div class="col col-md-3">
+                    <div class="card-webinar">
+                        <div class="image">
+                            <img src="${webinar.thumbnail}" alt="img">
+                        </div>
+
+                        <h2>${webinar.title}</h2>
+                        <div class="item-info">
+                            <i class="fa-solid fa-video"></i>
+                            <p>${webinar.webinar_type}</p>
+                        </div>
+                        <div class="item-info">
+                            <i class="fa-solid fa-file-video"></i>
+                            <p>Soft file Rekaman Webinar</p>
+                        </div>
+                        <div class="price">
+                            <del class="harga-diskon">${getRupiah(webinar.old_price)}</del>
+                            <h2 class="harga m-0">${getRupiah(webinar.new_price)}</h2>
+                        </div>
+
+                        <a href="">
+                            <button class="my-btn btn-full">Ikut Webinar</button>
+                        </a>
+                    </div>
+                </div>
+            `
+        }))
     } catch (error) {
         // console.log(error)
     }
@@ -175,7 +237,7 @@ $(document).ready(async function () {
             method: 'GET',
             dataType: 'json'
         })
-        
+
         let mentors = mentorResponse.map(mentor => {
             return {
                 id: mentor.id,
@@ -280,10 +342,10 @@ $(document).ready(async function () {
 
         function artikelMouseOver() {
             $(this).find('.gradient').addClass('active')
-    
+
             let artikelId = $(this).data('atikel-id')
             let artikel = artikels.find(artikel => artikel.id == artikelId)
-            
+
             $(this).find('.content').html(
                 `
                     <h2>${artikel.title}</h2>
@@ -292,13 +354,13 @@ $(document).ready(async function () {
                 `
             )
         }
-    
+
         function artikelMouseOut() {
             $(this).find('.gradient').removeClass('active')
-    
+
             let artikelId = $(this).data('atikel-id')
             let artikel = artikels.find(artikel => artikel.id == artikelId)
-    
+
             $(this).find('.content').html(
                 `
                     <h2>${artikel.title}</h2>
@@ -327,7 +389,7 @@ $(document).ready(async function () {
                 testimoni: testimoni.testimoni
             }
         })
-        
+
         $('#testimoni .testimoni-slick').html(testimonials.map((testimoni) => {
             return (
                 `
