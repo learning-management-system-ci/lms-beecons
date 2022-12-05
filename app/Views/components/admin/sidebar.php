@@ -6,7 +6,7 @@
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com//argon-dashboard/pages/dashboard.html "
             target="_blank">
             <img src="/argon-dashboard/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold">Argon Dashboard 2</span>
+            <span class="ms-1 font-weight-bold">Stufast Dashboard</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -34,7 +34,8 @@
                 <a class="nav-link <?php if(uri_string() == 'admin/course') : echo 'active'; endif ?>" href="/admin/course">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-single-02 text-primary text-sm opacity-10"></i>
+                        <i class="ni ni-hat-3 text-success text-sm opacity-10"></i>
+                        
                     </div>
                     <span class="nav-link-text ms-1">Course</span>
                 </a>
@@ -43,7 +44,7 @@
                 <a class="nav-link <?php if(uri_string() == 'admin/transaction') : echo 'active'; endif ?>" href="/admin/transaction">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-single-02 text-primary text-sm opacity-10"></i>
+                        <i class="ni ni-credit-card text-warning text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Transaction</span>
                 </a>

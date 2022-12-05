@@ -18,6 +18,20 @@
                 <li class="breadcrumb-item text-sm text-white active" aria-current="page">User</li>
                 <?php 
                             break;
+                        case "admin/course":
+                    ?>
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="/admin">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">Course</li>
+                <?php 
+                            break;
+                        case "admin/transaction":
+                    ?>
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="/admin">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item text-sm text-white active" aria-current="page">Transaction</li>
+                <?php 
+                            break;
                         default: 
                             echo "somerthing wrong";
                     } ?>
