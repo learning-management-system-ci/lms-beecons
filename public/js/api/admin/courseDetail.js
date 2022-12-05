@@ -16,6 +16,22 @@ const stopSetting = () => {
   general_page.removeClass('d-none').addClass("show active")
 }
 
+const startCreateVideo = () => {
+  const create_video_page = $("#create-video")
+  const video_page = $("#video")
+
+  video_page.removeClass("show active").addClass('d-none')
+  create_video_page.removeClass('d-none').addClass("show")
+}
+
+const stopCreateVideo = () => {
+  const create_video_page = $("#create-video")
+  const video_page = $("#video")
+
+  create_video_page.removeClass("show").addClass('d-none')
+  video_page.removeClass('d-none').addClass("show active")
+}
+
 const previewImage = () => {
   frame.src = URL.createObjectURL(event.target.files[0]);
 }
@@ -215,6 +231,7 @@ $(document).ready(() => {
   const populateCourseDetailVideo = data => {
     const content = {
       video: $('#course-video'),
+      list_order_submit: $('#submit-btn-course-list-video'),
     }
 
     content.video.empty()
@@ -228,7 +245,7 @@ $(document).ready(() => {
       } = video
       
       let template = `
-      <li class="list-group-item d-flex justify-content-between align-items-start">
+      <li class="list-group-item d-flex justify-content-between align-items-start list-video" data-id-video="${id}">
         <div class="ms-2 me-auto">
           <div class="fw-bold">${title}</div>
           ${duration}
@@ -239,6 +256,20 @@ $(document).ready(() => {
       </li>`
 
       content.video.append(template)
+    })
+
+    // on click list order submit 
+    content.list_order_submit.on('click', () => {
+      console.log("clicked")
+      let list = []
+      $('.list-video').each((index, element) => {
+        // append to list
+        list.push({
+          video_id: $(element).data('id-video'),
+          order: index
+        })
+      })
+      console.log(list)
     })
   }
 
