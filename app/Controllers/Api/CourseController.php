@@ -9,6 +9,7 @@ use App\Models\CourseType;
 use App\Models\CourseTag;
 use App\Models\TypeTag;
 use App\Models\Tag;
+use App\Models\Resume;
 use App\Models\Video;
 use App\Models\VideoCategory;
 use App\Models\Users;
@@ -45,6 +46,7 @@ class CourseController extends ResourceController
         $this->modelJob = new Jobs();
         $this->modelUserCourse = new UserCourse();
         $this->userVideo = new UserVideo();
+        $this->modelResume = new Resume();
     }
 
     public function getTopic($id = null)
@@ -332,6 +334,7 @@ class CourseController extends ResourceController
             $userCourse = $this->modelUserCourse->where('course_id', $id)->where('user_id', $decoded->uid)->first();
         }
 
+        // Jika video ditemukan
         if ($this->model->find($id)) {
             $video = [];
             $modelCourseTag = new CourseTag();
@@ -383,6 +386,18 @@ class CourseController extends ResourceController
                                 ->where('user_id', $decoded->uid)
                                 ->where('video_id', $video[$p]['video_id'])
                                 ->findAll();
+
+                            $resume = $this->modelResume
+                                ->where('user_id', $decoded->uid)
+                                ->where('video_id', $data['video_category'][$l]['video'][$p]['video_id'])
+                                ->first();
+
+                            if($resume){
+                                $data['video_category'][$l]['video'][$p]['resume'] = $resume['resume'];
+                            }else{
+                                $data['video_category'][$l]['video'][$p]['resume'] = null;
+                            }
+
                             if ($user_video) {
                                 $data['video_category'][$l]['video'][$p]['score'] = $user_video[0]['score'];
                             } else {
@@ -399,6 +414,18 @@ class CourseController extends ResourceController
                                 ->where('user_id', $decoded->uid)
                                 ->where('video_id', $video[$p]['video_id'])
                                 ->findAll();
+
+                            $resume = $this->modelResume
+                                ->where('user_id', $decoded->uid)
+                                ->where('video_id', $data['video'][$p]['video_id'])
+                                ->first();
+
+                            if($resume){
+                                $data['video'][$p]['resume'] = $resume['resume'];
+                            }else{
+                                $data['video'][$p]['resume'] = null;
+                            }
+
                             if ($user_video) {
                                 $data['video'][$p]['score'] = $user_video[0]['score'];
                             } else {
