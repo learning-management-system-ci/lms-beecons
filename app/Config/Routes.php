@@ -353,6 +353,14 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\WebinarController::delete/$1');
     });
 
+    $routes->group('resume/', static function ($routes) {
+        $routes->get('', 'Api\ResumeController::index');
+        $routes->get('detail/(:num)', 'Api\ResumeController::show/$1');
+        $routes->post('create', 'Api\ResumeController::create');
+        $routes->put('update/(:num)', 'Api\ResumeController::update/$1');
+        $routes->delete('delete/(:num)', 'Api\ResumeController::delete/$1');
+    });
+
     $routes->get('user-course', 'Api\UserCourseController::index');
     $routes->get('profile', 'Api\UserController::profile');
 });

@@ -8,7 +8,7 @@ class Resume extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'resume';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'resume_id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
