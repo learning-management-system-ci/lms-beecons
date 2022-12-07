@@ -422,6 +422,7 @@ class CourseController extends ResourceController
 
                             if($resume){
                                 $data['video'][$p]['resume'] = $resume;
+
                             }else{
                                 $data['video'][$p]['resume'] = null;
                             }
