@@ -393,7 +393,7 @@ class CourseController extends ResourceController
                                 ->first();
 
                             if($resume){
-                                $data['video_category'][$l]['video'][$p]['resume'] = $resume['resume'];
+                                $data['video_category'][$l]['video'][$p]['resume'] = $resume;
                             }else{
                                 $data['video_category'][$l]['video'][$p]['resume'] = null;
                             }
@@ -421,7 +421,7 @@ class CourseController extends ResourceController
                                 ->first();
 
                             if($resume){
-                                $data['video'][$p]['resume'] = $resume['resume'];
+                                $data['video'][$p]['resume'] = $resume;
                             }else{
                                 $data['video'][$p]['resume'] = null;
                             }
