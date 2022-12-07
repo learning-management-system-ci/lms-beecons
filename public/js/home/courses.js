@@ -176,7 +176,7 @@ $(document).ready(async function () {
                                 ${(() => {
                         if (!course.isBought) {
                             return `
-                                            <a href="${`/checkout/${course.course_id}`}" class='btn-checkout'>
+                                            <a href="${`/checkout?type=course&id=${course.course_id}`}" class='btn-checkout'>
                                                 <button class="my-btn btn-full">Beli</button>
                                             </a>
                                             <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
