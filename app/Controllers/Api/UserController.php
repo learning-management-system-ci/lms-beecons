@@ -152,23 +152,23 @@ class UserController extends ResourceController
             $decoded = JWT::decode($token, $key, ['HS256']);
 
             $user = new Users;
-            
+
             $data = $user->select('role')->where('id', $decoded->uid)->first();
             if ($data['role'] != 'admin') {
                 return $this->fail('Tidak dapat di akses selain admin', 400);
             }
-            
+
             $job = new Jobs;
-            
+
             $data = $user->findAll();
-            
+
             $path = site_url() . 'upload/users/';
 
             $response = [];
-            
+
             for ($i = 0; $i < count($data); $i++) {
                 $job_data = $job->where('job_id', $data[$i]['job_id'])->first();
-                if ($data[$i]['profile_picture'] == null){
+                if ($data[$i]['profile_picture'] == null) {
                     $profilenull = $path . "dafault.png";
                 } else {
                     $profilenull = $path . $data[$i]['profile_picture'];
@@ -179,7 +179,7 @@ class UserController extends ResourceController
                     'fullname' =>  $data[$i]['fullname'],
                     'email' => $data[$i]['email'],
                     'role' => $data[$i]['role'],
-                    'date_birth' => $data[$i]['date_birth'],    
+                    'date_birth' => $data[$i]['date_birth'],
                     'job_name' => (is_null($data[$i]['job_id'])) ? null : $job_data['job_name'],
                     'address' => $data[$i]['address'],
                     'phone_number' => $data[$i]['phone_number'],
@@ -188,7 +188,7 @@ class UserController extends ResourceController
                     "updated_at" => $data[$i]['updated_at'],
                 ]);
             }
-            
+
             return $this->respond($response);
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
@@ -261,10 +261,10 @@ class UserController extends ResourceController
         try {
             $user = new Users;
 
-            if ($decoded->uid != $id){
+            if ($decoded->uid != $id) {
                 return $this->failNotFound('Parameters & Token user tidak sesuai');
             };
-            
+
             $cek = $user->where('id', $decoded->uid)->findAll();
 
             if (!$cek) {
@@ -274,7 +274,8 @@ class UserController extends ResourceController
             $rules_a = [
                 'fullname' => 'required',
                 'date_birth' => 'required|valid_date',
-                'phone_number' => 'required|numeric'
+                'phone_number' => 'required|numeric',
+                'linkedin'  => 'required|valid_url_strict[https]'
             ];
 
             $rules_b = [
@@ -293,7 +294,8 @@ class UserController extends ResourceController
                 'phone_number' => [
                     'required' => '{field} tidak boleh kosong',
                     'numeric' => '{field} harus berisi numerik'
-                ]
+                ],
+                'linkedin' => ['valid_url_strict' => 'Tolong masukkan link linkedin anda']
             ];
 
             $messages_b = [
