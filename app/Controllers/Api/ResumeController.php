@@ -18,18 +18,78 @@ class ResumeController extends ResourceController
     }
 
     public function index(){
-        $dataresume = $this->resume->findAll();
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] != 'admin') {
+				return $this->fail('Tidak dapat di akses selain admin', 400);
+			}
+            
+            $dataresume = $this->resume->findAll();
+
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
         return $this->respond($dataresume);
     }
     
     public function show($id = null){
-        $data = $this->resume->where('resume_id', $id)->first();
-        
-        if($data){
-            return $this->respond($data);
-        }else{
-            return $this->failNotFound('Data Resume tidak ditemukan');
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+
+            $data = $this->resume->where('resume_id', $decoded->uid)->first();
+            
+            if($data){
+                return $this->respond($data);
+            }else{
+                return $this->failNotFound('Data Resume tidak ditemukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
+        return $this->failNotFound('Resume tidak ditemukan');
+    }
+
+    public function showadmin($id = null){
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] != 'admin') {
+				return $this->fail('Tidak dapat di akses selain admin', 400);
+			}
+
+            $data = $this->resume->where('resume_id', $id)->first();
+            
+            if($data){
+                return $this->respond($data);
+            }else{
+                return $this->failNotFound('Data Resume tidak ditemukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+        return $this->failNotFound('Resume tidak ditemukan');
     }
 
     public function create()
