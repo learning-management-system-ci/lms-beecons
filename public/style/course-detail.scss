@@ -90,6 +90,17 @@ button {
 //     background: #fff;
 //     z-index: 9999;
 // }
+.resume-list-btn{
+    text-decoration: underline;
+    color: #164520;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.resume-list-btn:disabled{
+    color: #bdbdbd;
+    cursor: not-allowed;
+}
 
 main {
     .navigation {
@@ -253,7 +264,61 @@ main {
                     .curiculum-list {
                         list-style: none;
                         padding-left: 0;
-                        height: 350px;
+                        height: 315px;
+                        overflow-y: scroll;
+
+                        li {
+                            div {
+                                gap: 15px;
+
+                                button {
+
+
+                                    div {
+                                        width: 40px;
+                                        height: 40px;
+                                        border-radius: 80px;
+                                    }
+
+                                    .play {
+                                        @include button-curiculum('../image/course-detail/play-project-enable.png', 40px)
+                                    }
+
+                                    .locked {
+                                        @include button-curiculum('../image/course-detail/video-locked.png', 30px);
+                                        background-position: center center;
+                                    }
+
+                                    // .lock-button {
+                                    //     width: 40px;
+                                    //     border-radius: 80px;
+                                    //     padding: 5px;
+                                    //     background-color: white;
+                                    // }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .resume {
+                .list-box {
+                    background-color: #F2F4F6;
+                    // border: 1px solid black;
+                    border-radius: 8px;
+
+                    .resume-title {
+                        border-radius: 8px 8px 0px 0px;
+                        padding: 10px 20px;
+                        color: white;
+                        background-color: #164520;
+                    }
+
+                    .resume-list {
+                        list-style: none;
+                        padding-left: 0;
+                        height: 315px;
                         overflow-y: scroll;
 
                         li {
@@ -334,7 +399,7 @@ main {
             }
 
             .user-review {
-                height: 400px;
+                max-height: 400px;
                 overflow-y: scroll;
 
                 .review-card {

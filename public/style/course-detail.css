@@ -59,6 +59,18 @@ button {
   min-width: 40px;
 }
 
+.resume-list-btn {
+  text-decoration: underline;
+  color: #164520;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.resume-list-btn:disabled {
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+
 main .navigation p {
   font-family: "Plus Jakarta Sans";
   font-style: normal;
@@ -185,7 +197,7 @@ main .course-content .left-side .curiculum .list-box .curiculum-title {
 main .course-content .left-side .curiculum .list-box .curiculum-list {
   list-style: none;
   padding-left: 0;
-  height: 350px;
+  height: 315px;
   overflow-y: scroll;
 }
 main .course-content .left-side .curiculum .list-box .curiculum-list li div {
@@ -203,6 +215,43 @@ main .course-content .left-side .curiculum .list-box .curiculum-list li div butt
   background-color: white;
 }
 main .course-content .left-side .curiculum .list-box .curiculum-list li div button .locked {
+  background-image: url("../image/course-detail/video-locked.png");
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center center;
+}
+main .course-content .left-side .resume .list-box {
+  background-color: #F2F4F6;
+  border-radius: 8px;
+}
+main .course-content .left-side .resume .list-box .resume-title {
+  border-radius: 8px 8px 0px 0px;
+  padding: 10px 20px;
+  color: white;
+  background-color: #164520;
+}
+main .course-content .left-side .resume .list-box .resume-list {
+  list-style: none;
+  padding-left: 0;
+  height: 315px;
+  overflow-y: scroll;
+}
+main .course-content .left-side .resume .list-box .resume-list li div {
+  gap: 15px;
+}
+main .course-content .left-side .resume .list-box .resume-list li div button div {
+  width: 40px;
+  height: 40px;
+  border-radius: 80px;
+}
+main .course-content .left-side .resume .list-box .resume-list li div button .play {
+  background-image: url("../image/course-detail/play-project-enable.png");
+  background-size: 40px;
+  background-repeat: no-repeat;
+  background-color: white;
+}
+main .course-content .left-side .resume .list-box .resume-list li div button .locked {
   background-image: url("../image/course-detail/video-locked.png");
   background-size: 30px;
   background-repeat: no-repeat;
@@ -238,7 +287,7 @@ main .course-content .left-side .project .button-group .download-button img {
   width: 200px;
 }
 main .course-content .left-side .user-review {
-  height: 400px;
+  max-height: 400px;
   overflow-y: scroll;
 }
 main .course-content .left-side .user-review .review-card {

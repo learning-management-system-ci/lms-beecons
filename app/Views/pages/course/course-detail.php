@@ -119,6 +119,10 @@
                     <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-review"
                         type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Review</button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-resume-tab" data-bs-toggle="pill" data-bs-target="#pills-resume"
+                        type="button" role="tab" aria-controls="pills-resume" aria-selected="false">Resume</button>
+                </li>
             </ul>
             <div class="tab-content description" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
@@ -213,6 +217,30 @@
                             </div>
                             <p class="review-description">"Video materi sangat membantu, pokoknya mantul"</p>
                         </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade resume " id="pills-resume" role="tabpanel"
+                    aria-labelledby="pills-resume-tab" tabindex="0">
+                    <div class="list-box pb-1">
+                        <p class="resume-title mb-3 course_title_content">Becoming Professional UI/UX Designer</p>
+                        <ul class="resume-list course_resumeList_content ps-2">
+                            <li class="d-flex justify-content-between mb-2">
+                                <div class="d-flex align-items-center">
+                                    <p>Course Introduction</p>
+                                </div>
+                                <div class="d-flex">
+                                    <a href="#" class="preview-link">Resume</a>
+                                </div>
+                            </li>
+                            <li class="d-flex justify-content-between mb-2">
+                                <div class="d-flex align-items-center">
+                                    <p>Course Introduction</p>
+                                </div>
+                                <div class="d-flex">
+                                    <a href="#" class="preview-link">Resume</a>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
