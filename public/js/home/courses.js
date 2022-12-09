@@ -25,80 +25,79 @@ $(document).ready(async function () {
 
         $('#courses-loading').hide()
 
-        $('#courses #tab-courses-1 .tags').html(
-            `<a href="" class="item" data-tag_id="0">All</a>` + 
+        $('#courses #tab-courses-engineering .tags').html(
+            `<a href="" class="item" data-tag_id="0">All</a>` +
             tagsResponse[0].tag.map(tag => {
-            return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
-        }).reverse().join(''))
+                return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
+            }).reverse().join(''))
 
-        $('#courses #tab-courses-2 .tags').html(
-            `<a href="" class="item" data-tag_id="0">All</a>` + 
+        $('#courses #tab-courses-it .tags').html(
+            `<a href="" class="item" data-tag_id="0">All</a>` +
             tagsResponse[1]?.tag.map(tag => {
-            return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
-        }).reverse().join(''))
+                return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
+            }).reverse().join(''))
 
         $('#courses .sub-tags').html(
-            `<a href="" class="item" data-category_id="0">All</a>` + 
+            `<a href="" class="item" data-category_id="0">All</a>` +
             categoryResponse.map(category => {
-            return `<a href="" class="item" data-category_id="${category.category_id}">${category.name}</a>`
-        }).reverse().join(''))
+                return `<a href="" class="item" data-category_id="${category.category_id}">${category.name}</a>`
+            }).reverse().join(''))
 
-        generateListCourse(courseResponse, $('#courses-engineering'), '1', '0', '0')
-        // generateListCourse(courseResponse, $('#courses-it'), '2', '0', '0')
+        generateListCourse(courseResponse, $('#courses-engineering'), 'engineering', '0', '0')
 
-        $('#courses  #tab-courses-1 .tags .item').on('click', function (e) {
+        $('#courses  #tab-courses-engineering .tags .item').on('click', function (e) {
             e.preventDefault()
-            $(`#courses #tab-courses-1 .tags .item`).removeClass('active')
-    
+            $(`#courses #tab-courses-engineering .tags .item`).removeClass('active')
+
             let currentTag = $(this).data('tag_id').toString()
             localStorage.setItem('current-tag-engineering', currentTag)
-            generateListCourse(courseResponse, $('#courses-engineering'), '1', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
+            generateListCourse(courseResponse, $('#courses-engineering'), 'engineering', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
         })
 
-        $(`#courses #tab-courses-1 .sub-tags .item`).on('click', function(e) {
+        $(`#courses #tab-courses-engineering .sub-tags .item`).on('click', function (e) {
             e.preventDefault()
-            $('#courses #tab-courses-1 .sub-tags .item').removeClass('active')
+            $('#courses #tab-courses-engineering .sub-tags .item').removeClass('active')
 
             let currentCategory = $(this).data('category_id').toString()
-            
+
             localStorage.setItem('current-category-engineering', currentCategory)
-            generateListCourse(courseResponse, $('#courses-engineering'), '1', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
+            generateListCourse(courseResponse, $('#courses-engineering'), 'engineering', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
         })
 
-        $('#courses  #tab-courses-2 .tags .item').on('click', function (e) {
+        $('#courses  #tab-courses-it .tags .item').on('click', function (e) {
             e.preventDefault()
-            $(`#courses #tab-courses-2 .tags .item`).removeClass('active')
+            $(`#courses #tab-courses-it .tags .item`).removeClass('active')
 
             let currentTag = $(this).data('tag_id').toString()
             localStorage.setItem('current-tag-it', currentTag)
-            generateListCourse(courseResponse, $('#courses-it'), '2', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
+            generateListCourse(courseResponse, $('#courses-it'), 'it', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
         })
 
-        $(`#courses #tab-courses-2 .sub-tags .item`).on('click', function(e) {
+        $(`#courses #tab-courses-it .sub-tags .item`).on('click', function (e) {
             e.preventDefault()
-            $('#courses #tab-courses-2 .sub-tags .item').removeClass('active')
+            $('#courses #tab-courses-it .sub-tags .item').removeClass('active')
 
             let currentCategory = $(this).data('category_id').toString()
-            
+
             localStorage.setItem('current-category-it', currentCategory)
-            generateListCourse(courseResponse, $('#courses-it'), '2', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
+            generateListCourse(courseResponse, $('#courses-it'), 'it', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
         })
 
-        async function generateListCourse(courses, element, type, tag, category) {
+        async function generateListCourse(courses, element, type, tag, category, cpage = 1) {
             let currentTag = $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).html()
             $(`#courses #tab-courses-${type} .current-tag`).html(currentTag)
             $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).addClass('active')
             $(`#courses #tab-courses-${type} .sub-tags .item[data-category_id=${category}]`).addClass('active')
-    
-            let coursesByType = courses.filter(course => course.type[0].type_id === type)
+
+            let coursesByType = courses.filter(course => course.type.toLowerCase() === type.toLowerCase())
             let coursesBytag = coursesByType.filter(course => course.tag.map(tag => tag.tag_id).includes(tag))
-            let coursesByCategory = coursesBytag.filter(course => course.category[0].category_id === category)
-            
+            let coursesByCategory = coursesBytag.filter(course => course.category.category_id === category)
+
             let result = []
             if (tag === '0' && category === '0') {
                 result = coursesByType
             } else if (tag === '0' && category !== '0') {
-                result = coursesByType.filter(course => course.category[0].category_id === category)
+                result = coursesByType.filter(course => course.category.category_id === category)
             } else if (tag !== '0' && category === '0') {
                 result = coursesBytag
             } else {
@@ -123,10 +122,10 @@ $(document).ready(async function () {
                             Authorization: 'Bearer ' + Cookies.get("access_token")
                         }
                     })
-            
+
                     userCourses = res
                 } catch (error) {
-                    console.log(error)
+                    // console.log(error)
                 }
 
                 result = result.map((course, i) => {
@@ -136,75 +135,154 @@ $(document).ready(async function () {
                     }
                 })
             }
-    
+
+            let total = result.length
+            let perPage = 12
+            let totalPage = Math.ceil(total / perPage)
+            let start = (cpage - 1) * perPage
+            let end = cpage * perPage
+            result = result.slice(start, end)
+
+            $(`#courses #tab-courses-${type} .btn-pgn-wrapper`).html('')
+            for (let i = 1; i <= totalPage; i++) {
+                $(`#courses #tab-courses-${type} .btn-pgn-wrapper`).append(`
+                    <button class="btn-pgn" data-page='${i}'>${i}</button>
+                `)
+            }
+
+            $(`#courses #tab-courses-${type} .btn-pgn-wrapper .btn-pgn[data-page=${cpage}]`).addClass('active')
+            
+            $(`#courses #tab-courses-${type} .btn-pgn-wrapper .btn-pgn`).on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate({
+                    scrollTop: $(`#courses #tab-courses-${type}`).offset().top
+                }, 0)
+                let cpage = $(this).data('page')
+                generateListCourse(courses, element, type, tag, category, cpage)
+            })
+
+            if (cpage > 1) {
+                $(`#courses #tab-courses-${type} .btn-pgn-prev-wrapper`).html(`
+                    <button class="btn-pgn-prev"><i class="fa-solid fa-chevron-left"></i></button>
+                `)
+            } else {
+                $(`#courses #tab-courses-${type} .btn-pgn-prev-wrapper`).html('')
+            }
+
+            if (cpage < totalPage) {
+                $(`#courses #tab-courses-${type} .btn-pgn-next-wrapper`).html(`
+                    <button class="btn-pgn-next"><i class="fa-solid fa-chevron-right"></i></button>
+                `)
+            } else {
+                $(`#courses #tab-courses-${type} .btn-pgn-next-wrapper`).html('')
+            }
+
+            $(`#courses #tab-courses-${type} .btn-pgn-prev`).on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate({
+                    scrollTop: $(`#courses #tab-courses-${type}`).offset().top
+                }, 0)
+                generateListCourse(courses, element, type, tag, category, cpage - 1)
+            })
+
+            $(`#courses #tab-courses-${type} .btn-pgn-next`).on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate({
+                    scrollTop: $(`#courses #tab-courses-${type}`).offset().top
+                }, 0)
+                generateListCourse(courses, element, type, tag, category, cpage + 1)
+            })
+
             element.html(result.map(course => {
                 return `
                     <div class="col-4 pb-4">
                         <div class="card-course">
                             <div class="image">
                                 <a href="/course/${course.course_id}">
-                                    <img src="image/home/img-course.jpg" alt="img">
+                                    <img src="${course.thumbnail}" alt="img">
                                 </a>
     
                                 <div class="card-course-tags">
                                     ${course.tag.map(tag => {
-                                        return `<div class="item">${tag.name}</div>`
-                                    }).join('')}
+                    return `<div class="item">${tag.name}</div>`
+                }).join('')}
                                 </div>
                             </div>
                             <div class="body">
                                 <a href="/course/${course.course_id}">
-                                    <h2 class="text-truncate">${course.title}</h2>
+                                    <div class='mb-2'>
+                                        <h2 class="text-truncate m-0">${course.title}</h2>
+                                        <small class='fw-bold'>${course.author}</small>
+                                    </div>
                                     <p>
                                         ${textTruncate(course.description, 120)}
                                     </p>
                                 </a>
                                 <p class="harga">
                                     ${(() => {
-                                        if (course.old_price !== '0') {
-                                            return `<del>${getRupiah(course.old_price)}</del>`
-                                        } else {
-                                            return ''
-                                        }
-                                    })()}
+                        if (course.old_price !== '0') {
+                            return `<del>${getRupiah(course.old_price)}</del>`
+                        } else {
+                            return ''
+                        }
+                    })()}
                                     ${getRupiah(course.new_price)}
                                 </p>
                             </div>
                             <div class="card-course-button">
                                 ${(() => {
-                                    if (!course.isBought) {
-                                        return `
-                                            <a href="${`/checkout/${course.course_id}`}">
+                        if (!course.isBought) {
+                            return `
+                                            <a href="${`/checkout?type=course&id=${course.course_id}`}" class='btn-checkout'>
                                                 <button class="my-btn btn-full">Beli</button>
                                             </a>
                                             <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
                                         `
-                                    } else {
-                                        return `
+                        } else {
+                            return `
                                             <a href="${`/course/${course.course_id}`}">
                                                 <button class="my-btn btn-full">Lihat Course</button>
                                             </a>
                                         `
-                                    }
-                                })()}
+                        }
+                    })()}
                             </div>
                         </div>
                     </div>
                 `
             }))
 
+            handleCheckout()
+
             handleAddCart()
         }
 
+        function handleCheckout() {
+            return $('.btn-checkout').on('click', function (e) {
+                e.preventDefault()
+                let href = $(this).attr('href')
+                if (!Cookies.get('access_token')) {
+                    return new swal({
+                        title: 'Login',
+                        text: 'Silahkan login terlebih dahulu',
+                        icon: 'warning',
+                        showConfirmButton: true
+                    })
+                } else {
+                    window.location.href = href
+                }
+            })
+        }
+
         function handleAddCart() {
-            return $('.add-cart').on('click', async function() {
+            return $('.add-cart').on('click', async function () {
                 const course_id = $(this).val()
 
                 if (!Cookies.get("access_token")) {
                     return new swal({
-                        title: 'Gagal',
-                        text: 'Anda belum login',
-                        icon: 'error',
+                        title: 'Login',
+                        text: 'Silahkan login terlebih dahulu',
+                        icon: 'warning',
                         showConfirmButton: true
                     })
                 }
@@ -227,7 +305,7 @@ $(document).ready(async function () {
                             showConfirmButton: true
                         })
                     }
-                    
+
                     new swal({
                         title: "Berhasil!",
                         text: "Course berhasil ditambahkan ke keranjang",
@@ -250,12 +328,18 @@ $(document).ready(async function () {
                             `<div class="nav-btn-icon-amount">${item.length}</div>`
                         );
                     }
-                } catch (error) {
-                    console.log(error)
+                } catch (err) {
+                    let error = err.responseJSON
+                    return new swal({
+                        title: 'Gagal',
+                        text: error.messages.error,
+                        icon: 'error',
+                        showConfirmButton: true
+                    })
                 }
             })
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 })

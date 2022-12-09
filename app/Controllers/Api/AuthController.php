@@ -83,6 +83,7 @@ class AuthController extends ResourceController
                 "exp" => time() + (60 * 60),
                 'uid'   => $datauser['id'],
                 'email' => $email,
+                'role' => $datauser['role'],
             ];
             $token = JWT::encode($payload, $key, 'HS256');
         } else {
@@ -115,7 +116,7 @@ class AuthController extends ResourceController
             'client_id' => $google_oauth_client_id
         ]);
 
-        // // verify the token sent from AJAX
+        // verify the token sent from AJAX
         $id_token = $_POST['credential'];
 
         // print_r($id_token);
@@ -169,6 +170,7 @@ class AuthController extends ResourceController
                 "exp" => time() + (60 * 60),
                 'uid'   => $datauser['id'],
                 'email' => $email,
+                'role' => $datauser['role'],
             ];
             $token = JWT::encode($payload, $key, 'HS256');
         } else {
@@ -194,7 +196,7 @@ class AuthController extends ResourceController
     public function register()
     {
         $rules = [
-            "email" => "required|is_unique[users.email]|valid_email",
+            "email" => "required|valid_email",
             "password" => "required|min_length[8]|max_length[50]",
             "password_confirm" => "matches[password]",
         ];
@@ -202,7 +204,6 @@ class AuthController extends ResourceController
         $messages = [
             "email" => [
                 'required' => '{field} tidak boleh kosong',
-                'is_unique' => 'Email telah digunakan',
                 'valid_email' => 'Format email tidak sesuai'
             ],
             "password" => [
@@ -232,12 +233,28 @@ class AuthController extends ResourceController
             ];
             return $this->fail($response);
         } else {
-            $data['email'] = $this->request->getVar("email");
-            $data['role'] = 'participant';
-            $data['password'] = password_hash($this->request->getVar('password'), PASSWORD_BCRYPT);
-            $data['activation_code'] = $token;
+            $email =  $this->request->getVar('email');
+            $verifyEmail = $this->loginModel
+                            ->where("email", $email)
+                            ->where("activation_status", 0)
+                            ->first();
+            $verifyActivation = $this->loginModel
+                                ->where("email", $email)
+                                ->where("activation_status", 1)
+                                ->first();
+            $userdata['email'] = $email;
+            $userdata['role'] = 'member';
+            $userdata['profile_picture'] = 'default.png';
+            $userdata['password'] = password_hash($this->request->getVar('password'), PASSWORD_BCRYPT);
+            $userdata['activation_code'] = $token;
 
-            $this->loginModel->save($data);
+            if ($verifyActivation) return $this->failNotFound('Email telah digunakan');
+            
+            if ($verifyEmail == NULL) {
+                $this->loginModel->save($userdata);
+            } else {
+                $this->loginModel->updateUserByEmail($userdata, $email);
+            }
             $this->sendActivationEmail($this->request->getVar('email'), $token);
 
             $response = [
@@ -255,9 +272,11 @@ class AuthController extends ResourceController
         //$to = $this->request->getVar('mailTo'); 
         $subject = 'Link Aktivasi Akun';
         $link = base_url() . "/api/activateuser?token=" . $token;
+        $path = base_url();
         $data = [
             "link" => $link,
-            "email" => $emailTo
+            "email" => $emailTo,
+            "path" => $path,
         ];
         $message = view('html_email/email_verify.html', $data);
 
@@ -383,6 +402,7 @@ class AuthController extends ResourceController
             return $this->fail('Pengguna belum aktif');
         } else {
         }
+        $datauser = $verifyEmail;
         $key = getenv('TOKEN_SECRET');
         $payload = [
             'iat'   => 1356999524,
@@ -390,6 +410,7 @@ class AuthController extends ResourceController
             "exp" => time() + (60 * 60),
             'uid'   => $verifyEmail['id'],
             'email' => $verifyEmail['email'],
+            'role' => $datauser['role'],
         ];
         $token = JWT::encode($payload, $key, 'HS256');
 

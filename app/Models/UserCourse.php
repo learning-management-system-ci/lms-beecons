@@ -12,17 +12,25 @@ class UserCourse extends Model
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['user_id', 'course_id', 'is_access'];
 
+    // Dates
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
-    function getData($userId) {
+
+    function getData($userId)
+    {
         $builder = $this->db->table('user_course');
-                    $builder->select('*');
-                    $builder->where('user_id', $userId);
-                    $builder->join('course','course.course_id=user_course.course_id');
-                    $query = $builder->get();
-                    return $query;
+        $builder->select('*');
+        $builder->where('user_id', $userId);
+        $builder->join('course', 'course.course_id=user_course.course_id');
+        $query = $builder->get();
+        return $query;
     }
 }

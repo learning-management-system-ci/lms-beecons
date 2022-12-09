@@ -2,7 +2,7 @@ let courses = []
 const getAllCourses = async () => {
     try {
         const response = await $.ajax({
-            url: '/api/course',
+            url: document.location.origin + '/api/course',
             method: 'GET',
             dataType: 'json'
         })

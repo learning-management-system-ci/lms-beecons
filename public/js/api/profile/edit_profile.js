@@ -14,6 +14,7 @@ $(document).on("show.bs.modal", ".modal", function () {
 });
 
 $("#edit").submit(function (event) {
+    console.log($("input[type='file']")[0].files)
     // Stop form from submitting normally
     event.preventDefault();
 
@@ -68,7 +69,7 @@ $("#edit").submit(function (event) {
             }
             setTimeout(function () {
                 window.location.reload();
-            }, 2000)
+            }, 1000)
         },
         error: function (status, error) {
             var error_message = status.responseJSON.messages.error;

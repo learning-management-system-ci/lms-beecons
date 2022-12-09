@@ -7,7 +7,7 @@ $(document).ready(() => {
     try {
       let option = {
         type: "GET",
-        url: "http://localhost:8080/api/cart",
+        url: "/api/cart",
         dataType: "json",
         headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -46,7 +46,7 @@ $(document).ready(() => {
     try {
       let option = {
         type: "GET",
-        url: `http://localhost:8080/api/course/detail/${id}`,
+        url: `/api/course/detail/${id}`,
         dataType: "json",
         headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -77,7 +77,7 @@ $(document).ready(() => {
     try {
       let option = {
         type: "GET",
-        url: `http://localhost:8080/api/bundling/detail/${id}`,
+        url: `/api/bundling/detail/${id}`,
         dataType: "json",
         headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -110,7 +110,7 @@ $(document).ready(() => {
     try {
       let option = {
         type: "GET",
-        url: "http://localhost:8080/api/voucher",
+        url: "/api/voucher",
         dataType: "json",
         headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -131,7 +131,7 @@ $(document).ready(() => {
     try {
       let option = {
         type: "GET",
-        url: `http://localhost:8080/api/voucher/code-detail?code=${code}`,
+        url: `/api/voucher/code-detail?code=${code}`,
         dataType: "json",
         headers: {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
@@ -195,7 +195,7 @@ $(document).ready(() => {
       const id = urlParams.get('id') || null;
       const type = urlParams.get('type') || null;
       const code = urlParams.get('code') || null;
-      let url = "http://localhost:8080/api/order/generatesnap?"
+      let url = "/api/order/generatesnap?"
       if(type == "course"){ 
         url += "cr=" + id + "&"
       } else if (type == "bundling"){

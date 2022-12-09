@@ -6,7 +6,8 @@ use CodeIgniter\Database\Migration;
 
 class Review extends Migration
 {
-    public function up() {
+    public function up()
+    {
         $this->forge->addField([
             'user_review_id'          => [
                 'type'           => 'INT',
@@ -36,16 +37,18 @@ class Review extends Migration
             ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at datetime',
         ]);
 
         $this->forge->addKey('user_review_id', TRUE);
         $this->forge->addForeignKey('user_id', 'users', 'id');
         $this->forge->addForeignKey('course_id', 'course', 'course_id');
         $this->forge->createTable('user_review', TRUE);
-   }
+    }
 
 
-    public function down() {
+    public function down()
+    {
         $this->forge->dropTable('user_review');
     }
 }

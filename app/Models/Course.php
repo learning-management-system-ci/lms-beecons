@@ -12,9 +12,16 @@ class Course extends Model
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title', 'service', 'description', 'key_takeaways', 'suitable_for', 'old_price', 'new_price', 'thumbnail'];
+    protected $allowedFields    = ['title', 'service', 'description', 'key_takeaways', 'suitable_for', 'old_price', 'new_price', 'author_id', 'thumbnail'];
+
+    // Dates
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
     // function getDataCourse($data_course_id){
     //     $builder = $this->db->table('course');
@@ -26,5 +33,5 @@ class Course extends Model
     //     $query = $builder->get();
     //     $video = 
     //     return $query->getResultArray();
-	// }
+    // }
 }

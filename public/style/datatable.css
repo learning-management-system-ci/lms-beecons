@@ -1,0 +1,11 @@
+div.dataTables_wrapper div.dataTables_filter {
+  text-align: right !important;
+}
+div.dataTables_wrapper div.dataTables_length {
+  text-align: left !important;
+}
+div.dataTables_wrapper div.dataTables_paginate li.paginate_button.page-item.active a.page-link {
+  color: #fff;
+}
+
+/*# sourceMappingURL=datatable.css.map */

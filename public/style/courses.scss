@@ -61,6 +61,31 @@ $color-select-tag: #6DAA82;
         }
     }
 
+    .courses-pagination {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+
+        button {
+            border-radius: 4px;
+        }
+
+        .btn-pgn-wrapper {
+            display: flex;
+            gap: .6rem;
+            align-items: center;
+
+            button {
+                background-color: transparent;
+            }
+
+            .active {
+                color: $color-primary;
+                font-weight: bold;
+            }
+        }
+    }
+
     .sub-tags {
         display: flex;
         flex-wrap: wrap;
@@ -145,7 +170,8 @@ $color-select-tag: #6DAA82;
                 content: "\f058";
                 color: $color-yellow;
                 font-family: FontAwesome;
-                display: inline-block;
+                display: block;
+                position: absolute;
                 margin-left: -1.5em;
                 width: 1.5em;
             }

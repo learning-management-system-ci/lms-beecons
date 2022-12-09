@@ -12,6 +12,8 @@ use App\Models\UserCourse;
 use App\Models\Voucher;
 use App\Models\Referral;
 use App\Models\ReferralUser;
+use App\Models\Webinar;
+use App\Models\UserWebinar;
 use Firebase\JWT\JWT;
 
 class CartController extends ResourceController
@@ -20,7 +22,6 @@ class CartController extends ResourceController
 
     public function index()
     {
-        $input = $this->request->getRawInput();
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -32,6 +33,7 @@ class CartController extends ResourceController
             $course = new Course;
             $bundling = new Bundling;
             $user = new Users;
+            $webinar = new Webinar;
 
             $cart_data = $cart->where('user_id', $decoded->uid)->findAll();
             $user_data = $user->select('id, email, date_birth, address, phone_number')->where('id', $decoded->uid)->first();
@@ -42,6 +44,7 @@ class CartController extends ResourceController
                 foreach ($cart_data as $value) {
                     $course_data = $course->select('title, old_price, new_price, thumbnail')->where('course_id', $value['course_id'])->first();
                     $bundling_data = $bundling->select('title, old_price, new_price')->where('bundling_id', $value['bundling_id'])->first();
+                    $webinar_data = $webinar->select('title, old_price, new_price')->where('webinar_id', $value['webinar_id'])->first();
 
                     if ($course_data) {
                         $price = (empty($course_data['new_price'])) ? $course_data['old_price'] : $course_data['new_price'];
@@ -51,10 +54,15 @@ class CartController extends ResourceController
                         $price = (empty($bundling_data['new_price'])) ? $bundling_data['old_price'] : $bundling_data['new_price'];
                     }
 
+                    if ($webinar_data) {
+                        $price = (empty($webinar_data['new_price'])) ? $webinar_data['old_price'] : $webinar_data['new_price'];
+                    }
+
                     $items[] = [
                         'cart_id' => $value['cart_id'],
                         'course' => $course_data,
                         'bundling' => $bundling_data,
+                        'webinar' => $webinar_data,
                         'sub_total' => $price
                     ];
 
@@ -69,11 +77,18 @@ class CartController extends ResourceController
                 }
 
                 $reedem = $this->reedem($data, $decoded->uid);
-                if ($reedem > 0) {
+
+                if ($reedem > 0 && $reedem <= 100) {
                     $discount = ($reedem / 100) * $temp;
                     $total = $temp - $discount;
                 } else {
-                    $reedem = 0;
+                    if ($reedem == 400) {
+                        $reedem = 'Kuota kode telah habis';
+                    } elseif ($reedem == 401) {
+                        $reedem = 'Voucher kadaluarsa';
+                    } elseif ($reedem == 402) {
+                        $reedem = 'Kode tidak dapat digunakan';
+                    }
                     $total = $temp;
                 }
 
@@ -116,6 +131,10 @@ class CartController extends ResourceController
             $user = new Users;
             $cart = new Cart;
             $userCourse = new UserCourse;
+            $userWebinar = new UserWebinar;
+            $webinar = new Webinar;
+            $course = new Course;
+            $bundling = new Bundling;
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
@@ -123,15 +142,39 @@ class CartController extends ResourceController
                 return $this->fail('Tidak dapat di akses selain member', 400);
             }
 
+            $check2 = false;
+            $check3 = false;
             if ($type == 'course') {
-                $check = $cart->where('course_id', $id)->where('user_id', $decoded->uid)->first();
+                $check = $cart->where('course_id', $id)->where('user_id ', $decoded->uid)->first();
                 $check2 = $userCourse->where('user_id', $decoded->uid)->where('course_id', $id)->first();
+                $check3 = $course->select('deleted_at')->where('course_id', $id)->first();
                 $messages = 'course';
             }
 
             if ($type == 'bundling') {
                 $check = $cart->where('bundling_id', $id)->where('user_id', $decoded->uid)->first();
+                $check3 = $bundling->select('deleted_at')->where('bundling_id', $id)->first();
                 $messages = 'bundling';
+            }
+
+            if ($type == 'webinar') {
+                //cek apakah webinar sudah ada di cart
+                $check = $cart->where('webinar_id', $id)->where('user_id', $decoded->uid)->first();
+                //cek apakah webinar sudah pernah dibeli
+                $check2 = $userWebinar->where('user_id', $decoded->uid)->where('webinar_id', $id)->first();
+                //cek apakah webinar tersedia
+                $check3 = $webinar->select('deleted_at')->where('webinar_id', $id)->first();
+                $messages = 'webinar';
+            }
+
+            if (!$check3) {
+                $response = [
+                    'status' => 400,
+                    'success' => 400,
+                    'message' => $messages . ' tidak ditemukan',
+                    'data' => []
+                ];
+                return $this->respondCreated($response);
             }
 
             if ($check2) {
@@ -141,7 +184,6 @@ class CartController extends ResourceController
                     'message' => $messages . ' sudah dibeli',
                     'data' => []
                 ];
-
                 return $this->respondCreated($response);
             }
 
@@ -150,6 +192,7 @@ class CartController extends ResourceController
                     'user_id' => $decoded->uid,
                     'course_id' => ($type == 'course') ? $id : null,
                     'bundling_id' => ($type == 'bundling') ? $id : null,
+                    'webinar_id' => ($type == 'webinar') ? $id : null,
                 ];
                 $cart->save($data);
                 $response = [
@@ -224,12 +267,12 @@ class CartController extends ResourceController
             $voucher_data = $voucher->where('code', $code)->first();
 
             if ($voucher_data['quota'] == 0) {
-                return 0;
+                return 400;
             } else {
                 if ($voucher_data['start_date'] <= date("Y-m-d") && $voucher_data['due_date'] >= date("Y-m-d")) {
                     return $check_voucher['discount_price'];
                 } else {
-                    return 0;
+                    return 401;
                 }
             }
         }
@@ -242,19 +285,25 @@ class CartController extends ResourceController
             // tidak bisa menggunakan kode referral milik diri sendiri
             // tidak bisa memakai kode referral orang lain lebih dari 1 kali
             if (($ref_data['user_id'] == $id) || $check) {
-                return 0;
+                return 402;
             }
 
             // batas kode referral dapat dipakai orang lain 5 kali
             if ($ref_data['referral_user'] < 5) {
                 return $check_referral['discount_price'];
+            } else {
+                return 400;
             }
         }
+
         if ($check_ref_user) {
-            if ($check_ref_user['is_active'] == 0) {
+
+            $check = $ref_user->where('user_id', $id)->first();
+
+            if ($check_ref_user['is_active'] == 0 && !$check) {
                 return $check_ref_user['discount_price'];
             } else {
-                return 0;
+                return 402;
             }
         }
     }

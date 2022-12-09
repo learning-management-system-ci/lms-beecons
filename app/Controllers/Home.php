@@ -51,10 +51,11 @@ class Home extends BaseController
         ];
         return view('pages/navigation/terms_and_condition', $data);
     }
-    public function bundlingCart()
+    public function bundlingCart($id)
     {
         $data = [
             "title" => "Bundling",
+            "id" => $id,
         ];
         return view('pages/course/bundling', $data);
     }
@@ -124,11 +125,5 @@ class Home extends BaseController
             "total_price" => 200000,
         ];
         return view('html_email/payment_success.html', $data);
-    }
-    public function adminIndex()
-    {
-        $data = [
-        ];
-        return view('pages/admin/index', $data);
     }
 }

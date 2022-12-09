@@ -21,9 +21,9 @@ class CreateCourseTable extends Migration
             ],
             'service'      => [
                 'type'          => "ENUM('training','course')",
-				'default' 		=> 'course',
-				'null' 			=> false
-			],
+                'default'         => 'course',
+                'null'             => false
+            ],
             'description'       => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '255'
@@ -31,12 +31,12 @@ class CreateCourseTable extends Migration
             'key_takeaways'       => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '255',
-                'null' 			=> true,
+                'null'             => true,
             ],
             'suitable_for'       => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '255',
-                'null' 			=> true,
+                'null'             => true,
             ],
             'old_price'             => [
                 'type'          => 'VARCHAR',
@@ -50,11 +50,20 @@ class CreateCourseTable extends Migration
                 'type'          => 'VARCHAR',
                 'constraint'    => '255'
             ],
+            'author_id'          => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+                'null'            => true,
+            ],
+
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
+            'deleted_at datetime',
         ]);
 
         $this->forge->addKey('course_id', TRUE);
+        $this->forge->addForeignKey('author_id', 'users', 'id', 'CASCADE', 'NO ACTION');
         $this->forge->createTable('course', TRUE);
     }
 

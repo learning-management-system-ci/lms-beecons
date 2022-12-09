@@ -17,6 +17,26 @@ button {
   padding-right: 3.5rem;
 }
 
+.app-btn {
+  background-color: #164520;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  min-width: 110px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.app-btn:hover {
+  opacity: 0.8;
+}
+
+.btn-full {
+  width: 100%;
+}
+
 #courses .breadcrumb {
   font-weight: 500;
 }
@@ -62,6 +82,26 @@ button {
 #courses .tags .item.active {
   background-color: #6DAA82;
   opacity: 1;
+}
+#courses .courses-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+#courses .courses-pagination button {
+  border-radius: 4px;
+}
+#courses .courses-pagination .btn-pgn-wrapper {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+#courses .courses-pagination .btn-pgn-wrapper button {
+  background-color: transparent;
+}
+#courses .courses-pagination .btn-pgn-wrapper .active {
+  color: #164520;
+  font-weight: bold;
 }
 #courses .sub-tags {
   display: flex;
@@ -137,7 +177,8 @@ button {
   content: "\f058";
   color: #FFCB42;
   font-family: FontAwesome;
-  display: inline-block;
+  display: block;
+  position: absolute;
   margin-left: -1.5em;
   width: 1.5em;
 }

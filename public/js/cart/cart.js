@@ -76,7 +76,7 @@ $(document).ready(function () {
     async function handleCartApi(code=null) {
         try {
             const res = await $.ajax({
-                url: `/api/cart?code=${code}`,
+                url: `/api/cart`,
                 method: 'GET',
                 dataType: 'json',
                 headers: {
@@ -99,7 +99,7 @@ $(document).ready(function () {
                                 <button class="cart-btn-remove" value=${item.cart_id}>
                                     <img src="image/cart/xbutton.png" alt="">
                                 </button>
-                                <img src=${"image/cart/frontend-banner.png"} alt="">
+                                <img src="/upload/course/thumbnail/${item.course.thumbnail}" class="item-thumbnail" alt="">
                                 <h6>${item.course.title}</h6>
                             </td>
                             <td>
@@ -145,39 +145,6 @@ $(document).ready(function () {
                         $(this).parent().parent().remove()
                         handleCartApi(code)
                     })
-                })
-
-                const voucherRes = await $.ajax({
-                    url: `/api/voucher`,
-                    method: 'GET',
-                    dataType: 'json',
-                    headers: {
-                        Authorization: 'Bearer ' + Cookies.get("access_token")
-                    }
-                })
-
-                $('#cart-voucher-list').html(voucherRes.map((voucher) => {
-                    return `
-                        <div class="col-6 pb-3 pe-2 ps-0">
-                            <button class="cart-referral-modal-coucher-btn" data-code=${voucher.code}>
-                                <div class="referral-item">
-                                    <div class="icon">
-                                        <img src="/image/cart/voucher-icon.png" alt="">
-                                    </div>
-                                    <div class="disc">
-                                        ${voucher.discount_price}%
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-                    `
-                }))
-
-                $('.cart-referral-modal-coucher-btn').on('click', function(e) {
-                    const code = $(this).data('code')
-                    $('#cart-referral-modal').modal('hide')
-
-                    handleCartApi(code)
                 })
             }
         } catch (error) {

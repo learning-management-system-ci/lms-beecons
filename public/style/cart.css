@@ -48,6 +48,10 @@ button {
 #cart .cart-list table tr td img {
   width: 110px;
 }
+#cart .cart-list table tr td .item-thumbnail {
+  border-radius: 6px;
+  border: 1px solid #9ca3af;
+}
 #cart .cart-list table tr td .discount {
   position: absolute;
   display: flex;
@@ -76,23 +80,6 @@ button {
 }
 #cart .voucher-order-total .order-total div h6 {
   font-size: 20px;
-}
-
-.empty-cart-info {
-  width: 100%;
-  height: 110px;
-}
-.empty-cart-info h6 {
-  color: #c5c5c5;
-  font-weight: 400;
-}
-
-.swal2-close:focus {
-  box-shadow: none !important;
-}
-
-.hide {
-  display: none;
 }
 
 /*# sourceMappingURL=cart.css.map */

@@ -54,7 +54,7 @@ $(document).ready(async function () {
                                 <h3>What will you get?</h3>
                                 <ul>
                                     ${item.course.map((course) => {
-                                        return `<li>${course.title}</li>`
+                                        return `<li><div class='text-truncate'>${course.title}</div></li>`
                                     })}
                                 </ul>
     
@@ -64,7 +64,7 @@ $(document).ready(async function () {
                                     <del>${getRupiah(item.bundling[0].old_price)}</del>
                                 </div>
                             </div>
-                            <a href="${`courses/bundling/`}">
+                            <a href="/courses/bundling/${item.course_bundling_id}">
                                 <button class="my-btn btn-full">Detail</button>
                             </a>
                             <div class="label">
@@ -100,7 +100,7 @@ $(document).ready(async function () {
                                 <h3>What will you get?</h3>
                                 <ul>
                                     ${item.course.map((course) => {
-                                        return `<li>${course.title}</li>`
+                                        return `<li><div class='text-truncate'>${course.title}</div></li>`
                                     })}
                                 </ul>
 
@@ -110,7 +110,7 @@ $(document).ready(async function () {
                                     <del>${getRupiah(item.bundling[0].old_price)}</del>
                                 </div>
                             </div>
-                            <a href="${`courses/bundling/`}">
+                            <a href="/courses/bundling/${item.course_bundling_id}">
                                 <button class="my-btn btn-full">Detail</button>
                             </a>
                             <div class="label">
