@@ -36,6 +36,14 @@
                     <div class="sub-tags mb-5"></div>
 
                     <div id="courses-engineering" class="row px-5"></div>
+
+                    <!-- PAGINATION -->
+                    <div class="courses-pagination mt-5">
+                        <div class="btn-pgn-prev-wrapper"></div>
+                        <div class="btn-pgn-wrapper"></div>
+                        <div class="btn-pgn-next-wrapper"></div>
+                    </div>
+                    <!-- END PAGINATION -->
                 </div>
                 <div class="tab-pane fade" id="tab-courses-it" role="tabpanel">
                     <div class="tags pt-2 pb-4"></div>
@@ -45,6 +53,14 @@
                     <div class="sub-tags mb-5"></div>
 
                     <div id="courses-it" class="row px-5"></div>
+
+                    <!-- PAGINATION -->
+                    <div class="courses-pagination mt-5">
+                        <div class="btn-pgn-prev-wrapper"></div>
+                        <div class="btn-pgn-wrapper"></div>
+                        <div class="btn-pgn-next-wrapper"></div>
+                    </div>
+                    <!-- END PAGINATION -->
                 </div>
             </div>
         </div>
