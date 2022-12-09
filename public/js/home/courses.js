@@ -204,8 +204,8 @@ $(document).ready(async function () {
     
                                 <div class="card-course-tags">
                                     ${course.tag.map(tag => {
-                    return `<div class="item">${tag.name}</div>`
-                }).join('')}
+                                        return `<div class="item">${tag.name}</div>`
+                                    }).join('')}
                                 </div>
                             </div>
                             <div class="body">
@@ -220,32 +220,32 @@ $(document).ready(async function () {
                                 </a>
                                 <p class="harga">
                                     ${(() => {
-                        if (course.old_price !== '0') {
-                            return `<del>${getRupiah(course.old_price)}</del>`
-                        } else {
-                            return ''
-                        }
-                    })()}
+                                        if (course.old_price !== '0') {
+                                            return `<del>${getRupiah(course.old_price)}</del>`
+                                        } else {
+                                            return ''
+                                        }
+                                    })()}
                                     ${getRupiah(course.new_price)}
                                 </p>
                             </div>
                             <div class="card-course-button">
                                 ${(() => {
-                        if (!course.isBought) {
-                            return `
+                                    if (!course.isBought) {
+                                        return `
                                             <a href="${`/checkout?type=course&id=${course.course_id}`}" class='btn-checkout'>
                                                 <button class="my-btn btn-full">Beli</button>
                                             </a>
                                             <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
                                         `
-                        } else {
-                            return `
+                                    } else {
+                                        return `
                                             <a href="${`/course/${course.course_id}`}">
                                                 <button class="my-btn btn-full">Lihat Course</button>
                                             </a>
                                         `
-                        }
-                    })()}
+                                    }
+                                })()}
                             </div>
                         </div>
                     </div>

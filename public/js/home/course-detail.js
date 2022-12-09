@@ -1,5 +1,5 @@
 const add_to_cart = async (id, type) => {
-    if(Cookies.get('token') == undefined){
+    if (Cookies.get('token') == undefined) {
         Swal.fire({
             title: 'Anda Belum Login!',
             text: 'Silahkan untuk login dahulu untuk membeli course ini',
@@ -10,13 +10,13 @@ const add_to_cart = async (id, type) => {
                 Swal.showLoading()
                 const b = Swal.getHtmlContainer().querySelector('b')
                 timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft()
+                    b.textContent = Swal.getTimerLeft()
                 }, 100)
             },
             willClose: () => {
                 clearInterval(timerInterval)
             }
-        }).then((result)=> {
+        }).then((result) => {
             if ((result.dismiss === Swal.DismissReason.timer)) {
                 window.location.href = "/login"
             }
@@ -34,7 +34,7 @@ const add_to_cart = async (id, type) => {
                 window.location.href = "/cart";
             }
         }
-    
+
         $.ajax(option)
     }
 
@@ -75,7 +75,7 @@ const getQuizData = async (video_id) => {
         }
         let data
         await $.ajax(option)
-        
+
         return data
     } catch (error) {
         console.log(error)
@@ -154,13 +154,14 @@ const putResumeData = async (resume_id, video_id, resume) => {
 const populateGeneral = async (course) => {
     let {
         course_id,
-        title, 
-        type, 
-        description, 
-        key_takeaways, 
-        suitable_for, 
-        old_price, 
-        new_price = old_price, 
+        title,
+        type,
+        description,
+        key_takeaways,
+        suitable_for,
+        old_price,
+        new_price = old_price,
+        owned = 0,
         review: reviews,
         tag: tags,
         video: videos,
@@ -182,27 +183,28 @@ const populateGeneral = async (course) => {
     populateVideo(videos)
     populateResume(videos)
     populateReview(reviews)
-    populatePricing({old_price, new_price, course_id})
+    populatePricing({ old_price, new_price, course_id })
     populateCurriculum(videos)
 
     let started_video = videos.some((video) => {
         if (video.score < 50) {
-            let {video_id, video:url} = video;
-            start_video(video_id, url)
+            let { video_id, video: url, thumbnail } = video;
+            start_video(video_id, url, thumbnail)
         }
         return video.score < 50
     })
 
     if (!started_video) {
-        start_video(videos[0].video_id, videos[0].video)
+        start_video(videos[0].video_id, videos[0].video, videos[0].thumbnail)
     }
 
     $(".list-card-button").on('click', function () {
-        if(!$(this).hasClass('disabled')) {
+        if (!$(this).hasClass('disabled')) {
             let url = $(this).data('url');
             let video_id = $(this).data('videoid');
+            let thumbnail = $(this).data('thumbnail');
 
-            start_video(video_id, url)
+            start_video(video_id, url, thumbnail)
         }
     })
 }
@@ -219,12 +221,13 @@ const populateVideo = async (videos) => {
             isComplete = score > 50 ? 'complete' : '',
             duration,
             video: url,
-            video_id : id,
+            video_id: id,
+            thumbnail
         } = video
 
         let isDisabled = ((score > 50)) ? '' : 'disabled'
         let videoCard = `
-        <div class="list-card-button ${isComplete} ${isDisabled} d-flex justify-content-between align-items-center p-3 mb-3" data-url="${url}" data-videoid=${id}>
+        <div class="list-card-button ${isComplete} ${isDisabled} d-flex justify-content-between align-items-center p-3 mb-3" data-url="${url}" data-videoid=${id} data-thumbnail=${thumbnail}>
             <div class="list-title d-flex align-items-center">
                 <button></button>
                 <p>${video_title}</p>
@@ -233,7 +236,7 @@ const populateVideo = async (videos) => {
         </div>
         
         `
-        
+
         $('.course_videoList_content').append(videoCard)
     })
 
@@ -242,12 +245,12 @@ const populateVideo = async (videos) => {
 }
 
 const populateResume = async (videos) => {
-    if(Cookies.get("access_token")){
+    if (Cookies.get("access_token")) {
         $('.course_resumeList_content').html('');
         videos.forEach((video, index) => {
             const { title, resume } = video
             let btn;
-            if(resume == null)
+            if (resume == null)
                 btn = `<button class="resume-list-btn" disabled>resume</button>`
             else
                 btn = `<button class="resume-list-btn" onclick="viewResumeModal(${resume.resume_id})">resume</button>`
@@ -352,7 +355,8 @@ const populateCurriculum = async (videos) => {
     })
 }
 
-function start_video (video_id, url, status = true) {
+function start_video(video_id, url, thumbnail, status = true) {
+
     const card_button = $(`.list-card-button[data-videoid=${video_id}]`);
     var check_image = card_button.find("button");
     $('.quiz-panel').hide()
@@ -382,35 +386,37 @@ function start_video (video_id, url, status = true) {
     }
 
     $('.video-panel').html(`
-    <video class="course-video-wraper mb-5" width="727" height="400" class="mb-5" controls>
-        <source class="course-video-content" src="${url}" type="video/mp4">
+    <video class="course-video-wraper mb-5" width="720" height="400" class="mb-5" controls poster="${thumbnail}">
+       <source class="course-video-content" src="${url}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     `)
 
     $(".list-card-button").on('click', function () {
-        if(!$(this).hasClass('disabled')) {
+        if (!$(this).hasClass('disabled')) {
             let url = $(this).data('url');
             let video_id = $(this).data('videoid');
+            let thumbnail = $(this).data('thumbnail')
 
-            start_video(video_id, url)
+
+            start_video(video_id, url, thumbnail)
         }
     })
 
-    $('.course-video-wraper').on('ended', async function  () {
-        if(!owned){
-            if(!Cookies.get("access_token")){
+    $('.course-video-wraper').on('ended', async function () {
+        if (!owned) {
+            if (!Cookies.get("access_token")) {
                 let feedback = confirm("You need to login and buy course to continue")
-                if(feedback){
+                if (feedback) {
                     window.location.href = "/login"
                 }
-                return 
-            }else{
+                return
+            } else {
                 let feedback = confirm("You need to buy course to continue")
-                if(feedback){
+                if (feedback) {
                     window.location.href = "/checkout"
                 }
-                return 
+                return
             }
         }
 
@@ -419,7 +425,7 @@ function start_video (video_id, url, status = true) {
         let questions_template = '';
         let quizData = await getQuizData(video_id);
         const questions = quizData.quiz.soal
-        questions.forEach(({question, answer}, index) => {
+        questions.forEach(({ question, answer }, index) => {
             let question_template = `<div class="swiper-slide">
                 <h4 class="quiz-title">${question}</h4>
                 <p class="mb-3">PILIHAN GANDA</p>
@@ -459,7 +465,7 @@ function start_video (video_id, url, status = true) {
         </div>`
         $('.quiz-panel').html(template).show()
 
-        
+
         let swiper = new Swiper(".myswiper", {
             navigation: {
                 nextEl: ".quiz-next",
@@ -550,11 +556,11 @@ function start_video (video_id, url, status = true) {
             let checkedCount = $('input:checked').length
             showFinishButton(true, barInit, checkedCount)
         })
-        
+
         $('.quiz-back').on('click', function (e) {
             showFinishButton(false)
         })
-        
+
         //function untuk mememeriksa sejauh mana pengerjaan soal berlangsung
         $('input').on('click', function () {
             let barInit = 100 / $('.swiper-slide').length
@@ -562,8 +568,8 @@ function start_video (video_id, url, status = true) {
             loadingProgress(Math.round(barInit * checkedCount))
             showFinishButton(true, barInit, checkedCount)
         })
-        
-        
+
+
         $('.quiz-finish').on('click', function () {
             // get video id
             let videoId = $('.list-active').data('videoid')
@@ -578,10 +584,10 @@ function start_video (video_id, url, status = true) {
             answerArrElement.each(function (index, element) {
                 let answerId = $(element).attr('id')
                 let answer = dict[answerId.split('-')[0]]
-                answerArr.push({'answer' : answer})
+                answerArr.push({ 'answer': answer })
                 console.log(answerArr)
             })
-            
+
             // send post request to localhost:8080/api/course/video/:id
             // with answerArr as body as raw json
             // and get response as json
@@ -603,24 +609,26 @@ function start_video (video_id, url, status = true) {
                     if (response.success) {
                         //alert anda dapat melanjutkan ke video selanjutnya
                         //redirect ke video selanjutnya
-                        if(response.pass){
+                        if (response.pass) {
                             let timerInterval
                             addViewResume(videoId)
-                                .then((result)=> {
+                                .then((result) => {
                                     $('.list-active').next().removeClass('disabled')
                                     $('.list-active').addClass('complete')
                                     $('.list-active').next().click()
                                 })
-                        }else{
+                        } else {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
                                 text: 'Anda belum berhasil lolos kuis, silahkan coba lagi',
-                            }).then((result)=> {
+                            }).then((result) => {
                                 if (result.isConfirmed) {
                                     let video_id = $('.list-active').data('videoid')
                                     let url = $('.list-active').data('url');
-                                    start_video(video_id, url, false)
+                                    let thumbnail = $('.list-active').data('thumbnail');
+
+                                    start_video(video_id, url, thumbnail, false)
                                 }
                             })
                         }
@@ -633,7 +641,7 @@ function start_video (video_id, url, status = true) {
                 }
             })
         })
-        
+
         $('.quiz-section').removeClass('hide')
     })
 }
@@ -664,7 +672,7 @@ const viewResumeModal = async (resume_id) => {
         }
     )
 
-    if(resume !== resume_new) {
+    if (resume !== resume_new) {
         putResumeData(resume_id, video_id, resume_new)
     }
 }
