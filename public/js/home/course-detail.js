@@ -228,7 +228,7 @@ const populateVideo = async (videos) => {
 
         let isDisabled = ((score > 50)) ? '' : 'disabled'
         let videoCard = `
-        <div class="list-card-button ${isComplete} ${isDisabled} d-flex justify-content-between align-items-center p-3 mb-3" data-url="${url}" data-videoid=${id} data-thumbnail=${thumbnail}, data-owned=0>
+        <div class="list-card-button ${isComplete} ${isDisabled} d-flex justify-content-between align-items-center p-3 mb-3" data-url="${url}" data-videoid=${id} data-thumbnail=${thumbnail}, data-owned=${owned}>
             <div class="list-title d-flex align-items-center">
                 <button></button>
                 <p>${video_title}</p>
@@ -407,6 +407,7 @@ function start_video(video_id, url, thumbnail, owned, status = true) {
 
     $('.course-video-wraper').on('ended', async function () {
         if (!owned) {
+            console.log("Hello ", Cookies.get("access_token"))
             if (!Cookies.get("access_token")) {
                 let feedback = confirm("You need to login and buy course to continue")
                 if (feedback) {
@@ -629,8 +630,8 @@ function start_video(video_id, url, thumbnail, owned, status = true) {
                                     let video_id = $('.list-active').data('videoid')
                                     let url = $('.list-active').data('url');
                                     let thumbnail = $('.list-active').data('thumbnail');
+                                    // nnti benerin ya, seharusnya lebih aman lgi
                                     let owned = $('.list-active').data('owned');
-
                                     start_video(video_id, url, thumbnail, owned, false)
                                 }
                             })
