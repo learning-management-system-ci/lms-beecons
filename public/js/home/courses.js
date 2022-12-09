@@ -84,6 +84,7 @@ $(document).ready(async function () {
         })
 
         async function generateListCourse(courses, element, type, tag, category) {
+            console.log(category)
             let currentTag = $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).html()
             $(`#courses #tab-courses-${type} .current-tag`).html(currentTag)
             $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).addClass('active')
@@ -97,7 +98,7 @@ $(document).ready(async function () {
             if (tag === '0' && category === '0') {
                 result = coursesByType
             } else if (tag === '0' && category !== '0') {
-                result = coursesByType.filter(course => course.category[0].category_id === category)
+                result = coursesByType.filter(course => course.category.category_id === category)
             } else if (tag !== '0' && category === '0') {
                 result = coursesBytag
             } else {
