@@ -34,6 +34,7 @@ class CourseController extends ResourceController
 
         $this->path = site_url() . 'upload/course/thumbnail/';
         $this->pathVideo = site_url() . 'upload/course-video/';
+        $this->pathVideoThumbnail = site_url() . 'upload/course-video/thumbnail/';
 
         $this->model = new Course();
         $this->modelCourseCategory = new CourseCategory();
@@ -439,13 +440,16 @@ class CourseController extends ResourceController
             if (isset($data['video'])) {
                 for ($i = 0; $i < count($data['video']); $i++) {
                     $this->path = 'upload/course-video/';
+
                     $filename = $data['video'][$i]['video'];
+                    $data['video'][$i]['thumbnail'] = $this->pathVideoThumbnail . $data['video'][$i]['thumbnail'];
 
                     $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
 
                     if (!$checkIfVideoIsLink) {
                         $file = $this->getID3->analyze($this->path . $filename);
-                        if (isset($file['error'][0]) && stristr($file['error'][0], '!file_exists') ? false : true) {
+
+                        if (isset($file['error'][0])) {
                             $checkFileIsExist = false;
                         } else {
                             $checkFileIsExist = true;

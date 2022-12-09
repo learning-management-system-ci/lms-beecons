@@ -94,6 +94,7 @@ $routes->group('admin/', static function ($routes) {
     $routes->get('course/(:segment)', 'AdminController::courseDetail/$1');
 
     $routes->get('video/(:segment)', 'AdminController::videoDetail/$1');
+    $routes->get('contact', 'AdminController::contactList');
 });
 
 $routes->group('api/', static function ($routes) {
@@ -166,7 +167,7 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('course/', static function ($routes) {
         $routes->post('create', 'Api\CourseController::create');
-        $routes->post('update/(:num)', 'Api\CourseController::update/$1');
+        $routes->put('update/(:num)', 'Api\CourseController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
