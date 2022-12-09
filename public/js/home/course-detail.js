@@ -161,15 +161,11 @@ const populateGeneral = async (course) => {
         suitable_for, 
         old_price, 
         new_price = old_price, 
-        owned = 0, 
         review: reviews,
         tag: tags,
-        thumbnail,
         video: videos,
         countVideo = videos.length,
     } = course;
-
-    console.log(course)
 
     videos.sort((a, b) => {
         return a.order - b.order
@@ -209,7 +205,6 @@ const populateGeneral = async (course) => {
             start_video(video_id, url)
         }
     })
-
 }
 
 const populateVideo = async (videos) => {
@@ -388,7 +383,7 @@ function start_video (video_id, url, status = true) {
 
     $('.video-panel').html(`
     <video class="course-video-wraper mb-5" width="727" height="400" class="mb-5" controls>
-        <source class="course-video-content" src="/upload/course-video/${url}" type="video/mp4">
+        <source class="course-video-content" src="${url}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     `)
