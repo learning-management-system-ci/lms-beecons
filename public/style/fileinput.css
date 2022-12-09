@@ -686,3 +686,21 @@ input[type=file].file-loading {
 .kv-overflow-hidden {
     overflow: hidden;
 }
+
+.file-input .file-caption .fileinput-remove, .fileinput-upload {
+    display: none;
+}
+
+.file-drop-zone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-preview-thumbnails .file-preview-frame .kv-file-content img {
+    border-radius: 50%;
+}
+
+.file-preview-thumbnails .file-preview-frame .file-thumbnail-footer {
+    display: none;
+}
