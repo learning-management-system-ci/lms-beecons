@@ -299,14 +299,11 @@ main {
 
 // navbar
 .navbar {
-    padding-left: $padding-container;
-    padding-right: $padding-container;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: $color-white;
     font-size: 1rem;
-
-    .container-fluid {
-        padding-left: 0;
-        padding-right: 0;
-    }
 
     .navbar-brand {
         margin-right: 2rem;
