@@ -164,12 +164,9 @@ const populateGeneral = async (course) => {
         owned = 0,
         review: reviews,
         tag: tags,
-        thumbnail,
         video: videos,
         countVideo = videos.length,
     } = course;
-
-    console.log(course)
 
     videos.sort((a, b) => {
         return a.order - b.order
@@ -210,7 +207,6 @@ const populateGeneral = async (course) => {
             start_video(video_id, url, thumbnail)
         }
     })
-
 }
 
 const populateVideo = async (videos) => {

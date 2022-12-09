@@ -83,8 +83,7 @@ $(document).ready(async function () {
             generateListCourse(courseResponse, $('#courses-it'), 'it', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
         })
 
-        async function generateListCourse(courses, element, type, tag, category) {
-            console.log(category)
+        async function generateListCourse(courses, element, type, tag, category, cpage = 1) {
             let currentTag = $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).html()
             $(`#courses #tab-courses-${type} .current-tag`).html(currentTag)
             $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).addClass('active')
@@ -137,6 +136,63 @@ $(document).ready(async function () {
                 })
             }
 
+            let total = result.length
+            let perPage = 12
+            let totalPage = Math.ceil(total / perPage)
+            let start = (cpage - 1) * perPage
+            let end = cpage * perPage
+            result = result.slice(start, end)
+
+            $(`#courses #tab-courses-${type} .btn-pgn-wrapper`).html('')
+            for (let i = 1; i <= totalPage; i++) {
+                $(`#courses #tab-courses-${type} .btn-pgn-wrapper`).append(`
+                    <button class="btn-pgn" data-page='${i}'>${i}</button>
+                `)
+            }
+
+            $(`#courses #tab-courses-${type} .btn-pgn-wrapper .btn-pgn[data-page=${cpage}]`).addClass('active')
+            
+            $(`#courses #tab-courses-${type} .btn-pgn-wrapper .btn-pgn`).on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate({
+                    scrollTop: $(`#courses #tab-courses-${type}`).offset().top
+                }, 0)
+                let cpage = $(this).data('page')
+                generateListCourse(courses, element, type, tag, category, cpage)
+            })
+
+            if (cpage > 1) {
+                $(`#courses #tab-courses-${type} .btn-pgn-prev-wrapper`).html(`
+                    <button class="btn-pgn-prev"><i class="fa-solid fa-chevron-left"></i></button>
+                `)
+            } else {
+                $(`#courses #tab-courses-${type} .btn-pgn-prev-wrapper`).html('')
+            }
+
+            if (cpage < totalPage) {
+                $(`#courses #tab-courses-${type} .btn-pgn-next-wrapper`).html(`
+                    <button class="btn-pgn-next"><i class="fa-solid fa-chevron-right"></i></button>
+                `)
+            } else {
+                $(`#courses #tab-courses-${type} .btn-pgn-next-wrapper`).html('')
+            }
+
+            $(`#courses #tab-courses-${type} .btn-pgn-prev`).on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate({
+                    scrollTop: $(`#courses #tab-courses-${type}`).offset().top
+                }, 0)
+                generateListCourse(courses, element, type, tag, category, cpage - 1)
+            })
+
+            $(`#courses #tab-courses-${type} .btn-pgn-next`).on('click', function (e) {
+                e.preventDefault()
+                $('html, body').animate({
+                    scrollTop: $(`#courses #tab-courses-${type}`).offset().top
+                }, 0)
+                generateListCourse(courses, element, type, tag, category, cpage + 1)
+            })
+
             element.html(result.map(course => {
                 return `
                     <div class="col-4 pb-4">
@@ -148,8 +204,8 @@ $(document).ready(async function () {
     
                                 <div class="card-course-tags">
                                     ${course.tag.map(tag => {
-                    return `<div class="item">${tag.name}</div>`
-                }).join('')}
+                                        return `<div class="item">${tag.name}</div>`
+                                    }).join('')}
                                 </div>
                             </div>
                             <div class="body">
@@ -164,32 +220,32 @@ $(document).ready(async function () {
                                 </a>
                                 <p class="harga">
                                     ${(() => {
-                        if (course.old_price !== '0') {
-                            return `<del>${getRupiah(course.old_price)}</del>`
-                        } else {
-                            return ''
-                        }
-                    })()}
+                                        if (course.old_price !== '0') {
+                                            return `<del>${getRupiah(course.old_price)}</del>`
+                                        } else {
+                                            return ''
+                                        }
+                                    })()}
                                     ${getRupiah(course.new_price)}
                                 </p>
                             </div>
                             <div class="card-course-button">
                                 ${(() => {
-                        if (!course.isBought) {
-                            return `
+                                    if (!course.isBought) {
+                                        return `
                                             <a href="${`/checkout?type=course&id=${course.course_id}`}" class='btn-checkout'>
                                                 <button class="my-btn btn-full">Beli</button>
                                             </a>
                                             <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
                                         `
-                        } else {
-                            return `
+                                    } else {
+                                        return `
                                             <a href="${`/course/${course.course_id}`}">
                                                 <button class="my-btn btn-full">Lihat Course</button>
                                             </a>
                                         `
-                        }
-                    })()}
+                                    }
+                                })()}
                             </div>
                         </div>
                     </div>
