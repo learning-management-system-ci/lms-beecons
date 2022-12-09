@@ -197,9 +197,9 @@ $(document).ready(() => {
       const code = urlParams.get('code') || null;
       let url = "/api/order/generatesnap?"
       if(type == "course"){ 
-        url += "cr=" + id + "&"
+        url += "cr=" + id
       } else if (type == "bundling"){
-        url += "bd=" + id + "&"
+        url += "bd=" + id
       }
       if(code){
         url += type ? "&c=" + code : "c=" + code
