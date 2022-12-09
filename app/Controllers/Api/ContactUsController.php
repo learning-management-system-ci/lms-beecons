@@ -34,10 +34,10 @@ class ContactUsController extends ResourceController
 
             $data = $this->contactus->findAll();
 
-            $path = site_url() . 'upload/users/';
+            $path = site_url() . 'upload/question/';
 
             $response = [];
-            
+
             for ($i = 0; $i < count($data); $i++) {
                 array_push($response, [
                     "contact_us_id" => $data[$i]['contact_us_id'],
@@ -88,9 +88,9 @@ class ContactUsController extends ResourceController
                 "updated_at" => $data['updated_at'],
             ];
 
-            if($response){
+            if ($response) {
                 return $this->respond($response);
-            }else{
+            } else {
                 return $this->failNotFound('Data Pertanyaan tidak ditemukan');
             }
         } catch (\Throwable $th) {
@@ -118,6 +118,7 @@ class ContactUsController extends ResourceController
             $rules = [
                 "email" => "required",
                 "answer" => "required",
+                "question" => "required"
             ];
 
             $messages = [
@@ -127,20 +128,31 @@ class ContactUsController extends ResourceController
                 "answer" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
+                "question" => [
+                    "required" => "{field} tidak boleh kosong"
+                ],
             ];
 
             if ($this->validate($rules, $messages)) {
+                $email = $this->request->getVar('email');
+                $pos = strpos($email, "@");
+
                 $data = [
-                    'email' => $this->request->getVar('email'),
+                    'email' => $email,
                     'answer' => $this->request->getVar('answer'),
+                    'nick_email' => substr($email, 0, $pos),
+                    'question' => $this->request->getVar('question')
                 ];
+
+                $message = view('html_email/contactus_answer.html', $data);
+
 
                 $email = \Config\Services::email();
                 $email->setTo($data['email']);
-                $email->setFrom('hendrikusozzie@gmail.com');
+                $email->setFrom('contact@stufast.id');
 
                 $email->setSubject('Jawaban Dari Pertanyaan ' . $data['email']);
-                $email->setMessage($data['answer']);
+                $email->setMessage($message);
 
                 if ($email->send()) {
                     $response = [
@@ -211,13 +223,13 @@ class ContactUsController extends ResourceController
             ];
 
             $email = \Config\Services::email();
-            $email->setTo('hendrikusozzie@gmail.com');
+            $email->setTo('contact@stufast.id');
             $email->setFrom($data['email']);
 
             $email->setSubject('Pertanyaan Dari ' . $data['email']);
             $email->setMessage($data['question']);
             $email->send();
-            
+
             $this->contactus->insert($data);
 
             $response = [
@@ -237,14 +249,14 @@ class ContactUsController extends ResourceController
             $dataquestion_image->move('upload/question/', $fileName);
 
             $email = \Config\Services::email();
-            $email->setTo('hendrikusozzie@gmail.com');
+            $email->setTo('contact@stufast.id');
             $email->setFrom($data['email']);
 
             $email->setSubject('Pertanyaan Dari ' . $data['email']);
             $email->setMessage($data['question']);
             $email->attach('upload/question/' . $fileName);
             $email->send();
-                
+
             $this->contactus->insert($data);
 
             $response = [
