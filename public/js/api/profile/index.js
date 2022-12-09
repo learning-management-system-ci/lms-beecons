@@ -104,25 +104,27 @@ $.ajax({
 
         var coursesResource =
             data.course.map(({
-                title, description, thumbnail
+                title, description, thumbnail, course_id
             }) => {
                 return (`
-                <div class="row">
-                    <div class="col-12x">
-                        <img src="image/${thumbnail}" class="course-image me-1" alt="">
-                    </div>
-                    <div class="d-flex col text-start align-items-center body">
-                        <div>
-                            <h5>
-                                ${title}
-                            </h5>
-                            <p>
-                                ${description}
-                            </p>
+                <a href="/course/${course_id}">
+                    <div class="row">
+                        <div class="col-12x">
+                            <img src="${thumbnail}" class="course-image me-1" alt="">
+                        </div>
+                        <div class="d-flex col text-start align-items-center body">
+                            <div>
+                                <h5>
+                                    ${title}
+                                </h5>
+                                <p>
+                                    ${description}
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <hr>
+                    <hr>
+                </a>
                 `)
             })
 
