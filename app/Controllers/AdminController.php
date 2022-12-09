@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 use CodeIgniter\Controller;
 use App\Models\UsersModel;
 use App\Models\ForgotPasswordModel;
@@ -8,36 +9,38 @@ use Firebase\JWT\JWT;
 
 class AdminController extends BaseController
 {
-    private $googleClient=NULL;
+    private $googleClient = NULL;
 
-	function __construct(){
+    function __construct()
+    {
         helper("cookie");
 
-		require_once APPPATH. "../vendor/autoload.php";
-		$this->googleClient = new \Google_Client();
-		$this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
-		$this->googleClient->setClientSecret("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");
-		$this->googleClient->setRedirectUri(base_url()."/login/loginWithGoogle");
-		$this->googleClient->addScope("email");
-		$this->googleClient->addScope("profile");
-	}
-    
-    public function index() {
-        if(!get_cookie("access_token")){
-			return redirect()->to(base_url());
-		}
+        require_once APPPATH . "../vendor/autoload.php";
+        $this->googleClient = new \Google_Client();
+        $this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
+        $this->googleClient->setClientSecret("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");
+        $this->googleClient->setRedirectUri(base_url() . "/login/loginWithGoogle");
+        $this->googleClient->addScope("email");
+        $this->googleClient->addScope("profile");
+    }
+
+    public function index()
+    {
+        if (!get_cookie("access_token")) {
+            return redirect()->to(base_url());
+        }
         $token = get_cookie("access_token");
         $key = getenv('TOKEN_SECRET');
         try {
             $decoded = JWT::decode($token, $key, array('HS256'));
-        }catch(Exception $e){
+        } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
-            return ;
+            return;
         }
         if ($decoded) {
             if ($decoded->role != 'admin') {
-                    return redirect()->back();
-                }
+                return redirect()->back();
+            }
             $email = $decoded->email;
             $data = [
                 "title" => $email,
@@ -51,21 +54,21 @@ class AdminController extends BaseController
     // 
     public function user()
     {
-        if(!get_cookie("access_token")){
-			return redirect()->to(base_url());
-		}
+        if (!get_cookie("access_token")) {
+            return redirect()->to(base_url());
+        }
         $token = get_cookie("access_token");
         $key = getenv('TOKEN_SECRET');
         try {
             $decoded = JWT::decode($token, $key, array('HS256'));
-        }catch(Exception $e){
+        } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
-            return ;
+            return;
         }
         if ($decoded) {
             if ($decoded->role != 'admin') {
-                    return redirect()->back();
-                }
+                return redirect()->back();
+            }
             $email = $decoded->email;
             $data = [
                 "title" => "User",
@@ -120,5 +123,12 @@ class AdminController extends BaseController
             "title" => "Video Detail",
         ];
         return view('pages/admin/video_detail', $data);
+    }
+    public function contactList()
+    {
+        $data = [
+            "title" => "List Message",
+        ];
+        return view('pages/admin/contactlist', $data);
     }
 }
