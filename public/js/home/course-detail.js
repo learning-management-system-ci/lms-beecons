@@ -188,8 +188,8 @@ const populateGeneral = async (course) => {
 
     let started_video = videos.some((video) => {
         if (video.score < 50) {
-            let { video_id, video: url, thumbnail } = video;
-            start_video(video_id, url, thumbnail)
+            let { video_id, video: url, thumbnail, owned } = video;
+            start_video(video_id, url, thumbnail, owned)
         }
         return video.score < 50
     })
@@ -203,8 +203,9 @@ const populateGeneral = async (course) => {
             let url = $(this).data('url');
             let video_id = $(this).data('videoid');
             let thumbnail = $(this).data('thumbnail');
+            let owned = $(this).data('owned');
 
-            start_video(video_id, url, thumbnail)
+            start_video(video_id, url, thumbnail, owned)
         }
     })
 }
@@ -227,7 +228,7 @@ const populateVideo = async (videos) => {
 
         let isDisabled = ((score > 50)) ? '' : 'disabled'
         let videoCard = `
-        <div class="list-card-button ${isComplete} ${isDisabled} d-flex justify-content-between align-items-center p-3 mb-3" data-url="${url}" data-videoid=${id} data-thumbnail=${thumbnail}>
+        <div class="list-card-button ${isComplete} ${isDisabled} d-flex justify-content-between align-items-center p-3 mb-3" data-url="${url}" data-videoid=${id} data-thumbnail=${thumbnail}, data-owned=0>
             <div class="list-title d-flex align-items-center">
                 <button></button>
                 <p>${video_title}</p>
@@ -355,7 +356,7 @@ const populateCurriculum = async (videos) => {
     })
 }
 
-function start_video(video_id, url, thumbnail, status = true) {
+function start_video(video_id, url, thumbnail, owned, status = true) {
 
     const card_button = $(`.list-card-button[data-videoid=${video_id}]`);
     var check_image = card_button.find("button");
@@ -396,10 +397,11 @@ function start_video(video_id, url, thumbnail, status = true) {
         if (!$(this).hasClass('disabled')) {
             let url = $(this).data('url');
             let video_id = $(this).data('videoid');
-            let thumbnail = $(this).data('thumbnail')
+            let thumbnail = $(this).data('thumbnail');
+            let owned = $(this).data('owned');
 
 
-            start_video(video_id, url, thumbnail)
+            start_video(video_id, url, thumbnail, owned)
         }
     })
 
@@ -627,8 +629,9 @@ function start_video(video_id, url, thumbnail, status = true) {
                                     let video_id = $('.list-active').data('videoid')
                                     let url = $('.list-active').data('url');
                                     let thumbnail = $('.list-active').data('thumbnail');
+                                    let owned = $('.list-active').data('owned');
 
-                                    start_video(video_id, url, thumbnail, false)
+                                    start_video(video_id, url, thumbnail, owned, false)
                                 }
                             })
                         }
