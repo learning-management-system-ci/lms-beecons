@@ -6,6 +6,9 @@ $.ajax({
     success: function (data) {
         var resources = () => {
             function getDayName(dateStr, locale) {
+                if (dateStr == "0000-00-00") {
+                    return date = "-"
+                }
                 var date = new Date(dateStr);
                 return date.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
             }
@@ -30,7 +33,7 @@ $.ajax({
                     <div class="col">
                         <div class="row px-5">
                             <div class="col-12 text-start">
-                                <h3>${data.fullname ? data.fullname : data.email}</h3 >
+                                <h3>${data.fullname ? data.fullname : data.email.split("@")[0]}</h3 >
                             </div>
                             <div class="col-12 text-start py-1">
                                 <h5 class="font-weight-light">${data.job_name ? data.job_name : "-"}</h5>
@@ -59,7 +62,7 @@ $.ajax({
                                     <div class="text-end py-1">${data.date_birth ? day : day}</div>
                                     <div class="text-end py-1">${data.phone_number ? phone_num : "-"}</div>
                                     <div class="text-end py-1">${data.email}</div>
-                                    <div class="text-end py-1"><a target="_blank" href="${data.linkedin ? link_ref : ""}" style="text-decoration: underline;">${data.linkedin && data.linkedin}</a></div>
+                                    <div class="text-end py-1">${data.linkedin ? `<a target="_blank" href="${link_ref}" style="text-decoration: underline;">${data.linkedin && data.linkedin}</a>` : "-"}</div>
                                 </div>
                             </div>
                         </div>
@@ -125,12 +128,6 @@ $.ajax({
 
         $("div#user-courses").html(coursesResource);
 
-        // upload(data.profile_picture);
-
-        // function upload(profile_picture) {
-
-        // };
-
         $('document').ready(function () {
             $.ajax({
                 type: "GET",
@@ -155,23 +152,16 @@ $.ajax({
                     $("select.form-select").html(resources);
                 }
             });
-            console.log(data.profile_picture);
             $("#profile_picture").fileinput({
                 uploadAsync: false,
                 showCaption: true,
                 dropZoneEnabled: true,
                 allowedFileExtensions: ["jpg", "png", "gif", "svg", "webp"],
-                overwriteInitial: false,
+                overwriteInitial: true,
                 initialPreview: data.profile_picture,
                 initialPreviewAsData: true,
                 initialPreviewFileType: "image",
             });
-
-            if ($("input[type='file']")[0].files.length < 1) {
-                $("input[type='file']").push(data.profile_picture)
-            }
-
-            $("input[type='file']")[0].files[0] = (data.profile_picture)
 
             const tx = document.getElementsByTagName("textarea");
             for (let i = 0; i < tx.length; i++) {
@@ -184,6 +174,17 @@ $.ajax({
                 this.style.height = (this.scrollHeight) + "px";
             }
 
+            $.validator.addMethod("link", (value, element) => {
+                let url;
+                try {
+                    url = new URL(value)
+                    url.protocol === "http://" || url.protocol === "https://"
+                    return true;
+                } catch (_) {
+                    return false;
+                }
+            }, "Link tidak valid");
+
             $('#edit').validate({
                 rules: {
                     fullname: {
@@ -194,12 +195,32 @@ $.ajax({
                     },
                     phone_number: {
                         required: true,
+                        number: true,
                     },
                     linkedin: {
                         required: true,
+                        link: true,
                     },
                     date: {
                         required: true,
+                    },
+                },
+                messages: {
+                    fullname: {
+                        required: "Nama tidak boleh kosong"
+                    },
+                    address: {
+                        required: "Alamat tidak boleh kosong"
+                    },
+                    phone_number: {
+                        required: "Nomor telepon tidak boleh kosong",
+                        number: "Hanya menerima angka",
+                    },
+                    linkedin: {
+                        required: "Linkedin tidak boleh kosong"
+                    },
+                    date: {
+                        required: "Tanggal lahir tidak boleh kosong"
                     },
                 }
             });
@@ -230,6 +251,14 @@ const pages = [{
     imageUrl: "image/profile/referral-icon.svg",
 }
 ]
+
+if (JSON.parse(atob(Cookies.get("access_token").split('.')[1], 'base64')).role == "admin") {
+    pages.push({
+        page: "dashboard",
+        url: "/admin",
+        imageUrl: "image/profile/referral-icon.svg",
+    })
+}
 
 var resources = pages.map((page) => {
     return (`
