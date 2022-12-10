@@ -17,6 +17,26 @@ button {
   padding-right: 3.5rem;
 }
 
+.app-btn {
+  background-color: #164520;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  min-width: 110px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.app-btn:hover {
+  opacity: 0.8;
+}
+
+.btn-full {
+  width: 100%;
+}
+
 body {
   background-color: #ffffff;
   overflow-x: hidden;
@@ -36,9 +56,8 @@ body {
 }
 
 .logo {
-  position: absolute;
-  right: 50px !important;
-  top: 60px !important;
+  position: relative;
+  right: 12.5% !important;
 }
 
 .mw-290 {
@@ -114,6 +133,15 @@ form input:focus-visible {
   border: 1px solid #248043;
   border-radius: 7px;
 }
+form #password,
+form #password_confirm {
+  border-radius: 7px 0 0 7px;
+  width: 85%;
+}
+form #show-password,
+form #show-confirm {
+  border-radius: 0 7px 7px 0;
+}
 form .option .checkbox label {
   font-weight: 400;
   font-size: 11px !important;
@@ -170,7 +198,6 @@ a {
   background-color: transparent !important;
 }
 a img {
-  width: 290px;
   height: 45px;
 }
 

@@ -10,7 +10,12 @@
     <input type="email" name="email" id="email" placeholder="Email kamu">
 
     <label for="password" class="form-label mt-3">Password</label>
-    <input type="password" name="password" id="password" placeholder="Password kamu">
+
+    <div class="input-group">
+        <input type="password" name="password" id="password" placeholder="Password kamu">
+        <button class="btn btn-outline-secondary" type="button" id="show-password"><i class="bi bi-eye" id="eye-icon"></i></button>
+    </div>
+
 
     <div class="option d-flex justify-content-end align-items-center my-2 sign-up">
         <a href="<?= base_url('forgot-password'); ?>">Lupa password?</a>
@@ -26,19 +31,17 @@
         <p>Sign In</p>
     </a>
 </form>
-<div id="g_id_onload" data-client_id="229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com"
-    data-login_uri="<?=base_url("/login/loginOneTapGoogle")?>" data-auto_prompt="true" data-auto_select="false"
-    data-context="signin">
+<div id="g_id_onload" data-client_id="229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com" data-login_uri="<?= base_url("/login/loginOneTapGoogle") ?>" data-auto_prompt="true" data-auto_select="false" data-context="signin">
 </div>
 <?= $this->include('components/authentication/error_modal') ?>
 <?= $this->include('components/authentication/loading') ?>
 <?= $this->endSection() ?>
 <script type="text/javascript">
-    var base_url = '<?=base_url()?>';
+    var base_url = '<?= base_url() ?>';
 </script>
-<?=$this->section('authentication-js-logic')?>
+<?= $this->section('authentication-js-logic') ?>
 <script src="js/authentication/api/login.js"></script>
 <?= $this->endSection() ?>
-<?=$this->section('authentication-js')?>
+<?= $this->section('authentication-js') ?>
 <script src="js/authentication/login.js"></script>
 <?= $this->endSection() ?>

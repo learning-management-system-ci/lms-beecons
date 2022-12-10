@@ -1,5 +1,8 @@
 $(document).ready(function () {
     $('#login').validate({
+        errorPlacement: function (error, element) {
+            error.appendTo(element.parent());
+        },
         rules: {
             email: {
                 required: true,
@@ -24,4 +27,16 @@ $(document).ready(function () {
         }
     });
 
+    $('#show-password').on('click', function () {
+        if ($('#password').attr("type") == 'password') {
+            $('#password').attr("type", 'text')
+            $('#eye-icon').removeClass('bi-eye').addClass('bi-eye-slash')
+        }
+        else {
+            $('#password').attr("type", 'password')
+            $('#eye-icon').removeClass('bi-eye-slash').addClass('bi-eye')
+        }
+    })
+
 });
+

@@ -388,7 +388,7 @@ function start_video(video_id, url, thumbnail, status = true) {
     }
 
     $('.video-panel').html(`
-    <video class="course-video-wraper mb-5" width="720" height="400" class="mb-5" controls poster="${thumbnail}">
+    <video class="course-video-wraper mb-5" class="mb-5" controls poster="${thumbnail}">
        <source class="course-video-content" src="${url}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -433,7 +433,7 @@ function start_video(video_id, url, thumbnail, status = true) {
         questions.forEach(({ question, answer }, index) => {
             let question_template = `<div class="swiper-slide">
                 <h4 class="quiz-title">${question}</h4>
-                <p class="mb-3">PILIHAN GANDA</p>
+                <p class="mb-5">PILIHAN GANDA</p>
                 <div class="quiz-option-list d-flex justify-content-center align-items-center p-1 flex-wrap">
                     <div class="quiz-option px-3 d-flex align-items-center">
                         <input type="radio" name="question-${index}" id="A-${index}">

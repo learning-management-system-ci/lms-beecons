@@ -56,6 +56,10 @@
     background-color: white;
 }
 
+$left-panel: 60vw;
+$right-panel: 38%;
+$panel-height: 27em;
+
 h3,
 h4,
 h5 {
@@ -90,14 +94,14 @@ button {
 //     background: #fff;
 //     z-index: 9999;
 // }
-.resume-list-btn{
+.resume-list-btn {
     text-decoration: underline;
     color: #164520;
     cursor: pointer;
     font-weight: 600;
 }
 
-.resume-list-btn:disabled{
+.resume-list-btn:disabled {
     color: #bdbdbd;
     cursor: not-allowed;
 }
@@ -132,16 +136,17 @@ main {
         gap: 30px;
 
         .left-side {
-            width: min-content;
+            width: $left-panel;
             // border: 1px solid black;
 
-            iframe {
-                border-radius: 10px;
+            video {
+                width: 100%;
+                height: 66vh;
             }
 
             .quiz-section {
-                width: 727px;
-                height: 400px;
+                width: 100%;
+                height: 66vh;
                 background-color: #F2F4F6;
                 border-radius: 16px;
 
@@ -156,6 +161,7 @@ main {
 
                     div {
                         width: 46%;
+                        height: 5em;
                         gap: 12px;
                         border-radius: 10px;
                         background-color: #E4E8EE;
@@ -179,10 +185,7 @@ main {
                         }
 
                         label {
-                            text-align: start;
                             color: #002B5B;
-                            width: 100%;
-                            height: 100%;
                             padding: 16px 0px;
                         }
                     }
@@ -475,9 +478,11 @@ main {
         }
 
         .right-side {
+            width: $right-panel;
+
             .video-list {
 
-                height: 400px;
+                height: $panel-height;
                 border-radius: 7px;
                 background-color: #F2F4F6;
 
@@ -523,7 +528,7 @@ main {
                         @include video-list-button(#DFE3E9, url("../image/course-detail/complete-button.png"), 0);
                     }
 
-                    .disabled{
+                    .disabled {
                         cursor: not-allowed;
                         opacity: 0.7;
                     }
