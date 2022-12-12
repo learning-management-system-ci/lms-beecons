@@ -214,7 +214,7 @@ $(document).ready(async function () {
                                 </a>
                                 <p class='mb-2'>${course.author}</p>
                                 <p class='mb-4'>
-                                    ${textTruncate(course.description, 120)}
+                                    ${textTruncate(course.description, 130)}
                                 </p>
                                 <p class="harga">
                                     ${(() => {
