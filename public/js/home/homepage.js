@@ -304,7 +304,7 @@ $(document).ready(async function () {
 
         $('#mentor-wrapper').slick({
             dots: false,
-            slidesToShow: 3,
+            slidesToShow: 4,
             slidesToScroll: 1,
             touchMove: true,
             autoplay: true,
@@ -436,7 +436,7 @@ $(document).ready(async function () {
             slidesToShow: 2,
             slidesToScroll: 1,
             touchMove: true,
-            centerMode: true,
+            centerMode: false,
         })
     } catch (error) {
         // console.log(error)

@@ -192,7 +192,7 @@ h6 {
   border-radius: 0.6rem;
   box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
-  padding: 2.5rem;
+  padding: 2rem;
 }
 .card-mentor:hover {
   box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);

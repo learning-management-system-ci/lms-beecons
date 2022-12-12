@@ -169,12 +169,8 @@
         @include title();
     }
 
-    #mentor-wrapper {
-        padding: 2rem;
-    }
-
     .slick-slide {
-        padding: 2rem;
+        padding: 2rem 1rem;
     }
 }
 
@@ -283,13 +279,13 @@
 
         .ornament1 {
             position: absolute;
-            bottom: 5rem;
+            bottom: 3rem;
             left: 10rem;
         }
 
         .ornament2 {
             position: absolute;
-            top: -5rem;
+            top: -4rem;
             right: 17rem;
         }
     }
@@ -308,10 +304,10 @@
         };
     }
 
-    .slick-list {
-        padding-left: 0 !important;
-        padding-right: 10rem !important;
-    }
+    // .slick-list {
+    //     padding-left: 0 !important;
+    //     padding-right: 10rem !important;
+    // }
 
     .slick-arrow {
         bottom: -34px;
@@ -335,16 +331,17 @@
     }
 
     .slick-slide {
-        padding: .5rem;
+        padding: 2rem 1.5rem;
     }
 
     .slick-dots li button:before {
-        font-size: .5rem;
+        font-size: .8rem;
     }
 
     .slick-prev:before,
     .slick-next:before {
         color: black;
+        font-size: 24px;
     }
 
     .testimoni-container {
@@ -361,21 +358,17 @@
         }
 
         .content {
-            padding: .8rem;
+            padding: 1rem;
         }
 
         .title {
-            font-size: .6rem;
+            font-size: 1rem;
         }
 
         .name {
-            font-size: 1rem;
+            font-size: 1.5rem;
             font-weight: bolder;
             margin-bottom: .8rem;
-        }
-
-        .text {
-            font-size: .85rem;
         }
     }
 }
