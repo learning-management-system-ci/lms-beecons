@@ -7,7 +7,7 @@
                     The First Group - Mentoring Focused Course in Indonesia.
                 </h1>
                 <p>
-                    Tender merupakan tempat dimana kamu dapat mempelajari suatu bidang baru yang akan langsung dibimbing oleh para mentor ahli di bidangnya.
+                    Stufast merupakan tempat dimana kamu dapat mempelajari suatu bidang baru yang akan langsung dibimbing oleh para mentor ahli di bidangnya.
                 </p>
                 <a href="/about-us">
                     <button class="app-btn">
