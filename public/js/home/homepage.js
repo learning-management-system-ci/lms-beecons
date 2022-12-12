@@ -218,7 +218,7 @@ $(document).ready(async function () {
 
         $('#webinar .webinar-wrapper').html(webinarResponse.map(webinar => {
             return `
-                <div class="col col-md-3">
+                <div class="col col-md-4">
                     <div class="card-webinar">
                         <div class="image">
                             <img src="${webinar.thumbnail}" alt="img">

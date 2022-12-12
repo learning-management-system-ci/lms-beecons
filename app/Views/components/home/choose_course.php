@@ -1,25 +1,27 @@
 <!-- pilih course -->
 <div id="choose-course">
-    <h1>
-        Pilih Course Kamu
-    </h1>
+    <div class="container">
+        <h1>
+            Pilih Course Kamu
+        </h1>
 
-    <div class="tags mb-4 d-none">
-        <div class="item active" data-type-id="0"><a href="">All</a></div>
-        <div class="item" data-type-id="1"><a href="">Engineering</a></div>
-        <div class="item" data-type-id="2"><a href="">IT</a></div>
-    </div>
+        <div class="tags mb-4 d-none">
+            <div class="item active" data-type-id="0"><a href="">All</a></div>
+            <div class="item" data-type-id="1"><a href="">Engineering</a></div>
+            <div class="item" data-type-id="2"><a href="">IT</a></div>
+        </div>
 
-    <div class="text-end mb-4">
-        <a href="/courses" class="text-decoration-underline text-primary-color">Lihat Semua</a>
-    </div>
+        <div class="text-end mb-4">
+            <a href="/courses" class="text-decoration-underline text-primary-color">Lihat Semua</a>
+        </div>
 
-    <div class="courses-loading">
-        <div class="stage">
-            <div class="dot-pulse">
+        <div class="courses-loading">
+            <div class="stage">
+                <div class="dot-pulse">
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row choose-course-list"></div>
+        <div class="row choose-course-list"></div>
+    </div>
 </div>

@@ -53,13 +53,6 @@ button {
     margin-bottom: 4rem;
 }
 
-@mixin padding-container() {
-    padding-left: $padding-container;
-    padding-right: $padding-container;
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-}
-
 .app-btn {
     background-color: $color-primary;
     color: $color-white;
