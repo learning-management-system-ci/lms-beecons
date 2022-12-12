@@ -32,7 +32,6 @@ button {
 }
 
 .app-btn:hover {
-  background-color: #248043;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
 }
 

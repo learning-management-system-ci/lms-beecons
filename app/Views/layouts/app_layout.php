@@ -40,7 +40,7 @@
 
     <main>
         <?php if(uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code'  && !str_contains(uri_string(), 'webinar')) : ?>
-        <div class="main-container pt-4">
+        <div class="container pt-4">
             <?php 
             switch(uri_string()) {
                 case "faq":
