@@ -10,7 +10,7 @@ body {
 }
 
 .btn-primary {
-  background-color: $color-primary !important;
+  background-color: $color-primary  !important;
 }
 
 .page-flex {
@@ -19,9 +19,8 @@ body {
 }
 
 .logo {
-  position: absolute;
-  right: 50px !important;
-  top: 60px !important;
+  position: relative;
+  right: 12.5% !important;
 }
 
 .mw-290 {
@@ -30,16 +29,17 @@ body {
 
 #button {
   border: 0;
+
   &:disabled,
   &.disable {
-    background-color: $color-gray-4 !important;
-    color: $color-secondary !important;
+    background-color: $color-gray-4  !important;
+    color: $color-secondary  !important;
   }
 
   &:active,
   &.active {
-    background-color: $color-secondary !important;
-    color: $color-white !important;
+    background-color: $color-secondary  !important;
+    color: $color-white  !important;
   }
 }
 
@@ -47,11 +47,11 @@ body {
   position: relative;
   display: flex;
   background-color: transparent !important;
-  color: $color-black !important;
+  color: $color-black  !important;
   align-items: center;
   justify-content: center;
   height: 42px;
-  border: 1px solid $color-gray-5 !important;
+  border: 1px solid $color-gray-5  !important;
 
   img {
     position: absolute;
@@ -67,6 +67,7 @@ body {
 
 form {
   width: 290px;
+
   .welcome-text {
     font-weight: 400;
   }
@@ -104,10 +105,22 @@ form {
     height: 40px;
     padding-left: 20px;
     font-size: 12px;
+
     &:focus-visible {
       border: 1px solid $color-secondary;
       border-radius: 7px;
     }
+  }
+
+  #password,
+  #password_confirm {
+    border-radius: 7px 0 0 7px;
+    width: 85%;
+  }
+
+  #show-password,
+  #show-confirm {
+    border-radius: 0 7px 7px 0;
   }
 
   .option {
@@ -136,6 +149,7 @@ form {
     font-weight: 300;
     font-size: 12px;
     margin-top: 20px;
+
     a {
       text-decoration: none;
       font-weight: 700;
@@ -179,7 +193,7 @@ a {
   background-color: transparent !important;
 
   img {
-    width: 290px;
+    //width: 290px;
     height: 45px;
   }
 }

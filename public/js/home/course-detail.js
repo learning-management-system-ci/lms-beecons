@@ -168,6 +168,7 @@ const populateGeneral = async (course) => {
         countVideo = videos.length,
     } = course;
 
+
     videos.sort((a, b) => {
         return a.order - b.order
     })
@@ -180,7 +181,7 @@ const populateGeneral = async (course) => {
     $('.course_description-suitableFor_content').html(suitable_for)
     $('.course_videoCount_content').html(countVideo + ' video')
 
-    populateVideo(videos)
+    populateVideo(videos, owned)
     populateResume(videos)
     populateReview(reviews)
     populatePricing({ old_price, new_price, course_id })
@@ -195,7 +196,7 @@ const populateGeneral = async (course) => {
     })
 
     if (!started_video) {
-        start_video(videos[0].video_id, videos[0].video, videos[0].thumbnail)
+        start_video(videos[0].video_id, videos[0].video, videos[0].thumbnail, owned)
     }
 
     $(".list-card-button").on('click', function () {
@@ -210,7 +211,7 @@ const populateGeneral = async (course) => {
     })
 }
 
-const populateVideo = async (videos) => {
+const populateVideo = async (videos, owned) => {
     // empty video list
     $('.course_videoList_content').html('')
 
@@ -228,7 +229,7 @@ const populateVideo = async (videos) => {
 
         let isDisabled = ((score > 50)) ? '' : 'disabled'
         let videoCard = `
-        <div class="list-card-button ${isComplete} ${isDisabled} d-flex justify-content-between align-items-center p-3 mb-3" data-url="${url}" data-videoid=${id} data-thumbnail=${thumbnail}, data-owned=${owned}>
+        <div class="list-card-button ${isComplete} ${isDisabled} d-flex justify-content-between align-items-center p-3 mb-3" data-url="${url}" data-videoid=${id} data-thumbnail=${thumbnail} data-owned=${owned}>
             <div class="list-title d-flex align-items-center">
                 <button></button>
                 <p>${video_title}</p>
@@ -356,10 +357,10 @@ const populateCurriculum = async (videos) => {
     })
 }
 
-function start_video(video_id, url, thumbnail, owned, status = true) {
-
+function start_video(video_id, url, thumbnail, status = true) {
     const card_button = $(`.list-card-button[data-videoid=${video_id}]`);
     var check_image = card_button.find("button");
+    let owned = console.log(card_button.data('owned'))
     $('.quiz-panel').hide()
     $('.video-panel').show()
 
@@ -387,7 +388,7 @@ function start_video(video_id, url, thumbnail, owned, status = true) {
     }
 
     $('.video-panel').html(`
-    <video class="course-video-wraper mb-5" width="720" height="400" class="mb-5" controls poster="${thumbnail}">
+    <video class="course-video-wraper mb-5" class="mb-5" controls poster="${thumbnail}">
        <source class="course-video-content" src="${url}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
@@ -405,9 +406,10 @@ function start_video(video_id, url, thumbnail, owned, status = true) {
         }
     })
 
-    $('.course-video-wraper').on('ended', async function () {
+    $('.course-video-wraper').on('ended', async function (owned) {
+        console.log("Hello ", owned)
         if (!owned) {
-            console.log("Hello ", Cookies.get("access_token"))
+            console.log("Hello ", owned)
             if (!Cookies.get("access_token")) {
                 let feedback = confirm("You need to login and buy course to continue")
                 if (feedback) {
@@ -431,7 +433,7 @@ function start_video(video_id, url, thumbnail, owned, status = true) {
         questions.forEach(({ question, answer }, index) => {
             let question_template = `<div class="swiper-slide">
                 <h4 class="quiz-title">${question}</h4>
-                <p class="mb-3">PILIHAN GANDA</p>
+                <p class="mb-5">PILIHAN GANDA</p>
                 <div class="quiz-option-list d-flex justify-content-center align-items-center p-1 flex-wrap">
                     <div class="quiz-option px-3 d-flex align-items-center">
                         <input type="radio" name="question-${index}" id="A-${index}">

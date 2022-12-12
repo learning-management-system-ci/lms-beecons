@@ -96,14 +96,15 @@ main .course-content {
   gap: 30px;
 }
 main .course-content .left-side {
-  width: min-content;
+  width: 60vw;
 }
-main .course-content .left-side iframe {
-  border-radius: 10px;
+main .course-content .left-side video {
+  width: 100%;
+  height: 66vh;
 }
 main .course-content .left-side .quiz-section {
-  width: 727px;
-  height: 400px;
+  width: 100%;
+  height: 66vh;
   background-color: #F2F4F6;
   border-radius: 16px;
 }
@@ -117,6 +118,7 @@ main .course-content .left-side .quiz-section .quiz-option-list {
 }
 main .course-content .left-side .quiz-section .quiz-option-list div {
   width: 46%;
+  height: 5em;
   gap: 12px;
   border-radius: 10px;
   background-color: #E4E8EE;
@@ -136,10 +138,7 @@ main .course-content .left-side .quiz-section .quiz-option-list div input:checke
   background-color: #002B5B;
 }
 main .course-content .left-side .quiz-section .quiz-option-list div label {
-  text-align: start;
   color: #002B5B;
-  width: 100%;
-  height: 100%;
   padding: 16px 0px;
 }
 main .course-content .left-side .quiz-section .quiz-option-list div:hover {
@@ -346,8 +345,11 @@ main .course-content .left-side .user-review .review-card .review-data .top-sect
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 1px #E0D043;
 }
+main .course-content .right-side {
+  width: 38%;
+}
 main .course-content .right-side .video-list {
-  height: 400px;
+  height: 27em;
   border-radius: 7px;
   background-color: #F2F4F6;
 }
