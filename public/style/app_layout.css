@@ -11,6 +11,7 @@ body {
 
 button {
   border: none;
+  font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
 .main-container {
@@ -408,7 +409,11 @@ main .navigation p .sub-nav {
 .navbar .nav-item-search .dropdown-menu .search-item {
   display: flex;
   gap: 1rem;
-  margin-bottom: 0.8rem;
+  padding: 0.5rem 0.2rem;
+  align-items: center;
+}
+.navbar .nav-item-search .dropdown-menu .search-item:hover {
+  background-color: #ECEBF3;
 }
 .navbar .nav-item-search .dropdown-menu .icon img {
   width: 3rem;

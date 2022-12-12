@@ -56,7 +56,7 @@
                                     <div id="search-rekomendasi"></div>
                                 </div>
                             </div>
-                            <div id="search-result" class="p-2"></div>
+                            <div id="search-result" class="p-2 d-none"></div>
                         </div>
                     </div>
                 </li>

@@ -428,7 +428,12 @@ main {
             .search-item {
                 display: flex;
                 gap: 1rem;
-                margin-bottom: .8rem;
+                padding: .5rem .2rem;
+                align-items: center;
+
+                &:hover {
+                    background-color: $color-gray-2;
+                }
             }
 
             .icon {
