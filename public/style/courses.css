@@ -10,6 +10,7 @@ body {
 
 button {
   border: none;
+  font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
 .main-container {
@@ -30,11 +31,20 @@ button {
 }
 
 .app-btn:hover {
-  opacity: 0.8;
+  background-color: #248043;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
 }
 
 .btn-full {
   width: 100%;
+}
+
+.form-control {
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #164520;
 }
 
 #courses .breadcrumb {
@@ -73,7 +83,6 @@ button {
   background-color: #6DAA82;
   color: #1F1F1F;
   opacity: 0.5;
-  font-size: 0.8rem;
   font-weight: 500;
   min-width: 5rem;
   text-align: center;
@@ -129,10 +138,13 @@ button {
 }
 #courses .bundle {
   border-radius: 0.6rem;
-  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   position: relative;
   border: 1px solid #9ca3af;
+}
+#courses .bundle:hover {
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
 }
 #courses .bundle .label {
   position: absolute;
@@ -165,7 +177,6 @@ button {
 #courses .bundle .content {
   padding: 1rem;
   margin-bottom: 0.5rem;
-  font-size: 0.9rem;
 }
 #courses .bundle .content ul {
   list-style: none;
@@ -224,9 +235,6 @@ button {
   font-size: 0.9rem;
   color: #1F1F1F;
   font-weight: normal;
-}
-#courses .courses-bundlings {
-  padding-left: 3.5rem;
 }
 #courses .courses-bundlings .slick-list {
   padding-left: 10px !important;

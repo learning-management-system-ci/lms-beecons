@@ -48,7 +48,6 @@ $color-select-tag: #6DAA82;
             background-color: $color-select-tag;
             color: $color-black;
             opacity: .5;
-            font-size: .8rem;
             font-weight: 500;
             min-width: 5rem;
             text-align: center;
@@ -157,7 +156,6 @@ $color-select-tag: #6DAA82;
         .content {
             padding: 1rem;
             margin-bottom: .5rem;
-            font-size: .9rem;
 
             ul {
                 list-style: none;
@@ -230,7 +228,6 @@ $color-select-tag: #6DAA82;
     }
 
     .courses-bundlings {
-        padding-left: $padding-container;
 
         .slick-list {
             padding-left: 10px !important;
