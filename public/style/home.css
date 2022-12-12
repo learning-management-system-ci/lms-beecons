@@ -223,7 +223,6 @@ button {
 #artikel {
   padding-top: 6rem;
   padding-bottom: 6rem;
-  margin-bottom: 6rem;
 }
 #artikel h1 {
   font-size: 2rem;
@@ -264,15 +263,13 @@ button {
   color: #ffffff;
 }
 #artikel .artikel-item .image .content h2 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 #artikel .artikel-item .image .content p {
-  font-size: 0.85rem;
   margin-bottom: 2rem;
 }
 #artikel .artikel-item .image .content span {
   color: #ffffff;
-  font-size: 0.85rem;
 }
 
 #testimoni h1 {

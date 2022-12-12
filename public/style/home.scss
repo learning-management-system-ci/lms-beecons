@@ -204,7 +204,6 @@
 // artikel
 #artikel {
     @include padding-container();
-    margin-bottom: 6rem;
 
     h1 {
         @include title();
@@ -249,17 +248,15 @@
                 color: $color-white;
 
                 h2 {
-                    font-size: 1.2rem;
+                    font-size: 1.5rem;
                 }
 
                 p {
-                    font-size: .85rem;
                     margin-bottom: 2rem;
                 }
 
                 span{
                     color: $color-white;
-                    font-size: .85rem;
                 }
             }
         }
