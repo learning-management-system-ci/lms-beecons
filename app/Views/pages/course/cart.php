@@ -8,14 +8,14 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
-<div id="cart" class="main-container mb-5">
+<div id="cart" class="container">
     <?php if (!get_cookie("access_token")) : ?>
         <div class="section-no-login">
             <h1 class="mb-3">Kamu belum masuk</h1>
             <p class="mb-5">Silahkan login terlebih dahulu untuk melanjutkan transaksi pembelian course atau webinar</p>
 
             <a href="<?= base_url('/login') ?>" class="nav-link-btn">
-                <button class="my-btn">Sign in</button>
+                <button class="app-btn">Sign in</button>
             </a>
         </div>
     <?php else : ?>
@@ -52,23 +52,12 @@
 
             </div>
             <div class="order-total">
-                <!-- <div class="order-total-container d-none">
-                    <div class="d-flex justify-content-between mb-2">
-                        <p>Total</p>
-                        <p class="cart-total"></p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p>Coupon</p>
-                        <p class="order-total-coupon">20%</p>
-                    </div>
-                    <hr>
-                </div> -->
                 <div class="d-flex justify-content-between">
                     <h6>TOTAL</h6>
                     <h6 class="cart-total-final">Rp. 0</h6>
                 </div>
                 <a href="/checkout">
-                    <button class="my-btn w-100 mt-3" id="checkout">Check Out</button>
+                    <button class="app-btn w-100 mt-3" id="checkout">Check Out</button>
                 </a>
             </div>
         </section>

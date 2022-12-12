@@ -10,11 +10,40 @@ body {
 
 button {
   border: none;
+  font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
 .main-container {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
+}
+
+.app-btn {
+  background-color: #164520;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  min-width: 110px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.app-btn:hover {
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.form-control {
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #164520;
 }
 
 #cart .breadcrumb {
