@@ -73,7 +73,8 @@ button {
 }
 
 .app-btn:hover {
-    opacity: 0.8;
+    background-color: $color-secondary;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .btn-full {

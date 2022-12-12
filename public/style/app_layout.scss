@@ -309,7 +309,7 @@ main {
         margin-right: 2rem;
 
         img {
-            height: 60px;
+            height: 46px;
             width: auto;
             object-fit: contain;
         }
@@ -543,6 +543,13 @@ main {
                     }
                 }
             }
+        }
+    }
+
+    #cart-count, #nav-btn-search, #dropdown-notification {
+        &:hover {
+            color: $color-white;
+            background-color: $color-primary;
         }
     }
 }
