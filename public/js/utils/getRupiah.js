@@ -12,5 +12,5 @@ function getRupiah(angka) {
     }
 
     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah
-    return 'Rp. ' + rupiah
+    return 'Rp ' + rupiah
 }

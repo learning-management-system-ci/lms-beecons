@@ -31,15 +31,24 @@ button {
 }
 
 .app-btn:hover {
-  opacity: 0.8;
+  background-color: #248043;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
 }
 
 .btn-full {
   width: 100%;
 }
 
+.form-control {
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #164520;
+}
+
 #hero {
-  height: 87vh;
+  height: 89vh;
   text-align: right;
 }
 #hero .content-container {
@@ -66,6 +75,9 @@ button {
   background-color: #248043;
   padding: 0.7rem 2rem;
 }
+#hero .content .app-btn:hover {
+  background-color: #164520;
+}
 #hero .image {
   height: 100%;
 }
@@ -74,8 +86,6 @@ button {
 }
 
 #why-choose-us {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
   padding-top: 6rem;
   padding-bottom: 6rem;
   background-color: #F9FFF5;
@@ -121,8 +131,6 @@ button {
 }
 
 #choose-course {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
   padding-top: 6rem;
   padding-bottom: 6rem;
 }
@@ -149,14 +157,8 @@ button {
   color: #164520;
   font-weight: bold;
 }
-#choose-course .choose-course-list {
-  margin-left: -1.5rem;
-  margin-right: -1.5rem;
-}
 
 #webinar {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
   padding-top: 6rem;
   padding-bottom: 6rem;
   background-color: #F9FFF5;
@@ -181,8 +183,6 @@ button {
 }
 
 #mentor {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
   padding-top: 6rem;
   padding-bottom: 6rem;
 }
@@ -191,16 +191,11 @@ button {
   text-align: center;
   margin-bottom: 4rem;
 }
-#mentor #mentor-wrapper {
-  padding: 2rem;
-}
 #mentor .slick-slide {
-  padding: 2rem;
+  padding: 2rem 1rem;
 }
 
 #our-partner {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
   padding-top: 6rem;
   padding-bottom: 6rem;
   margin-bottom: 3rem;
@@ -217,7 +212,7 @@ button {
   gap: 5rem;
 }
 #our-partner .item {
-  width: 20%;
+  width: 10%;
 }
 #our-partner .item img {
   width: 100%;
@@ -226,11 +221,8 @@ button {
 }
 
 #artikel {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
   padding-top: 6rem;
   padding-bottom: 6rem;
-  margin-bottom: 6rem;
 }
 #artikel h1 {
   font-size: 2rem;
@@ -271,15 +263,13 @@ button {
   color: #ffffff;
 }
 #artikel .artikel-item .image .content h2 {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 #artikel .artikel-item .image .content p {
-  font-size: 0.85rem;
   margin-bottom: 2rem;
 }
 #artikel .artikel-item .image .content span {
   color: #ffffff;
-  font-size: 0.85rem;
 }
 
 #testimoni h1 {
@@ -294,12 +284,12 @@ button {
 }
 #testimoni .testimoni-wrapper .ornament1 {
   position: absolute;
-  bottom: 5rem;
+  bottom: 3rem;
   left: 10rem;
 }
 #testimoni .testimoni-wrapper .ornament2 {
   position: absolute;
-  top: -5rem;
+  top: -4rem;
   right: 17rem;
 }
 #testimoni .testimoni-slick {
@@ -311,11 +301,6 @@ button {
 #testimoni .slider {
   padding-top: 1rem;
   padding-bottom: 1.5rem;
-  padding-left: 3.5rem;
-}
-#testimoni .slick-list {
-  padding-left: 0 !important;
-  padding-right: 10rem !important;
 }
 #testimoni .slick-arrow {
   bottom: -34px;
@@ -335,21 +320,25 @@ button {
   right: 60px;
 }
 #testimoni .slick-slide {
-  padding: 0.5rem;
+  padding: 2rem 1.5rem;
 }
 #testimoni .slick-dots li button:before {
-  font-size: 0.5rem;
+  font-size: 0.8rem;
 }
 #testimoni .slick-prev:before,
 #testimoni .slick-next:before {
   color: black;
+  font-size: 24px;
 }
 #testimoni .testimoni-container {
   display: flex !important;
   border-radius: 0.6rem;
-  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   width: 50%;
+}
+#testimoni .testimoni-container:hover {
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
 }
 #testimoni .testimoni-container img {
   width: 10rem;
@@ -359,18 +348,15 @@ button {
   border-bottom-left-radius: 0.6rem;
 }
 #testimoni .testimoni-container .content {
-  padding: 0.8rem;
+  padding: 1rem;
 }
 #testimoni .testimoni-container .title {
-  font-size: 0.6rem;
+  font-size: 1rem;
 }
 #testimoni .testimoni-container .name {
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: bolder;
   margin-bottom: 0.8rem;
-}
-#testimoni .testimoni-container .text {
-  font-size: 0.85rem;
 }
 
 /*# sourceMappingURL=home.css.map */

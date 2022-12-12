@@ -23,7 +23,7 @@ h6 {
 
         img {
             width: 100%;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             object-fit: contain;
             border-radius: $card-border-radius;
             border: 1px solid $color-gray !important;
@@ -40,16 +40,13 @@ h6 {
             gap: .5rem;
 
             .item {
-                padding: .2rem .65rem;
+                padding: .1rem .5rem;
                 border-radius: .65rem;
                 background-color: $color-yellow;
+                color: $color-black;
                 cursor: pointer;
-                font-size: .8rem !important;
+                font-size: .8rem;
                 font-weight: 500;
-            }
-
-            .item:nth-child(even) {
-                background-color: $color-blue;
             }
         }
     }
@@ -61,8 +58,8 @@ h6 {
         }
 
         p {
-            font-size: .9rem;
-            line-height: 1.2rem;
+            // font-size: .9rem;
+            // line-height: 1.2rem;
             margin-bottom: 1.5rem;
         }
 
@@ -90,6 +87,14 @@ h6 {
 
         a:first-child {
             flex: 1;
+        }
+
+        .add-cart {
+            &:hover {
+                background-color: $color-primary;
+                color: $color-white;
+                box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+            }
         }
     }
 }
@@ -152,7 +157,7 @@ h6 {
 
 .card-mentor {
     @include card-setting();
-    padding: 2.5rem;
+    padding: 2rem;
 
     .profile {
         text-align: center;
@@ -309,7 +314,7 @@ main {
         margin-right: 2rem;
 
         img {
-            height: 60px;
+            height: 46px;
             width: auto;
             object-fit: contain;
         }
@@ -428,7 +433,12 @@ main {
             .search-item {
                 display: flex;
                 gap: 1rem;
-                margin-bottom: .8rem;
+                padding: .5rem .2rem;
+                align-items: center;
+
+                &:hover {
+                    background-color: $color-gray-2;
+                }
             }
 
             .icon {
@@ -540,19 +550,18 @@ main {
             }
         }
     }
+
+    #cart-count, #nav-btn-search, #dropdown-notification {
+        &:hover {
+            color: $color-white;
+            background-color: $color-primary;
+        }
+    }
 }
 
 // footer
 footer {
-    display: flex;
     background-color: $color-gray-home;
-    justify-content: space-between;
-    padding-left: $padding-container;
-    padding-right: $padding-container;
-    padding-top: 3rem;
-    padding-bottom: 2rem;
-    gap: 4rem;
-    font-size: 1rem;
 
     a {
         font-weight: 500;
@@ -566,7 +575,7 @@ footer {
     .footer-app-download {
         img {
             height: 40px;
-            width: 100%;
+            // width: 100%;
             object-fit: contain;
         }
     }
@@ -613,7 +622,7 @@ footer {
 
     .sosmed {
         display: flex;
-        gap: 1rem;
+        gap: 1.5rem;
         align-items: center;
 
         a {

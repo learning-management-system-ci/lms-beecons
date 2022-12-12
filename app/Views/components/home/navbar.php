@@ -38,7 +38,7 @@
                     <div class="nav-item-search">
                         <div class="nav-search-input">
                             <form action="">
-                                <input class="form-control border" placeholder="search">
+                                <input class="form-control" placeholder="search">
                             </form>
                             <i class="fa-solid fa-xmark" id="nav-btn-search-x"></i>
                         </div>
@@ -56,7 +56,7 @@
                                     <div id="search-rekomendasi"></div>
                                 </div>
                             </div>
-                            <div id="search-result" class="p-2"></div>
+                            <div id="search-result" class="p-2 d-none"></div>
                         </div>
                     </div>
                 </li>
@@ -89,7 +89,7 @@
                                         melakukan transaksi pembelian
                                     </p>
                                     <a href="/login" class="nav-link-btn">
-                                        <button class="my-btn btn-sign-in">Sign in</button>
+                                        <button class="app-btn btn-sign-in">Sign in</button>
                                     </a>
                                 </div>
                             <?php else : ?>
@@ -101,7 +101,7 @@
                 <?php if (!get_cookie("access_token")) : ?>
                     <li class="nav-item">
                         <a href="/login" class="nav-link-btn">
-                            <button class="my-btn btn-sign-in">Sign in</button>
+                            <button class="app-btn btn-sign-in">Sign in</button>
                         </a>
                     </li>
                 <?php else : ?>

@@ -56,7 +56,7 @@ $(document).ready(() => {
 
             let courses = response
 
-            let coursesRekomendasi = courses.slice(0, 5)
+            let coursesRekomendasi = courses.slice(0, 7)
             let courseRecent = JSON.parse(localStorage.getItem('search-recent'))
             let coursesResult = []
 
@@ -88,6 +88,8 @@ $(document).ready(() => {
                             </a>
                         `
                     })
+
+                    $('#search-result').removeClass('d-none')
 
                     $('#search-result').html(htmlSearchResult)
 

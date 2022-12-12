@@ -210,14 +210,12 @@ $(document).ready(async function () {
                             </div>
                             <div class="body">
                                 <a href="/course/${course.course_id}">
-                                    <div class='mb-2'>
-                                        <h2 class="text-truncate m-0">${course.title}</h2>
-                                        <small class='fw-bold'>${course.author}</small>
-                                    </div>
-                                    <p>
-                                        ${textTruncate(course.description, 120)}
-                                    </p>
+                                    <h2 class="text-truncate mb-2">${course.title}</h2>
                                 </a>
+                                <p class='mb-2'>${course.author}</p>
+                                <p class='mb-4'>
+                                    ${textTruncate(course.description, 120)}
+                                </p>
                                 <p class="harga">
                                     ${(() => {
                                         if (course.old_price !== '0') {
@@ -234,14 +232,14 @@ $(document).ready(async function () {
                                     if (!course.isBought) {
                                         return `
                                             <a href="${`/checkout?type=course&id=${course.course_id}`}" class='btn-checkout'>
-                                                <button class="my-btn btn-full">Beli</button>
+                                                <button class="app-btn btn-full">Beli</button>
                                             </a>
                                             <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
                                         `
                                     } else {
                                         return `
                                             <a href="${`/course/${course.course_id}`}">
-                                                <button class="my-btn btn-full">Lihat Course</button>
+                                                <button class="app-btn btn-full">Lihat Course</button>
                                             </a>
                                         `
                                     }
