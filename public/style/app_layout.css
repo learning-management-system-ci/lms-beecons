@@ -299,13 +299,11 @@ main .navigation p .sub-nav {
 }
 
 .navbar {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ffffff;
   font-size: 1rem;
-}
-.navbar .container-fluid {
-  padding-left: 0;
-  padding-right: 0;
 }
 .navbar .navbar-brand {
   margin-right: 2rem;

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
-    <div class="container-fluid">
+    <div class="container container-fluid">
         <a class="navbar-brand" href="/">
             <img src="../../../image/logo.svg" alt="logo" height="60px" width="60px">
         </a>
