@@ -1,72 +1,73 @@
-<footer class="footer-container">
-    <div class="item">
-        <a href="/">
-            <img src="/image/logo.svg" class="app-logo" alt="logo" height="80px" width="98.13px">
-        </a>
-        <div class="mt-5">
-            <p>Download the app by clicking the link below :</p>
-            <div class="footer-app-download row m-0">
-                <div class="col-6 ps-0">
-                    <img src="/image/home/google-play.png" alt="app">
+<footer>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-4">
+                <a href="/">
+                    <img src="/image/logo.svg" class="app-logo" alt="logo" height="80px" width="98.13px">
+                </a>
+
+                <div class="sosmed mt-4">
+                    <a href="">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                    <a href="">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                    <a href="">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
                 </div>
-                <div class="col-6">
-                    <img src="/image/home/app-store.png" alt="app">
+
+                <div class="mt-5">
+                    <p>Download the app by clicking the link below :</p>
+                    <div class="footer-app-download d-flex gap-4">
+                        <a href="" class="">
+                            <img src="/image/home/google-play.png" alt="app">
+                        </a>
+                        <a href="" class="">
+                            <img src="/image/home/app-store.png" alt="app">
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="item">
-        <h2>Pages</h2>
+            <div class="col-md-2">
+                <h2>Pages</h2>
 
-        <a href="/" class="footer-link">Home</a>
-        <a href="/courses" class="footer-link">Courses</a>
-        <a href="/webinar" class="footer-link">Webinar</a>
-        <a href="/faq" class="footer-link">FAQ</a>
-        <a href="/about-us" class="footer-link">About Us</a>
-    </div>
-    <div class="item">
-        <h2>Service</h2>
-
-        <a href="" class="footer-link">Bootcamp</a>
-        <a href="/webinar" class="footer-link">Webinar</a>
-    </div>
-    <div class="item">
-        <h2>Contact</h2>
-
-        <div class="contact">
-            <div class="contact-item">
-                <i class="fa-solid fa-phone"></i>
-                <p>(+62) 82322491613</p>
+                <a href="/" class="footer-link">Home</a>
+                <a href="/courses" class="footer-link">Courses</a>
+                <a href="/training" class="footer-link">Training</a>
+                <a href="/webinar" class="footer-link">Webinar</a>
+                <a href="/faq" class="footer-link">FAQ</a>
+                <a href="/about-us" class="footer-link">About Us</a>
+                <a href="/terms-and-conditions" class="footer-link">Terms and Conditions</a>
             </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-envelope"></i>
-                <p>asnandyx@gmail.com</p>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-location-dot"></i>
-                <p>
-                    Jl. Mijil No.98, Karangjati, Sinduadi, Kec. Mlati, Kabupaten Sleman, Daerah Istimewa Yogyakarta
-                    55284
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="item">
-        <h2>Sosial media</h2>
+            <div class="col-md-2">
+                <h2>Service</h2>
 
-        <div class="sosmed">
-            <a href="">
-                <i class="fa-brands fa-linkedin"></i>
-            </a>
-            <a href="">
-                <i class="fa-brands fa-twitter"></i>
-            </a>
-            <a href="">
-                <i class="fa-brands fa-facebook-f"></i>
-            </a>
-            <a href="">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
+                <a href="" class="footer-link">Bootcamp</a>
+                <a href="/webinar" class="footer-link">Webinar</a>
+            </div>
+            <div class="col-md-4">
+                <h2>Hubungi Kami</h2>
+
+                <form action="" method="post">
+                    <div class="form-group mb-2">
+                        <input type="text" class="form-control" placeholder="Nama Anda">
+                    </div>
+                    <div class="form-group mb-2">
+                        <input type="email" class="form-control" placeholder="Email Anda">
+                    </div>
+                    <div class="form-group mb-2">
+                        <textarea name="" id="" cols="30" rows="5" class="form-control" placeholder="Pesan Anda"></textarea>
+                    </div>
+                    <div class="form-group text-end">
+                        <button type="submit" class="app-btn">Kirim</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </footer>

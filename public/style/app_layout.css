@@ -33,11 +33,19 @@ button {
 
 .app-btn:hover {
   background-color: #248043;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
 }
 
 .btn-full {
   width: 100%;
+}
+
+.form-control {
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #164520;
 }
 
 h1,
@@ -56,16 +64,19 @@ h6 {
 
 .card-course {
   border-radius: 0.6rem;
-  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   padding: 0.8rem;
+}
+.card-course:hover {
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
 }
 .card-course .image {
   position: relative;
 }
 .card-course .image img {
   width: 100%;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   object-fit: contain;
   border-radius: 0.6rem;
   border: 1px solid #D9D9D9 !important;
@@ -81,15 +92,13 @@ h6 {
   gap: 0.5rem;
 }
 .card-course .image .card-course-tags .item {
-  padding: 0.2rem 0.65rem;
+  padding: 0.1rem 0.5rem;
   border-radius: 0.65rem;
   background-color: #FFCB42;
+  color: #1F1F1F;
   cursor: pointer;
-  font-size: 0.8rem !important;
+  font-size: 0.8rem;
   font-weight: 500;
-}
-.card-course .image .card-course-tags .item:nth-child(even) {
-  background-color: #0D99FF;
 }
 .card-course .body h2 {
   font-size: 1.25rem;
@@ -120,12 +129,20 @@ h6 {
 .card-course .card-course-button a:first-child {
   flex: 1;
 }
+.card-course .card-course-button .add-cart:hover {
+  background-color: #164520;
+  color: #ffffff;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+}
 
 .card-webinar {
   border-radius: 0.6rem;
-  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   padding: 0.8rem;
+}
+.card-webinar:hover {
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
 }
 .card-webinar .image img {
   width: 100%;
@@ -173,9 +190,12 @@ h6 {
 
 .card-mentor {
   border-radius: 0.6rem;
-  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   padding: 2.5rem;
+}
+.card-mentor:hover {
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
 }
 .card-mentor .profile {
   text-align: center;
@@ -498,15 +518,7 @@ main .navigation p .sub-nav {
 }
 
 footer {
-  display: flex;
   background-color: #F9FFF5;
-  justify-content: space-between;
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
-  padding-top: 3rem;
-  padding-bottom: 2rem;
-  gap: 4rem;
-  font-size: 1rem;
 }
 footer a {
   font-weight: 500;
@@ -517,7 +529,6 @@ footer a:hover {
 }
 footer .footer-app-download img {
   height: 40px;
-  width: 100%;
   object-fit: contain;
 }
 footer .item {
@@ -554,7 +565,7 @@ footer .contact-item p {
 }
 footer .sosmed {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: center;
 }
 footer .sosmed a {

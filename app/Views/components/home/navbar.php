@@ -38,7 +38,7 @@
                     <div class="nav-item-search">
                         <div class="nav-search-input">
                             <form action="">
-                                <input class="form-control border" placeholder="search">
+                                <input class="form-control" placeholder="search">
                             </form>
                             <i class="fa-solid fa-xmark" id="nav-btn-search-x"></i>
                         </div>
