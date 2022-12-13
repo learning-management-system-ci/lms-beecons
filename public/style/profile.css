@@ -10,11 +10,40 @@ body {
 
 button {
   border: none;
+  font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
 .main-container {
   padding-left: 3.5rem;
   padding-right: 3.5rem;
+}
+
+.app-btn {
+  background-color: #164520;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  min-width: 110px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.app-btn:hover {
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.form-control {
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #164520;
 }
 
 p {
@@ -62,17 +91,16 @@ h5.font-weight-bold {
   margin: 0;
 }
 
+.col-auto {
+  width: auto;
+}
+
 .col-12x {
   width: 12%;
 }
 
 .col-20 {
   width: 20%;
-}
-
-.container {
-  max-width: 1330px;
-  padding-top: 20px;
 }
 
 .card {
@@ -88,6 +116,14 @@ h5.font-weight-bold {
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0px 0.5px 4px 2.5px rgba(0, 0, 0, 0.1);
+}
+
+.side-bar {
+  background-color: #f2f4f6;
+  border-radius: 30px;
+  border: 0;
+  height: 100%;
+  padding: 25px 20px 25px 20px;
 }
 
 .side-bar > * {
@@ -130,7 +166,10 @@ h5.font-weight-bold {
   border-radius: 5px;
 }
 .col.referral .voucher-container {
-  padding: 15px 20px 0 20px;
+  padding: 15px 20px 15px 20px;
+}
+.col.referral .voucher-container h5 {
+  margin: 0;
 }
 .col.referral .voucher-container .voucher {
   height: 30px;
@@ -154,12 +193,29 @@ h5.font-weight-bold {
   color: #ffffff;
 }
 
+div.btn-file {
+  background-color: #248043 !important;
+  color: #ffffff !important;
+  cursor: pointer;
+}
+div.btn-file > * {
+  cursor: pointer;
+}
+div.btn-file:hover, div.btn-file.hover {
+  background-color: #164520 !important;
+  color: #ffffff !important;
+}
+
 #editButton:disabled, #editButton.disable {
   background-color: #D3D3D3 !important;
   color: #248043 !important;
 }
 #editButton:active, #editButton.active {
   background-color: #248043 !important;
+  color: #ffffff !important;
+}
+#editButton:hover, #editButton.hover {
+  background-color: #164520 !important;
   color: #ffffff !important;
 }
 

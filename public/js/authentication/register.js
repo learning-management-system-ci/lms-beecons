@@ -7,7 +7,7 @@ $(document).ready(function () {
         rules: {
             email: {
                 required: true,
-                email: true
+                email: true,
             },
             password: {
                 required: true,
@@ -21,27 +21,25 @@ $(document).ready(function () {
             terms: {
                 required: true,
             }
+        },
+        messages: {
+            email: {
+                required: "Masukkan alamat email anda",
+                email: "Format email yang anda masukkan salah",
+            },
+            password: {
+                required: "Masukkan password anda",
+                minlength: "Password minimal 8 karakter",
+            },
+            password_confirm: {
+                required: "Konfirmasi password anda",
+                equalTo: "Password tidak sama",
+            },
+            terms: {
+                required: "",
+            }
         }
     });
-
-
-
-    // if ($('#button-submit').prop('disabled', true)) {
-    //     $('#button-submit').addClass('disable');
-    //     // $('#show-password').prop('disabled', false)
-    //     // $('#show-confirm').prop('disabled', false)
-
-    // }
-
-    // $('#sign-up input').on('keyup blur', function () {
-    //     if ($('#sign-up').valid()) {
-    //         $('#button-submit').prop('disabled', false).addClass('active').removeClass('disable');
-    //     } else {
-    //         //$('#password', '#password_confir').removeClass('error')
-    //         $('span.error').remove()
-    //         $('#button-submit').prop('disabled', true).addClass('disable');
-    //     }
-    // });
 
     if ($('button#button').prop('disabled', true)) {
         $('button#button').addClass('disable');

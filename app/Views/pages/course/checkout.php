@@ -10,7 +10,7 @@
 
 
 <?= $this->section('app-component') ?>
-<div class="px-5 mt-4 mb-5">
+<div class="container mb-5">
     <!-- <section class="navigation">
         <p class="mb-4"><b>Cart</b></p>
         <hr>

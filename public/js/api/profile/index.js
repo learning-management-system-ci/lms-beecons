@@ -95,7 +95,7 @@ $.ajax({
             <input type="text" id="linkedin" name="linkedin" value="${data.linkedin ? data.linkedin : ""}" class="form-control" aria-describedby="passwordHelpBlock">
             <div class="d-flex justify-content-between mt-3">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn" id="editButton" disabled="disabled" style="border: 0;">Save changes</button>
+                <button type="submit" class="app-btn btn" id="editButton" disabled="disabled" style="border: 0;">Save changes</button>
             </div>
             `);
         };

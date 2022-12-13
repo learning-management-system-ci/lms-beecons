@@ -7,7 +7,7 @@
     <p class="info-text">Masukkan alamat email kamu</p>
     <label for="email" class="form-label">Email</label>
     <input type="text" name="email" id="email" placeholder="Email kamu">
-    <button class="btn mt-3" id="button" type="submit" disabled="disabled">Confirm</button>
+    <button class="app-btn btn mt-3" id="button" type="submit" disabled="disabled">Confirm</button>
     <p class="sign-up">Ingat akun kamu? <a href="<?= base_url('sign-in'); ?>">Sign
             in</a></p>
 </form>

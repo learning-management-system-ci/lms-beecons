@@ -11,7 +11,7 @@
 <?= $this->include('components/profile/edit_modal') ?>
 <?= $this->include('components/authentication/error_modal') ?>
 <?= $this->include('components/authentication/loading') ?>
-<div class="container text-center">
+<div class="container mt-2 text-center">
     <div class="row">
         <div class="col-20">
             <?= $this->include('components/profile/sidebar') ?>
@@ -43,7 +43,7 @@
                                 aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
-                    <div class="col-1">
+                    <div class="col-auto">
                         <h4 class="font-weight-bold">
                             59%
                         </h4>
