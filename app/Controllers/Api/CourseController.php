@@ -181,33 +181,34 @@ class CourseController extends ResourceController
                                 $video[$z] += $duration;
                             }
                         }
+                
                     $sum = strtotime('00:00:00');
-                    $totaltime = 0;
-                    $datawaktu = $data[$i]['video'];
+                    $totalTime = 0;
+                    $dataTime = $data[$i]['video'];
  
-                    foreach( $datawaktu as $element ) {
-                        $waktu = implode($element);
-                        if (substr_count($waktu, ':') == 1) {
-                            $waktu = '00:'.$waktu;
+                    foreach( $dataTime as $element ) {
+                        $time = implode($element);
+                        if (substr_count($time, ':') == 1) {
+                            $waktu = '00:'.$time;
                         }
-                        $strwaktu = date("H:i:s", strtotime($waktu));
+                        $strTime = date("H:i:s", strtotime($time));
 
-                        $timeinsec = strtotime($strwaktu) - $sum;
+                        $timeInSec = strtotime($strTime) - $sum;
                         
-                        $totaltime = $totaltime + $timeinsec;
+                        $totalTime = $totalTime + $timeInSec;
                     }
 
-                    $jam = intval($totaltime / 3600);
+                    $hours = intval($totalTime / 3600);
 
-                    $totaltime = $totaltime - ($jam * 3600);
+                    $totalTime = $totalTime - ($hours * 3600);
 
-                    $menit = intval($totaltime / 60);
+                    $minutes = intval($totalTime / 60);
                     
-                    $detik = $totaltime - ($menit * 60);
+                    $second = $totalTime - ($minutes * 60);
                     
-                    $hasil = ($jam . " Jam : " . $menit . " Menit : " . $detik . " Detik");
+                    $result = ($hours . " Jam : " . $minutes . " Menit : " . $second . " Detik");
 
-                    $data[$i]['Total Durasi Video'] = ["Durasi Total" => $hasil];
+                    $data[$i]['total_video_duration'] = ["total" => $result];
                 }
 
             } else {
@@ -218,8 +219,6 @@ class CourseController extends ResourceController
             } else {
                 $data[$i]['tag'] = null;
             }
-            //$data[$i]['video'] = $video;
-            //return $data[]['video'][0]['duration'];
 
             $data[$i]['category'] = $category;
         }
