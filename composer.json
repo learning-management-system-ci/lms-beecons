@@ -10,6 +10,7 @@
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "curl/curl": "^2.4",
         "firebase/php-jwt": "5.5",
         "google/apiclient": "^2.7",
         "guzzlehttp/guzzle": "^7.5",

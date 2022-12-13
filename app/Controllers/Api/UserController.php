@@ -253,6 +253,10 @@ class UserController extends ResourceController
                 }
             }
 
+            // for ($i = 0; $i < count($course); $i++){
+                $course['thumbnail'] = $path . $course['thumbnail'];
+            // }
+
             $response = [
                 'id' => $decoded->uid,
                 'profile_picture' => $path . $data['profile_picture'],
