@@ -6,7 +6,7 @@
 
 <?= $this->section('app-component') ?>
 <div id="detail-bundling">
-    <input type="text" id="bundling-id" value="<?= $id ?>" class="d-none">
+    <input type="hidden" id="bundling-id" value="<?= $id ?>" class="d-none">
     <div class="container mt-4">
         <div class="row m-0">
             <div class="col-md-8 p-0 pe-4">
