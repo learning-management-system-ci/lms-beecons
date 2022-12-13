@@ -215,6 +215,9 @@ class UserController extends ResourceController
             $job = new Jobs;
             $modelUserCourse = new UserCourse;
             $modelCourse = new Course;
+            $modelVideo = new Video;
+            $modelVideoCategory = new VideoCategory;
+            $modelUserVideo = new UserVideo;
 
             $data = $user->where('id', $decoded->uid)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
@@ -224,9 +227,30 @@ class UserController extends ResourceController
             $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
 
             $course = $userCourse;
+            $score_raw = 0;
+            $score_final = 0;
             for ($i = 0; $i < count($userCourse); $i++) {
                 $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
                 $course[$i] = $course_;
+
+                $videoCat_ = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
+                $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
+
+                $userVideo = 0;
+                for($l = 0; $l < count($video_); $l++){
+                    $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
+
+                    if($userVideo_){
+                        $userVideo++;
+
+                        $score_raw += $userVideo_['score'];
+                        $score_final = $score_raw / count($video_);
+
+                        $course[$i]['score'] = $score_final;
+                    }else{
+                        $course[$i]['score'] = null;
+                    }
+                }
             }
 
             $response = [
