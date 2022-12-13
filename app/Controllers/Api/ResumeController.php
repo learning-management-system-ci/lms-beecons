@@ -50,7 +50,7 @@ class ResumeController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
 
-            $data = $this->resume->where('resume_id', $decoded->uid)->first();
+            $data = $this->resume->where('resume_id', $id)->first();
             
             if($data){
                 return $this->respond($data);
