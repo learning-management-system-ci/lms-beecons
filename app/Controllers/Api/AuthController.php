@@ -33,12 +33,6 @@ class AuthController extends ResourceController
 
     public function loginWithGoogle()
     {
-        // if ( ini_get( 'allow_url_fopen' ) ) {
-        //     echo 'allow_url_fopen is Enabled';
-        // } else {
-        //         echo 'allow_url_fopen is Disabled';
-        // }
-        // echo phpinfo();
         $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
         if (!isset($token['error'])) {
             $this->googleClient->setAccessToken($token['access_token']);
