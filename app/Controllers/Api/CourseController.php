@@ -82,6 +82,8 @@ class CourseController extends ResourceController
         $modelTypeTag = new TypeTag();
         $modelTag = new Tag();
         $modelUser = new Users();
+        $modelVidCat = new VideoCategory();
+        $modelVideo = new Video();
 
         $data = $model->orderBy('course_id', 'DESC')->where('service', 'course')->findAll();
 
@@ -109,6 +111,10 @@ class CourseController extends ResourceController
                 ->join('tag', 'tag.tag_id = course_tag.tag_id')
                 ->orderBy('course_tag.course_tag_id', 'DESC')
                 ->findAll();
+            $videoCat = $modelVidCat
+                ->where('course_id', $data[$i]['course_id'])
+                ->orderBy('video_category.video_category_id', 'DESC')
+                ->findAll();
             if ($type) {
 
                 $data[$i]['type'] = $type[0]["name"];
@@ -129,6 +135,82 @@ class CourseController extends ResourceController
                         $data[$i]['tag'][$o] = $typeTag[$o];
                     }
                 }
+
+                for ($x = 0; $x < count($videoCat); $x++) {
+                    $video = $modelVideo
+                        ->select('video_id, video, thumbnail')
+                        ->where('video_category_id', $videoCat[$x]['video_category_id'])
+                        ->orderBy('order', 'ASC')
+                        ->findAll();
+
+                        for ($z = 0; $z < count($video); $z++) {
+                            $this->path = 'upload/course-video/';
+        
+                            $filename = $video[$z]['video'];
+                            $video[$z]['thumbnail'] = $this->pathVideoThumbnail . $video[$z]['thumbnail'];
+        
+                            $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
+        
+                            if (!$checkIfVideoIsLink) {
+                                $file = $this->getID3->analyze($this->path . $filename);
+        
+                                if (isset($file['error'][0])) {
+                                    $checkFileIsExist = false;
+                                } else {
+                                    $checkFileIsExist = true;
+                                }
+        
+                                if ($checkFileIsExist) {
+                                    if (isset($file['playtime_string'])) {
+                                        $duration = ["duration" => $file['playtime_string']];
+                                    } else {
+                                        $duration = ["duration" => '00:00:00'];
+                                    }
+
+                                    $data[$i]['video'][$z] = $duration;
+                                
+                                    $video[$z] += $duration;
+                                    $video[$z]['video'] = $this->pathVideo . $video[$z]['video'];
+                                } else {
+                                    $duration = ["duration" => '00:00:00'];
+                                    $video[$z] += $duration;
+                                    $data[$i]['video'][$z] = $duration;
+                                }
+                            } else {
+                                $duration = ["duration" => '00:00:00'];
+                                $video[$z] += $duration;
+                            }
+                        }
+                
+                    $sum = strtotime('00:00:00');
+                    $totalTime = 0;
+                    $dataTime = $data[$i]['video'];
+ 
+                    foreach( $dataTime as $element ) {
+                        $time = implode($element);
+                        if (substr_count($time, ':') == 1) {
+                            $waktu = '00:'.$time;
+                        }
+                        $strTime = date("H:i:s", strtotime($time));
+
+                        $timeInSec = strtotime($strTime) - $sum;
+                        
+                        $totalTime = $totalTime + $timeInSec;
+                    }
+
+                    $hours = intval($totalTime / 3600);
+
+                    $totalTime = $totalTime - ($hours * 3600);
+
+                    $minutes = intval($totalTime / 60);
+                    
+                    $second = $totalTime - ($minutes * 60);
+                    
+                    $result = ($hours . " Jam : " . $minutes . " Menit : " . $second . " Detik");
+
+                    $data[$i]['total_video_duration'] = ["total" => $result];
+                }
+
             } else {
                 $data[$i]['type'] = null;
             }

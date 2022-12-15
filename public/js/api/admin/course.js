@@ -1,5 +1,5 @@
 // check the cookies if the user is logged in
-if(!Cookies.get('access_token')){
+if (!Cookies.get('access_token')) {
   // if not, redirect to login page
   window.location.href = '/login'
 }
@@ -55,14 +55,14 @@ $(document).ready(() => {
           previous: `<i class="ni ni-bold-left" aria-hidden="true"></i>`
         }
       },
-      dom:  "<'row mx-4 mt-4'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row mx-4 mb-2'<'col-sm-12 col-md-6 text-sm'i><'col-sm-12 col-md-6'p>>",
+      dom: "<'row mx-4 mt-4'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row mx-4 mb-2'<'col-sm-12 col-md-6 text-sm'i><'col-sm-12 col-md-6'p>>",
       columns: [
-        { 
+        {
           data: "course_id",
           render: function (data, type, row, meta) {
-            return `<a href="/admin/course/${data}" class="mb-0 text-sm px-3">${meta.row+1}</a>`
+            return `<a href="/admin/course/${data}" class="mb-0 text-sm px-3">${meta.row + 1}</a>`
           }
         },
         {
@@ -83,14 +83,14 @@ $(document).ready(() => {
             let arr_tags = []
             data.forEach((tag) => {
               let name = tag.name
-              if(!list_tag[name]){
+              if (!list_tag[name]) {
                 list_tag[name] = list_badge_color[Math.floor(Math.random() * list_badge_color.length)]
               }
               arr_tags.push(`<span class="badge badge-sm ${list_tag[name]}">${name}</span>`)
             })
             return arr_tags.join('')
           },
-          className: "text-xs",
+          className: "text-xs category-wrapper",
         },
         {
           data: "category",
@@ -116,6 +116,8 @@ $(document).ready(() => {
         }
       ]
     })
+
+
   }
 
   populateCourseData();

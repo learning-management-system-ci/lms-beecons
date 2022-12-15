@@ -8,7 +8,8 @@ use App\Models\Review;
 use App\Models\Users;
 use Firebase\JWT\JWT;
 
-class ReviewController extends ResourceController {
+class ReviewController extends ResourceController
+{
 
     use ResponseTrait;
 
@@ -17,12 +18,14 @@ class ReviewController extends ResourceController {
         $this->review = new Review();
     }
 
-    public function index(){
+    public function index()
+    {
         $data['review'] = $this->review->orderBy('course_id', 'DESC')->findAll();
         return $this->respond($data);
     }
 
-    public function create() {
+    public function create()
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -32,18 +35,18 @@ class ReviewController extends ResourceController {
             $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
 
-            // cek role user
-            $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'member') {
-                return $this->fail('Tidak dapat di akses selain admin, mentor, partner & author', 400);
-            }
+            // // cek role user
+            // $data = $user->select('role')->where('id', $decoded->uid)->first();
+            // if ($data['role'] != 'member') {
+            //     return $this->fail('Tidak dapat di akses selain admin, mentor, partner & author', 400);
+            // }
 
             $rules = [
                 "feedback" => "required|max_length[250]",
                 // "score" => "numeric|decimal",
                 "score" => "decimal",
             ];
-    
+
             $messages = [
                 "feedback" => [
                     "required" => "{field} tidak boleh kosong",
@@ -54,7 +57,7 @@ class ReviewController extends ResourceController {
                     "decimal" => "{field} harus bernilai desimal",
                 ],
             ];
-    
+
             if (!$this->validate($rules, $messages)) {
                 $response = [
                     'status' => 500,
@@ -67,9 +70,9 @@ class ReviewController extends ResourceController {
                 $data['course_id'] = $this->request->getVar("course_id");
                 $data['feedback'] = $this->request->getVar("feedback");
                 $data['score'] = $this->request->getVar("score");
-    
+
                 $this->review->save($data);
-    
+
                 $response = [
                     'status' => 200,
                     'error' => false,
@@ -78,12 +81,13 @@ class ReviewController extends ResourceController {
                 ];
             }
             return $this->respondCreated($response);
-	    } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
     }
 
-    public function index_review(){
+    public function index_review()
+    {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -96,22 +100,22 @@ class ReviewController extends ResourceController {
             // cek role user
             $user_id = $user->select('id')->where('id', $decoded->uid)->first();
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'member'){
+            if ($data['role'] != 'member') {
                 return $this->fail('Tidak dapat di akses selain member', 400);
             }
 
             $modelreview = new Review();
             $datareview = $modelreview
-                    ->where('user_id', $user_id)
-                    ->orderBy('user_review_id', 'DESC')
-                    ->findAll();
-            if($datareview){
+                ->where('user_id', $user_id)
+                ->orderBy('user_review_id', 'DESC')
+                ->findAll();
+            if ($datareview) {
                 return $this->respond($datareview);
             }
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
-		return $this->failNotFound('Data Review tidak ditemukan');
+        return $this->failNotFound('Data Review tidak ditemukan');
     }
 
     public function delete($id = null)
