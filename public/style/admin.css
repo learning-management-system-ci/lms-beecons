@@ -1,4 +1,21 @@
-.category-wrapper {
+.tag-wrapper {
     display: flex;
     gap: 5px;
+}
+
+.bg-ghost-sortable {
+    background-color: #e5efff;
+}
+
+.text-underline:hover {
+    text-decoration: underline;
+}
+
+.dragNdrop {
+    font-size: 30px;
+    cursor: grab;
+}
+
+.dragNdrop:active {
+    cursor: grabbing;
 }

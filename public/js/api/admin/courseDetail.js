@@ -44,7 +44,9 @@ $(document).ready(() => {
   }
 
   $("#course-video").sortable({
-    direction: 'vertical'
+    handle: '.bi-grip-horizontal',
+    animation: 2000,
+    ghostClass: '.bg-ghost-sortable '
   })
 
   const getCourseDetailData = async (id) => {
@@ -251,8 +253,12 @@ $(document).ready(() => {
           <div class="fw-bold">${title}</div>
           ${duration}
         </div>
-        <div class="d-flex align-self-center">
-          <a class="text-sm" href="/admin/video/${id}" >Details</a>
+        <div class="d-flex align-self-center" style="gap: 5px">
+          <a class="text-underline text-sm d-flex align-items-center" href="/admin/video/${id}" >Details</a>
+          <a class="text-underline text-sm text-info d-flex align-items-center" href="/admin/quiz/${id}" >Quiz List</a>
+          <div>
+            <i class="bi bi-grip-horizontal ms-4 dragNdrop"></i>
+          </div>
         </div>
       </li>`
 
@@ -267,10 +273,51 @@ $(document).ready(() => {
         // append to list
         list.push({
           video_id: $(element).data('id-video'),
-          order: index
+          order: index + 1
         })
       })
+
+      $.ajax({
+        type: "POST",
+        url: `/api/course/video/order`,
+        data: JSON.stringify(list),
+        contentType: 'application/json',
+        processData: false,
+        headers: {
+          "Authorization": `Bearer ${Cookies.get("access_token")}`,
+        },
+        beforeSend: function () {
+          Swal.fire({
+            width: '300px',
+            title: "<div class='status-loading'> " +
+              '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
+              '<p>Mohon Tunggu</p> ' +
+              "</div>",
+            padding: '0px 0px 40px 6px',
+            showConfirmButton: false,
+            showClass: {
+              popup: 'animate__animated animate__fadeIn animate__fast'
+            },
+          })
+        },
+        success: function () {
+          return Swal.fire({
+            width: '300px',
+            title: "<div class='status-loading'> " +
+              '<h5>Success</h5> ' +
+              "</div>",
+            showConfirmButton: true,
+            showClass: {
+              popup: 'animate__animated animate__fadeIn animate__fast'
+            },
+          }).then(function () {
+            window.location.reload()
+          });
+        },
+      })
+
       console.log(list)
+
     })
 
     content.submit_new_video.on('submit', (e) => {
