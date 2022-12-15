@@ -222,7 +222,9 @@ class UserController extends ResourceController
             $data = $user->where('id', $decoded->uid)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
 
-            $path = site_url() . 'upload/users/';
+            $path_profile = site_url() . 'upload/users/';
+
+            $path_course = site_url() . 'upload/course/';
 
             $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
 
@@ -233,6 +235,8 @@ class UserController extends ResourceController
                 $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
                 $course[$i] = $course_;
                 $course[$i]['thumbnail'] = 'upload/course-video/thumbnail/' . $course[$i]['thumbnail'];
+
+                $course[$i]['thumbnail'] = $path_course . $course_['thumbnail'];
 
                 $videoCat_ = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
                 $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
@@ -256,7 +260,7 @@ class UserController extends ResourceController
 
             $response = [
                 'id' => $decoded->uid,
-                'profile_picture' => $path . $data['profile_picture'],
+                'profile_picture' => $path_profile . $data['profile_picture'],
                 'fullname' =>  $data['fullname'],
                 'email' => $decoded->email,
                 'date_birth' => $data['date_birth'],
@@ -264,6 +268,7 @@ class UserController extends ResourceController
                 'address' => $data['address'],
                 'phone_number' => $data['phone_number'],
                 'linkedin' => $data['linkedin'],
+                'create since' => $data['created_at'],
                 'course' => $course
             ];
             return $this->respond($response);
