@@ -5,8 +5,12 @@
     <p class="welcome-text">Selamat datang!</p>
     <p class="sign-in-text"><?= $title; ?></p>
     <p class="info-text">Silahkan masukkan email dan password kamu</p>
-    <label for="email" class="form-label">Email</label>
-    <input type="text" name="email" id="email" placeholder="Email kamu">
+
+    <div>
+        <label for="email" class="form-label">Email</label>
+        <input class="btn-full" type="email" name="email" id="email" placeholder="Email kamu">
+    </div>
+
     <div class="input-group">
         <label for="password" class="form-label mt-3">Password</label>
         <input type="password" name="password" id="password" placeholder="Password kamu">
@@ -27,10 +31,10 @@
             </label>
         </div>
     </div>
-    <button class="btn mt-3" id="button" type="submit" disabled="disabled">Sign Up</button>
+    <button class="app-btn btn mt-3" id="button" type="submit" disabled="disabled">Sign Up</button>
     <p class="sign-up">Sudah punya akun? <a href="<?= base_url('login'); ?>">Sign in</a></p>
     <p class="horizontal">Atau</p>
-    <a href="<?= $googleButton; ?>" class="btn" id="googleButton">
+    <a href="<?= $googleButton; ?>" class="app-btn btn" id="googleButton">
         <img src="image/google-logo.svg" alt="">
         <p>Sign Up</p>
     </a>

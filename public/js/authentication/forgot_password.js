@@ -5,6 +5,12 @@ $(document).ready(function () {
                 required: true,
                 email: true
             }
+        },
+        messages: {
+            email: {
+                required: "Masukkan alamat email anda",
+                email: "Format email yang anda masukkan salah",
+            },
         }
     });
 

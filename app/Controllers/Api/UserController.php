@@ -232,6 +232,7 @@ class UserController extends ResourceController
             for ($i = 0; $i < count($userCourse); $i++) {
                 $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
                 $course[$i] = $course_;
+                $course[$i]['thumbnail'] = 'upload/course-video/thumbnail/' . $course[$i]['thumbnail'];
 
                 $videoCat_ = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
                 $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
@@ -252,10 +253,6 @@ class UserController extends ResourceController
                     }
                 }
             }
-
-            // for ($i = 0; $i < count($course); $i++){
-                $course['thumbnail'] = $path . $course['thumbnail'];
-            // }
 
             $response = [
                 'id' => $decoded->uid,

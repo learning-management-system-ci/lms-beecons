@@ -6,8 +6,8 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
-<div class="main-section mt-4 d-flex justify-content-between container mb-4">
-    <section class="faq mt-4">
+<div class="main-section container d-flex mb-4">
+    <section class="faq">
         <div class="faq-title mb-5">
             <H3>Apa yang dapat kami bantu?</H3>
             <p>Jika kamu memiliki pertanyaan yang belum terjawab, silahkan kirimkan pesan ke kami melalui tombol

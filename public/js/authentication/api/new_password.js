@@ -54,14 +54,14 @@ $("#new-password").submit(function (event) {
             }
         },
         error: function (status, error) {
-            var error_message = status.responseJSON.messages.error;
-            if (error_message != null) {
+            var error_message = status.responseJSON.messages;
+            if (error_message.error != null || error_message.email != null) {
                 $('#loading-modal').on('hide.bs.modal', function () { });
                 $('#loading-modal').hide();
                 $('.modal-backdrop').remove();
                 new swal({
                     title: 'Gagal',
-                    text: error_message,
+                    text: error_message.error || error_message.email,
                     showConfirmButton: true
                 })
             }

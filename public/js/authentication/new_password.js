@@ -1,5 +1,9 @@
 $(document).ready(function () {
     $('#new-password').validate({
+        errorElement: "span",
+        errorPlacement: function (error, element) {
+            error.appendTo(element.parent());
+        },
         rules: {
             password: {
                 required: true,
@@ -9,6 +13,16 @@ $(document).ready(function () {
                 required: true,
                 equalTo: '#password'
             }
+        },
+        messages: {
+            password: {
+                required: "Masukkan password anda",
+                minlength: "Password minimal 8 karakter",
+            },
+            password_confirm: {
+                required: "Konfirmasi password anda",
+                equalTo: "Password tidak sama",
+            },
         }
     });
 
@@ -24,4 +38,24 @@ $(document).ready(function () {
         }
     });
 
+    $('#show-password').on('click', function () {
+        if ($('#password').attr("type") == 'text') {
+            $('#password').attr("type", 'password')
+            $('#eye-icon-password').removeClass('bi-eye').addClass('bi-eye-slash')
+        }
+        else {
+            $('#password').attr("type", 'text')
+            $('#eye-icon-password').removeClass('bi-eye-slash').addClass('bi-eye')
+        }
+    })
+    $('#show-confirm').on('click', function () {
+        if ($('#password_confirm').attr("type") == 'text') {
+            $('#password_confirm').attr("type", 'password')
+            $('#eye-icon-password_confirm').removeClass('bi-eye').addClass('bi-eye-slash')
+        }
+        else {
+            $('#password_confirm').attr("type", 'text')
+            $('#eye-icon-password_confirm').removeClass('bi-eye-slash').addClass('bi-eye')
+        }
+    })
 });

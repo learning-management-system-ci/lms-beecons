@@ -95,7 +95,7 @@ $.ajax({
             <input type="text" id="linkedin" name="linkedin" value="${data.linkedin ? data.linkedin : ""}" class="form-control" aria-describedby="passwordHelpBlock">
             <div class="d-flex justify-content-between mt-3">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn" id="editButton" disabled="disabled" style="border: 0;">Save changes</button>
+                <button type="submit" class="app-btn btn" id="editButton" disabled="disabled" style="border: 0;">Save changes</button>
             </div>
             `);
         };
@@ -104,12 +104,14 @@ $.ajax({
 
         var coursesResource =
             data.course.map(({
-                title, description, thumbnail, course_id
+                title, description, thumbnail, course_id, score
             }) => {
                 return (`
-                <a href="/course/${course_id}">
                     <div class="row">
-                        <div class="col-12x">
+                        <div class="col">
+                        <a href="/course/${course_id}">
+                        <div class="row">
+                        <div class="col-20">
                             <img src="${thumbnail}" class="course-image me-1" alt="">
                         </div>
                         <div class="d-flex col text-start align-items-center body">
@@ -122,9 +124,32 @@ $.ajax({
                                 </p>
                             </div>
                         </div>
+                        </div>
+                        </a>
+                        </div>
+                        <div class="col-20">
+                        <div class="row">
+                        <div class="col">
+                        <div>
+                            <h5>
+                                Total Nilai
+                            </h5>
+                            <div class="row">
+                            <div class="col">
+                            <h5>
+                                ${score}/100
+                            </h5>
+                            </div>
+                            <div class="col">
+                            <a href="/course/${course_id}">Detail</a>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
                     </div>
                     <hr>
-                </a>
                 `)
             })
 
@@ -239,6 +264,34 @@ $.ajax({
                 }
             });
         })
+        $('document').ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/users/progress",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Bearer " + Cookies.get("access_token"),
+                    "Content-Type": "application/json"
+                },
+                success: function (data) {
+                    let completedAll = 0;
+                    let totalAll = 0;
+                    data.progress
+                        .map(({
+                            completed,
+                            total,
+                        }) => {
+                            completedAll = completedAll + completed;
+                            totalAll = totalAll + total;
+                        });
+                    $(".progress").html(`
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${ Math.round((completedAll / totalAll) * 100) }%;"
+                            aria-valuenow="${ Math.round((completedAll / totalAll) * 100) }" aria-valuemin="0" aria-valuemax="100"></div>
+                    `);
+                    $(".progress-percent").html(`${ Math.round((completedAll / totalAll) * 100) }%`);
+                }
+            });
+        })
     }
 });
 
@@ -264,7 +317,7 @@ if (JSON.parse(atob(Cookies.get("access_token").split('.')[1], 'base64')).role =
 
 var resources = pages.map((page) => {
     return (`
-        <a class="btn profile-sidebar btn-grey-200 text-capitalize d-flex px-2" href="${page.url}">
+        <a class="btn profile-sidebar btn-grey-200 text-capitalize d-flex px-2 ${window.location.href.includes(page.url) ? "active" : "" }" href="${page.url}">
             <img src="${page.imageUrl}" alt="icon" class="pe-2 profile-icon"/>
             ${page.page}
         </a>
