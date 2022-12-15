@@ -321,7 +321,7 @@ $routes->group('api/', static function ($routes) {
     });
 
     $routes->group('quiz/', static function ($routes) {
-        $routes->get('', 'Api\QuizController::index');
+        $routes->get('(:num)', 'Api\QuizController::index/$1');
         $routes->post('create', 'Api\QuizController::create');
         $routes->put('update/(:segment)', 'Api\QuizController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\QuizController::delete/$1');
