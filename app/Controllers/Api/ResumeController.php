@@ -7,8 +7,10 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Resume;
 use App\Models\UserCourse;
+use App\Models\Course;
 use App\Models\Video;
 use App\Models\UserVideo;
+use App\Models\VideoCategory;
 use App\Models\Users;
 use App\Controllers\UserController;
 use Firebase\JWT\JWT;
@@ -214,6 +216,8 @@ class ResumeController extends ResourceController
         $modelUserCourse = new UserCourse();
         $modelVideo = new Video();
         $modelUserVideo = new UserVideo();
+        $modelCourse = new Course;
+        $modelVideoCategory = new VideoCategory;
 
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
@@ -223,19 +227,6 @@ class ResumeController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
 
-            // $resume = $this->resume
-            //     ->where('resume.user_id', $decoded->uid)
-            //     ->where('course.course_id', $course_id)
-            //     ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
-            //     // ->join('course', 'course_bundling.course_id=course.course_id')
-            //     // ->join('course_category', 'course.course_id=course_category.course_id')
-            //     // ->join('video_category', 'course.course_id=video_category.course_id')
-            //     ->select('resume.*')
-            //     // ->orderBy('bundling.bundling_id', 'DESC')
-            //     ->findAll();
-
-            // $this->usercontroller->learningProgress();
-
             $course = $modelUserCourse
                 ->where('user_course.course_id', $course_id)
                 ->where('user_course.user_id', $decoded->uid)
@@ -244,17 +235,6 @@ class ResumeController extends ResourceController
                 ->join('video_category', 'user_course.course_id=video_category.course_id')
                 ->select('users.id, users.fullname, course.title, user_course.created_at, video_category.video_category_id')
                 ->findAll();
-
-            // $video = $modelUserCourse
-            //     ->where('user_course.course_id', $course_id)
-            //     ->where('user_course.user_id', $decoded->uid)
-            //     ->join('users', 'user_course.user_id=users.id')
-            //     ->join('course', 'user_course.course_id=course.course_id')
-            //     ->join('video_category', 'user_course.course_id=video_category.course_id')
-            //     ->join('video', 'video_category.video_category_id=video.video_category_id')
-            //     // ->join('user_video', 'video.video_id=user_video.video_id')
-            //     ->select('video.*')
-            //     ->findAll();
 
             $data['course'] = $course;
 
@@ -278,7 +258,7 @@ class ResumeController extends ResourceController
                     }else {
                         $uservideo = $uservideo;
                     }
-                            
+                    
                     $data['course'][$l]['video'][$i]['hasil_score'] = $uservideo;
                 }
 
@@ -296,6 +276,37 @@ class ResumeController extends ResourceController
                     }
 
                     $data['course'][$l]['video'][$x]['resume_video'] = $resume;
+                }
+            }
+
+            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
+
+            $course = $userCourse;
+            $score_raw = 0;
+            $score_final = 0;
+            for ($i = 0; $i < count($userCourse); $i++) {
+                $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
+                $course[$i] = $course_;
+
+                $videoCat_ = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
+                $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
+
+                $userVideo = 0;
+                for($l = 0; $l < count($video_); $l++){
+                    $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
+
+                    if($userVideo_){
+                        $userVideo++;
+
+                        $score_raw += $userVideo_['score'];
+                        $score_final = $score_raw / count($video_);
+
+                        $data['course'][$i]['score'] = $score_final;
+                        $data['course'][$i]['progress'] = "Complete";
+                    }else{
+                        $data['course'][$i]['score'] = null;
+                        $data['course'][$i]['progress'] = "Inprogress";
+                    }
                 }
             }
 
