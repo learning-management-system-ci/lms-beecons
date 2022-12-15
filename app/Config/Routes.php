@@ -94,6 +94,7 @@ $routes->group('admin/', static function ($routes) {
     $routes->get('course/(:segment)', 'AdminController::courseDetail/$1');
 
     $routes->get('video/(:segment)', 'AdminController::videoDetail/$1');
+    $routes->get('quiz/(:segment)', 'AdminController::quizDetail/$1');
     $routes->get('contact', 'AdminController::contactList');
 });
 

@@ -90,7 +90,7 @@ $(document).ready(() => {
             })
             return arr_tags.join('')
           },
-          className: "text-xs category-wrapper",
+          className: "text-xs tag-wrapper",
         },
         {
           data: "category",

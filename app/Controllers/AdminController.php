@@ -124,6 +124,13 @@ class AdminController extends BaseController
         ];
         return view('pages/admin/video_detail', $data);
     }
+    public function quizDetail()
+    {
+        $data = [
+            "title" => "Quiz Chapter Detail",
+        ];
+        return view('pages/admin/quiz_detail', $data);
+    }
     public function contactList()
     {
         $data = [
