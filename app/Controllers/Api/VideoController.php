@@ -492,4 +492,49 @@ class VideoController extends ResourceController
 		}
 		return $this->failNotFound('Data Video tidak ditemukan');
 	}
+
+    public function order(){
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
+
+            $orderReq = $this->request->getVar();
+
+            for($i = 0; $i < count($orderReq); $i++){
+                $video = $this->videoModel->find($orderReq[$i]->video_id);
+                if($video){
+                    $data = [
+                        'order' => $orderReq[$i]->order
+                    ];
+                    $this->videoModel->update($orderReq[$i]->video_id, $data);
+
+                    $response = [
+                        'status'   => 200,
+                        'success'    => 200,
+                        'messages' => [
+                            'success' => 'Video berhasil diupdate'
+                        ]
+                    ];
+                }else{
+                    return $this->failNotFound('Data Video tidak ditemukan');
+                }
+            }
+
+            return $this->respond($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
 }
