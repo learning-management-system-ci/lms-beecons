@@ -192,6 +192,7 @@ $routes->group('api/', static function ($routes) {
             $routes->post('(:num)', 'Api\VideoController::answer/$1');
             $routes->post('create', 'Api\VideoController::create');
             $routes->post('update/(:segment)', 'Api\VideoController::update/$1');
+            $routes->post('order', 'Api\VideoController::order');
             $routes->delete('delete/(:segment)', 'Api\VideoController::delete/$1');
         });
     });

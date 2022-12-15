@@ -36,7 +36,10 @@ class ForgotPasswordController extends ResourceController {
 
 			$otp = rand(100000,999999);
 			if ($this->resetModel->where("email", $email)->first()){
-				$userdata = ['otp_code' => $otp];
+				$userdata = [
+					'otp_code' => $otp,
+					'created_at' => date("Y-m-d H:i:s")
+				];
 				$this->resetModel->updateOtpByEmail($userdata, $email);
 			} else {
 				$this->resetModel->insert([
@@ -119,6 +122,7 @@ class ForgotPasswordController extends ResourceController {
 			"password" => "required|min_length[8]|max_length[50]",
 			"password_confirm" => "required|matches[password]",
 			"email" => "required|valid_email",
+			"otp" => "required|numeric|min_length[6]|max_length[6]"
 		];
 	
 		$messages = [
@@ -135,13 +139,28 @@ class ForgotPasswordController extends ResourceController {
 				'required' => '{field} tidak boleh kosong',
 				'valid_email' => 'Format email tidak sesuai'
 			],
+			"otp" => [
+				"required" => "{field} tidak boleh kosong",
+				"numeric" => "{field} harus berisi nomor",
+				'min_length' => '{field} minimal 6 karakter',
+                'max_length' => '{field} maksimal 6 karakter'
+			]
 		];
 		if (!$this->validate($rules, $messages)) return $this->fail($this->validator->getErrors());
 
 		$email = $this->request->getVar('email');
 
-		$verifyEmail = $this->loginModel->where("email",$email)->first();
+		$verifyEmail = $this->resetModel->where("email", $this->request->getVar('email'))->first();
         if(!$verifyEmail) return $this->failNotFound('Email tidak ditemukan');
+
+		$now = date("Y-m-d H:i:s");
+		$exp = date('Y-m-d H:i:s', strtotime('+15 minutes', strtotime($verifyEmail['created_at'])));
+
+        if($this->request->getVar('otp') != $verifyEmail['otp_code']) {
+            return $this->fail('Kode OTP salah');
+		} else if ($now > $exp) {
+			return $this->fail('OTP sudah kadaluwarsa, silahkan request ulang OTP');
+		}
 
 		$userdata = [
 			'password' => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
