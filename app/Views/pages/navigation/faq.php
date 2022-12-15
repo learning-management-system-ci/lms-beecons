@@ -6,7 +6,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
-<div class="main-section main-container mt-4 d-flex mb-4">
+<div class="main-section mt-4 d-flex justify-content-between container mb-4">
     <section class="faq mt-4">
         <div class="faq-title mb-5">
             <H3>Apa yang dapat kami bantu?</H3>

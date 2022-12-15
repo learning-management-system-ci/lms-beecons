@@ -38,7 +38,7 @@ const previewImage = () => {
 
 $(document).ready(() => {
   // check the cookies if the user is logged in
-  if(!Cookies.get('access_token')){
+  if (!Cookies.get('access_token')) {
     // if not, redirect to login page
     window.location.href = '/login'
   }
@@ -146,7 +146,7 @@ $(document).ready(() => {
 
     await $.ajax(option)
     // console.log(data)
-  } 
+  }
 
   const populateCourseDetailGeneral = data => {
     const content = {
@@ -216,7 +216,7 @@ $(document).ready(() => {
               <h6 class="mb-0 text-sm px-2">${username}</h6>
             </td>
             <td>
-              <span class="text-xs font-weight-bold mb-0 wrap w-20">${textTruncate(feedback,110)}</span>
+              <span class="text-xs font-weight-bold mb-0 wrap w-20">${textTruncate(feedback, 110)}</span>
             </td>
             <td>
               <p class="text-xs font-weight-bold mb-0">${score}</p>
@@ -228,10 +228,11 @@ $(document).ready(() => {
     }
   }
 
-  const populateCourseDetailVideo = data => {
+  const populateCourseDetailVideo = (data, courseID) => {
     const content = {
       video: $('#course-video'),
       list_order_submit: $('#submit-btn-course-list-video'),
+      submit_new_video: $('#add-video')
     }
 
     content.video.empty()
@@ -243,7 +244,7 @@ $(document).ready(() => {
         title,
         duration
       } = video
-      
+
       let template = `
       <li class="list-group-item d-flex justify-content-between align-items-start list-video" data-id-video="${id}">
         <div class="ms-2 me-auto">
@@ -271,6 +272,66 @@ $(document).ready(() => {
       })
       console.log(list)
     })
+
+    content.submit_new_video.on('submit', (e) => {
+      e.preventDefault()
+      let form = new FormData($('#add-video')[0])
+      form.append('video_category_id', courseID)
+      form.append('order', data.length + 1)
+
+      $.ajax({
+        type: "POST",
+        url: `/api/course/video/create`,
+        data: form,
+        dataType: 'json',
+        contentType: false,
+        cache: false,
+        processData: false,
+        headers: {
+          "Authorization": `Bearer ${Cookies.get("access_token")}`,
+        },
+        beforeSend: function () {
+          Swal.fire({
+            width: '300px',
+            title: "<div class='status-loading'> " +
+              '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
+              '<p>Sedang Mengirim...(<span id="add-video-uploading"></span>)</p> ' +
+              "</div>",
+            padding: '0px 0px 40px 6px',
+            showConfirmButton: false,
+            showClass: {
+              popup: 'animate__animated animate__fadeIn animate__fast'
+            },
+          })
+        },
+        xhr: function () {
+          var xhr = new window.XMLHttpRequest();
+          xhr.upload.addEventListener("progress", function (evt) {
+            if (evt.lengthComputable) {
+              var percentComplete = evt.loaded / evt.total;
+              $('#add-video-uploading').html((Math.round(percentComplete * 100)) + '%');
+            }
+          }, false);
+          return xhr;
+        },
+        success: function () {
+          return Swal.fire({
+            width: '300px',
+            title: "<div class='status-loading'> " +
+              '<h5>Success</h5> ' +
+              "</div>",
+            showConfirmButton: true,
+            showClass: {
+              popup: 'animate__animated animate__fadeIn animate__fast'
+            },
+          }).then(function () {
+            window.location.reload()
+          });
+        },
+      })
+    })
+
+
   }
 
   const populateCourseDetailSetting = data => {
@@ -337,7 +398,7 @@ $(document).ready(() => {
 
     populateCourseDetailGeneral(course)
     populateCourseDetailReview(reviews)
-    populateCourseDetailVideo(videos)
+    populateCourseDetailVideo(videos, course_id)
     populateCourseDetailSetting(course)
   }
 

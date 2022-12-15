@@ -7,35 +7,35 @@
                     switch (uri_string()) {
                         case "admin":
                     ?>
-                            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Dashboard</li>
+                            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
                         <?php
                             break;
                         case "admin/user":
                         ?>
-                            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="/admin">Dashboard</a>
+                            <li class="breadcrumb-item text-sm text-dark "><a class="opacity-5" href="/admin">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item text-sm text-white active" aria-current="page">User</li>
+                            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">User</li>
                         <?php
                             break;
                         case "admin/course":
                         ?>
-                            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="/admin">Dashboard</a>
+                            <li class="breadcrumb-item text-sm text-dark "><a class="opacity-5" href="/admin">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Course</li>
+                            <li class="breadcrumb-item text-sm ttext-dark  active" aria-current="page">Course</li>
                         <?php
                             break;
                         case "admin/transaction":
                         ?>
-                            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="/admin">Dashboard</a>
+                            <li class="breadcrumb-item text-sm text-dark "><a class="opacity-5" href="/admin">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Transaction</li>
+                            <li class="breadcrumb-item text-sm text-dark  active" aria-current="page">Transaction</li>
                         <?php
                             break;
                         case "admin/contact":
                         ?>
-                            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="/admin">Dashboard</a>
+                            <li class="breadcrumb-item text-sm text-dark "><a class="opacity-5" href="/admin">Dashboard</a>
                             </li>
-                            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Contact Us Message</li>
+                            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Contact Us Message</li>
                     <?php
                             break;
                         default:
@@ -43,7 +43,7 @@
                     } ?>
                 <?php endif; ?>
             </ol>
-            <h6 class="font-weight-bolder text-white mb-0"><?= $title ?></h6>
+            <h6 class="font-weight-bolder text-secondary mb-0"><?= $title ?></h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
