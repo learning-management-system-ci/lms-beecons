@@ -156,6 +156,7 @@ $routes->group('api/', static function ($routes) {
     $routes->group('users/', static function ($routes) {
         $routes->get('admin', 'Api\UserController::index');
         $routes->get('', 'Api\UserController::profile');
+        $routes->get('progress', 'Api\UserController::learningProgress');
         // $routes->get('jobs', 'Api\UserController::jobs');
         $routes->get('mentor', 'Api\UserController::getMentor');
         $routes->post('update/(:num)', 'Api\UserController::update/$1');

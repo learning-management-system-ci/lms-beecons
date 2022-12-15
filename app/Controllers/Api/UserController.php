@@ -572,4 +572,53 @@ class UserController extends ResourceController
         }
         return $this->failNotFound('Data User tidak ditemukan');
     }
+
+    public function learningProgress()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+
+            $modelUserCourse = new UserCourse;
+            $modelUserVideo = new UserVideo;
+            $modelVideoCategory = new VideoCategory;
+            $modelVideo = new Video;
+
+            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
+
+            for ($i = 0; $i < count($userCourse); $i++) {
+                $videoCategory = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
+                $video = $modelVideo->where('video_category_id', $videoCategory['video_category_id'])->findAll();
+
+                $completed = [];
+
+                for ($j = 0; $j < count($video); $j++) {
+                    $userVideo = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video[$j]['video_id'])->first();
+                    if (isset($userVideo)) {
+                        $completed[$j] = $userVideo;
+                    } else {
+                        continue;
+                    }
+                }
+
+                $progress[$i] = [
+                    'course_id' => $userCourse[$i]['course_id'],
+                    'completed' => count($completed),
+                    'total' => count($video)
+                ];
+            }
+
+            $response = [
+                'id' => $decoded->uid,
+                'progress' => $progress
+            ];
+            return $this->respond($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
 }

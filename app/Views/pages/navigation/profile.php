@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="col-auto">
-                        <h4 class="font-weight-bold">
+                        <h4 class="font-weight-bold progress-percent">
                             59%
                         </h4>
                     </div>

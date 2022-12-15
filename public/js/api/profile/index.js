@@ -122,6 +122,16 @@ $.ajax({
                                 </p>
                             </div>
                         </div>
+                        <div class="col-12x">
+                            <div>
+                                <h5>
+                                    ${title}
+                                </h5>
+                                <p>
+                                    ${description}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <hr>
                 </a>
@@ -236,6 +246,34 @@ $.ajax({
                     $('button#editButton').prop('disabled', false).addClass('active').removeClass('disable');
                 } else {
                     $('button#editButton').prop('disabled', true).addClass('disable');
+                }
+            });
+        })
+        $('document').ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/users/progress",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Bearer " + Cookies.get("access_token"),
+                    "Content-Type": "application/json"
+                },
+                success: function (data) {
+                    let completedAll = 0;
+                    let totalAll = 0;
+                    data.progress
+                        .map(({
+                            completed,
+                            total,
+                        }) => {
+                            completedAll = completedAll + completed;
+                            totalAll = totalAll + total;
+                        });
+                    $(".progress").html(`
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${completedAll / totalAll}%;"
+                            aria-valuenow="${completedAll / totalAll}" aria-valuemin="0" aria-valuemax="100"></div>
+                    `);
+                    $(".progress-percent").html(`${completedAll / totalAll}%`);
                 }
             });
         })
