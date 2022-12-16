@@ -427,6 +427,15 @@ class CourseController extends ResourceController
             unset($data['author_id']);
             $data['author'] = $author['fullname'];
 
+            if ($loggedIn) {
+                $checkUserReview = $this->modelReview->where('user_id', $decoded->uid)->where('course_id', $id)->first();
+                if ($checkUserReview) {
+                    $data['is_review'] = 'true';
+                } else {
+                    $data['is_review'] = 'false';
+                }
+            }
+
             $data['thumbnail'] = $this->path . $data['thumbnail'];
 
             $category = $this->modelCourseCategory
