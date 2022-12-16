@@ -15,6 +15,7 @@ $("#new-password").submit(function (event) {
         url = $form.attr("action");
 
     var email_passed = Cookies.get("email")
+    var otp_passed = Cookies.get("otp");
 
     $('#loading-modal').modal('toggle');
 
@@ -22,6 +23,7 @@ $("#new-password").submit(function (event) {
         url: url,
         type: "post",
         data: {
+            otp: otp_passed,
             password: password_passed,
             password_confirm: password_confirm_passed,
             email: email_passed

@@ -14,6 +14,7 @@ $("#otp-code").submit(function (event) {
         url = $form.attr("action");
 
     var email_passed = Cookies.get("email");
+    Cookies.set('otp', otp_passed, { expires: 1 / 96 });
 
     $('#loading-modal').modal('toggle');
 

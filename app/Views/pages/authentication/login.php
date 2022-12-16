@@ -12,8 +12,8 @@
         <input class="btn-full" type="email" name="email" id="email" placeholder="Email kamu">
     </div>
 
+    <label for="password" class="form-label mt-3">Sandi</label>
     <div class="input-group">
-        <label for="password" class="form-label mt-3">Password</label>
         <input type="password" name="password" id="password" placeholder="Password kamu">
         <button class="btn btn-outline-secondary" type="button" id="show-password"><i class="bi bi-eye"
                 id="eye-icon"></i></button>
@@ -23,14 +23,13 @@
         <a href="<?= base_url('forgot-password'); ?>">Lupa password?</a>
     </div>
 
-    <button class="app-btn btn" id="button" type="submit" disabled="disabled" style="border: 0;">Sign
-        In</button>
-    <p class="sign-up">Belum punya akun? <a href="<?= base_url('register'); ?>">Sign up</a>
+    <button class="app-btn btn" id="button" type="submit" disabled="disabled" style="border: 0;">Masuk</button>
+    <p class="sign-up">Belum punya akun? <a href="<?= base_url('register'); ?>">Daftar</a>
     </p>
     <p class="horizontal">Atau</p>
     <a href="<?= $googleButton; ?>" class="app-btn btn" id="googleButton">
         <img src="image/google-logo.svg" alt="">
-        <p>Sign In</p>
+        <p>Masuk</p>
     </a>
 </form>
 <div id="g_id_onload" data-client_id="229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com"

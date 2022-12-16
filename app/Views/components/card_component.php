@@ -11,6 +11,6 @@
     </div>
 
     <a href="">
-        <button class="my-btn btn-full"><?= $cardButton ?></button>
+        <button class="app-btn btn-full"><?= $cardButton ?></button>
     </a>
 </div>
