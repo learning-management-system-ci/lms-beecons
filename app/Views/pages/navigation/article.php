@@ -9,7 +9,7 @@
 
 <?= $this->section('app-component') ?>
 <img class="bg-header" src="image/article/color-bg.png" alt="">
-<div class="article">
+<div class="container article">
     <section class="article-header d-flex justify-content-between align-items-center">
         <div class="article-title">
             <p class="mb-2">TECHNOLOGY</p>

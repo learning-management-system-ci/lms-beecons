@@ -156,7 +156,16 @@ h5.font-weight-bold {
   overflow-y: scroll;
 }
 .profile::-webkit-scrollbar {
-  display: none;
+  position: absolute;
+  width: 8px;
+}
+.profile::-webkit-scrollbar-track {
+  background-color: #d9d9d9;
+  border-radius: 40px;
+}
+.profile::-webkit-scrollbar-thumb {
+  background-color: #747474;
+  border-radius: 40px;
 }
 .profile > * {
   margin: 20px;
