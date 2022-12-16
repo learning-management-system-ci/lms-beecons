@@ -14,12 +14,35 @@ class QuizController extends ResourceController
         $this->quiz = new Quiz();
     }
 
-    public function index()
+    public function index($videoId = null)
     {
-        $data = $this->quiz->orderBy('quiz_id', 'DESC')->findAll();
-        // $test = json_decode($data[0]['question']);
-        // return $this->respond($test->quiz[0]);
-        return $this->respond($data);
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $user = $user->select('role')->where('id', $decoded->uid)->first();
+
+            if ($user['role'] == 'member' || $user['role'] == 'partner') {
+                return $this->fail('Tidak dapat di akses selain admin, mentor & author', 400);
+            }
+
+            $data = $this->quiz->where('video_id', $videoId)->orderBy('quiz_id', 'DESC')->findAll();
+
+            foreach($data as $key => $data_){
+                $data[$key]['question'] = json_decode($data_['question']);
+            }
+
+            return $this->respond($data[0]);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+        return $this->respondCreated($response);
     }
 
     public function create()

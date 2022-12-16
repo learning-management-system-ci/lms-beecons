@@ -1,6 +1,7 @@
 <?= $this->extend('layouts/admin_layout') ?>
 
 <?= $this->section('css-component') ?>
+<link rel="stylesheet" href="<?= base_url('style/admin.css') ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
@@ -211,33 +212,7 @@
         </div>
         <div class="card-body">
           <ol class="list-group list-group-numbered" id="course-video">
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-              <div class="ms-2 me-auto">
-                <div class="fw-bold">Introduction to BIM & Autodesk Revit</div>
-                5.40
-              </div>
-              <div class="d-flex align-self-center">
-                <a class="text-sm" href="">Details</a>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-              <div class="ms-2 me-auto">
-                <div class="fw-bold">Project Browser & Views</div>
-                3.70
-              </div>
-              <div class="d-flex align-self-center">
-                <a class="text-sm" href="">Details</a>
-              </div>
-            </li>
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-              <div class="ms-2 me-auto">
-                <div class="fw-bold">Properties & Modifications</div>
-                12.11
-              </div>
-              <div class="d-flex align-self-center">
-                <a class="text-sm" href="">Details</a>
-              </div>
-            </li>
+
           </ol>
           <div class="row">
             <div class="col-md-12 d-flex justify-content-center">

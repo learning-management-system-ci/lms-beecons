@@ -46,6 +46,7 @@
         "ext-readline": "Improves CLI::input() usability"
     },
     "config": {
+        "php": "7.4",
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true

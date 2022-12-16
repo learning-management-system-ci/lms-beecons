@@ -94,6 +94,7 @@ $routes->group('admin/', static function ($routes) {
     $routes->get('course/(:segment)', 'AdminController::courseDetail/$1');
 
     $routes->get('video/(:segment)', 'AdminController::videoDetail/$1');
+    $routes->get('quiz/(:segment)', 'AdminController::quizDetail/$1');
     $routes->get('contact', 'AdminController::contactList');
 });
 
@@ -321,7 +322,7 @@ $routes->group('api/', static function ($routes) {
     });
 
     $routes->group('quiz/', static function ($routes) {
-        $routes->get('', 'Api\QuizController::index');
+        $routes->get('(:num)', 'Api\QuizController::index/$1');
         $routes->post('create', 'Api\QuizController::create');
         $routes->put('update/(:segment)', 'Api\QuizController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\QuizController::delete/$1');
@@ -362,6 +363,7 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\ResumeController::create');
         $routes->put('update/(:num)', 'Api\ResumeController::update/$1');
         $routes->delete('delete/(:num)', 'Api\ResumeController::delete/$1');
+        $routes->get('get-sertifikat/(:num)', 'Api\ResumeController::getSertifikat/$1');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');
