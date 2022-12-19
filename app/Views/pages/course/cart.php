@@ -66,7 +66,6 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js-component') ?>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../../../js/utils/getRupiah.js"></script>
 <script src="js/cart/cart.js"></script>
 <?= $this->endSection() ?>

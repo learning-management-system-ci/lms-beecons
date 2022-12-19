@@ -27,7 +27,6 @@ if (get_cookie("access_token")) {
 
 <?= $this->section('js-component') ?>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../../../js/utils/getRupiah.js"></script>
 <script src="../../../js/utils/textTruncate.js"></script>
 <script src="../../../js/home/homepage.js"></script>
