@@ -211,9 +211,9 @@
           </div>
         </div>
         <div class="card-body">
-          <ol class="list-group list-group-numbered" id="course-video">
+          <div class="list-group" id="course-video">
 
-          </ol>
+          </div>
           <div class="row">
             <div class="col-md-12 d-flex justify-content-center">
               <button class="btn btn-primary btn-sm px-4 mt-4" id="submit-btn-course-list-video">Save</button>
