@@ -10,6 +10,7 @@ body {
 
 button {
   border: none;
+  font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
 .main-container {
@@ -20,21 +21,49 @@ button {
 .app-btn {
   background-color: #164520;
   color: #ffffff;
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1rem;
   min-width: 110px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.9rem;
+}
+.app-btn:hover {
+  background-color: #248043;
 }
 
-.app-btn:hover {
-  opacity: 0.8;
+.app-btn-secondary {
+  background-color: #248043;
+}
+.app-btn-secondary:hover {
+  background-color: #164520;
 }
 
 .btn-full {
   width: 100%;
+}
+
+.button-secondary {
+  background-color: #ffffff;
+  color: #164520;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.4rem;
+  border: 1px solid #164520;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.button-secondary:hover {
+  background-color: #164520;
+  color: #ffffff;
+}
+
+.form-control {
+  font-family: "Plus Jakarta Sans", "sans-serif";
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #164520;
 }
 
 #detail-bundling .label-category {
