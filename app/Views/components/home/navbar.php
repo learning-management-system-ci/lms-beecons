@@ -43,7 +43,7 @@
                             <i class="fa-solid fa-xmark" id="nav-btn-search-x"></i>
                         </div>
                         <button class="nav-btn-icon" id="nav-btn-search" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <img src="/image/home/search-icon.png" alt="icon">
                         </button>
                         <div class="dropdown-menu my-2" aria-labelledby="nav-btn-search">
                             <div id="search-result-initial">
@@ -63,16 +63,14 @@
                 <li class="nav-item me-3">
                     <a href="/cart">
                         <button class="nav-btn-icon" id="cart-count">
-                            <!-- <div class="nav-btn-icon-amount">0</div> -->
-                            <i class="fa-solid fa-cart-shopping"></i>
+                            <img src="/image/home/cart-icon.png" alt="icon">
                         </button>
                     </a>
                 </li>
                 <li class="nav-item me-3">
                     <div class="dropdown nav-item-icon">
                         <button class="nav-btn-icon" id="dropdown-notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <!-- <div class="nav-btn-icon-amount">0</div> -->
-                            <i class="fa-solid fa-bell"></i>
+                            <img src="/image/home/notification-icon.png" alt="icon">
                         </button>
                         <div class="dropdown-menu notifications dropdown-menu-end" aria-labelledby="dropdown-notification">
                             <div class="header shadow-sm">
