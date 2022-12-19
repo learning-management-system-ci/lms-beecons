@@ -26,7 +26,7 @@ $(document).ready(() => {
 
     // close search when user clicks outside of search inpput
     $(document).on('click', (e) => {
-        if (e.target !== $('.form-control')[0] && e.target !== $('#nav-btn-search')[0] && e.target !== $('#nav-btn-search-x')[0] && e.target !== $('#nav-btn-search')[0] && e.target !== $('#nav-btn-search i')[0]) {
+        if (e.target !== $('.form-control')[0] && e.target !== $('#nav-btn-search')[0] && e.target !== $('#nav-btn-search-x')[0] && e.target !== $('#nav-btn-search')[0] && e.target !== $('#nav-btn-search img')[0]) {
             $('.nav-search-input').eq(0).hide()
             $('#nav-btn-search').show(200)
             $('.nav-search-input form input').val('')

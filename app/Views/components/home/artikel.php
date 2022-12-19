@@ -3,6 +3,6 @@
     <div class="container">
         <h1>Artikel</h1>
 
-        <div class="artikel-wrapper row justify-content-center gap-4"></div>
+        <div class="artikel-wrapper row"></div>
     </div>
 </div>
