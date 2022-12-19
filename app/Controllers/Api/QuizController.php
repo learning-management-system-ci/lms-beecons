@@ -42,7 +42,7 @@ class QuizController extends ResourceController
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
-        return $this->respondCreated($response);
+        return $this->failNotFound('Data tidak ditemukan');
     }
 
     public function create()
