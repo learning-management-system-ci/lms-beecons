@@ -131,6 +131,15 @@
     }
 }
 
+// training
+#training {
+    @include padding-container();
+
+    h1 {
+        @include title();
+    }
+}
+
 // webinar
 #webinar {
     @include padding-container();

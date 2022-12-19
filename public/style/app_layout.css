@@ -190,6 +190,38 @@ h6 {
   color: #FFCB42;
 }
 
+.card-training {
+  border-radius: 0.6rem;
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 0.8rem;
+}
+.card-training:hover {
+  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
+}
+.card-training .thumbnail img {
+  width: 100%;
+  height: 10rem;
+  object-fit: cover;
+  border-radius: 0.6rem;
+  border: 1px solid #D9D9D9;
+  margin-bottom: 0.8rem;
+}
+.card-training .title h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+}
+.card-training .body .info {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}
+.card-training .price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #164520;
+}
+
 .card-mentor {
   border-radius: 0.6rem;
   box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);

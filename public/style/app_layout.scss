@@ -155,6 +155,43 @@ h6 {
     }
 }
 
+.card-training {
+    @include card-setting();
+    padding: .8rem;
+
+    .thumbnail {
+        img {
+            width: 100%;
+            height: 10rem;
+            object-fit: cover;
+            border-radius: $card-border-radius;
+            border: 1px solid $color-gray;
+            margin-bottom: .8rem;
+        }
+    }
+
+    .title {
+        h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: .8rem;
+        }
+    }
+
+    .body {
+        .info {
+            color: $color-gray-1;
+            font-size: .9rem;
+        }
+    }
+
+    .price {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: $color-primary;
+    }
+}
+
 .card-mentor {
     @include card-setting();
     padding: 2rem;
