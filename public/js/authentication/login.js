@@ -12,6 +12,16 @@ $(document).ready(function () {
                 required: true,
                 minlength: 8
             }
+        },
+        messages: {
+            email: {
+                required: "Masukkan alamat email anda",
+                email: "Format email yang anda masukkan salah",
+            },
+            password: {
+                required: "Masukkan password anda",
+                minlength: "Password minimal 8 karakter",
+            },
         }
     });
 

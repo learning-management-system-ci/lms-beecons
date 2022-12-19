@@ -215,23 +215,52 @@ class UserController extends ResourceController
             $job = new Jobs;
             $modelUserCourse = new UserCourse;
             $modelCourse = new Course;
+            $modelVideo = new Video;
+            $modelVideoCategory = new VideoCategory;
+            $modelUserVideo = new UserVideo;
 
             $data = $user->where('id', $decoded->uid)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
 
-            $path = site_url() . 'upload/users/';
+            $path_profile = site_url() . 'upload/users/';
+
+            $path_course = site_url() . 'upload/course/';
 
             $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
 
             $course = $userCourse;
+            $score_raw = 0;
+            $score_final = 0;
             for ($i = 0; $i < count($userCourse); $i++) {
                 $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
                 $course[$i] = $course_;
+                $course[$i]['thumbnail'] = 'upload/course-video/thumbnail/' . $course[$i]['thumbnail'];
+
+                $course[$i]['thumbnail'] = $path_course . $course_['thumbnail'];
+
+                $videoCat_ = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
+                $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
+
+                $userVideo = 0;
+                for($l = 0; $l < count($video_); $l++){
+                    $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
+
+                    if($userVideo_){
+                        $userVideo++;
+
+                        $score_raw += $userVideo_['score'];
+                        $score_final = $score_raw / count($video_);
+
+                        $course[$i]['score'] = $score_final;
+                    }else{
+                        $course[$i]['score'] = null;
+                    }
+                }
             }
 
             $response = [
                 'id' => $decoded->uid,
-                'profile_picture' => $path . $data['profile_picture'],
+                'profile_picture' => $path_profile . $data['profile_picture'],
                 'fullname' =>  $data['fullname'],
                 'email' => $decoded->email,
                 'date_birth' => $data['date_birth'],
@@ -239,6 +268,7 @@ class UserController extends ResourceController
                 'address' => $data['address'],
                 'phone_number' => $data['phone_number'],
                 'linkedin' => $data['linkedin'],
+                'create since' => $data['created_at'],
                 'course' => $course
             ];
             return $this->respond($response);
@@ -546,5 +576,54 @@ class UserController extends ResourceController
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data User tidak ditemukan');
+    }
+
+    public function learningProgress()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+
+            $modelUserCourse = new UserCourse;
+            $modelUserVideo = new UserVideo;
+            $modelVideoCategory = new VideoCategory;
+            $modelVideo = new Video;
+
+            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
+
+            for ($i = 0; $i < count($userCourse); $i++) {
+                $videoCategory = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
+                $video = $modelVideo->where('video_category_id', $videoCategory['video_category_id'])->findAll();
+
+                $completed = [];
+
+                for ($j = 0; $j < count($video); $j++) {
+                    $userVideo = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video[$j]['video_id'])->first();
+                    if (isset($userVideo)) {
+                        $completed[$j] = $userVideo;
+                    } else {
+                        continue;
+                    }
+                }
+
+                $progress[$i] = [
+                    'course_id' => $userCourse[$i]['course_id'],
+                    'completed' => count($completed),
+                    'total' => count($video)
+                ];
+            }
+
+            $response = [
+                'id' => $decoded->uid,
+                'progress' => $progress
+            ];
+            return $this->respond($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
     }
 }

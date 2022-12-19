@@ -6,7 +6,7 @@
 
 <?= $this->section('app-component') ?>
 <?= $this->include('components/profile/edit_modal') ?>
-<div class="container">
+<div class="container mt-2">
     <div class="row">
         <div class="col-20">
             <?= $this->include('components/profile/sidebar') ?>

@@ -11,7 +11,7 @@
 <?= $this->include('components/profile/edit_modal') ?>
 <?= $this->include('components/authentication/error_modal') ?>
 <?= $this->include('components/authentication/loading') ?>
-<div class="container text-center">
+<div class="container mt-4 text-center">
     <div class="row">
         <div class="col-20">
             <?= $this->include('components/profile/sidebar') ?>
@@ -39,13 +39,13 @@
                     </div>
                     <div class="col">
                         <div class="progress" style="height: 15px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 50%;"
-                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;"
+                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
-                    <div class="col-1">
-                        <h4 class="font-weight-bold">
-                            59%
+                    <div class="col-auto">
+                        <h4 class="font-weight-bold progress-percent">
+                            0%
                         </h4>
                     </div>
                 </div>

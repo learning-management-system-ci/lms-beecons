@@ -5,9 +5,9 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
-<div class="main-container" id="profile">
+<div class="container" id="profile">
     <div class="row justify-content-between">
-        <div class="col-6">
+        <div class="col-6 mt-4">
             <div class="images">
                 <div>
                     <img src="/image/about-us/1.png" alt="">
@@ -76,7 +76,7 @@
         </div>
     </div>
 </div>
-<div class="main-container my-4" id="location">
+<div class="container my-4" id="location">
     <div class="row">
         <div class="col-6">
             <img src="/image/about-us/office.png" alt="">

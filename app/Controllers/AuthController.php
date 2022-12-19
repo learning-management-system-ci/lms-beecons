@@ -29,7 +29,7 @@ class AuthController extends BaseController
 			return redirect()->to(base_url()."/profile");
 		}
 		$data = [
-            "title" => "Sign In",
+            "title" => "Masuk",
             "googleButton" => $this->googleClient->createAuthUrl(),
         ];
 		return view('pages/authentication/login', $data);
@@ -99,7 +99,7 @@ class AuthController extends BaseController
 
 	public function indexRegister() {
 		$data = [
-            "title" => "Sign Up",
+            "title" => "Daftar",
             "googleButton" => $this->googleClient->createAuthUrl(),
         ];
 		return view('pages/authentication/register', $data);
@@ -117,7 +117,7 @@ class AuthController extends BaseController
 			return redirect()->to('/send-otp');
 		}
 	    $data = [
-      		"title" => "Reset Password",
+      		"title" => "Atur Ulang Sandi",
     	    ];
 	    return view('pages/authentication/forgot_password', $data);
 	}
@@ -128,7 +128,7 @@ class AuthController extends BaseController
 
 	public function indexSendOtp() {
 		$data = [
-      "title" => "OTP Code",
+      "title" => "Kode OTP",
     ];
 		return view('pages/authentication/otp_code', $data);
 	}
@@ -139,7 +139,7 @@ class AuthController extends BaseController
 
 	public function indexNewPassword() {
 		$data = [
-      		"title" => "Reset Password",
+      		"title" => "Atur Ulang Sandi",
     	];
 		return view('pages/authentication/new_password', $data);
 	}
@@ -155,7 +155,7 @@ class AuthController extends BaseController
 			return redirect()->to(base_url());
 		}
         $data = [
-            "title" => "Referral Code",
+            "title" => "Kode Referral",
             "profile" => "",
             "cardButton" => 'Join The Webinar',
         ];

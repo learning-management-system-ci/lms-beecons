@@ -7,6 +7,14 @@ $(document).ready(function () {
                 minlength: 6,
                 maxlength: 6
             },
+        },
+        messages: {
+            otp: {
+                required: "Masukkan kode OTP anda",
+                digits: "Kode OTP salah",
+                minlength: "",
+                maxlength: ""
+            },
         }
     });
 

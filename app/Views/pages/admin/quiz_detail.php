@@ -10,31 +10,14 @@
       <div class="card tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="card-header pb-0">
           <div class="d-flex align-items-center">
-            <p class="mb-0"><strong>Video Detail</strong></p>
+            <p class="mb-0"><strong>General Information</strong></p>
             <button class="btn btn-primary btn-sm ms-auto" onclick="startEdit()">Edit</button>
           </div>
         </div>
         <div class="card-body">
-          <p class="text-uppercase text-sm font-weight-bolder">General Information</p>
           <div class="row">
             <div class="col-md-12 mb-3 placeholder-glow">
-              <p class="mb-0 text-sm font-weight-bold ">Video ID</p>
               <span class="text-sm videoId-content"><span class="placeholder-wave"><span class="placeholder col-1 "></span></span></span>
-            </div>
-            <div class="col-md-12 mb-3 placeholder-glow">
-              <p class="mb-0 text-sm font-weight-bold ">Title</p>
-              <span class="text-sm title-content"><span class="placeholder-wave"><span class="placeholder col-2 "></span></span></span>
-            </div>
-            <div class="col-md-12 mb-3 placeholder-glow">
-              <p class="mb-0 text-sm font-weight-bold ">Thumbnail</p>
-              <div class="thumbnail-content"><span class="placeholder-wave"><span class="placeholder col-3 "></span></span></div>
-            </div>
-            <div class="col-md-6 mb-3">
-              <p class="mb-0 text-sm font-weight-bold ">Video</p>
-              <video class="mb-5 video-content-wraper" width="727" height="400" class="mb-5" controls>
-                <!-- <source class="video-content" src="" type="video/mp4">
-                Your browser does not support the video tag. -->
-              </video>
             </div>
           </div>
         </div>
@@ -49,7 +32,6 @@
           </div>
         </div>
         <form class="card-body" enctype="multipart/form-data" id="video-edit-form">
-          <p class="text-uppercase text-sm font-weight-bolder">General Information</p>
           <div class="row">
             <div class="col-md-12 mb-3">
               <!-- <p class="mb-0 text-sm font-weight-bold ">Video ID</p> -->

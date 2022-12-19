@@ -11,7 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-    
+
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/a35fe366cf.js" crossorigin="anonymous"></script>
@@ -39,7 +39,7 @@
     <?php echo $this->include('components/home/navbar.php') ?>
 
     <main>
-        <?php if(uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code'  && !str_contains(uri_string(), 'webinar')) : ?>
+        <?php if(uri_string() != '/' && uri_string() != 'profile' && uri_string() != 'referral-code' && uri_string() != 'article') : ?>
         <div class="container pt-4">
             <?php 
             switch(uri_string()) {

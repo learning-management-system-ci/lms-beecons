@@ -15,6 +15,7 @@ $("#new-password").submit(function (event) {
         url = $form.attr("action");
 
     var email_passed = Cookies.get("email")
+    var otp_passed = Cookies.get("otp");
 
     $('#loading-modal').modal('toggle');
 
@@ -22,6 +23,7 @@ $("#new-password").submit(function (event) {
         url: url,
         type: "post",
         data: {
+            otp: otp_passed,
             password: password_passed,
             password_confirm: password_confirm_passed,
             email: email_passed
@@ -54,14 +56,14 @@ $("#new-password").submit(function (event) {
             }
         },
         error: function (status, error) {
-            var error_message = status.responseJSON.messages.error;
-            if (error_message != null) {
+            var error_message = status.responseJSON.messages;
+            if (error_message.error != null || error_message.email != null) {
                 $('#loading-modal').on('hide.bs.modal', function () { });
                 $('#loading-modal').hide();
                 $('.modal-backdrop').remove();
                 new swal({
                     title: 'Gagal',
-                    text: error_message,
+                    text: error_message.error || error_message.email,
                     showConfirmButton: true
                 })
             }

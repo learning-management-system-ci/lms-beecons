@@ -15,7 +15,7 @@
 
 <!-- <div id="loading-page">
 </div> -->
-<div class="px-5 mb-5 d-none" id="course-detail-page">
+<div class="container mb-5 d-none" id="course-detail-page">
     <section style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb navigation">
             <a class="breadcrumb-item active" aria-current="page" href="/courses">Courses</a>

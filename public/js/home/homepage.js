@@ -1,126 +1,114 @@
-$(document).ready(async function () {
+$(document).ready(function () {
     // handle courses
+    handleCourses()
+
+    // handle webinar
+    handleWebinar()
+
+    // handle mentor slider
+    handleMentor()
+
+    // handle articles
+    handleArtikel()
+
+    // handle testimoni
+    handleTestimoni()
+})
+
+async function handleCourses() {
     try {
         const courseResponse = await $.ajax({
-            url: '/api/course',
+            url: '/api/course/latest',
             method: 'GET',
             dataType: 'json'
         })
 
-        setCourses('0')
+        let courses = courseResponse.slice(0, 3)
 
-        $('#choose-course .tags .item').on('click', function (e) {
-            e.preventDefault()
-            let typeId = $(this).attr('data-type-id')
-
-            setCourses(typeId)
-        })
-
-        async function setCourses(type) {
-            let coursesAll = courseResponse.slice(0, 3)
-            let coursesEngineering = courseResponse.filter(course => course.type[0].type_id === '1').slice(0, 3)
-            let coursesIt = courseResponse.filter(course => course.type[0].type_id === '2').slice(0, 3)
-
-            $(`#choose-course .tags .item[data-type-id="${type}"]`).addClass('active').siblings().removeClass('active')
-
-            let courses = []
-            if (type === '0') courses = coursesAll
-            else if (type === '1') courses = coursesEngineering
-            else if (type === '2') courses = coursesIt
-
-            courses = courses.map((course) => {
-                return {
-                    ...course,
-                    isBought: false
-                }
-            })
-
-            if (Cookies.get('access_token')) {
-                let userCourses = []
-                try {
-                    const res = await $.ajax({
-                        url: `/api/user-course`,
-                        method: 'GET',
-                        dataType: 'json',
-                        headers: {
-                            Authorization: 'Bearer ' + Cookies.get("access_token")
-                        }
-                    })
-
-                    userCourses = res
-                } catch (error) {
-                    // console.log(error)
-                }
-
-                courses = courses.map((course, i) => {
-                    return {
-                        ...course,
-                        isBought: userCourses.map(userCourse => userCourse.course_id).includes(course.course_id)
+        if (Cookies.get('access_token')) {
+            let userCourses = []
+            try {
+                const res = await $.ajax({
+                    url: `/api/user-course`,
+                    method: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        Authorization: 'Bearer ' + Cookies.get("access_token")
                     }
                 })
+
+                userCourses = res
+            } catch (error) {
+                // console.log(error)
             }
 
-            $('#choose-course .choose-course-list').html(courses.map(course => {
-                return `
-                    <div class="col col-md-4 pe-3 pb-3">
-                        <div class="card-course">
-                            <div class="image">
-                                <a href="/course/${course.course_id}">
-                                    <img src="${course.thumbnail}" alt="img">
-                                </a>
-    
-                                <div class="card-course-tags">
-                                    ${course.tag.map(tag => {
-                                        return `<div class="item">${tag.name}</div>`
-                                    }).join('')}
-                                </div>
-                            </div>
-                            <div class="body">
-                                <a href="/course/${course.course_id}">
-                                    <h2 class="text-truncate mb-2">${course.title}</h2>
-                                </a>
-                                <p class='mb-2'>${course.author}</p>
-                                <p class='mb-4'>
-                                    ${textTruncate(course.description, 130)}
-                                </p>
-                                <p class="harga">
-                                    ${(() => {
-                                        if (course.old_price !== '0') {
-                                            return `<del>${getRupiah(course.old_price)}</del>`
-                                        } else {
-                                            return ''
-                                        }
-                                    })()}
-                                    ${getRupiah(course.new_price)}
-                                </p>
-                            </div>
-                            <div class="card-course-button">
-                                ${(() => {
-                                    if (!course.isBought) {
-                                        return `
-                                            <a href="${`/checkout?type=course&id=${course.course_id}`}" class='btn-checkout'>
-                                                <button class="app-btn btn-full">Beli</button>
-                                            </a>
-                                            <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
-                                        `
-                                    } else {
-                                        return `
-                                            <a href="${`/course/${course.course_id}`}">
-                                                <button class="app-btn btn-full">Lihat Course</button>
-                                            </a>
-                                        `
-                                    }
-                                })()}
+            courses = courses.map((course, i) => {
+                return {
+                    ...course,
+                    isBought: userCourses.map(userCourse => userCourse.course_id).includes(course.course_id)
+                }
+            })
+        }
+        
+        $('#choose-course .choose-course-list').html(courses.map(course => {
+            return `
+                <div class="col col-md-4 pe-3 pb-3">
+                    <div class="card-course">
+                        <div class="image">
+                            <a href="/course/${course.course_id}">
+                                <img src="${course.thumbnail}" alt="img">
+                            </a>
+
+                            <div class="card-course-tags">
+                                ${course.tag.map(tag => {
+                                    return `<div class="item">${tag.name}</div>`
+                                }).join('')}
                             </div>
                         </div>
+                        <div class="body">
+                            <a href="/course/${course.course_id}">
+                                <h2 class="text-truncate mb-2">${course.title}</h2>
+                            </a>
+                            <p class='mb-2'>${course.author}</p>
+                            <p class='mb-4'>
+                                ${textTruncate(course.description, 130)}
+                            </p>
+                            <p class="harga">
+                                ${(() => {
+                                    if (course.old_price !== '0') {
+                                        return `<del>${getRupiah(course.old_price)}</del>`
+                                    } else {
+                                        return ''
+                                    }
+                                })()}
+                                ${getRupiah(course.new_price)}
+                            </p>
+                        </div>
+                        <div class="card-course-button">
+                            ${(() => {
+                                if (!course.isBought) {
+                                    return `
+                                        <a href="${`/checkout?type=course&id=${course.course_id}`}" class='btn-checkout'>
+                                            <button class="app-btn btn-full">Beli</button>
+                                        </a>
+                                        <button value=${course.course_id} class="button-secondary add-cart"><i class="fa-solid fa-cart-shopping"></i></button>
+                                    `
+                                } else {
+                                    return `
+                                        <a href="${`/course/${course.course_id}`}">
+                                            <button class="app-btn btn-full">Lihat Course</button>
+                                        </a>
+                                    `
+                                }
+                            })()}
+                        </div>
                     </div>
-                `
-            }))
+                </div>
+            `
+        }))
 
-            handleCheckout()
-
-            handleAddCart()
-        }
+        handleCheckout()
+        handleAddCart()
 
         function handleCheckout() {
             return $('.btn-checkout').on('click', function (e) {
@@ -205,8 +193,9 @@ $(document).ready(async function () {
     } catch (error) {
         // console.log(error)
     }
+}
 
-    // handle webinar
+async function handleWebinar() {
     try {
         const webinarResponse = await $.ajax({
             url: '/api/webinar',
@@ -246,8 +235,9 @@ $(document).ready(async function () {
     } catch (error) {
         // console.log(error)
     }
+}
 
-    // handle mentor slider
+async function handleMentor() {
     try {
         const mentorResponse = await $.ajax({
             url: '/api/mentor',
@@ -314,8 +304,9 @@ $(document).ready(async function () {
     } catch (error) {
         // console.log(error)
     }
+}
 
-    // handle articles
+async function handleArtikel() {
     try {
         let artikels = [
             {
@@ -388,8 +379,9 @@ $(document).ready(async function () {
     } catch (error) {
         // console.log(error)
     }
+}
 
-    // handle testimoni
+async function handleTestimoni() {
     try {
         const testimoniResponse = await $.ajax({
             url: '/api/testimoni',
@@ -441,4 +433,4 @@ $(document).ready(async function () {
     } catch (error) {
         // console.log(error)
     }
-})
+}

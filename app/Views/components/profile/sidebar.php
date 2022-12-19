@@ -1,2 +1,2 @@
-<div class="card side-bar">
+<div class="side-bar">
 </div>

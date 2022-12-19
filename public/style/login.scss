@@ -5,6 +5,11 @@ body {
   overflow-x: hidden;
 }
 
+.error {
+    font-weight: 400;
+    font-size: 13px;
+}
+
 .btn {
   font-weight: 500;
 }
@@ -40,6 +45,10 @@ body {
   &.active {
     background-color: $color-secondary  !important;
     color: $color-white  !important;
+  }
+
+  &:hover, &.hover {
+    background-color: $color-primary  !important;
   }
 }
 

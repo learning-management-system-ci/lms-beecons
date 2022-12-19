@@ -25,6 +25,7 @@ h5 {
 .course-image {
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 p,
@@ -52,22 +53,25 @@ h5 {
   }
 }
 
+.col-auto {
+  width: auto;
+}
+
 .col-12x {
   width: 12%;
+}
+
+.col-15 {
+  width: 15%;
 }
 
 .col-20 {
   width: 20%;
 }
 
-.container {
-  max-width: 1330px;
-  padding-top: 20px;
-}
-
 .card {
   background-color: $gray-100;
-  border-radius: 30px;
+  border-radius: 20px;
   border: 0;
   height: auto;
   padding: 25px 20px 25px 20px;
@@ -78,6 +82,15 @@ h5 {
     object-fit: cover;
     box-shadow: 0px 0.5px 4px 2.5px rgba(0, 0, 0, 0.1);
   }
+}
+
+.side-bar {
+  background-color: $gray-100;
+  border-radius: 20px;
+  border: 0;
+  height: 100%;
+  padding: 25px 20px 25px 20px;
+  max-height: 550px;
 }
 
 .side-bar > * {
@@ -95,25 +108,58 @@ h5 {
         brightness(103%) contrast(104%) !important;
     }
   }
-}
-
-.profile > * {
-  margin: 20px;
-  &:first-child {
-    margin-top: 0;
-  }
-
-  .profile-data {
-    .card {
-      min-height: 340px;
+  &:active,
+  &.active {
+    background-color: $color-secondary;
+    color: $color-white;
+    .profile-icon {
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(142deg)
+        brightness(103%) contrast(104%) !important;
     }
   }
+}
 
-  .course {
-    .webinar {
-      height: 120px;
-      img {
+.profile {
+  max-height: 550px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    position: absolute;
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #d9d9d9;
+    border-radius: 40px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #747474;
+    border-radius: 40px;
+  }
+
+  & > * {
+    margin: 20px;
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .profile-data {
+      .card {
+        min-height: 358px;
+      }
+    }
+
+    .course {
+      .webinar {
         height: 120px;
+        img {
+          height: 120px;
+        }
       }
     }
   }
@@ -134,7 +180,10 @@ h5 {
     border-radius: 5px;
   }
   .voucher-container {
-    padding: 15px 20px 0 20px;
+    padding: 15px 20px 15px 20px;
+    h5 {
+      margin: 0;
+    }
     .voucher {
       height: 30px;
     }
@@ -159,6 +208,22 @@ h5 {
   }
 }
 
+div.btn-file {
+  background-color: $color-secondary !important;
+  color: $color-white !important;
+  cursor: pointer;
+
+  & > * {
+    cursor: pointer;
+  }
+
+  &:hover,
+  &.hover {
+    background-color: $color-primary !important;
+    color: $color-white !important;
+  }
+}
+
 #editButton {
   &:disabled,
   &.disable {
@@ -169,6 +234,12 @@ h5 {
   &:active,
   &.active {
     background-color: $color-secondary !important;
+    color: $color-white !important;
+  }
+
+  &:hover,
+  &.hover {
+    background-color: $color-primary !important;
     color: $color-white !important;
   }
 }

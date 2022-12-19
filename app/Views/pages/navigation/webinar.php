@@ -7,7 +7,7 @@
 
 
 <?= $this->section('app-component') ?>
-<div class="main-container">
+<div class="container">
     <section style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb navigation">
             <a class="breadcrumb-item active" aria-current="page" href="/">Home</a>
