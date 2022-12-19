@@ -33,7 +33,7 @@
                                             endif ?>" href="/about-us">About Us</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center align-items-center">
                 <li class="nav-item me-3">
                     <div class="nav-item-search">
                         <div class="nav-search-input">
@@ -42,7 +42,7 @@
                             </form>
                             <i class="fa-solid fa-xmark" id="nav-btn-search-x"></i>
                         </div>
-                        <button class="nav-btn-icon my-1" id="nav-btn-search" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false">
+                        <button class="nav-btn-icon" id="nav-btn-search" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                         <div class="dropdown-menu my-2" aria-labelledby="nav-btn-search">
@@ -62,7 +62,7 @@
                 </li>
                 <li class="nav-item me-3">
                     <a href="/cart">
-                        <button class="nav-btn-icon my-1" id="cart-count">
+                        <button class="nav-btn-icon" id="cart-count">
                             <!-- <div class="nav-btn-icon-amount">0</div> -->
                             <i class="fa-solid fa-cart-shopping"></i>
                         </button>
@@ -70,7 +70,7 @@
                 </li>
                 <li class="nav-item me-3">
                     <div class="dropdown nav-item-icon">
-                        <button class="nav-btn-icon my-1" id="dropdown-notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="nav-btn-icon" id="dropdown-notification" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <!-- <div class="nav-btn-icon-amount">0</div> -->
                             <i class="fa-solid fa-bell"></i>
                         </button>
@@ -89,7 +89,7 @@
                                         melakukan transaksi pembelian
                                     </p>
                                     <a href="/login" class="nav-link-btn">
-                                        <button class="app-btn btn-sign-in">Sign in</button>
+                                        <button class="app-btn app-btn-secondary btn-sign-in">Sign in</button>
                                     </a>
                                 </div>
                             <?php else : ?>
@@ -101,7 +101,7 @@
                 <?php if (!get_cookie("access_token")) : ?>
                     <li class="nav-item">
                         <a href="/login" class="nav-link-btn">
-                            <button class="app-btn btn-sign-in">Sign in</button>
+                            <button class="app-btn app-btn-secondary btn-sign-in">Sign in</button>
                         </a>
                     </li>
                 <?php else : ?>

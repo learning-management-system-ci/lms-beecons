@@ -28,18 +28,13 @@
         }
 
         p {
-            font-size: 1rem;
+            font-size: 1.2rem;
             line-height: 1.8rem;
             margin-bottom: 2.5rem;
         }
 
         .app-btn{
-            background-color: $color-secondary;
             padding: .7rem 2rem;
-
-            &:hover {
-                background-color: $color-primary;
-            }
         }
     }
 

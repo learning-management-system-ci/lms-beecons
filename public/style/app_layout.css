@@ -20,19 +20,18 @@ button {
 }
 
 .app-btn {
-  background-color: #164520;
+  background-color: #248043;
   color: #ffffff;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1rem;
   min-width: 110px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  font-weight: 500;
   font-size: 1rem;
 }
 
 .app-btn:hover {
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+  background-color: #164520;
 }
 
 .btn-full {
