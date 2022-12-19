@@ -352,7 +352,7 @@ class CourseController extends ResourceController
 
         $tag = [];
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = site_url() . 'upload/course/thumbnail/' . $data[$i]['thumbnail'];
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -806,6 +806,7 @@ class CourseController extends ResourceController
                 ->join('type', 'type.type_id = course_type.type_id')
                 ->orderBy('course_type.course_type_id', 'DESC')
                 ->findAll();
+            $data[$i]['thumbnail'] = site_url() . 'upload/course/thumbnail/' . $data[$i]['thumbnail'];
             if ($type) {
                 $data[$i]['type'] = $type;
 
