@@ -55,7 +55,7 @@ async function handleCourses() {
         
         $('#choose-course .choose-course-list').html(courses.map(course => {
             return `
-                <div class="col col-md-4 pe-3 pb-3">
+                <div class="col col-md-4">
                     <div class="card-course">
                         <div class="image">
                             <a href="/course/${course.course_id}">
@@ -63,7 +63,7 @@ async function handleCourses() {
                             </a>
 
                             <div class="card-course-tags">
-                                ${course.tag.map(tag => {
+                                ${course.tag?.map(tag => {
                                     return `<div class="item">${tag.name}</div>`
                                 }).join('')}
                             </div>
@@ -206,7 +206,6 @@ async function handleTraining() {
             dataType: 'json'
         })
 
-        console.log(trainingResponse)
         $('#training .training-wrapper').html(trainingResponse.map(training => {
             return `
                 <div class="col-md-4">
@@ -376,7 +375,7 @@ async function handleArtikel() {
 
         $('#artikel .artikel-wrapper').html(artikels.map(artikel => {
             return `
-                <div class="col col-md-3">
+                <div class="col col-md-4">
                     <a href="/" class="artikel-item" data-atikel-id=${artikel.id}>
                         <div class="image">
                             <img src="/image/home/people.jpg" alt="">
