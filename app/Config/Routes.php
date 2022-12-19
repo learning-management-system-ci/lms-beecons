@@ -276,6 +276,11 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\NotificationController::update/$1');
         $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
     });
+    
+    $routes->group('user-notification/', static function ($routes) {
+        $routes->get('', 'Api\UserNotificationController::index');
+        $routes->get('detail/(:num)', 'Api\UserNotificationController::detail/$1');
+    });
 
     $routes->group('contactus/', static function ($routes) {
         $routes->get('', 'Api\ContactUsController::index');
