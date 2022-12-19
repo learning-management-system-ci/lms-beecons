@@ -88,14 +88,6 @@ h6 {
         a:first-child {
             flex: 1;
         }
-
-        .add-cart {
-            &:hover {
-                background-color: $color-primary;
-                color: $color-white;
-                box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
-            }
-        }
     }
 }
 
@@ -281,17 +273,6 @@ h6 {
     border: none;
     cursor: pointer;
     font-weight: 500;
-    font-size: 1rem;
-}
-
-.button-secondary {
-    background-color: $color-white;
-    color: $color-primary;
-    padding: .5rem .8rem;
-    border-radius: .4rem;
-    border: 1px solid $color-primary;
-    cursor: pointer;
-    font-weight: bold;
     font-size: 1rem;
 }
 

@@ -44,6 +44,21 @@ button {
   width: 100%;
 }
 
+.button-secondary {
+  background-color: #ffffff;
+  color: #164520;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.4rem;
+  border: 1px solid #164520;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.button-secondary:hover {
+  background-color: #164520;
+  color: #ffffff;
+}
+
 .form-control {
   font-family: "Plus Jakarta Sans", "sans-serif";
 }
@@ -130,11 +145,6 @@ h6 {
 }
 .card-course .card-course-button a:first-child {
   flex: 1;
-}
-.card-course .card-course-button .add-cart:hover {
-  background-color: #164520;
-  color: #ffffff;
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
 }
 
 .card-webinar {
@@ -304,17 +314,6 @@ h6 {
   border: none;
   cursor: pointer;
   font-weight: 500;
-  font-size: 1rem;
-}
-
-.button-secondary {
-  background-color: #ffffff;
-  color: #164520;
-  padding: 0.5rem 0.8rem;
-  border-radius: 0.4rem;
-  border: 1px solid #164520;
-  cursor: pointer;
-  font-weight: bold;
   font-size: 1rem;
 }
 

@@ -84,6 +84,22 @@ button {
     width: 100%;
 }
 
+.button-secondary {
+    background-color: $color-white;
+    color: $color-primary;
+    padding: .7rem .9rem;
+    border-radius: .4rem;
+    border: 1px solid $color-primary;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+
+    &:hover {
+        background-color: $color-primary;
+        color: $color-white;
+    }
+}
+
 .form-control {
     font-family: 'Plus Jakarta Sans', 'sans-serif';
 
