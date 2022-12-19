@@ -148,6 +148,7 @@ class VideoController extends ResourceController
 				'status' => 200,
 				'success' => 200,
 				'pass' => $pass,
+				'score' => $score
 			];
 			return $this->respondCreated($response);
 		} catch (\Throwable $th) {
@@ -303,27 +304,27 @@ class VideoController extends ResourceController
 			];
 
 			$verifyCourse = $this->videoCategory->where("video_category_id", $this->request->getVar('video_category_id'))->first();
-			
-			if (!$verifyCourse){
+
+			if (!$verifyCourse) {
 				return $this->failNotFound('Course tidak ditemukan');
 			}
 
 			$findvideo = $this->videoModel->where('video_id', $id)->first();
-      if ($findvideo) {
-        if ($this->validate($rules_a, $messages_a)) {
-          if ($this->validate($rules_b, $messages_b)) {
+			if ($findvideo) {
+				if ($this->validate($rules_a, $messages_a)) {
+					if ($this->validate($rules_b, $messages_b)) {
 						$oldThumbnail = $findvideo['thumbnail'];
-            $dataThumbnail = $this->request->getFile('thumbnail');
+						$dataThumbnail = $this->request->getFile('thumbnail');
 
-            if ($dataThumbnail->isValid() && !$dataThumbnail->hasMoved()) {
-              if (file_exists("upload/course-video/thumbnail/" . $oldThumbnail)) {
-                unlink("upload/course-video/thumbnail/" . $oldThumbnail);
-              }
-              $thumbnailFileName = $dataThumbnail->getRandomName();
-              $dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
-            } else {
-              $thumbnailFileName = $oldThumbnail['thumbnail'];
-            }
+						if ($dataThumbnail->isValid() && !$dataThumbnail->hasMoved()) {
+							if (file_exists("upload/course-video/thumbnail/" . $oldThumbnail)) {
+								unlink("upload/course-video/thumbnail/" . $oldThumbnail);
+							}
+							$thumbnailFileName = $dataThumbnail->getRandomName();
+							$dataThumbnail->move('upload/course-video/thumbnail/', $thumbnailFileName);
+						} else {
+							$thumbnailFileName = $oldThumbnail['thumbnail'];
+						}
 
 						$dataVideo = $this->request->getVar('video_url');
 
@@ -345,7 +346,7 @@ class VideoController extends ResourceController
 							} else {
 								$fileName = $dataVideo;
 							}
-	
+
 							$data = [
 								'video_category_id' => $this->request->getVar("video_category_id"),
 								'title' => $this->request->getVar("title"),
@@ -353,9 +354,9 @@ class VideoController extends ResourceController
 								'order' => $this->request->getVar("order"),
 								'video' => $fileName
 							];
-	
+
 							$this->videoModel->update($id, $data);
-	
+
 							$response = [
 								'status'   => 201,
 								'success'    => 201,
@@ -372,16 +373,16 @@ class VideoController extends ResourceController
 							'order' => $this->request->getVar("order"),
 						];
 
-            $this->videoModel->update($id, $data);
+						$this->videoModel->update($id, $data);
 
-            $response = [
-              'status'   => 201,
-              'success'    => 201,
-              'messages' => [
-                'success' => 'Video berhasil diperbarui'
-              ]
-            ];
-          }
+						$response = [
+							'status'   => 201,
+							'success'    => 201,
+							'messages' => [
+								'success' => 'Video berhasil diperbarui'
+							]
+						];
+					}
 
 					$dataVideo = $this->request->getVar('video_url');
 
@@ -403,16 +404,16 @@ class VideoController extends ResourceController
 						} else {
 							$fileName = $dataVideo;
 						}
-	
+
 						$data = [
 							'video_category_id' => $this->request->getVar("video_category_id"),
 							'title' => $this->request->getVar("title"),
 							'order' => $this->request->getVar("order"),
 							'video' => $fileName
 						];
-	
+
 						$this->videoModel->update($id, $data);
-	
+
 						$response = [
 							'status'   => 201,
 							'success'    => 201,
@@ -421,36 +422,36 @@ class VideoController extends ResourceController
 							]
 						];
 					}
-					
+
 					$data = [
 						'video_category_id' => $this->request->getVar("video_category_id"),
 						'title' => $this->request->getVar("title"),
 						'order' => $this->request->getVar("order"),
-					];	
-					
+					];
+
 					$this->videoModel->update($id, $data);
 
-          $response = [
-            'status'   => 201,
-            'success'    => 201,
-            'messages' => [
-              'success' => 'Video berhasil diperbarui'
-            ]
-          ];
-        } else {
-          $response = [
-            'status'   => 400,
-            'error'    => 400,
-            'messages' => $this->validator->getErrors(),
-          ];
-        }
-      } else {
-        $response = [
-          'status'   => 400,
-          'error'    => 400,
-          'messages' => 'Data Video tidak ditemukan',
-        ];
-      }
+					$response = [
+						'status'   => 201,
+						'success'    => 201,
+						'messages' => [
+							'success' => 'Video berhasil diperbarui'
+						]
+					];
+				} else {
+					$response = [
+						'status'   => 400,
+						'error'    => 400,
+						'messages' => $this->validator->getErrors(),
+					];
+				}
+			} else {
+				$response = [
+					'status'   => 400,
+					'error'    => 400,
+					'messages' => 'Data Video tidak ditemukan',
+				];
+			}
 			return $this->respondCreated($response);
 		} catch (\Throwable $th) {
 			return $this->fail($th->getMessage());
@@ -493,48 +494,49 @@ class VideoController extends ResourceController
 		return $this->failNotFound('Data Video tidak ditemukan');
 	}
 
-    public function order(){
-        $key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
+	public function order()
+	{
+		$key = getenv('TOKEN_SECRET');
+		$header = $this->request->getServer('HTTP_AUTHORIZATION');
+		if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+		$token = explode(' ', $header)[1];
 
-        try {
-            $decoded = JWT::decode($token, $key, ['HS256']);
-            $user = new Users;
+		try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+			$user = new Users;
 
-            // cek role user
-            $data = $user->select('role')->where('id', $decoded->uid)->first();
+			// cek role user
+			$data = $user->select('role')->where('id', $decoded->uid)->first();
 
-            if ($data['role'] == 'member') {
-                return $this->fail('Tidak dapat di akses selain admin & author', 400);
-            }
+			if ($data['role'] == 'member') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
 
-            $orderReq = $this->request->getVar();
+			$orderReq = $this->request->getVar();
 
-            for($i = 0; $i < count($orderReq); $i++){
-                $video = $this->videoModel->find($orderReq[$i]->video_id);
-                if($video){
-                    $data = [
-                        'order' => $orderReq[$i]->order
-                    ];
-                    $this->videoModel->update($orderReq[$i]->video_id, $data);
+			for ($i = 0; $i < count($orderReq); $i++) {
+				$video = $this->videoModel->find($orderReq[$i]->video_id);
+				if ($video) {
+					$data = [
+						'order' => $orderReq[$i]->order
+					];
+					$this->videoModel->update($orderReq[$i]->video_id, $data);
 
-                    $response = [
-                        'status'   => 200,
-                        'success'    => 200,
-                        'messages' => [
-                            'success' => 'Video berhasil diupdate'
-                        ]
-                    ];
-                }else{
-                    return $this->failNotFound('Data Video tidak ditemukan');
-                }
-            }
+					$response = [
+						'status'   => 200,
+						'success'    => 200,
+						'messages' => [
+							'success' => 'Video berhasil diupdate'
+						]
+					];
+				} else {
+					return $this->failNotFound('Data Video tidak ditemukan');
+				}
+			}
 
-            return $this->respond($response);
-        } catch (\Throwable $th) {
-            return $this->fail($th->getMessage());
-        }
-    }
+			return $this->respond($response);
+		} catch (\Throwable $th) {
+			return $this->fail($th->getMessage());
+		}
+	}
 }
