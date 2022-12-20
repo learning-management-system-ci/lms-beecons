@@ -1,7 +1,7 @@
 <?= $this->extend('layouts/admin_layout') ?>
 
 <?= $this->section('css-component') ?>
-<link rel="stylesheet" href="/style/admin/contact-list.css">
+<link rel="stylesheet" href="/style/admin.css">
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
