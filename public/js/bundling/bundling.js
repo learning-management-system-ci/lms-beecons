@@ -7,13 +7,13 @@ async function handleBundlingApi() {
 
     try {
         let res = await $.ajax({
-            url: `/api/course-bundling/detail/${id}`,
+            url: `/api/bundling/detail/${id}`,
             method: "GET",
             dataType: "json"
         })
 
-        let bundling = res[0].bundling[0]
-        let courses = res[0].course
+        let bundling = res
+        let courses = res.course
         let coursesPrice = courses.reduce((a, b) => a + parseInt(b.new_price), 0)
 
         $('.detail-bundling-title').text(bundling.title)
@@ -30,7 +30,7 @@ async function handleBundlingApi() {
                             <a href="/course/${course.course_id}">
                                 <h6>${course.title}</h6>
                             </a>
-                            <p class="m-0">${getRupiah(course.new_price)}</p>
+                            <p class="m-0">${course.total_video} Video</p>
                         </div>
                     </div>
                 </li>
@@ -41,12 +41,13 @@ async function handleBundlingApi() {
                 <li>
                     <div class="d-flex gap-2">
                         <div class="flex-fill text-truncate">${course.title}</div>
-                        <div class="text-end text-nowrap">${getRupiah(course.new_price)}</div>
+                        <!-- <div class="text-end text-nowrap">${getRupiah(course.new_price)}</div> -->
                     </div>
                 </li>
             `
         }))
-        $('.order-total').text(getRupiah(coursesPrice.toString()))
+        // $('.order-total').text(getRupiah(coursesPrice.toString()))
+        $('.order-total').text(getRupiah(bundling.new_price.toString()))
 
     } catch (error) {
         

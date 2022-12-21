@@ -125,7 +125,6 @@ $(document).ready(() => {
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key])
     })
-    console.log(data)
 
     let option = {
       type: "POST",
@@ -138,7 +137,7 @@ $(document).ready(() => {
       },
       success: async function (course) {
         alert("upload success")
-        console.log(course)
+        // console.log(course)
         let course_data = await getCourseDetailData(course_id)
         populateCourseDetailGeneral(course_data)
         stopSetting()
@@ -267,7 +266,7 @@ $(document).ready(() => {
 
     // on click list order submit 
     content.list_order_submit.on('click', () => {
-      console.log("clicked")
+      //console.log("clicked")
       let list = []
       $('.list-video').each((index, element) => {
         // append to list
@@ -316,7 +315,7 @@ $(document).ready(() => {
         },
       })
 
-      console.log(list)
+      //console.log(list)
 
     })
 

@@ -174,6 +174,7 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
+        $routes->get('filter/(:segment)/detail/(:num)', 'Api\CourseController::detailTraining/$1/$2');
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
 
 
@@ -277,6 +278,11 @@ $routes->group('api/', static function ($routes) {
         $routes->put('update/(:num)', 'Api\NotificationController::update/$1');
         $routes->delete('delete/(:num)', 'Api\NotificationController::delete/$1');
     });
+    
+    $routes->group('user-notification/', static function ($routes) {
+        $routes->get('', 'Api\UserNotificationController::index');
+        $routes->get('detail/(:num)', 'Api\UserNotificationController::detail/$1');
+    });
 
     $routes->group('contactus/', static function ($routes) {
         $routes->get('', 'Api\ContactUsController::index');
@@ -317,7 +323,7 @@ $routes->group('api/', static function ($routes) {
     $routes->group('order/', static function ($routes) {
         $routes->get('', 'Api\OrderController::index');
         $routes->get('generatesnap', 'Api\OrderController::generateSnap');
-        $routes->get('notif-handler', 'Api\OrderController::notifHandler');
+        $routes->post('notif-handler', 'Api\OrderController::notifHandler');
 
         $routes->post('coba', 'Api\OrderController::send');
     });

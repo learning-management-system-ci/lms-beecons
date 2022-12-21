@@ -53,15 +53,15 @@
             <div class="col-md-4">
                 <h2>Hubungi Kami</h2>
 
-                <form action="" method="post">
+                <form id="form-contactus" method="post">
                     <div class="form-group mb-2">
-                        <input type="text" class="form-control" placeholder="Nama Anda">
+                        <input type="email" name="email" class="form-control" placeholder="Email Anda" required>
                     </div>
                     <div class="form-group mb-2">
-                        <input type="email" class="form-control" placeholder="Email Anda">
+                        <textarea name="question" id="" cols="30" rows="5" class="form-control" placeholder="Pesan Anda" required></textarea>
                     </div>
                     <div class="form-group mb-2">
-                        <textarea name="" id="" cols="30" rows="5" class="form-control" placeholder="Pesan Anda"></textarea>
+                        <input type="file" name="question_image" accept=".jpg, .jpeg, .png">
                     </div>
                     <div class="form-group text-end">
                         <button type="submit" class="app-btn">Kirim</button>

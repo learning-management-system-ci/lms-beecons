@@ -83,17 +83,15 @@ $(document).ready(() => {
           "Authorization": `Bearer ${Cookies.get("access_token")}`,
         },
         success: (bundle) => {
-          let { bundling } = bundle
-          console.log(bundling)
           let item = {
             type: "bundling",
             detail: {
-              title: bundling.title,
-              new_price: bundling.new_price,
-              old_price: bundling.old_price,
+              title: bundle.title,
+              new_price: bundle.new_price,
+              old_price: bundle.old_price,
               thumbnail: 'image/cart/ux-banner.png',
             },
-            sub_total: bundling.new_price || bundling.old_price,
+            sub_total: bundle.new_price || bundle.old_price,
           }
           data = item
         }
@@ -320,7 +318,7 @@ $(document).ready(() => {
         data.items.push(await getCourse(id))
       } else if (type == 'bundling'){
         data.items.push(await getBundle(id))
-      }
+      }    
       data.sub_total = data.items[0].sub_total
       data.total = data.items[0].sub_total
       console.log(data)

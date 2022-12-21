@@ -15,11 +15,10 @@ class Notification extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
-			'user_id'          => [
-				'type'           => 'INT',
-				'constraint'     => 5,
-				'unsigned'       => true,
-				'null'			=> true,
+			'public'      => [
+				'type'          => 'BOOL',
+				'default' 		=> 0,
+				'null' 			=> false,
 			],
             'message'       => [
                 'type'           => 'VARCHAR',
@@ -30,7 +29,6 @@ class Notification extends Migration
         ]);
 
         $this->forge->addKey('notification_id', TRUE);
-        $this->forge->addForeignKey('user_id', 'users', 'id', 'CASCADE', 'SET NULL');
         $this->forge->createTable('notification', TRUE);
     }
 

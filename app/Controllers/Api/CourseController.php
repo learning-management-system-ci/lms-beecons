@@ -94,7 +94,7 @@ class CourseController extends ResourceController
             $data[$i]['author'] = $author['fullname'];
             unset($data[$i]['author_id']);
 
-            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = site_url() . 'upload/course/thumbnail/' . $data[$i]['thumbnail'];
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -143,58 +143,58 @@ class CourseController extends ResourceController
                         ->orderBy('order', 'ASC')
                         ->findAll();
 
-                        for ($z = 0; $z < count($video); $z++) {
-                            $this->path = 'upload/course-video/';
-        
-                            $filename = $video[$z]['video'];
-                            $video[$z]['thumbnail'] = $this->pathVideoThumbnail . $video[$z]['thumbnail'];
-        
-                            $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
-        
-                            if (!$checkIfVideoIsLink) {
-                                $file = $this->getID3->analyze($this->path . $filename);
-        
-                                if (isset($file['error'][0])) {
-                                    $checkFileIsExist = false;
-                                } else {
-                                    $checkFileIsExist = true;
-                                }
-        
-                                if ($checkFileIsExist) {
-                                    if (isset($file['playtime_string'])) {
-                                        $duration = ["duration" => $file['playtime_string']];
-                                    } else {
-                                        $duration = ["duration" => '00:00:00'];
-                                    }
+                    for ($z = 0; $z < count($video); $z++) {
+                        $this->path = 'upload/course-video/';
 
-                                    $data[$i]['video'][$z] = $duration;
-                                
-                                    $video[$z] += $duration;
-                                    $video[$z]['video'] = $this->pathVideo . $video[$z]['video'];
+                        $filename = $video[$z]['video'];
+                        $video[$z]['thumbnail'] = $this->pathVideoThumbnail . $video[$z]['thumbnail'];
+
+                        $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
+
+                        if (!$checkIfVideoIsLink) {
+                            $file = $this->getID3->analyze($this->path . $filename);
+
+                            if (isset($file['error'][0])) {
+                                $checkFileIsExist = false;
+                            } else {
+                                $checkFileIsExist = true;
+                            }
+
+                            if ($checkFileIsExist) {
+                                if (isset($file['playtime_string'])) {
+                                    $duration = ["duration" => $file['playtime_string']];
                                 } else {
                                     $duration = ["duration" => '00:00:00'];
-                                    $video[$z] += $duration;
-                                    $data[$i]['video'][$z] = $duration;
                                 }
+
+                                $data[$i]['video'][$z] = $duration;
+
+                                $video[$z] += $duration;
+                                $video[$z]['video'] = $this->pathVideo . $video[$z]['video'];
                             } else {
                                 $duration = ["duration" => '00:00:00'];
                                 $video[$z] += $duration;
+                                $data[$i]['video'][$z] = $duration;
                             }
+                        } else {
+                            $duration = ["duration" => '00:00:00'];
+                            $video[$z] += $duration;
                         }
-                
+                    }
+
                     $sum = strtotime('00:00:00');
                     $totalTime = 0;
                     $dataTime = $data[$i]['video'];
- 
-                    foreach( $dataTime as $element ) {
+
+                    foreach ($dataTime as $element) {
                         $time = implode($element);
                         if (substr_count($time, ':') == 1) {
-                            $waktu = '00:'.$time;
+                            $waktu = '00:' . $time;
                         }
                         $strTime = date("H:i:s", strtotime($time));
 
                         $timeInSec = strtotime($strTime) - $sum;
-                        
+
                         $totalTime = $totalTime + $timeInSec;
                     }
 
@@ -203,14 +203,13 @@ class CourseController extends ResourceController
                     $totalTime = $totalTime - ($hours * 3600);
 
                     $minutes = intval($totalTime / 60);
-                    
+
                     $second = $totalTime - ($minutes * 60);
-                    
+
                     $result = ($hours . " Jam : " . $minutes . " Menit : " . $second . " Detik");
 
                     $data[$i]['total_video_duration'] = ["total" => $result];
                 }
-
             } else {
                 $data[$i]['type'] = null;
             }
@@ -267,7 +266,7 @@ class CourseController extends ResourceController
             $data[$i]['author'] = $author['fullname'];
             unset($data[$i]['author_id']);
 
-            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = site_url() . 'upload/course/thumbnail/' . $data[$i]['thumbnail'];
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -353,7 +352,7 @@ class CourseController extends ResourceController
 
         $tag = [];
         for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = site_url() . 'upload/course/thumbnail/' . $data[$i]['thumbnail'];
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
@@ -409,7 +408,7 @@ class CourseController extends ResourceController
 
     public function getCourseById($id, $loggedIn = false)
     {
-        if ($loggedIn) {
+        if ($loggedIn) { 
             $header = $this->request->getServer('HTTP_AUTHORIZATION');
             $token = explode(' ', $header)[1];
             $decoded = JWT::decode($token, $this->key, ['HS256']);
@@ -484,9 +483,9 @@ class CourseController extends ResourceController
                                 ->where('video_id', $data['video_category'][$l]['video'][$p]['video_id'])
                                 ->first();
 
-                            if($resume){
+                            if ($resume) {
                                 $data['video_category'][$l]['video'][$p]['resume'] = $resume;
-                            }else{
+                            } else {
                                 $data['video_category'][$l]['video'][$p]['resume'] = null;
                             }
 
@@ -512,10 +511,9 @@ class CourseController extends ResourceController
                                 ->where('video_id', $data['video'][$p]['video_id'])
                                 ->first();
 
-                            if($resume){
+                            if ($resume) {
                                 $data['video'][$p]['resume'] = $resume;
-
-                            }else{
+                            } else {
                                 $data['video'][$p]['resume'] = null;
                             }
 
@@ -709,6 +707,81 @@ class CourseController extends ResourceController
         }
     }
 
+    public function detailTraining($filter = null, $id = null)
+    {
+        $model = new Course();
+        $modelCourseCategory = new CourseCategory();
+        $modelCourseType = new CourseType();
+        $modelCourseTag = new CourseTag();
+        $modelTypeTag = new TypeTag();
+        $modelUser = new Users();
+
+        $data = $model->select('course.*, users.fullname as author_name')
+            ->orderBy('course_id', 'DESC')
+            ->where('service', $filter)
+            ->where('course_id', $id)
+            ->join('users', 'users.id = course.author_id')
+            ->findAll();
+
+        $tag = [];
+
+        for ($i = 0; $i < count($data); $i++) {
+            $category = $modelCourseCategory
+                ->where('course_id', $data[$i]['course_id'])
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->orderBy('course_category.course_category_id', 'DESC')
+                ->findAll();
+            $type = $modelCourseType
+                ->where('course_id', $data[$i]['course_id'])
+                ->join('type', 'type.type_id = course_type.type_id')
+                ->orderBy('course_type.course_type_id', 'DESC')
+                ->findAll();
+            $tag = $modelCourseTag
+                ->select('course_tag_id, course_tag.tag_id, name')
+                ->where('course_id', $data[$i]['course_id'])
+                ->join('tag', 'tag.tag_id = course_tag.tag_id')
+                ->orderBy('course_tag.course_tag_id', 'DESC')
+                ->findAll();
+            if ($type) {
+                $data[$i]['type'] = $type;
+
+                for ($k = 0; $k < count($type); $k++) {
+                    $typeTag = $modelTypeTag
+                        ->where('course_type.course_id', $data[$i]['course_id'])
+                        ->where('type.type_id', $type[$k]['type_id'])
+                        ->join('type', 'type.type_id = type_tag.type_id')
+                        ->join('tag', 'tag.tag_id = type_tag.tag_id')
+                        ->join('course_type', 'course_type.type_id = type.type_id')
+                        ->orderBy('course_type.course_id', 'DESC')
+                        ->select('tag.*')
+                        ->findAll();
+
+                    for ($o = 0; $o < count($typeTag); $o++) {
+                        $data[$i]['tag'][$o] = $typeTag[$o];
+                    }
+                }
+            } else {
+                $data[$i]['type'] = null;
+            }
+            if ($tag) {
+                $data[$i]['tag'] = $tag;
+            } else {
+                $data[$i]['tag'] = null;
+            }
+            $data[$i]['category'] = $category;
+        }
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+        }
+
+        if (count($data) > 0) {
+            return $this->respond($data);
+        } else {
+            return $this->failNotFound('Tidak ada data');
+        }
+    }
+
     public function trainingByAuthor($filter = null, $author_id = null)
     {
         $model = new Course();
@@ -808,6 +881,7 @@ class CourseController extends ResourceController
                 ->join('type', 'type.type_id = course_type.type_id')
                 ->orderBy('course_type.course_type_id', 'DESC')
                 ->findAll();
+            $data[$i]['thumbnail'] = site_url() . 'upload/course/thumbnail/' . $data[$i]['thumbnail'];
             if ($type) {
                 $data[$i]['type'] = $type;
 
@@ -1328,21 +1402,26 @@ class CourseController extends ResourceController
         $modelCourseType = new CourseType();
         $modelCourseTag = new CourseTag();
         $modelTypeTag = new TypeTag();
+        $modelTag = new Tag();
         $modelUser = new Users();
+        $modelVidCat = new VideoCategory();
+        $modelVideo = new Video();
 
-        $data = $model->limit($total)->orderBy('course_id', 'DESC')->find();
+        $data = $model->limit($total)->orderBy('course_id', 'DESC')->where('service', 'course')->find();
+
         $tag = [];
+
         for ($i = 0; $i < count($data); $i++) {
             $author = $modelUser->where('id', $data[$i]['author_id'])->first();
             $data[$i]['author'] = $author['fullname'];
             unset($data[$i]['author_id']);
 
-            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+            $data[$i]['thumbnail'] = site_url() . 'upload/course/thumbnail/' . $data[$i]['thumbnail'];
             $category = $modelCourseCategory
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('category', 'category.category_id = course_category.category_id')
                 ->orderBy('course_category.course_category_id', 'DESC')
-                ->findAll();
+                ->first();
             $type = $modelCourseType
                 ->where('course_id', $data[$i]['course_id'])
                 ->join('type', 'type.type_id = course_type.type_id')
@@ -1354,12 +1433,18 @@ class CourseController extends ResourceController
                 ->join('tag', 'tag.tag_id = course_tag.tag_id')
                 ->orderBy('course_tag.course_tag_id', 'DESC')
                 ->findAll();
+            $videoCat = $modelVidCat
+                ->where('course_id', $data[$i]['course_id'])
+                ->orderBy('video_category.video_category_id', 'DESC')
+                ->findAll();
             if ($type) {
-                $data[$i]['type'] = $type;
+
+                $data[$i]['type'] = $type[0]["name"];
 
                 for ($k = 0; $k < count($type); $k++) {
                     $typeTag = $modelTypeTag
                         ->where('course_type.course_id', $data[$i]['course_id'])
+                        // ->where('course_tag.course_id', $data[$i]['course_id'])
                         ->where('type.type_id', $type[$k]['type_id'])
                         ->join('type', 'type.type_id = type_tag.type_id')
                         ->join('tag', 'tag.tag_id = type_tag.tag_id')
@@ -1368,9 +1453,84 @@ class CourseController extends ResourceController
                         ->select('tag.*')
                         ->findAll();
 
-                    // for ($o = 0; $o < count($typeTag); $o++) {
-                    //     $data[$i]['tag'][$o] = $typeTag[$o];
-                    // }
+                    for ($o = 0; $o < count($typeTag); $o++) {
+                        $data[$i]['tag'][$o] = $typeTag[$o];
+                    }
+                }
+
+                for ($x = 0; $x < count($videoCat); $x++) {
+                    $video = $modelVideo
+                        ->select('video_id, video, thumbnail')
+                        ->where('video_category_id', $videoCat[$x]['video_category_id'])
+                        ->orderBy('order', 'ASC')
+                        ->findAll();
+
+                    for ($z = 0; $z < count($video); $z++) {
+                        $this->path = 'upload/course-video/';
+
+                        $filename = $video[$z]['video'];
+                        $video[$z]['thumbnail'] = $this->pathVideoThumbnail . $video[$z]['thumbnail'];
+
+                        $checkIfVideoIsLink = stristr($filename, 'http://') ?: stristr($filename, 'https://');
+
+                        if (!$checkIfVideoIsLink) {
+                            $file = $this->getID3->analyze($this->path . $filename);
+
+                            if (isset($file['error'][0])) {
+                                $checkFileIsExist = false;
+                            } else {
+                                $checkFileIsExist = true;
+                            }
+
+                            if ($checkFileIsExist) {
+                                if (isset($file['playtime_string'])) {
+                                    $duration = ["duration" => $file['playtime_string']];
+                                } else {
+                                    $duration = ["duration" => '00:00:00'];
+                                }
+
+                                $data[$i]['video'][$z] = $duration;
+
+                                $video[$z] += $duration;
+                                $video[$z]['video'] = $this->pathVideo . $video[$z]['video'];
+                            } else {
+                                $duration = ["duration" => '00:00:00'];
+                                $video[$z] += $duration;
+                                $data[$i]['video'][$z] = $duration;
+                            }
+                        } else {
+                            $duration = ["duration" => '00:00:00'];
+                            $video[$z] += $duration;
+                        }
+                    }
+
+                    $sum = strtotime('00:00:00');
+                    $totalTime = 0;
+                    $dataTime = $data[$i]['video'];
+
+                    foreach ($dataTime as $element) {
+                        $time = implode($element);
+                        if (substr_count($time, ':') == 1) {
+                            $waktu = '00:' . $time;
+                        }
+                        $strTime = date("H:i:s", strtotime($time));
+
+                        $timeInSec = strtotime($strTime) - $sum;
+
+                        $totalTime = $totalTime + $timeInSec;
+                    }
+
+                    $hours = intval($totalTime / 3600);
+
+                    $totalTime = $totalTime - ($hours * 3600);
+
+                    $minutes = intval($totalTime / 60);
+
+                    $second = $totalTime - ($minutes * 60);
+
+                    $result = ($hours . " Jam : " . $minutes . " Menit : " . $second . " Detik");
+
+                    $data[$i]['total_video_duration'] = ["total" => $result];
                 }
             } else {
                 $data[$i]['type'] = null;
@@ -1384,8 +1544,11 @@ class CourseController extends ResourceController
             $data[$i]['category'] = $category;
         }
 
-
-        return $this->respond($data);
+        if (count($data) > 0) {
+            return $this->respond($data);
+        } else {
+            return $this->failNotFound('Tidak ada data');
+        }
     }
 
     public function find($key = null)
