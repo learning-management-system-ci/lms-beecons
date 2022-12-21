@@ -72,6 +72,11 @@
             font-weight: 800;
         }
 
+        .col-25px {
+            flex: 0 0 auto;
+            width: 25px;
+        }
+
         .text-right {
             text-align: right;
         }
@@ -84,13 +89,13 @@
             <h3>Course</h3>
             <h3>Status</h3>
         </div>
-        <div class="col-1">
+        <div class="col-25px">
             <h3>:</h3>
             <h3>:</h3>
             <h3>:</h3>
             <h3>:</h3>
         </div>
-        <div class="col">
+        <div class="col bold" id="biodata">
             <h3 id="nama_lengkap"></h3>
             <h3 id="enroll_date"></h3>
             <h3 id="course"></h3>
@@ -110,36 +115,43 @@
             </div>
         </div>
     </div>
-    <div class="row pt-4">
-        <div class="col-3">
-            <h3>Perkenalan</h3>
-        </div>
-        <div class="col-2">
-            <h3>89</h3>
-        </div>
-        <div class="col">
-            <h3>Lorem ipsum dolor sit amet consectetur. Convallis integer id nibh leo et quam. Nulla lorem amet id
-                viverra blandit donec. Malesuada ut mauris ullamcorper interdum ut turpis eget.</h3>
+    <div id="video">
+        <div class="row pt-4">
+            <div class="col-3">
+                <h3>Perkenalan</h3>
+            </div>
+            <div class="col-2">
+                <h3>89</h3>
+            </div>
+            <div class="col">
+                <h3>Lorem ipsum dolor sit amet consectetur. Convallis integer id nibh leo et quam. Nulla lorem amet id
+                    viverra blandit donec. Malesuada ut mauris ullamcorper interdum ut turpis eget.</h3>
+            </div>
         </div>
     </div>
     <hr>
     <div class="content">
         <div class="row bg-light-green">
             <div class="col">
-                <h2>Final Score</h2>
+                <h2 class="bold">Final Score</h2>
             </div>
             <div class="col text-right">
-                <h2>100</h2>
+                <h2 class="bold" id="final-score">100</h2>
             </div>
         </div>
     </div>
     <div class="row rtl">
         <div class="col-6">
-            <h2>Yogyakarta, 12 Desember 2022</h2>
+            <h2 id="tanggal">Yogyakarta, 12 Desember 2022</h2>
             <h2>Stufast Learning Center</h2>
         </div>
     </div>
-
+    
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <!-- js cookie -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script src="../../../js/api/certificate/index.js"></script>
 </body>
 

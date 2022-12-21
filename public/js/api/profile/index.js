@@ -100,7 +100,7 @@ $.ajax({
             }
             var day = timepost(data.created_at);
             return (`
-                Dari ${day}
+                Dalam ${day}
             `)
         }
         $("p#created_at").html(dateTime);
@@ -174,7 +174,7 @@ $.ajax({
                             </h5>
                             </div>
                             <div class="col">
-                            <a href="/course/${course_id}">Detail</a>
+                            <a href="/certificates/${course_id}">Detail</a>
                             </div>
                             </div>
                         </div>
