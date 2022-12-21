@@ -67,6 +67,9 @@ async function handleCourses() {
                                     return `<div class="item">${tag.name}</div>`
                                 }).join('')}
                             </div>
+                            <div class='card-course-duration'>
+                                ${course.total_video_duration.total}
+                            </div>
                         </div>
                         <div class="body">
                             <a href="/course/${course.course_id}">

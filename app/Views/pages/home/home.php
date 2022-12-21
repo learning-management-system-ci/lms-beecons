@@ -18,7 +18,7 @@ if (get_cookie("access_token")) {
 <?= $this->include('components/home/why_choose_us') ?>
 <?= $this->include('components/home/choose_course') ?>
 <?= $this->include('components/home/training') ?>
-<?= $this->include('components/home/mentor') ?>
+<?= $this->include('components/home/author') ?>
 <?= $this->include('components/home/our_partner') ?>
 <?= $this->include('components/home/artikel') ?>
 <?= $this->include('components/home/testimoni') ?>

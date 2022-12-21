@@ -60,12 +60,12 @@ button {
 .app-btn {
     background-color: $color-primary;
     color: $color-white;
-    padding: .8rem 1rem;
-    min-width: 110px;
+    padding: .7rem 1.2rem;
     border-radius: 8px;
     border: none;
     cursor: pointer;
     font-size: .9rem;
+    white-space: nowrap;
 
     &:hover {
         background-color: $color-secondary;
@@ -87,7 +87,7 @@ button {
 .button-secondary {
     background-color: $color-white;
     color: $color-primary;
-    padding: .7rem .9rem;
+    padding: .55rem .9rem;
     border-radius: .4rem;
     border: 1px solid $color-primary;
     cursor: pointer;

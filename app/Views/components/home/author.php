@@ -1,7 +1,7 @@
 <!-- mentor -->
 <div id="mentor">
     <div class="container">
-        <h1>Mentor</h1>
+        <h1>Author</h1>
 
         <div id="mentor-wrapper"></div>
     </div>
