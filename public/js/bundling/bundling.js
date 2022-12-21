@@ -49,6 +49,8 @@ async function handleBundlingApi() {
         // $('.order-total').text(getRupiah(coursesPrice.toString()))
         $('.order-total').text(getRupiah(bundling.new_price.toString()))
 
+        $('#checkout-btn').attr('href', `/checkout?type=bundling&id=${id}`)
+
     } catch (error) {
         
     }
