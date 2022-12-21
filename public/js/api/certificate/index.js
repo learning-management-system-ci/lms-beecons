@@ -8,7 +8,7 @@ $.ajax({
             <h3 class="bold">${data.course[0].fullname}</h3>
             <h3 class="bold">${new Intl.DateTimeFormat('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(data.course[0].created_at))}</h3>
             <h3 class="bold">${data.course[0].title}</h3>
-            <h3 class="bold">${data.course[1].progress}</h3>
+            <h3 class="bold">${data.course[0].progress}</h3>
         `);
         
         $("#biodata").html(biodata);
