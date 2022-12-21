@@ -21,12 +21,12 @@ button {
 .app-btn {
   background-color: #164520;
   color: #ffffff;
-  padding: 0.8rem 1rem;
-  min-width: 110px;
+  padding: 0.7rem 1.2rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 .app-btn:hover {
   background-color: #248043;
@@ -41,6 +41,21 @@ button {
 
 .btn-full {
   width: 100%;
+}
+
+.button-secondary {
+  background-color: #ffffff;
+  color: #164520;
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.4rem;
+  border: 1px solid #164520;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.button-secondary:hover {
+  background-color: #164520;
+  color: #ffffff;
 }
 
 .form-control {
@@ -64,6 +79,34 @@ button {
   font-weight: bold;
   text-align: center;
   margin-bottom: 2rem;
+}
+#courses .btn-filter-wrapper {
+  position: relative;
+}
+#courses .btn-filter-wrapper .filter-container {
+  position: absolute;
+  top: 3rem;
+  right: 0;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  width: 350px;
+}
+#courses .btn-filter-wrapper .filter-container .filter-container__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+#courses .btn-filter-wrapper .filter-container .filter-container__header h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+#courses .btn-filter-wrapper .filter-container .filter-container__header a {
+  color: #248043;
 }
 #courses .courses-list .nav-link {
   border: none;
