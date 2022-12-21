@@ -133,4 +133,8 @@ class Home extends BaseController
         ];
         return view('html_email/payment_success.html', $data);
     }
+    public function certificate()
+    {
+        return view('certificates/certificates_view');
+    }
 }

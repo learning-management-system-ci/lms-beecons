@@ -35,7 +35,7 @@
                         <h5 class="font-weight-bold">
                             Learning Progress
                         </h5>
-                        <p class="font-weight-light">For 3 months</p>
+                        <p class="font-weight-light" id="created_at">For 3 months</p>
                     </div>
                     <div class="col">
                         <div class="progress" style="height: 15px;">

@@ -71,6 +71,39 @@ $.ajax({
         };
 
         $("div.profile-data").html(resources);
+        var dateTime = () => {
+            function timepost(date) {
+                const seconds = Math.floor(
+                    (new Date() - new Date(String(date))) / 1000
+                )
+                let interval = Math.floor(seconds / 31536000)
+                if (interval > 1) {
+                    return interval + ' tahun'
+                }
+                interval = Math.floor(seconds / 2592000)
+                if (interval > 1) {
+                    return interval + ' bulan'
+                }
+                interval = Math.floor(seconds / 86400)
+                if (interval > 1) {
+                    return interval + ' hari'
+                }
+                interval = Math.floor(seconds / 3600)
+                if (interval > 1) {
+                    return interval + ' jam'
+                }
+                interval = Math.floor(seconds / 60)
+                if (interval > 1) {
+                    return interval + ' menit'
+                }
+                return Math.floor(seconds) + ' detik'
+            }
+            var day = timepost(data.created_at);
+            return (`
+                Dalam ${day}
+            `)
+        }
+        $("p#created_at").html(dateTime);
 
         var modalresources = () => {
             return (`
@@ -141,7 +174,7 @@ $.ajax({
                             </h5>
                             </div>
                             <div class="col">
-                            <a href="/course/${course_id}">Detail</a>
+                            <a href="/certificates/${course_id}">Detail</a>
                             </div>
                             </div>
                         </div>
@@ -285,10 +318,10 @@ $.ajax({
                             totalAll = totalAll + total;
                         });
                     $(".progress").html(`
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${ Math.round((completedAll / totalAll) * 100) }%;"
-                            aria-valuenow="${ Math.round((completedAll / totalAll) * 100) }" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${Math.round((completedAll / totalAll) * 100)}%;"
+                            aria-valuenow="${Math.round((completedAll / totalAll) * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
                     `);
-                    $(".progress-percent").html(`${ Math.round((completedAll / totalAll) * 100) }%`);
+                    $(".progress-percent").html(`${Math.round((completedAll / totalAll) * 100)}%`);
                 }
             });
         })
@@ -317,7 +350,7 @@ if (JSON.parse(atob(Cookies.get("access_token").split('.')[1], 'base64')).role =
 
 var resources = pages.map((page) => {
     return (`
-        <a class="btn profile-sidebar btn-grey-200 text-capitalize d-flex px-2 ${window.location.href.includes(page.url) ? "active" : "" }" href="${page.url}">
+        <a class="btn profile-sidebar btn-grey-200 text-capitalize d-flex px-2 ${window.location.href.includes(page.url) ? "active" : ""}" href="${page.url}">
             <img src="${page.imageUrl}" alt="icon" class="pe-2 profile-icon"/>
             ${page.page}
         </a>
