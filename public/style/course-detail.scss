@@ -56,7 +56,7 @@
     background-color: white;
 }
 
-$left-panel: 60vw;
+$left-panel: 60%;
 $right-panel: 38%;
 $panel-height: 27em;
 
@@ -512,6 +512,16 @@ main {
                         @include video-list-button(#DFE3E9, url("../image/course-detail/play-light.png"), 0);
                     }
 
+                    .list-card-button-new {
+                        @include video-list-button(#DFE3E9, url("../image/course-detail/play-light.png"), 0);
+                    }
+                    .complete-new {
+                        @include video-list-button(#DFE3E9, url("../image/course-detail/complete-button.png"), 0);
+                    }
+                    .active-new {
+                        @include video-list-button(white, url("../image/course-detail/pause-button.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
+                    }
+
                     // .list-card-button:hover {
                     //     @include video-list-button(#ffffff, url("../image/course-detail/play-dark.png"), 5px 2px 10px rgba(0, 0, 0, 0.233))
                     // }
@@ -589,9 +599,209 @@ main {
                 .add-to-cart {
                     background-color: white;
                     color: black;
-                    ;
                 }
             }
         }
     }
+
+    #reviewModal {
+        .input-review-group {
+            margin-top: 1rem;
+            >label {
+                font-weight: 600;
+                font-size: 16px;
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+        }
+
+        #reviewSubmit {
+            &:disabled{
+                background-color: #DFE3E9;
+                color: #A0A0A0;
+                cursor: not-allowed;
+            }
+        }
+
+        .modal-footer{
+            border-top: 0;
+        }
+    }
+
+    #resumeAddModal {
+        .input-review-group {
+            margin-top: 1rem;
+            >label {
+                font-weight: 600;
+                font-size: 16px;
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+            #score {
+                font-size: 18px;
+                font-weight: 700;
+            }
+        }
+
+        #resumeAddSubmit {
+            &:disabled{
+                background-color: #DFE3E9;
+                color: #A0A0A0;
+                cursor: not-allowed;
+            }
+        }
+
+        .modal-footer{
+            border-top: 0;
+        }
+    }
+
+    #resumeViewModal {
+        .input-review-group {
+            margin-top: 1rem;
+            >label {
+                font-weight: 600;
+                font-size: 16px;
+                margin-bottom: 0.5rem;
+                display: block;
+            }
+            #score {
+                font-size: 18px;
+                font-weight: 700;
+            }
+        }
+
+        #resumeViewEdit {
+            &:disabled{
+                background-color: #DFE3E9;
+                color: #A0A0A0;
+                cursor: not-allowed;
+            }
+        }
+
+        #resumeViewBack {
+            background-color: transparent;
+            color: #164520;
+            border: 0;
+            &:hover {
+                background-color: transparent;
+                color: #164520;
+                border: 0;
+                box-shadow: none;
+            }
+        }
+
+        .modal-footer{
+            border-top: 0;
+        }
+    }
+}
+
+// .rating-star{
+//     border: none;
+//     float: left;
+//     display: block;
+//     width: 1.5em;
+//     height: 1.5em;
+    
+//     > label {
+//         color: #90A0A3;
+//         float: right;
+
+//         :before{
+//             margin: 5px;
+//             font-size: 2em;
+//             font-family: FontAwesome;
+//             content: "\f005";
+//             display: inline-block;
+//         }
+//     }
+
+//     > input{
+//         display: none;
+//     }
+
+//     > input:checked ~ label,
+//     :not(:checked) > label:hover,
+//     :not(:checked) > label:hover ~ label{
+//         color: #F79426;
+//     }
+
+//     > input:checked + label:hover,
+//     > input:checked ~ label:hover,
+//     > label:hover ~ input:checked ~ label,
+//     > input:checked ~ label:hover ~ label {
+//         color: #FECE31;
+//     }
+// }
+.rating-input {
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    font-size: 50px;
+}
+
+.rating-input label {
+    position: absolute;
+    // top: 0;
+    // left: 0;
+    height: 100%;
+    cursor: pointer;
+}
+
+.rating-input label:last-child {
+    position: static;
+}
+
+.rating-input label:nth-child(1) {
+    z-index: 5;
+}
+
+.rating-input label:nth-child(2) {
+    z-index: 4;
+}
+
+.rating-input label:nth-child(3) {
+    z-index: 3;
+}
+
+.rating-input label:nth-child(4) {
+    z-index: 2;
+}
+
+.rating-input label:nth-child(5) {
+    z-index: 1;
+}
+
+.rating-input label input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+.rating-input label .icon {
+    float: left;
+    color: transparent;
+}
+
+.rating-input label:last-child .icon {
+    color: #000;
+    opacity: 0.2;
+}
+
+.rating-input:not(:hover) label input:checked ~ .icon,
+.rating-input:hover label:hover input ~ .icon {
+    color: #F79426;
+    opacity: 1;
+}
+
+.rating-input label input:focus:not(:checked) ~ .icon:last-child {
+    color: #000;
+    text-shadow: 0 0 5px #F79426;
+}
+
+.swal2-html-container{
+    overflow: hidden !important;
 }

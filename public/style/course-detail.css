@@ -96,7 +96,7 @@ main .course-content {
   gap: 30px;
 }
 main .course-content .left-side {
-  width: 60vw;
+  width: 60%;
 }
 main .course-content .left-side video {
   width: 100%;
@@ -402,6 +402,102 @@ main .course-content .right-side .video-list .scrollable-video-list .list-card-b
   height: 40px;
   min-width: 40px;
 }
+main .course-content .right-side .video-list .scrollable-video-list .list-card-button-new {
+  transition: 0.2s;
+  cursor: pointer;
+  border-radius: 7px;
+  background-color: #DFE3E9;
+  filter: drop-shadow(0);
+}
+main .course-content .right-side .video-list .scrollable-video-list .list-card-button-new .duration {
+  font-weight: 600;
+  color: #002B5B;
+}
+main .course-content .right-side .video-list .scrollable-video-list .list-card-button-new .list-title {
+  width: 200px;
+  gap: 10px;
+  width: 85%;
+}
+main .course-content .right-side .video-list .scrollable-video-list .list-card-button-new .list-title p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+main .course-content .right-side .video-list .scrollable-video-list .list-card-button-new .list-title button {
+  border-radius: 100px;
+  transition: 0.5s;
+  padding: 0;
+  background-image: url("../image/course-detail/play-light.png");
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+}
+main .course-content .right-side .video-list .scrollable-video-list .complete-new {
+  transition: 0.2s;
+  cursor: pointer;
+  border-radius: 7px;
+  background-color: #DFE3E9;
+  filter: drop-shadow(0);
+}
+main .course-content .right-side .video-list .scrollable-video-list .complete-new .duration {
+  font-weight: 600;
+  color: #002B5B;
+}
+main .course-content .right-side .video-list .scrollable-video-list .complete-new .list-title {
+  width: 200px;
+  gap: 10px;
+  width: 85%;
+}
+main .course-content .right-side .video-list .scrollable-video-list .complete-new .list-title p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+main .course-content .right-side .video-list .scrollable-video-list .complete-new .list-title button {
+  border-radius: 100px;
+  transition: 0.5s;
+  padding: 0;
+  background-image: url("../image/course-detail/complete-button.png");
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+}
+main .course-content .right-side .video-list .scrollable-video-list .active-new {
+  transition: 0.2s;
+  cursor: pointer;
+  border-radius: 7px;
+  background-color: white;
+  filter: drop-shadow(5px 2px 10px rgba(0, 0, 0, 0.233));
+}
+main .course-content .right-side .video-list .scrollable-video-list .active-new .duration {
+  font-weight: 600;
+  color: #002B5B;
+}
+main .course-content .right-side .video-list .scrollable-video-list .active-new .list-title {
+  width: 200px;
+  gap: 10px;
+  width: 85%;
+}
+main .course-content .right-side .video-list .scrollable-video-list .active-new .list-title p {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+main .course-content .right-side .video-list .scrollable-video-list .active-new .list-title button {
+  border-radius: 100px;
+  transition: 0.5s;
+  padding: 0;
+  background-image: url("../image/course-detail/pause-button.png");
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+}
 main .course-content .right-side .video-list .scrollable-video-list .quiz-card {
   transition: 0.2s;
   cursor: pointer;
@@ -576,6 +672,146 @@ main .course-content .right-side .order-card button {
 main .course-content .right-side .order-card .add-to-cart {
   background-color: white;
   color: black;
+}
+main #reviewModal .input-review-group {
+  margin-top: 1rem;
+}
+main #reviewModal .input-review-group > label {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+main #reviewModal #reviewSubmit:disabled {
+  background-color: #DFE3E9;
+  color: #A0A0A0;
+  cursor: not-allowed;
+}
+main #reviewModal .modal-footer {
+  border-top: 0;
+}
+main #resumeAddModal .input-review-group {
+  margin-top: 1rem;
+}
+main #resumeAddModal .input-review-group > label {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+main #resumeAddModal .input-review-group #score {
+  font-size: 18px;
+  font-weight: 700;
+}
+main #resumeAddModal #resumeAddSubmit:disabled {
+  background-color: #DFE3E9;
+  color: #A0A0A0;
+  cursor: not-allowed;
+}
+main #resumeAddModal .modal-footer {
+  border-top: 0;
+}
+main #resumeViewModal .input-review-group {
+  margin-top: 1rem;
+}
+main #resumeViewModal .input-review-group > label {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+main #resumeViewModal .input-review-group #score {
+  font-size: 18px;
+  font-weight: 700;
+}
+main #resumeViewModal #resumeViewEdit:disabled {
+  background-color: #DFE3E9;
+  color: #A0A0A0;
+  cursor: not-allowed;
+}
+main #resumeViewModal #resumeViewBack {
+  background-color: transparent;
+  color: #164520;
+  border: 0;
+}
+main #resumeViewModal #resumeViewBack:hover {
+  background-color: transparent;
+  color: #164520;
+  border: 0;
+  box-shadow: none;
+}
+main #resumeViewModal .modal-footer {
+  border-top: 0;
+}
+
+.rating-input {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  line-height: 50px;
+  font-size: 50px;
+}
+
+.rating-input label {
+  position: absolute;
+  height: 100%;
+  cursor: pointer;
+}
+
+.rating-input label:last-child {
+  position: static;
+}
+
+.rating-input label:nth-child(1) {
+  z-index: 5;
+}
+
+.rating-input label:nth-child(2) {
+  z-index: 4;
+}
+
+.rating-input label:nth-child(3) {
+  z-index: 3;
+}
+
+.rating-input label:nth-child(4) {
+  z-index: 2;
+}
+
+.rating-input label:nth-child(5) {
+  z-index: 1;
+}
+
+.rating-input label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.rating-input label .icon {
+  float: left;
+  color: transparent;
+}
+
+.rating-input label:last-child .icon {
+  color: #000;
+  opacity: 0.2;
+}
+
+.rating-input:not(:hover) label input:checked ~ .icon,
+.rating-input:hover label:hover input ~ .icon {
+  color: #F79426;
+  opacity: 1;
+}
+
+.rating-input label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px #F79426;
+}
+
+.swal2-html-container {
+  overflow: hidden !important;
 }
 
 /*# sourceMappingURL=course-detail.css.map */

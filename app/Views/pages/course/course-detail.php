@@ -387,6 +387,102 @@
         </div>
     </section>
 
+    <!-- make modal bootstrap -->
+    <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-review-group">
+                            <label for="rating">Bagaimana Pengalaman Belajar Kamu?</label>
+                            <div class="rating-input">
+                                <label>
+                                    <input type="radio" name="rating" value="1" />
+                                        <span class="icon">★</span>
+                                    </label>
+                                <label>
+                                    <input type="radio" name="rating" value="2" />
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="3" />
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>   
+                                </label>
+                                <label>
+                                    <input type="radio" name="rating" value="4" />
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                </label>
+                                <label>
+                                <input type="radio" name="rating" value="5" />
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                    <span class="icon">★</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="input-review-group">
+                            <label for="reviewText">Berikan ulasan dari kelas yang kamu ikuti</label>
+                            <textarea class="form-control" id="reviewText" placeholder="Silahkan tulis ulasan disini..." rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-start">
+                    <button type="button" class="app-btn" id="reviewSubmit" disabled>Kirim</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="resumeAddModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-review-group">
+                            <label for="score">Skor pada kuis :</label>
+                            <!-- make a score -->
+                            <p id="score">80</p>
+                        </div>
+                        <div class="input-review-group">
+                            <label for="resumeAddText">Berikan resume dari video yang telah diselesaikan</label>
+                            <textarea class="form-control" id="resumeAddText" placeholder="Silahkan tulis resume disini..." rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-start">
+                    <button type="button" class="app-btn" id="resumeAddSubmit" disabled>Kirim</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="resumeViewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="input-review-group">
+                            <label for="resumeViewText">Resume yang diberikan</label>
+                            <textarea class="form-control" id="resumeViewText" placeholder="Silahkan tulis resume disini..." rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="button" class="app-btn" id="resumeViewEdit" >Kirim</button>
+                    <button type="button" class="app-btn" id="resumeViewBack" >Kembali</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- image caching (agar gambar dari css maupun javascript bisa langsung dimuat ga pake delay) -->
     <div class="hide">
         <img src="/image/course-detail/button-quiz-light.png" alt="">
@@ -409,6 +505,7 @@
 <script src="/js/library/progress-bar.js"></script>
 <script src="/js/utils/getRupiah.js"></script>
 <script src="/js/utils/textTruncate.js"></script>
+<script src="https://use.fontawesome.com/7ad89d9866.js"></script>
 <script src="/js/home/course-detail.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?= $this->endSection() ?>
