@@ -173,6 +173,7 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
+        $routes->get('filter/(:segment)/detail/(:num)', 'Api\CourseController::detailTraining/$1/$2');
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
 
 
