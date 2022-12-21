@@ -26,6 +26,7 @@ button {
   border: none;
   cursor: pointer;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 .app-btn:hover {
   background-color: #248043;
@@ -45,7 +46,7 @@ button {
 .button-secondary {
   background-color: #ffffff;
   color: #164520;
-  padding: 0.7rem 0.9rem;
+  padding: 0.55rem 0.9rem;
   border-radius: 0.4rem;
   border: 1px solid #164520;
   cursor: pointer;
