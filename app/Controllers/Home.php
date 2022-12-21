@@ -97,6 +97,13 @@ class Home extends BaseController
         ];
         return view('pages/navigation/training', $data);
     }
+    public function trainingDetail()
+    {
+        $data = [
+            "title" => "Training Detail",
+        ];
+        return view('pages/course/training-detail', $data);
+    }
     public function courses()
     {
         $data = [
