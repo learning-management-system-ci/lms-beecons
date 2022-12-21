@@ -408,7 +408,7 @@ class CourseController extends ResourceController
 
     public function getCourseById($id, $loggedIn = false)
     {
-        if ($loggedIn) {
+        if ($loggedIn) { 
             $header = $this->request->getServer('HTTP_AUTHORIZATION');
             $token = explode(' ', $header)[1];
             $decoded = JWT::decode($token, $this->key, ['HS256']);
@@ -704,6 +704,81 @@ class CourseController extends ResourceController
             } catch (\Throwable $th) {
                 return $this->fail($th->getMessage());
             }
+        }
+    }
+
+    public function detailTraining($filter = null, $id = null)
+    {
+        $model = new Course();
+        $modelCourseCategory = new CourseCategory();
+        $modelCourseType = new CourseType();
+        $modelCourseTag = new CourseTag();
+        $modelTypeTag = new TypeTag();
+        $modelUser = new Users();
+
+        $data = $model->select('course.*, users.fullname as author_name')
+            ->orderBy('course_id', 'DESC')
+            ->where('service', $filter)
+            ->where('course_id', $id)
+            ->join('users', 'users.id = course.author_id')
+            ->findAll();
+
+        $tag = [];
+
+        for ($i = 0; $i < count($data); $i++) {
+            $category = $modelCourseCategory
+                ->where('course_id', $data[$i]['course_id'])
+                ->join('category', 'category.category_id = course_category.category_id')
+                ->orderBy('course_category.course_category_id', 'DESC')
+                ->findAll();
+            $type = $modelCourseType
+                ->where('course_id', $data[$i]['course_id'])
+                ->join('type', 'type.type_id = course_type.type_id')
+                ->orderBy('course_type.course_type_id', 'DESC')
+                ->findAll();
+            $tag = $modelCourseTag
+                ->select('course_tag_id, course_tag.tag_id, name')
+                ->where('course_id', $data[$i]['course_id'])
+                ->join('tag', 'tag.tag_id = course_tag.tag_id')
+                ->orderBy('course_tag.course_tag_id', 'DESC')
+                ->findAll();
+            if ($type) {
+                $data[$i]['type'] = $type;
+
+                for ($k = 0; $k < count($type); $k++) {
+                    $typeTag = $modelTypeTag
+                        ->where('course_type.course_id', $data[$i]['course_id'])
+                        ->where('type.type_id', $type[$k]['type_id'])
+                        ->join('type', 'type.type_id = type_tag.type_id')
+                        ->join('tag', 'tag.tag_id = type_tag.tag_id')
+                        ->join('course_type', 'course_type.type_id = type.type_id')
+                        ->orderBy('course_type.course_id', 'DESC')
+                        ->select('tag.*')
+                        ->findAll();
+
+                    for ($o = 0; $o < count($typeTag); $o++) {
+                        $data[$i]['tag'][$o] = $typeTag[$o];
+                    }
+                }
+            } else {
+                $data[$i]['type'] = null;
+            }
+            if ($tag) {
+                $data[$i]['tag'] = $tag;
+            } else {
+                $data[$i]['tag'] = null;
+            }
+            $data[$i]['category'] = $category;
+        }
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+        }
+
+        if (count($data) > 0) {
+            return $this->respond($data);
+        } else {
+            return $this->failNotFound('Tidak ada data');
         }
     }
 
