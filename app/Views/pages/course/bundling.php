@@ -38,7 +38,7 @@
                                 Luar biasa! Kamu hemat <b class="total-hemat">Rp 200.000</b> untuk pesananmu.
                             </p>
                         </div>
-                        <a href="/checkout">
+                        <a href="/checkout" id="checkout-btn">
                             <button class="app-btn btn-full">Checkout</button>
                         </a>
                     </div>
