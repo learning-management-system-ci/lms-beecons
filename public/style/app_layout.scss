@@ -370,7 +370,7 @@ main {
         background-color: $color-white;
         border: 1px solid $color-gray-2;
         border-radius: .5rem;
-        padding: .5rem;
+        padding: .8rem;
         position: relative;
         display: flex;
         justify-content: center;
@@ -421,6 +421,8 @@ main {
 
             input {
                 padding-right: 25px;
+                padding-top: .48rem;
+                padding-bottom: .48rem;
             }
 
             input:focus {

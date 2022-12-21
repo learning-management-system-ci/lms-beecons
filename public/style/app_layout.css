@@ -22,12 +22,12 @@ button {
 .app-btn {
   background-color: #164520;
   color: #ffffff;
-  padding: 0.8rem 1rem;
-  min-width: 110px;
+  padding: 0.7rem 1.2rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 .app-btn:hover {
   background-color: #248043;
@@ -395,7 +395,7 @@ main .navigation p .sub-nav {
   background-color: #ffffff;
   border: 1px solid #ECEBF3;
   border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.8rem;
   position: relative;
   display: flex;
   justify-content: center;
@@ -440,6 +440,8 @@ main .navigation p .sub-nav {
 }
 .navbar .nav-item-search .nav-search-input input {
   padding-right: 25px;
+  padding-top: 0.48rem;
+  padding-bottom: 0.48rem;
 }
 .navbar .nav-item-search .nav-search-input input:focus {
   box-shadow: none;

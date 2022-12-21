@@ -87,7 +87,7 @@
                                         melakukan transaksi pembelian
                                     </p>
                                     <a href="/login" class="nav-link-btn">
-                                        <button class="app-btn app-btn-secondary btn-sign-in">Sign in</button>
+                                        <button class="app-btn btn-sign-in">Sign in</button>
                                     </a>
                                 </div>
                             <?php else : ?>
@@ -99,7 +99,7 @@
                 <?php if (!get_cookie("access_token")) : ?>
                     <li class="nav-item">
                         <a href="/login" class="nav-link-btn">
-                            <button class="app-btn app-btn-secondary btn-sign-in">Sign in</button>
+                            <button class="app-btn btn-sign-in">Sign in</button>
                         </a>
                     </li>
                 <?php else : ?>
