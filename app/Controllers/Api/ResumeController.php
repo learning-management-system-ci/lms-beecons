@@ -40,8 +40,16 @@ class ResumeController extends ResourceController
             if ($data['role'] != 'admin') {
 				return $this->fail('Tidak dapat di akses selain admin', 400);
 			}
+
+            $path = site_url() . 'upload/course/resume/';
             
             $dataresume = $this->resume->findAll();
+
+            for ($i = 0; $i < count($dataresume); $i++) {
+                if ($dataresume[$i]['task'] != null){
+                    $dataresume[$i]['task'] = $path . $dataresume[$i]['task'];
+                };
+            }
 
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
@@ -58,7 +66,13 @@ class ResumeController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
 
+            $path = site_url() . 'upload/course/resume/';
+
             $data = $this->resume->where('resume_id', $id)->first();
+
+            if ($data['task'] != null){
+                $data['task'] = $path . $data['task'];
+            };
             
             if($data){
                 return $this->respond($data);
@@ -110,22 +124,35 @@ class ResumeController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
 
-            $rules = [
+            $rules_a = [
                 'video_id' => 'required',
-                'resume' => 'required|max_length[3000]'
+                'resume' => 'required|min_length[50]|max_length[3000]'
             ];
 
-            $messages = [
+            $rules_b = [
+                "task" => "uploaded[task]|max_size[task,262144]",
+            ];
+
+            $messages_a = [
                 "video_id" => [
                     "required" => "{field} tidak boleh kosong",
                 ],
                 "resume" => [
                     "required" => "{field} tidak boleh kosong",
+                    "min_length" => "{field} minimal 50 karakter",
                     "max_length" => "{field} maksimal 3000 karakter",
                 ],
             ];
 
-            if($this->validate($rules, $messages)) {
+            $messages_b = [
+                "task" => [
+					'uploaded' => '{field} tidak boleh kosong',
+					'max_size' => 'Ukuran {field} Maksimal 256 MB'
+				],
+            ];
+
+            if($this->validate($rules_a, $messages_a) == TRUE && $this->validate($rules_b, $messages_b) == FALSE) {
+                
                 $dataresume = [
                     'video_id' => $this->request->getVar('video_id'),
                     'user_id' => $decoded->uid,
@@ -133,6 +160,25 @@ class ResumeController extends ResourceController
                 ];
                 $this->resume->insert($dataresume);
 
+                $response = [
+                    'status'   => 201,
+                    'success'    => 201,
+                    'messages' => [
+                        'success' => 'Resume berhasil dibuat'
+                    ]
+                ];
+            } elseif($this->validate($rules_a, $messages_a) == TRUE && $this->validate($rules_b, $messages_b) == TRUE) {
+                $datatask = $this->request->getFile('task');
+                $fileName = $datatask->getRandomName();
+                $dataresume = [
+                    'video_id' => $this->request->getVar('video_id'),
+                    'user_id' => $decoded->uid,
+                    'resume' => $this->request->getVar('resume'),
+                    'task' => $fileName,
+                ];
+                $datatask->move('upload/course/resume/', $fileName);
+                $this->resume->insert($dataresume);
+    
                 $response = [
                     'status'   => 201,
                     'success'    => 201,
