@@ -398,6 +398,160 @@ class OrderController extends BaseController
             $status = 'paid';
             // TODO set payment status in merchant's database to 'Settlement'
             echo "Transaction order_id: " . $notif->order_id . " successfully transfered using " . $notif->payment_type;
+
+            $order = new Order;
+            $order_course = new OrderCourse;
+            $order_bundling = new OrderBundling;
+            $user_course = new UserCourse;
+            $referral = new Referral;
+            $referralUser = new ReferralUser;
+            $voucher = new Voucher;
+            $id = $this->request->getVar("order_id");
+            //$id = 916110939;
+    
+            //update order status
+            $dataUpdate = [
+                "order_id" => $this->request->getVar("order_id"),
+                "transaction_status" => $status,
+                "transaction_id" => $this->request->getVar("transaction_id"),
+            ];
+            $order->update($id, $dataUpdate);
+    
+            //update referral information
+            $coupon = $order->select('user_id, coupon_code')->where("order_id", $id)->first();
+            if (isset($coupon)) {
+                $getCode = $coupon['coupon_code'];
+                $verifyReferral = $referral->where("referral_code", $getCode)->first();
+                $verifyRefUser = $referralUser->where("referral_code", $getCode)->first();
+                $verifyVoucher = $voucher->where("code", $getCode)->first();
+    
+                if ($verifyReferral != NULL) {
+                    $verifyReferral['referral_user'] += 1;
+                    do {
+                        $ref_code = strtoupper(bin2hex(random_bytes(4)));
+                        $check_code = $referral->where('referral_code', $ref_code)->first();
+                        $check_code2 = $referralUser->where('referral_code', $ref_code)->first();
+                    } while ($check_code || $check_code2);
+    
+                    $data = [
+                        'referral_user' => $verifyReferral['referral_user'],
+                    ];
+    
+                    $ref_used = [
+                        'referral_id' => $verifyReferral['referral_id'],
+                        'user_id' => $coupon['user_id'],
+                        'referral_code' => $ref_code,
+                        'discount_price' => 15
+                    ];
+    
+                    $referral->update($verifyReferral['referral_id'], $data);
+                    $referralUser->save($ref_used);
+                }
+    
+                if ($verifyRefUser != NULL) {
+                    if ($verifyRefUser['is_active'] == 0) {
+                        $used = [
+                            'is_active' => 1
+                        ];
+                        $referralUser->update($verifyRefUser['referral_user_id'], $used);
+                    }
+                }
+    
+                if ($verifyVoucher != NULL) {
+                    $verifyVoucher['quota'] -= 1;
+    
+                    $data = [
+                        'quota' => $verifyVoucher['quota'],
+                    ];
+    
+                    $voucher->update($verifyVoucher['voucher_id'], $data);
+                }
+            }
+    
+            $getOrderData = $order
+                ->select('*')
+                ->where('order.order_id', $id)
+                ->findAll();
+    
+            //add usercourse
+            $userCourse = [];
+            $course = $order_course->select('course_id')->where('order_id', $id)->findAll();
+            if ($course != null) {
+                foreach ($course as $value) {
+                    $userCourse[] = [
+                        'user_id' => $getOrderData[0]["user_id"],
+                        'course_id' => $value['course_id'],
+                        'is_access' => '0'
+                    ];
+                }
+                $user_course->insertBatch($userCourse);
+            }
+    
+            $userBundling = [];
+            $bundling = $order_bundling
+                ->select('course_id')
+                ->where('order_id', $id)
+                ->join('course_bundling', 'order_bundling.bundling_id=course_bundling.bundling_id')
+                ->findAll();
+            if ($bundling != null) {
+                foreach ($bundling as $value) {
+                    $userBundling[] = [
+                        'user_id' => $getOrderData[0]["user_id"],
+                        'course_id' => $value['course_id'],
+                        'is_access' => '0'
+                    ];
+                }
+                $user_course->insertBatch($userBundling);
+            }
+            //return 0;
+            $getOrder = [
+                "order_id" => $getOrderData[0]["order_id"],
+                "checkout_date" => $getOrderData[0]["transaction_time"],
+                "sub_total" => $getOrderData[0]["sub_total"],
+                "total" => $getOrderData[0]["gross_amount"],
+                "discount_price" => $getOrderData[0]["discount_price"],
+                "payment_type" => $this->request->getVar("payment_type"),
+                "transaction_time" => $this->request->getVar("transaction_time")
+            ];
+    
+            $getCourse = $order_course
+                ->select('course.title, course.new_price')
+                ->where('order_course.order_id', $id)
+                ->join('course', 'order_course.course_id=course.course_id')
+                ->findAll();
+    
+            $getCourse['getCourse'] = $getCourse;
+    
+            $getBundling = $order_bundling
+                ->select('bundling.title, bundling.new_price')
+                ->where('order_bundling.order_id', $id)
+                ->join('bundling', 'order_bundling.bundling_id=bundling.bundling_id')
+                ->findAll();
+    
+            $getBundling['getBundling'] = $getBundling;
+    
+            $data = array_merge($getCourse, $getBundling, $getOrder);
+    
+            //send receipt payment
+            $getEmail = $order
+                ->select('users.email')
+                ->where('order.order_id', $id)
+                ->join('users', 'order.user_id=users.id')
+                ->findAll();
+    
+    
+            $subject = 'Pembelian Selesai';
+            $getEmail = $getEmail[0]["email"];
+            //return view('/html_email/payment_success.html',$data);
+    
+            $message = view('/html_email/payment_success.html', $data);
+            $email = \Config\Services::email();
+            $email->setTo($getEmail);
+            $email->setFrom('hendrikusozzie@gmail.com', 'Pembelian berhasil');
+            $email->setSubject($subject);
+            $email->setMessage($message);
+    
+            $email->send();
         } else if ($transaction == 'pending') {
             $status = 'pending';
             // TODO set payment status in merchant's database to 'Pending'
@@ -415,163 +569,6 @@ class OrderController extends BaseController
             // TODO set payment status in merchant's database to 'Denied'
             echo "Payment using " . $type . " for transaction order_id: " . $notif->order_id . " is canceled.";
         }
-
-        $order = new Order;
-        $order_course = new OrderCourse;
-        $order_bundling = new OrderBundling;
-        $user_course = new UserCourse;
-        $referral = new Referral;
-        $referralUser = new ReferralUser;
-        $voucher = new Voucher;
-        $id = $this->request->getVar("order_id");
-        //$id = 916110939;
-
-        //update order status
-        $dataUpdate = [
-            "order_id" => $this->request->getVar("order_id"),
-            "transaction_status" => $status,
-            "transaction_id" => $this->request->getVar("transaction_id"),
-        ];
-        $order->update($id, $dataUpdate);
-
-        //update referral information
-        $coupon = $order->select('user_id, coupon_code')->where("order_id", $id)->first();
-        if (isset($coupon)) {
-            $getCode = $coupon['coupon_code'];
-            $verifyReferral = $referral->where("referral_code", $getCode)->first();
-            $verifyRefUser = $referralUser->where("referral_code", $getCode)->first();
-            $verifyVoucher = $voucher->where("code", $getCode)->first();
-
-            if ($verifyReferral != NULL) {
-                $verifyReferral['referral_user'] += 1;
-                do {
-                    $ref_code = strtoupper(bin2hex(random_bytes(4)));
-                    $check_code = $referral->where('referral_code', $ref_code)->first();
-                    $check_code2 = $referralUser->where('referral_code', $ref_code)->first();
-                } while ($check_code || $check_code2);
-
-                $data = [
-                    'referral_user' => $verifyReferral['referral_user'],
-                ];
-
-                $ref_used = [
-                    'referral_id' => $verifyReferral['referral_id'],
-                    'user_id' => $coupon['user_id'],
-                    'referral_code' => $ref_code,
-                    'discount_price' => 15
-                ];
-
-                $referral->update($verifyReferral['referral_id'], $data);
-                $referralUser->save($ref_used);
-            }
-
-            if ($verifyRefUser != NULL) {
-                if ($verifyRefUser['is_active'] == 0) {
-                    $used = [
-                        'is_active' => 1
-                    ];
-                    $referralUser->update($verifyRefUser['referral_user_id'], $used);
-                }
-            }
-
-            if ($verifyVoucher != NULL) {
-                $verifyVoucher['quota'] -= 1;
-
-                $data = [
-                    'quota' => $verifyVoucher['quota'],
-                ];
-
-                $voucher->update($verifyVoucher['voucher_id'], $data);
-            }
-        }
-
-        $getOrderData = $order
-            ->select('*')
-            ->where('order.order_id', $id)
-            ->findAll();
-
-        //add usercourse
-        $userCourse = [];
-        $course = $order_course->select('course_id')->where('order_id', $id)->findAll();
-        if ($course != null) {
-            foreach ($course as $value) {
-                $userCourse[] = [
-                    'user_id' => $getOrderData[0]["user_id"],
-                    'course_id' => $value['course_id'],
-                    'is_access' => '0'
-                ];
-            }
-            $user_course->insertBatch($userCourse);
-        }
-
-        $userBundling = [];
-        $bundling = $order_bundling
-            ->select('course_id')
-            ->where('order_id', $id)
-            ->join('course_bundling', 'order_bundling.bundling_id=course_bundling.bundling_id')
-            ->findAll();
-        if ($bundling != null) {
-            foreach ($bundling as $value) {
-                $userBundling[] = [
-                    'user_id' => $getOrderData[0]["user_id"],
-                    'course_id' => $value['course_id'],
-                    'is_access' => '0'
-                ];
-            }
-            $user_course->insertBatch($userBundling);
-        }
-
-
-        return 0;
-
-        $getOrder = [
-            "order_id" => $getOrderData[0]["order_id"],
-            "checkout_date" => $getOrderData[0]["transaction_time"],
-            "sub_total" => $getOrderData[0]["sub_total"],
-            "total" => $getOrderData[0]["gross_amount"],
-            "discount_price" => $getOrderData[0]["discount_price"],
-            "payment_type" => $this->request->getVar("payment_type"),
-            "transaction_time" => $this->request->getVar("transaction_time")
-        ];
-
-        $getCourse = $order_course
-            ->select('course.title, course.new_price')
-            ->where('order_course.order_id', $id)
-            ->join('course', 'order_course.course_id=course.course_id')
-            ->findAll();
-
-        $getCourse['getCourse'] = $getCourse;
-
-        $getBundling = $order_bundling
-            ->select('bundling.title, bundling.new_price')
-            ->where('order_bundling.order_id', $id)
-            ->join('bundling', 'order_bundling.bundling_id=bundling.bundling_id')
-            ->findAll();
-
-        $getBundling['getBundling'] = $getBundling;
-
-        $data = array_merge($getCourse, $getBundling, $getOrder);
-
-        //send receipt payment
-        $getEmail = $order
-            ->select('users.email')
-            ->where('order.order_id', $id)
-            ->join('users', 'order.user_id=users.id')
-            ->findAll();
-
-
-        $subject = 'Pembelian Selesai';
-        $getEmail = $getEmail[0]["email"];
-        //return view('/html_email/payment_success.html',$data);
-
-        $message = view('/html_email/payment_success.html', $data);
-        $email = \Config\Services::email();
-        $email->setTo($getEmail);
-        $email->setFrom('hendrikusozzie@gmail.com', 'Pembelian berhasil');
-        $email->setSubject($subject);
-        $email->setMessage($message);
-
-        $email->send();
     }
 
     public function send()

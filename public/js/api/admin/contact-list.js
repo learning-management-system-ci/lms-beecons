@@ -1,4 +1,53 @@
-console.log(Cookies.get('access_token'))
+if (!Cookies.get('access_token')) {
+    // if not, redirect to login page
+    window.location.href = '/login'
+}
+
+const sendData = (typeReq, url, form_data, successData) => {
+    const { someCode, msg, status, questionId } = successData
+
+    const dialogPopup = (statusShow, message, code) => {
+        Swal.fire({
+            width: '300px',
+            title: "<div class='status-loading'> " +
+                `${message}` +
+                "</div>",
+            showConfirmButton: statusShow,
+            showClass: {
+                popup: 'animate__animated animate__fadeIn animate__fast'
+            },
+        })
+        code
+    }
+
+    const ajaxReq = (ajaxType = typeReq, ajaxUrl = url, ajaxFormData = form_data, index = 0) => {
+        let counter = index
+        $.ajax({
+            type: ajaxType,
+            url: `/api/contactus/${ajaxUrl}`,
+            data: ajaxFormData,
+            headers: {
+                Authorization: 'Bearer ' + Cookies.get('access_token')
+            },
+            cache: false,
+            processData: true,
+            beforeSend: function () {
+                dialogPopup(false, '<p>Mohon Tunggu...</p>', '')
+            },
+            success: function (response) {
+
+                if (msg.match('Berhasil Terhapus') !== null || counter == 1) {
+                    return dialogPopup(status, msg, someCode)
+                }
+                counter++
+                ajaxReq('delete', 'delete/' + questionId, '', counter)
+
+            }
+        });
+    }
+    ajaxReq()
+}
+
 $.ajax({
     type: "GET",
     url: "/api/contactus",
@@ -6,13 +55,12 @@ $.ajax({
         Authorization: 'Bearer ' + Cookies.get('access_token')
     },
     dataType: 'json',
-    success: function (result, status, xhr) {
+    success: function (result) {
         $.each(result, function (key, value) {
-            console.log(value.question_image)
             $("tbody").append(`
             <tr id='questionID_${value.contact_us_id}'>
                 <td>
-                    <h6 class="text-sm mb-0 ps-3">${value.email}</h6>
+                    <h6 class="email-user text-sm mb-0 ps-3">${value.email}</h6>
                 </td>
                 <td>
                     <p class="user-question-text text-xs font-weight-bold mb-0 text-wrap w-300">
@@ -126,96 +174,24 @@ $.ajax({
                     answer: $('#message-text' + value.contact_us_id).val(),
                     question: $('#user-question' + value.contact_us_id).val()
                 }
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/contactus/answer',
-                    data: form_data,
-                    headers: {
-                        Authorization: 'Bearer ' + Cookies.get('access_token')
-                    },
-                    cache: false,
-                    processData: true,
-                    beforeSend: function () {
-                        Swal.fire({
-                            width: '300px',
-                            title: "<div class='status-loading'> " +
-                                '<p>Sedang Mengirim...</p> ' +
-                                "</div>",
-                            showConfirmButton: false,
-                            showClass: {
-                                popup: 'animate__animated animate__fadeIn animate__fast'
-                            },
-                        })
-                    },
-                    success: function (response) {
-                        console.log(response)
-                        $.ajax({
-                            url: '/api/contactus/delete/' + value.contact_us_id,
-                            type: 'delete',
-                            headers: {
-                                Authorization: 'Bearer ' + Cookies.get('access_token')
-                            },
-                            success: function (data) {
-                                $('#questionID_' + value.contact_us_id).remove()
-                                return Swal.fire({
-                                    width: '300px',
-                                    title: "<div class='status-loading'> " +
-                                        '<h5>Jawaban Terkirim</h5> ' +
-                                        "</div>",
-                                    showConfirmButton: true,
-                                    showClass: {
-                                        popup: 'animate__animated animate__fadeIn animate__fast'
-                                    },
-                                })
-                            },
-                        });
-                    }
-                });
-
+                sendData('POST', 'answer', form_data, {
+                    status: true,
+                    msg: '<h5>Jawaban Terkirim</h5> ',
+                    someCode: $('#questionID_' + value.contact_us_id).remove(),
+                    questionId: value.contact_us_id
+                })
 
             })
 
             $('#send-delete' + value.contact_us_id).on('click', function (e) {
-                $.ajax({
-                    url: '/api/contactus/delete/' + value.contact_us_id,
-                    type: 'delete',
-                    headers: {
-                        Authorization: 'Bearer ' + Cookies.get('access_token')
-                    },
-                    beforeSend: function () {
-                        Swal.fire({
-                            width: '300px',
-                            title: "<div class='status-loading'> " +
-                                '<p>Menghapus...</p> ' +
-                                "</div>",
-                            showConfirmButton: false,
-                            showClass: {
-                                popup: 'animate__animated animate__fadeIn animate__fast'
-                            },
-                        })
-                    },
-                    success: function (data) {
-                        $('#questionID_' + value.contact_us_id).remove()
-                        return Swal.fire({
-                            width: '300px',
-                            title: "<div class='status-loading'> " +
-                                '<h5>Berhasil Terhapus</h5> ' +
-                                "</div>",
-                            showConfirmButton: true,
-                            showClass: {
-                                popup: 'animate__animated animate__fadeIn animate__fast'
-                            },
-                        })
-                    },
-                });
-
+                sendData('delete', 'delete/' + value.contact_us_id, '',
+                    {
+                        status: true, msg: '<h5>Berhasil Terhapus</h5> ',
+                        someCode: $('#questionID_' + value.contact_us_id).remove()
+                    })
             })
-
         })
-
     },
-
 
 });
 
