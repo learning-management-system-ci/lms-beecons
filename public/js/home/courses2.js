@@ -1,9 +1,8 @@
-$(document).ready(async function () {
-    localStorage.setItem('current-tag-engineering', '0')
-    localStorage.setItem('current-category-engineering', '0')
-    localStorage.setItem('current-tag-it', '0')
-    localStorage.setItem('current-category-it', '0')
+$(document).ready(function () {
+    handleCourses()
+})
 
+async function handleCourses() {
     try {
         const tagsResponse = await $.ajax({
             url: '/api/type_tag',
@@ -25,177 +24,74 @@ $(document).ready(async function () {
 
         $('#courses-loading').hide()
 
-        $('#courses #tab-courses-engineering .tags').html(
-            `<a href="" class="item" data-tag_id="0">All</a>` +
-            tagsResponse[0].tag.map(tag => {
-                return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
-            }).reverse().join(''))
+        let courses = courseResponse
 
-        $('#courses #tab-courses-it .tags').html(
-            `<a href="" class="item" data-tag_id="0">All</a>` +
-            tagsResponse[1]?.tag.map(tag => {
-                return `<a href="" class="item" data-tag_id="${tag.tag_id}">${tag.name}</a>`
-            }).reverse().join(''))
+        generateListCourse()
 
-        $('#courses .sub-tags').html(
-            `<a href="" class="item" data-category_id="0">All</a>` +
-            categoryResponse.map(category => {
-                return `<a href="" class="item" data-category_id="${category.category_id}">${category.name}</a>`
-            }).reverse().join(''))
-
-        generateListCourse(courseResponse, $('#courses-engineering'), 'engineering', '0', '0')
-
-        $('#courses  #tab-courses-engineering .tags .item').on('click', function (e) {
-            e.preventDefault()
-            $(`#courses #tab-courses-engineering .tags .item`).removeClass('active')
-
-            let currentTag = $(this).data('tag_id').toString()
-            localStorage.setItem('current-tag-engineering', currentTag)
-            generateListCourse(courseResponse, $('#courses-engineering'), 'engineering', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
-        })
-
-        $(`#courses #tab-courses-engineering .sub-tags .item`).on('click', function (e) {
-            e.preventDefault()
-            $('#courses #tab-courses-engineering .sub-tags .item').removeClass('active')
-
-            let currentCategory = $(this).data('category_id').toString()
-
-            localStorage.setItem('current-category-engineering', currentCategory)
-            generateListCourse(courseResponse, $('#courses-engineering'), 'engineering', localStorage.getItem('current-tag-engineering'), localStorage.getItem('current-category-engineering'))
-        })
-
-        $('#courses  #tab-courses-it .tags .item').on('click', function (e) {
-            e.preventDefault()
-            $(`#courses #tab-courses-it .tags .item`).removeClass('active')
-
-            let currentTag = $(this).data('tag_id').toString()
-            localStorage.setItem('current-tag-it', currentTag)
-            generateListCourse(courseResponse, $('#courses-it'), 'it', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
-        })
-
-        $(`#courses #tab-courses-it .sub-tags .item`).on('click', function (e) {
-            e.preventDefault()
-            $('#courses #tab-courses-it .sub-tags .item').removeClass('active')
-
-            let currentCategory = $(this).data('category_id').toString()
-
-            localStorage.setItem('current-category-it', currentCategory)
-            generateListCourse(courseResponse, $('#courses-it'), 'it', localStorage.getItem('current-tag-it'), localStorage.getItem('current-category-it'))
-        })
-
-        async function generateListCourse(courses, element, type, tag, category, cpage = 1) {
-            let currentTag = $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).html()
-            $(`#courses #tab-courses-${type} .current-tag`).html(currentTag)
-            $(`#courses #tab-courses-${type} .tags .item[data-tag_id="${tag}"]`).addClass('active')
-            $(`#courses #tab-courses-${type} .sub-tags .item[data-category_id=${category}]`).addClass('active')
-
-            let coursesByType = courses.filter(course => course.type.toLowerCase() === type.toLowerCase())
-            let coursesBytag = coursesByType.filter(course => course.tag.map(tag => tag.tag_id).includes(tag))
-            let coursesByCategory = coursesBytag.filter(course => course.category.category_id === category)
-
-            let result = []
-            if (tag === '0' && category === '0') {
-                result = coursesByType
-            } else if (tag === '0' && category !== '0') {
-                result = coursesByType.filter(course => course.category.category_id === category)
-            } else if (tag !== '0' && category === '0') {
-                result = coursesBytag
-            } else {
-                result = coursesByCategory
-            }
-
-            result = result.map((course) => {
-                return {
-                    ...course,
-                    isBought: false
-                }
-            })
-
-            if (Cookies.get('access_token')) {
-                let userCourses = []
-                try {
-                    const res = await $.ajax({
-                        url: `/api/user-course`,
-                        method: 'GET',
-                        dataType: 'json',
-                        headers: {
-                            Authorization: 'Bearer ' + Cookies.get("access_token")
-                        }
-                    })
-
-                    userCourses = res
-                } catch (error) {
-                    // console.log(error)
-                }
-
-                result = result.map((course, i) => {
-                    return {
-                        ...course,
-                        isBought: userCourses.map(userCourse => userCourse.course_id).includes(course.course_id)
-                    }
-                })
-            }
-
-            let total = result.length
+        function generateListCourse(filter, cpage = 1) {
+            courses = courseResponse
+            let total = courses.length
             let perPage = 12
             let totalPage = Math.ceil(total / perPage)
             let start = (cpage - 1) * perPage
             let end = cpage * perPage
-            result = result.slice(start, end)
+            courses = courses.slice(start, end)
 
-            $(`#courses #tab-courses-${type} .btn-pgn-wrapper`).html('')
+            console.log(courses)
+
+            $(`#courses .btn-pgn-wrapper`).html('')
             for (let i = 1; i <= totalPage; i++) {
-                $(`#courses #tab-courses-${type} .btn-pgn-wrapper`).append(`
+                $(`#courses .btn-pgn-wrapper`).append(`
                     <button class="btn-pgn" data-page='${i}'>${i}</button>
                 `)
             }
 
-            $(`#courses #tab-courses-${type} .btn-pgn-wrapper .btn-pgn[data-page=${cpage}]`).addClass('active')
-            
-            $(`#courses #tab-courses-${type} .btn-pgn-wrapper .btn-pgn`).on('click', function (e) {
+            $(`#courses .btn-pgn-wrapper .btn-pgn[data-page=${cpage}]`).addClass('active')
+
+            $(`#courses .btn-pgn-wrapper .btn-pgn`).on('click', function (e) {
                 e.preventDefault()
                 $('html, body').animate({
-                    scrollTop: $(`#courses #tab-courses-${type}`).offset().top
+                    scrollTop: $(`#courses`).offset().top
                 }, 0)
                 let cpage = $(this).data('page')
-                generateListCourse(courses, element, type, tag, category, cpage)
+                generateListCourse(filter, cpage)
             })
 
             if (cpage > 1) {
-                $(`#courses #tab-courses-${type} .btn-pgn-prev-wrapper`).html(`
+                $(`#courses .btn-pgn-prev-wrapper`).html(`
                     <button class="btn-pgn-prev"><i class="fa-solid fa-chevron-left"></i></button>
                 `)
             } else {
-                $(`#courses #tab-courses-${type} .btn-pgn-prev-wrapper`).html('')
+                $(`#courses .btn-pgn-prev-wrapper`).html('')
             }
 
             if (cpage < totalPage) {
-                $(`#courses #tab-courses-${type} .btn-pgn-next-wrapper`).html(`
+                $(`#courses .btn-pgn-next-wrapper`).html(`
                     <button class="btn-pgn-next"><i class="fa-solid fa-chevron-right"></i></button>
                 `)
             } else {
-                $(`#courses #tab-courses-${type} .btn-pgn-next-wrapper`).html('')
+                $(`#courses .btn-pgn-next-wrapper`).html('')
             }
 
-            $(`#courses #tab-courses-${type} .btn-pgn-prev`).on('click', function (e) {
+            $(`#courses .btn-pgn-prev`).on('click', function (e) {
                 e.preventDefault()
                 $('html, body').animate({
-                    scrollTop: $(`#courses #tab-courses-${type}`).offset().top
+                    scrollTop: $(`#courses`).offset().top
                 }, 0)
-                generateListCourse(courses, element, type, tag, category, cpage - 1)
+                generateListCourse(filter, cpage - 1)
             })
 
-            $(`#courses #tab-courses-${type} .btn-pgn-next`).on('click', function (e) {
+            $(`#courses .btn-pgn-next`).on('click', function (e) {
                 e.preventDefault()
                 $('html, body').animate({
-                    scrollTop: $(`#courses #tab-courses-${type}`).offset().top
+                    scrollTop: $(`#courses`).offset().top
                 }, 0)
-                generateListCourse(courses, element, type, tag, category, cpage + 1)
+                generateListCourse(filter, cpage + 1)
             })
 
-            element.html(result.map(course => {
+            $('#courses-list').html(courses.map(function (course) {
                 return `
-                    <div class="col-4 pb-4">
+                    <div class="col-md-4 pb-4">
                         <div class="card-course">
                             <div class="image">
                                 <a href="/course/${course.course_id}">
@@ -341,6 +237,6 @@ $(document).ready(async function () {
             })
         }
     } catch (error) {
-        // console.log(error)
+        console.log(error)
     }
-})
+}

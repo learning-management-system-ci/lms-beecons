@@ -73,6 +73,12 @@
             ?>
             <p class="navigation breadcrumb-anchor">Courses</p>
             <hr>
+            <?php 
+                    break;
+                case "training":
+            ?>
+            <p class="navigation breadcrumb-anchor">Training</p>
+            <hr>
             <?php
                     break;
                 default:

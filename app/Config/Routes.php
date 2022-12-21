@@ -75,6 +75,7 @@ $routes->get('/cart', 'Home::cart');
 $routes->get('/checkout', 'Home::checkout');
 $routes->get('/webinar', 'Home::webinar');
 $routes->get('/training', 'Home::training');
+$routes->get('/training/:num', 'Home::trainingDetail/$1');
 $routes->get('/courses', 'Home::courses');
 $routes->get('/article', 'Home::article');
 $routes->get('/email', 'Home::email');

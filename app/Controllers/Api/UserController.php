@@ -224,7 +224,7 @@ class UserController extends ResourceController
 
             $path_profile = site_url() . 'upload/users/';
 
-            $path_course = site_url() . 'upload/course/';
+            $path_course = site_url() . 'upload/course/thumbnail/';
 
             $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
 
@@ -234,7 +234,7 @@ class UserController extends ResourceController
             for ($i = 0; $i < count($userCourse); $i++) {
                 $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
                 $course[$i] = $course_;
-                $course[$i]['thumbnail'] = 'upload/course-video/thumbnail/' . $course[$i]['thumbnail'];
+                $course[$i]['thumbnail'] = site_url() . 'upload/course-video/thumbnail/' . $course[$i]['thumbnail'];
 
                 $course[$i]['thumbnail'] = $path_course . $course_['thumbnail'];
 

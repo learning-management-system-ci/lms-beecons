@@ -104,6 +104,38 @@ $(document).ready(() => {
     }
   }
 
+  const getTraining = async (id) => {
+    try {
+      let option = {
+        type: "GET",
+        url: `/api/course/filter/training/detail/${id}`,
+        dataType: "json",
+        headers: {
+          "Authorization": `Bearer ${Cookies.get("access_token")}`,
+        },
+        success: (training) => {
+          training = training[0]
+          let item = {
+            type: "bundling",
+            detail: {
+              title: training.title,
+              new_price: training.new_price,
+              old_price: training.old_price,
+              thumbnail: training.thumbnail || 'image/cart/ux-banner.png',
+            },
+            sub_total: training.new_price || training.old_price,
+          }
+          data = item
+        }
+      }
+      let data
+      await $.ajax(option)
+      return data
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const getListVoucher = async () => {
     try {
       let option = {
@@ -198,6 +230,8 @@ $(document).ready(() => {
         url += "cr=" + id
       } else if (type == "bundling"){
         url += "bd=" + id
+      } else if (type == "training"){
+        url += "tr=" + id
       }
       if(code){
         url += type ? "&c=" + code : "c=" + code
@@ -318,7 +352,9 @@ $(document).ready(() => {
         data.items.push(await getCourse(id))
       } else if (type == 'bundling'){
         data.items.push(await getBundle(id))
-      }    
+      } else if (type == 'training'){
+        data.items.push(await getTraining(id))
+      } 
       data.sub_total = data.items[0].sub_total
       data.total = data.items[0].sub_total
       console.log(data)
