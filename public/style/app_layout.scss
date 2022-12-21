@@ -49,6 +49,18 @@ h6 {
                 font-weight: 500;
             }
         }
+
+        .card-course-duration {
+            position: absolute;
+            bottom: 1.8rem;
+            left: .5rem;
+            background-color: $color-gray-2;
+            opacity: .8;
+            font-weight: 500;
+            font-size: .8rem;
+            padding: .2rem .5rem;
+            border-radius: .4rem;
+        }
     }
 
     .body {
