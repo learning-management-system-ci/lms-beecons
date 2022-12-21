@@ -378,7 +378,8 @@ const populateReview = async (reviews) => {
 }
 
 const populatePricing = async (course) => {
-    if (course.owned) {
+    console.log(course.owned)
+    if (!course.owned) {
         const { old_price, new_price, course_id } = course
         let data_detail_order = {
             price_before_discount: getRupiah(old_price),
