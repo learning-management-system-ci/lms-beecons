@@ -11,7 +11,7 @@
                 </p>
                 <a href="/about-us">
                     <button class="app-btn app-btn-secondary">
-                        Pelajari Lebih Lanjut
+                        Pilih Course
                     </button>
                 </a>
             </div>

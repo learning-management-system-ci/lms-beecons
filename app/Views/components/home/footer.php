@@ -47,8 +47,8 @@
             <div class="col-md-2">
                 <h2>Service</h2>
 
-                <a href="" class="footer-link">Bootcamp</a>
-                <a href="/webinar" class="footer-link">Webinar</a>
+                <a href="" class="footer-link">Course</a>
+                <a href="/webinar" class="footer-link">Training</a>
             </div>
             <div class="col-md-4">
                 <h2>Hubungi Kami</h2>

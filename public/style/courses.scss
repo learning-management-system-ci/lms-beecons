@@ -21,6 +21,39 @@ $color-select-tag: #6DAA82;
         margin-bottom: 2rem;
     }
 
+    .btn-filter-wrapper {
+        position: relative;
+
+        .filter-container {
+            position: absolute;
+            top: 3rem;
+            right: 0;
+            background-color: $color-white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            z-index: 1;
+            width: 350px;
+
+            .filter-container__header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+    
+                h3 {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                    margin-bottom: 0;
+                }
+    
+                a {
+                    color: $color-secondary;
+                }
+            }
+        }
+    }
+
     .courses-list {
         .nav-link {
             border: none;

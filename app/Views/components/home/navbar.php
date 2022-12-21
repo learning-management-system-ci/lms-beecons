@@ -21,10 +21,6 @@
                                             endif ?>" href="/training">Training</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 <?php if (uri_string() == 'webinar') : echo 'active';
-                                            endif ?>" href="/webinar">Webinar</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link mx-2 <?php if (uri_string() == 'faq') : echo 'active';
                                             endif ?>" href="/faq">FAQ</a>
                 </li>
@@ -87,7 +83,7 @@
                                         melakukan transaksi pembelian
                                     </p>
                                     <a href="/login" class="nav-link-btn">
-                                        <button class="app-btn app-btn-secondary btn-sign-in">Sign in</button>
+                                        <button class="app-btn btn-sign-in">Sign in</button>
                                     </a>
                                 </div>
                             <?php else : ?>
@@ -99,7 +95,7 @@
                 <?php if (!get_cookie("access_token")) : ?>
                     <li class="nav-item">
                         <a href="/login" class="nav-link-btn">
-                            <button class="app-btn app-btn-secondary btn-sign-in">Sign in</button>
+                            <button class="app-btn btn-sign-in">Sign in</button>
                         </a>
                     </li>
                 <?php else : ?>
