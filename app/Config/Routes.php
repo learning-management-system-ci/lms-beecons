@@ -75,6 +75,7 @@ $routes->get('/cart', 'Home::cart');
 $routes->get('/checkout', 'Home::checkout');
 $routes->get('/webinar', 'Home::webinar');
 $routes->get('/training', 'Home::training');
+$routes->get('/training/:num', 'Home::trainingDetail/$1');
 $routes->get('/courses', 'Home::courses');
 $routes->get('/article', 'Home::article');
 $routes->get('/email', 'Home::email');
@@ -173,6 +174,7 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
+        $routes->get('filter/(:segment)/detail/(:num)', 'Api\CourseController::detailTraining/$1/$2');
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
 
 
