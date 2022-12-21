@@ -14,9 +14,13 @@ button {
   font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
-.main-container {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
 }
 
 .app-btn {
@@ -67,13 +71,9 @@ button {
   border-color: #164520;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: bold;
+.main-container {
+  padding-left: 3.5rem;
+  padding-right: 3.5rem;
 }
 
 .breadcrumb-anchor {
