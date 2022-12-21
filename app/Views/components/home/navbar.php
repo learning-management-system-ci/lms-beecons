@@ -21,10 +21,6 @@
                                             endif ?>" href="/training">Training</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2 <?php if (uri_string() == 'webinar') : echo 'active';
-                                            endif ?>" href="/webinar">Webinar</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link mx-2 <?php if (uri_string() == 'faq') : echo 'active';
                                             endif ?>" href="/faq">FAQ</a>
                 </li>
