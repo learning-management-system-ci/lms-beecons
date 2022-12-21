@@ -268,7 +268,7 @@ class UserController extends ResourceController
                 'address' => $data['address'],
                 'phone_number' => $data['phone_number'],
                 'linkedin' => $data['linkedin'],
-                'create since' => $data['created_at'],
+                'created_at' => $data['created_at'],
                 'course' => $course
             ];
             return $this->respond($response);

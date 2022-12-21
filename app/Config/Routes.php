@@ -79,6 +79,7 @@ $routes->get('/training/:num', 'Home::trainingDetail/$1');
 $routes->get('/courses', 'Home::courses');
 $routes->get('/article', 'Home::article');
 $routes->get('/email', 'Home::email');
+$routes->get('/certificates/:num', 'Home::certificate');
 
 $routes->get('/send-otp', 'AuthController::indexSendOtp');
 $routes->post('/send-otp', 'AuthController::sendOtp');
