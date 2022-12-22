@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Api;
 
+use App\Controllers\Api\ReviewController as ApiReviewController;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Course;
 use App\Models\CourseCategory;
@@ -219,6 +220,27 @@ class CourseController extends ResourceController
                 $data[$i]['tag'] = null;
             }
 
+            $cek_course = $this->modelReview->where('course_id', $data[$i]['course_id'])->findAll();
+        
+            if ($cek_course != null){
+                $reviewcourse = $this->modelReview->where('course_id', $data[$i]['course_id'])->findAll();
+
+                $rating_raw = 0;
+                $rating_final = 0;
+
+                for ($n = 0; $n < count($reviewcourse); $n++) {
+                    $rating_raw += $reviewcourse[$n]['score'];
+                    $rating_final = $rating_raw / count($reviewcourse);
+
+                    $data[$i]['rating_course'] = $rating_final;
+                }
+            } else {
+                $data[$i]['rating_course'] = 0;
+            }
+
+            // $rating_course = $controllerreview->ratingcourse($data[$i]['course_id']);
+            // $data[$i]['rating_course'] = $rating_course;
+            
             $data[$i]['category'] = $category;
         }
 
