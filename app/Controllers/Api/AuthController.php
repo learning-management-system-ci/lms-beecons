@@ -8,6 +8,7 @@ use App\Models\Users;
 use Firebase\JWT\JWT;
 use CodeIgniter\Cookie\Cookie;
 use App\Models\Referral;
+use App\Controllers\NotificationControllers;
 use DateTime;
 use DateInterval;
 
@@ -23,6 +24,7 @@ class AuthController extends ResourceController
         require_once APPPATH . "../vendor/autoload.php";
         $this->loginModel = new Users();
         $this->referral = new Referral();
+        $this->sendnotification = new NotificationController();
         $this->googleClient = new \Google_Client();
         $this->googleClient->setClientId("229684572752-p2d3d602o4jegkurrba5k2humu61k8cv.apps.googleusercontent.com");
         $this->googleClient->setClientSecret("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");
@@ -74,6 +76,8 @@ class AuthController extends ResourceController
                     'discount_price' => 15
                 ];
                 $this->referral->save($data);
+
+                // $this->sendnotification->sendnotification($datauser['id'],"Lengkapi Data Profile Anda");
             }
             $datauser = $this->loginModel->getUser($email);
             $key = getenv('TOKEN_SECRET');

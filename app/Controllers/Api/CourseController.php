@@ -189,7 +189,7 @@ class CourseController extends ResourceController
                     foreach ($dataTime as $element) {
                         $time = implode($element);
                         if (substr_count($time, ':') == 1) {
-                            $waktu = '00:' . $time;
+                            $time = '00:' . $time;
                         }
                         $strTime = date("H:i:s", strtotime($time));
 

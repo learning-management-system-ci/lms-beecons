@@ -4,6 +4,7 @@ namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Notification;
+use App\Models\UserNotification;
 use App\Models\Users;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
@@ -27,11 +28,12 @@ class NotificationController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
-            $model = new Notification();
+            $modelnotification = new Notification();
+            $modelusernotification = new UserNotification();
             $data = [];
             $data = $user->select('id')->where('id', $decoded->uid)->first();
-            $public_notification = $model->where('user_id', null)->findAll();
-            $private_notification = $model->where('user_id', $data['id'])->findAll();
+            $public_notification = $modelnotification->where('user_id', null)->findAll();
+            $private_notification = $modelusernotification->where('user_id', $data['id'])->findAll();
 
             $data['notification'] = [];
             if(count($private_notification) != 0){
@@ -98,10 +100,15 @@ class NotificationController extends ResourceController
             $model = new Notification();
 
             $rules = [
+                'public' => 'required|numeric',
                 'message' => 'required|min_length[8]',
             ];
 
             $messages = [
+                "public" => [
+                    "required" => "{field} tidak boleh kosong",
+                    'numeric' => '{field} harus bernilaikan 0 (private) atau 1 (publik)'
+                ],
                 "message" => [
                     "required" => "{field} tidak boleh kosong",
                     'min_length' => '{field} minimal 8 karakter'
@@ -273,5 +280,31 @@ class NotificationController extends ResourceController
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
+    }
+
+    public function sendnotification($user_id = null, $message = null){
+        $modelnotification = new Notification();
+        $modelusernotification = new UserNotification();
+
+        if($user_id == null){
+            $data = [
+                'public' => 1,
+                'message' => $message
+            ];
+            $modelnotification->insert($data);
+        }else{
+            $data = [
+                'public' => 0,
+                'message' => ''
+            ];
+            $modelnotification->insert($data);
+
+            $datauser = [
+                'user_id' => $user_id,
+                'message' => $message
+            ];
+            $modelusernotification->insert($datauser);
+        }
+
     }
 }
