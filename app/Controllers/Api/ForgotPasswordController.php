@@ -69,7 +69,7 @@ class ForgotPasswordController extends ResourceController {
 		$message = view('/html_email/otp_request.html', $data);
 		$email = \Config\Services::email();
 		$email->setTo($emailTo);
-		$email->setFrom('hendrikusozzie@gmail.com', 'OTP Reset Password');
+		$email->setFrom('stufastlearningcenter@gmail.com', 'OTP Reset Password');
 		  
 		$email->setSubject($subject);
 		$email->setMessage($message);
