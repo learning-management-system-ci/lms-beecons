@@ -286,7 +286,7 @@ class AuthController extends ResourceController
 
         $email = \Config\Services::email();
         $email->setTo($emailTo);
-        $email->setFrom('hendrikusozzie@gmail.com', 'Konfirmasi Pendaftaran');
+        $email->setFrom('stufastlearningcenter@gmail.com', 'Konfirmasi Pendaftaran');
 
         $email->setSubject($subject);
         $email->setMessage($message);
