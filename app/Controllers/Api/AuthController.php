@@ -77,7 +77,7 @@ class AuthController extends ResourceController
                 ];
                 $this->referral->save($data);
 
-                $this->sendnotification->sendnotification($datauser['id'],"Lengkapi Data Profile Anda");
+                // $this->sendnotification->sendnotification($datauser['id'],"Lengkapi Data Profile Anda");
             }
             $datauser = $this->loginModel->getUser($email);
             $key = getenv('TOKEN_SECRET');
