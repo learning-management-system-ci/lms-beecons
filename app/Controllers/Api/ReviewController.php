@@ -154,4 +154,26 @@ class ReviewController extends ResourceController
         }
         return $this->failNotFound('Data Review tidak ditemukan');
     }
+
+    // public function ratingcourse ($course_id = null){
+    //     $cek_course = $this->review->where('course_id', $course_id)->findAll();
+        
+    //     if ($cek_course != null){
+    //         $reviewcourse = $this->review->where('course_id', $course_id)->findAll();
+
+    //         $rating_raw = 0;
+    //         $rating_final = 0;
+
+    //         for ($i = 0; $i < count($reviewcourse); $i++) {
+    //             $rating_raw += $reviewcourse[$i]['score'];
+    //             $rating_final = $rating_raw / count($reviewcourse);
+
+    //             $data['Rating'] = $rating_final;
+    //         }
+    //     } else {
+    //         $data['Rating'] = 0;
+    //     }
+    //     return $this->respond($data);
+    //     // return $this->failNotFound('Course Belum Memiliki Rating');
+    // }
 }

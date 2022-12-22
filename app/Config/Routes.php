@@ -130,6 +130,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\ReviewController::index');
         $routes->get('detail', 'Api\ReviewController::index_review');
         $routes->post('create', 'Api\ReviewController::create');
+        $routes->get('rating/(:num)', 'Api\ReviewController::ratingcourse/$1');
     });
 
     $routes->group('jobs/', static function ($routes) {
