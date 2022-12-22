@@ -131,6 +131,31 @@ class AdminController extends BaseController
         ];
         return view('pages/admin/quiz_detail', $data);
     }
+
+    public function bundling()
+    {
+        $data = [
+            "title" => "Bundling List",
+        ];
+        return view('pages/admin/bundling', $data);
+    }
+
+    public function bundlingDetail()
+    {
+        $data = [
+            "title" => "Quiz Chapter Detail",
+        ];
+        return view('pages/admin/bundling_detail', $data);
+    }
+
+    public function faq()
+    {
+        $data = [
+            "title" => "FAQ Menu",
+        ];
+        return view('pages/admin/faq', $data);
+    }
+
     public function contactList()
     {
         $data = [

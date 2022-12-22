@@ -34,7 +34,7 @@
                         <i class="ni ni-hat-3 text-success text-sm opacity-10"></i>
 
                     </div>
-                    <span class="nav-link-text ms-1">Course</span>
+                    <span class="nav-link-text ms-1">Course / Bundling</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -53,6 +53,15 @@
                         <i class="ni ni-email-83 text-danger text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Contact Us Message</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link <?php if (uri_string() == 'admin/faq') : echo 'active';
+                                    endif ?>" href="/admin/faq">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-chat-round text-warning text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">FAQ Menu</span>
                 </a>
             </li>
             <!-- <li class="nav-item">

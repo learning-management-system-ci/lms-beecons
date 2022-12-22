@@ -66,7 +66,7 @@ $.ajax({
                     <p class="user-question-text text-xs font-weight-bold mb-0 text-wrap w-300">
                     ${value.question}
                     </p>
-                    <input class="expand-btn" type="checkbox">
+                    <input class="mt-3 expand-btn" type="checkbox">
                 </td>
                 <td class="align-middle text-center text-sm">
                     <button class="btn-default" data-bs-target="#modal-image${value.contact_us_id}" data-bs-toggle="modal">
