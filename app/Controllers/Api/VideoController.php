@@ -76,9 +76,16 @@ class VideoController extends ResourceController
 
 			$dataQuiz['soal'] = [];
 
-			$rand_keys = array_rand($question, 5);
-			for ($i = 0; $i < count($rand_keys); $i++) {
-				array_push($dataQuiz['soal'], $question[$rand_keys[$i]]);
+			if (count($question) >= 5) {
+				$rand_keys = array_rand($question, 5);
+				for ($i = 0; $i < count($rand_keys); $i++) {
+					array_push($dataQuiz['soal'], $question[$rand_keys[$i]]);
+				}
+			} else {
+				$rand_keys = array_rand($question, count($question));
+				for ($i = 0; $i < count($rand_keys); $i++) {
+					array_push($dataQuiz['soal'], $question[$rand_keys[$i]]);
+				}
 			}
 		} else {
 			$dataQuiz['soal'] = null;
