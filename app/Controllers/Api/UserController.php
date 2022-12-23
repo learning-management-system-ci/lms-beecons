@@ -626,4 +626,15 @@ class UserController extends ResourceController
             return $this->fail($th->getMessage());
         }
     }
+
+    public function getAuthor(){
+        $user = new Users;
+
+        $getdataauthor = $user->where('role', 'author')->findAll();
+
+        // var_dump($getdataauthor);
+        // die;
+
+        return $this->respond($getdataauthor);
+    }
 }
