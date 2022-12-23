@@ -32,6 +32,7 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/a35fe366cf.js" crossorigin="anonymous"></script>
+    <script src="/js/library/jwt_decode.js"></script>
     <link href="/argon-dashboard/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">

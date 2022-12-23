@@ -9,7 +9,7 @@ class Email extends BaseConfig
     /**
      * @var string
      */
-    public $fromEmail = 'hendrikusozzie@gmail.com';
+    public $fromEmail = 'stufastlearningcenter@gmail.com';
 
     /**
      * @var string
@@ -54,14 +54,14 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPUser = 'hendrikusozzie@gmail.com';
+    public $SMTPUser = 'stufastlearningcenter@gmail.com';
 
     /**
      * SMTP Password
      *
      * @var string
      */
-    public $SMTPPass = 'bipbojivjxuquzmp';
+    public $SMTPPass = 'smovetgpvmhewsjc';
 
     /**
      * SMTP Port
@@ -131,7 +131,7 @@ class Email extends BaseConfig
      *
      * @var int
      */
-    public $priority = 3;
+    public $priority = 3; 
 
     /**
      * Newline character. (Use “\r\n” to comply with RFC 822)

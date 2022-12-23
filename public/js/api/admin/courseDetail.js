@@ -43,6 +43,8 @@ $(document).ready(() => {
     window.location.href = '/login'
   }
 
+  //console.log(jwt-decode(Cookies.get('access_token')))
+
   $("#course-video").sortable({
     handle: '.bi-grip-horizontal',
     animation: 2000,
@@ -59,12 +61,24 @@ $(document).ready(() => {
       },
       success: function (course) {
         data = course
+        console.log(data)
         data.tags = data.tag
         delete data.tag
         data.reviews = data.review
         delete data.review
-        data.videos = data.video
-        delete data.video
+
+        if (data.video) {
+          data.videos = data.video
+          delete data.video
+        }
+        else {
+
+          data.videos = data.video_category[0].video
+        }
+
+
+
+
       },
     }
 
@@ -106,6 +120,60 @@ $(document).ready(() => {
     let data
     await $.ajax(option)
     return data
+  }
+
+
+  const createVideoCategory = async (title, id) => {
+    console.log(id)
+    let getVideoCatID
+    let formVidCat = `course_id=${id}&title=hello`
+    // formVidCat.append('course_id', id)
+    // formVidCat.append('title', 'test')
+
+
+    try {
+      await $.ajax({
+        type: "POST",
+        url: `/api/video-category/create`,
+        data: formVidCat,
+        headers: {
+          "Authorization": `Bearer ${Cookies.get("access_token")}`,
+        },
+        beforeSend: function () {
+          Swal.fire({
+            width: '300px',
+            title: "<div class='status-loading'> " +
+              '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
+              '<p>Inisialisasi Chapter Group</p> ' +
+              "</div>",
+            padding: '0px 0px 40px 6px',
+            showConfirmButton: false,
+            showClass: {
+              popup: 'animate__animated animate__fadeIn animate__fast'
+            },
+          })
+        },
+        success: function (e) {
+          console.log(e)
+        },
+      })
+
+      await $.ajax({
+        type: "GET",
+        url: `/api/video-category/`,
+        success: function (resp) {
+          getVideoCatID = resp[0].video_category_id
+        },
+      })
+
+    } catch (error) {
+
+    }
+
+
+
+
+    return getVideoCatID;
   }
 
   const submitCourseDetailSetting = async (course_id) => {
@@ -183,7 +251,7 @@ $(document).ready(() => {
     content.price.text(getRupiah(data.old_price))
     content.after_discount_price.text(getRupiah(data.new_price))
 
-    if (data.tags.length > 0) {
+    if (data.tags) {
       content.tags.empty()
       data.tags.forEach(tag => {
         // get random data from bg color
@@ -229,7 +297,7 @@ $(document).ready(() => {
     }
   }
 
-  const populateCourseDetailVideo = (data, courseID) => {
+  const populateCourseDetailVideo = (data, courseID, title) => {
     const content = {
       video: $('#course-video'),
       list_order_submit: $('#submit-btn-course-list-video'),
@@ -237,36 +305,101 @@ $(document).ready(() => {
     }
 
     content.video.empty()
-    data.sort((a, b) => a.order - b.order)
 
-    data.forEach(video => {
-      let {
-        video_id: id,
-        title,
-        duration
-      } = video
+    content.video.append('<p class="no-quiz text-center">Belum ada chapter</p>')
 
-      let template = `
-      <li class="list-group-item d-flex justify-content-between align-items-start list-video" data-id-video="${id}">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">${title}</div>
-          ${duration}
+    if (data) {
+      content.video.text('')
+      data.sort((a, b) => a.order - b.order)
+
+      data.forEach(video => {
+        let {
+          video_id: id,
+          title,
+          duration
+        } = video
+
+        let template = `
+      <li class="list-group-item d-flex justify-content-between align-items-start list-video" id="video-${id}" data-id-video="${id}">
+        <div class="d-flex me-auto" style='gap: 12px;'>
+          <div>
+            <i class="bi bi-grip-horizontal dragNdrop"></i>
+          </div>
+          <div class="fw-bold">
+              <div class="fw-bold">${title}
+                <div>${duration}</div>
+            </div>
+          </div>
         </div>
         <div class="d-flex align-self-center" style="gap: 5px">
           <a class="text-underline text-sm d-flex align-items-center" href="/admin/video/${id}" >Details</a>
           <a class="text-underline text-sm text-info d-flex align-items-center" href="/admin/quiz/${id}" >Quiz List</a>
-          <div>
-            <i class="bi bi-grip-horizontal ms-4 dragNdrop"></i>
+          <div class='ms-3'>
+            <i class="bi bi-x-circle text-danger delete-video pointer" style="font-size: 1.5em" data-delete="${id}"></i>
           </div>
         </div>
       </li>`
+        content.video.append(template)
+      })
+    }
+    else {
 
-      content.video.append(template)
-    })
+    }
+
+    const deleteQuiz = () => {
+      return $('.delete-video').on('mousedown', function (e) {
+        let parent_quiz = $(this).attr('data-delete');
+        if (confirm("Yakin mau menghapus?!")) {
+          $.ajax({
+            type: "DELETE",
+            url: `/api/course/video/delete/${parent_quiz}`,
+            processData: false,
+            headers: {
+              "Authorization": `Bearer ${Cookies.get("access_token")}`,
+            },
+            beforeSend: function () {
+              Swal.fire({
+                width: '300px',
+                title: "<div class='status-loading'> " +
+                  '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
+                  '<p>Mohon Tunggu</p> ' +
+                  "</div>",
+                padding: '0px 0px 40px 6px',
+                showConfirmButton: false,
+                showClass: {
+                  popup: 'animate__animated animate__fadeIn animate__fast'
+                },
+              })
+            },
+            success: function () {
+              return Swal.fire({
+                width: '300px',
+                title: "<div class='status-loading'> " +
+                  '<h5>Success</h5> ' +
+                  "</div>",
+                showConfirmButton: true,
+                showClass: {
+                  popup: 'animate__animated animate__fadeIn animate__fast'
+                },
+              }).then(function () {
+                $(`#${parent_quiz}`).remove();
+                if ($('.parent').children().length == 0) {
+                  content.video.text('<p class="no-quiz text-center">Belum ada chapter</p>')
+                }
+              });
+            },
+          })
+
+        }
+
+      })
+    }
+
+    deleteQuiz()
+
 
     // on click list order submit 
     content.list_order_submit.on('click', () => {
-      //console.log("clicked")
       let list = []
       $('.list-video').each((index, element) => {
         // append to list
@@ -275,6 +408,13 @@ $(document).ready(() => {
           order: index + 1
         })
       })
+
+      if (list.length == 0) {
+        return Swal.fire({
+          icon: 'error',
+          text: 'Tidak bisa mengirim data kosong',
+        })
+      }
 
       $.ajax({
         type: "POST",
@@ -315,15 +455,31 @@ $(document).ready(() => {
         },
       })
 
-      //console.log(list)
-
     })
 
-    content.submit_new_video.on('submit', (e) => {
+    content.submit_new_video.on('submit', async (e) => {
       e.preventDefault()
       let form = new FormData($('#add-video')[0])
-      form.append('video_category_id', courseID)
-      form.append('order', data.length + 1)
+      let videoCat
+      if (data) {
+        form.append('order', data.length + 1)
+        form.append('video_category_id', data[0].video_category_id)
+      }
+      else {
+        form.append('order', 1)
+        try {
+          videoCat = await createVideoCategory(title, courseID)
+          form.append('video_category_id', videoCat)
+        } catch (error) {
+          //console.log(error)
+          return Swal.fire({
+            icon: 'error',
+            text: 'Terjadi error',
+          })
+        }
+      }
+      console.log(data)
+
 
       $.ajax({
         type: "POST",
@@ -440,11 +596,14 @@ $(document).ready(() => {
     let {
       reviews,
       videos,
+      title
     } = course
+
+    console.log(videos)
 
     populateCourseDetailGeneral(course)
     populateCourseDetailReview(reviews)
-    populateCourseDetailVideo(videos, course_id)
+    populateCourseDetailVideo(videos, course_id, title)
     populateCourseDetailSetting(course)
   }
 

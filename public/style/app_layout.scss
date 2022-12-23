@@ -141,8 +141,6 @@ h6 {
         }
 
         p {
-            // font-size: .9rem;
-            // line-height: 1.2rem;
             margin-bottom: 1.5rem;
         }
 
@@ -158,6 +156,27 @@ h6 {
                 font-weight: normal;
                 color: $color-gray-1;
                 margin-right: .5rem;
+            }
+        }
+
+        .star-container {
+            .stars {
+                --percent: calc(var(--rating) / 5 * 100%);
+        
+                display: inline-block;
+                font-size: 1.4rem;
+                font-family: Times;
+                line-height: 1;
+        
+                &::before {
+                    content: '★★★★★';
+                    letter-spacing: 3px;
+                    background: linear-gradient(90deg, $color-star var(--percent), $color-white var(--percent));
+                    -webkit-background-clip: text;
+                    background-clip: $color-yellow;
+                    -webkit-text-fill-color: transparent;
+                    -webkit-text-stroke: 1px $color-star;
+                }
             }
         }
     }

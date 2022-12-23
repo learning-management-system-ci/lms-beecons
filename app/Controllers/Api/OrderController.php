@@ -547,7 +547,7 @@ class OrderController extends BaseController
             $message = view('/html_email/payment_success.html', $data);
             $email = \Config\Services::email();
             $email->setTo($getEmail);
-            $email->setFrom('hendrikusozzie@gmail.com', 'Pembelian berhasil');
+            $email->setFrom('stufastlearningcenter@gmail.com', 'Pembelian berhasil');
             $email->setSubject($subject);
             $email->setMessage($message);
     

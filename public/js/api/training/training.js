@@ -14,7 +14,7 @@ async function handleTraining() {
         $('#training .training-wrapper').html(
             trainingResponse.map(training => {
             return `
-                <div class="col-md-4">
+                <div class="col-md-4 mb-4">
                     <div class="card-training">
                         <div class="thumbnail">
                             <img src="${training.thumbnail}" alt="thumbnail">
@@ -23,7 +23,7 @@ async function handleTraining() {
                             <h2 class="text-truncate">${training.title}</h2>
                         </div>
                         <div class="body">
-                            <p class="mb-2">
+                            <p class="mb-2 d-none">
                                 ${textTruncate(training.description, 130)}
                             </p>
                             <div class="info d-flex align-items-center gap-2">

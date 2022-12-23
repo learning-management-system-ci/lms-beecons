@@ -10,10 +10,10 @@
     <div class="col-12">
       <div class="card mb-4" id="table-course-card">
         <div class="card-header pb-0 d-flex align-items-center justify-content-between">
-          <h6>Course Table</h6>
+          <h6>Bundling Table</h6>
           <div>
-            <button class="btn btn-primary btn-sm ms-auto" onclick="createCourseShow()">Add Course</button>
-            <a class="btn btn-success btn-sm ms-auto" href="bundling">Bundling List</a>
+            <button class="btn btn-primary btn-sm ms-auto" onclick="createCourseShow()">Add Bundling</button>
+            <a class="btn btn-warning btn-sm ms-auto" href="admin/course">Course List</a>
           </div>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
@@ -23,7 +23,6 @@
                 <tr>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Title</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tags</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
                   <th class="text-secondary opacity-7"></th>
@@ -180,6 +179,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -195,5 +195,5 @@
 <script src="/js/utils/textTruncate.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.13.1/date-1.2.0/fh-3.3.1/r-2.4.0/sc-2.0.7/sb-1.4.0/sp-2.1.0/datatables.min.css" />
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.13.1/date-1.2.0/fh-3.3.1/r-2.4.0/sc-2.0.7/sb-1.4.0/sp-2.1.0/datatables.min.js"></script>
-<script src="/js/api/admin/course.js"></script>
+<script src="/js/api/admin/bundling.js"></script>
 <?= $this->endSection() ?>
