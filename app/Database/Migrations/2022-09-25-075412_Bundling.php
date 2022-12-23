@@ -45,6 +45,12 @@ class Bundling extends Migration
                 'type'          => 'VARCHAR',
                 'constraint'    => '255'
             ],
+            'author_id'          => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+                'null'            => true,
+            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
             'deleted_at datetime',
@@ -52,6 +58,7 @@ class Bundling extends Migration
 
         $this->forge->addKey('bundling_id', TRUE);
         $this->forge->addForeignKey('category_bundling_id', 'category_bundling', 'category_bundling_id', 'CASCADE', 'SET NULL');
+        $this->forge->addForeignKey('author_id', 'users', 'id', 'CASCADE', 'NO ACTION');
         $this->forge->createTable('bundling', TRUE);
     }
 

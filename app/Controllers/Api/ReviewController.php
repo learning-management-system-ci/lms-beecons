@@ -68,6 +68,7 @@ class ReviewController extends ResourceController
             } else {
                 $data['user_id'] = $decoded->uid;
                 $data['course_id'] = $this->request->getVar("course_id");
+                // $data['bundling_id'] = $this->request->getVar("bundling_id");
                 $data['feedback'] = $this->request->getVar("feedback");
                 $data['score'] = $this->request->getVar("score");
 
