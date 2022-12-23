@@ -161,25 +161,41 @@ $.ajax({
                         </a>
                         </div>
                         <div class="col-20">
-                        <div class="row">
-                        <div class="col">
-                        <div>
-                            <h5>
-                                Total Nilai
-                            </h5>
                             <div class="row">
-                            <div class="col">
-                            <h5>
-                                ${score}/100
-                            </h5>
-                            </div>
-                            <div class="col">
-                            <a href="/certificates/${course_id}">Detail</a>
-                            </div>
+                                <div class="col">
+                                <div>
+                                    <h5>
+                                        Sertifikat
+                                    </h5>
+                                    <div class="row">
+                                    <div class="col">
+                                    <button onclick="window.open('/certificates/${course_id}')">Download</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
                             </div>
                         </div>
-                        </div>
-                        </div>
+                        <div class="col-20">
+                            <div class="row">
+                                <div class="col">
+                                <div>
+                                    <h5>
+                                        Total Nilai
+                                    </h5>
+                                    <div class="row">
+                                    <div class="col">
+                                    <h5>
+                                        ${score}/100
+                                    </h5>
+                                    </div>
+                                    <div class="col">
+                                    <a href="/certificates/${course_id}">Detail</a>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr>
