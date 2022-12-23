@@ -15,26 +15,4 @@ class Testimoni extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = ['user_id', 'testimoni', 'created_at', 'updated_at'];
-
-    function getTestimoni(){
-        $builder = $this->db->table('testimoni');
-        $builder->select('*');
-        $query = $builder->get();
-        return $query->getResultArray();
-    }
-
-    function getDataUser($data_user_id){
-        $builder = $this->db->table('users');
-        $builder->select('id as user_id, fullname, job_id, profile_picture');
-        $builder->where('id', $data_user_id);
-        $query = $builder->get();
-        return $query->getResultArray();
-	}
-
-    function getShow($id){
-        $builder = $this->db->table('testimoni');
-        $builder->where('testimoni_id', $id);
-        $query = $builder->get();
-        return $query->getResultArray();
-	}
 }

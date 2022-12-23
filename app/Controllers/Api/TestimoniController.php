@@ -15,37 +15,49 @@ class TestimoniController extends ResourceController
     public function __construct()
     {
         $this->testimoni = new Testimoni();
+        $this->users = new Users();
+        $this->path = site_url() . 'upload/users/';
     }
 
     public function index(){
-        $data = $this->testimoni->getTestimoni();
-        $datatestimoni = [];
-        foreach($data as $value) {
-            $datatestimoni[] = [
-                'testimoni_id' => $value['testimoni_id'],
-                'user' => $this->testimoni->getDataUser($data_user_id = $value['user_id']),
-                'testimoni' => $value['testimoni'],
-                'created_at' => $value['created_at'],
-                'updated_at' => $value['updated_at'],
-            ];
+        $testimoni = $this->testimoni->findAll();
+
+        $data['testimoni'] = $testimoni;
+        
+        for ($i = 0; $i < count($testimoni); $i++) {
+            $datatestimoni = $this->testimoni
+                ->where('testimoni.testimoni_id', $testimoni[$i]['testimoni_id'])
+                ->join('users', 'testimoni.user_id=users.id')
+                ->select('users.id, users.fullname, users.email, users.profile_picture, users.created_at')
+                ->findAll();
+            
+            for ($x = 0; $x < count($datatestimoni); $x++) {
+                $datatestimoni[$x]['profile_picture'] = $this->path . $datatestimoni[$x]['profile_picture'];
+            }
+            
+            $data['testimoni'][$i]['users'] = $datatestimoni;
         }
-        return $this->respond($datatestimoni);
+
+
+        return $this->respond($data);
     }
     
     public function show($id = null){
-        $data = $this->testimoni->getShow($id);
-        $datatestimoni = [];
-        foreach($data as $value) {
-            $datatestimoni[] = [
-                'testimoni_id' => $value['testimoni_id'],
-                'user' => $this->testimoni->getDataUser($data_user_id = $value['user_id']),
-                'testimoni' => $value['testimoni'],
-                'created_at' => $value['created_at'],
-                'updated_at' => $value['updated_at'],
-            ];
-        }
-        if($datatestimoni){
-            return $this->respond($datatestimoni);
+        $testimoni = $this->testimoni->where('testimoni_id', $id)->first();
+
+        $data['testimoni'] = $testimoni;
+
+        $datausers = $this->users
+            ->where('id', $id)
+            ->select('users.id, users.fullname, users.email, users.profile_picture, users.created_at')
+            ->first();
+
+        $datausers['profile_picture'] = $this->path . $datausers['profile_picture'];
+
+        $data['testimoni']['users'] = $datausers;
+
+        if($data){
+            return $this->respond($data);
         }else{
             return $this->failNotFound('Data Testimoni tidak ditemukan');
         }
@@ -70,12 +82,17 @@ class TestimoniController extends ResourceController
 
             $rules = [
                 'user_id' => 'required',
+                'alumni' => 'required|max_length[255]',
                 'testimoni' => 'required|max_length[255]'
             ];
 
             $messages = [
                 "user_id" => [
                     "required" => "{field} tidak boleh kosong",
+                ],
+                "alumni" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "max_length" => "{field} maksimal 255 karakter",
                 ],
                 "testimoni" => [
                     "required" => "{field} tidak boleh kosong",
@@ -86,6 +103,7 @@ class TestimoniController extends ResourceController
             if($this->validate($rules, $messages)) {
                 $dataUserVideo = [
                     'user_id' => $this->request->getVar('user_id'),
+                    'alumni' => $this->request->getVar('alumni'),
                     'testimoni' => $this->request->getVar('testimoni'),
                 ];
                 $this->testimoni->insert($dataUserVideo);
@@ -130,12 +148,17 @@ class TestimoniController extends ResourceController
 
             $rules = [
                 'user_id' => 'required',
+                'alumni' => 'required|max_length[255]',
                 'testimoni' => 'required|max_length[255]'
             ];
 
             $messages = [
                 "user_id" => [
                     "required" => "{field} tidak boleh kosong",
+                ],
+                "alumni" => [
+                    "required" => "{field} tidak boleh kosong",
+                    "max_length" => "{field} maksimal 255 karakter",
                 ],
                 "testimoni" => [
                     "required" => "{field} tidak boleh kosong",
@@ -145,6 +168,7 @@ class TestimoniController extends ResourceController
 
             $data = [
                 "user_id" => $input["user_id"],
+                "alumni" => $input["alumni"],
                 "testimoni" => $input["testimoni"],
             ];
 
