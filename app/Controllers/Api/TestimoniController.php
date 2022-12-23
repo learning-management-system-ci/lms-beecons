@@ -82,17 +82,12 @@ class TestimoniController extends ResourceController
 
             $rules = [
                 'user_id' => 'required',
-                'alumni' => 'required|max_length[255]',
                 'testimoni' => 'required|max_length[255]'
             ];
 
             $messages = [
                 "user_id" => [
                     "required" => "{field} tidak boleh kosong",
-                ],
-                "alumni" => [
-                    "required" => "{field} tidak boleh kosong",
-                    "max_length" => "{field} maksimal 255 karakter",
                 ],
                 "testimoni" => [
                     "required" => "{field} tidak boleh kosong",
@@ -103,7 +98,6 @@ class TestimoniController extends ResourceController
             if($this->validate($rules, $messages)) {
                 $dataUserVideo = [
                     'user_id' => $this->request->getVar('user_id'),
-                    'alumni' => $this->request->getVar('alumni'),
                     'testimoni' => $this->request->getVar('testimoni'),
                 ];
                 $this->testimoni->insert($dataUserVideo);
@@ -148,17 +142,12 @@ class TestimoniController extends ResourceController
 
             $rules = [
                 'user_id' => 'required',
-                'alumni' => 'required|max_length[255]',
                 'testimoni' => 'required|max_length[255]'
             ];
 
             $messages = [
                 "user_id" => [
                     "required" => "{field} tidak boleh kosong",
-                ],
-                "alumni" => [
-                    "required" => "{field} tidak boleh kosong",
-                    "max_length" => "{field} maksimal 255 karakter",
                 ],
                 "testimoni" => [
                     "required" => "{field} tidak boleh kosong",
@@ -168,7 +157,6 @@ class TestimoniController extends ResourceController
 
             $data = [
                 "user_id" => $input["user_id"],
-                "alumni" => $input["alumni"],
                 "testimoni" => $input["testimoni"],
             ];
 
