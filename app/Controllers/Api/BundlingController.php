@@ -21,19 +21,39 @@ class BundlingController extends ResourceController
     public function __construct()
     {
         $this->bundling = new Bundling();
-        $this->path = site_url() . 'upload/bundling/';
+        $this->pathbundling = site_url() . 'upload/bundling/';
+        $this->pathcourse = site_url() . 'upload/course/thumbnail/';
     }
 
     public function index()
     {
-        $data = $this->bundling
+        $modelBundling = new Bundling();
+
+        $bundling = $this->bundling
             ->select('bundling.*, category_bundling.name as category_name')
-            ->orderBy('bundling_id', 'DESC')
             ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
             ->findAll();
 
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+        for ($i = 0; $i < count($bundling); $i++) {
+            $bundling[$i]['thumbnail'] = $this->pathbundling . $bundling[$i]['thumbnail'];
+        }
+
+        $data['bundling'] = $bundling;
+
+        for ($x = 0; $x < count($bundling); $x++) {
+            $course = $modelBundling
+                ->where('bundling.bundling_id', $bundling[$x]['bundling_id'])
+                ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
+                ->join('course', 'course_bundling.course_id=course.course_id')
+                ->select('course.*')
+                ->findAll();
+            
+            for ($i = 0; $i < count($course); $i++) {
+                $course[$i]['thumbnail'] = $this->pathcourse . $bundling[$i]['thumbnail'];
+            }
+
+            $data['bundling'][$x]['course'] = $course;
+
         }
 
         if (count($data) > 0) {
