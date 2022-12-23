@@ -21,7 +21,7 @@
                         <div class="filter-container d-none">
                             <div class="filter-container__header">
                                 <h3>Filters</h3>
-                                <a href="">Clear all</a>
+                                <a href="" id="btn-clearall">Clear all</a>
                             </div>
                             <div class="accordion">
                                 <div class="accordion-item">
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
 
-                            <button class="app-btn btn-full mt-3">Apply</button>
+                            <button class="btn-apply app-btn btn-full mt-3">Apply</button>
                         </div>
                     </span>
                 </div>

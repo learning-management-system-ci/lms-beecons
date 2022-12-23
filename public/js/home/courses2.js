@@ -1,6 +1,15 @@
 $(document).ready(function () {
     handleCourses()
+
+    $('#courses .btn-filter').on('click', function (e) {
+        e.preventDefault()
+        $('#courses .filter-container').toggleClass('d-none')
+    })
 })
+
+function closeFilter() {
+    $('#courses .filter-container').addClass('d-none')
+}
 
 async function handleCourses() {
     try {
@@ -22,22 +31,119 @@ async function handleCourses() {
             dataType: 'json'
         })
 
+        let bidangs = [
+            'Engineering',
+            'IT'
+        ]
+
+        $('#accordion-bidang .filter-item').html(bidangs.map(function (bidang) {
+            return `
+                <div class="d-flex gap-2">
+                    <input type="checkbox" name="bidang" value="${bidang}">
+                    <label>${bidang}</label>
+                </div>
+            `
+        }))
+
+        $('#accordion-kelas .filter-item').html(tagsResponse[0].tag.map(function (tag) {
+            return `
+                <div class="d-flex gap-2">
+                    <input type="checkbox" name="kelas" value="${tag.tag_id}">
+                    <label>${tag.name}</label>
+                </div>
+            `
+        }))
+
+        $('#accordion-tingkat .filter-item').html(categoryResponse.map(function (category) {
+            return `
+                <div class="d-flex gap-2">
+                    <input type="checkbox" name="tingkat" value="${category.category_id}">
+                    <label>${category.name}</label>
+                </div>
+            `
+        }))
+
         $('#courses-loading').hide()
 
         let courses = courseResponse
 
-        generateListCourse()
+        let filter = {
+            bidang: [],
+            kelas: [],
+            tingkat: []
+        }
+
+        generateListCourse(filter)
+
+        $('#courses #btn-clearall').on('click', function (e) {
+            e.preventDefault()
+            $('#accordion-bidang input').prop('checked', false)
+            $('#accordion-kelas input').prop('checked', false)
+            $('#accordion-tingkat input').prop('checked', false)
+            filter.bidang = []
+            filter.kelas = []
+            filter.tingkat = []
+            generateListCourse(filter)
+        })
+
+        $('#courses .btn-apply').on('click', function (e) {
+            e.preventDefault()
+            filter.bidang = []
+            filter.kelas = []
+            filter.tingkat = []
+            $('#accordion-bidang input').each(function () {
+                if ($(this).is(':checked')) {
+                    filter.bidang.push($(this).val())
+                }
+            })
+            $('#accordion-kelas input').each(function () {
+                if ($(this).is(':checked')) {
+                    filter.kelas.push($(this).val())
+                }
+            })
+            $('#accordion-tingkat input').each(function () {
+                if ($(this).is(':checked')) {
+                    filter.tingkat.push($(this).val())
+                }
+            })
+            generateListCourse(filter)
+            closeFilter()
+        })
 
         function generateListCourse(filter, cpage = 1) {
             courses = courseResponse
+
+            // handle filter
+            if (filter.bidang.length > 0) {
+                courses = courses.filter(function (course) {
+                    return filter.bidang.includes(course.type)
+                })
+            }
+
+            if (filter.kelas.length > 0) {
+                courses = courses.filter(function (course) {
+                    let tag = course.tag.map(function (tag) {
+                        return tag.tag_id
+                    })
+                    return filter.kelas.some(function (item) {
+                        return tag.includes(item)
+                    })
+                })
+            }
+
+            if (filter.tingkat.length > 0) {
+                courses = courses.filter(function (course) {
+                    return filter.tingkat.includes(course.category.category_id)
+                })
+            }
+            // end handle filter
+
             let total = courses.length
             let perPage = 12
             let totalPage = Math.ceil(total / perPage)
             let start = (cpage - 1) * perPage
             let end = cpage * perPage
             courses = courses.slice(start, end)
-
-            console.log(courses)
 
             $(`#courses .btn-pgn-wrapper`).html('')
             for (let i = 1; i <= totalPage; i++) {

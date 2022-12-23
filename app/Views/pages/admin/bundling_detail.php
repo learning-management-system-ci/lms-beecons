@@ -9,11 +9,11 @@
   <div class="row">
     <div class="col-12">
       <div class="card mb-4" id="table-course-card">
-        <div class="card-header pb-0 d-flex align-items-center justify-content-between">
+        <div class="card-header pb-0 d-flex align-items-center">
           <h6>Course Table</h6>
           <div>
             <button class="btn btn-primary btn-sm ms-auto" onclick="createCourseShow()">Add Course</button>
-            <a class="btn btn-success btn-sm ms-auto" href="bundling">Bundling List</a>
+            <a class="btn btn-success btn-sm ms-auto" href="">Bundling List</a>
           </div>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
