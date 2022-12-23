@@ -73,12 +73,15 @@ async function handleCourses() {
                         </div>
                         <div class="body">
                             <a href="/course/${course.course_id}">
-                                <h2 class="text-truncate mb-2">${course.title}</h2>
+                                <h2 class="mb-2">${course.title}</h2>
                             </a>
                             <p class='mb-2'>${course.author}</p>
-                            <p class='mb-4'>
+                            <p class='mb-2 d-none'>
                                 ${textTruncate(course.description, 130)}
                             </p>
+                            <div class="star-container">
+                                <div class="stars" style="--rating: ${course.rating_course}"></div>
+                            </div>
                             <p class="harga">
                                 ${(() => {
                                     if (course.old_price !== '0') {
@@ -217,10 +220,10 @@ async function handleTraining() {
                             <img src="${training.thumbnail}" alt="thumbnail">
                         </div>
                         <div class="title">
-                            <h2 class="text-truncate">${training.title}</h2>
+                            <h2 class="">${training.title}</h2>
                         </div>
                         <div class="body">
-                            <p class="mb-2">
+                            <p class="mb-2 d-none">
                                 ${textTruncate(training.description, 130)}
                             </p>
                             <div class="info d-flex align-items-center gap-2">
