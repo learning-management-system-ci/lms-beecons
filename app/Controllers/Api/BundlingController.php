@@ -66,7 +66,6 @@ class BundlingController extends ResourceController
                 "description" => "required|max_length[255]",
                 "old_price" => "required|numeric",
                 "new_price" => "required|numeric",
-                "author_id" => "required|numeric",
                 'thumbnail' => 'uploaded[thumbnail]'
                     . '|is_image[thumbnail]'
                     . '|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]'
@@ -89,10 +88,6 @@ class BundlingController extends ResourceController
                     "numeric" => "{field} harus berisi angka"
                 ],
                 "old_price" => [
-                    "required" => "{field} tidak boleh kosong",
-                    "numeric" => "{field} harus berisi angka"
-                ],
-                "author_id" => [
                     "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi angka"
                 ],
@@ -120,7 +115,7 @@ class BundlingController extends ResourceController
                     'description' => $this->request->getVar("description"),
                     'new_price' => $this->request->getVar("new_price"),
                     'old_price' => $this->request->getVar("old_price"),
-                    'author_id' => $this->request->getVar("author_id"),
+                    'author_id' => $decoded->uid,
                     'thumbnail' => $fileName,
                 ];
 
@@ -245,8 +240,7 @@ class BundlingController extends ResourceController
                 "title" => "required",
                 "description" => "required|max_length[255]",
                 "old_price" => "required|numeric",
-                "new_price" => "required|numeric",
-                "author_id" => "required|numeric"
+                "new_price" => "required|numeric"
             ];
 
             $rules_b = [
@@ -272,10 +266,6 @@ class BundlingController extends ResourceController
                     "numeric" => "{field} harus berisi angka"
                 ],
                 "old_price" => [
-                    "required" => "{field} tidak boleh kosong",
-                    "numeric" => "{field} harus berisi angka"
-                ],
-                "author_id" => [
                     "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi angka"
                 ]
@@ -313,7 +303,7 @@ class BundlingController extends ResourceController
                             'description' => $this->request->getVar("description"),
                             'new_price' => $this->request->getVar("new_price"),
                             'old_price' => $this->request->getVar("old_price"),
-                            'author_id' => $this->request->getVar("author_id"),
+                            'author_id' => $decoded->uid,
                             'thumbnail' => $fileName,
                         ];
 
