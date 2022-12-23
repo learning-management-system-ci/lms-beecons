@@ -63,6 +63,11 @@ class Users extends Migration
 				'default' 		=> 'member',
 				'null' 			=> false,
 			],
+			'company' => [
+				'type'			=> 'VARCHAR',
+				'constraint'    => 255,
+				'null'			=> true,
+			],
 			'activation_code'      => [
 				'type'           => 'VARCHAR',
 				'constraint'     => 255,
