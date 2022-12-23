@@ -21,19 +21,39 @@ class BundlingController extends ResourceController
     public function __construct()
     {
         $this->bundling = new Bundling();
-        $this->path = site_url() . 'upload/bundling/';
+        $this->pathbundling = site_url() . 'upload/bundling/';
+        $this->pathcourse = site_url() . 'upload/course/thumbnail/';
     }
 
     public function index()
     {
-        $data = $this->bundling
+        $modelBundling = new Bundling();
+
+        $bundling = $this->bundling
             ->select('bundling.*, category_bundling.name as category_name')
-            ->orderBy('bundling_id', 'DESC')
             ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
             ->findAll();
 
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+        for ($i = 0; $i < count($bundling); $i++) {
+            $bundling[$i]['thumbnail'] = $this->pathbundling . $bundling[$i]['thumbnail'];
+        }
+
+        $data['bundling'] = $bundling;
+
+        for ($x = 0; $x < count($bundling); $x++) {
+            $course = $modelBundling
+                ->where('bundling.bundling_id', $bundling[$x]['bundling_id'])
+                ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
+                ->join('course', 'course_bundling.course_id=course.course_id')
+                ->select('course.*')
+                ->findAll();
+            
+            for ($i = 0; $i < count($course); $i++) {
+                $course[$i]['thumbnail'] = $this->pathcourse . $bundling[$i]['thumbnail'];
+            }
+
+            $data['bundling'][$x]['course'] = $course;
+
         }
 
         if (count($data) > 0) {
@@ -66,7 +86,6 @@ class BundlingController extends ResourceController
                 "description" => "required|max_length[255]",
                 "old_price" => "required|numeric",
                 "new_price" => "required|numeric",
-                "author_id" => "required|numeric",
                 'thumbnail' => 'uploaded[thumbnail]'
                     . '|is_image[thumbnail]'
                     . '|mime_in[thumbnail,image/jpg,image/jpeg,image/png,image/webp]'
@@ -89,10 +108,6 @@ class BundlingController extends ResourceController
                     "numeric" => "{field} harus berisi angka"
                 ],
                 "old_price" => [
-                    "required" => "{field} tidak boleh kosong",
-                    "numeric" => "{field} harus berisi angka"
-                ],
-                "author_id" => [
                     "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi angka"
                 ],
@@ -120,7 +135,7 @@ class BundlingController extends ResourceController
                     'description' => $this->request->getVar("description"),
                     'new_price' => $this->request->getVar("new_price"),
                     'old_price' => $this->request->getVar("old_price"),
-                    'author_id' => $this->request->getVar("author_id"),
+                    'author_id' => $decoded->uid,
                     'thumbnail' => $fileName,
                 ];
 
@@ -245,8 +260,7 @@ class BundlingController extends ResourceController
                 "title" => "required",
                 "description" => "required|max_length[255]",
                 "old_price" => "required|numeric",
-                "new_price" => "required|numeric",
-                "author_id" => "required|numeric"
+                "new_price" => "required|numeric"
             ];
 
             $rules_b = [
@@ -272,10 +286,6 @@ class BundlingController extends ResourceController
                     "numeric" => "{field} harus berisi angka"
                 ],
                 "old_price" => [
-                    "required" => "{field} tidak boleh kosong",
-                    "numeric" => "{field} harus berisi angka"
-                ],
-                "author_id" => [
                     "required" => "{field} tidak boleh kosong",
                     "numeric" => "{field} harus berisi angka"
                 ]
@@ -313,7 +323,7 @@ class BundlingController extends ResourceController
                             'description' => $this->request->getVar("description"),
                             'new_price' => $this->request->getVar("new_price"),
                             'old_price' => $this->request->getVar("old_price"),
-                            'author_id' => $this->request->getVar("author_id"),
+                            'author_id' => $decoded->uid,
                             'thumbnail' => $fileName,
                         ];
 
