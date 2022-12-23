@@ -14,7 +14,7 @@ class CourseBundling extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['bundling_id', 'course_id', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['bundling_id', 'course_id', 'order', 'created_at', 'updated_at'];
 
     // Dates
     protected $useTimestamps = true;

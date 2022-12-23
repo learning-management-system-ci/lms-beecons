@@ -27,6 +27,11 @@ class CourseBundling extends Migration
                 'unsigned'       => true,
                 'null'       => true,
             ],
+            'order'       => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+            ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
             'deleted_at datetime',
