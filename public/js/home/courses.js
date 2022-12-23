@@ -215,10 +215,10 @@ async function handleCourses() {
                             </div>
                             <div class="body">
                                 <a href="/course/${course.course_id}">
-                                    <h2 class="text-truncate mb-2">${course.title}</h2>
+                                    <h2 class="mb-2">${course.title}</h2>
                                 </a>
                                 <p class='mb-2'>${course.author}</p>
-                                <p class='mb-2'>
+                                <p class='mb-2 d-none'>
                                     ${textTruncate(course.description, 130)}
                                 </p>
                                 <div class="star-container">
