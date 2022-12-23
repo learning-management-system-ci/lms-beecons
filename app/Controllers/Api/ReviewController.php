@@ -66,6 +66,22 @@ class ReviewController extends ResourceController
                     'data' => []
                 ];
             } else {
+                if (!$this->request->getVar("course_id")){
+                    $data['user_id'] = $decoded->uid;
+                    $data['bundling_id'] = $this->request->getVar("bundling_id");
+                    $data['feedback'] = $this->request->getVar("feedback");
+                    $data['score'] = $this->request->getVar("score");
+
+                    $this->review->save($data);
+
+                    $response = [
+                        'status' => 200,
+                        'error' => false,
+                        'message' => 'Review berhasil dibuat',
+                        'data' => []
+                    ];
+                }
+
                 $data['user_id'] = $decoded->uid;
                 $data['course_id'] = $this->request->getVar("course_id");
                 // $data['bundling_id'] = $this->request->getVar("bundling_id");

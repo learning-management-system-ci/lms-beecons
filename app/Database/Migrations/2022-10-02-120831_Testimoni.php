@@ -21,6 +21,11 @@ class Testimoni extends Migration
 				'unsigned'       => true,
 				'null'			=> true,
 			],
+			'alumni' => [
+                'type'           => 'VARCHAR',
+                'constraint'     => 255,
+                'null'           => true,
+            ],
 			'testimoni' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => 255,
