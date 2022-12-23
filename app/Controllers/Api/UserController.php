@@ -14,6 +14,7 @@ use App\Models\Course;
 use App\Models\VideoCategory;
 use App\Models\Video;
 use App\Models\UserVideo;
+use App\Models\Review;
 use Firebase\JWT\JWT;
 
 class UserController extends ResourceController
@@ -625,5 +626,87 @@ class UserController extends ResourceController
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
+    }
+
+    public function getAuthor(){
+        $user = new Users;
+        $modelCourse = new Course;
+        $modelReview = new Review;
+
+        $getdataauthor = $user
+            ->where('role', 'author')
+            ->select('id, fullname, email, profile_picture, role, company')
+            ->findAll();
+
+        $data['author'] = $getdataauthor;
+
+        $rating_incourse_raw = 0;
+        $rating_incourse_final = 0;
+        
+        for ($i = 0; $i < count($getdataauthor); $i++) {
+            $course = $modelCourse
+                ->where('author_id', $getdataauthor[$i]['id'])
+                ->select('course_id')
+                ->findAll();
+
+            // $data['author'][$i]['course'] = $course;
+
+            for ($x = 0; $x < count($course); $x++) {
+                $cek_course = $modelReview->where('course_id', $course[$x]['course_id'])->findAll();
+
+                // $rating_incourse_raw = 0;
+                // $rating_incourse_final = 0;
+            
+                if ($cek_course != null){
+                    $reviewcourse = $modelReview->where('course_id', $course[$x]['course_id'])->findAll();
+
+                    $rating_raw = 0;
+                    $rating_final = 0;
+
+                    for ($n = 0; $n < count($reviewcourse); $n++) {
+                        $rating_raw += $reviewcourse[$n]['score'];
+                        $rating_final = $rating_raw / count($reviewcourse);
+
+                        // $data['author'][$i]['course'][$x]['rating_course'] = $rating_final;
+                    }
+                } else {
+                    // $data['author'][$i]['course'][$x]['rating_course'] = 0;
+                    $rating_final = 0;
+                }
+            }
+
+            for ($m = 0; $m < count($course); $m++) {
+                $rating_incourse_raw += $course[$m][$rating_final];
+                $rating_incourse_final = $rating_incourse_raw / count($course[$m]);
+
+            }
+
+            // $test = count($course);
+            var_dump($rating_incourse_final);
+            die;
+        }
+
+        // $cek_course = $this->modelReview->where('course_id', $data[$i]['course_id'])->findAll();
+        
+        // if ($cek_course != null){
+        //     $reviewcourse = $this->modelReview->where('course_id', $data[$i]['course_id'])->findAll();
+
+        //     $rating_raw = 0;
+        //     $rating_final = 0;
+
+        //     for ($n = 0; $n < count($reviewcourse); $n++) {
+        //         $rating_raw += $reviewcourse[$n]['score'];
+        //         $rating_final = $rating_raw / count($reviewcourse);
+
+        //         $data[$i]['rating_course'] = $rating_final;
+        //     }
+        // } else {
+        //     $data[$i]['rating_course'] = 0;
+        // }
+
+        // var_dump($getdataauthor);
+        // die;
+
+        return $this->respond($data);
     }
 }

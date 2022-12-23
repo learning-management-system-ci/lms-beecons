@@ -76,8 +76,8 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $rules = [
@@ -251,8 +251,8 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $rules_a = [
@@ -393,8 +393,8 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $data = $this->bundling->where('bundling_id', $id)->findAll();

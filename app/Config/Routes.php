@@ -172,6 +172,7 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\UserController::delete/$1');
         $routes->get('(:num)', 'Api\UserController::userDetail/$1');
         $routes->get('role', 'Api\UserController::getRole');
+        $routes->get('author', 'Api\UserController::getAuthor');
     });
 
     $routes->group('course/', static function ($routes) {

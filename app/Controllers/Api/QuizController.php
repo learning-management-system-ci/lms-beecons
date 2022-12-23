@@ -58,8 +58,8 @@ class QuizController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'partner') {
-                return $this->fail('Tidak dapat di akses selain admin, mentor & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $rules = [
@@ -117,8 +117,8 @@ class QuizController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'partner') {
-                return $this->fail('Tidak dapat di akses selain admin, mentor & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $input = $this->request->getRawInput();
@@ -186,8 +186,8 @@ class QuizController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'partner') {
-                return $this->fail('Tidak dapat di akses selain admin, mentor & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $data = $this->quiz->where('quiz_id', $id)->findAll();

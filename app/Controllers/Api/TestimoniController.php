@@ -76,8 +76,8 @@ class TestimoniController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $rules = [
@@ -134,8 +134,8 @@ class TestimoniController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $input = $this->request->getRawInput();
@@ -199,8 +199,8 @@ class TestimoniController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $data = $this->testimoni->where('testimoni_id', $id)->findAll();
