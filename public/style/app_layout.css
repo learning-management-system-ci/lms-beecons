@@ -148,6 +148,22 @@ h6 {
   color: #9ca3af;
   margin-right: 0.5rem;
 }
+.card-course .body .star-container .stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: 1.4rem;
+  font-family: Times;
+  line-height: 1;
+}
+.card-course .body .star-container .stars::before {
+  content: "★★★★★";
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #E0D043 var(--percent), #ffffff var(--percent));
+  -webkit-background-clip: text;
+  background-clip: #FFCB42;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #E0D043;
+}
 .card-course .card-course-button {
   display: flex;
   justify-content: space-between;

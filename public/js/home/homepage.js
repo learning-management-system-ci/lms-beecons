@@ -76,9 +76,12 @@ async function handleCourses() {
                                 <h2 class="text-truncate mb-2">${course.title}</h2>
                             </a>
                             <p class='mb-2'>${course.author}</p>
-                            <p class='mb-4'>
+                            <p class='mb-2'>
                                 ${textTruncate(course.description, 130)}
                             </p>
+                            <div class="star-container">
+                                <div class="stars" style="--rating: ${course.rating_course}"></div>
+                            </div>
                             <p class="harga">
                                 ${(() => {
                                     if (course.old_price !== '0') {
