@@ -147,8 +147,8 @@ class ReviewController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member'  || $data['role'] == 'mentor' || $data['role'] == 'partner') {
-                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses selain member', 400);
             }
 
             $data = $this->review->where('user_review_id', $id)->findAll();

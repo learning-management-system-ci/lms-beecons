@@ -110,7 +110,7 @@ class UserSeeder extends Seeder
             ],
         ];
 
-        $role = ['member', 'partner', 'author', 'mentor', 'admin'];
+        $role = ['member', 'author', 'admin'];
         for ($i = 1; $i <= $no; $i++) {
             array_push($user, [
                 'job_id' => rand(1, count($job)),
