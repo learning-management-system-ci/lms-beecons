@@ -1018,8 +1018,8 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'author') {
-                return $this->fail('Tidak dapat di akses selain author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $modelCourse = new Course();
@@ -1160,8 +1160,8 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'author') {
-                return $this->fail('Tidak dapat di akses selain author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $modelCourse = new Course();
