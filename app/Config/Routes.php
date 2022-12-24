@@ -183,6 +183,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
         $routes->get('filter/(:segment)/detail/(:num)', 'Api\CourseController::detailTraining/$1/$2');
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
+        $routes->get('(:num)/member', 'Api\CourseController::userProgress/$1');
 
 
         //OTHER PLATFORM ROUTE

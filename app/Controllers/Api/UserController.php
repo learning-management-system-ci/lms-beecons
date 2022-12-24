@@ -243,17 +243,17 @@ class UserController extends ResourceController
                 $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
 
                 $userVideo = 0;
-                for($l = 0; $l < count($video_); $l++){
+                for ($l = 0; $l < count($video_); $l++) {
                     $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
 
-                    if($userVideo_){
+                    if ($userVideo_) {
                         $userVideo++;
 
                         $score_raw += $userVideo_['score'];
                         $score_final = $score_raw / count($video_);
 
                         $course[$i]['score'] = $score_final;
-                    }else{
+                    } else {
                         $course[$i]['score'] = null;
                     }
                 }
@@ -620,7 +620,7 @@ class UserController extends ResourceController
 
             $response = [
                 'id' => $decoded->uid,
-                'progress' => $progress
+                'progress' => isset($progress) ? $progress : [],
             ];
             return $this->respond($response);
         } catch (\Throwable $th) {
@@ -628,7 +628,8 @@ class UserController extends ResourceController
         }
     }
 
-    public function getAuthor(){
+    public function getAuthor()
+    {
         $user = new Users;
         $modelCourse = new Course;
         $modelReview = new Review;
@@ -642,7 +643,7 @@ class UserController extends ResourceController
 
         $rating_incourse_raw = 0;
         $rating_incourse_final = 0;
-        
+
         for ($i = 0; $i < count($getdataauthor); $i++) {
             $course = $modelCourse
                 ->where('author_id', $getdataauthor[$i]['id'])
@@ -656,8 +657,8 @@ class UserController extends ResourceController
 
                 // $rating_incourse_raw = 0;
                 // $rating_incourse_final = 0;
-            
-                if ($cek_course != null){
+
+                if ($cek_course != null) {
                     $reviewcourse = $modelReview->where('course_id', $course[$x]['course_id'])->findAll();
 
                     $rating_raw = 0;
@@ -678,7 +679,6 @@ class UserController extends ResourceController
             for ($m = 0; $m < count($course); $m++) {
                 $rating_incourse_raw += $course[$m][$rating_final];
                 $rating_incourse_final = $rating_incourse_raw / count($course[$m]);
-
             }
 
             // $test = count($course);
@@ -687,7 +687,7 @@ class UserController extends ResourceController
         }
 
         // $cek_course = $this->modelReview->where('course_id', $data[$i]['course_id'])->findAll();
-        
+
         // if ($cek_course != null){
         //     $reviewcourse = $this->modelReview->where('course_id', $data[$i]['course_id'])->findAll();
 
