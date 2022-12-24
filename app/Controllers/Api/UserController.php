@@ -826,11 +826,11 @@ class UserController extends ResourceController
                 }
             }
 
-            for ($m = 0; $m < count($course); $m++) {
-                $rating_incourse_raw += $course[$m][$rating_final];
-                $rating_incourse_final = $rating_incourse_raw / count($course[$m]);
+            // for ($m = 0; $m < count($course); $m++) {
+            //     $rating_incourse_raw += $course[$m][$rating_final];
+            //     $rating_incourse_final = $rating_incourse_raw / count($course[$m]);
 
-            }
+            // }
 
             //         $rating_course_raw = 0;
             //         $rating_course_final = 0;
