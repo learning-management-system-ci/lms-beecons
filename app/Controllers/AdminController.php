@@ -38,7 +38,7 @@ class AdminController extends BaseController
             return;
         }
         if ($decoded) {
-            if ($decoded->role != 'admin') {
+            if ($decoded->role != 'admin' && $decoded->role != 'author') {
                 return redirect()->back();
             }
             $email = $decoded->email;

@@ -346,7 +346,9 @@ $(document).ready(() => {
 
     }
 
-    const deleteQuiz = () => {
+
+
+    const deleteVideo = () => {
       return $('.delete-video').on('mousedown', function (e) {
         let parent_quiz = $(this).attr('data-delete');
         if (confirm("Yakin mau menghapus?!")) {
@@ -395,7 +397,7 @@ $(document).ready(() => {
       })
     }
 
-    deleteQuiz()
+    deleteVideo()
 
 
     // on click list order submit 
@@ -478,8 +480,6 @@ $(document).ready(() => {
           })
         }
       }
-      console.log(data)
-
 
       $.ajax({
         type: "POST",
@@ -601,10 +601,61 @@ $(document).ready(() => {
 
     console.log(videos)
 
+
+    const populateCourseEditDelete = async (id) => {
+      $('#delete-course').on('click', function (e) {
+        $('.delete-body-modal').append('<p> Yakin Mau Menghapus Course Ini ?! </p>')
+        $('#delete-confirmed').on('click', function (e) {
+          $.ajax({
+            type: "DELETE",
+            url: `/api/course/delete/${id}`,
+            processData: false,
+            headers: {
+              "Authorization": `Bearer ${Cookies.get("access_token")}`,
+            },
+            beforeSend: function () {
+              Swal.fire({
+                width: '300px',
+                title: "<div class='status-loading'> " +
+                  '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
+                  '<p>Mohon Tunggu</p> ' +
+                  "</div>",
+                padding: '0px 0px 40px 6px',
+                showConfirmButton: false,
+                showClass: {
+                  popup: 'animate__animated animate__fadeIn animate__fast'
+                },
+              })
+            },
+            success: function () {
+              return Swal.fire({
+                width: '300px',
+                title: "<div class='status-loading'> " +
+                  '<h5>Success</h5> ' +
+                  "</div>",
+                showConfirmButton: true,
+                showClass: {
+                  popup: 'animate__animated animate__fadeIn animate__fast'
+                },
+              }).then(function () {
+                return window.location.href = '/admin/course'
+              });
+            },
+          })
+        })
+      })
+
+    }
+
+
     populateCourseDetailGeneral(course)
     populateCourseDetailReview(reviews)
     populateCourseDetailVideo(videos, course_id, title)
     populateCourseDetailSetting(course)
+    populateCourseEditDelete(course_id)
+
+
+
   }
 
   populateCourseDetailPage()
