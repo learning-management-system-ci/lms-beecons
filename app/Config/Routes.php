@@ -380,7 +380,7 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\ResumeController::create');
         $routes->put('update/(:num)', 'Api\ResumeController::update/$1');
         $routes->delete('delete/(:num)', 'Api\ResumeController::delete/$1');
-        $routes->get('get-sertifikat/(:num)', 'Api\ResumeController::getSertifikat/$1');
+        $routes->get('get-sertifikat', 'Api\ResumeController::getSertifikat');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');

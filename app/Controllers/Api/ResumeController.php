@@ -258,12 +258,15 @@ class ResumeController extends ResourceController
 		return $this->failNotFound('Data Resume tidak ditemukan');
 	}
 
-    public function getBundlingSertifikat($course_id = null){
+    public function getSertifikat(){
         $modelUserCourse = new UserCourse();
         $modelVideo = new Video();
         $modelUserVideo = new UserVideo();
         $modelCourse = new Course;
         $modelVideoCategory = new VideoCategory;
+
+        $type = $_GET['type'];
+        $id = $_GET['id'];
 
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
@@ -273,202 +276,183 @@ class ResumeController extends ResourceController
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
 
-            $course = $modelUserCourse
-                ->where('user_course.course_id', $course_id)
-                ->where('user_course.user_id', $decoded->uid)
-                ->join('users', 'user_course.user_id=users.id')
-                ->join('course', 'user_course.course_id=course.course_id')
-                ->join('video_category', 'user_course.course_id=video_category.course_id')
-                ->select('users.id, users.fullname, course.title, user_course.created_at, video_category.video_category_id')
-                ->findAll();
-
-            $data['course'] = $course;
-
-            for ($l = 0; $l < count($course); $l++) {
-                $video = $modelVideo
-                    ->where('video_category_id', $course[$l]['video_category_id'])
-                    ->select('video.*')
+            if ($type == 'course'){
+                // var_dump('test');
+                // die;
+                $course = $modelUserCourse
+                    ->where('user_course.course_id', $id)
+                    ->where('user_course.user_id', $decoded->uid)
+                    ->join('users', 'user_course.user_id=users.id')
+                    ->join('course', 'user_course.course_id=course.course_id')
+                    ->join('video_category', 'user_course.course_id=video_category.course_id')
+                    ->select('users.id, users.fullname, course.title, user_course.created_at, video_category.video_category_id')
                     ->findAll();
-    
-                $data['course'][$l]['video'] = $video;
 
-                for ($i = 0; $i < count($video); $i++) {
-                    $uservideo = $modelUserVideo
-                        ->where('video_id', $video[$i]['video_id'])
-                        ->where('user_id', $course[$l]['id'])
-                        ->select('user_video.score')
-                        ->findAll();
-                    
-                    if ($uservideo == null) {
-                        $uservideo = null;
-                    }else {
-                        $uservideo = $uservideo;
-                    }
-                    
-                    $data['course'][$l]['video'][$i]['hasil_score'] = $uservideo;
-                }
+                $data['course'] = $course;
 
-                for ($x = 0; $x < count($video); $x++) {
-                    $resume = $this->resume
-                        ->where('video_id', $video[$x]['video_id'])
-                        ->where('user_id', $course[$l]['id'])
-                        ->select('resume.resume')
+                for ($l = 0; $l < count($course); $l++) {
+                    $video = $modelVideo
+                        ->where('video_category_id', $course[$l]['video_category_id'])
+                        ->select('video.*')
                         ->findAll();
         
-                    if ($resume == null) {
-                        $resume = null;
-                    }else {
-                        $resume = $resume;
+                    $data['course'][$l]['video'] = $video;
+
+                    for ($i = 0; $i < count($video); $i++) {
+                        $uservideo = $modelUserVideo
+                            ->where('video_id', $video[$i]['video_id'])
+                            ->where('user_id', $course[$l]['id'])
+                            ->select('user_video.score')
+                            ->findAll();
+                        
+                        if ($uservideo == null) {
+                            $uservideo = null;
+                        }else {
+                            $uservideo = $uservideo;
+                        }
+                        
+                        $data['course'][$l]['video'][$i]['hasil_score'] = $uservideo;
                     }
 
-                    $data['course'][$l]['video'][$x]['resume_video'] = $resume;
-                }
-            }
+                    for ($x = 0; $x < count($video); $x++) {
+                        $resume = $this->resume
+                            ->where('video_id', $video[$x]['video_id'])
+                            ->where('user_id', $course[$l]['id'])
+                            ->select('resume.resume')
+                            ->findAll();
+            
+                        if ($resume == null) {
+                            $resume = null;
+                        }else {
+                            $resume = $resume;
+                        }
 
-            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->where('user_course.course_id', $course_id)->findAll();
-
-            if($userCourse == null){
-                return $this->failNotFound('Anda Tidak Memiliki Course');
-            }
-            $course = $userCourse;
-            $score_raw = 0;
-            $score_final = 0;
-            for ($i = 0; $i < count($userCourse); $i++) {
-                $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
-                $course[$i] = $course_;
-
-                $videoCat_ = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
-                $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
-
-                $userVideo = 0;
-                for($l = 0; $l < count($video_); $l++){
-                    $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
-
-                    if($userVideo_){
-                        $userVideo++;
-
-                        $score_raw += $userVideo_['score'];
-                        $score_final = $score_raw / count($video_);
-
-                        $data['course'][$i]['score'] = $score_final;
-                        $data['course'][$i]['progress'] = "Complete";
-                    }else{
-                        $data['course'][$i]['score'] = null;
-                        $data['course'][$i]['progress'] = "Inprogress";
+                        $data['course'][$l]['video'][$x]['resume_video'] = $resume;
                     }
                 }
-            }
 
-            if($data){
-                return $this->respond($data);
-            }else{
-                return $this->failNotFound('Anda Tidak Memiliki Course');
-            }
-        } catch (\Throwable $th) {
-            return $this->fail($th->getMessage());
-        }
-        return $this->failNotFound('Data tidak ditemukan');
-    }
+                $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->where('user_course.course_id', $id)->findAll();
 
-    public function getSertifikat($course_id = null){
-        $modelUserCourse = new UserCourse();
-        $modelVideo = new Video();
-        $modelUserVideo = new UserVideo();
-        $modelCourse = new Course;
-        $modelVideoCategory = new VideoCategory;
-
-        $key = getenv('TOKEN_SECRET');
-        $header = $this->request->getServer('HTTP_AUTHORIZATION');
-        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-        $token = explode(' ', $header)[1];
-
-        try {
-            $decoded = JWT::decode($token, $key, ['HS256']);
-
-            $course = $modelUserCourse
-                ->where('user_course.course_id', $course_id)
-                ->where('user_course.user_id', $decoded->uid)
-                ->join('users', 'user_course.user_id=users.id')
-                ->join('course', 'user_course.course_id=course.course_id')
-                ->join('video_category', 'user_course.course_id=video_category.course_id')
-                ->select('users.id, users.fullname, course.title, user_course.created_at, video_category.video_category_id')
-                ->findAll();
-
-            $data['course'] = $course;
-
-            for ($l = 0; $l < count($course); $l++) {
-                $video = $modelVideo
-                    ->where('video_category_id', $course[$l]['video_category_id'])
-                    ->select('video.*')
-                    ->findAll();
-    
-                $data['course'][$l]['video'] = $video;
-
-                for ($i = 0; $i < count($video); $i++) {
-                    $uservideo = $modelUserVideo
-                        ->where('video_id', $video[$i]['video_id'])
-                        ->where('user_id', $course[$l]['id'])
-                        ->select('user_video.score')
-                        ->findAll();
-                    
-                    if ($uservideo == null) {
-                        $uservideo = null;
-                    }else {
-                        $uservideo = $uservideo;
-                    }
-                    
-                    $data['course'][$l]['video'][$i]['hasil_score'] = $uservideo;
+                if($userCourse == null){
+                    return $this->failNotFound('Anda Tidak Memiliki Course');
                 }
+                $course = $userCourse;
+                $score_raw = 0;
+                $score_final = 0;
+                for ($i = 0; $i < count($userCourse); $i++) {
+                    $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
+                    $course[$i] = $course_;
 
-                for ($x = 0; $x < count($video); $x++) {
-                    $resume = $this->resume
-                        ->where('video_id', $video[$x]['video_id'])
-                        ->where('user_id', $course[$l]['id'])
-                        ->select('resume.resume')
-                        ->findAll();
+                    $videoCat_ = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
+                    $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
+
+                    $userVideo = 0;
+                    for($l = 0; $l < count($video_); $l++){
+                        $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
+
+                        if($userVideo_){
+                            $userVideo++;
+
+                            $score_raw += $userVideo_['score'];
+                            $score_final = $score_raw / count($video_);
+
+                            $data['course'][$i]['score'] = $score_final;
+                            $data['course'][$i]['progress'] = "Complete";
+                        }else{
+                            $data['course'][$i]['score'] = null;
+                            $data['course'][$i]['progress'] = "Inprogress";
+                        }
+                    }
+                }
+            }else if ($type == 'bundling'){
+                echo 'Proses Pengerjaan';
+                // $course = $modelUserCourse
+                //     ->where('user_course.course_id', $id)
+                //     ->where('user_course.user_id', $decoded->uid)
+                //     ->join('users', 'user_course.user_id=users.id')
+                //     ->join('course', 'user_course.course_id=course.course_id')
+                //     ->join('video_category', 'user_course.course_id=video_category.course_id')
+                //     ->select('users.id, users.fullname, course.title, user_course.created_at, video_category.video_category_id')
+                //     ->findAll();
+
+                // $data['course'] = $course;
+
+                // for ($l = 0; $l < count($course); $l++) {
+                //     $video = $modelVideo
+                //         ->where('video_category_id', $course[$l]['video_category_id'])
+                //         ->select('video.*')
+                //         ->findAll();
         
-                    if ($resume == null) {
-                        $resume = null;
-                    }else {
-                        $resume = $resume;
-                    }
+                //     $data['course'][$l]['video'] = $video;
 
-                    $data['course'][$l]['video'][$x]['resume_video'] = $resume;
-                }
-            }
+                //     for ($i = 0; $i < count($video); $i++) {
+                //         $uservideo = $modelUserVideo
+                //             ->where('video_id', $video[$i]['video_id'])
+                //             ->where('user_id', $course[$l]['id'])
+                //             ->select('user_video.score')
+                //             ->findAll();
+                        
+                //         if ($uservideo == null) {
+                //             $uservideo = null;
+                //         }else {
+                //             $uservideo = $uservideo;
+                //         }
+                        
+                //         $data['course'][$l]['video'][$i]['hasil_score'] = $uservideo;
+                //     }
 
-            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->where('user_course.course_id', $course_id)->findAll();
+                //     for ($x = 0; $x < count($video); $x++) {
+                //         $resume = $this->resume
+                //             ->where('video_id', $video[$x]['video_id'])
+                //             ->where('user_id', $course[$l]['id'])
+                //             ->select('resume.resume')
+                //             ->findAll();
+            
+                //         if ($resume == null) {
+                //             $resume = null;
+                //         }else {
+                //             $resume = $resume;
+                //         }
 
-            if($userCourse == null){
-                return $this->failNotFound('Anda Tidak Memiliki Course');
-            }
-            $course = $userCourse;
-            $score_raw = 0;
-            $score_final = 0;
-            for ($i = 0; $i < count($userCourse); $i++) {
-                $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
-                $course[$i] = $course_;
+                //         $data['course'][$l]['video'][$x]['resume_video'] = $resume;
+                //     }
+                // }
 
-                $videoCat_ = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
-                $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
+                // $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->where('user_course.course_id', $id)->findAll();
 
-                $userVideo = 0;
-                for($l = 0; $l < count($video_); $l++){
-                    $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
+                // if($userCourse == null){
+                //     return $this->failNotFound('Anda Tidak Memiliki Course');
+                // }
+                // $course = $userCourse;
+                // $score_raw = 0;
+                // $score_final = 0;
+                // for ($i = 0; $i < count($userCourse); $i++) {
+                //     $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
+                //     $course[$i] = $course_;
 
-                    if($userVideo_){
-                        $userVideo++;
+                //     $videoCat_ = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
+                //     $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
 
-                        $score_raw += $userVideo_['score'];
-                        $score_final = $score_raw / count($video_);
+                //     $userVideo = 0;
+                //     for($l = 0; $l < count($video_); $l++){
+                //         $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
 
-                        $data['course'][$i]['score'] = $score_final;
-                        $data['course'][$i]['progress'] = "Complete";
-                    }else{
-                        $data['course'][$i]['score'] = null;
-                        $data['course'][$i]['progress'] = "Inprogress";
-                    }
-                }
+                //         if($userVideo_){
+                //             $userVideo++;
+
+                //             $score_raw += $userVideo_['score'];
+                //             $score_final = $score_raw / count($video_);
+
+                //             $data['course'][$i]['score'] = $score_final;
+                //             $data['course'][$i]['progress'] = "Complete";
+                //         }else{
+                //             $data['course'][$i]['score'] = null;
+                //             $data['course'][$i]['progress'] = "Inprogress";
+                //         }
+                //     }
+                // }
+            } else {
+                return $this->failNotFound('Data tidak ditemukan');
             }
 
             if($data){
