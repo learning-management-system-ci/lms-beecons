@@ -87,6 +87,8 @@ class AuthController extends ResourceController
                 "exp" => time() + (60 * 60),
                 'uid'   => $datauser['id'],
                 'email' => $email,
+                'fullname'   => $datauser['fullname'],
+                'company'   => $datauser['company'],
                 'role' => $datauser['role'],
             ];
             $token = JWT::encode($payload, $key, 'HS256');
@@ -174,6 +176,8 @@ class AuthController extends ResourceController
                 "exp" => time() + (60 * 60),
                 'uid'   => $datauser['id'],
                 'email' => $email,
+                'fullname'   => $datauser['fullname'],
+                'company'   => $datauser['company'],
                 'role' => $datauser['role'],
             ];
             $token = JWT::encode($payload, $key, 'HS256');
@@ -414,6 +418,8 @@ class AuthController extends ResourceController
             "exp" => time() + (60 * 60),
             'uid'   => $verifyEmail['id'],
             'email' => $verifyEmail['email'],
+            'fullname'   => $datauser['fullname'],
+            'company'   => $datauser['company'],
             'role' => $datauser['role'],
         ];
         $token = JWT::encode($payload, $key, 'HS256');
