@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CourseBundling;
+use App\Models\Bundling;
 use App\Models\Users;
 use Firebase\JWT\JWT;
 
@@ -15,6 +16,7 @@ class CourseBundlingController extends ResourceController
     public function __construct()
     {
         $this->coursebundling = new CourseBundling();
+        $this->bundling = new Bundling();
     }
 
     public function index()
@@ -209,5 +211,56 @@ class CourseBundlingController extends ResourceController
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data Course Bundling tidak ditemukan');
+    }
+
+    public function order()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->where('id', $decoded->uid)->first();
+
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
+
+            $orderReq = $this->request->getVar();
+
+            $bundling = $this->bundling->where('bundling_id', $orderReq->bundling_id)->first();
+            if ($data['id'] != $bundling['author_id']) {
+                return $this->fail('Anda tidak mempunyai hak untuk mengubah bundling', 400);
+            }
+
+            for ($i = 0; $i < count($orderReq->order); $i++) {
+                $video = $this->coursebundling->find($orderReq->order[$i]->course_id);
+                if ($video) {
+                    $data = [
+                        'order' => $orderReq->order[$i]->order
+                    ];
+                    $this->coursebundling->update($orderReq->order[$i]->course_id, $data);
+
+                    $response = [
+                        'status'   => 200,
+                        'success'    => 200,
+                        'messages' => [
+                            'success' => 'Video berhasil diupdate'
+                        ]
+                    ];
+                } else {
+                    return $this->failNotFound('Data Video tidak ditemukan');
+                }
+            }
+
+            return $this->respond($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
     }
 }
