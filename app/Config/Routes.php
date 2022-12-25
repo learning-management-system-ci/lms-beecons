@@ -219,7 +219,7 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('bundling/', static function ($routes) {
         $routes->post('create', 'Api\BundlingController::create');
-        $routes->put('update/(:segment)', 'Api\BundlingController::update/$1');
+        $routes->post('update/(:segment)', 'Api\BundlingController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\BundlingController::delete/$1');
 
         //OTHER PLATFORM ROUTE
