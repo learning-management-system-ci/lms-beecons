@@ -7,12 +7,15 @@ if (!Cookies.get('access_token')) {
 
 const editAnswer = () => {
   return $('.answer-list').on('click', function (e) {
-    let editAnswerPrompt = prompt("Edit Jawaban:", $(this).text());
-    console.log($(this))
-    if (editAnswerPrompt) {
-      $(this).html(editAnswerPrompt)
-      e.stopImmediatePropagation();
-    }
+    let this_el = $(this)
+    Swal.fire({
+      text: 'Edit Jawaban',
+      input: 'text',
+      showCancelButton: true,
+      inputValue: $(this).text()
+    }).then(function (text) {
+      this_el.html(text.value)
+    })
     return e.stopImmediatePropagation();
   })
 }
@@ -20,12 +23,18 @@ const editAnswer = () => {
 const deleteQuiz = () => {
   return $('.delete-btn').on('mousedown', function (e) {
     let parent_quiz = $(this).attr('data-target-quiz');
-    if (confirm("Yakin mau menghapus?!")) {
-      $(parent_quiz).remove();
-    }
-    if ($('.parent').children().length == 0) {
-      $('#accordionExample').append('<p class="no-quiz text-center">Belum ada pertanyaan</p>')
-    }
+    Swal.fire({
+      text: 'Yakin mau menghapus ?!',
+      showCancelButton: true,
+    }).then(function (text) {
+      if (text.isConfirmed) {
+        $(parent_quiz).remove();
+        if ($('#accordionExample').children().length == 0) {
+          $('#accordionExample').append('<p class="no-quiz text-center">Belum ada pertanyaan</p>')
+        }
+      }
+
+    })
     return e.stopImmediatePropagation();
   })
 }
@@ -44,7 +53,7 @@ const addQuiz = () => {
 const quizComponent = (id, question, answer) => {
   return `<div class="accordion-item" id='quiz-items${id}'>
                 <h2 class="accordion-header d-flex align-items-center" id="heading${id}">
-                <i class="mx-3 text-white bi bi-grip-horizontal dragNdrop"></i>
+
                 <button aria-expanded="false" style="box-shadow:none ;" class="collapsed accordion-button" 
                   type="button" data-bs-toggle="collapse" data-bs-target="#collapse${id}" aria-controls="collapse${id}">
 
@@ -52,8 +61,7 @@ const quizComponent = (id, question, answer) => {
                 </button>
 
               </h2>
-                <div id="collapse${id}" class="accordion-collapse collapse" aria-labelledby="heading${id}"
-                    data-bs-parent="#accordionExample">
+                <div id="collapse${id}" class="accordion-collapse collapse" aria-labelledby="heading${id}">
                     <div class="accordion-body ">
                         <div style="display: block;">
                             <div class="quiz-section text-center p-1 swiper myswiper">
@@ -173,17 +181,17 @@ const sendingData = (reqType, url, formData) => {
 
 $(document).ready(() => {
 
-  Sortable.create(accordionExample, {
-    handle: '.dragNdrop',
-    animation: 150,
-    onEnd: function (evt) {
-      $('.accordion-item').each(function (i, el) {
-        $(this).find('.quiz-option').each(function () {
-          $(this).attr('class', `quiz-option px-3 d-flex align-items-center quiz-id-${i + 1}`)
-        })
-      })
-    }
-  })
+  // Sortable.create(accordionExample, {
+  //   handle: '.dragNdrop',
+  //   animation: 150,
+  //   onEnd: function (evt) {
+  //     $('.accordion-item').each(function (i, el) {
+  //       $(this).find('.quiz-option').each(function () {
+  //         $(this).attr('class', `quiz-option px-3 d-flex align-items-center quiz-id-${i + 1}`)
+  //       })
+  //     })
+  //   }
+  // })
 
 
   const getData = async (url) => {

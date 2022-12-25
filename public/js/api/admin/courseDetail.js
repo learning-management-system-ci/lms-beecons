@@ -43,13 +43,21 @@ $(document).ready(() => {
     window.location.href = '/login'
   }
 
-  //console.log(jwt-decode(Cookies.get('access_token')))
+  let checkAuthor = jwt_decode(Cookies.get('access_token'))
+  let type_tag_choice = new SlimSelect({
+    select: '#type-tag-input',
+    settings: {
+      allowDeselect: true
+    }
+  })
+
 
   $("#course-video").sortable({
     handle: '.bi-grip-horizontal',
     animation: 2000,
     ghostClass: '.bg-ghost-sortable '
   })
+
 
   const getCourseDetailData = async (id) => {
     let option = {
@@ -87,16 +95,16 @@ $(document).ready(() => {
     return data
   }
 
-  const getCourseCategoryListData = async () => {
+  const getCourseData = async (url) => {
     let option = {
       type: "GET",
-      url: document.location.origin + `/api/category`,
+      url: document.location.origin + `/api/` + url,
       dataType: "json",
       headers: {
         "Authorization": `Bearer ${Cookies.get("access_token")}`,
       },
-      success: function (categories) {
-        data = categories
+      success: function (resp) {
+        data = resp
       }
     }
 
@@ -104,24 +112,6 @@ $(document).ready(() => {
     await $.ajax(option)
     return data
   }
-
-  const getCourseTypeListData = async () => {
-    const option = {
-      type: "GET",
-      url: document.location.origin + `/api/type`,
-      dataType: "json",
-      headers: {
-        "Authorization": `Bearer ${Cookies.get("access_token")}`,
-      },
-      success: function (types) {
-        data = types
-      }
-    }
-    let data
-    await $.ajax(option)
-    return data
-  }
-
 
   const createVideoCategory = async (title, id) => {
     console.log(id)
@@ -217,7 +207,7 @@ $(document).ready(() => {
     // console.log(data)
   }
 
-  const populateCourseDetailGeneral = data => {
+  const populateCourseDetailGeneral = async data => {
     const content = {
       title: $('.title-content'),
       author: $('.author-content'),
@@ -230,6 +220,7 @@ $(document).ready(() => {
       price: $('.price-content'),
       after_discount_price: $('.after-discount-price-content'),
       thumbnail: $('.thumbnail-content'),
+      type_tag: $('#type-tag-input'),
     }
 
     const list_badge_color = [
@@ -241,6 +232,21 @@ $(document).ready(() => {
       'bg-info',
     ]
 
+    let userId = checkAuthor.uid
+    let category = await getCourseData('category');
+    let type = await getCourseData('type')
+    let type_tag = await getCourseData('type_tag')
+
+    $('#author-input').val(userId)
+
+    $.each(category.reverse(), function (index, value) {
+      $('#category-input-wraper').append(`<option value='${value.category_id}'>${value.name}</option>`)
+    })
+    $.each(type.reverse(), function (index, value) {
+      $('#type-input-wraper').append(`<option value='${value.type_id}'>${value.name}</option>`)
+    })
+
+
     content.title.text(data.title)
     content.author.text(data.author)
     content.type.text(data.type)
@@ -251,13 +257,35 @@ $(document).ready(() => {
     content.price.text(getRupiah(data.old_price))
     content.after_discount_price.text(getRupiah(data.new_price))
 
+    let type_tag_filtered = type_tag.filter((x) => x.name == data.type)
+    let addDataTypeTag = []
+    $.each(type_tag_filtered[0].tag, function (index, val) {
+      const container = {
+        text: val.name,
+        value: val.tag_id
+      }
+      addDataTypeTag.push(container)
+
+    })
+    if (addDataTypeTag.length > 0) {
+      type_tag_choice.setData(addDataTypeTag)
+    }
+
+
     if (data.tags) {
       content.tags.empty()
+      let arrData = []
       data.tags.forEach(tag => {
         // get random data from bg color
         let bg = list_badge_color[Math.floor(Math.random() * list_badge_color.length)]
         content.tags.append(`<span class="badge ${bg} mx-1 ">${tag.name}</span>`)
+        arrData.push(tag.tag_id)
       })
+
+      if (arrData.length > 0) {
+        type_tag_choice.setSelected(arrData)
+      }
+
     }
 
     if (data.thumbnail) {
@@ -351,49 +379,54 @@ $(document).ready(() => {
     const deleteVideo = () => {
       return $('.delete-video').on('mousedown', function (e) {
         let parent_quiz = $(this).attr('data-delete');
-        if (confirm("Yakin mau menghapus?!")) {
-          $.ajax({
-            type: "DELETE",
-            url: `/api/course/video/delete/${parent_quiz}`,
-            processData: false,
-            headers: {
-              "Authorization": `Bearer ${Cookies.get("access_token")}`,
-            },
-            beforeSend: function () {
-              Swal.fire({
-                width: '300px',
-                title: "<div class='status-loading'> " +
-                  '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
-                  '<p>Mohon Tunggu</p> ' +
-                  "</div>",
-                padding: '0px 0px 40px 6px',
-                showConfirmButton: false,
-                showClass: {
-                  popup: 'animate__animated animate__fadeIn animate__fast'
-                },
-              })
-            },
-            success: function () {
-              return Swal.fire({
-                width: '300px',
-                title: "<div class='status-loading'> " +
-                  '<h5>Success</h5> ' +
-                  "</div>",
-                showConfirmButton: true,
-                showClass: {
-                  popup: 'animate__animated animate__fadeIn animate__fast'
-                },
-              }).then(function () {
-                $(`#${parent_quiz}`).remove();
-                if ($('.parent').children().length == 0) {
-                  content.video.text('<p class="no-quiz text-center">Belum ada chapter</p>')
-                }
-              });
-            },
-          })
 
-        }
+        Swal.fire({
+          text: 'Yakin mau menghapus ?!',
+          showCancelButton: true,
+        }).then(function (text) {
 
+          if (text.isConfirmed) {
+            $.ajax({
+              type: "DELETE",
+              url: `/api/course/video/delete/${parent_quiz}`,
+              processData: false,
+              headers: {
+                "Authorization": `Bearer ${Cookies.get("access_token")}`,
+              },
+              beforeSend: function () {
+                Swal.fire({
+                  width: '300px',
+                  title: "<div class='status-loading'> " +
+                    '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
+                    '<p>Mohon Tunggu</p> ' +
+                    "</div>",
+                  padding: '0px 0px 40px 6px',
+                  showConfirmButton: false,
+                  showClass: {
+                    popup: 'animate__animated animate__fadeIn animate__fast'
+                  },
+                })
+              },
+              success: function () {
+                return Swal.fire({
+                  width: '300px',
+                  title: "<div class='status-loading'> " +
+                    '<h5>Success</h5> ' +
+                    "</div>",
+                  showConfirmButton: true,
+                  showClass: {
+                    popup: 'animate__animated animate__fadeIn animate__fast'
+                  },
+                }).then(function () {
+                  $(`#${parent_quiz}`).remove();
+                  if ($('.parent').children().length == 0) {
+                    content.video.text('<p class="no-quiz text-center">Belum ada chapter</p>')
+                  }
+                });
+              },
+            })
+          }
+        })
       })
     }
 
@@ -458,6 +491,9 @@ $(document).ready(() => {
       })
 
     })
+
+
+
 
     content.submit_new_video.on('submit', async (e) => {
       e.preventDefault()
@@ -557,23 +593,6 @@ $(document).ready(() => {
       submit_btn: $('#submit-btn-course-detail-setting')
     }
 
-    // paralel request promise all
-    Promise.all([
-      getCourseCategoryListData(),
-      getCourseTypeListData()
-    ]).then(values => {
-      const [categories, types] = values
-      categories.forEach(category => {
-        isSelected = category.name == data.category ? 'selected' : ''
-        wraper.category.append(`<option value="${category.category_id}" ${isSelected}>${category.name}</option>`)
-      })
-
-      types.forEach(type => {
-        isSelected = type.name == data.type ? 'selected' : ''
-        wraper.type.append(`<option value="${type.type_id}" ${isSelected}>${type.name}</option>`)
-      })
-    })
-
     content.title.val(data.title)
     content.author.val(data.author)
     content.description.text(data.description)
@@ -581,10 +600,6 @@ $(document).ready(() => {
     content.suitable_for.text(data.suitable_for)
     content.price.val(data.old_price)
     content.after_discount_price.val(data.new_price)
-
-    content.submit_btn.click(() => {
-      submitCourseDetailSetting(course_id)
-    })
   }
 
   const populateCourseDetailPage = async () => {
@@ -599,50 +614,111 @@ $(document).ready(() => {
       title
     } = course
 
-    console.log(videos)
-
-
     const populateCourseEditDelete = async (id) => {
       $('#delete-course').on('click', function (e) {
-        $('.delete-body-modal').append('<p> Yakin Mau Menghapus Course Ini ?! </p>')
-        $('#delete-confirmed').on('click', function (e) {
-          $.ajax({
-            type: "DELETE",
-            url: `/api/course/delete/${id}`,
-            processData: false,
-            headers: {
-              "Authorization": `Bearer ${Cookies.get("access_token")}`,
-            },
-            beforeSend: function () {
-              Swal.fire({
-                width: '300px',
-                title: "<div class='status-loading'> " +
-                  '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
-                  '<p>Mohon Tunggu</p> ' +
-                  "</div>",
-                padding: '0px 0px 40px 6px',
-                showConfirmButton: false,
-                showClass: {
-                  popup: 'animate__animated animate__fadeIn animate__fast'
-                },
-              })
-            },
-            success: function () {
-              return Swal.fire({
-                width: '300px',
-                title: "<div class='status-loading'> " +
-                  '<h5>Success</h5> ' +
-                  "</div>",
-                showConfirmButton: true,
-                showClass: {
-                  popup: 'animate__animated animate__fadeIn animate__fast'
-                },
-              }).then(function () {
-                return window.location.href = '/admin/course'
-              });
-            },
-          })
+        Swal.fire({
+          text: 'Yakin Mau Menghapus Course Ini ?!',
+          showCancelButton: true,
+        }).then(function (resp) {
+          if (resp.isConfirmed) {
+            $.ajax({
+              type: "DELETE",
+              url: `/api/course/delete/${id}`,
+              processData: false,
+              headers: {
+                "Authorization": `Bearer ${Cookies.get("access_token")}`,
+              },
+              beforeSend: function () {
+                Swal.fire({
+                  width: '300px',
+                  title: "<div class='status-loading'> " +
+                    '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
+                    '<p>Mohon Tunggu</p> ' +
+                    "</div>",
+                  padding: '0px 0px 40px 6px',
+                  showConfirmButton: false,
+                  showClass: {
+                    popup: 'animate__animated animate__fadeIn animate__fast'
+                  },
+                })
+              },
+              success: function () {
+                return Swal.fire({
+                  width: '300px',
+                  title: "<div class='status-loading'> " +
+                    '<h5>Success</h5> ' +
+                    "</div>",
+                  showConfirmButton: true,
+                  showClass: {
+                    popup: 'animate__animated animate__fadeIn animate__fast'
+                  },
+                }).then(function () {
+                  return window.location.href = '/admin/course'
+                });
+              },
+            })
+          }
         })
+
+
+      })
+
+      $('#update-course-form').on('submit', function (e) {
+        e.preventDefault()
+        let form = new FormData($('#update-course-form')[0])
+        form.append('tag', JSON.stringify(type_tag_choice.getSelected()))
+
+        $.ajax({
+          type: "POST",
+          url: `/api/course/update/${id}`,
+          data: form,
+          dataType: 'json',
+          contentType: false,
+          cache: false,
+          processData: false,
+          headers: {
+            "Authorization": `Bearer ${Cookies.get("access_token")}`,
+          },
+          beforeSend: function () {
+            Swal.fire({
+              width: '300px',
+              title: "<div class='status-loading'> " +
+                '<img class="loading-icon" src="image/cart/redeem-loading.gif" alt=""> ' +
+                '<p>Sedang Mengirim...(<span id="add-video-uploading"></span>)</p> ' +
+                "</div>",
+              padding: '0px 0px 40px 6px',
+              showConfirmButton: false,
+              showClass: {
+                popup: 'animate__animated animate__fadeIn animate__fast'
+              },
+            })
+          },
+          xhr: function () {
+            var xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function (evt) {
+              if (evt.lengthComputable) {
+                var percentComplete = evt.loaded / evt.total;
+                $('#add-video-uploading').html((Math.round(percentComplete * 100)) + '%');
+              }
+            }, false);
+            return xhr;
+          },
+          success: function () {
+            return Swal.fire({
+              width: '300px',
+              title: "<div class='status-loading'> " +
+                '<h5>Success</h5> ' +
+                "</div>",
+              showConfirmButton: true,
+              showClass: {
+                popup: 'animate__animated animate__fadeIn animate__fast'
+              },
+            }).then(function () {
+              window.location.reload()
+            });
+          },
+        })
+
       })
 
     }
@@ -653,10 +729,7 @@ $(document).ready(() => {
     populateCourseDetailVideo(videos, course_id, title)
     populateCourseDetailSetting(course)
     populateCourseEditDelete(course_id)
-
-
-
   }
 
-  populateCourseDetailPage()
+  // populateCourseDetailPage()
 })

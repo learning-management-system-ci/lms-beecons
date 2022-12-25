@@ -113,7 +113,7 @@
               <input class="hide form-control author-content-create" id="service" name="service" type="text" value="course">
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Type</label>
-                <select class="form-select type-content-create" id="type-input-wraper" name="type_id">
+                <select class="form-select type-content-create" id="type-input-wraper" name="type_id" required>
                   <option value="" disabled selected hidden>-- Select Course Category --</option>
                 </select>
               </div>
@@ -121,11 +121,9 @@
 
             <div class="col-md-6">
               <div class="form-group">
-
-                <!-- select type input -->
                 <label for="example-text-input" class="form-control-label">Tag</label>
-                <select class="tag-picker" multiple id="type-tag-input-wraper">
-                  <option disabled>Pilih Category Terlebih Dulu</option>
+                <select class="tag-picker" multiple id="type-tag-input-wraper" required>
+                  <option disabled>Pilih Type Terlebih Dulu</option>
                 </select>
               </div>
             </div>
@@ -133,7 +131,7 @@
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Category</label>
                 <!-- select category input -->
-                <select class="form-select category-content-create" id="category-input-wraper" name="category_id">
+                <select class="form-select category-content-create" id="category-input-wraper" name="category_id" required>
                   <option value="" disabled selected hidden>-- Select Course Category --</option>
                 </select>
                 <!-- <input class="form-control category-content-create" type="text"> -->
@@ -142,20 +140,20 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Description</label>
-                <textarea class="form-control description-content-create" row="5" id="description-input" name="description" minlength="8"> </textarea>
+                <textarea class="form-control description-content-create" rows="7" id="description-input" name="description" required minlength="8"> </textarea>
                 <small>Minimal 8 Karakter</small>
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Key Takeways</label>
-                <textarea class="form-control key-takeaways-content-create" row="3" id="key-takeaways-input" name="key_takeaways"> </textarea>
+                <textarea class="form-control key-takeaways-content-create" rows="5" id="key-takeaways-input" name="key_takeaways"> </textarea>
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Suitable For</label>
-                <textarea class="form-control suitable-for-content-create" row="3" id="suitable-for-input" name="suitable_for"> </textarea>
+                <label for="example-text-input" class="form-control-label" required>Suitable For</label>
+                <textarea class="form-control suitable-for-content-create" rows="3" id="suitable-for-input" name="suitable_for"> </textarea>
               </div>
             </div>
             <div class="col-md-6">
@@ -163,7 +161,7 @@
                 <label for="example-text-input" class="form-control-label">Price</label>
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">Rp. </span>
-                  <input class="form-control price-content-create" type="number" id="price-input" name="old_price">
+                  <input class="form-control price-content-create" type="number" required id="price-input" name="old_price">
                 </div>
               </div>
             </div>

@@ -26,6 +26,7 @@ $(document).ready(() => {
     }
   })
 
+
   const getCourseData = async (url) => {
     let option = {
       type: "GET",
@@ -63,7 +64,6 @@ $(document).ready(() => {
       let addData = []
 
       $.each(type_tag_filtered[0].tag, function (index, val) {
-        // $('#type-tag-input-wraper').append(`<option value='${value.tag_id}'>${value.name}</option>`)
         const container = {
           text: val.name,
           value: val.tag_id
@@ -84,9 +84,9 @@ $(document).ready(() => {
       let form = new FormData($('#add-course-form')[0])
       form.append('tag', JSON.stringify(type_tag_choice.getSelected()))
 
-      for (var pair of form.entries()) {
-        console.log(pair[0] + ', ' + pair[1]);
-      }
+      // for (var pair of form.entries()) {
+      //   console.log(pair[0] + ', ' + pair[1]);
+      // }
 
       $.ajax({
         type: "POST",
@@ -144,8 +144,11 @@ $(document).ready(() => {
 
   const populateCourseData = async () => {
     let courseData = await getCourseData('course');
-
     let course = courseData.filter((x) => x.service == "course")
+    if (checkAuthor.role == 'author') {
+      course = courseData.filter((x) => x.author_company == checkAuthor.company)
+    }
+
     const list_badge_color = [
       "bg-gradient-primary",
       "bg-gradient-info",
@@ -180,7 +183,6 @@ $(document).ready(() => {
         {
           data: "title",
           render: function (data, type, row, meta) {
-            console.log(data)
             return `
               <div class="d-flex flex-column justify-content-center px-3">
                 <h6 class="mb-0 text-sm font-weight-bold">${textTruncate(data, 30)}</h6>
@@ -212,7 +214,7 @@ $(document).ready(() => {
           }
         },
         {
-          data: "author",
+          data: "author_company",
           render: function (data, type, row, meta) {
             return `<p class="text-xs font-weight-bold mb-0">${data}</p>`
           },

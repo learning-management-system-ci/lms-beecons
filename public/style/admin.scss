@@ -4,9 +4,14 @@
 }
 
 .tag-picker {
-    height: 3em;
+    height: 2.5em;
     border: none;
     padding: 0%;
+}
+
+select[name='course-table_length'],
+select[name='table-user_length'] {
+    width: 100% !important;
 }
 
 
