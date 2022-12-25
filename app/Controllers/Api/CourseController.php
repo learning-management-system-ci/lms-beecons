@@ -94,7 +94,8 @@ class CourseController extends ResourceController
 
         for ($i = 0; $i < count($data); $i++) {
             $author = $modelUser->where('id', $data[$i]['author_id'])->first();
-            $data[$i]['author'] = $author['fullname'];
+            $data[$i]['author_fullname'] = $author['fullname'];
+            $data[$i]['author_company'] = $author['company'];
             unset($data[$i]['author_id']);
 
             $data[$i]['thumbnail'] = site_url() . 'upload/course/thumbnail/' . $data[$i]['thumbnail'];
