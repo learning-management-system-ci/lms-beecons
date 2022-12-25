@@ -1344,7 +1344,7 @@ class CourseController extends ResourceController
                             'status'   => 201,
                             'success'    => 201,
                             'messages' => [
-                                'success' => 'Data Course berhasil diupasdasddate'
+                                'success' => 'Data Course berhasil diupdate'
                             ]
                         ];
                     }

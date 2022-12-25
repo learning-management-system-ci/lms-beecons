@@ -502,6 +502,7 @@ class VideoController extends ResourceController
 					]
 				];
 			}
+			return $this->respondDeleted($response);
 		} catch (\Throwable $th) {
 			return $this->fail($th->getMessage());
 		}

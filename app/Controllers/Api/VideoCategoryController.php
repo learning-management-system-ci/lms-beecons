@@ -67,14 +67,10 @@ class VideoCategoryController extends ResourceController
 
             $rules = [
                 "course_id" => "required",
-                "title" => "required",
             ];
 
             $messages = [
                 "course_id" => [
-                    "required" => "{field} tidak boleh kosong"
-                ],
-                "title" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
             ];
@@ -125,13 +121,9 @@ class VideoCategoryController extends ResourceController
             $input = $this->request->getRawInput();
             $rules = [
                 "course_id" => "required",
-                "title" => "required",
             ];
             $messages = [
                 "course_id" => [
-                    "required" => "{field} tidak boleh kosong"
-                ],
-                "title" => [
                     "required" => "{field} tidak boleh kosong"
                 ],
             ];
