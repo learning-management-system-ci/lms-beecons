@@ -177,7 +177,7 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('course/', static function ($routes) {
         $routes->post('create', 'Api\CourseController::create');
-        $routes->put('update/(:num)', 'Api\CourseController::update/$1');
+        $routes->post('update/(:num)', 'Api\CourseController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
