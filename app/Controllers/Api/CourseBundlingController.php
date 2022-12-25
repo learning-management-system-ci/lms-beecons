@@ -75,6 +75,7 @@ class CourseBundlingController extends ResourceController
             $rules = [
                 'bundling_id' => 'required',
                 'course_id' => 'required',
+                'order' => 'required',
             ];
 
             $messages = [
@@ -84,12 +85,16 @@ class CourseBundlingController extends ResourceController
                 "course_id" => [
                     "required" => "{field} tidak boleh kosong",
                 ],
+                "order" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
             ];
 
             if ($this->validate($rules, $messages)) {
                 $datacoursebundling = [
                     'bundling_id' => $this->request->getVar('bundling_id'),
                     'course_id' => $this->request->getVar('course_id'),
+                    'order' => $this->request->getVar('order'),
                 ];
                 $this->coursebundling->insert($datacoursebundling);
 
@@ -135,6 +140,7 @@ class CourseBundlingController extends ResourceController
             $rules = [
                 'bundling_id' => 'required',
                 'course_id' => 'required',
+                'order' => 'required',
             ];
 
             $messages = [
@@ -144,11 +150,15 @@ class CourseBundlingController extends ResourceController
                 "course_id" => [
                     "required" => "{field} tidak boleh kosong",
                 ],
+                "order" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
             ];
 
             $data = [
                 "bundling_id" => $input["bundling_id"],
                 "course_id" => $input["course_id"],
+                "order" => $input["order"],
             ];
 
             $response = [
@@ -213,7 +223,55 @@ class CourseBundlingController extends ResourceController
         return $this->failNotFound('Data Course Bundling tidak ditemukan');
     }
 
-    public function order()
+    public function createorder()
+    {
+        $key = getenv('TOKEN_SECRET');
+		$header = $this->request->getServer('HTTP_AUTHORIZATION');
+		if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+		$token = explode(' ', $header)[1];
+
+		try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+			$user = new Users;
+
+			// cek role user
+			$data = $user->select('role')->where('id', $decoded->uid)->first();
+
+			if ($data['role'] == 'member') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
+
+			$orderReq = $this->request->getVar();
+
+            // var_dump($orderReq);
+            // die;
+
+			for ($i = 0; $i < count($orderReq); $i++) {
+				$data = [
+                    'bundling_id' => $orderReq[$i]->bundling_id,
+                    'course_id' => $orderReq[$i]->course_id,
+                    'order' => $orderReq[$i]->order
+                ];
+                if($this->coursebundling->insert($data)){
+                    $response = [
+						'status'   => 200,
+						'success'    => 200,
+						'messages' => [
+							'success' => 'Course Bundling berhasil dibuat'
+						]
+					];
+                } else {
+					return $this->failNotFound('Data Course Bundling tidak ditemukan');
+				}
+			}
+
+			return $this->respond($response);
+		} catch (\Throwable $th) {
+			return $this->fail($th->getMessage());
+		}
+    }
+
+    public function updateorder()
     {
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
@@ -233,6 +291,9 @@ class CourseBundlingController extends ResourceController
 
             $orderReq = $this->request->getVar();
 
+            var_dump($orderReq);
+            die;
+
             $bundling = $this->bundling->where('bundling_id', $orderReq->bundling_id)->first();
             if ($data['id'] != $bundling['author_id']) {
                 return $this->fail('Anda tidak mempunyai hak untuk mengubah bundling', 400);
@@ -250,11 +311,11 @@ class CourseBundlingController extends ResourceController
                         'status'   => 200,
                         'success'    => 200,
                         'messages' => [
-                            'success' => 'Video berhasil diupdate'
+                            'success' => 'Course Bundling berhasil diupdate'
                         ]
                     ];
                 } else {
-                    return $this->failNotFound('Data Video tidak ditemukan');
+                    return $this->failNotFound('Data Course Bundling tidak ditemukan');
                 }
             }
 
