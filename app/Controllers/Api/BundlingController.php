@@ -142,11 +142,13 @@ class BundlingController extends ResourceController
                 $dataThumbnail->move('upload/bundling/', $fileName);
                 $this->bundling->save($data);
 
+                $bundling_id = $this->bundling->getInsertID();
+
                 $response = [
                     'status' => 200,
                     'error' => false,
                     'message' => 'Bundling berhasil dibuat',
-                    'data' => []
+                    'data' => ['bundling_id' => $bundling_id]
                 ];
             }
         } catch (\Throwable $th) {
@@ -159,9 +161,13 @@ class BundlingController extends ResourceController
     {
         $modelBundling = new Bundling();
         $modelVideo = new Video();
+        $modelVideoCategory = new VideoCategory();
 
         $path_bundling = site_url() . 'upload/bundling/';
         $path_course = site_url() . 'upload/course/thumbnail/';
+
+        $path_thumbnail_video = site_url() . 'upload/course-video/thumbnail/';
+        $path_video = site_url() . 'upload/course-video/';
 
         if ($modelBundling->find($id)) {
             // $data['bundling'] = $modelBundling->where('bundling_id', $id)->first();
@@ -218,20 +224,14 @@ class BundlingController extends ResourceController
                     ->countAllResults();
 
                 $data['course'][$l]['total_video'] = "$countvideo";
-                // $data['course'][$l]['video'] = $video;
-            }
-            return $this->respond($data);
-            for ($l = 0; $l < count($course_bundling); $l++) {
-                $course = $modelBundling
-                    ->where('bundling.bundling_id', $id)
-                    ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
-                    ->join('course', 'course_bundling.course_id=course.course_id')
-                    ->join('course_category', 'course.course_id=course_category.course_id')
-                    ->select('course.*, course_category.*')
-                    ->orderBy('bundling.bundling_id', 'DESC')
-                    ->findAll();
-            }
 
+                for ($c = 0; $c < count($video); $c++) {
+                    $video[$c]['thumbnail'] = $path_thumbnail_video . $video[$c]['thumbnail'];
+                    $video[$c]['video'] = $path_video . $video[$c]['video'];
+                }
+
+                $data['course'][$l]['video'] = $video;
+            }
             return $this->respond($data);
         } else {
             return $this->failNotFound('Tidak ada data');
