@@ -489,15 +489,14 @@ class OrderController extends BaseController
     
             $userBundling = [];
             $bundling = $order_bundling
-                ->select('course_id')
+                ->select('bundling_id')
                 ->where('order_id', $id)
-                ->join('course_bundling', 'order_bundling.bundling_id=course_bundling.bundling_id')
                 ->findAll();
             if ($bundling != null) {
                 foreach ($bundling as $value) {
                     $userBundling[] = [
                         'user_id' => $getOrderData[0]["user_id"],
-                        'course_id' => $value['course_id'],
+                        'bundling_id' => $value['bundling_id'],
                         'is_access' => '0'
                     ];
                 }
