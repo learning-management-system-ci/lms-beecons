@@ -286,7 +286,7 @@ h6 {
     }
 }
 
-.card-mentor {
+.card-author {
     @include card-setting();
     padding: 2rem;
 
@@ -305,7 +305,7 @@ h6 {
 
     .info {
         text-align: center;
-        margin-bottom: 1.6rem;
+        margin-bottom: 1.2rem;
 
         h2 {
             font-size: 1.5rem;
