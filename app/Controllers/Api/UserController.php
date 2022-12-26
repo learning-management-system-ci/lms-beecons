@@ -229,6 +229,7 @@ class UserController extends ResourceController
             $path_profile = site_url() . 'upload/users/';
 
             $path_course = site_url() . 'upload/course/thumbnail/';
+            $path_bundling = site_url() . 'upload/bundling/';
 
             $userCourse = $modelUserCourse->where('user_id', $decoded->uid)
                 ->where('bundling_id', NULL)
@@ -312,6 +313,11 @@ class UserController extends ResourceController
                 $courseBundling['score'] = $scoreBundling;
             }
 
+            $courseBundling['thumbnail'] = $path_bundling . $courseBundling['thumbnail'];
+
+            foreach ($courseBundling['course_bundling'] as $key => $value) {
+                $courseBundling['course_bundling'][$key]['thumbnail'] = $path_course . $courseBundling['course_bundling'][$key]['thumbnail'];
+            }
 
             $response = [
                 'id' => $decoded->uid,
