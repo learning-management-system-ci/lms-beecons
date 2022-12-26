@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CourseBundling;
+use App\Models\Bundling;
 use App\Models\Users;
 use Firebase\JWT\JWT;
 
@@ -15,6 +16,7 @@ class CourseBundlingController extends ResourceController
     public function __construct()
     {
         $this->coursebundling = new CourseBundling();
+        $this->bundling = new Bundling();
     }
 
     public function index()
@@ -66,13 +68,14 @@ class CourseBundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $rules = [
                 'bundling_id' => 'required',
                 'course_id' => 'required',
+                'order' => 'required',
             ];
 
             $messages = [
@@ -82,12 +85,16 @@ class CourseBundlingController extends ResourceController
                 "course_id" => [
                     "required" => "{field} tidak boleh kosong",
                 ],
+                "order" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
             ];
 
             if ($this->validate($rules, $messages)) {
                 $datacoursebundling = [
                     'bundling_id' => $this->request->getVar('bundling_id'),
                     'course_id' => $this->request->getVar('course_id'),
+                    'order' => $this->request->getVar('order'),
                 ];
                 $this->coursebundling->insert($datacoursebundling);
 
@@ -124,8 +131,8 @@ class CourseBundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $input = $this->request->getRawInput();
@@ -133,6 +140,7 @@ class CourseBundlingController extends ResourceController
             $rules = [
                 'bundling_id' => 'required',
                 'course_id' => 'required',
+                'order' => 'required',
             ];
 
             $messages = [
@@ -142,11 +150,15 @@ class CourseBundlingController extends ResourceController
                 "course_id" => [
                     "required" => "{field} tidak boleh kosong",
                 ],
+                "order" => [
+                    "required" => "{field} tidak boleh kosong",
+                ],
             ];
 
             $data = [
                 "bundling_id" => $input["bundling_id"],
                 "course_id" => $input["course_id"],
+                "order" => $input["order"],
             ];
 
             $response = [
@@ -189,8 +201,8 @@ class CourseBundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $data = $this->coursebundling->where('course_bundling_id', $id)->findAll();
@@ -209,5 +221,107 @@ class CourseBundlingController extends ResourceController
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data Course Bundling tidak ditemukan');
+    }
+
+    public function createorder()
+    {
+        $key = getenv('TOKEN_SECRET');
+		$header = $this->request->getServer('HTTP_AUTHORIZATION');
+		if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+		$token = explode(' ', $header)[1];
+
+		try {
+			$decoded = JWT::decode($token, $key, ['HS256']);
+			$user = new Users;
+
+			// cek role user
+			$data = $user->select('role')->where('id', $decoded->uid)->first();
+
+			if ($data['role'] == 'member') {
+				return $this->fail('Tidak dapat di akses selain admin & author', 400);
+			}
+
+			$orderReq = $this->request->getVar();
+
+            // var_dump($orderReq);
+            // die;
+
+			for ($i = 0; $i < count($orderReq); $i++) {
+				$data = [
+                    'bundling_id' => $orderReq[$i]->bundling_id,
+                    'course_id' => $orderReq[$i]->course_id,
+                    'order' => $orderReq[$i]->order
+                ];
+                if($this->coursebundling->insert($data)){
+                    $response = [
+						'status'   => 200,
+						'success'    => 200,
+						'messages' => [
+							'success' => 'Course Bundling berhasil dibuat'
+						]
+					];
+                } else {
+					return $this->failNotFound('Data Course Bundling tidak ditemukan');
+				}
+			}
+
+			return $this->respond($response);
+		} catch (\Throwable $th) {
+			return $this->fail($th->getMessage());
+		}
+    }
+
+    public function updateorder()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+
+            // cek role user
+            $data = $user->where('id', $decoded->uid)->first();
+
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
+
+            $orderReq = $this->request->getVar();
+
+            var_dump($orderReq);
+            die;
+
+            $bundling = $this->bundling->where('bundling_id', $orderReq->bundling_id)->first();
+            if ($data['id'] != $bundling['author_id']) {
+                return $this->fail('Anda tidak mempunyai hak untuk mengubah bundling', 400);
+            }
+
+            for ($i = 0; $i < count($orderReq->order); $i++) {
+                $video = $this->coursebundling->find($orderReq->order[$i]->course_id);
+                if ($video) {
+                    $data = [
+                        'order' => $orderReq->order[$i]->order
+                    ];
+                    $this->coursebundling->update($orderReq->order[$i]->course_id, $data);
+
+                    $response = [
+                        'status'   => 200,
+                        'success'    => 200,
+                        'messages' => [
+                            'success' => 'Course Bundling berhasil diupdate'
+                        ]
+                    ];
+                } else {
+                    return $this->failNotFound('Data Course Bundling tidak ditemukan');
+                }
+            }
+
+            return $this->respond($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
     }
 }

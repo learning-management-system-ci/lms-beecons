@@ -59,9 +59,14 @@ class Users extends Migration
 				'constraint'     => 255,
 			],
 			'role'      => [
-				'type'          => 'ENUM("admin", "partner", "author", "member", "mentor")',
+				'type'          => 'ENUM("admin", "author", "member")',
 				'default' 		=> 'member',
 				'null' 			=> false,
+			],
+			'company' => [
+				'type'			=> 'VARCHAR',
+				'constraint'    => 255,
+				'null'			=> true,
 			],
 			'activation_code'      => [
 				'type'           => 'VARCHAR',

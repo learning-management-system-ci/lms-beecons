@@ -2,6 +2,7 @@ if (!Cookies.get('access_token')) {
     // if not, redirect to login page
     window.location.href = '/login'
 }
+let checkAuthor = jwt_decode(Cookies.get('access_token'))
 
 const sendData = (typeReq, url, form_data, successData) => {
     const { someCode, msg, status, questionId } = successData
@@ -48,16 +49,20 @@ const sendData = (typeReq, url, form_data, successData) => {
     ajaxReq()
 }
 
-$.ajax({
-    type: "GET",
-    url: "/api/contactus",
-    headers: {
-        Authorization: 'Bearer ' + Cookies.get('access_token')
-    },
-    dataType: 'json',
-    success: function (result) {
-        $.each(result, function (key, value) {
-            $("tbody").append(`
+$(document).ready(() => {
+    if (checkAuthor.role == 'author') {
+        return $("table").html(`<p class='text-center'>Anda tidak memiliki access</p>`)
+    }
+    $.ajax({
+        type: "GET",
+        url: "/api/contactus",
+        headers: {
+            Authorization: 'Bearer ' + Cookies.get('access_token')
+        },
+        dataType: 'json',
+        success: function (result) {
+            $.each(result, function (key, value) {
+                $("tbody").append(`
             <tr id='questionID_${value.contact_us_id}'>
                 <td>
                     <h6 class="email-user text-sm mb-0 ps-3">${value.email}</h6>
@@ -90,7 +95,7 @@ $.ajax({
             </tr>
         `);
 
-            $('#image-modal').append(`
+                $('#image-modal').append(`
             <div class="modal fade" id="modal-image${value.contact_us_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -111,7 +116,7 @@ $.ajax({
             </div>
         `)
 
-            $('#reply-modal').append(`
+                $('#reply-modal').append(`
             <div class="modal fade" id="reply-modal${value.contact_us_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -144,7 +149,7 @@ $.ajax({
         
         `)
 
-            $('#delete-modal').append(`
+                $('#delete-modal').append(`
             <div class="modal fade" id="delete-modal${value.contact_us_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -167,32 +172,34 @@ $.ajax({
         
         `)
 
-            $("#send-reply" + value.contact_us_id).on('click', function (e) {
-                e.preventDefault()
-                const form_data = {
-                    email: $('#user-email' + value.contact_us_id).val(),
-                    answer: $('#message-text' + value.contact_us_id).val(),
-                    question: $('#user-question' + value.contact_us_id).val()
-                }
-                sendData('POST', 'answer', form_data, {
-                    status: true,
-                    msg: '<h5>Jawaban Terkirim</h5> ',
-                    someCode: $('#questionID_' + value.contact_us_id).remove(),
-                    questionId: value.contact_us_id
+                $("#send-reply" + value.contact_us_id).on('click', function (e) {
+                    e.preventDefault()
+                    const form_data = {
+                        email: $('#user-email' + value.contact_us_id).val(),
+                        answer: $('#message-text' + value.contact_us_id).val(),
+                        question: $('#user-question' + value.contact_us_id).val()
+                    }
+                    sendData('POST', 'answer', form_data, {
+                        status: true,
+                        msg: '<h5>Jawaban Terkirim</h5> ',
+                        someCode: $('#questionID_' + value.contact_us_id).remove(),
+                        questionId: value.contact_us_id
+                    })
+
                 })
 
+                $('#send-delete' + value.contact_us_id).on('click', function (e) {
+                    sendData('delete', 'delete/' + value.contact_us_id, '',
+                        {
+                            status: true, msg: '<h5>Berhasil Terhapus</h5> ',
+                            someCode: $('#questionID_' + value.contact_us_id).remove()
+                        })
+                })
             })
+        },
 
-            $('#send-delete' + value.contact_us_id).on('click', function (e) {
-                sendData('delete', 'delete/' + value.contact_us_id, '',
-                    {
-                        status: true, msg: '<h5>Berhasil Terhapus</h5> ',
-                        someCode: $('#questionID_' + value.contact_us_id).remove()
-                    })
-            })
-        })
-    },
+    });
 
-});
+})
 
 

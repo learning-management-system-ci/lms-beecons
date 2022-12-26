@@ -34,7 +34,7 @@
                         <i class="ni ni-hat-3 text-success text-sm opacity-10"></i>
 
                     </div>
-                    <span class="nav-link-text ms-1">Course / Bundling</span>
+                    <span class="nav-link-text ms-1">Course</span>
                 </a>
             </li>
             <li class="nav-item">

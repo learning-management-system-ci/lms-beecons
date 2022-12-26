@@ -172,16 +172,18 @@ $routes->group('api/', static function ($routes) {
         $routes->delete('delete/(:num)', 'Api\UserController::delete/$1');
         $routes->get('(:num)', 'Api\UserController::userDetail/$1');
         $routes->get('role', 'Api\UserController::getRole');
+        $routes->get('author', 'Api\UserController::getAuthor');
     });
 
     $routes->group('course/', static function ($routes) {
         $routes->post('create', 'Api\CourseController::create');
-        $routes->put('update/(:num)', 'Api\CourseController::update/$1');
+        $routes->post('update/(:num)', 'Api\CourseController::update/$1');
         $routes->delete('delete/(:num)', 'Api\CourseController::delete/$1');
         $routes->get('latest', 'Api\CourseController::latest');
         $routes->get('filter/(:segment)/(:num)', 'Api\CourseController::trainingByAuthor/$1/$2');
         $routes->get('filter/(:segment)/detail/(:num)', 'Api\CourseController::detailTraining/$1/$2');
         $routes->get('filter/(:segment)', 'Api\CourseController::filter/$1');
+        $routes->get('(:num)/member', 'Api\CourseController::userProgress/$1');
 
 
         //OTHER PLATFORM ROUTE
@@ -217,7 +219,7 @@ $routes->group('api/', static function ($routes) {
 
     $routes->group('bundling/', static function ($routes) {
         $routes->post('create', 'Api\BundlingController::create');
-        $routes->put('update/(:segment)', 'Api\BundlingController::update/$1');
+        $routes->post('update/(:segment)', 'Api\BundlingController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\BundlingController::delete/$1');
 
         //OTHER PLATFORM ROUTE
@@ -231,6 +233,8 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\CourseBundlingController::create');
         $routes->put('update/(:segment)', 'Api\CourseBundlingController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\CourseBundlingController::delete/$1');
+        $routes->post('create-order', 'api\CourseBundlingController::createorder');
+        $routes->post('update-order', 'api\CourseBundlingController::updateorder');
     });
 
     $routes->group('category/', static function ($routes) {
@@ -376,7 +380,7 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\ResumeController::create');
         $routes->put('update/(:num)', 'Api\ResumeController::update/$1');
         $routes->delete('delete/(:num)', 'Api\ResumeController::delete/$1');
-        $routes->get('get-sertifikat/(:num)', 'Api\ResumeController::getSertifikat/$1');
+        $routes->get('get-sertifikat', 'Api\ResumeController::getSertifikat');
     });
 
     $routes->get('user-course', 'Api\UserCourseController::index');

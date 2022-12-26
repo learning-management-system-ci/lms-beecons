@@ -24,16 +24,21 @@ class Review extends Migration
                 'type'           => 'INT',
                 'constraint'     => 5,
                 'unsigned'       => true,
+                'null'           => true,
+            ],
+            'bundling_id'          => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'unsigned'       => true,
+                'null'           => true,
             ],
             'feedback' => [
                 'type'           => 'VARCHAR',
                 'constraint'     => 255,
-                'null'           => true,
             ],
             'score'       => [
                 'type'           => 'SMALLINT',
                 'constraint'     => 5,
-                'null'           => true
             ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',
@@ -43,6 +48,7 @@ class Review extends Migration
         $this->forge->addKey('user_review_id', TRUE);
         $this->forge->addForeignKey('user_id', 'users', 'id');
         $this->forge->addForeignKey('course_id', 'course', 'course_id');
+        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id');
         $this->forge->createTable('user_review', TRUE);
     }
 

@@ -2,6 +2,7 @@ if (!Cookies.get('access_token')) {
     // if not, redirect to login page
     window.location.href = '/login'
 }
+let checkAuthor = jwt_decode(Cookies.get('access_token'))
 
 
 const ajaxSend = (type, url, data, id) => {
@@ -47,16 +48,21 @@ const ajaxSend = (type, url, data, id) => {
 
 
 
-$.ajax({
-    type: "GET",
-    url: "/api/faq",
-    headers: {
-        Authorization: 'Bearer ' + Cookies.get('access_token')
-    },
-    dataType: 'json',
-    success: function (result) {
-        $.each(result, function (key, value) {
-            $("tbody").append(`
+
+$(document).ready(() => {
+    if (checkAuthor.role == 'author') {
+        return $("table").html(`<p class='text-center'>Anda tidak memiliki access</p>`)
+    }
+    $.ajax({
+        type: "GET",
+        url: "/api/faq",
+        headers: {
+            Authorization: 'Bearer ' + Cookies.get('access_token')
+        },
+        dataType: 'json',
+        success: function (result) {
+            $.each(result, function (key, value) {
+                $("tbody").append(`
             <tr id='faqID_${value.faq_id}'>
                 <td>
                     <h6 class="email-user text-sm mb-0 ps-3">${value.question}</h6>
@@ -78,7 +84,7 @@ $.ajax({
             </tr>
         `);
 
-            $('#update-modal').append(`
+                $('#update-modal').append(`
             <div class="modal fade" id="update-modal${value.faq_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -110,7 +116,7 @@ $.ajax({
         
         `)
 
-            $('#delete-modal').append(`
+                $('#delete-modal').append(`
             <div class="modal fade" id="delete-modal${value.faq_id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
@@ -135,32 +141,36 @@ $.ajax({
         `)
 
 
-            $('#answer-' + value.faq_id).val(value.answer)
-            $("#send-update" + value.faq_id).on('click', function (e) {
-                e.preventDefault()
-                const form_data = {
-                    answer: $('#answer-' + value.faq_id).val(),
-                    question: $('#question-' + value.faq_id).val()
-                }
-                return ajaxSend('PUT', 'update/' + value.faq_id, form_data)
+                $('#answer-' + value.faq_id).val(value.answer)
+                $("#send-update" + value.faq_id).on('click', function (e) {
+                    e.preventDefault()
+                    const form_data = {
+                        answer: $('#answer-' + value.faq_id).val(),
+                        question: $('#question-' + value.faq_id).val()
+                    }
+                    return ajaxSend('PUT', 'update/' + value.faq_id, form_data)
+                })
+
+                $('#send-delete' + value.faq_id).on('click', function (e) {
+                    return ajaxSend('DELETE', 'delete/' + value.faq_id, '', value.faq_id)
+                })
             })
+        },
 
-            $('#send-delete' + value.faq_id).on('click', function (e) {
-                return ajaxSend('DELETE', 'delete/' + value.faq_id, '', value.faq_id)
-            })
-        })
-    },
+    });
 
-});
-
-$("#send-add-faq").on('click', function (e) {
-    e.preventDefault()
-    const form_data = {
-        answer: $('#add-faq-content').val(),
-        question: $('#add-faq-title').val()
-    }
-    return ajaxSend('POST', 'create/', form_data)
+    $("#send-add-faq").on('click', function (e) {
+        e.preventDefault()
+        const form_data = {
+            answer: $('#add-faq-content').val(),
+            question: $('#add-faq-title').val()
+        }
+        return ajaxSend('POST', 'create/', form_data)
+    })
 })
+
+
+
 
 
 

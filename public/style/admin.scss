@@ -3,6 +3,18 @@
     gap: 5px;
 }
 
+.tag-picker {
+    height: 2.5em;
+    border: none;
+    padding: 0%;
+}
+
+select[name='course-table_length'],
+select[name='table-user_length'] {
+    width: 100% !important;
+}
+
+
 .bg-ghost-sortable {
     background-color: #e5efff;
 }
@@ -137,6 +149,10 @@
     width: 350px !important;
 }
 
+.w-500 {
+    width: 500px !important;
+}
+
 .email-user {
     max-width: 203px;
     white-space: pre-line;
@@ -186,5 +202,15 @@
 .user-question-text:has(+ .expand-btn:checked) {
     max-height: none;
 }
+
+
+
+
+
+
+.ss-value-delete {
+    width: auto !important;
+}
+
 
 /*# sourceMappingURL=contact-list.css.map */

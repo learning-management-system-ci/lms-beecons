@@ -93,9 +93,9 @@ class NotificationController extends ResourceController
             $user = new Users;
 
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
-				return $this->fail('Tidak dapat di akses selain admin & author', 400);
-			}
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
+            }
 
             $model = new Notification();
 
@@ -179,9 +179,9 @@ class NotificationController extends ResourceController
             $user = new Users;
 
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
-				return $this->fail('Tidak dapat di akses selain admin & author', 400);
-			}
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
+            }
 
             $model = new Notification();
 
@@ -256,9 +256,9 @@ class NotificationController extends ResourceController
             $user = new Users;
 
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'partner' || $data['role'] == 'mentor') {
-				return $this->fail('Tidak dapat di akses selain admin & author', 400);
-			}
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
+            }
 
             $model = new Notification();
 

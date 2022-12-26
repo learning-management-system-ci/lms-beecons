@@ -11,9 +11,11 @@ use App\Models\Order;
 use App\Models\Notification;
 use App\Models\UserCourse;
 use App\Models\Course;
+use App\Models\Bundling;
 use App\Models\VideoCategory;
 use App\Models\Video;
 use App\Models\UserVideo;
+use App\Models\Review;
 use Firebase\JWT\JWT;
 
 class UserController extends ResourceController
@@ -242,17 +244,17 @@ class UserController extends ResourceController
                 $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
 
                 $userVideo = 0;
-                for($l = 0; $l < count($video_); $l++){
+                for ($l = 0; $l < count($video_); $l++) {
                     $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
 
-                    if($userVideo_){
+                    if ($userVideo_) {
                         $userVideo++;
 
                         $score_raw += $userVideo_['score'];
                         $score_final = $score_raw / count($video_);
 
                         $course[$i]['score'] = $score_final;
-                    }else{
+                    } else {
                         $course[$i]['score'] = null;
                     }
                 }
@@ -619,11 +621,117 @@ class UserController extends ResourceController
 
             $response = [
                 'id' => $decoded->uid,
-                'progress' => $progress
+                'progress' => isset($progress) ? $progress : [],
             ];
             return $this->respond($response);
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
+    }
+
+    public function getAuthor()
+    {
+        $user = new Users;
+        $modelCourse = new Course;
+        $modelBundling = new Bundling;
+        $modelReview = new Review;
+
+        $path = site_url() . 'upload/users/';
+
+        $getdataauthor = $user
+            ->where('role', 'author')
+            ->select('id, fullname, email, profile_picture, role, company')
+            ->findAll();
+        
+        for ($c = 0; $c < count($getdataauthor); $c++) {
+            $getdataauthor[$c]['profile_picture'] = $path . $getdataauthor[$c]['profile_picture'];
+        }
+
+        $data['author'] = $getdataauthor;
+
+        $rating_author_raw = 0;
+        $rating_author_final = 0;
+
+        for ($i = 0; $i < count($getdataauthor); $i++) {
+            $course = $modelCourse
+                ->where('author_id', $getdataauthor[$i]['id'])
+                ->select('course_id')
+                ->findAll();
+
+            $bundling = $modelBundling
+                ->where('author_id', $getdataauthor[$i]['id'])
+                ->select('bundling_id')
+                ->findAll();
+
+            $rating_course_raw = 0;
+            $rating_course_final = 0;
+
+            if($course != null){
+                for ($x = 0; $x < count($course); $x++) {
+                    $cek_course = $modelReview->where('course_id', $course[$x]['course_id'])->findAll();
+                
+                    if ($cek_course != null){
+                        $reviewcourse = $modelReview->where('course_id', $course[$x]['course_id'])->findAll();
+
+                        $rating_raw = 0;
+                        $rating_final = 0;
+
+                        for ($n = 0; $n < count($reviewcourse); $n++) {
+                            $rating_raw += $reviewcourse[$n]['score'];
+                            $rating_final = $rating_raw / count($reviewcourse);
+
+                            // $data['author'][$i]['course'][$x]['rating_course'] = $rating_final;
+                        }
+
+                        $rating_course_raw += $rating_final;
+                        $rating_course_final = $rating_course_raw / count($course);
+                        // $data['author'][$i]['course_final_rating'] = $rating_course_final;
+                    } else {
+                        // $data['author'][$i]['course_final_rating'] = 0;
+                    }
+                }
+            } else{
+                // $data['author'][$i]['course_final_rating'] = 0;
+            }
+
+            if($bundling != null){
+                for ($z = 0; $z < count($bundling); $z++) {
+                    $cek_bundling = $modelReview->where('bundling_id', $bundling[$z]['bundling_id'])->findAll();
+
+                    $rating_bundling_raw = 0;
+                    $rating_bundling_final = 0;
+                
+                    if ($cek_bundling != null){
+                        $reviewbundling = $modelReview->where('bundling_id', $bundling[$z]['bundling_id'])->findAll();
+
+                        $rating_raw = 0;
+                        $rating_final = 0;
+
+                        for ($m = 0; $m < count($reviewbundling); $m++) {
+                            $rating_raw += $reviewbundling[$m]['score'];
+                            $rating_final = $rating_raw / count($reviewbundling);
+
+                            // $data['author'][$i]['bundling'][$z]['rating_bundling'] = $rating_final;
+                        }
+                        $rating_bundling_raw += $rating_final;
+                        $rating_bundling_final = $rating_bundling_raw / count($bundling);
+                        // $data['author'][$i]['bundling_final_rating'] = $rating_bundling_final;
+                    } else {
+                        // $data['author'][$i]['bundling_final_rating'] = 0;
+                    }
+                }
+            } else {
+                // $data['author'][$i]['bundling_final_rating'] = 0;
+            }
+
+            if($course != null || $bundling != null){
+                $rating_author_raw = $rating_bundling_final + $rating_course_final;
+                $rating_author_final = $rating_author_raw / 2;
+                $data['author'][$i]['author_final_rating'] = $rating_author_final;
+            } else{
+                $data['author'][$i]['author_final_rating'] = 0;
+            }
+        }
+        return $this->respond($data);
     }
 }

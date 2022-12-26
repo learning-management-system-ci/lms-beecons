@@ -15,37 +15,49 @@ class TestimoniController extends ResourceController
     public function __construct()
     {
         $this->testimoni = new Testimoni();
+        $this->users = new Users();
+        $this->path = site_url() . 'upload/users/';
     }
 
     public function index(){
-        $data = $this->testimoni->getTestimoni();
-        $datatestimoni = [];
-        foreach($data as $value) {
-            $datatestimoni[] = [
-                'testimoni_id' => $value['testimoni_id'],
-                'user' => $this->testimoni->getDataUser($data_user_id = $value['user_id']),
-                'testimoni' => $value['testimoni'],
-                'created_at' => $value['created_at'],
-                'updated_at' => $value['updated_at'],
-            ];
+        $testimoni = $this->testimoni->findAll();
+
+        $data['testimoni'] = $testimoni;
+        
+        for ($i = 0; $i < count($testimoni); $i++) {
+            $datatestimoni = $this->testimoni
+                ->where('testimoni.testimoni_id', $testimoni[$i]['testimoni_id'])
+                ->join('users', 'testimoni.user_id=users.id')
+                ->select('users.id, users.fullname, users.email, users.profile_picture, users.created_at')
+                ->findAll();
+            
+            for ($x = 0; $x < count($datatestimoni); $x++) {
+                $datatestimoni[$x]['profile_picture'] = $this->path . $datatestimoni[$x]['profile_picture'];
+            }
+            
+            $data['testimoni'][$i]['users'] = $datatestimoni;
         }
-        return $this->respond($datatestimoni);
+
+
+        return $this->respond($data);
     }
     
     public function show($id = null){
-        $data = $this->testimoni->getShow($id);
-        $datatestimoni = [];
-        foreach($data as $value) {
-            $datatestimoni[] = [
-                'testimoni_id' => $value['testimoni_id'],
-                'user' => $this->testimoni->getDataUser($data_user_id = $value['user_id']),
-                'testimoni' => $value['testimoni'],
-                'created_at' => $value['created_at'],
-                'updated_at' => $value['updated_at'],
-            ];
-        }
-        if($datatestimoni){
-            return $this->respond($datatestimoni);
+        $testimoni = $this->testimoni->where('testimoni_id', $id)->first();
+
+        $data['testimoni'] = $testimoni;
+
+        $datausers = $this->users
+            ->where('id', $id)
+            ->select('users.id, users.fullname, users.email, users.profile_picture, users.created_at')
+            ->first();
+
+        $datausers['profile_picture'] = $this->path . $datausers['profile_picture'];
+
+        $data['testimoni']['users'] = $datausers;
+
+        if($data){
+            return $this->respond($data);
         }else{
             return $this->failNotFound('Data Testimoni tidak ditemukan');
         }
@@ -64,8 +76,8 @@ class TestimoniController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $rules = [
@@ -122,8 +134,8 @@ class TestimoniController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $input = $this->request->getRawInput();
@@ -187,8 +199,8 @@ class TestimoniController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if($data['role'] != 'admin'){
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $data = $this->testimoni->where('testimoni_id', $id)->findAll();
