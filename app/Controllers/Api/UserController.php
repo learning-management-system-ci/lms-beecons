@@ -336,7 +336,7 @@ class UserController extends ResourceController
             ];
             return $this->respond($response);
         } catch (\Throwable $th) {
-            throw $th;
+            //throw $th;
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
