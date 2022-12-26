@@ -217,14 +217,14 @@ async function handleCourses() {
                                 <a href="/course/${course.course_id}">
                                     <h2 class="mb-2">${course.title}</h2>
                                 </a>
-                                <p class='mb-2'>${course.author}</p>
+                                <p class='mb-2'>${course.author_fullname}</p>
                                 <p class='mb-2 d-none'>
                                     ${textTruncate(course.description, 130)}
                                 </p>
                                 <div class="star-container">
                                     <div class="stars" style="--rating: ${course.rating_course}"></div>
                                 </div>
-                                <p class="harga">
+                                <p class="harga mb-3">
                                     ${(() => {
                                         if (course.old_price !== '0') {
                                             return `<del>${getRupiah(course.old_price)}</del>`

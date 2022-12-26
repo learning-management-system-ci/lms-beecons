@@ -82,7 +82,7 @@ async function handleCourses() {
                             <div class="star-container">
                                 <div class="stars" style="--rating: ${course.rating_course}"></div>
                             </div>
-                            <p class="harga">
+                            <p class="harga mb-3">
                                 ${(() => {
                                     if (course.old_price !== '0') {
                                         return `<del>${getRupiah(course.old_price)}</del>`
