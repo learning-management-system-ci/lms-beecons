@@ -24,6 +24,13 @@ class CreateUserCourseTable extends Migration
                 'type'           => 'INT',
                 'constraint'     => '5',
                 'unsigned'       => true,
+                'null'           => true,
+            ],
+            'bundling_id'       => [
+                'type'           => 'INT',
+                'constraint'     => '5',
+                'unsigned'       => true,
+                'null'           => true,
             ],
             'is_access'             => [
                 'type'          => 'BOOL',
@@ -37,6 +44,7 @@ class CreateUserCourseTable extends Migration
         $this->forge->addKey('user_course_id', TRUE);
         $this->forge->addForeignKey('user_id', 'users', 'id');
         $this->forge->addForeignKey('course_id', 'course', 'course_id');
+        $this->forge->addForeignKey('bundling_id', 'bundling', 'bundling_id');
         $this->forge->createTable('user_course', TRUE);
     }
 
