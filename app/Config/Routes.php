@@ -233,6 +233,7 @@ $routes->group('api/', static function ($routes) {
         $routes->post('create', 'Api\CourseBundlingController::create');
         $routes->put('update/(:segment)', 'Api\CourseBundlingController::update/$1');
         $routes->delete('delete/(:segment)', 'Api\CourseBundlingController::delete/$1');
+        $routes->delete('deletebybundling/(:segment)', 'Api\CourseBundlingController::deletebybundling/$1');
         $routes->post('create-order', 'api\CourseBundlingController::createorder');
         $routes->post('update-order', 'api\CourseBundlingController::updateorder');
     });
