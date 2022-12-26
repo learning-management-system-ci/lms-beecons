@@ -25,11 +25,31 @@ async function handleCourses() {
             dataType: 'json'
         })
 
-        const courseResponse = await $.ajax({
+        let courseResponse = await $.ajax({
             url: '/api/course',
             method: 'GET',
             dataType: 'json'
         })
+
+        if (Cookies.get('access_token')) {
+            const userCourses = await $.ajax({
+                url: '/api/user-course',
+                method: 'GET',
+                dataType: 'json',
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('access_token')}`
+                }
+            })
+
+            courseResponse = courseResponse.map(function (course) {
+                return {
+                    ...course,
+                    isBought: userCourses.map(function (userCourse) {
+                        return userCourse.course_id
+                    }).includes(course.course_id)
+                }
+            })
+        }
 
         let bidangs = [
             'Engineering',
@@ -64,8 +84,6 @@ async function handleCourses() {
         }))
 
         $('#courses-loading').hide()
-
-        let courses = courseResponse
 
         let filter = {
             bidang: [],
@@ -111,7 +129,7 @@ async function handleCourses() {
         })
 
         function generateListCourse(filter, cpage = 1) {
-            courses = courseResponse
+            let courses = courseResponse
 
             // handle filter
             if (filter.bidang.length > 0) {
@@ -346,6 +364,6 @@ async function handleCourses() {
             })
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 }
