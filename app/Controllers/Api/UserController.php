@@ -15,6 +15,7 @@ use App\Models\Bundling;
 use App\Models\VideoCategory;
 use App\Models\Video;
 use App\Models\UserVideo;
+use App\Models\CourseBundling;
 use App\Models\Review;
 use Firebase\JWT\JWT;
 
@@ -220,6 +221,7 @@ class UserController extends ResourceController
             $modelVideo = new Video;
             $modelVideoCategory = new VideoCategory;
             $modelUserVideo = new UserVideo;
+            $modelCourseBundling = new CourseBundling;
 
             $data = $user->where('id', $decoded->uid)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
@@ -228,7 +230,9 @@ class UserController extends ResourceController
 
             $path_course = site_url() . 'upload/course/thumbnail/';
 
-            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
+            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)
+                          ->where('bundling_id', NULL)
+                          ->findAll();
 
             $course = $userCourse;
             $score_raw = 0;
@@ -260,10 +264,29 @@ class UserController extends ResourceController
                 }
             }
 
+            $userBundling = $modelUserCourse->select('bundling.bundling_id, title, description, old_price, new_price, thumbnail')
+                ->where('user_id', $decoded->uid)
+                ->join('bundling', 'user_course.bundling_id=bundling.bundling_id')
+                ->where('course_id', NULL)
+                ->findAll();
+            // var_dump($userBundling);
+            // die;
+            
+            $courseBundling = [];
+            foreach ($userBundling as $key => $value) {
+                $courseBundling_ = $modelCourseBundling->select('course.course_id, title, service, description, key_takeaways, suitable_for, old_price, new_price, thumbnail, author_id, course.created_at, course.updated_at')
+                    ->join('course', 'course_bundling.course_id=course.course_id', 'right')
+                    ->where('bundling_id', $value['bundling_id'])
+                    ->findAll();
+            
+                $courseBundling[] = array_merge((array) $value, ['course_bundling' => $courseBundling_]);
+            }
+            
+            
             $response = [
                 'id' => $decoded->uid,
                 'profile_picture' => $path_profile . $data['profile_picture'],
-                'fullname' =>  $data['fullname'],
+                'fullname' => $data['fullname'],
                 'email' => $decoded->email,
                 'date_birth' => $data['date_birth'],
                 'job_name' => (is_null($data['job_id'])) ? null : $job_data['job_name'],
@@ -271,10 +294,13 @@ class UserController extends ResourceController
                 'phone_number' => $data['phone_number'],
                 'linkedin' => $data['linkedin'],
                 'created_at' => $data['created_at'],
-                'course' => $course
+                'course' => $course,
+                'bundling' => $courseBundling,
+                //'bundling' => (array) array_merge((array) $userBundling[0], ['course_bundling' => $courseBundling]),
             ];
             return $this->respond($response);
         } catch (\Throwable $th) {
+            throw $th;
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
