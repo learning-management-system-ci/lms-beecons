@@ -21,35 +21,55 @@ class CourseBundlingController extends ResourceController
 
     public function index()
     {
-        $data = $this->coursebundling->getCourseBundling();
-        $dataCourseBundling = [];
-        foreach ($data as $value) {
-            $dataCourseBundling[] = [
-                'course_bundling_id' => $value['course_bundling_id'],
-                'bundling' => $this->coursebundling->getDataBundling($data_bundling_id = $value['bundling_id']),
-                'course' => $this->coursebundling->getDataCourse($data_course_id = $value['course_id']),
-                'created_at' => $value['created_at'],
-                'updated_at' => $value['updated_at'],
-            ];
+        $data = $this->coursebundling->findAll();
+
+        for ($i=0; $i < count($data) ; $i++) { 
+            $bundling = $this->coursebundling
+                ->where('course_bundling.course_bundling_id', $data[$i]['course_bundling_id'])
+                ->join('bundling', 'course_bundling.bundling_id=bundling.bundling_id')
+                ->join('users', 'bundling.author_id=users.id')
+                ->select('bundling.*, users.fullname as author_fullname, users.company as author_company')
+                ->findAll();
+
+            $course = $this->coursebundling
+                ->where('course_bundling.course_bundling_id', $data[$i]['course_bundling_id'])
+                ->join('course', 'course_bundling.bundling_id=course.course_id')
+                ->join('users', 'course.author_id=users.id')
+                ->select('course.*, users.fullname as author_fullname, users.company as author_company')
+                ->findAll();
+
+            $data[$i]['bundling'] = $bundling;
+            $data[$i]['course'] = $course;
         }
-        return $this->respond($dataCourseBundling);
+        
+        return $this->respond($data);
     }
 
     public function show($id = null)
     {
-        $data = $this->coursebundling->where('course_bundling_id', $id)->getShow($id);
-        $dataCourseBundling = [];
-        foreach ($data as $value) {
-            $dataCourseBundling[] = [
-                'course_bundling_id' => $value['course_bundling_id'],
-                'bundling' => $this->coursebundling->getDataBundling($data_bundling_id = $value['bundling_id']),
-                'course' => $this->coursebundling->getDataCourse($data_course_id = $value['bundling_id']),
-                'created_at' => $value['created_at'],
-                'updated_at' => $value['updated_at'],
-            ];
+        $data = $this->coursebundling->select('course_bundling_id, order, created_at, updated_at, deleted_at')->where('course_bundling_id', $id)->first();
+
+        for ($i=0; $i < count($data) ; $i++) { 
+            $bundling = $this->coursebundling
+                ->where('course_bundling.course_bundling_id', $id)
+                ->join('bundling', 'course_bundling.bundling_id=bundling.bundling_id')
+                ->join('users', 'bundling.author_id=users.id')
+                ->select('bundling.*, users.fullname as author_fullname, users.company as author_company')
+                ->findAll();
+
+            $course = $this->coursebundling
+                ->where('course_bundling.course_bundling_id', $id)
+                ->join('course', 'course_bundling.bundling_id=course.course_id')
+                ->join('users', 'course.author_id=users.id')
+                ->select('course.*, users.fullname as author_fullname, users.company as author_company')
+                ->findAll();
+
+            $data['bundling'] = $bundling;
+            $data['course'] = $course;
         }
-        if ($dataCourseBundling) {
-            return $this->respond($dataCourseBundling);
+
+        if ($data != null) {
+            return $this->respond($data);
         } else {
             return $this->failNotFound('Data Course Bundling tidak ditemukan');
         }
