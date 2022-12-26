@@ -9,7 +9,7 @@ $(document).ready(function () {
     // handleWebinar()
 
     // handle mentor slider
-    handleMentor()
+    handleAuthor()
 
     // handle articles
     handleArtikel()
@@ -82,7 +82,7 @@ async function handleCourses() {
                             <div class="star-container">
                                 <div class="stars" style="--rating: ${course.rating_course}"></div>
                             </div>
-                            <p class="harga">
+                            <p class="harga mb-3">
                                 ${(() => {
                                     if (course.old_price !== '0') {
                                         return `<del>${getRupiah(course.old_price)}</del>`
@@ -290,62 +290,35 @@ async function handleWebinar() {
     }
 }
 
-async function handleMentor() {
+async function handleAuthor() {
     try {
-        const mentorResponse = await $.ajax({
-            url: '/api/mentor',
+        const authorResponse = await $.ajax({
+            url: '/api/users/author',
             method: 'GET',
             dataType: 'json'
         })
 
-        let mentors = mentorResponse.map(mentor => {
-            return {
-                id: mentor.id,
-                fullname: mentor.fullname,
-                profile_picture: 'people.jpg',
-                job: mentor.job_name,
-                stars: 4.5,
-                links: {
-                    linkedin: '/',
-                    ig: '/',
-                    fb: '/'
-                }
-            }
-        })
-
-        $('#mentor-wrapper').html(mentors.map(mentor => {
+        $('#author-wrapper').html(authorResponse.author.map(author => {
             return `
-                <div class="card-mentor">
+                <div class="card-author">
                     <div class="profile">
-                        <img src="image/home/${mentor.profile_picture}" alt="mentor">
+                        <img src="${author.profile_picture}" alt="profile">
                     </div>
 
                     <div class="info">
-                        <h2>${mentor.fullname}</h2>
-                        <p>${mentor.job}</p>
+                        <h2 class='mb-3'>${author.fullname}</h2>
+                        <p>${author.company}</p>
                     </div>
 
                     <div class="star-container">
-                        <div class="stars" style="--rating: ${mentor.stars}"></div>
-                        <h2>${mentor.stars}</h2>
-                    </div>
-
-                    <div class="sosmed">
-                        <a href="${mentor.links.linkedin}">
-                            <i class="fa-brands fa-linkedin"></i>
-                        </a>
-                        <a href="${mentor.links.ig}">
-                            <i class="fa-brands fa-chrome"></i>
-                        </a>
-                        <a href="${mentor.links.fb}">
-                            <i class="fa-brands fa-square-behance"></i>
-                        </a>
+                        <div class="stars" style="--rating: ${author.author_final_rating}"></div>
+                        <h2 class="d-none">${author.author_final_rating}</h2>
                     </div>
                 </div>
             `
         }))
 
-        $('#mentor-wrapper').slick({
+        $('#author-wrapper').slick({
             dots: false,
             slidesToShow: 4,
             slidesToScroll: 1,
@@ -442,37 +415,25 @@ async function handleTestimoni() {
             dataType: 'json'
         })
 
-        let testimonials = testimoniResponse.map(testimoni => {
-            return {
-                testimoni_id: testimoni.testimoni_id,
-                fullname: testimoni.user[0].fullname,
-                job: 'Alumbi Fullstack Engineer',
-                picture: 'people.jpg',
-                testimoni: testimoni.testimoni
-            }
-        })
-
-        $('#testimoni .testimoni-slick').html(testimonials.map((testimoni) => {
-            return (
-                `
-                    <div class="testimoni-container">
-                        <div class="image">
-                            <img src="image/home/${testimoni.picture}" alt="">
+        $('#testimoni .testimoni-slick').html(testimoniResponse.testimoni.map((testimoni) => {
+            return (`
+                <div class="testimoni-container">
+                    <div class="image">
+                        <img src="${testimoni.users[0].profile_picture}" alt="profile">
+                    </div>
+                    <div class="content">
+                        <div class="title">
+                            
                         </div>
-                        <div class="content">
-                            <div class="title">
-                                ${testimoni.job}
-                            </div>
-                            <div class="name">
-                                ${testimoni.fullname}
-                            </div>
-                            <div class="text">
-                                ${testimoni.testimoni}
-                            </div>
+                        <div class="name">
+                            ${testimoni.users[0].fullname}
+                        </div>
+                        <div class="text">
+                            ${testimoni.testimoni}
                         </div>
                     </div>
-                `
-            )
+                </div>
+            `)
         }))
 
         // testimoni slider
@@ -484,6 +445,6 @@ async function handleTestimoni() {
             centerMode: false,
         })
     } catch (error) {
-        // console.log(error)
+        console.log(error)
     }
 }

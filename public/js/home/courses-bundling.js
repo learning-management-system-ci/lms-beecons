@@ -1,4 +1,8 @@
-$(document).ready(async function () {
+$(document).ready(function () {
+    handleBundling()
+})
+
+async function handleBundling () {
     try {
         const categoryBundlingResponse = await $.ajax({
             url: '/api/category-bundling',
@@ -7,14 +11,14 @@ $(document).ready(async function () {
         })
 
         const response = await $.ajax({
-            url: '/api/course-bundling',
+            url: '/api/bundling',
             method: 'GET',
             dataType: 'json'
         })
 
         $('.courses-bundling-loading').hide()
 
-        let rekomendasi = response.slice(0, 3)
+        let rekomendasi = response.bundling.slice(0, 3)
 
         $('#courses .courses-bundlings .courses-bundling-list').slick({
             dots: false,
@@ -44,27 +48,27 @@ $(document).ready(async function () {
         function generateBundles(bundles) {
             return bundles.map((item) => {
                 return `
-                    <div class="col-md-3 px-0">
+                    <div class="col-md-4">
                         <div class="my-card bundle">
                             <div class="content">
                                 <div class="badges">
                                     <div class="item">Bundling</div>
                                 </div>
-                                <h2>${item.bundling[0].title}</h2>
+                                <h2>${item.title}</h2>
                                 <h3>What will you get?</h3>
                                 <ul>
                                     ${item.course.map((course) => {
                                         return `<li><div class='text-truncate'>${course.title}</div></li>`
-                                    })}
+                                    }).join('')}
                                 </ul>
     
                                 Only
                                 <div class="harga">
-                                    ${getRupiah(item.bundling[0].new_price)}
-                                    <del>${getRupiah(item.bundling[0].old_price)}</del>
+                                    ${getRupiah(item.new_price)}
+                                    <del>${getRupiah(item.old_price)}</del>
                                 </div>
                             </div>
-                            <a href="/courses/bundling/${item.course_bundling_id}">
+                            <a href="/courses/bundling/${item.bundling_id}">
                                 <button class="my-btn btn-full">Detail</button>
                             </a>
                             <div class="label">
@@ -83,9 +87,16 @@ $(document).ready(async function () {
             let result = []
 
             if (tag === 0) {
-                result = response
+                result = response.bundling
             } else {
-                result = response.filter(item => item.bundling[0].category_bundling_id === tag.toString())
+                result = response.bundling.filter(item => item.category_bundling_id === tag.toString())
+            }
+
+            if (result.length === 0) {
+                $('#courses .courses-bundlings .courses-bundling-list').html(`
+                    <div class="col-md-12 text-center">Data bundling tidak ada</div>
+                `)
+                return
             }
 
             $('#courses .courses-bundlings .courses-bundling-list').html(result.map((item) => {
@@ -96,21 +107,21 @@ $(document).ready(async function () {
                                 <div class="badges">
                                     <div class="item">Bundling</div>
                                 </div>
-                                <h2>${item.bundling[0].title}</h2>
+                                <h2>${item.title}</h2>
                                 <h3>What will you get?</h3>
                                 <ul>
                                     ${item.course.map((course) => {
                                         return `<li><div class='text-truncate'>${course.title}</div></li>`
-                                    })}
+                                    }).join('')}
                                 </ul>
 
                                 Only
                                 <div class="harga">
-                                    ${getRupiah(item.bundling[0].new_price)}
-                                    <del>${getRupiah(item.bundling[0].old_price)}</del>
+                                    ${getRupiah(item.new_price)}
+                                    <del>${getRupiah(item.old_price)}</del>
                                 </div>
                             </div>
-                            <a href="/courses/bundling/${item.course_bundling_id}">
+                            <a href="/courses/bundling/${item.bundling_id}">
                                 <button class="my-btn btn-full">Detail</button>
                             </a>
                             <div class="label">
@@ -127,9 +138,10 @@ $(document).ready(async function () {
                 slidesToScroll: 1,
                 touchMove: true,
                 centerMode: true,
+                adaptiveHeight: true
             })
         }
     } catch (error) {
         console.log(error)
     }
-})
+}
