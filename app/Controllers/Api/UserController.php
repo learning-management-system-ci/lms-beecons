@@ -300,13 +300,15 @@ class UserController extends ResourceController
                     array_push($scoreBundlingRaw, $scoreCourse);
                 }
 
+                $courseBundling['course_bundling'] = $courseBundling_;
+
                 foreach ($scoreBundlingRaw as $key => $value) {
                     $scoreBundling += $scoreBundlingRaw[$key];
+                    $courseBundling['course_bundling'][$key]['score'] = $scoreBundlingRaw[$key];
                 }
 
                 $scoreBundling /= count($scoreBundlingRaw);
 
-                $courseBundling['course_bundling'] = $courseBundling_;
                 $courseBundling['score'] = $scoreBundling;
             }
 
