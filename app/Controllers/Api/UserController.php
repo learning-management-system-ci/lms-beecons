@@ -231,8 +231,8 @@ class UserController extends ResourceController
             $path_course = site_url() . 'upload/course/thumbnail/';
 
             $userCourse = $modelUserCourse->where('user_id', $decoded->uid)
-                          ->where('bundling_id', NULL)
-                          ->findAll();
+                ->where('bundling_id', NULL)
+                ->findAll();
 
             $course = $userCourse;
             $score_raw = 0;
@@ -271,18 +271,46 @@ class UserController extends ResourceController
                 ->findAll();
             // var_dump($userBundling);
             // die;
-            
+
             $courseBundling = [];
             foreach ($userBundling as $key => $value) {
                 $courseBundling_ = $modelCourseBundling->select('course.course_id, title, service, description, key_takeaways, suitable_for, old_price, new_price, thumbnail, author_id, course.created_at, course.updated_at')
                     ->join('course', 'course_bundling.course_id=course.course_id', 'right')
                     ->where('bundling_id', $value['bundling_id'])
                     ->findAll();
-            
-                $courseBundling[] = array_merge((array) $value, ['course_bundling' => $courseBundling_]);
+
+                $scoreBundling = 0;
+                $scoreBundlingRaw = [];
+
+                foreach ($courseBundling_ as $key => $courseBundling) {
+                    $scoreCourseRaw = 0;
+                    $scoreCourseRaw2 = [];
+
+                    $videoCategory = $modelVideoCategory->where('course_id', $courseBundling['course_id'])->first();
+                    $video = $modelVideo->where('video_category_id', $videoCategory['video_category_id'])->findAll();
+                    foreach ($video as $key => $video_) {
+                        $userVideo = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_['video_id'])->first();
+
+                        if ($userVideo) {
+                            array_push($scoreCourseRaw2, $userVideo['score']);
+                            $scoreCourseRaw += $userVideo['score'];
+                        }
+                    }
+                    $scoreCourse = $scoreCourseRaw / count($video);
+                    array_push($scoreBundlingRaw, $scoreCourse);
+                }
+
+                foreach ($scoreBundlingRaw as $key => $value) {
+                    $scoreBundling += $scoreBundlingRaw[$key];
+                }
+
+                $scoreBundling /= count($scoreBundlingRaw);
+
+                $courseBundling['course_bundling'] = $courseBundling_;
+                $courseBundling['score'] = $scoreBundling;
             }
-            
-            
+
+
             $response = [
                 'id' => $decoded->uid,
                 'profile_picture' => $path_profile . $data['profile_picture'],
@@ -668,7 +696,7 @@ class UserController extends ResourceController
             ->where('role', 'author')
             ->select('id, fullname, email, profile_picture, role, company')
             ->findAll();
-        
+
         for ($c = 0; $c < count($getdataauthor); $c++) {
             $getdataauthor[$c]['profile_picture'] = $path . $getdataauthor[$c]['profile_picture'];
         }
@@ -692,11 +720,11 @@ class UserController extends ResourceController
             $rating_course_raw = 0;
             $rating_course_final = 0;
 
-            if($course != null){
+            if ($course != null) {
                 for ($x = 0; $x < count($course); $x++) {
                     $cek_course = $modelReview->where('course_id', $course[$x]['course_id'])->findAll();
-                
-                    if ($cek_course != null){
+
+                    if ($cek_course != null) {
                         $reviewcourse = $modelReview->where('course_id', $course[$x]['course_id'])->findAll();
 
                         $rating_raw = 0;
@@ -716,18 +744,18 @@ class UserController extends ResourceController
                         // $data['author'][$i]['course_final_rating'] = 0;
                     }
                 }
-            } else{
+            } else {
                 // $data['author'][$i]['course_final_rating'] = 0;
             }
 
-            if($bundling != null){
+            if ($bundling != null) {
                 for ($z = 0; $z < count($bundling); $z++) {
                     $cek_bundling = $modelReview->where('bundling_id', $bundling[$z]['bundling_id'])->findAll();
 
                     $rating_bundling_raw = 0;
                     $rating_bundling_final = 0;
-                
-                    if ($cek_bundling != null){
+
+                    if ($cek_bundling != null) {
                         $reviewbundling = $modelReview->where('bundling_id', $bundling[$z]['bundling_id'])->findAll();
 
                         $rating_raw = 0;
@@ -750,11 +778,11 @@ class UserController extends ResourceController
                 // $data['author'][$i]['bundling_final_rating'] = 0;
             }
 
-            if($course != null || $bundling != null){
+            if ($course != null || $bundling != null) {
                 $rating_author_raw = $rating_bundling_final + $rating_course_final;
                 $rating_author_final = $rating_author_raw / 2;
                 $data['author'][$i]['author_final_rating'] = $rating_author_final;
-            } else{
+            } else {
                 $data['author'][$i]['author_final_rating'] = 0;
             }
         }
