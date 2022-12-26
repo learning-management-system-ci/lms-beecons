@@ -140,16 +140,16 @@
   font-weight: bolder;
 }
 
-#mentor {
+#author {
   padding-top: 6rem;
   padding-bottom: 6rem;
 }
-#mentor h1 {
+#author h1 {
   font-size: 2rem;
   text-align: center;
   margin-bottom: 4rem;
 }
-#mentor .slick-slide {
+#author .slick-slide {
   padding: 2rem 1rem;
 }
 
