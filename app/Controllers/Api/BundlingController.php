@@ -6,6 +6,7 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Bundling;
 use App\Models\Course;
+use App\Models\UserCourse;
 use App\Models\CourseCategory;
 use App\Models\CourseBundling;
 use App\Models\CourseTag;
@@ -427,6 +428,52 @@ class BundlingController extends ResourceController
                 return $this->respondDeleted($response);
             } else {
                 return $this->failNotFound('Data bundling tidak ditemukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+        return $this->failNotFound('Data bundling tidak ditemukan');
+    }
+
+    public function getUserBundling()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+            $modelUserCourse = new UserCourse();
+            $modelBundling = new Bundling();
+
+            $userbundling = $modelUserCourse
+                ->where('user_id', $decoded->uid)
+                ->where('course_id', null)
+                ->select('user_course.user_course_id, user_course.user_id, user_course.bundling_id')
+                ->findAll();
+
+            $data['coursebundling'] = $userbundling;
+
+            for ($a=0; $a < count($userbundling); $a++) { 
+                $bundling = $this->bundling
+                    ->where('bundling.bundling_id', $userbundling[$a]["bundling_id"])
+                    ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
+                    ->select('bundling.*, category_bundling.name as category_name')
+                    ->findAll();
+
+                for ($i = 0; $i < count($bundling); $i++) {
+                    $bundling[$i]['thumbnail'] = $this->pathbundling . $bundling[$i]['thumbnail'];
+                }
+        
+                $data['coursebundling'][$a]['bundling'] = $bundling;
+            }
+
+            if ($data) {
+                return $this->respond($data);
+            } else {
+                return $this->failNotFound('Tidak ada data');
             }
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
