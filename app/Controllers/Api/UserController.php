@@ -251,8 +251,9 @@ class UserController extends ResourceController
 
                 if ($userReview) {
                     $course[$i]['review'] = $userReview['score'];
+                    $courseBundling_[$key]['is_review'] = true;
                 } else {
-                    $course[$i]['review'] = 0;
+                    $courseBundling_[$key]['is_review'] = false;
                 }
 
                 $course[$i]['thumbnail'] = $path_course . $course_['thumbnail'];
@@ -323,8 +324,9 @@ class UserController extends ResourceController
 
                         if ($userReview) {
                             $courseBundling_[$key]['review'] = $userReview['score'];
+                            $courseBundling_[$key]['is_review'] = true;
                         } else {
-                            $courseBundling_[$key]['review'] = 0;
+                            $courseBundling_[$key]['is_review'] = false;
                         }
 
                         $scoreCourseRaw = 0;
