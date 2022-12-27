@@ -211,7 +211,7 @@ class BundlingController extends ResourceController
                 ->join('course_category', 'course.course_id=course_category.course_id')
                 ->join('category', 'course_category.category_id=category.category_id')
                 ->join('video_category', 'course.course_id=video_category.course_id')
-                ->select('course.*, category.name AS `category_name`, video_category.video_category_id, type.name AS course_type')
+                ->select('course.*, category.name AS `category_name`, video_category.video_category_id, type.name AS course_type, course_bundling.order')
                 ->orderBy('bundling.bundling_id', 'DESC')
                 ->findAll();
 
@@ -456,7 +456,7 @@ class BundlingController extends ResourceController
 
             $data['coursebundling'] = $userbundling;
 
-            for ($a=0; $a < count($userbundling); $a++) { 
+            for ($a = 0; $a < count($userbundling); $a++) {
                 $bundling = $this->bundling
                     ->where('bundling.bundling_id', $userbundling[$a]["bundling_id"])
                     ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
@@ -466,7 +466,7 @@ class BundlingController extends ResourceController
                 for ($i = 0; $i < count($bundling); $i++) {
                     $bundling[$i]['thumbnail'] = $this->pathbundling . $bundling[$i]['thumbnail'];
                 }
-        
+
                 $data['coursebundling'][$a]['bundling'] = $bundling;
             }
 

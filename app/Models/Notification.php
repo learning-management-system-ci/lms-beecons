@@ -14,7 +14,7 @@ class Notification extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'message'];
+    protected $allowedFields    = ['user_id', 'public', 'message'];
 
     // Dates
     protected $useTimestamps = false;
