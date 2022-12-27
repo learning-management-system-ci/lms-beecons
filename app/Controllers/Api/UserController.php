@@ -251,9 +251,9 @@ class UserController extends ResourceController
 
                 if ($userReview) {
                     $course[$i]['review'] = $userReview['score'];
-                    $courseBundling_[$key]['is_review'] = true;
+                    $course[$i]['is_review'] = true;
                 } else {
-                    $courseBundling_[$key]['is_review'] = false;
+                    $course[$i]['is_review'] = false;
                 }
 
                 $course[$i]['thumbnail'] = $path_course . $course_['thumbnail'];
