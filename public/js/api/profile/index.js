@@ -152,34 +152,55 @@ $.ajax({
                                 <h5>
                                     ${title}
                                 </h5>
-                                <p>
+                                <p class="ellipsis">
                                     ${description}
                                 </p>
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <div id="progres-per-course_${course_id}" class="progress" style="height: 5px; background-color: #FFE5A1;"></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="font-weight-bold" id="course-percent_${course_id}"></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         </div>
                         </a>
                         </div>
-                        <div class="col-20">
-                        <div class="row">
-                        <div class="col">
-                        <div>
-                            <h5>
-                                Total Nilai
-                            </h5>
+                        <div class="col-auto">
                             <div class="row">
-                            <div class="col">
-                            <h5>
-                                ${score}/100
-                            </h5>
-                            </div>
-                            <div class="col">
-                            <a href="/certificates/${course_id}">Detail</a>
-                            </div>
+                                <div class="col">
+                                <div>
+                                    <h5>
+                                        Sertifikat
+                                    </h5>
+                                    <div class="row">
+                                    <div class="col">
+                                    <button id="download_certificate_course_${course_id}">Download</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
                             </div>
                         </div>
-                        </div>
-                        </div>
+                        <div class="col-auto">
+                            <div class="row">
+                                <div class="col">
+                                <div>
+                                    <h5>
+                                        Total Nilai
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col">
+                                        <h5>
+                                            ${score ? score : 0}/100
+                                        </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -187,6 +208,305 @@ $.ajax({
             })
 
         $("div#user-courses").html(coursesResource);
+
+        var bundlingResource = data.bundling.map(({ bundling_id, thumbnail, title, description, score, course_bundling }) => {
+            return (`
+            <div class="row">
+                <div class="col">
+                <a data-bs-toggle="collapse" href="#collapseBundling_${bundling_id}" role="button" aria-expanded="false" aria-controls="collapseBundling_${bundling_id}">
+                    <div class="row">
+                    <div class="col-20">
+                        <img src="${thumbnail}" class="course-image me-1" alt="">
+                    </div>
+                    <div class="d-flex col text-start align-items-center body">
+                        <div>
+                            <div class="bg-green mb-1">
+                                <p>
+                                    Bundling
+                                </p>
+                            </div>
+                            <h5 class="mb-0">
+                                ${title}
+                            </h5>
+                            <p class="ellipsis mb-0">
+                                ${description}
+                            </p>
+                        </div>
+                    </div>
+                    </div>
+                </a>
+                </div>
+                <div class="col-auto">
+                    <div class="row">
+                        <div class="col">
+                        <div>
+                            <h5>
+                                Sertifikat
+                            </h5>
+                            <div class="row">
+                            <div class="col">
+                            <button id="download_certificate_bundling_${bundling_id}">Download</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="row">
+                        <div class="col">
+                        <div>
+                            <h5>
+                                Total Nilai
+                            </h5>
+                            <div class="row">
+                                <div class="col">
+                                <h5>
+                                    ${Math.round(score)}/100
+                                </h5>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="collapse" id="collapseBundling_${bundling_id}">
+                <div class="row justify-content-end">
+                    <div class="col-11" id="course_collape_${bundling_id}">
+                    </div>
+                </div>
+            </div>
+            `)
+        })
+
+        $("div#user-courses").append(bundlingResource);
+
+        data.bundling.map(({ bundling_id, course_bundling }) => {
+            var courses = course_bundling.map(({ course_id, thumbnail, title, description, score }) => {
+                return (`
+                <div class="row">
+                    <div class="col">
+                    <a href="/course/${course_id}">
+                    <div class="row">
+                    <div class="col-20">
+                        <img src="${thumbnail}" class="course-image me-1" alt="">
+                    </div>
+                    <div class="d-flex col text-start align-items-center body">
+                        <div>
+                            <h5>
+                                ${title}
+                            </h5>
+                            <p class="ellipsis">
+                                ${description}
+                            </p>
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div id="progres-per-course-bundling_${course_id}" class="progress" style="height: 5px; background-color: #FFE5A1;"></div>
+                                </div>
+                                <div class="col-auto">
+                                    <p class="font-weight-bold" id="course-bundling-percent_${course_id}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    </a>
+                    </div>
+                    <div class="col-auto">
+                        <div class="row">
+                            <div class="col">
+                            <div>
+                                <h5>
+                                    Sertifikat
+                                </h5>
+                                <div class="row">
+                                <div class="col">
+                                <button onclick="window.open('/certificates/${course_id}')">Download</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="row">
+                            <div class="col">
+                            <div>
+                                <h5>
+                                    Total Nilai
+                                </h5>
+                                <div class="row">
+                                <div class="col">
+                                <h5>
+                                    ${Math.round(score)}/100
+                                </h5>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                `)
+            })
+
+            $(`div#course_collape_${bundling_id}`).html(courses);
+        })
+
+        const displayCreateReviewModal = async () => {
+            // show review modal
+            $('#reviewModal').modal('show');
+            
+            // check if rating input and review text are not empty. if not empty, enable submit button
+            $('.rating-input input').on('change', () => {
+                if (($('#reviewText').val() != '') && ($('.rating-input input:checked').val() != undefined)) {
+                    $('#reviewSubmit').prop('disabled', false)
+                } else {
+                    $('#reviewSubmit').prop('disabled', true)
+                }
+            })
+            $('#reviewText').on('input', () => {
+                if (($('#reviewText').val() != '') && ($('.rating-input input:checked').val() != undefined)) {
+                    $('#reviewSubmit').prop('disabled', false)
+                } else {
+                    $('#reviewSubmit').prop('disabled', true)
+                }
+            })
+        
+            // onclick submit button
+            $('#reviewModal').on('click', '#reviewSubmit', async (e) => {
+                e.preventDefault();
+                // get form values
+                let formValues = {
+                    'rating': $('.rating-input input:checked').val(),
+                    'review': $('#reviewText').val()
+                }
+        
+                // if all attribute form values is not empty, post data to backend
+                if (formValues.rating && formValues.review) {
+                    const course_id = sessionStorage.getItem('course_id')
+                    let response = await postReviewData(course_id, formValues)
+        
+                    // if success, close modal
+                    if (!response.err) {
+                        $('#reviewModal').modal('hide')
+                        // redirect to profile page
+                        window.location.href = '/profile'
+                    } else {
+                        alert(response.err)
+                    }
+                }
+                
+            })
+        }
+
+        data.bundling.map(({
+            bundling_id, lolos, is_review
+        }) => {
+
+            $(`#download_certificate_bundling_${bundling_id}`).click(() => {
+                if (!data.fullname) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu melengkapi profile anda',
+                        showConfirmButton: true
+                    })
+                }
+                if (lolos === false) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu menyelesaikan course',
+                        showConfirmButton: true
+                    })
+                }
+                if (is_review === false) {
+                    new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu mereview course',
+                        showConfirmButton: true
+                    })
+
+                    return displayCreateReviewModal();
+                }
+                window.open(`/certificates/?type=bundling&id=${bundling_id}`)
+            })
+        })
+
+        data.course.map(({
+            course_id, lolos, is_review
+        }) => {
+
+            $(`#download_certificate_course_${course_id}`).click(() => {
+                if (!data.fullname) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu melengkapi profile anda',
+                        showConfirmButton: true
+                    })
+                }
+                if (lolos === false) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu menyelesaikan course',
+                        showConfirmButton: true
+                    })
+                }
+                if (is_review === false) {
+                    new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu mereview course',
+                        showConfirmButton: true
+                    })
+                    return displayCreateReviewModal();
+                }
+                window.open(`/certificates/?type=course&id=${course_id}`)
+            })
+        })
+
+        $.ajax({
+            type: "GET",
+            url: "/api/users/progress",
+            contentType: "application/json",
+            headers: {
+                "Authorization": "Bearer " + Cookies.get("access_token"),
+                "Content-Type": "application/json"
+            },
+            success: function (data) {
+                let completedAll = 0;
+                let totalAll = 0;
+                data.progress
+                    .map(({
+                        completed,
+                        total,
+                    }) => {
+                        completedAll = completedAll + completed;
+                        totalAll = totalAll + total;
+                    });
+                $(".progress").html(`
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${data.progress.length === 0 ? 0 : Math.round((completedAll / totalAll) * 100)}%;"
+                            aria-valuenow="${data.progress.length === 0 ? 0 : Math.round((completedAll / totalAll) * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
+                    `);
+                $(".progress-percent").html(`${data.progress.length === 0 ? 0 : Math.round((completedAll / totalAll) * 100)}%`);
+
+                data.progress.map(({ course_id, completed, total }) => {
+                    $(`#progres-per-course_${course_id}`).html(`
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: ${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}%;"
+                                aria-valuenow="${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
+                        `)
+
+                    $(`#course-percent_${course_id}`).html(`${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}%`)
+                    $(`#progres-per-course-bundling_${course_id}`).html(`
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: ${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}%;"
+                                aria-valuenow="${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
+                        `)
+
+                    $(`#course-bundling-percent_${course_id}`).html(`${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}%`)
+                })
+            }
+        });
 
         $('document').ready(function () {
             $.ajax({
@@ -294,34 +614,6 @@ $.ajax({
                     $('button#editButton').prop('disabled', false).addClass('active').removeClass('disable');
                 } else {
                     $('button#editButton').prop('disabled', true).addClass('disable');
-                }
-            });
-        })
-        $('document').ready(function () {
-            $.ajax({
-                type: "GET",
-                url: "/api/users/progress",
-                contentType: "application/json",
-                headers: {
-                    "Authorization": "Bearer " + Cookies.get("access_token"),
-                    "Content-Type": "application/json"
-                },
-                success: function (data) {
-                    let completedAll = 0;
-                    let totalAll = 0;
-                    data.progress
-                        .map(({
-                            completed,
-                            total,
-                        }) => {
-                            completedAll = completedAll + completed;
-                            totalAll = totalAll + total;
-                        });
-                    $(".progress").html(`
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${Math.round((completedAll / totalAll) * 100)}%;"
-                            aria-valuenow="${Math.round((completedAll / totalAll) * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
-                    `);
-                    $(".progress-percent").html(`${Math.round((completedAll / totalAll) * 100)}%`);
                 }
             });
         })
