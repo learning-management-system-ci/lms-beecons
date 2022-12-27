@@ -31,8 +31,9 @@ class BundlingController extends ResourceController
         $modelBundling = new Bundling();
 
         $bundling = $this->bundling
-            ->select('bundling.*, category_bundling.name as category_name')
             ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
+            ->join('users', 'bundling.author_id = users.id')
+            ->select('bundling.*, category_bundling.name as category_name, users.fullname as author_name, users.company as author_company')
             ->findAll();
 
         for ($i = 0; $i < count($bundling); $i++) {
