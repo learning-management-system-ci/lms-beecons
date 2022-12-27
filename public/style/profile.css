@@ -74,6 +74,9 @@ h5.font-weight-bold {
 .bg-green > * {
   color: white;
 }
+.bg-green > p {
+  font-size: 12px;
+}
 
 .ellipsis {
   display: -webkit-box;
