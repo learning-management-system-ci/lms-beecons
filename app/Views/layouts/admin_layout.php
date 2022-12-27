@@ -66,6 +66,8 @@
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/livequery/1.1.1/jquery.livequery.js"></script> -->
+    <script src="/js/library/jquery.livequery.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script> -->
 
     <!-- sweetalert -->
@@ -74,9 +76,11 @@
     <!--   Core JS Files   -->
     <script src="/argon-dashboard/assets/js/core/popper.min.js"></script>
     <script src="/argon-dashboard/assets/js/core/bootstrap.min.js"></script>
-    <!-- <script src="/argon-dashboard/assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="/argon-dashboard/assets/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="/argon-dashboard/assets/js/plugins/smooth-scrollbar.min.js"></script>
-    <script src="/argon-dashboard/assets/js/plugins/chartjs.min.js"></script> -->
+    <script src="/argon-dashboard/assets/js/plugins/chartjs.min.js"></script>
+    <script src="https://SortableJS.github.io/Sortable/Sortable.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-sortablejs@latest/jquery-sortable.js"></script>
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <!-- myscript -->

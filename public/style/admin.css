@@ -138,7 +138,7 @@ select[name=table-user_length] {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .user-question-text {
@@ -179,6 +179,64 @@ select[name=table-user_length] {
 
 .ss-value-delete {
   width: auto !important;
+}
+
+.bundling-list-course {
+  height: 25em;
+  border: 1px solid #b6bbc3;
+  border-radius: 7px;
+}
+
+.bundling-dragndrop-panel {
+  gap: 13px;
+}
+
+.bundling-search-course {
+  border-radius: 3px;
+  width: 100%;
+  border: 1px solid gray;
+}
+
+.selection-bundling-list,
+.selection-course-list {
+  border-radius: 7px;
+  background: rgba(172, 198, 237, 0.8784313725);
+  overflow-x: auto;
+  height: 22em;
+}
+
+.selection-bundling-list {
+  height: 26em;
+}
+
+.selection-course-bundling {
+  border-radius: 7px;
+}
+
+.course-list-choice:hover,
+.course-list-choice:active {
+  background-color: #5770ff;
+}
+
+.course-list-choice:active {
+  cursor: grabbing;
+}
+
+.course-list-choice {
+  border-radius: 7px;
+  cursor: grab;
+  background-color: #3a58ff;
+}
+.course-list-choice .course-name {
+  width: 90%;
+}
+.course-list-choice .right-side-course {
+  width: min-content;
+  text-align: end;
+}
+.course-list-choice .right-side-course i {
+  cursor: pointer;
+  font-size: 1.5em;
 }
 
 /*# sourceMappingURL=contact-list.css.map */

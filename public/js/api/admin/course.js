@@ -84,10 +84,6 @@ $(document).ready(() => {
       let form = new FormData($('#add-course-form')[0])
       form.append('tag', JSON.stringify(type_tag_choice.getSelected()))
 
-      // for (var pair of form.entries()) {
-      //   console.log(pair[0] + ', ' + pair[1]);
-      // }
-
       $.ajax({
         type: "POST",
         url: `/api/course/create`,

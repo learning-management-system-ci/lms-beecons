@@ -100,7 +100,7 @@ $routes->group('admin/', static function ($routes) {
     $routes->get('contact', 'AdminController::contactList');
 
     $routes->get('bundling', 'AdminController::bundling/$1');
-    $routes->get('bundling/(:segment)', 'AdminController::quizDetail/$1');
+    $routes->get('bundling/(:segment)', 'AdminController::bundlingDetail/$1');
     $routes->get('faq', 'AdminController::faq');
 });
 

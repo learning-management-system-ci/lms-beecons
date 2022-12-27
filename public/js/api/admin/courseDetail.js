@@ -116,11 +116,7 @@ $(document).ready(() => {
   const createVideoCategory = async (title, id) => {
     console.log(id)
     let getVideoCatID
-    let formVidCat = `course_id=${id}&title=hello`
-    // formVidCat.append('course_id', id)
-    // formVidCat.append('title', 'test')
-
-
+    let formVidCat = `course_id=${id}&title=`
     try {
       await $.ajax({
         type: "POST",
@@ -164,47 +160,6 @@ $(document).ready(() => {
 
 
     return getVideoCatID;
-  }
-
-  const submitCourseDetailSetting = async (course_id) => {
-    const data = {
-      title: $("#title-input").val(),
-      description: $("#description-input").val(),
-      category_id: parseInt($("#category-input-wraper").val()),
-      type_id: parseInt($("#type-input-wraper").val()),
-      tags: $("#tags-input").val(),
-      key_takeaways: $("#key-takeaways-input").val(),
-      suitable_for: $("#suitable-for-input").val(),
-      old_price: parseInt($("#price-input").val()),
-      new_price: parseInt($("#after-discount-price-input").val()),
-      thumbnail: $("#thumbnail-input")[0].files[0]
-    }
-    const formData = new FormData()
-    Object.keys(data).forEach((key) => {
-      formData.append(key, data[key])
-    })
-
-    let option = {
-      type: "POST",
-      url: document.location.origin + `/api/course/update/${course_id}`,
-      processData: false,
-      contentType: false,
-      data: formData,
-      headers: {
-        "Authorization": `Bearer ${Cookies.get("access_token")}`,
-      },
-      success: async function (course) {
-        alert("upload success")
-        // console.log(course)
-        let course_data = await getCourseDetailData(course_id)
-        populateCourseDetailGeneral(course_data)
-        stopSetting()
-
-      },
-    }
-
-    await $.ajax(option)
-    // console.log(data)
   }
 
   const populateCourseDetailGeneral = async data => {
@@ -731,5 +686,5 @@ $(document).ready(() => {
     populateCourseEditDelete(course_id)
   }
 
-  // populateCourseDetailPage()
+  populateCourseDetailPage()
 })
