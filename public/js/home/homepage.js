@@ -415,6 +415,8 @@ async function handleTestimoni() {
             dataType: 'json'
         })
 
+        testimoniResponse.testimoni = testimoniResponse.testimoni.slice(0, 5)
+
         $('#testimoni .testimoni-slick').html(testimoniResponse.testimoni.map((testimoni) => {
             return (`
                 <div class="testimoni-container">
