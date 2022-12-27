@@ -85,6 +85,11 @@ h6 {
     font-weight: 600;
 }
 
+.disabled {
+    cursor: not-allowed;
+    opacity: .5;
+}
+
 .card-course {
     @include card-setting();
     padding: .8rem;
@@ -650,11 +655,16 @@ main {
                             border-bottom: none;
                         }
                     }
+
+                    &:hover {
+                        background-color: $color-gray-2;
+                    }
                 }
 
                 a {
                     display: flex;
                     gap: .8rem;
+                    padding-bottom: .4rem;
                     border-bottom: 1px solid $color-gray;
 
                     .icon {

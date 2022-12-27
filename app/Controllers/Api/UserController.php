@@ -223,6 +223,7 @@ class UserController extends ResourceController
             $modelVideoCategory = new VideoCategory;
             $modelUserVideo = new UserVideo;
             $modelCourseBundling = new CourseBundling;
+            $modelUserReview = new Review;
 
             $data = $user->where('id', $decoded->uid)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
@@ -240,9 +241,19 @@ class UserController extends ResourceController
             $score_raw = 0;
             $score_final = 0;
             for ($i = 0; $i < count($userCourse); $i++) {
+                $userReview = $modelUserReview->where('user_id', $decoded->uid)
+                    ->where('course_id', $userCourse[$i]['course_id'])
+                    ->first();
+
                 $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
                 $course[$i] = $course_;
                 $course[$i]['thumbnail'] = site_url() . 'upload/course-video/thumbnail/' . $course[$i]['thumbnail'];
+
+                if ($userReview) {
+                    $course[$i]['review'] = $userReview['score'];
+                } else {
+                    $course[$i]['review'] = 0;
+                }
 
                 $course[$i]['thumbnail'] = $path_course . $course_['thumbnail'];
 
@@ -297,13 +308,25 @@ class UserController extends ResourceController
                 for ($k = 0; $k < count($userBundling); $k++) {
                     $courseBundling_ = $modelCourseBundling->select('course.course_id, title, service, description, key_takeaways, suitable_for, old_price, new_price, thumbnail, author_id, course.created_at, course.updated_at')
                         ->join('course', 'course_bundling.course_id=course.course_id', 'right')
-                        ->where('bundling_id', $userBundling[$k]['bundling_id'])
+                        ->where('course_bundling.bundling_id', $userBundling[$k]['bundling_id'])
                         ->findAll();
 
                     $scoreBundling = 0;
                     $scoreBundlingRaw = [];
 
                     foreach ($courseBundling_ as $key => $courseBundling) {
+
+                        $userReview = $modelUserReview
+                            ->where('user_id', $decoded->uid)
+                            ->where('course_id', $courseBundling['course_id'])
+                            ->first();
+
+                        if ($userReview) {
+                            $courseBundling_[$key]['review'] = $userReview['score'];
+                        } else {
+                            $courseBundling_[$key]['review'] = 0;
+                        }
+
                         $scoreCourseRaw = 0;
                         $scoreCourseRaw2 = [];
 
