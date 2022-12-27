@@ -86,14 +86,14 @@ class OrderController extends BaseController
                 return $this->fail('Hanya dapat di akses oleh author', 400);
             }
             
-            $orderCourse = $orderCourse->select('users.fullname, order.transaction_status, course.title, order.created_at as order_time')
+            $orderCourse = $orderCourse->select('order.order_id,users.fullname, order.transaction_status, course.title, order.created_at as order_time')
                                        ->join('order', 'order_course.order_id = order.order_id')
                                        ->join('users', 'order.user_id = users.id')
                                        ->join('course', 'order_course.course_id = course.course_id')
                                        ->where('course.author_id', $decoded->uid)
                                        ->findAll();
             
-            $orderBundling = $orderBundling->select('users.fullname, order.transaction_status, bundling.title, order.created_at as order_time')
+            $orderBundling = $orderBundling->select('order.order_id,users.fullname, order.transaction_status, bundling.title, order.created_at as order_time')
                                            ->join('order', 'order_bundling.order_id = order.order_id')
                                            ->join('users', 'order.user_id = users.id')
                                            ->join('bundling', 'order_bundling.bundling_id = bundling.bundling_id')
