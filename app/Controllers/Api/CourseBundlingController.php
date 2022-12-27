@@ -375,12 +375,13 @@ class CourseBundlingController extends ResourceController
                 return $this->fail('Bundling tidak ditemukan', 400);
             }
 
-            if ($data['id'] != $bundling['author_id']) {
-                return $this->fail('Anda tidak mempunyai hak untuk mengubah bundling', 400);
-            }
+            // if ($data['id'] != $bundling['author_id']) {
+            //     return $this->fail('Anda tidak mempunyai hak untuk mengubah bundling', 400);
+            // }
 
             for ($i = 0; $i < count($orderReq->order); $i++) {
-                $video = $this->coursebundling->find($orderReq->order[$i]->course_id);
+                // $video = $this->coursebundling->find($orderReq->order[$i]->course_id);
+                $video = $this->coursebundling->where('bundling_id', $orderReq->bundling_id)->where('course_id', $orderReq->order[$i]->course_id)->first();
 
                 if ($video) {
                     $data = [
