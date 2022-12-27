@@ -655,11 +655,16 @@ main {
                             border-bottom: none;
                         }
                     }
+
+                    &:hover {
+                        background-color: $color-gray-2;
+                    }
                 }
 
                 a {
                     display: flex;
                     gap: .8rem;
+                    padding-bottom: .4rem;
                     border-bottom: 1px solid $color-gray;
 
                     .icon {

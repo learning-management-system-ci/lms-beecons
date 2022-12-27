@@ -566,9 +566,13 @@ main .navigation p .sub-nav {
 .navbar .nav-item-icon .notifications .notifications-list .notif:last-child a {
   border-bottom: none;
 }
+.navbar .nav-item-icon .notifications .notifications-list .notif:hover {
+  background-color: #ECEBF3;
+}
 .navbar .nav-item-icon .notifications .notifications-list a {
   display: flex;
   gap: 0.8rem;
+  padding-bottom: 0.4rem;
   border-bottom: 1px solid #D9D9D9;
 }
 .navbar .nav-item-icon .notifications .notifications-list a .icon {
