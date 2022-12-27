@@ -25,7 +25,7 @@ class CourseBundlingController extends ResourceController
     {
         $data = $this->coursebundling->findAll();
 
-        for ($i=0; $i < count($data) ; $i++) { 
+        for ($i = 0; $i < count($data); $i++) {
             $bundling = $this->coursebundling
                 ->where('course_bundling.course_bundling_id', $data[$i]['course_bundling_id'])
                 ->join('bundling', 'course_bundling.bundling_id=bundling.bundling_id')
@@ -35,17 +35,17 @@ class CourseBundlingController extends ResourceController
 
             $data[$i]['bundling'] = $bundling;
 
-            for ($x=0; $x < count($bundling) ; $x++) { 
+            for ($x = 0; $x < count($bundling); $x++) {
                 $course = $this->coursebundling
                     ->where('course_bundling.bundling_id', $bundling[$x]['bundling_id'])
                     ->join('course', 'course_bundling.course_id=course.course_id')
                     ->join('users', 'course.author_id=users.id')
                     ->select('course.*, users.fullname as author_fullname, users.company as author_company')
                     ->findAll();
-                
+
                 $data[$i]['bundling'][$x]['course'] = $course;
 
-                for ($b=0; $b < ($course); $b++) { 
+                for ($b = 0; $b < ($course); $b++) {
                     $kategori = $this->course
                         ->where('course.course_id', $course[$b]['course_id'])
                         ->join('course_category', 'course.course_id=course_category.course_id')
@@ -56,8 +56,8 @@ class CourseBundlingController extends ResourceController
                         ->join('type', 'course_type.course_type_id=type.type_id')
                         ->select('category.name as category, tag.name as tag, type.name as type')
                         ->findAll();
-                    
-                        $data[$i]['bundling'][$x]['course'][$b]['category'] = $course;
+
+                    $data[$i]['bundling'][$x]['course'][$b]['category'] = $course;
                 }
             }
         }
@@ -77,14 +77,14 @@ class CourseBundlingController extends ResourceController
 
         $data['bundling'] = $bundling;
 
-        for ($x=0; $x < count($bundling) ; $x++) { 
+        for ($x = 0; $x < count($bundling); $x++) {
             $course = $this->coursebundling
                 ->where('course_bundling.bundling_id', $bundling[$x]['bundling_id'])
                 ->join('course', 'course_bundling.course_id=course.course_id')
                 ->join('users', 'course.author_id=users.id')
                 ->select('course.*, users.fullname as author_fullname, users.company as author_company')
                 ->findAll();
-                
+
             $data['bundling'][$x]['course'] = $course;
         }
 
@@ -286,7 +286,7 @@ class CourseBundlingController extends ResourceController
                 //     $this->coursebundling->delete('bundling_id', $data[$i]['bundling_id']);
                 // }
                 $this->coursebundling->where('bundling_id', $id)->delete();
-                
+
                 $response = [
                     'status'   => 200,
                     'error'    => null,
@@ -305,49 +305,49 @@ class CourseBundlingController extends ResourceController
     public function createorder()
     {
         $key = getenv('TOKEN_SECRET');
-		$header = $this->request->getServer('HTTP_AUTHORIZATION');
-		if (!$header) return $this->failUnauthorized('Akses token diperlukan');
-		$token = explode(' ', $header)[1];
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
 
-		try {
-			$decoded = JWT::decode($token, $key, ['HS256']);
-			$user = new Users;
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
 
-			// cek role user
-			$data = $user->select('role')->where('id', $decoded->uid)->first();
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
 
-			if ($data['role'] == 'member') {
-				return $this->fail('Tidak dapat di akses selain admin & author', 400);
-			}
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            }
 
-			$orderReq = $this->request->getVar();
+            $orderReq = $this->request->getVar();
 
             // var_dump($orderReq);
             // die;
 
-			for ($i = 0; $i < count($orderReq); $i++) {
-				$data = [
+            for ($i = 0; $i < count($orderReq); $i++) {
+                $data = [
                     'bundling_id' => $orderReq[$i]->bundling_id,
                     'course_id' => $orderReq[$i]->course_id,
                     'order' => $orderReq[$i]->order
                 ];
-                if($this->coursebundling->insert($data)){
+                if ($this->coursebundling->insert($data)) {
                     $response = [
-						'status'   => 200,
-						'success'    => 200,
-						'messages' => [
-							'success' => 'Course Bundling berhasil dibuat'
-						]
-					];
+                        'status'   => 200,
+                        'success'    => 200,
+                        'messages' => [
+                            'success' => 'Course Bundling berhasil dibuat'
+                        ]
+                    ];
                 } else {
-					return $this->failNotFound('Data Course Bundling tidak ditemukan');
-				}
-			}
+                    return $this->failNotFound('Data Course Bundling tidak ditemukan');
+                }
+            }
 
-			return $this->respond($response);
-		} catch (\Throwable $th) {
-			return $this->fail($th->getMessage());
-		}
+            return $this->respond($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
     }
 
     public function updateorder()
@@ -369,9 +369,6 @@ class CourseBundlingController extends ResourceController
             }
 
             $orderReq = $this->request->getVar();
-
-            var_dump($orderReq);
-            die;
 
             $bundling = $this->bundling->where('bundling_id', $orderReq->bundling_id)->first();
             if ($data['id'] != $bundling['author_id']) {
