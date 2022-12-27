@@ -47,13 +47,12 @@ class BundlingController extends ResourceController
                 ->join('course', 'course_bundling.course_id=course.course_id')
                 ->select('course.*')
                 ->findAll();
-            
+
             for ($i = 0; $i < count($course); $i++) {
                 $course[$i]['thumbnail'] = $this->pathcourse . $bundling[$i]['thumbnail'];
             }
 
             $data['bundling'][$x]['course'] = $course;
-
         }
 
         if (count($data) > 0) {
@@ -128,7 +127,7 @@ class BundlingController extends ResourceController
             } else {
                 $dataThumbnail = $this->request->getFile('thumbnail');
                 $fileName = $dataThumbnail->getRandomName();
-                
+
                 $data = [
                     'category_bundling_id' => $this->request->getVar("category_bundling_id"),
                     'title' => $this->request->getVar("title"),
@@ -172,8 +171,11 @@ class BundlingController extends ResourceController
         if ($modelBundling->find($id)) {
             // $data['bundling'] = $modelBundling->where('bundling_id', $id)->first();
 
-            $data = $modelBundling->where('bundling_id', $id)->first();
-            
+            $data = $modelBundling->where('bundling_id', $id)
+                ->join('users', 'bundling.author_id=users.id')
+                ->select('bundling.*, users.fullname as author_name, users.company as author_company')
+                ->first();
+
             if ($data) {
                 $data['thumbnail'] = $path_bundling . $data['thumbnail'];
             }
@@ -201,8 +203,9 @@ class BundlingController extends ResourceController
                 ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
                 ->join('course', 'course_bundling.course_id=course.course_id')
                 ->join('course_category', 'course.course_id=course_category.course_id')
+                ->join('category', 'course_category.category_id=category.category_id')
                 ->join('video_category', 'course.course_id=video_category.course_id')
-                ->select('course.*, course_category.*, video_category.video_category_id')
+                ->select('course.*, category.name AS `category_name`, video_category.video_category_id')
                 ->orderBy('bundling.bundling_id', 'DESC')
                 ->findAll();
 
