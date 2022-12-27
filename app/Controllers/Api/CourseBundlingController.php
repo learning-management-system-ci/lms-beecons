@@ -5,6 +5,7 @@ namespace App\Controllers\Api;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CourseBundling;
+use App\Models\Course;
 use App\Models\Bundling;
 use App\Models\Users;
 use Firebase\JWT\JWT;
@@ -16,6 +17,7 @@ class CourseBundlingController extends ResourceController
     public function __construct()
     {
         $this->coursebundling = new CourseBundling();
+        $this->course = new Course();
         $this->bundling = new Bundling();
     }
 
@@ -42,6 +44,21 @@ class CourseBundlingController extends ResourceController
                     ->findAll();
                 
                 $data[$i]['bundling'][$x]['course'] = $course;
+
+                for ($b=0; $b < ($course); $b++) { 
+                    $kategori = $this->course
+                        ->where('course.course_id', $course[$b]['course_id'])
+                        ->join('course_category', 'course.course_id=course_category.course_id')
+                        ->join('category', 'course_category.course_category_id=category.category_id')
+                        ->join('course_tag', 'course.course_id=course_tag.course_id')
+                        ->join('tag', 'course_tag.course_tag_id=tag.tag_id')
+                        ->join('course_type', 'course.course_id=course_type.course_id')
+                        ->join('type', 'course_type.course_type_id=type.type_id')
+                        ->select('category.name as category, tag.name as tag, type.name as type')
+                        ->findAll();
+                    
+                        $data[$i]['bundling'][$x]['course'][$b]['category'] = $course;
+                }
             }
         }
         return $this->respond($data);

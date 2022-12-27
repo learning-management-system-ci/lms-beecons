@@ -35,8 +35,8 @@ class UserController extends ResourceController
             $user = new Users;
 
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $job = new Jobs;
@@ -218,6 +218,7 @@ class UserController extends ResourceController
             $job = new Jobs;
             $modelUserCourse = new UserCourse;
             $modelCourse = new Course;
+            $modelBundling = new Course;
             $modelVideo = new Video;
             $modelVideoCategory = new VideoCategory;
             $modelUserVideo = new UserVideo;
@@ -292,10 +293,11 @@ class UserController extends ResourceController
 
             if ($userBundling) {
                 $courseBundling = [];
-                foreach ($userBundling as $key => $value) {
+                // foreach ($userBundling as $key => $value) {
+                for ($k = 0; $k < count($userBundling); $k++) {
                     $courseBundling_ = $modelCourseBundling->select('course.course_id, title, service, description, key_takeaways, suitable_for, old_price, new_price, thumbnail, author_id, course.created_at, course.updated_at')
                         ->join('course', 'course_bundling.course_id=course.course_id', 'right')
-                        ->where('bundling_id', $value['bundling_id'])
+                        ->where('bundling_id', $userBundling[$k]['bundling_id'])
                         ->findAll();
 
                     $scoreBundling = 0;
@@ -319,25 +321,32 @@ class UserController extends ResourceController
                         array_push($scoreBundlingRaw, $scoreCourse);
                     }
 
-                    $courseBundling['course_bundling'] = $courseBundling_;
-
-                    foreach ($scoreBundlingRaw as $key => $value) {
-                        $scoreBundling += $scoreBundlingRaw[$key];
-                        $courseBundling['course_bundling'][$key]['score'] = $scoreBundlingRaw[$key];
+                    // return $this->respond($userBundling);
+                    // return $this->respond($scoreBundlingRaw);
+                    // foreach ($scoreBundlingRaw as $key => $value) {
+                    for ($o = 0; $o < count($scoreBundlingRaw); $o++) {
+                        $scoreBundling += $scoreBundlingRaw[$o];
                     }
+
 
                     $scoreBundling /= count($scoreBundlingRaw);
 
-                    $courseBundling['score'] = $scoreBundling;
+                    $userBundling[$k]['score'] = $scoreBundling;
+
+                    $userBundling[$k]['course_bundling'] = $courseBundling_;
+
+                    for ($o = 0; $o < count($userBundling[$k]['course_bundling']); $o++) {
+                        $userBundling[$k]['course_bundling'][$o]['score'] = $scoreBundlingRaw[$o];
+                    }
                 }
 
                 // $courseBundling['thumbnail'] = $path_bundling . $courseBundling['thumbnail'];
 
-                foreach ($courseBundling['course_bundling'] as $key => $value) {
-                    $courseBundling['course_bundling'][$key]['thumbnail'] = $path_course . $courseBundling['course_bundling'][$key]['thumbnail'];
-                }
+                // foreach ($courseBundling['course_bundling'] as $key => $value) {
+                //     $courseBundling['course_bundling'][$key]['thumbnail'] = $path_course . $courseBundling['course_bundling'][$key]['thumbnail'];
+                // }
 
-                $response['bundling'] = $courseBundling;
+                $response['bundling'] = $userBundling;
             }
 
             return $this->respond($response);

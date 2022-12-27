@@ -1764,8 +1764,15 @@ class CourseController extends ResourceController
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
             $author = $courseModel->where('author_id', $decoded->uid)->first();
+
+            $course = $courseModel->where('course_id', $id)->first();
+
             if ($data['role'] != 'admin' && !$author) {
                 return $this->fail('Tidak dapat di akses selain pemilik course atau admin', 400);
+            }
+
+            if ($course['author_id'] != $decoded->uid) {
+                return $this->fail('Tidak dapat di akses selain pemilik course', 400);
             }
 
             // cek semua user yang mempunyai course berkaitan
@@ -1804,7 +1811,7 @@ class CourseController extends ResourceController
                 ];
             }
 
-
+            if (!isset($response)) $response = [];
 
             return $this->respond($response);
         } catch (\Throwable $th) {
