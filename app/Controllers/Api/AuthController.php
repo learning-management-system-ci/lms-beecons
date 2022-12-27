@@ -81,7 +81,7 @@ class AuthController extends ResourceController
 
                 // notifikasi
                 $message = "Selamat anda berhasil melakukan registrasi";
-                $sendNotification = SendNotification(0, $datauser['id'], $message);
+                SendNotification(0, $datauser['id'], $message);
             }
             $datauser = $this->loginModel->getUser($email);
             $key = getenv('TOKEN_SECRET');
@@ -171,6 +171,10 @@ class AuthController extends ResourceController
                     'discount_price' => 15
                 ];
                 $this->referral->save($data);
+
+                // notifikasi
+                $message = "Selamat anda berhasil melakukan registrasi";
+                SendNotification(0, $datauser['id'], $message);
             }
             $datauser = $this->loginModel->getUser($email);
             $key = getenv('TOKEN_SECRET');
@@ -341,6 +345,11 @@ class AuthController extends ResourceController
             'activation_code' => '',
             'profile_picture' => 'default.png',
         ], $decoded->email);
+
+        // notifikasi
+        $message = "Selamat anda berhasil melakukan registrasi";
+        SendNotification(0, $uid, $message);
+
         return redirect()->to(base_url() . "/login");
     }
 

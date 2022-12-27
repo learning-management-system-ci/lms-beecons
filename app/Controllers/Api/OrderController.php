@@ -395,6 +395,11 @@ class OrderController extends BaseController
             ];
             $token = \Midtrans\Snap::getSnapToken($params);
 
+            // notifikasi
+            $message = "Selamat pesanan anda berhasil diubah";
+            SendNotification(0, $userId, $message);
+
+
             $data = ['token' => $token];
             return $this->respond($data);
             //return view ('pages/transaction/snap-pay', ['token' => $token]);
