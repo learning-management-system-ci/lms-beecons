@@ -695,6 +695,7 @@ class UserController extends ResourceController
                     'total' => count($video)
                 ];
             }
+            var_dump($progress);
 
             $response = [
                 'id' => $decoded->uid,

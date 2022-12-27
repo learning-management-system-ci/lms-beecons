@@ -139,216 +139,7 @@ $.ajax({
             data.course.map(({
                 title, description, thumbnail, course_id, score
             }) => {
-
-                $('#download_certificate').click(() => {
-                    if (score === null) {
-                        return new swal({
-                            title: 'Gagal',
-                            text: 'Anda perlu menyelesaikan course',
-                            showConfirmButton: true
-                        })
-                    }
-                    if (!data.fullname) {
-                        return new swal({
-                            title: 'Gagal',
-                            text: 'Anda perlu melengkapi profile anda',
-                            showConfirmButton: true
-                        })
-                    }
-                    window.open(`/certificates/?type=course&id=${course_id}`)
-                })
-
                 return (`
-                    <div class="row">
-                        <div class="col">
-                        <a data-bs-toggle="collapse" href="#collapseBundling_${course_id}" role="button" aria-expanded="false" aria-controls="collapseBundling_${course_id}">
-                            <div class="row">
-                            <div class="col-20">
-                                <img src="${thumbnail}" class="course-image me-1" alt="">
-                            </div>
-                            <div class="d-flex col text-start align-items-center body">
-                                <div>
-                                    <h5>
-                                        ${title}
-                                    </h5>
-                                    <p class="ellipsis">
-                                        ${description}
-                                    </p>
-                                </div>
-                            </div>
-                            </div>
-                        </a>
-                        </div>
-                        <div class="col-auto">
-                            <div class="row">
-                                <div class="col">
-                                <div>
-                                    <h5>
-                                        Sertifikat
-                                    </h5>
-                                    <div class="row">
-                                    <div class="col">
-                                    <button onclick="window.open('/certificates/${course_id}')">Download</button>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <div class="row">
-                                <div class="col">
-                                <div>
-                                    <h5>
-                                        Total Nilai
-                                    </h5>
-                                    <div class="row">
-                                        <div class="col">
-                                        <h5>
-                                            ${score}/100
-                                        </h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="collapse" id="collapseBundling_${course_id}">
-                        <div class="row justify-content-end">
-                            <div class="col-11">
-                                <div class="row">
-                                    <div class="col">
-                                    <a href="/course/${course_id}">
-                                    <div class="row">
-                                    <div class="col-20">
-                                        <img src="${thumbnail}" class="course-image me-1" alt="">
-                                    </div>
-                                    <div class="d-flex col text-start align-items-center body">
-                                        <div>
-                                            <h5>
-                                                ${title}
-                                            </h5>
-                                            <p class="ellipsis">
-                                                ${description}
-                                            </p>
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <div id="progres-per-course-bundling_${course_id}" class="progress" style="height: 5px; background-color: #FFE5A1;"></div>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <p class="font-weight-bold" id="course-bundling-percent_${course_id}"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    </a>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="row">
-                                            <div class="col">
-                                            <div>
-                                                <h5>
-                                                    Sertifikat
-                                                </h5>
-                                                <div class="row">
-                                                <div class="col">
-                                                <button onclick="window.open('/certificates/${course_id}')">Download</button>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="row">
-                                            <div class="col">
-                                            <div>
-                                                <h5>
-                                                    Total Nilai
-                                                </h5>
-                                                <div class="row">
-                                                <div class="col">
-                                                <h5>
-                                                    ${score}/100
-                                                </h5>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col">
-                                    <a href="/course/${course_id}">
-                                    <div class="row">
-                                    <div class="col-20">
-                                        <img src="${thumbnail}" class="course-image me-1" alt="">
-                                    </div>
-                                    <div class="d-flex col text-start align-items-center body">
-                                        <div>
-                                            <h5>
-                                                ${title}
-                                            </h5>
-                                            <p class="ellipsis">
-                                                ${description}
-                                            </p>
-                                            <div class="row align-items-center">
-                                                <div class="col">
-                                                    <div id="progres-per-course-bundling_${course_id}" class="progress" style="height: 5px; background-color: #FFE5A1;"></div>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <p class="font-weight-bold" id="course-bundling-percent_${course_id}"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    </a>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="row">
-                                            <div class="col">
-                                            <div>
-                                                <h5>
-                                                    Sertifikat
-                                                </h5>
-                                                <div class="row">
-                                                <div class="col">
-                                                <button onclick="window.open('/certificates/${course_id}')">Download</button>
-                                                </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="row">
-                                            <div class="col">
-                                            <div>
-                                                <h5>
-                                                    Total Nilai
-                                                </h5>
-                                                <div class="row">
-                                                    <div class="col">
-                                                    <h5>
-                                                        ${score}/100
-                                                    </h5>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col">
                         <a href="/course/${course_id}">
@@ -418,30 +209,193 @@ $.ajax({
 
         $("div#user-courses").html(coursesResource);
 
-        var coursesResource =
-            data.course.map(({
-                course_id, score
-            }) => {
+        var bundlingResource = data.bundling.map(({ bundling_id, thumbnail, title, description, score, course_bundling }) => {
+            return (`
+            <div class="row">
+                <div class="col">
+                <a data-bs-toggle="collapse" href="#collapseBundling_${bundling_id}" role="button" aria-expanded="false" aria-controls="collapseBundling_${bundling_id}">
+                    <div class="row">
+                    <div class="col-20">
+                        <img src="${thumbnail}" class="course-image me-1" alt="">
+                    </div>
+                    <div class="d-flex col text-start align-items-center body">
+                        <div>
+                            <h5>
+                                ${title}
+                            </h5>
+                            <p class="ellipsis">
+                                ${description}
+                            </p>
+                        </div>
+                    </div>
+                    </div>
+                </a>
+                </div>
+                <div class="col-auto">
+                    <div class="row">
+                        <div class="col">
+                        <div>
+                            <h5>
+                                Sertifikat
+                            </h5>
+                            <div class="row">
+                            <div class="col">
+                            <button id="download_certificate_bundling_${bundling_id}">Download</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="row">
+                        <div class="col">
+                        <div>
+                            <h5>
+                                Total Nilai
+                            </h5>
+                            <div class="row">
+                                <div class="col">
+                                <h5>
+                                    ${Math.round(score)}/100
+                                </h5>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="collapse" id="collapseBundling_${bundling_id}">
+                <div class="row justify-content-end">
+                    <div class="col-11" id="course_collape_${bundling_id}">
+                    </div>
+                </div>
+            </div>
+            `)
+        })
 
-                $(`#download_certificate_course_${course_id}`).click(() => {
-                    if (score === null) {
-                        return new swal({
-                            title: 'Gagal',
-                            text: 'Anda perlu menyelesaikan course',
-                            showConfirmButton: true
-                        })
-                    }
-                    if (!data.fullname) {
-                        return new swal({
-                            title: 'Gagal',
-                            text: 'Anda perlu melengkapi profile anda',
-                            showConfirmButton: true
-                        })
-                    }
-                    window.open(`/certificates/?type=course&id=${course_id}`)
-                })
-            }
-        )
+        $("div#user-courses").append(bundlingResource);
+
+        data.bundling.map(({ bundling_id, course_bundling }) => {
+            var courses = course_bundling.map(({ course_id, thumbnail, title, description, score }) => {
+                return (`
+                <div class="row">
+                    <div class="col">
+                    <a href="/course/${course_id}">
+                    <div class="row">
+                    <div class="col-20">
+                        <img src="${thumbnail}" class="course-image me-1" alt="">
+                    </div>
+                    <div class="d-flex col text-start align-items-center body">
+                        <div>
+                            <h5>
+                                ${title}
+                            </h5>
+                            <p class="ellipsis">
+                                ${description}
+                            </p>
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div id="progres-per-course-bundling_${course_id}" class="progress" style="height: 5px; background-color: #FFE5A1;"></div>
+                                </div>
+                                <div class="col-auto">
+                                    <p class="font-weight-bold" id="course-bundling-percent_${course_id}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    </a>
+                    </div>
+                    <div class="col-auto">
+                        <div class="row">
+                            <div class="col">
+                            <div>
+                                <h5>
+                                    Sertifikat
+                                </h5>
+                                <div class="row">
+                                <div class="col">
+                                <button onclick="window.open('/certificates/${course_id}')">Download</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="row">
+                            <div class="col">
+                            <div>
+                                <h5>
+                                    Total Nilai
+                                </h5>
+                                <div class="row">
+                                <div class="col">
+                                <h5>
+                                    ${Math.round(score)}/100
+                                </h5>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                `)
+            })
+
+            $(`div#course_collape_${bundling_id}`).html(courses);
+        })
+
+        data.bundling.map(({
+            bundling_id, score
+        }) => {
+
+            $(`#download_certificate_bundling_${bundling_id}`).click(() => {
+                if (score === 0) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu menyelesaikan course',
+                        showConfirmButton: true
+                    })
+                }
+                if (!data.fullname) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu melengkapi profile anda',
+                        showConfirmButton: true
+                    })
+                }
+                window.open(`/certificates/?type=bundling&id=${bundling_id}`)
+            })
+        })
+
+        data.course.map(({
+            course_id, score
+        }) => {
+
+            $(`#download_certificate_course_${course_id}`).click(() => {
+                if (score === null) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu menyelesaikan course',
+                        showConfirmButton: true
+                    })
+                }
+                if (!data.fullname) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu melengkapi profile anda',
+                        showConfirmButton: true
+                    })
+                }
+                window.open(`/certificates/?type=course&id=${course_id}`)
+            })
+        })
 
         $.ajax({
             type: "GET",
