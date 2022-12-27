@@ -8,13 +8,27 @@ $(document).ready(() => {
   const getListOrder = async () => {
     let option = {
       type: "GET",
-      url: document.location.origin + "/api/order",
+      url: document.location.origin + "/api/order/get-order-by-author",
       dataType: "json",
       headers: {
         "Authorization": `Bearer ${Cookies.get("access_token")}`,
       },
       success: function (transactions) {
-        data = transactions.order
+        let course = transactions.course
+        let bundling = transactions.bundling
+        data = []
+        course.forEach(transaction => {
+          data.push({
+            ...transaction,
+            type: "course"
+          })
+        })
+        bundling.forEach(transaction => {
+          data.push({
+            ...transaction,
+            type: "bundling"
+          })
+        })
       },
     };
     let data
@@ -30,6 +44,7 @@ $(document).ready(() => {
       PENDING: "bg-gradient-warning",
       FAILED: "bg-gradient-danger"
     }
+    console.log(transactions)
 
     transaction_table.dataTable({
       data: transactions,
@@ -46,25 +61,34 @@ $(document).ready(() => {
         {
           data: "order_id",
           render: function (data, type, row, meta) {
-            return `<a href="/admin/course/${data}" class="mb-0 text-sm px-3">${meta.row+1}</a>`
+            return `<a href="#" class="mb-0 text-sm px-3">${meta.row+1}</a>`
           }
         },
         {
-          data: "order_date",
+          data: "order_time",
           render: function (data, type, row, meta) {
             return `<p class="mb-0 text-sm font-weight-bold px-3">${moment(data, 'YYYY/MM/DD hh:mm:ss').format('LLL')}</p>`
           }
         },
         {
-          data: "fullname",
+          data: "title",
           render: function (data, type, row, meta) {
             return `<p class="text-sm font-weight-bold mb-0">${data}</p>`
           }
         },
         {
-          data: "total_price",
+          data: "fullname",
           render: function (data, type, row, meta) {
-            return `<span class="text-secondary text-sm font-weight-bold">${getRupiah(data)}</span>`
+            return `<span class="text-secondary text-sm font-weight-bold">${data}</span>`
+          }
+        },
+        {
+          data: "type",
+          render: function (data, type, row, meta) {
+            let type_color = data == "course" ? "bg-gradient-primary" : "bg-gradient-info"
+            return `
+              <span class="badge badge-sm ${type_color}">${data}</span>
+            `
           }
         },
         {
