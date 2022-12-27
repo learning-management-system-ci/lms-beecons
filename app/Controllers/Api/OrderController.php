@@ -69,6 +69,47 @@ class OrderController extends BaseController
         }
     }
 
+    public function getOrderByAuthor() {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+            $orderCourse = new OrderCourse;
+            $orderBundling = new OrderBundling;
+
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            if ($data['role'] == 'member' || $data['role'] == 'admin') {
+                return $this->fail('Hanya dapat di akses oleh author', 400);
+            }
+            
+            $orderCourse = $orderCourse->select('users.fullname, order.transaction_status, course.title, order.created_at as order_time')
+                                       ->join('order', 'order_course.order_id = order.order_id')
+                                       ->join('users', 'order.user_id = users.id')
+                                       ->join('course', 'order_course.course_id = course.course_id')
+                                       ->where('course.author_id', $decoded->uid)
+                                       ->findAll();
+            
+            $orderBundling = $orderBundling->select('users.fullname, order.transaction_status, bundling.title, order.created_at as order_time')
+                                           ->join('order', 'order_bundling.order_id = order.order_id')
+                                           ->join('users', 'order.user_id = users.id')
+                                           ->join('bundling', 'order_bundling.bundling_id = bundling.bundling_id')
+                                           ->where('bundling.author_id', $decoded->uid)
+                                           ->findAll();
+            
+            $response = [
+                'course' => $orderCourse,
+                'bundling' => $orderBundling
+            ];
+            return $this->respond($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+    }
+
     public function generateSnap()
     {
         $key = getenv('TOKEN_SECRET');

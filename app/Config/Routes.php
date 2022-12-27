@@ -225,6 +225,7 @@ $routes->group('api/', static function ($routes) {
         //OTHER PLATFORM ROUTE
         $routes->get('', 'Api\BundlingController::index');
         $routes->get('detail/(:segment)', 'Api\BundlingController::show/$1');
+        $routes->get('user-bundling', 'Api\BundlingController::getUserBundling');
     });
 
     $routes->group('course-bundling/', static function ($routes) {
@@ -335,7 +336,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\OrderController::index');
         $routes->get('generatesnap', 'Api\OrderController::generateSnap');
         $routes->post('notif-handler', 'Api\OrderController::notifHandler');
-
+        $routes->get('get-order-by-author', 'Api\OrderController::getOrderByAuthor');
         $routes->post('coba', 'Api\OrderController::send');
     });
 

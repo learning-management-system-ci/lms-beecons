@@ -6,8 +6,10 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\Bundling;
 use App\Models\Course;
+use App\Models\UserCourse;
 use App\Models\CourseCategory;
 use App\Models\CourseBundling;
+use App\Models\CourseTag;
 use App\Models\Video;
 use App\Models\VideoCategory;
 use App\Models\Users;
@@ -30,8 +32,9 @@ class BundlingController extends ResourceController
         $modelBundling = new Bundling();
 
         $bundling = $this->bundling
-            ->select('bundling.*, category_bundling.name as category_name')
             ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
+            ->join('users', 'bundling.author_id = users.id')
+            ->select('bundling.*, category_bundling.name as category_name, users.fullname as author_name, users.company as author_company')
             ->findAll();
 
         for ($i = 0; $i < count($bundling); $i++) {
@@ -47,13 +50,12 @@ class BundlingController extends ResourceController
                 ->join('course', 'course_bundling.course_id=course.course_id')
                 ->select('course.*')
                 ->findAll();
-            
+
             for ($i = 0; $i < count($course); $i++) {
                 $course[$i]['thumbnail'] = $this->pathcourse . $bundling[$i]['thumbnail'];
             }
 
             $data['bundling'][$x]['course'] = $course;
-
         }
 
         if (count($data) > 0) {
@@ -128,7 +130,7 @@ class BundlingController extends ResourceController
             } else {
                 $dataThumbnail = $this->request->getFile('thumbnail');
                 $fileName = $dataThumbnail->getRandomName();
-                
+
                 $data = [
                     'category_bundling_id' => $this->request->getVar("category_bundling_id"),
                     'title' => $this->request->getVar("title"),
@@ -161,6 +163,7 @@ class BundlingController extends ResourceController
     {
         $modelBundling = new Bundling();
         $modelVideo = new Video();
+        $modelCourseTag = new CourseTag();
         $modelVideoCategory = new VideoCategory();
 
         $path_bundling = site_url() . 'upload/bundling/';
@@ -172,8 +175,11 @@ class BundlingController extends ResourceController
         if ($modelBundling->find($id)) {
             // $data['bundling'] = $modelBundling->where('bundling_id', $id)->first();
 
-            $data = $modelBundling->where('bundling_id', $id)->first();
-            
+            $data = $modelBundling->where('bundling_id', $id)
+                ->join('users', 'bundling.author_id=users.id')
+                ->select('bundling.*, users.fullname as author_name, users.company as author_company')
+                ->first();
+
             if ($data) {
                 $data['thumbnail'] = $path_bundling . $data['thumbnail'];
             }
@@ -200,14 +206,24 @@ class BundlingController extends ResourceController
                 ->where('bundling.bundling_id', $id)
                 ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
                 ->join('course', 'course_bundling.course_id=course.course_id')
+                ->join('course_type', 'course.course_id=course_type.course_id')
+                ->join('type', 'course_type.type_id=type.type_id')
                 ->join('course_category', 'course.course_id=course_category.course_id')
+                ->join('category', 'course_category.category_id=category.category_id')
                 ->join('video_category', 'course.course_id=video_category.course_id')
-                ->select('course.*, course_category.*, video_category.video_category_id')
+                ->select('course.*, category.name AS `category_name`, video_category.video_category_id, type.name AS course_type, course_bundling.order')
                 ->orderBy('bundling.bundling_id', 'DESC')
+                ->findAll();
+
+            $course_tag = $modelCourseTag
+                ->where('course_tag.course_id', $course_bundling['course_id'])
+                ->join('tag', 'course_tag.tag_id=tag.tag_id')
+                ->select('tag.name')
                 ->findAll();
 
             for ($i = 0; $i < count($course); $i++) {
                 $course[$i]['thumbnail'] = $path_course . $course[$i]['thumbnail'];
+                $course[$i]['course_tag'] = $course_tag;
             }
 
             $data['course'] = $course;
@@ -412,6 +428,52 @@ class BundlingController extends ResourceController
                 return $this->respondDeleted($response);
             } else {
                 return $this->failNotFound('Data bundling tidak ditemukan');
+            }
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
+        }
+        return $this->failNotFound('Data bundling tidak ditemukan');
+    }
+
+    public function getUserBundling()
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+            $user = new Users;
+            $modelUserCourse = new UserCourse();
+            $modelBundling = new Bundling();
+
+            $userbundling = $modelUserCourse
+                ->where('user_id', $decoded->uid)
+                ->where('course_id', null)
+                ->select('user_course.user_course_id, user_course.user_id, user_course.bundling_id')
+                ->findAll();
+
+            $data['coursebundling'] = $userbundling;
+
+            for ($a = 0; $a < count($userbundling); $a++) {
+                $bundling = $this->bundling
+                    ->where('bundling.bundling_id', $userbundling[$a]["bundling_id"])
+                    ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
+                    ->select('bundling.*, category_bundling.name as category_name')
+                    ->findAll();
+
+                for ($i = 0; $i < count($bundling); $i++) {
+                    $bundling[$i]['thumbnail'] = $this->pathbundling . $bundling[$i]['thumbnail'];
+                }
+
+                $data['coursebundling'][$a]['bundling'] = $bundling;
+            }
+
+            if ($data) {
+                return $this->respond($data);
+            } else {
+                return $this->failNotFound('Tidak ada data');
             }
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());

@@ -218,10 +218,12 @@ class UserController extends ResourceController
             $job = new Jobs;
             $modelUserCourse = new UserCourse;
             $modelCourse = new Course;
+            $modelBundling = new Course;
             $modelVideo = new Video;
             $modelVideoCategory = new VideoCategory;
             $modelUserVideo = new UserVideo;
             $modelCourseBundling = new CourseBundling;
+            $modelUserReview = new Review;
 
             $data = $user->where('id', $decoded->uid)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
@@ -239,9 +241,20 @@ class UserController extends ResourceController
             $score_raw = 0;
             $score_final = 0;
             for ($i = 0; $i < count($userCourse); $i++) {
+                $userReview = $modelUserReview->where('user_id', $decoded->uid)
+                    ->where('course_id', $userCourse[$i]['course_id'])
+                    ->first();
+
                 $course_ = $modelCourse->where('course_id', $userCourse[$i]['course_id'])->first();
                 $course[$i] = $course_;
                 $course[$i]['thumbnail'] = site_url() . 'upload/course-video/thumbnail/' . $course[$i]['thumbnail'];
+
+                if ($userReview) {
+                    $course[$i]['review'] = $userReview['score'];
+                    $course[$i]['is_review'] = true;
+                } else {
+                    $course[$i]['is_review'] = false;
+                }
 
                 $course[$i]['thumbnail'] = $path_course . $course_['thumbnail'];
 
@@ -249,11 +262,15 @@ class UserController extends ResourceController
                 $video_ = $modelVideo->where('video_category_id', $videoCat_['video_category_id'])->findAll();
 
                 $userVideo = 0;
+
+                $total_video_yang_dikerjakan = 0;
+                $lolos = false;
                 for ($l = 0; $l < count($video_); $l++) {
                     $userVideo_ = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_[$l]['video_id'])->first();
 
                     if ($userVideo_) {
                         $userVideo++;
+                        $total_video_yang_dikerjakan++;
 
                         $score_raw += $userVideo_['score'];
                         $score_final = $score_raw / count($video_);
@@ -262,6 +279,12 @@ class UserController extends ResourceController
                     } else {
                         $course[$i]['score'] = null;
                     }
+                }
+                $course[$i]['mengerjakan_video'] = $total_video_yang_dikerjakan . ' / ' . count($video_);
+                if ($total_video_yang_dikerjakan == count($video_)) {
+                    $course[$i]['lolos'] = true;
+                } else {
+                    $course[$i]['lolos'] = false;
                 }
             }
 
@@ -292,52 +315,94 @@ class UserController extends ResourceController
 
             if ($userBundling) {
                 $courseBundling = [];
-                foreach ($userBundling as $key => $value) {
+                // foreach ($userBundling as $key => $value) {
+                for ($k = 0; $k < count($userBundling); $k++) {
                     $courseBundling_ = $modelCourseBundling->select('course.course_id, title, service, description, key_takeaways, suitable_for, old_price, new_price, thumbnail, author_id, course.created_at, course.updated_at')
                         ->join('course', 'course_bundling.course_id=course.course_id', 'right')
-                        ->where('bundling_id', $value['bundling_id'])
+                        ->where('course_bundling.bundling_id', $userBundling[$k]['bundling_id'])
                         ->findAll();
 
                     $scoreBundling = 0;
                     $scoreBundlingRaw = [];
+                    $total_video_yang_dikerjakan_raw = [];
+                    $check_lolos_raw = [];
 
                     foreach ($courseBundling_ as $key => $courseBundling) {
+
+                        $userReview = $modelUserReview
+                            ->where('user_id', $decoded->uid)
+                            ->where('course_id', $courseBundling['course_id'])
+                            ->first();
+
+                        if ($userReview) {
+                            $courseBundling_[$key]['review'] = $userReview['score'];
+                            $courseBundling_[$key]['is_review'] = true;
+                        } else {
+                            $courseBundling_[$key]['is_review'] = false;
+                        }
+
                         $scoreCourseRaw = 0;
                         $scoreCourseRaw2 = [];
 
                         $videoCategory = $modelVideoCategory->where('course_id', $courseBundling['course_id'])->first();
                         $video = $modelVideo->where('video_category_id', $videoCategory['video_category_id'])->findAll();
+
+                        $total_video_yang_dikerjakan = 0;
+                        $dari = count($video);
                         foreach ($video as $key => $video_) {
                             $userVideo = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_['video_id'])->first();
 
                             if ($userVideo) {
+                                $total_video_yang_dikerjakan++;
                                 array_push($scoreCourseRaw2, $userVideo['score']);
                                 $scoreCourseRaw += $userVideo['score'];
                             }
                         }
+                        array_push($total_video_yang_dikerjakan_raw, $total_video_yang_dikerjakan . ' / ' . $dari);
+
+                        if ($total_video_yang_dikerjakan == count($video)) {
+                            array_push($check_lolos_raw, true);
+                        } else {
+                            array_push($check_lolos_raw, false);
+                        }
+
                         $scoreCourse = $scoreCourseRaw / count($video);
                         array_push($scoreBundlingRaw, $scoreCourse);
                     }
 
-                    $courseBundling['course_bundling'] = $courseBundling_;
-
-                    foreach ($scoreBundlingRaw as $key => $value) {
-                        $scoreBundling += $scoreBundlingRaw[$key];
-                        $courseBundling['course_bundling'][$key]['score'] = $scoreBundlingRaw[$key];
+                    // return $this->respond($check_lolos_raw);
+                    // return $this->respond($scoreBundlingRaw);
+                    // foreach ($scoreBundlingRaw as $key => $value) {
+                    for ($o = 0; $o < count($scoreBundlingRaw); $o++) {
+                        $scoreBundling += $scoreBundlingRaw[$o];
                     }
+
 
                     $scoreBundling /= count($scoreBundlingRaw);
 
-                    $courseBundling['score'] = $scoreBundling;
+                    $userBundling[$k]['score'] = $scoreBundling;
+                    // $userBundling[$k]['mengerjakan_video'] = $total_video_yang_dikerjakan_raw;
+                    // $userBundling[$k]['lolos'] = $check_lolos_raw;
+
+
+                    $userBundling[$k]['course_bundling'] = $courseBundling_;
+
+                    for ($o = 0; $o < count($userBundling[$k]['course_bundling']); $o++) {
+                        $userBundling[$k]['course_bundling'][$o]['score'] = $scoreBundlingRaw[$o];
+
+                        $userBundling[$k]['course_bundling'][$o]['mengerjakan_video'] = $total_video_yang_dikerjakan_raw[$o];
+
+                        $userBundling[$k]['course_bundling'][$o]['lolos'] = $check_lolos_raw[$o];
+                    }
                 }
 
                 // $courseBundling['thumbnail'] = $path_bundling . $courseBundling['thumbnail'];
 
-                foreach ($courseBundling['course_bundling'] as $key => $value) {
-                    $courseBundling['course_bundling'][$key]['thumbnail'] = $path_course . $courseBundling['course_bundling'][$key]['thumbnail'];
-                }
+                // foreach ($courseBundling['course_bundling'] as $key => $value) {
+                //     $courseBundling['course_bundling'][$key]['thumbnail'] = $path_course . $courseBundling['course_bundling'][$key]['thumbnail'];
+                // }
 
-                $response['bundling'] = $courseBundling;
+                $response['bundling'] = $userBundling;
             }
 
             return $this->respond($response);

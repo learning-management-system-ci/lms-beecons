@@ -1,8 +1,8 @@
 $(document).ready(function() {
-    handleBundlingApi()
+    handleBundling()
 })
 
-async function handleBundlingApi() {
+async function handleBundling() {
     let id = $('#bundling-id').val()
 
     try {
@@ -11,10 +11,26 @@ async function handleBundlingApi() {
             method: "GET",
             dataType: "json"
         })
-
+        
         let bundling = res
         let courses = res.course
-        let coursesPrice = courses.reduce((a, b) => a + parseInt(b.new_price), 0)
+
+        if (Cookies.get('access_token')) {
+            let userBundlingRes = await $.ajax({
+                url: `/api/bundling/user-bundling`,
+                method: "GET",
+                dataType: "json",
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('access_token')}`
+                }
+            })
+            
+            let userBundling = userBundlingRes.coursebundling.find(function(userBundling) {
+                return userBundling.bundling_id == id
+            })
+            
+            bundling.isBought = userBundling ? true : false
+        }
 
         $('.detail-bundling-title').text(bundling.title)
         $('.detail-bundling-description').text(bundling.description)
@@ -46,12 +62,16 @@ async function handleBundlingApi() {
                 </li>
             `
         }))
-        // $('.order-total').text(getRupiah(coursesPrice.toString()))
+        
         $('.order-total').text(getRupiah(bundling.new_price.toString()))
 
-        $('#checkout-btn').attr('href', `/checkout?type=bundling&id=${id}`)
+        if (bundling.isBought) {
+            $('#checkout-btn button').attr('disabled', true).addClass('disabled')
+        } else {
+            $('#checkout-btn').attr('href', `/checkout?type=bundling&id=${id}`)
+        }
 
     } catch (error) {
-        
+        // console.log(error)
     }
 }
