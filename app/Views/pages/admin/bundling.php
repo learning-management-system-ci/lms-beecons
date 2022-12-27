@@ -93,58 +93,36 @@
       </div>
       <div class="card mb-4 d-none" id="create-course-card">
         <div class="card-header pb-0 d-flex align-items-center">
-          <h6>Create New Course</h6>
+          <h6>Create New Bundling</h6>
           <button class="btn btn-danger btn-sm ms-auto" onclick="createCourseHide()">Back</button>
         </div>
         <div class="card-body pb-2">
-          <div class="row ">
+          <form class="row" enctype="multipart/form-data" id="create-bundling-form">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Title</label>
-                <input class="form-control title-content-create" type="text" id="title-input">
+                <input class="form-control title-content-create" name="title" type="text" id="title-input">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Author</label>
-                <input class="form-control author-content-create" type="text" id="author-input" disabled>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Type</label>
-                <!-- select type input -->
-                <select class="form-select type-content-create" id="type-input-wraper">
-                  <option disabled>Select Course Type</option>
+                <label for="example-text-input" class="form-control-label">Category Bundling</label>
+                <select class="form-select type-content-create" id="cat-bunding-wraper" name="category_bundling_id" required>
+                  <option value="" disabled selected hidden>-- Select Course Category --</option>
                 </select>
               </div>
             </div>
-            <div class="col-md-6">
+            <input class="form-control author-content-create hide" name="author_id" type="text" id="author-input" disabled>
+            <!-- <div class="col-md-6">
+             
               <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Category</label>
-                <!-- select category input -->
-                <select class="form-select category-content-create" id="category-input-wraper">
-                  <option disabled>Select Course Category</option>
-                </select>
-                <!-- <input class="form-control category-content-create" type="text"> -->
+
               </div>
-            </div>
+            </div> -->
             <div class="col-md-12">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Description</label>
-                <textarea class="form-control description-content-create" row="3" id="description-input"> </textarea>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Key Takeways</label>
-                <textarea class="form-control key-takeaways-content-create" row="3" id="key-takeaways-input"> </textarea>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Suitable For</label>
-                <textarea class="form-control suitable-for-content-create" row="3" id="suitable-for-input"> </textarea>
+                <textarea name="description" class="form-control description-content-create" rows="7" id="description-input"> </textarea>
               </div>
             </div>
             <div class="col-md-6">
@@ -152,7 +130,7 @@
                 <label for="example-text-input" class="form-control-label">Price</label>
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">Rp. </span>
-                  <input class="form-control price-content-create" type="number" id="price-input">
+                  <input required name="old_price" class="form-control price-content-create" type="number" id="price-input">
                 </div>
               </div>
             </div>
@@ -161,7 +139,7 @@
                 <label for="example-text-input" class="form-control-label">After Discount Price</label>
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">Rp. </span>
-                  <input class="form-control after-discount-price-content-create" type="number" id="after-discount-price-input">
+                  <input name="new_price" class="form-control after-discount-price-content-create" type="number" id="after-discount-price-input">
                 </div>
               </div>
             </div>
@@ -169,19 +147,42 @@
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Thumbnail</label>
                 <div class="mb-5">
-                  <input class="form-control" type="file" id="thumbnail-input">
+                  <input name="thumbnail" accept=".jpg, .jpeg, .png" class="form-control" type="file" id="thumbnail-input">
                 </div>
               </div>
             </div>
-            <div class="col-md-12 d-flex justify-content-center">
+            <div class="d-flex justify-content-between bundling-dragndrop-panel align-items-stretch">
+
+              <div class="col-md-6 p-2 selection-course-bundling">
+                <label for="example-text-input" class="form-control-label">Course untuk Bundling</label>
+                <div class="selection-bundling-list p-2 border-secondary border" id="bundling_panel">
+
+                </div>
+              </div>
+              <div class="col-md-6 p-2 selection-course-bundling">
+                <label for="example-text-input" class="form-control-label">Course Anda</label>
+                <div>
+                  <input type="text" class="bundling-search-course mb-3 ps-3" placeholder="Cari Course Anda">
+                  <div class="selection-course-list border-secondary border p-2" id="course_panel">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-12 mt-3 d-flex justify-content-center">
               <button class="btn btn-primary btn" id="submit-btn-course-detail-create">Save</button>
             </div>
+          </form>
+          <div class="col-md-12 mt-3 d-flex justify-content-center">
+            <button class="btn btn-primary btn" id="test12">Save</button>
           </div>
         </div>
       </div>
-
     </div>
   </div>
+
+</div>
+</div>
 </div>
 <?= $this->endSection() ?>
 

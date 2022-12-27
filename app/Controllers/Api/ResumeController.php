@@ -8,6 +8,7 @@ use CodeIgniter\API\ResponseTrait;
 use App\Models\Resume;
 use App\Models\UserCourse;
 use App\Models\Course;
+use App\Models\CourseBundling;
 use App\Models\Video;
 use App\Models\UserVideo;
 use App\Models\VideoCategory;
@@ -263,7 +264,11 @@ class ResumeController extends ResourceController
         $modelVideo = new Video();
         $modelUserVideo = new UserVideo();
         $modelCourse = new Course;
+        $modelCourseBundling = new CourseBundling;
         $modelVideoCategory = new VideoCategory;
+
+        $pathvideo = site_url() . 'upload/course-video/';
+        $pathvideothumbnail = site_url() . 'upload/course-video/thumbnail/';
 
         $type = $_GET['type'];
         $id = $_GET['id'];
@@ -277,15 +282,13 @@ class ResumeController extends ResourceController
             $decoded = JWT::decode($token, $key, ['HS256']);
 
             if ($type == 'course'){
-                // var_dump('test');
-                // die;
                 $course = $modelUserCourse
                     ->where('user_course.course_id', $id)
                     ->where('user_course.user_id', $decoded->uid)
                     ->join('users', 'user_course.user_id=users.id')
                     ->join('course', 'user_course.course_id=course.course_id')
                     ->join('video_category', 'user_course.course_id=video_category.course_id')
-                    ->select('users.id, users.fullname, course.title, user_course.created_at, video_category.video_category_id')
+                    ->select('users.id, users.fullname, course.title as course_title, user_course.created_at as buy_at, video_category.video_category_id')
                     ->findAll();
 
                 $data['course'] = $course;
@@ -295,6 +298,11 @@ class ResumeController extends ResourceController
                         ->where('video_category_id', $course[$l]['video_category_id'])
                         ->select('video.*')
                         ->findAll();
+                    
+                    for ($a = 0; $a < count($video); $a++) {
+                        $video[$a]['thumbnail'] = $pathvideothumbnail . $video[$a]['thumbnail'];
+                        $video[$a]['video'] = $pathvideo . $video[$a]['video'];
+                    }
         
                     $data['course'][$l]['video'] = $video;
 
@@ -365,17 +373,97 @@ class ResumeController extends ResourceController
                     }
                 }
             }else if ($type == 'bundling'){
-                echo 'Proses Pengerjaan';
-                // $course = $modelUserCourse
-                //     ->where('user_course.course_id', $id)
-                //     ->where('user_course.user_id', $decoded->uid)
-                //     ->join('users', 'user_course.user_id=users.id')
-                //     ->join('course', 'user_course.course_id=course.course_id')
-                //     ->join('video_category', 'user_course.course_id=video_category.course_id')
-                //     ->select('users.id, users.fullname, course.title, user_course.created_at, video_category.video_category_id')
-                //     ->findAll();
+                $bundling = $modelUserCourse
+                    ->where('user_course.bundling_id', $id)
+                    ->where('user_course.user_id', $decoded->uid)
+                    ->join('users', 'user_course.user_id=users.id')
+                    ->join('bundling', 'user_course.bundling_id=bundling.bundling_id')
+                    ->select('users.id, users.fullname, bundling.title as bundling_title, user_course.created_at as buy_at')
+                    ->findAll();
 
-                // $data['course'] = $course;
+                $data['bundling'] = $bundling;
+
+                for ($a = 0; $a < count($bundling); $a++) {
+                    $course_bundling = $modelCourseBundling
+                        ->where('course_bundling.bundling_id', $id)
+                        ->select('course_bundling.course_bundling_id, course_bundling.course_id')
+                        ->findAll();
+
+                    // $data['bundling'][$a]['coursebundling'] = $course_bundling;
+
+                    for ($b = 0; $b < count($course_bundling); $b++) {
+                        $course = $modelCourse
+                            ->where('course.course_id', $course_bundling[$a]['course_id'])
+                            ->join('video_category', 'course.course_id=video_category.course_id')
+                            ->select('course.title as course_title, video_category.video_category_id')
+                            ->findAll();
+            
+                        // $data['bundling'][$a]['coursebundling'][$b]['course'] = $course;
+                        $data['bundling'][$a]['coursebundling'][$b]['course'] = $course;
+
+                        for ($c = 0; $c < count($course); $c++) {
+                            $video = $modelVideo
+                                ->where('video_category_id', $course[$c]['video_category_id'])
+                                ->select('video.video_id, video.title as title_video, video.thumbnail, video.video')
+                                ->findAll();
+
+                                for ($z = 0; $z < count($video); $z++) {
+                                    $video[$z]['thumbnail'] = $pathvideothumbnail . $video[$z]['thumbnail'];
+                                    $video[$z]['video'] = $pathvideo . $video[$z]['video'];
+                                }
+
+                                $data['bundling'][$a]['coursebundling'][$b]['course'][$c]['video'] = $video;
+
+                            for ($d = 0; $d < count($video); $d++) {
+                                $uservideo = $modelUserVideo
+                                    ->where('video_id', $video[$d]['video_id'])
+                                    ->where('user_id', $bundling[$a]['id'])
+                                    ->select('user_video.score')
+                                    ->findAll();
+                                
+                                if ($uservideo == null) {
+                                    $uservideo = null;
+                                }else {
+                                    $uservideo = $uservideo;
+                                }
+                                
+                                $data['bundling'][$a]['coursebundling'][$b]['course'][$c]['video'][$d]['hasil_score'] = $uservideo;
+                            }
+        
+                            // for ($x = 0; $x < count($video); $x++) {
+                            //     $resume = $this->resume
+                            //         ->where('video_id', $video[$x]['video_id'])
+                            //         ->where('user_id', $course[$l]['id'])
+                            //         ->select('resume.resume')
+                            //         ->findAll();
+                    
+                            //     if ($resume == null) {
+                            //         $resume = null;
+                            //     }else {
+                            //         $resume = $resume;
+                            //     }
+        
+                            //     $data['course'][$l]['video'][$x]['resume_video'] = $resume;
+                            // }
+                        }
+                    }
+
+                    // for ($x = 0; $x < count($video); $x++) {
+                    //     $resume = $this->resume
+                    //         ->where('video_id', $video[$x]['video_id'])
+                    //         ->where('user_id', $bundling[$l]['id'])
+                    //         ->select('resume.resume')
+                    //         ->findAll();
+            
+                    //     if ($resume == null) {
+                    //         $resume = null;
+                    //     }else {
+                    //         $resume = $resume;
+                    //     }
+
+                    //     $data['course'][$l]['video'][$x]['resume_video'] = $resume;
+                    // }
+                }
 
                 // for ($l = 0; $l < count($course); $l++) {
                 //     $video = $modelVideo

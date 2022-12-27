@@ -146,7 +146,7 @@ class AdminController extends BaseController
     public function bundlingDetail()
     {
         $data = [
-            "title" => "Quiz Chapter Detail",
+            "title" => "Bundling Detail",
         ];
         return view('pages/admin/bundling_detail', $data);
     }

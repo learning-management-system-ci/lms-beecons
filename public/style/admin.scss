@@ -164,7 +164,7 @@ select[name='table-user_length'] {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 .user-question-text {
@@ -203,14 +203,79 @@ select[name='table-user_length'] {
     max-height: none;
 }
 
-
-
-
-
-
 .ss-value-delete {
     width: auto !important;
 }
+
+
+// ===================BUNDLING================================
+
+
+
+
+
+.bundling-list-course {
+    height: 25em;
+    border: 1px solid #b6bbc3;
+    border-radius: 7px;
+}
+
+.bundling-dragndrop-panel {
+    gap: 13px;
+}
+
+.bundling-search-course {
+    border-radius: 3px;
+    width: 100%;
+    border: 1px solid gray;
+}
+
+.selection-bundling-list,
+.selection-course-list {
+    border-radius: 7px;
+    background: #acc6ede0;
+    overflow-x: auto;
+    height: 22em;
+}
+
+.selection-bundling-list {
+    height: 26em;
+}
+
+.selection-course-bundling {
+    border-radius: 7px;
+}
+
+.course-list-choice:hover,
+.course-list-choice:active {
+    background-color: #5770ff;
+
+}
+
+.course-list-choice:active {
+    cursor: grabbing;
+}
+
+.course-list-choice {
+    border-radius: 7px;
+    cursor: grab;
+    background-color: #3a58ff;
+
+    .course-name {
+        width: 90%;
+    }
+
+    .right-side-course {
+        width: min-content;
+        text-align: end;
+
+        i {
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+    }
+}
+
 
 
 /*# sourceMappingURL=contact-list.css.map */

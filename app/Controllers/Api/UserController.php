@@ -15,6 +15,7 @@ use App\Models\Bundling;
 use App\Models\VideoCategory;
 use App\Models\Video;
 use App\Models\UserVideo;
+use App\Models\CourseBundling;
 use App\Models\Review;
 use Firebase\JWT\JWT;
 
@@ -220,6 +221,7 @@ class UserController extends ResourceController
             $modelVideo = new Video;
             $modelVideoCategory = new VideoCategory;
             $modelUserVideo = new UserVideo;
+            $modelCourseBundling = new CourseBundling;
 
             $data = $user->where('id', $decoded->uid)->first();
             $job_data = $job->where('job_id', $data['job_id'])->first();
@@ -227,8 +229,11 @@ class UserController extends ResourceController
             $path_profile = site_url() . 'upload/users/';
 
             $path_course = site_url() . 'upload/course/thumbnail/';
+            $path_bundling = site_url() . 'upload/bundling/';
 
-            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
+            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)
+                ->where('bundling_id', NULL)
+                ->findAll();
 
             $course = $userCourse;
             $score_raw = 0;
@@ -260,10 +265,64 @@ class UserController extends ResourceController
                 }
             }
 
+            $userBundling = $modelUserCourse->select('bundling.bundling_id, title, description, old_price, new_price, thumbnail')
+                ->where('user_id', $decoded->uid)
+                ->join('bundling', 'user_course.bundling_id=bundling.bundling_id')
+                ->where('course_id', NULL)
+                ->findAll();
+            // var_dump($userBundling);
+            // die;
+
+            $courseBundling = [];
+            foreach ($userBundling as $key => $value) {
+                $courseBundling_ = $modelCourseBundling->select('course.course_id, title, service, description, key_takeaways, suitable_for, old_price, new_price, thumbnail, author_id, course.created_at, course.updated_at')
+                    ->join('course', 'course_bundling.course_id=course.course_id', 'right')
+                    ->where('bundling_id', $value['bundling_id'])
+                    ->findAll();
+
+                $scoreBundling = 0;
+                $scoreBundlingRaw = [];
+
+                foreach ($courseBundling_ as $key => $courseBundling) {
+                    $scoreCourseRaw = 0;
+                    $scoreCourseRaw2 = [];
+
+                    $videoCategory = $modelVideoCategory->where('course_id', $courseBundling['course_id'])->first();
+                    $video = $modelVideo->where('video_category_id', $videoCategory['video_category_id'])->findAll();
+                    foreach ($video as $key => $video_) {
+                        $userVideo = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_['video_id'])->first();
+
+                        if ($userVideo) {
+                            array_push($scoreCourseRaw2, $userVideo['score']);
+                            $scoreCourseRaw += $userVideo['score'];
+                        }
+                    }
+                    $scoreCourse = $scoreCourseRaw / count($video);
+                    array_push($scoreBundlingRaw, $scoreCourse);
+                }
+
+                $courseBundling['course_bundling'] = $courseBundling_;
+
+                foreach ($scoreBundlingRaw as $key => $value) {
+                    $scoreBundling += $scoreBundlingRaw[$key];
+                    $courseBundling['course_bundling'][$key]['score'] = $scoreBundlingRaw[$key];
+                }
+
+                $scoreBundling /= count($scoreBundlingRaw);
+
+                $courseBundling['score'] = $scoreBundling;
+            }
+
+            $courseBundling['thumbnail'] = $path_bundling . $courseBundling['thumbnail'];
+
+            foreach ($courseBundling['course_bundling'] as $key => $value) {
+                $courseBundling['course_bundling'][$key]['thumbnail'] = $path_course . $courseBundling['course_bundling'][$key]['thumbnail'];
+            }
+
             $response = [
                 'id' => $decoded->uid,
                 'profile_picture' => $path_profile . $data['profile_picture'],
-                'fullname' =>  $data['fullname'],
+                'fullname' => $data['fullname'],
                 'email' => $decoded->email,
                 'date_birth' => $data['date_birth'],
                 'job_name' => (is_null($data['job_id'])) ? null : $job_data['job_name'],
@@ -271,10 +330,13 @@ class UserController extends ResourceController
                 'phone_number' => $data['phone_number'],
                 'linkedin' => $data['linkedin'],
                 'created_at' => $data['created_at'],
-                'course' => $course
+                'course' => $course,
+                'bundling' => $courseBundling,
+                //'bundling' => (array) array_merge((array) $userBundling[0], ['course_bundling' => $courseBundling]),
             ];
             return $this->respond($response);
         } catch (\Throwable $th) {
+            //throw $th;
             return $this->fail($th->getMessage());
         }
         return $this->failNotFound('Data user tidak ditemukan');
@@ -642,7 +704,7 @@ class UserController extends ResourceController
             ->where('role', 'author')
             ->select('id, fullname, email, profile_picture, role, company')
             ->findAll();
-        
+
         for ($c = 0; $c < count($getdataauthor); $c++) {
             $getdataauthor[$c]['profile_picture'] = $path . $getdataauthor[$c]['profile_picture'];
         }
@@ -666,11 +728,11 @@ class UserController extends ResourceController
             $rating_course_raw = 0;
             $rating_course_final = 0;
 
-            if($course != null){
+            if ($course != null) {
                 for ($x = 0; $x < count($course); $x++) {
                     $cek_course = $modelReview->where('course_id', $course[$x]['course_id'])->findAll();
-                
-                    if ($cek_course != null){
+
+                    if ($cek_course != null) {
                         $reviewcourse = $modelReview->where('course_id', $course[$x]['course_id'])->findAll();
 
                         $rating_raw = 0;
@@ -690,18 +752,18 @@ class UserController extends ResourceController
                         // $data['author'][$i]['course_final_rating'] = 0;
                     }
                 }
-            } else{
+            } else {
                 // $data['author'][$i]['course_final_rating'] = 0;
             }
 
-            if($bundling != null){
+            if ($bundling != null) {
                 for ($z = 0; $z < count($bundling); $z++) {
                     $cek_bundling = $modelReview->where('bundling_id', $bundling[$z]['bundling_id'])->findAll();
 
                     $rating_bundling_raw = 0;
                     $rating_bundling_final = 0;
-                
-                    if ($cek_bundling != null){
+
+                    if ($cek_bundling != null) {
                         $reviewbundling = $modelReview->where('bundling_id', $bundling[$z]['bundling_id'])->findAll();
 
                         $rating_raw = 0;
@@ -724,11 +786,11 @@ class UserController extends ResourceController
                 // $data['author'][$i]['bundling_final_rating'] = 0;
             }
 
-            if($course != null || $bundling != null){
+            if ($course != null || $bundling != null) {
                 $rating_author_raw = $rating_bundling_final + $rating_course_final;
                 $rating_author_final = $rating_author_raw / 2;
                 $data['author'][$i]['author_final_rating'] = $rating_author_final;
-            } else{
+            } else {
                 $data['author'][$i]['author_final_rating'] = 0;
             }
         }

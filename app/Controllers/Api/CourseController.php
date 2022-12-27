@@ -449,7 +449,8 @@ class CourseController extends ResourceController
             $data = $this->model->where('course_id', $id)->first();
             $author = $this->modelUser->where('id', $data['author_id'])->first();
             unset($data['author_id']);
-            $data['author'] = $author['fullname'];
+            $data['author_fullname'] = $author['fullname'];
+            $data['author_company'] = $author['company'];
 
             if ($loggedIn) {
                 $checkUserReview = $this->modelReview->where('user_id', $decoded->uid)->where('course_id', $id)->first();

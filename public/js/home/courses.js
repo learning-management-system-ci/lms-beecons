@@ -25,11 +25,31 @@ async function handleCourses() {
             dataType: 'json'
         })
 
-        const courseResponse = await $.ajax({
+        let courseResponse = await $.ajax({
             url: '/api/course',
             method: 'GET',
             dataType: 'json'
         })
+
+        if (Cookies.get('access_token')) {
+            const userCourses = await $.ajax({
+                url: '/api/user-course',
+                method: 'GET',
+                dataType: 'json',
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('access_token')}`
+                }
+            })
+
+            courseResponse = courseResponse.map(function (course) {
+                return {
+                    ...course,
+                    isBought: userCourses.map(function (userCourse) {
+                        return userCourse.course_id
+                    }).includes(course.course_id)
+                }
+            })
+        }
 
         let bidangs = [
             'Engineering',
@@ -64,8 +84,6 @@ async function handleCourses() {
         }))
 
         $('#courses-loading').hide()
-
-        let courses = courseResponse
 
         let filter = {
             bidang: [],
@@ -111,7 +129,7 @@ async function handleCourses() {
         })
 
         function generateListCourse(filter, cpage = 1) {
-            courses = courseResponse
+            let courses = courseResponse
 
             // handle filter
             if (filter.bidang.length > 0) {
@@ -217,14 +235,14 @@ async function handleCourses() {
                                 <a href="/course/${course.course_id}">
                                     <h2 class="mb-2">${course.title}</h2>
                                 </a>
-                                <p class='mb-2'>${course.author}</p>
+                                <p class='mb-2'>${course.author_fullname}</p>
                                 <p class='mb-2 d-none'>
                                     ${textTruncate(course.description, 130)}
                                 </p>
                                 <div class="star-container">
                                     <div class="stars" style="--rating: ${course.rating_course}"></div>
                                 </div>
-                                <p class="harga">
+                                <p class="harga mb-3">
                                     ${(() => {
                                         if (course.old_price !== '0') {
                                             return `<del>${getRupiah(course.old_price)}</del>`
@@ -346,6 +364,6 @@ async function handleCourses() {
             })
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 }

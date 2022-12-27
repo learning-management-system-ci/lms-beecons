@@ -150,7 +150,7 @@
     <div>
         <div class="container">
             <div class="courses-bundling">
-                <div class="my-container">
+                <div class="">
                     <h1 class="">Ikuti beberapa kursus dengan pilihan paket bundling!</h1>
 
                     <div class="courses-bundling-loading">
@@ -160,7 +160,7 @@
                         </div>
                     </div>
 
-                    <div class="row justify-content-md-center gap-4 py-3 courses-bundling-rekomendasi"></div>
+                    <div class="row py-3 courses-bundling-rekomendasi"></div>
                 </div>
             </div>
             <nav class="mt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">

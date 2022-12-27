@@ -14,7 +14,7 @@ class UserCourse extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'course_id', 'is_access'];
+    protected $allowedFields    = ['user_id', 'course_id', 'bundling_id', 'is_access'];
 
     // Dates
     protected $useTimestamps = true;
