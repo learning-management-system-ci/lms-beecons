@@ -194,7 +194,7 @@ $.ajax({
                                     <div class="row">
                                         <div class="col">
                                         <h5>
-                                            ${score}/100
+                                            ${score ? score : 0}/100
                                         </h5>
                                         </div>
                                     </div>
@@ -220,10 +220,15 @@ $.ajax({
                     </div>
                     <div class="d-flex col text-start align-items-center body">
                         <div>
-                            <h5>
+                            <div class="bg-green mb-1">
+                                <p>
+                                    Bundling
+                                </p>
+                            </div>
+                            <h5 class="mb-0">
                                 ${title}
                             </h5>
-                            <p class="ellipsis">
+                            <p class="ellipsis mb-0">
                                 ${description}
                             </p>
                         </div>
@@ -351,47 +356,111 @@ $.ajax({
             $(`div#course_collape_${bundling_id}`).html(courses);
         })
 
+        const displayCreateReviewModal = async () => {
+            // show review modal
+            $('#reviewModal').modal('show');
+            
+            // check if rating input and review text are not empty. if not empty, enable submit button
+            $('.rating-input input').on('change', () => {
+                if (($('#reviewText').val() != '') && ($('.rating-input input:checked').val() != undefined)) {
+                    $('#reviewSubmit').prop('disabled', false)
+                } else {
+                    $('#reviewSubmit').prop('disabled', true)
+                }
+            })
+            $('#reviewText').on('input', () => {
+                if (($('#reviewText').val() != '') && ($('.rating-input input:checked').val() != undefined)) {
+                    $('#reviewSubmit').prop('disabled', false)
+                } else {
+                    $('#reviewSubmit').prop('disabled', true)
+                }
+            })
+        
+            // onclick submit button
+            $('#reviewModal').on('click', '#reviewSubmit', async (e) => {
+                e.preventDefault();
+                // get form values
+                let formValues = {
+                    'rating': $('.rating-input input:checked').val(),
+                    'review': $('#reviewText').val()
+                }
+        
+                // if all attribute form values is not empty, post data to backend
+                if (formValues.rating && formValues.review) {
+                    const course_id = sessionStorage.getItem('course_id')
+                    let response = await postReviewData(course_id, formValues)
+        
+                    // if success, close modal
+                    if (!response.err) {
+                        $('#reviewModal').modal('hide')
+                        // redirect to profile page
+                        window.location.href = '/profile'
+                    } else {
+                        alert(response.err)
+                    }
+                }
+                
+            })
+        }
+
         data.bundling.map(({
-            bundling_id, score
+            bundling_id, lolos, is_review
         }) => {
 
             $(`#download_certificate_bundling_${bundling_id}`).click(() => {
-                if (score === 0) {
-                    return new swal({
-                        title: 'Gagal',
-                        text: 'Anda perlu menyelesaikan course',
-                        showConfirmButton: true
-                    })
-                }
                 if (!data.fullname) {
                     return new swal({
                         title: 'Gagal',
                         text: 'Anda perlu melengkapi profile anda',
                         showConfirmButton: true
                     })
+                }
+                if (lolos === false) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu menyelesaikan course',
+                        showConfirmButton: true
+                    })
+                }
+                if (is_review === false) {
+                    new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu mereview course',
+                        showConfirmButton: true
+                    })
+
+                    return displayCreateReviewModal();
                 }
                 window.open(`/certificates/?type=bundling&id=${bundling_id}`)
             })
         })
 
         data.course.map(({
-            course_id, score
+            course_id, lolos, is_review
         }) => {
 
             $(`#download_certificate_course_${course_id}`).click(() => {
-                if (score === null) {
-                    return new swal({
-                        title: 'Gagal',
-                        text: 'Anda perlu menyelesaikan course',
-                        showConfirmButton: true
-                    })
-                }
                 if (!data.fullname) {
                     return new swal({
                         title: 'Gagal',
                         text: 'Anda perlu melengkapi profile anda',
                         showConfirmButton: true
                     })
+                }
+                if (lolos === false) {
+                    return new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu menyelesaikan course',
+                        showConfirmButton: true
+                    })
+                }
+                if (is_review === false) {
+                    new swal({
+                        title: 'Gagal',
+                        text: 'Anda perlu mereview course',
+                        showConfirmButton: true
+                    })
+                    return displayCreateReviewModal();
                 }
                 window.open(`/certificates/?type=course&id=${course_id}`)
             })
