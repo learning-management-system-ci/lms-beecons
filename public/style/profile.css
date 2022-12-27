@@ -66,11 +66,16 @@ h5.font-weight-bold {
 }
 
 .bg-green {
-  color: white;
   background-color: #248043;
   width: fit-content;
   border-radius: 5px;
   padding: 3px 9px;
+}
+.bg-green > * {
+  color: white;
+}
+.bg-green > p {
+  font-size: 12px;
 }
 
 .ellipsis {

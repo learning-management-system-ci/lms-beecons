@@ -728,11 +728,11 @@ class UserController extends ResourceController
             $modelVideoCategory = new VideoCategory;
             $modelVideo = new Video;
 
-            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->findAll();
-
+            $userCourse = $modelUserCourse->where('user_id', $decoded->uid)->where('bundling_id', null)->findAll();
             for ($i = 0; $i < count($userCourse); $i++) {
                 $videoCategory = $modelVideoCategory->where('course_id', $userCourse[$i]['course_id'])->first();
                 $video = $modelVideo->where('video_category_id', $videoCategory['video_category_id'])->findAll();
+
 
                 $completed = [];
 
