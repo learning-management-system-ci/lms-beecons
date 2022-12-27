@@ -32,24 +32,29 @@ class NotificationController extends ResourceController
             $modelusernotification = new UserNotification();
             $data = [];
             $data = $user->select('id')->where('id', $decoded->uid)->first();
-            $public_notification = $modelnotification->where('user_id', null)->findAll();
+            $public_notification = $modelnotification->where('public', 1)->findAll();
             $private_notification = $modelusernotification->where('user_id', $data['id'])->findAll();
 
             $data['notification'] = [];
-            if(count($private_notification) != 0){
-                for($i = 0; $i < count($private_notification); $i++){
+            if (count($private_notification) != 0) {
+                for ($i = 0; $i < count($private_notification); $i++) {
+                    $private_notification[$i]['public'] = 0;
+
+                    $notification_detail = $modelnotification->where('notification_id', $private_notification[$i]['notification_id'])->first();
+                    $private_notification[$i]['message'] = $notification_detail['message'];
+
                     array_push($data['notification'], $private_notification[$i]);
                 }
             }
-            if(count($public_notification) != 0){
-                for($i = 0; $i < count($public_notification); $i++){
+            if (count($public_notification) != 0) {
+                for ($i = 0; $i < count($public_notification); $i++) {
                     array_push($data['notification'], $public_notification[$i]);
                 }
             }
 
             rsort($data['notification']);
 
-            return $this->respond($data);
+            return $this->respond($data['notification']);
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
@@ -115,15 +120,15 @@ class NotificationController extends ResourceController
                 ],
             ];
 
-            if($this->validate($rules, $messages)) {
-                if($this->request->getVar('user_id')){
+            if ($this->validate($rules, $messages)) {
+                if ($this->request->getVar('user_id')) {
                     $data = [
-                      'user_id' => $this->request->getVar('user_id'),
-                      'message' => $this->request->getVar('message'),
+                        'user_id' => $this->request->getVar('user_id'),
+                        'message' => $this->request->getVar('message'),
                     ];
-                }else{
+                } else {
                     $data = [
-                      'message' => $this->request->getVar('message'),
+                        'message' => $this->request->getVar('message'),
                     ];
                 }
 
@@ -136,7 +141,7 @@ class NotificationController extends ResourceController
                         'success' => 'Notification berhasil dibuat'
                     ]
                 ];
-            }else{
+            } else {
                 $response = [
                     'status'   => 400,
                     'error'    => 400,
@@ -144,7 +149,7 @@ class NotificationController extends ResourceController
                 ];
             }
 
-            return $this->respondCreated($response);   
+            return $this->respondCreated($response);
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
@@ -173,7 +178,7 @@ class NotificationController extends ResourceController
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
         $token = explode(' ', $header)[1];
 
-        
+
         try {
             $decoded = JWT::decode($token, $key, ['HS256']);
             $user = new Users;
@@ -196,16 +201,16 @@ class NotificationController extends ResourceController
                 ],
             ];
 
-            if($model->find($id)){
-                if($this->validate($rules, $messages)) {
-                    if($this->request->getRawInput('user_id')){
+            if ($model->find($id)) {
+                if ($this->validate($rules, $messages)) {
+                    if ($this->request->getRawInput('user_id')) {
                         $data = [
-                        'user_id' => $this->request->getRawInput('user_id'),
-                        'message' => $this->request->getRawInput('message'),
+                            'user_id' => $this->request->getRawInput('user_id'),
+                            'message' => $this->request->getRawInput('message'),
                         ];
-                    }else{
+                    } else {
                         $data = [
-                        'message' => $this->request->getRawInput('message'),
+                            'message' => $this->request->getRawInput('message'),
                         ];
                     }
                     $model->update($id, $data['user_id']);
@@ -217,14 +222,14 @@ class NotificationController extends ResourceController
                             'success' => 'Notification berhasil di perbarui'
                         ]
                     ];
-                }else{
+                } else {
                     $response = [
                         'status'   => 400,
                         'error'    => 400,
                         'messages' => $this->validator->getErrors(),
                     ];
                 }
-            }else{
+            } else {
                 $response = [
                     'status'   => 400,
                     'error'    => 400,
@@ -262,7 +267,7 @@ class NotificationController extends ResourceController
 
             $model = new Notification();
 
-            if($model->find($id)){
+            if ($model->find($id)) {
                 $model->delete($id);
 
                 $response = [
@@ -273,7 +278,7 @@ class NotificationController extends ResourceController
                     ]
                 ];
                 return $this->respondDeleted($response);
-            }else{
+            } else {
                 return $this->failNotFound('Data tidak di temukan');
             }
         } catch (\Throwable $th) {
@@ -282,17 +287,18 @@ class NotificationController extends ResourceController
         return $this->failNotFound('Data user tidak ditemukan');
     }
 
-    public function sendnotification($user_id = null, $message = null){
+    public function sendnotification($user_id = null, $message = null)
+    {
         $modelnotification = new Notification();
         $modelusernotification = new UserNotification();
 
-        if($user_id == null){
+        if ($user_id == null) {
             $data = [
                 'public' => 1,
                 'message' => $message
             ];
             $modelnotification->insert($data);
-        }else{
+        } else {
             $data = [
                 'public' => 0,
                 'message' => ''
@@ -305,6 +311,5 @@ class NotificationController extends ResourceController
             ];
             $modelusernotification->insert($datauser);
         }
-
     }
 }
