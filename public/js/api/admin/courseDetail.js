@@ -113,6 +113,24 @@ $(document).ready(() => {
     return data
   }
 
+  const getCourseMemberData = async (id) => {
+    let option = {
+      type: "GET",
+      url: document.location.origin + `/api/course/${id}/member`,
+      dataType: "json",
+      headers: {
+        "Authorization": `Bearer ${Cookies.get("access_token")}`,
+      },
+      success: function (resp) {
+        data = resp
+      }
+    }
+
+    let data
+    await $.ajax(option)
+    return data
+  }
+
   const createVideoCategory = async (title, id) => {
     console.log(id)
     let getVideoCatID
@@ -203,7 +221,7 @@ $(document).ready(() => {
 
 
     content.title.text(data.title)
-    content.author.text(data.author)
+    content.author.text(data.author_fullname)
     content.type.text(data.type)
     content.category.text(data.category)
     content.description.text(data.description)
@@ -248,19 +266,29 @@ $(document).ready(() => {
     }
   }
 
-  const populateCourseDetailReview = data => {
+  const populateCourseDetailMember = data => {
+    console.log(data)
     const content = {
-      review: $('#course-review-list-content'),
+      member: $('#course-member-list-content'),
     }
 
+    content.member.empty()
     if (data.length > 0) {
-      content.review.empty()
-      data.forEach(review => {
+      data.forEach(member => {
         let {
-          fullname: username,
-          score,
-          feedback
-        } = review
+          username,
+          progress,
+          transaction_at
+        } = member
+        let bg_progress
+
+        if (progress == 0) {
+          bg_progress = 'bg-danger'
+        } else if (progress == 100) {
+          bg_progress = 'bg-success'
+        } else {
+          bg_progress = 'bg-warning'
+        }
 
         let template = `
           <tr>
@@ -268,14 +296,14 @@ $(document).ready(() => {
               <h6 class="mb-0 text-sm px-2">${username}</h6>
             </td>
             <td>
-              <span class="text-xs font-weight-bold mb-0 wrap w-20">${textTruncate(feedback, 110)}</span>
+              <span class="text-xs font-weight-bold mb-0 wrap w-20">${transaction_at}</span>
             </td>
             <td>
-              <p class="text-xs font-weight-bold mb-0">${score}</p>
+              <span class="badge ${bg_progress} mx-1 ">${progress} %</span>
             </td>
           </tr>
         `
-        content.review.append(template)
+        content.member.append(template)
       })
     }
   }
@@ -562,9 +590,9 @@ $(document).ready(() => {
     let course_id = url.substring(url.lastIndexOf('/') + 1)
 
     let course = await getCourseDetailData(course_id);
+    let members = await getCourseMemberData(course_id);
 
     let {
-      reviews,
       videos,
       title
     } = course
@@ -680,7 +708,7 @@ $(document).ready(() => {
 
 
     populateCourseDetailGeneral(course)
-    populateCourseDetailReview(reviews)
+    populateCourseDetailMember(members)
     populateCourseDetailVideo(videos, course_id, title)
     populateCourseDetailSetting(course)
     populateCourseEditDelete(course_id)
