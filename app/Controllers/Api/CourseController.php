@@ -1763,13 +1763,17 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            $author = $courseModel->where('author_id', $decoded->uid)->first();
+            $author = $courseModel->where('course_id', $id)->where('author_id', $decoded->uid)->first();
             if ($data['role'] != 'admin' && !$author) {
                 return $this->fail('Tidak dapat di akses selain pemilik course atau admin', 400);
             }
 
             // cek semua user yang mempunyai course berkaitan
             $userCourseData = $userCourseModel->where('course_id', $id)->findAll();
+
+            if (!$userCourseData) {
+                $response = [];
+            }
 
             foreach ($userCourseData as $data) {
                 // mengambil data user yang berkaitan dengan course berdasarkan id user
