@@ -31,9 +31,9 @@ $color-select-tag: #6DAA82;
             background-color: $color-white;
             border-radius: 8px;
             padding: 1rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            box-shadow: 0 0 40px 10px rgba(0, 0, 0, .1);
             z-index: 1;
-            width: 350px;
+            width: 280px;
 
             .filter-container__header {
                 display: flex;

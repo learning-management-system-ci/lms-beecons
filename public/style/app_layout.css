@@ -14,9 +14,13 @@ button {
   font-family: "Plus Jakarta Sans", "sans-serif";
 }
 
-.main-container {
-  padding-left: 3.5rem;
-  padding-right: 3.5rem;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
 }
 
 .app-btn {
@@ -67,13 +71,9 @@ button {
   border-color: #164520;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: bold;
+.main-container {
+  padding-left: 3.5rem;
+  padding-right: 3.5rem;
 }
 
 .breadcrumb-anchor {
@@ -83,12 +83,12 @@ h6 {
 
 .card-course {
   border-radius: 0.6rem;
-  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   padding: 0.8rem;
 }
 .card-course:hover {
-  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
 }
 .card-course .image {
   position: relative;
@@ -148,6 +148,22 @@ h6 {
   color: #9ca3af;
   margin-right: 0.5rem;
 }
+.card-course .body .star-container .stars {
+  --percent: calc(var(--rating) / 5 * 100%);
+  display: inline-block;
+  font-size: 1.4rem;
+  font-family: Times;
+  line-height: 1;
+}
+.card-course .body .star-container .stars::before {
+  content: "★★★★★";
+  letter-spacing: 3px;
+  background: linear-gradient(90deg, #E0D043 var(--percent), #ffffff var(--percent));
+  -webkit-background-clip: text;
+  background-clip: #FFCB42;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #E0D043;
+}
 .card-course .card-course-button {
   display: flex;
   justify-content: space-between;
@@ -160,12 +176,12 @@ h6 {
 
 .card-webinar {
   border-radius: 0.6rem;
-  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   padding: 0.8rem;
 }
 .card-webinar:hover {
-  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
 }
 .card-webinar .image img {
   width: 100%;
@@ -213,12 +229,12 @@ h6 {
 
 .card-training {
   border-radius: 0.6rem;
-  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   padding: 0.8rem;
 }
 .card-training:hover {
-  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
 }
 .card-training .thumbnail img {
   width: 100%;
@@ -243,59 +259,59 @@ h6 {
   color: #164520;
 }
 
-.card-mentor {
+.card-author {
   border-radius: 0.6rem;
-  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.1);
   background-color: #ffffff;
   padding: 2rem;
 }
-.card-mentor:hover {
-  box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
+.card-author:hover {
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
 }
-.card-mentor .profile {
+.card-author .profile {
   text-align: center;
   margin-bottom: 1rem;
 }
-.card-mentor .profile img {
+.card-author .profile img {
   width: 8rem;
   height: 8rem;
   object-fit: cover;
   border-radius: 50%;
   margin: auto;
 }
-.card-mentor .info {
+.card-author .info {
   text-align: center;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.2rem;
 }
-.card-mentor .info h2 {
+.card-author .info h2 {
   font-size: 1.5rem;
   margin-bottom: 0.2rem;
   font-weight: bold;
 }
-.card-mentor .info p {
+.card-author .info p {
   font-size: 1rem;
   margin: 0;
 }
-.card-mentor .star-container {
+.card-author .star-container {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
 }
-.card-mentor .star-container h2 {
+.card-author .star-container h2 {
   margin: 0;
   font-size: 1.2rem;
   font-weight: bold;
 }
-.card-mentor .stars {
+.card-author .stars {
   --percent: calc(var(--rating) / 5 * 100%);
   display: inline-block;
   font-size: 2rem;
   font-family: Times;
   line-height: 1;
 }
-.card-mentor .stars::before {
+.card-author .stars::before {
   content: "★★★★★";
   letter-spacing: 3px;
   background: linear-gradient(90deg, #E0D043 var(--percent), #ffffff var(--percent));
@@ -304,7 +320,7 @@ h6 {
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 1px #E0D043;
 }
-.card-mentor .sosmed {
+.card-author .sosmed {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
@@ -312,7 +328,7 @@ h6 {
   align-items: center;
   font-size: 1.2rem;
 }
-.card-mentor .sosmed img {
+.card-author .sosmed img {
   width: 1rem;
 }
 

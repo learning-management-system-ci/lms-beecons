@@ -66,19 +66,35 @@ class ReviewController extends ResourceController
                     'data' => []
                 ];
             } else {
-                $data['user_id'] = $decoded->uid;
-                $data['course_id'] = $this->request->getVar("course_id");
-                $data['feedback'] = $this->request->getVar("feedback");
-                $data['score'] = $this->request->getVar("score");
+                if (!$this->request->getVar("course_id")){
+                    $data['user_id'] = $decoded->uid;
+                    $data['bundling_id'] = $this->request->getVar("bundling_id");
+                    $data['feedback'] = $this->request->getVar("feedback");
+                    $data['score'] = $this->request->getVar("score");
 
-                $this->review->save($data);
+                    $this->review->save($data);
 
-                $response = [
-                    'status' => 200,
-                    'error' => false,
-                    'message' => 'Review berhasil dibuat',
-                    'data' => []
-                ];
+                    $response = [
+                        'status' => 200,
+                        'error' => false,
+                        'message' => 'Review berhasil dibuat',
+                        'data' => []
+                    ];
+                } else {
+                    $data['user_id'] = $decoded->uid;
+                    $data['course_id'] = $this->request->getVar("course_id");
+                    $data['feedback'] = $this->request->getVar("feedback");
+                    $data['score'] = $this->request->getVar("score");
+
+                    $this->review->save($data);
+                    
+                    $response = [
+                        'status' => 200,
+                        'error' => false,
+                        'message' => 'Review berhasil dibuat',
+                        'data' => []
+                    ];
+                }
             }
             return $this->respondCreated($response);
         } catch (\Throwable $th) {
@@ -131,8 +147,8 @@ class ReviewController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member'  || $data['role'] == 'mentor' || $data['role'] == 'partner') {
-                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses selain member', 400);
             }
 
             $data = $this->review->where('user_review_id', $id)->findAll();
@@ -154,4 +170,26 @@ class ReviewController extends ResourceController
         }
         return $this->failNotFound('Data Review tidak ditemukan');
     }
+
+    // public function ratingcourse ($course_id = null){
+    //     $cek_course = $this->review->where('course_id', $course_id)->findAll();
+        
+    //     if ($cek_course != null){
+    //         $reviewcourse = $this->review->where('course_id', $course_id)->findAll();
+
+    //         $rating_raw = 0;
+    //         $rating_final = 0;
+
+    //         for ($i = 0; $i < count($reviewcourse); $i++) {
+    //             $rating_raw += $reviewcourse[$i]['score'];
+    //             $rating_final = $rating_raw / count($reviewcourse);
+
+    //             $data['Rating'] = $rating_final;
+    //         }
+    //     } else {
+    //         $data['Rating'] = 0;
+    //     }
+    //     return $this->respond($data);
+    //     // return $this->failNotFound('Course Belum Memiliki Rating');
+    // }
 }

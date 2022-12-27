@@ -16,6 +16,7 @@ class BundlingSeeder extends Seeder
                 'old_price' => '20000',
                 'new_price' => '15000',
                 'thumbnail' => 'default.png',
+                'author_id' => 1,
             ],
             [
                 'category_bundling_id' => 1,
@@ -24,6 +25,7 @@ class BundlingSeeder extends Seeder
                 'old_price' => '20000',
                 'new_price' => '15000',
                 'thumbnail' => 'default.png',
+                'author_id' => 1,
             ],
             [
                 'category_bundling_id' => 1,
@@ -32,6 +34,7 @@ class BundlingSeeder extends Seeder
                 'old_price' => '20000',
                 'new_price' => '15000',
                 'thumbnail' => 'default.png',
+                'author_id' => 2,
             ],
             [
                 'category_bundling_id' => 1,
@@ -40,6 +43,7 @@ class BundlingSeeder extends Seeder
                 'old_price' => '20000',
                 'new_price' => '15000',
                 'thumbnail' => 'default.png',
+                'author_id' => 1,
             ],
             [
                 'category_bundling_id' => 1,
@@ -48,6 +52,7 @@ class BundlingSeeder extends Seeder
                 'old_price' => '20000',
                 'new_price' => '15000',
                 'thumbnail' => 'default.png',
+                'author_id' => 2,
             ],
         ];
         $this->db->table('bundling')->insertBatch($data);

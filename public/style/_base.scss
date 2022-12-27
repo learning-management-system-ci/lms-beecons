@@ -22,32 +22,13 @@ $color-black: #1F1F1F;
 $color-orange: #FFCB424D;
 $color-blue: #0D99FF;
 
-html {
-    font-size: 16px;
-    font-family: 'Plus Jakarta Sans', 'sans-serif';
-}
-
-body {
-    font-family: 'Plus Jakarta Sans', 'sans-serif';
-}
-
-button {
-    border: none;
-    font-family: 'Plus Jakarta Sans', 'sans-serif';
-}
-
-.main-container{
-    padding-left: $padding-container;
-    padding-right: $padding-container;
-}
-
 @mixin card-setting() {
     border-radius: $card-border-radius;
-    box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px 0px rgba(0, 0, 0, 0.1);
     background-color: $color-white;
 
     &:hover {
-        box-shadow: 0 8px 30px -10px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.4);
     }
 }
 
@@ -55,56 +36,4 @@ button {
     font-size: 2rem;
     text-align: center;
     margin-bottom: 4rem;
-}
-
-.app-btn {
-    background-color: $color-primary;
-    color: $color-white;
-    padding: .7rem 1.2rem;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-size: .9rem;
-    white-space: nowrap;
-
-    &:hover {
-        background-color: $color-secondary;
-    }
-}
-
-.app-btn-secondary {
-    background-color: $color-secondary;
-
-    &:hover {
-        background-color: $color-primary;
-    }
-}
-
-.btn-full {
-    width: 100%;
-}
-
-.button-secondary {
-    background-color: $color-white;
-    color: $color-primary;
-    padding: .55rem .9rem;
-    border-radius: .4rem;
-    border: 1px solid $color-primary;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-
-    &:hover {
-        background-color: $color-primary;
-        color: $color-white;
-    }
-}
-
-.form-control {
-    font-family: 'Plus Jakarta Sans', 'sans-serif';
-
-    &:focus {
-        box-shadow: none;
-        border-color: $color-primary;
-    }
 }

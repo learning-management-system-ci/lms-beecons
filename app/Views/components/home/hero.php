@@ -9,7 +9,7 @@
                 <p>
                     Stufast merupakan tempat dimana kamu dapat mempelajari suatu bidang baru yang akan langsung dibimbing oleh para mentor ahli di bidangnya.
                 </p>
-                <a href="/about-us">
+                <a href="/courses">
                     <button class="app-btn app-btn-secondary">
                         Pilih Course
                     </button>

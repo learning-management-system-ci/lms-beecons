@@ -49,8 +49,8 @@ class TagArticleController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor' || $data['role'] == 'partner') {
-                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $rules = [
@@ -101,8 +101,8 @@ class TagArticleController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor' || $data['role'] == 'partner') {
-                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $input = $this->request->getRawInput();
@@ -160,8 +160,8 @@ class TagArticleController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor' || $data['role'] == 'partner') {
-                return $this->fail('Tidak dapat di akses selain admin & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $data = $this->tagarticle->where('tag_article_id', $id)->findAll();

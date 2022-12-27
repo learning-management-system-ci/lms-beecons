@@ -1,7 +1,6 @@
 <?= $this->extend('layouts/admin_layout') ?>
 
 <?= $this->section('css-component') ?>
-<link rel="stylesheet" href="<?= base_url('style/admin.css') ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section('app-component') ?>
@@ -50,9 +49,12 @@
     <div class="col-md-12 tab-content">
       <div class="card tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="profile-tab">
         <div class="card-header pb-0">
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center justify-content-between">
             <p class="mb-0"><strong>General Information</strong></p>
-            <button class="btn btn-primary btn-sm ms-auto" onclick="startSetting()">Edit</button>
+            <div>
+              <button class="btn btn-primary btn-sm ms-auto" onclick="startSetting()">Edit</button>
+              <button class="btn btn-danger btn-sm ms-auto" id='delete-course'>Hapus</button>
+            </div>
           </div>
         </div>
         <div class="card-body">
@@ -113,62 +115,58 @@
             <button class="btn btn-danger btn-sm ms-auto" onclick="stopSetting()">Cancel</button>
           </div>
         </div>
-        <div class="card-body">
+        <form id="update-course-form" class="card-body pb-2" enctype="multipart/form-data">
           <div class="row ">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Title</label>
-                <input class="form-control title-content-setting" type="text" id="title-input">
+                <input class="form-control title-content-setting" minlength="8" name="title" required type="text" id="title-input">
               </div>
+              <small>Minimal 8 Karakter</small>
             </div>
             <div class="col-md-6">
-              <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Author</label>
-                <input class="form-control author-content-setting" type="text" id="author-input" disabled>
-              </div>
-            </div>
-            <div class="col-md-6">
+              <input class="hide form-control author-content-create" name="author_id" type="text" id="author-input" disabled>
+              <input class="hide form-control author-content-create" id="service" name="service" type="text" value="course">
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Type</label>
-                <!-- select type input -->
-                <select class="form-select type-content-setting" id="type-input-wraper">
+                <select class="form-select type-content-setting" name="type_id" required id="type-input-wraper">
                   <option disabled>Select Course Type</option>
-                  <!-- <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option> -->
                 </select>
-                <!-- <input class="form-control type-content-setting" type="text" id="type-input"> -->
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="example-text-input" class="form-control-label">Tag</label>
+                <select class="tag-picker" multiple id="type-tag-input" required>
+                  <option disabled>Pilih Type Terlebih Dulu</option>
+                </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Category</label>
-                <!-- select category input -->
-                <select class="form-select category-content-setting" id="category-input-wraper">
+                <select name="category_id" required class="form-select category-content-setting" id="category-input-wraper">
                   <option disabled>Select Course Category</option>
-                  <!-- <option value="1">Category 1</option>
-                      <option value="2">Category 2</option>
-                      <option value="3">Category 3</option> -->
                 </select>
-                <!-- <input class="form-control category-content-setting" type="text"> -->
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Description</label>
-                <textarea class="form-control description-content-setting" row="3" id="description-input"> </textarea>
+                <textarea minlength="8" required name="description" class="form-control description-content-setting" rows="7" id="description-input"> </textarea>
+                <small>Minimal 8 Karakter</small>
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Key Takeways</label>
-                <textarea class="form-control key-takeaways-content-setting" row="3" id="key-takeaways-input"> </textarea>
+                <textarea name="key_takeaways" class="form-control key-takeaways-content-setting" rows="5" id="key-takeaways-input"> </textarea>
               </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Suitable For</label>
-                <textarea class="form-control suitable-for-content-setting" row="3" id="suitable-for-input"> </textarea>
+                <textarea class="form-control suitable-for-content-setting" rows="3" id="suitable-for-input"> </textarea>
               </div>
             </div>
             <div class="col-md-6">
@@ -176,7 +174,7 @@
                 <label for="example-text-input" class="form-control-label">Price</label>
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">Rp. </span>
-                  <input class="form-control price-content-setting" type="number" id="price-input">
+                  <input required name="old_price" class="form-control price-content-setting" type="number" id="price-input">
                 </div>
               </div>
             </div>
@@ -185,7 +183,7 @@
                 <label for="example-text-input" class="form-control-label">After Discount Price</label>
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">Rp. </span>
-                  <input class="form-control after-discount-price-content-setting" type="number" id="after-discount-price-input">
+                  <input name="new_price" class="form-control after-discount-price-content-setting" type="number" id="after-discount-price-input">
                 </div>
               </div>
             </div>
@@ -193,7 +191,7 @@
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Thumbnail</label>
                 <div class="mb-5">
-                  <input class="form-control" type="file" id="thumbnail-input">
+                  <input accept=".jpg, .jpeg, .png" required name="thumbnail" class="form-control" type="file" id="thumbnail-input">
                 </div>
               </div>
             </div>
@@ -201,7 +199,7 @@
               <button class="btn btn-primary btn" id="submit-btn-course-detail-setting">Save</button>
             </div>
           </div>
-        </div>
+        </form>
       </div>
       <div class="card tab-pane fade" id="video" role="tabpanel" aria-labelledby="video-tab">
         <div class="card-header pb-0">

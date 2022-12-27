@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Api;
 
+use App\Controllers\Api\ReviewController as ApiReviewController;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\Course;
 use App\Models\CourseCategory;
@@ -19,6 +20,8 @@ use App\Models\Jobs;
 use App\Models\UserCourse;
 use App\Models\Cart;
 use App\Models\CourseBundling;
+use App\Models\OrderCourse;
+use App\Models\Order;
 use CodeIgniter\HTTP\RequestInterface;
 use Firebase\JWT\JWT;
 use getID3;
@@ -91,7 +94,8 @@ class CourseController extends ResourceController
 
         for ($i = 0; $i < count($data); $i++) {
             $author = $modelUser->where('id', $data[$i]['author_id'])->first();
-            $data[$i]['author'] = $author['fullname'];
+            $data[$i]['author_fullname'] = $author['fullname'];
+            $data[$i]['author_company'] = $author['company'];
             unset($data[$i]['author_id']);
 
             $data[$i]['thumbnail'] = site_url() . 'upload/course/thumbnail/' . $data[$i]['thumbnail'];
@@ -189,7 +193,7 @@ class CourseController extends ResourceController
                     foreach ($dataTime as $element) {
                         $time = implode($element);
                         if (substr_count($time, ':') == 1) {
-                            $waktu = '00:' . $time;
+                            $time = '00:' . $time;
                         }
                         $strTime = date("H:i:s", strtotime($time));
 
@@ -218,6 +222,27 @@ class CourseController extends ResourceController
             } else {
                 $data[$i]['tag'] = null;
             }
+
+            $cek_course = $this->modelReview->where('course_id', $data[$i]['course_id'])->findAll();
+
+            if ($cek_course != null) {
+                $reviewcourse = $this->modelReview->where('course_id', $data[$i]['course_id'])->findAll();
+
+                $rating_raw = 0;
+                $rating_final = 0;
+
+                for ($n = 0; $n < count($reviewcourse); $n++) {
+                    $rating_raw += $reviewcourse[$n]['score'];
+                    $rating_final = $rating_raw / count($reviewcourse);
+
+                    $data[$i]['rating_course'] = $rating_final;
+                }
+            } else {
+                $data[$i]['rating_course'] = 0;
+            }
+
+            // $rating_course = $controllerreview->ratingcourse($data[$i]['course_id']);
+            // $data[$i]['rating_course'] = $rating_course;
 
             $data[$i]['category'] = $category;
         }
@@ -408,7 +433,7 @@ class CourseController extends ResourceController
 
     public function getCourseById($id, $loggedIn = false)
     {
-        if ($loggedIn) { 
+        if ($loggedIn) {
             $header = $this->request->getServer('HTTP_AUTHORIZATION');
             $token = explode(' ', $header)[1];
             $decoded = JWT::decode($token, $this->key, ['HS256']);
@@ -424,7 +449,8 @@ class CourseController extends ResourceController
             $data = $this->model->where('course_id', $id)->first();
             $author = $this->modelUser->where('id', $data['author_id'])->first();
             unset($data['author_id']);
-            $data['author'] = $author['fullname'];
+            $data['author_fullname'] = $author['fullname'];
+            $data['author_company'] = $author['company'];
 
             if ($loggedIn) {
                 $checkUserReview = $this->modelReview->where('user_id', $decoded->uid)->where('course_id', $id)->first();
@@ -996,8 +1022,8 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $modelCourse = new Course();
@@ -1138,8 +1164,8 @@ class CourseController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $modelCourse = new Course();
@@ -1319,7 +1345,7 @@ class CourseController extends ResourceController
                             'status'   => 201,
                             'success'    => 201,
                             'messages' => [
-                                'success' => 'Data Course berhasil diupasdasddate'
+                                'success' => 'Data Course berhasil diupdate'
                             ]
                         ];
                     }
@@ -1712,6 +1738,77 @@ class CourseController extends ResourceController
             return $this->respond($data);
         } else {
             return $this->failNotFound('Tidak ada data');
+        }
+    }
+
+    public function userProgress($id = null)
+    {
+        $key = getenv('TOKEN_SECRET');
+        $header = $this->request->getServer('HTTP_AUTHORIZATION');
+        if (!$header) return $this->failUnauthorized('Akses token diperlukan');
+        $token = explode(' ', $header)[1];
+
+        try {
+            $decoded = JWT::decode($token, $key, ['HS256']);
+
+            $user = new Users;
+            $courseModel = new Course;
+            $userCourseModel = new UserCourse;
+            $userVideoModel = new UserVideo;
+            $videoCategoryModel = new VideoCategory;
+            $videoModel = new Video;
+            $orderCourseModel = new OrderCourse;
+            $orderModel = new Order;
+
+
+            // cek role user
+            $data = $user->select('role')->where('id', $decoded->uid)->first();
+            $author = $courseModel->where('author_id', $decoded->uid)->first();
+            if ($data['role'] != 'admin' && !$author) {
+                return $this->fail('Tidak dapat di akses selain pemilik course atau admin', 400);
+            }
+
+            // cek semua user yang mempunyai course berkaitan
+            $userCourseData = $userCourseModel->where('course_id', $id)->findAll();
+
+            foreach ($userCourseData as $data) {
+                // mengambil data user yang berkaitan dengan course berdasarkan id user
+                $userData = $user->where('id', $data['user_id'])->first();
+
+                // mengambil data persentase progress user dari course yang berkaitan
+                $videoCategory = $videoCategoryModel->where('course_id', $id)->first();
+                $video = $videoModel->where('video_category_id', $videoCategory['video_category_id'])->findAll();
+
+                $completed = [];
+
+                for ($j = 0; $j < count($video); $j++) {
+                    $userVideo = $userVideoModel->where('user_id', $data['user_id'])->where('video_id', $video[$j]['video_id'])->first();
+                    if (isset($userVideo)) {
+                        $completed[$j] = $userVideo;
+                    } else {
+                        continue;
+                    }
+                }
+
+                $percentage = (count($completed) / count($video)) * 100;
+
+                $orderCourse = $orderCourseModel->select('order_id')->where('course_id', $id)->findAll();
+                foreach ($orderCourse as $dataOrder) {
+                    $order = $orderModel->select('transaction_time')->where('user_id', $data['user_id'])->where('order_id', $dataOrder['order_id'])->first();
+                }
+
+                $response[] = [
+                    'username' => $userData['fullname'],
+                    'progress' => $percentage,
+                    'transaction_at' => isset($order) ? $order : [],
+                ];
+            }
+
+
+
+            return $this->respond($response);
+        } catch (\Throwable $th) {
+            return $this->fail($th->getMessage());
         }
     }
 }

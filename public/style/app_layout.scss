@@ -1,5 +1,19 @@
 @import '_base';
 
+html {
+    font-size: 16px;
+    font-family: 'Plus Jakarta Sans', 'sans-serif';
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', 'sans-serif';
+}
+
+button {
+    border: none;
+    font-family: 'Plus Jakarta Sans', 'sans-serif';
+}
+
 h1,
 h2,
 h3,
@@ -7,6 +21,63 @@ h4,
 h5,
 h6 {
     font-weight: bold
+}
+
+.app-btn {
+    background-color: $color-primary;
+    color: $color-white;
+    padding: .7rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: .9rem;
+    white-space: nowrap;
+
+    &:hover {
+        background-color: $color-secondary;
+    }
+}
+
+.app-btn-secondary {
+    background-color: $color-secondary;
+
+    &:hover {
+        background-color: $color-primary;
+    }
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.button-secondary {
+    background-color: $color-white;
+    color: $color-primary;
+    padding: .55rem .9rem;
+    border-radius: .4rem;
+    border: 1px solid $color-primary;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+
+    &:hover {
+        background-color: $color-primary;
+        color: $color-white;
+    }
+}
+
+.form-control {
+    font-family: 'Plus Jakarta Sans', 'sans-serif';
+
+    &:focus {
+        box-shadow: none;
+        border-color: $color-primary;
+    }
+}
+
+.main-container{
+    padding-left: $padding-container;
+    padding-right: $padding-container;
 }
 
 .breadcrumb-anchor {
@@ -70,8 +141,6 @@ h6 {
         }
 
         p {
-            // font-size: .9rem;
-            // line-height: 1.2rem;
             margin-bottom: 1.5rem;
         }
 
@@ -87,6 +156,27 @@ h6 {
                 font-weight: normal;
                 color: $color-gray-1;
                 margin-right: .5rem;
+            }
+        }
+
+        .star-container {
+            .stars {
+                --percent: calc(var(--rating) / 5 * 100%);
+        
+                display: inline-block;
+                font-size: 1.4rem;
+                font-family: Times;
+                line-height: 1;
+        
+                &::before {
+                    content: '★★★★★';
+                    letter-spacing: 3px;
+                    background: linear-gradient(90deg, $color-star var(--percent), $color-white var(--percent));
+                    -webkit-background-clip: text;
+                    background-clip: $color-yellow;
+                    -webkit-text-fill-color: transparent;
+                    -webkit-text-stroke: 1px $color-star;
+                }
             }
         }
     }
@@ -196,7 +286,7 @@ h6 {
     }
 }
 
-.card-mentor {
+.card-author {
     @include card-setting();
     padding: 2rem;
 
@@ -215,7 +305,7 @@ h6 {
 
     .info {
         text-align: center;
-        margin-bottom: 1.6rem;
+        margin-bottom: 1.2rem;
 
         h2 {
             font-size: 1.5rem;

@@ -21,7 +21,7 @@
                         <div class="filter-container d-none">
                             <div class="filter-container__header">
                                 <h3>Filters</h3>
-                                <a href="">Clear all</a>
+                                <a href="" id="btn-clearall">Clear all</a>
                             </div>
                             <div class="accordion">
                                 <div class="accordion-item">
@@ -65,7 +65,7 @@
                                 </div>
                             </div>
 
-                            <button class="app-btn btn-full mt-3">Apply</button>
+                            <button class="btn-apply app-btn btn-full mt-3">Apply</button>
                         </div>
                     </span>
                 </div>
@@ -150,7 +150,7 @@
     <div>
         <div class="container">
             <div class="courses-bundling">
-                <div class="my-container">
+                <div class="">
                     <h1 class="">Ikuti beberapa kursus dengan pilihan paket bundling!</h1>
 
                     <div class="courses-bundling-loading">
@@ -160,7 +160,7 @@
                         </div>
                     </div>
 
-                    <div class="row justify-content-md-center gap-4 py-3 courses-bundling-rekomendasi"></div>
+                    <div class="row py-3 courses-bundling-rekomendasi"></div>
                 </div>
             </div>
             <nav class="mt-4" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -193,6 +193,6 @@
 <?= $this->section('js-component') ?>
 <script src="../../../js/utils/getRupiah.js"></script>
 <script src="../../../js/utils/textTruncate.js"></script>
-<script src="../../../js/home/courses2.js"></script>
+<script src="../../../js/home/courses.js"></script>
 <script src="../../../js/home/courses-bundling.js"></script>
 <?= $this->endSection() ?>

@@ -21,19 +21,39 @@ class BundlingController extends ResourceController
     public function __construct()
     {
         $this->bundling = new Bundling();
-        $this->path = site_url() . 'upload/bundling/';
+        $this->pathbundling = site_url() . 'upload/bundling/';
+        $this->pathcourse = site_url() . 'upload/course/thumbnail/';
     }
 
     public function index()
     {
-        $data = $this->bundling
+        $modelBundling = new Bundling();
+
+        $bundling = $this->bundling
             ->select('bundling.*, category_bundling.name as category_name')
-            ->orderBy('bundling_id', 'DESC')
             ->join('category_bundling', 'bundling.category_bundling_id = category_bundling.category_bundling_id')
             ->findAll();
 
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['thumbnail'] = $this->path . $data[$i]['thumbnail'];
+        for ($i = 0; $i < count($bundling); $i++) {
+            $bundling[$i]['thumbnail'] = $this->pathbundling . $bundling[$i]['thumbnail'];
+        }
+
+        $data['bundling'] = $bundling;
+
+        for ($x = 0; $x < count($bundling); $x++) {
+            $course = $modelBundling
+                ->where('bundling.bundling_id', $bundling[$x]['bundling_id'])
+                ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
+                ->join('course', 'course_bundling.course_id=course.course_id')
+                ->select('course.*')
+                ->findAll();
+            
+            for ($i = 0; $i < count($course); $i++) {
+                $course[$i]['thumbnail'] = $this->pathcourse . $bundling[$i]['thumbnail'];
+            }
+
+            $data['bundling'][$x]['course'] = $course;
+
         }
 
         if (count($data) > 0) {
@@ -56,8 +76,8 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $rules = [
@@ -115,17 +135,20 @@ class BundlingController extends ResourceController
                     'description' => $this->request->getVar("description"),
                     'new_price' => $this->request->getVar("new_price"),
                     'old_price' => $this->request->getVar("old_price"),
+                    'author_id' => $decoded->uid,
                     'thumbnail' => $fileName,
                 ];
 
                 $dataThumbnail->move('upload/bundling/', $fileName);
                 $this->bundling->save($data);
 
+                $bundling_id = $this->bundling->getInsertID();
+
                 $response = [
                     'status' => 200,
                     'error' => false,
                     'message' => 'Bundling berhasil dibuat',
-                    'data' => []
+                    'data' => ['bundling_id' => $bundling_id]
                 ];
             }
         } catch (\Throwable $th) {
@@ -138,9 +161,13 @@ class BundlingController extends ResourceController
     {
         $modelBundling = new Bundling();
         $modelVideo = new Video();
+        $modelVideoCategory = new VideoCategory();
 
         $path_bundling = site_url() . 'upload/bundling/';
         $path_course = site_url() . 'upload/course/thumbnail/';
+
+        $path_thumbnail_video = site_url() . 'upload/course-video/thumbnail/';
+        $path_video = site_url() . 'upload/course-video/';
 
         if ($modelBundling->find($id)) {
             // $data['bundling'] = $modelBundling->where('bundling_id', $id)->first();
@@ -197,20 +224,14 @@ class BundlingController extends ResourceController
                     ->countAllResults();
 
                 $data['course'][$l]['total_video'] = "$countvideo";
-                // $data['course'][$l]['video'] = $video;
-            }
-            return $this->respond($data);
-            for ($l = 0; $l < count($course_bundling); $l++) {
-                $course = $modelBundling
-                    ->where('bundling.bundling_id', $id)
-                    ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
-                    ->join('course', 'course_bundling.course_id=course.course_id')
-                    ->join('course_category', 'course.course_id=course_category.course_id')
-                    ->select('course.*, course_category.*')
-                    ->orderBy('bundling.bundling_id', 'DESC')
-                    ->findAll();
-            }
 
+                for ($c = 0; $c < count($video); $c++) {
+                    $video[$c]['thumbnail'] = $path_thumbnail_video . $video[$c]['thumbnail'];
+                    $video[$c]['video'] = $path_video . $video[$c]['video'];
+                }
+
+                $data['course'][$l]['video'] = $video;
+            }
             return $this->respond($data);
         } else {
             return $this->failNotFound('Tidak ada data');
@@ -230,8 +251,8 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $rules_a = [
@@ -302,6 +323,7 @@ class BundlingController extends ResourceController
                             'description' => $this->request->getVar("description"),
                             'new_price' => $this->request->getVar("new_price"),
                             'old_price' => $this->request->getVar("old_price"),
+                            'author_id' => $decoded->uid,
                             'thumbnail' => $fileName,
                         ];
 
@@ -321,7 +343,8 @@ class BundlingController extends ResourceController
                         'title' => $this->request->getVar("title"),
                         'description' => $this->request->getVar("description"),
                         'new_price' => $this->request->getVar("new_price"),
-                        'old_price' => $this->request->getVar("old_price")
+                        'old_price' => $this->request->getVar("old_price"),
+                        'author_id' => $this->request->getVar("author_id")
                     ];
 
                     $this->bundling->update($id, $data);
@@ -370,8 +393,8 @@ class BundlingController extends ResourceController
 
             // cek role user
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] == 'member' || $data['role'] == 'mentor') {
-                return $this->fail('Tidak dapat di akses selain admin, partner & author', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $data = $this->bundling->where('bundling_id', $id)->findAll();

@@ -14,7 +14,7 @@ class Review extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['user_id', 'course_id', 'feedback', 'score', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['user_id', 'course_id', 'bundling_id', 'feedback', 'score', 'created_at', 'updated_at'];
 
     // Dates
     protected $useTimestamps = true;

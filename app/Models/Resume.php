@@ -14,7 +14,7 @@ class Resume extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['video_id', 'user_id', 'resume'];
+    protected $allowedFields    = ['video_id', 'user_id', 'resume', 'task'];
 
     // Dates
     protected $useTimestamps = false;

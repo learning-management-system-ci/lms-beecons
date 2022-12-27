@@ -38,7 +38,7 @@ class AdminController extends BaseController
             return;
         }
         if ($decoded) {
-            if ($decoded->role != 'admin') {
+            if ($decoded->role != 'admin' && $decoded->role != 'author') {
                 return redirect()->back();
             }
             $email = $decoded->email;
@@ -66,6 +66,9 @@ class AdminController extends BaseController
             return;
         }
         if ($decoded) {
+            if ($decoded->role == 'author') {
+                return redirect()->to('/admin/user/' . $decoded->uid);
+            }
             if ($decoded->role != 'admin') {
                 return redirect()->back();
             }
@@ -131,6 +134,31 @@ class AdminController extends BaseController
         ];
         return view('pages/admin/quiz_detail', $data);
     }
+
+    public function bundling()
+    {
+        $data = [
+            "title" => "Bundling List",
+        ];
+        return view('pages/admin/bundling', $data);
+    }
+
+    public function bundlingDetail()
+    {
+        $data = [
+            "title" => "Bundling Detail",
+        ];
+        return view('pages/admin/bundling_detail', $data);
+    }
+
+    public function faq()
+    {
+        $data = [
+            "title" => "FAQ Menu",
+        ];
+        return view('pages/admin/faq', $data);
+    }
+
     public function contactList()
     {
         $data = [
