@@ -8,6 +8,7 @@ use App\Models\Bundling;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\CourseBundling;
+use App\Models\CourseTag;
 use App\Models\Video;
 use App\Models\VideoCategory;
 use App\Models\Users;
@@ -160,6 +161,7 @@ class BundlingController extends ResourceController
     {
         $modelBundling = new Bundling();
         $modelVideo = new Video();
+        $modelCourseTag = new CourseTag();
         $modelVideoCategory = new VideoCategory();
 
         $path_bundling = site_url() . 'upload/bundling/';
@@ -202,15 +204,24 @@ class BundlingController extends ResourceController
                 ->where('bundling.bundling_id', $id)
                 ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
                 ->join('course', 'course_bundling.course_id=course.course_id')
+                ->join('course_type', 'course.course_id=course_type.course_id')
+                ->join('type', 'course_type.type_id=type.type_id')
                 ->join('course_category', 'course.course_id=course_category.course_id')
                 ->join('category', 'course_category.category_id=category.category_id')
                 ->join('video_category', 'course.course_id=video_category.course_id')
-                ->select('course.*, category.name AS `category_name`, video_category.video_category_id')
+                ->select('course.*, category.name AS `category_name`, video_category.video_category_id, type.name AS course_type')
                 ->orderBy('bundling.bundling_id', 'DESC')
+                ->findAll();
+
+            $course_tag = $modelCourseTag
+                ->where('course_tag.course_id', $course_bundling['course_id'])
+                ->join('tag', 'course_tag.tag_id=tag.tag_id')
+                ->select('tag.name')
                 ->findAll();
 
             for ($i = 0; $i < count($course); $i++) {
                 $course[$i]['thumbnail'] = $path_course . $course[$i]['thumbnail'];
+                $course[$i]['course_tag'] = $course_tag;
             }
 
             $data['course'] = $course;
