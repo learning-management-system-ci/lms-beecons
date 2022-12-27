@@ -125,6 +125,7 @@ $(document).ready(() => {
     let course = courseData.filter((x) => x.service == "course")
     if (checkAuthor.role == 'author') {
       course = courseData.filter((x) => x.author_company == checkAuthor.company)
+      bundleData = bundleData.bundling.filter((x) => x.author_company == checkAuthor.company)
     }
     CourseBundlingListDNDComponent(course)
 
@@ -135,7 +136,7 @@ $(document).ready(() => {
     const course_table = $("#course-table")
 
     course_table.dataTable({
-      data: bundleData.bundling,
+      data: bundleData,
       language: {
         paginate: {
           next: `<i class="ni ni-bold-right" aria-hidden="true"></i>`,
@@ -170,9 +171,9 @@ $(document).ready(() => {
           }
         },
         {
-          data: "author",
+          data: "author_company",
           render: function (data, type, row, meta) {
-            return `<p class="text-xs font-weight-bold mb-0">PT Mencari Cinta</p>`
+            return `<p class="text-xs font-weight-bold mb-0">${data}</p>`
           },
           className: "text-xs",
         },

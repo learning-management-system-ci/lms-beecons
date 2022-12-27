@@ -11,7 +11,7 @@
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between">
                     <h6>List FAQ</h6>
-                    <button data-bs-target="#add-faq-dialog" data-bs-toggle="modal" class="btn btn-primary btn-sm ms-auto">Add FAQ</button>
+                    <button data-bs-target="#add-faq-dialog" data-bs-toggle="modal" id="add-faq-btn" class="btn btn-primary btn-sm ms-auto">Add FAQ</button>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">

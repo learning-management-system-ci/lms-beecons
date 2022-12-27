@@ -75,7 +75,7 @@
             </div>
             <div class="col-md-6 mb-3">
               <p class="mb-0 text-sm font-weight-bold">Role</p>
-              <span class="text-sm"><span class="placeholder col-1 "></span></span>
+              <span class="text-sm role-name"><span class="placeholder col-1 "></span></span>
             </div>
             <div class="col-md-6 mb-3">
               <p class="mb-0 text-sm font-weight-bold">Date Birth</p>

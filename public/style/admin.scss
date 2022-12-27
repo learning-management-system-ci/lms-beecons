@@ -235,7 +235,7 @@ select[name='table-user_length'] {
     border-radius: 7px;
     background: #acc6ede0;
     overflow-x: auto;
-    height: 22em;
+    height: 23em;
 }
 
 .selection-bundling-list {
@@ -262,7 +262,8 @@ select[name='table-user_length'] {
     background-color: #3a58ff;
 
     .course-name {
-        width: 90%;
+        width: 95%;
+        font-size: 13px;
     }
 
     .right-side-course {
