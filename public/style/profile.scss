@@ -74,11 +74,13 @@ h5 {
 }
 
 .bg-green {
-    color: white;
     background-color: $color-secondary;
     width: fit-content;
     border-radius: 5px;
     padding: 3px 9px;
+    &>* {
+        color: white;
+    }
 }
 
 .ellipsis {
