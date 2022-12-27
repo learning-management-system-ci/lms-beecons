@@ -35,8 +35,8 @@ class UserController extends ResourceController
             $user = new Users;
 
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $job = new Jobs;
@@ -273,51 +273,6 @@ class UserController extends ResourceController
             // var_dump($userBundling);
             // die;
 
-            $courseBundling = [];
-            foreach ($userBundling as $key => $value) {
-                $courseBundling_ = $modelCourseBundling->select('course.course_id, title, service, description, key_takeaways, suitable_for, old_price, new_price, thumbnail, author_id, course.created_at, course.updated_at')
-                    ->join('course', 'course_bundling.course_id=course.course_id', 'right')
-                    ->where('bundling_id', $value['bundling_id'])
-                    ->findAll();
-
-                $scoreBundling = 0;
-                $scoreBundlingRaw = [];
-
-                foreach ($courseBundling_ as $key => $courseBundling) {
-                    $scoreCourseRaw = 0;
-                    $scoreCourseRaw2 = [];
-
-                    $videoCategory = $modelVideoCategory->where('course_id', $courseBundling['course_id'])->first();
-                    $video = $modelVideo->where('video_category_id', $videoCategory['video_category_id'])->findAll();
-                    foreach ($video as $key => $video_) {
-                        $userVideo = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_['video_id'])->first();
-
-                        if ($userVideo) {
-                            array_push($scoreCourseRaw2, $userVideo['score']);
-                            $scoreCourseRaw += $userVideo['score'];
-                        }
-                    }
-                    $scoreCourse = $scoreCourseRaw / count($video);
-                    array_push($scoreBundlingRaw, $scoreCourse);
-                }
-
-                $courseBundling['course_bundling'] = $courseBundling_;
-
-                foreach ($scoreBundlingRaw as $key => $value) {
-                    $scoreBundling += $scoreBundlingRaw[$key];
-                    $courseBundling['course_bundling'][$key]['score'] = $scoreBundlingRaw[$key];
-                }
-
-                $scoreBundling /= count($scoreBundlingRaw);
-
-                $courseBundling['score'] = $scoreBundling;
-            }
-
-            $courseBundling['thumbnail'] = $path_bundling . $courseBundling['thumbnail'];
-
-            foreach ($courseBundling['course_bundling'] as $key => $value) {
-                $courseBundling['course_bundling'][$key]['thumbnail'] = $path_course . $courseBundling['course_bundling'][$key]['thumbnail'];
-            }
 
             $response = [
                 'id' => $decoded->uid,
@@ -331,9 +286,60 @@ class UserController extends ResourceController
                 'linkedin' => $data['linkedin'],
                 'created_at' => $data['created_at'],
                 'course' => $course,
-                'bundling' => $courseBundling,
+                'bundling' => [],
                 //'bundling' => (array) array_merge((array) $userBundling[0], ['course_bundling' => $courseBundling]),
             ];
+
+            if ($userBundling) {
+                $courseBundling = [];
+                foreach ($userBundling as $key => $value) {
+                    $courseBundling_ = $modelCourseBundling->select('course.course_id, title, service, description, key_takeaways, suitable_for, old_price, new_price, thumbnail, author_id, course.created_at, course.updated_at')
+                        ->join('course', 'course_bundling.course_id=course.course_id', 'right')
+                        ->where('bundling_id', $value['bundling_id'])
+                        ->findAll();
+
+                    $scoreBundling = 0;
+                    $scoreBundlingRaw = [];
+
+                    foreach ($courseBundling_ as $key => $courseBundling) {
+                        $scoreCourseRaw = 0;
+                        $scoreCourseRaw2 = [];
+
+                        $videoCategory = $modelVideoCategory->where('course_id', $courseBundling['course_id'])->first();
+                        $video = $modelVideo->where('video_category_id', $videoCategory['video_category_id'])->findAll();
+                        foreach ($video as $key => $video_) {
+                            $userVideo = $modelUserVideo->where('user_id', $decoded->uid)->where('video_id', $video_['video_id'])->first();
+
+                            if ($userVideo) {
+                                array_push($scoreCourseRaw2, $userVideo['score']);
+                                $scoreCourseRaw += $userVideo['score'];
+                            }
+                        }
+                        $scoreCourse = $scoreCourseRaw / count($video);
+                        array_push($scoreBundlingRaw, $scoreCourse);
+                    }
+
+                    $courseBundling['course_bundling'] = $courseBundling_;
+
+                    foreach ($scoreBundlingRaw as $key => $value) {
+                        $scoreBundling += $scoreBundlingRaw[$key];
+                        $courseBundling['course_bundling'][$key]['score'] = $scoreBundlingRaw[$key];
+                    }
+
+                    $scoreBundling /= count($scoreBundlingRaw);
+
+                    $courseBundling['score'] = $scoreBundling;
+                }
+
+                // $courseBundling['thumbnail'] = $path_bundling . $courseBundling['thumbnail'];
+
+                foreach ($courseBundling['course_bundling'] as $key => $value) {
+                    $courseBundling['course_bundling'][$key]['thumbnail'] = $path_course . $courseBundling['course_bundling'][$key]['thumbnail'];
+                }
+
+                $response['bundling'] = $courseBundling;
+            }
+
             return $this->respond($response);
         } catch (\Throwable $th) {
             //throw $th;
