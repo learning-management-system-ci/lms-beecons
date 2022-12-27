@@ -35,8 +35,8 @@ class UserController extends ResourceController
             $user = new Users;
 
             $data = $user->select('role')->where('id', $decoded->uid)->first();
-            if ($data['role'] != 'admin') {
-                return $this->fail('Tidak dapat di akses selain admin', 400);
+            if ($data['role'] == 'member') {
+                return $this->fail('Tidak dapat di akses oleh member', 400);
             }
 
             $job = new Jobs;
