@@ -69,6 +69,28 @@ h5 {
   width: 20%;
 }
 
+.fit-content {
+    width: fit-content;
+}
+
+.bg-green {
+    background-color: $color-secondary;
+    width: fit-content;
+    border-radius: 5px;
+    padding: 3px 9px;
+    &>* {
+        color: white;
+    }
+}
+
+.ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .card {
   background-color: $gray-100;
   border-radius: 20px;

@@ -79,7 +79,7 @@ $routes->get('/training/:num', 'Home::trainingDetail/$1');
 $routes->get('/courses', 'Home::courses');
 $routes->get('/article', 'Home::article');
 $routes->get('/email', 'Home::email');
-$routes->get('/certificates/:num', 'Home::certificate');
+$routes->get('/certificates', 'Home::certificate');
 
 $routes->get('/send-otp', 'AuthController::indexSendOtp');
 $routes->post('/send-otp', 'AuthController::sendOtp');
@@ -336,7 +336,7 @@ $routes->group('api/', static function ($routes) {
         $routes->get('', 'Api\OrderController::index');
         $routes->get('generatesnap', 'Api\OrderController::generateSnap');
         $routes->post('notif-handler', 'Api\OrderController::notifHandler');
-
+        $routes->get('get-order-by-author', 'Api\OrderController::getOrderByAuthor');
         $routes->post('coba', 'Api\OrderController::send');
     });
 
