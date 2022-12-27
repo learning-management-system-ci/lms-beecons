@@ -88,6 +88,8 @@ class NotificationController extends ResourceController
      */
     public function create()
     {
+        include 'SendNotification.php';
+
         $key = getenv('TOKEN_SECRET');
         $header = $this->request->getServer('HTTP_AUTHORIZATION');
         if (!$header) return $this->failUnauthorized('Akses token diperlukan');
@@ -101,8 +103,6 @@ class NotificationController extends ResourceController
             if ($data['role'] == 'member') {
                 return $this->fail('Tidak dapat di akses oleh member', 400);
             }
-
-            $model = new Notification();
 
             $rules = [
                 'public' => 'required|numeric',
@@ -121,35 +121,30 @@ class NotificationController extends ResourceController
             ];
 
             if ($this->validate($rules, $messages)) {
-                if ($this->request->getVar('user_id')) {
-                    $data = [
-                        'user_id' => $this->request->getVar('user_id'),
-                        'message' => $this->request->getVar('message'),
-                    ];
+
+                $message = $this->request->getVar('message');
+                if ($this->request->getVar('public') == 0) {
+
+                    $user_id = $this->request->getVar('user_id');
+
+                    $sendNotification = SendNotification(0, $user_id, $message);
+
+                    return $this->respond($sendNotification);
                 } else {
-                    $data = [
-                        'message' => $this->request->getVar('message'),
-                    ];
+
+                    $sendNotification = SendNotification(1, null, $message);
+
+                    return $this->respond($sendNotification);
                 }
-
-                $model->insert($data);
-
-                $response = [
-                    'status'   => 201,
-                    'success'    => 201,
-                    'messages' => [
-                        'success' => 'Notification berhasil dibuat'
-                    ]
-                ];
             } else {
                 $response = [
                     'status'   => 400,
                     'error'    => 400,
                     'messages' => $this->validator->getErrors(),
                 ];
-            }
 
-            return $this->respondCreated($response);
+                return $this->respond($response, 400);
+            }
         } catch (\Throwable $th) {
             return $this->fail($th->getMessage());
         }
