@@ -139,28 +139,47 @@ $.ajax({
             data.course.map(({
                 title, description, thumbnail, course_id, score
             }) => {
+
+                $('#download_certificate').click(() => {
+                    if (score === null) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: 'Anda perlu menyelesaikan course',
+                            showConfirmButton: true
+                        })
+                    }
+                    if (!data.fullname) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: 'Anda perlu melengkapi profile anda',
+                            showConfirmButton: true
+                        })
+                    }
+                    window.open(`/certificates/?type=course&id=${course_id}`)
+                })
+
                 return (`
                     <div class="row">
                         <div class="col">
-                        <a href="/course/${course_id}">
-                        <div class="row">
-                        <div class="col-20">
-                            <img src="${thumbnail}" class="course-image me-1" alt="">
-                        </div>
-                        <div class="d-flex col text-start align-items-center body">
-                            <div>
-                                <h5>
-                                    ${title}
-                                </h5>
-                                <p>
-                                    ${description}
-                                </p>
+                        <a data-bs-toggle="collapse" href="#collapseBundling_${course_id}" role="button" aria-expanded="false" aria-controls="collapseBundling_${course_id}">
+                            <div class="row">
+                            <div class="col-20">
+                                <img src="${thumbnail}" class="course-image me-1" alt="">
                             </div>
-                        </div>
-                        </div>
+                            <div class="d-flex col text-start align-items-center body">
+                                <div>
+                                    <h5>
+                                        ${title}
+                                    </h5>
+                                    <p class="ellipsis">
+                                        ${description}
+                                    </p>
+                                </div>
+                            </div>
+                            </div>
                         </a>
                         </div>
-                        <div class="col-20">
+                        <div class="col-auto">
                             <div class="row">
                                 <div class="col">
                                 <div>
@@ -176,7 +195,7 @@ $.ajax({
                                 </div>
                             </div>
                         </div>
-                        <div class="col-20">
+                        <div class="col-auto">
                             <div class="row">
                                 <div class="col">
                                 <div>
@@ -184,14 +203,209 @@ $.ajax({
                                         Total Nilai
                                     </h5>
                                     <div class="row">
+                                        <div class="col">
+                                        <h5>
+                                            ${score}/100
+                                        </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="collapse" id="collapseBundling_${course_id}">
+                        <div class="row justify-content-end">
+                            <div class="col-11">
+                                <div class="row">
                                     <div class="col">
+                                    <a href="/course/${course_id}">
+                                    <div class="row">
+                                    <div class="col-20">
+                                        <img src="${thumbnail}" class="course-image me-1" alt="">
+                                    </div>
+                                    <div class="d-flex col text-start align-items-center body">
+                                        <div>
+                                            <h5>
+                                                ${title}
+                                            </h5>
+                                            <p class="ellipsis">
+                                                ${description}
+                                            </p>
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <div id="progres-per-course-bundling_${course_id}" class="progress" style="height: 5px; background-color: #FFE5A1;"></div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <p class="font-weight-bold" id="course-bundling-percent_${course_id}"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="row">
+                                            <div class="col">
+                                            <div>
+                                                <h5>
+                                                    Sertifikat
+                                                </h5>
+                                                <div class="row">
+                                                <div class="col">
+                                                <button onclick="window.open('/certificates/${course_id}')">Download</button>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="row">
+                                            <div class="col">
+                                            <div>
+                                                <h5>
+                                                    Total Nilai
+                                                </h5>
+                                                <div class="row">
+                                                <div class="col">
+                                                <h5>
+                                                    ${score}/100
+                                                </h5>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col">
+                                    <a href="/course/${course_id}">
+                                    <div class="row">
+                                    <div class="col-20">
+                                        <img src="${thumbnail}" class="course-image me-1" alt="">
+                                    </div>
+                                    <div class="d-flex col text-start align-items-center body">
+                                        <div>
+                                            <h5>
+                                                ${title}
+                                            </h5>
+                                            <p class="ellipsis">
+                                                ${description}
+                                            </p>
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <div id="progres-per-course-bundling_${course_id}" class="progress" style="height: 5px; background-color: #FFE5A1;"></div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <p class="font-weight-bold" id="course-bundling-percent_${course_id}"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="row">
+                                            <div class="col">
+                                            <div>
+                                                <h5>
+                                                    Sertifikat
+                                                </h5>
+                                                <div class="row">
+                                                <div class="col">
+                                                <button onclick="window.open('/certificates/${course_id}')">Download</button>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="row">
+                                            <div class="col">
+                                            <div>
+                                                <h5>
+                                                    Total Nilai
+                                                </h5>
+                                                <div class="row">
+                                                    <div class="col">
+                                                    <h5>
+                                                        ${score}/100
+                                                    </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <a href="/course/${course_id}">
+                        <div class="row">
+                        <div class="col-20">
+                            <img src="${thumbnail}" class="course-image me-1" alt="">
+                        </div>
+                        <div class="d-flex col text-start align-items-center body">
+                            <div>
+                                <h5>
+                                    ${title}
+                                </h5>
+                                <p class="ellipsis">
+                                    ${description}
+                                </p>
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <div id="progres-per-course_${course_id}" class="progress" style="height: 5px; background-color: #FFE5A1;"></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="font-weight-bold" id="course-percent_${course_id}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </a>
+                        </div>
+                        <div class="col-auto">
+                            <div class="row">
+                                <div class="col">
+                                <div>
                                     <h5>
-                                        ${score}/100
+                                        Sertifikat
                                     </h5>
-                                    </div>
+                                    <div class="row">
                                     <div class="col">
-                                    <a href="/certificates/${course_id}">Detail</a>
+                                    <button id="download_certificate_course_${course_id}">Download</button>
                                     </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="row">
+                                <div class="col">
+                                <div>
+                                    <h5>
+                                        Total Nilai
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col">
+                                        <h5>
+                                            ${score}/100
+                                        </h5>
+                                        </div>
                                     </div>
                                 </div>
                                 </div>
@@ -203,6 +417,73 @@ $.ajax({
             })
 
         $("div#user-courses").html(coursesResource);
+
+        var coursesResource =
+            data.course.map(({
+                course_id, score
+            }) => {
+
+                $(`#download_certificate_course_${course_id}`).click(() => {
+                    if (score === null) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: 'Anda perlu menyelesaikan course',
+                            showConfirmButton: true
+                        })
+                    }
+                    if (!data.fullname) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: 'Anda perlu melengkapi profile anda',
+                            showConfirmButton: true
+                        })
+                    }
+                    window.open(`/certificates/?type=course&id=${course_id}`)
+                })
+            }
+        )
+
+        $.ajax({
+            type: "GET",
+            url: "/api/users/progress",
+            contentType: "application/json",
+            headers: {
+                "Authorization": "Bearer " + Cookies.get("access_token"),
+                "Content-Type": "application/json"
+            },
+            success: function (data) {
+                let completedAll = 0;
+                let totalAll = 0;
+                data.progress
+                    .map(({
+                        completed,
+                        total,
+                    }) => {
+                        completedAll = completedAll + completed;
+                        totalAll = totalAll + total;
+                    });
+                $(".progress").html(`
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${data.progress.length === 0 ? 0 : Math.round((completedAll / totalAll) * 100)}%;"
+                            aria-valuenow="${data.progress.length === 0 ? 0 : Math.round((completedAll / totalAll) * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
+                    `);
+                $(".progress-percent").html(`${data.progress.length === 0 ? 0 : Math.round((completedAll / totalAll) * 100)}%`);
+
+                data.progress.map(({ course_id, completed, total }) => {
+                    $(`#progres-per-course_${course_id}`).html(`
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: ${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}%;"
+                                aria-valuenow="${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
+                        `)
+
+                    $(`#course-percent_${course_id}`).html(`${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}%`)
+                    $(`#progres-per-course-bundling_${course_id}`).html(`
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: ${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}%;"
+                                aria-valuenow="${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
+                        `)
+
+                    $(`#course-bundling-percent_${course_id}`).html(`${data.progress.length === 0 ? 0 : Math.round((completed / total) * 100)}%`)
+                })
+            }
+        });
 
         $('document').ready(function () {
             $.ajax({
@@ -310,34 +591,6 @@ $.ajax({
                     $('button#editButton').prop('disabled', false).addClass('active').removeClass('disable');
                 } else {
                     $('button#editButton').prop('disabled', true).addClass('disable');
-                }
-            });
-        })
-        $('document').ready(function () {
-            $.ajax({
-                type: "GET",
-                url: "/api/users/progress",
-                contentType: "application/json",
-                headers: {
-                    "Authorization": "Bearer " + Cookies.get("access_token"),
-                    "Content-Type": "application/json"
-                },
-                success: function (data) {
-                    let completedAll = 0;
-                    let totalAll = 0;
-                    data.progress
-                        .map(({
-                            completed,
-                            total,
-                        }) => {
-                            completedAll = completedAll + completed;
-                            totalAll = totalAll + total;
-                        });
-                    $(".progress").html(`
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: ${Math.round((completedAll / totalAll) * 100)}%;"
-                            aria-valuenow="${Math.round((completedAll / totalAll) * 100)}" aria-valuemin="0" aria-valuemax="100"></div>
-                    `);
-                    $(".progress-percent").html(`${Math.round((completedAll / totalAll) * 100)}%`);
                 }
             });
         })

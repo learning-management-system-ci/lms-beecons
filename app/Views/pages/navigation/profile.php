@@ -38,7 +38,7 @@
                         <p class="font-weight-light" id="created_at">For 3 months</p>
                     </div>
                     <div class="col">
-                        <div class="progress" style="height: 15px;">
+                        <div class="progress" style="height: 15px; background-color: #FFE5A1;">
                             <div class="progress-bar bg-warning" role="progressbar" style="width: 0%;"
                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
