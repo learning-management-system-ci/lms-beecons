@@ -112,7 +112,7 @@
                 </select>
               </div>
             </div>
-            <input class="form-control author-content-create hide" name="author_id" type="text" id="author-input" disabled>
+            <input class="form-control author-content-create hide" name="author_id" type="text" id="author-input">
             <!-- <div class="col-md-6">
              
               <div class="form-group">

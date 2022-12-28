@@ -119,6 +119,7 @@ $(document).ready(() => {
   }
 
   const populateCourseData = async () => {
+    let userId = checkAuthor.uid
     let bundleData = await getData('bundling');
     let courseData = await getData('course');
     let cat_bundling = await getData('category-bundling');
@@ -127,6 +128,7 @@ $(document).ready(() => {
       course = courseData.filter((x) => x.author_company == checkAuthor.company)
       bundleData = bundleData.bundling.filter((x) => x.author_company == checkAuthor.company)
     }
+    $('#author-input').val(userId)
     CourseBundlingListDNDComponent(course)
 
     $.each(cat_bundling.reverse(), function (index, value) {
