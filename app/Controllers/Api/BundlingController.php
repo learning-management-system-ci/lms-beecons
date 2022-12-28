@@ -46,6 +46,7 @@ class BundlingController extends ResourceController
         for ($x = 0; $x < count($bundling); $x++) {
             $course = $modelBundling
                 ->where('bundling.bundling_id', $bundling[$x]['bundling_id'])
+                ->where('course_bundling.deleted_at', null)
                 ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
                 ->join('course', 'course_bundling.course_id=course.course_id')
                 ->select('course.*')
@@ -204,6 +205,7 @@ class BundlingController extends ResourceController
 
             $course = $modelBundling
                 ->where('bundling.bundling_id', $id)
+                ->where('course_bundling.deleted_at', null)
                 ->join('course_bundling', 'bundling.bundling_id=course_bundling.bundling_id')
                 ->join('course', 'course_bundling.course_id=course.course_id')
                 ->join('course_type', 'course.course_id=course_type.course_id')
