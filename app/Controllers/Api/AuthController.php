@@ -35,6 +35,8 @@ class AuthController extends ResourceController
 
     public function loginWithGoogle()
     {
+        include 'SendNotification.php';
+
         $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
         if (!isset($token['error'])) {
             $this->googleClient->setAccessToken($token['access_token']);
@@ -77,7 +79,9 @@ class AuthController extends ResourceController
                 ];
                 $this->referral->save($data);
 
-                // $this->sendnotification->sendnotification($datauser['id'],"Lengkapi Data Profile Anda");
+                // notifikasi
+                $message = "Selamat anda berhasil melakukan registrasi";
+                SendNotification(0, $datauser['id'], $message);
             }
             $datauser = $this->loginModel->getUser($email);
             $key = getenv('TOKEN_SECRET');
@@ -167,6 +171,10 @@ class AuthController extends ResourceController
                     'discount_price' => 15
                 ];
                 $this->referral->save($data);
+
+                // notifikasi
+                $message = "Selamat anda berhasil melakukan registrasi";
+                SendNotification(0, $datauser['id'], $message);
             }
             $datauser = $this->loginModel->getUser($email);
             $key = getenv('TOKEN_SECRET');
@@ -337,6 +345,11 @@ class AuthController extends ResourceController
             'activation_code' => '',
             'profile_picture' => 'default.png',
         ], $decoded->email);
+
+        // notifikasi
+        $message = "Selamat anda berhasil melakukan registrasi";
+        SendNotification(0, $uid, $message);
+
         return redirect()->to(base_url() . "/login");
     }
 

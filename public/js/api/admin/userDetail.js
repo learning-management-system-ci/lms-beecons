@@ -1,17 +1,19 @@
-const startSetting = () => {
-    const setting_page = $("#setting")
-    const profile_page = $("#profile")
+let checkAuthor = jwt_decode(Cookies.get('access_token'))
 
-    profile_page.removeClass("show active")
-    setting_page.removeClass('d-none').addClass("show")
+const startSetting = () => {
+  const setting_page = $("#setting")
+  const profile_page = $("#profile")
+
+  profile_page.removeClass("show active")
+  setting_page.removeClass('d-none').addClass("show")
 }
 
 const stopSetting = () => {
-    const setting_page = $("#setting")
-    const profile_page = $("#profile")
+  const setting_page = $("#setting")
+  const profile_page = $("#profile")
 
-    setting_page.removeClass("show").addClass('d-none')
-    profile_page.removeClass('d-none').addClass("show active")
+  setting_page.removeClass("show").addClass('d-none')
+  profile_page.removeClass('d-none').addClass("show active")
 }
 
 $('#learning-tab').on('click', function () {
@@ -37,17 +39,17 @@ const getUserData = async (id) => {
       url: `/api/users/${id}`,
       dataType: "json",
       headers: {
-          "Authorization": `Bearer ${Cookies.get("access_token")}`,
+        "Authorization": `Bearer ${Cookies.get("access_token")}`,
       },
       success: function (user) {
-          data = user
+        data = user
       },
     }
     let data
     await $.ajax(option)
     return data
   } catch (error) {
-      console.log(error);
+    console.log(error);
   }
 }
 
@@ -58,10 +60,10 @@ const getListJob = async () => {
       url: `/api/jobs`,
       dataType: "json",
       headers: {
-          "Authorization": `Bearer ${Cookies.get("access_token")}`,
+        "Authorization": `Bearer ${Cookies.get("access_token")}`,
       },
       success: function (jobs) {
-          data = jobs
+        data = jobs
       },
     }
     let data
@@ -79,10 +81,10 @@ const getListRole = async () => {
       url: `/api/users/role`,
       dataType: "json",
       headers: {
-          "Authorization": `Bearer ${Cookies.get("access_token")}`,
+        "Authorization": `Bearer ${Cookies.get("access_token")}`,
       },
       success: function (roles) {
-          data = roles
+        data = roles
       },
     }
     let data
@@ -125,15 +127,18 @@ const postUserProfileData = async () => {
 }
 
 const populateProfileSection = async (data) => {
-  let { 
-    fullname, 
-    date_birth, 
-    email, 
-    job_name, 
-    profile_picture, 
-    address, 
-    phone_number 
+  let {
+    fullname,
+    date_birth,
+    email,
+    job_name,
+    profile_picture,
+    address,
+    phone_number,
+    role
   } = data
+
+  console.log(role)
 
   let humanize_date_birth = moment(date_birth, 'YYYY MM DD').locale('id').format('LL')
 
@@ -144,6 +149,7 @@ const populateProfileSection = async (data) => {
   const job_name_content = $(".job-name-content")
   const address_content = $(".address-content")
   const phone_number_content = $(".phone-number-content")
+  const role_profile = $(".role-name")
 
   profile_picture_content.attr("src", profile_picture)
   fullname_content.text(fullname)
@@ -152,15 +158,16 @@ const populateProfileSection = async (data) => {
   job_name_content.text(job_name)
   address_content.text(address)
   phone_number_content.text(phone_number)
+  role_profile.text(role)
 }
 
 const populateSettingSection = async (data) => {
-  let { 
+  let {
     fullname,
-    date_birth = null, 
-    email, 
-    job_name, 
-    address, 
+    date_birth = null,
+    email,
+    job_name,
+    address,
     phone_number,
     role
   } = data
@@ -187,7 +194,7 @@ const populateSettingSection = async (data) => {
 
   job_list.forEach((job) => {
     // spread and rename job id into id and job name into name
-    const { job_id:id, job_name:name } = job
+    const { job_id: id, job_name: name } = job
     let is_selected = job == job_name ? "selected" : "";
     template = `
     <option value="${id}" ${is_selected}>${name}</option>
@@ -204,7 +211,7 @@ const populateSettingSection = async (data) => {
     `
     role_content.append(template)
   })
-  
+
 }
 
 const populateLearningSection = async (data) => {
@@ -214,7 +221,7 @@ const populateLearningSection = async (data) => {
   data.forEach((course) => {
     const {
       title,
-      video 
+      video
     } = course
 
     let video_count = video.length
@@ -268,7 +275,7 @@ const populateTransactionsSection = async (data) => {
     } = transaction
 
     let humanize_order_time = moment(order_time, 'YYYY/MM/DD hh:mm:ss').format('LLL')
-    let humanize_gross_amount = getRupiah(gross_amount+'')
+    let humanize_gross_amount = getRupiah(gross_amount + '')
     let badge;
     if (transaction_status == "success") {
       badge = "bg-success"

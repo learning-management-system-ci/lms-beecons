@@ -51,6 +51,7 @@ const ajaxSend = (type, url, data, id) => {
 
 $(document).ready(() => {
     if (checkAuthor.role == 'author') {
+        $('#add-faq-btn').remove()
         return $("table").html(`<p class='text-center'>Anda tidak memiliki access</p>`)
     }
     $.ajax({

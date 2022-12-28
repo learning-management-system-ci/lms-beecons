@@ -26,18 +26,6 @@
                 <span class="ms-2">General</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link mb-0 px-2 py-1 d-flex align-items-center justify-content-center" id="video-tab" data-bs-toggle="tab" data-bs-target="#video" href="javascript:;" role="tab" aria-controls="video" aria-selected="false">
-                <i class="ni ni-button-play"></i>
-                <span class="ms-2">Chapter</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link mb-0 px-2 py-1 d-flex align-items-center justify-content-center" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" href="javascript:;" role="tab" aria-controls="review" aria-selected="false">
-                <i class="ni ni-chat-round"></i>
-                <span class="ms-2">Review</span>
-              </a>
-            </li>
           </ul>
         </div>
       </div>
@@ -91,30 +79,8 @@
             </div>
             <div class="col-md-12 mt-3">
               <p class="mb-0 text-sm font-weight-bold mb-2">Isi Bundling</p>
-              <div class="bundling-list-course p-2">
-                <div data-course-id='${value.course_id}' class="d-flex justify-content-between course-list-choice p-2 px-3 mb-2 text-white">
-                  <div class="d-flex flex-column course-container">
-                    <p class="course-name" style="margin-block-end: 0.75rem !important;">
-                      anya forger
-                    </p>
-                    <div class="d-flex gap-1">
-                      <p class="badge badge-sm bg-gradient-warning">
-                        hello
-                      </p>
-                      <p class="badge badge-sm bg-gradient-warning">
-                        hello
-                      </p>
-                      <p class="badge badge-sm bg-gradient-warning">
-                        hello
-                      </p>
-                    </div>
-                  </div>
-                  <div class="right-side-course">
-                    <b>
-                      hard
-                    </b>
-                  </div>
-                </div>
+              <div class="bundling-list-course p-2" id="read-bundling-content">
+
               </div>
             </div>
           </div>
@@ -123,62 +89,37 @@
       <div class="card fade d-none" id="setting">
         <div class="card-header pb-0">
           <div class="d-flex align-items-center">
-            <p class="mb-0"><strong>Setting</strong></p>
+            <p class="mb-0"><strong>Edit Bundling</strong></p>
             <button class="btn btn-danger btn-sm ms-auto" onclick="stopSetting()">Cancel</button>
           </div>
         </div>
-        <form id="update-course-form" class="card-body pb-2" enctype="multipart/form-data">
-          <div class="row ">
+        <div class="card-body pb-2">
+          <form class="row" enctype="multipart/form-data" id="update-bundling-form">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Title</label>
-                <input class="form-control title-content-setting" minlength="8" name="title" required type="text" id="title-input">
-              </div>
-              <small>Minimal 8 Karakter</small>
-            </div>
-            <div class="col-md-6">
-              <input class="hide form-control author-content-create" name="author_id" type="text" id="author-input" disabled>
-              <input class="hide form-control author-content-create" id="service" name="service" type="text" value="course">
-              <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Type</label>
-                <select class="form-select type-content-setting" name="type_id" required id="type-input-wraper">
-                  <option disabled>Select Course Type</option>
-                </select>
+                <input class="form-control title-content-create" name="title" type="text" id="title-input">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Tag</label>
-                <select class="tag-picker" multiple id="type-tag-input" required>
-                  <option disabled>Pilih Type Terlebih Dulu</option>
+                <label for="example-text-input" class="form-control-label">Category Bundling</label>
+                <select class="form-select type-content-create" id="cat-bunding-wraper" name="category_bundling_id" required>
+                  <option value="" disabled selected hidden>-- Select Course Category --</option>
                 </select>
               </div>
             </div>
-            <div class="col-md-6">
+            <input class="form-control author-content-create hide" name="author_id" type="text" id="author-input" disabled>
+            <!-- <div class="col-md-6">
+             
               <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Category</label>
-                <select name="category_id" required class="form-select category-content-setting" id="category-input-wraper">
-                  <option disabled>Select Course Category</option>
-                </select>
+
               </div>
-            </div>
+            </div> -->
             <div class="col-md-12">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Description</label>
-                <textarea minlength="8" required name="description" class="form-control description-content-setting" rows="7" id="description-input"> </textarea>
-                <small>Minimal 8 Karakter</small>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Key Takeways</label>
-                <textarea name="key_takeaways" class="form-control key-takeaways-content-setting" rows="5" id="key-takeaways-input"> </textarea>
-              </div>
-            </div>
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Suitable For</label>
-                <textarea class="form-control suitable-for-content-setting" rows="3" id="suitable-for-input"> </textarea>
+                <textarea name="description" class="form-control description-content-create" rows="7" id="description-input"> </textarea>
               </div>
             </div>
             <div class="col-md-6">
@@ -186,7 +127,7 @@
                 <label for="example-text-input" class="form-control-label">Price</label>
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">Rp. </span>
-                  <input required name="old_price" class="form-control price-content-setting" type="number" id="price-input">
+                  <input required name="old_price" class="form-control price-content-create" type="number" id="price-edit">
                 </div>
               </div>
             </div>
@@ -195,7 +136,7 @@
                 <label for="example-text-input" class="form-control-label">After Discount Price</label>
                 <div class="input-group">
                   <span class="input-group-text" id="basic-addon1">Rp. </span>
-                  <input name="new_price" class="form-control after-discount-price-content-setting" type="number" id="after-discount-price-input">
+                  <input name="new_price" class="form-control after-discount-price-content-create" type="number" id="after-price-edit">
                 </div>
               </div>
             </div>
@@ -203,17 +144,35 @@
               <div class="form-group">
                 <label for="example-text-input" class="form-control-label">Thumbnail</label>
                 <div class="mb-5">
-                  <input accept=".jpg, .jpeg, .png" required name="thumbnail" class="form-control" type="file" id="thumbnail-input">
+                  <input name="thumbnail" accept=".jpg, .jpeg, .png" class="form-control" type="file" id="thumbnail-input">
                 </div>
               </div>
             </div>
-            <div class="col-md-12 d-flex justify-content-center">
-              <button class="btn btn-primary btn" id="submit-btn-course-detail-setting">Save</button>
+            <div class="d-flex justify-content-between bundling-dragndrop-panel align-items-stretch">
+
+              <div class="col-md-6 p-2 selection-course-bundling">
+                <label for="example-text-input" class="form-control-label">Course untuk Bundling</label>
+                <div class="selection-bundling-list p-2 border-secondary border" id="bundling_panel">
+
+                </div>
+              </div>
+              <div class="col-md-6 p-2 selection-course-bundling">
+                <label for="example-text-input" class="form-control-label">Course Anda</label>
+                <div>
+                  <input type="text" class="bundling-search-course mb-3 ps-3" placeholder="Cari Course Anda">
+                  <div class="selection-course-list border-secondary border p-2" id="course_panel">
+                  </div>
+                </div>
+              </div>
+
             </div>
-          </div>
-        </form>
+            <div class="col-md-12 mt-3 d-flex justify-content-center">
+              <button class="btn btn-primary btn" id="submit-btn-course-detail-create">Save</button>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="card tab-pane fade" id="video" role="tabpanel" aria-labelledby="video-tab">
+      <!-- <div class="card tab-pane fade" id="video" role="tabpanel" aria-labelledby="video-tab">
         <div class="card-header pb-0">
           <div class="d-flex align-items-center">
             <p class="mb-0"><strong>Chapter List</strong></p>
@@ -267,8 +226,8 @@
             </div>
           </div>
         </form>
-      </div>
-      <div class="card tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+      </div> -->
+      <!-- <div class="card tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
         <div class="card-header pb-0">
           <div class="d-flex align-items-center">
             <p class="mb-0"><strong>Review</strong></p>
@@ -338,7 +297,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <footer class="footer pt-3  ">

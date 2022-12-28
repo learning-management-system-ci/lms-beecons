@@ -173,9 +173,6 @@
               <button class="btn btn-primary btn" id="submit-btn-course-detail-create">Save</button>
             </div>
           </form>
-          <div class="col-md-12 mt-3 d-flex justify-content-center">
-            <button class="btn btn-primary btn" id="test12">Save</button>
-          </div>
         </div>
       </div>
     </div>
