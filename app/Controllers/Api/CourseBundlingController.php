@@ -379,16 +379,15 @@ class CourseBundlingController extends ResourceController
             //     return $this->fail('Anda tidak mempunyai hak untuk mengubah bundling', 400);
             // }
 
+            $this->coursebundling->where('bundling_id', $orderReq->bundling_id)->delete();
+
             for ($i = 0; $i < count($orderReq->order); $i++) {
-                // $video = $this->coursebundling->find($orderReq->order[$i]->course_id);
-                $video = $this->coursebundling->where('bundling_id', $orderReq->bundling_id)->where('course_id', $orderReq->order[$i]->course_id)->first();
-
-                if ($video) {
-                    $data = [
-                        'order' => $orderReq->order[$i]->order
-                    ];
-                    $this->coursebundling->update($orderReq->order[$i]->course_id, $data);
-
+                $data = [
+                    'bundling_id' => $orderReq->bundling_id,
+                    'course_id' => $orderReq->order[$i]->course_id,
+                    'order' => $orderReq->order[$i]->order
+                ];
+                if ($this->coursebundling->insert($data)) {
                     $response = [
                         'status'   => 200,
                         'success'    => 200,
@@ -397,7 +396,7 @@ class CourseBundlingController extends ResourceController
                         ]
                     ];
                 } else {
-                    return $this->failNotFound('Data Course Bundling tidak ditemukan');
+                    return $this->failNotFound('Gagal mengupdate');
                 }
             }
 
