@@ -6,6 +6,8 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CourseBundling;
 use App\Models\Course;
+use App\Models\CourseTag;
+use App\Models\CourseType;
 use App\Models\Bundling;
 use App\Models\Users;
 use Firebase\JWT\JWT;
@@ -23,11 +25,13 @@ class CourseBundlingController extends ResourceController
 
     public function index()
     {
+        $modelCourseTag = new CourseTag();
+        $modelCourseType = new CourseType();
+
         $data = $this->coursebundling->findAll();
 
         for ($i = 0; $i < count($data); $i++) {
             $bundling = $this->coursebundling
-                ->where('course_bundling.deleted_at', 'course_bundling'.null)
                 ->where('course_bundling.course_bundling_id', $data[$i]['course_bundling_id'])
                 ->join('bundling', 'course_bundling.bundling_id=bundling.bundling_id')
                 ->join('users', 'bundling.author_id=users.id')
@@ -46,19 +50,35 @@ class CourseBundlingController extends ResourceController
 
                 $data[$i]['bundling'][$x]['course'] = $course;
 
-                for ($b = 0; $b < ($course); $b++) {
+                for ($a = 0; $a < count($course); $a++) {
                     $kategori = $this->course
-                        ->where('course.course_id', $course[$b]['course_id'])
+                        ->where('course.course_id', $course[$a]['course_id'])
                         ->join('course_category', 'course.course_id=course_category.course_id')
                         ->join('category', 'course_category.course_category_id=category.category_id')
-                        ->join('course_tag', 'course.course_id=course_tag.course_id')
-                        ->join('tag', 'course_tag.course_tag_id=tag.tag_id')
-                        ->join('course_type', 'course.course_id=course_type.course_id')
-                        ->join('type', 'course_type.course_type_id=type.type_id')
-                        ->select('category.name as category, tag.name as tag, type.name as type')
+                        ->select('category.name as category_name')
                         ->findAll();
 
-                    $data[$i]['bundling'][$x]['course'][$b]['category'] = $course;
+                    $data[$i]['bundling'][$x]['course'][$a]['category'] = $kategori;
+                }
+
+                for ($b = 0; $b < count($course); $b++) {
+                    $tag = $modelCourseTag
+                        ->select('name as tag_name')
+                        ->where('course_id', $course[$b]['course_id'])
+                        ->join('tag', 'tag.tag_id = course_tag.tag_id')
+                        ->findAll();
+
+                    $data[$i]['bundling'][$x]['course'][$b]['tag'] = $tag;
+                }
+
+                for ($c = 0; $c < count($course); $c++) {
+                    $type = $modelCourseType
+                        ->select('name as type_name')
+                        ->where('course_id', $course[$c]['course_id'])
+                        ->join('type', 'type.type_id = course_type.type_id')
+                        ->findAll();
+
+                    $data[$i]['bundling'][$x]['course'][$c]['type'] = $type;
                 }
             }
         }
