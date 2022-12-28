@@ -322,9 +322,6 @@ class CourseBundlingController extends ResourceController
 
             $orderReq = $this->request->getVar();
 
-            // var_dump($orderReq);
-            // die;
-
             for ($i = 0; $i < count($orderReq); $i++) {
                 $data = [
                     'bundling_id' => $orderReq[$i]->bundling_id,
