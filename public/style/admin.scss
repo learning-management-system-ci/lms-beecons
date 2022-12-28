@@ -218,6 +218,7 @@ select[name='table-user_length'] {
     height: 25em;
     border: 1px solid #b6bbc3;
     border-radius: 7px;
+    overflow-x: auto;
 }
 
 .bundling-dragndrop-panel {
@@ -246,19 +247,8 @@ select[name='table-user_length'] {
     border-radius: 7px;
 }
 
-.course-list-choice:hover,
-.course-list-choice:active {
-    background-color: #5770ff;
-
-}
-
-.course-list-choice:active {
-    cursor: grabbing;
-}
-
 .course-list-choice {
     border-radius: 7px;
-    cursor: grab;
     background-color: #3a58ff;
 
     .course-name {
@@ -277,6 +267,19 @@ select[name='table-user_length'] {
     }
 }
 
+.dnd-course-list {
+    cursor: grab;
+}
+
+.dnd-course-list:hover,
+.dnd-course-list:active {
+    background-color: #5770ff;
+
+}
+
+.dnd-course-list:active {
+    cursor: grabbing;
+}
 
 
 /*# sourceMappingURL=contact-list.css.map */

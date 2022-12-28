@@ -100,7 +100,7 @@ $(document).ready(() => {
     $.each(course, function (index, value) {
       $('#course_panel').
         append(`
-        <div data-course-id='${value.course_id}' class="d-flex justify-content-between course-list-choice p-2 px-3 mb-2 text-white">
+        <div data-course-id='${value.course_id}' class="dnd-course-list d-flex justify-content-between course-list-choice p-2 px-3 mb-2 text-white">
           <div class="d-flex flex-column course-container">
             <p class="course-name" style="margin-block-end: 0.75rem !important;">
               ${value.title}

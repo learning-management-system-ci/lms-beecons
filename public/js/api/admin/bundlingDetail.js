@@ -138,7 +138,7 @@ $(document).ready(() => {
     $.each(course, function (index, value) {
       $('#' + elementID).
         append(`
-        <div data-course-id='${value.course_id}' class="d-flex justify-content-between course-list-choice p-2 px-3 mb-2 text-white">
+        <div data-course-id='${value.course_id}' class="${elementID == 'read-bundling-content' ? '' : 'dnd-course-list'} d-flex justify-content-between course-list-choice p-2 px-3 mb-2 text-white">
           <div class="d-flex flex-column course-container">
             <p class="course-name" style="margin-block-end: 0.75rem !important;">
               ${value.title}
@@ -187,6 +187,10 @@ $(document).ready(() => {
     $('#author-input').val(userId)
 
     let userCatName = category.filter((x) => x.category_bundling_id == data.category_bundling_id)
+
+    console.log(category)
+    console.log(data)
+
     $.each(category.reverse(), function (index, value) {
       $('#cat-bunding-wraper').append(
         `<option ${userCatName[0].category_bundling_id == value.category_bundling_id ? 'selected' : ''} 
@@ -315,7 +319,7 @@ $(document).ready(() => {
         e.preventDefault()
 
         let bundle_update
-        let form_bundle = new FormData($('#create-bundling-form')[0])
+        let form_bundle = new FormData($('#update-bundling-form')[0])
         let course_order
 
 
