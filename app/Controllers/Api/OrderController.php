@@ -396,7 +396,7 @@ class OrderController extends BaseController
             $token = \Midtrans\Snap::getSnapToken($params);
 
             // notifikasi
-            $message = "Selamat pesanan anda berhasil diubah";
+            $message = "Selamat pesanan anda berhasil dibuat";
             SendNotification(0, $userId, $message);
 
 

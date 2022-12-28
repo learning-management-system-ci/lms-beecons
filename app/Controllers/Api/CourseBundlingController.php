@@ -27,6 +27,7 @@ class CourseBundlingController extends ResourceController
 
         for ($i = 0; $i < count($data); $i++) {
             $bundling = $this->coursebundling
+                ->where('course_bundling.deleted_at', 'course_bundling'.null)
                 ->where('course_bundling.course_bundling_id', $data[$i]['course_bundling_id'])
                 ->join('bundling', 'course_bundling.bundling_id=bundling.bundling_id')
                 ->join('users', 'bundling.author_id=users.id')
@@ -321,9 +322,6 @@ class CourseBundlingController extends ResourceController
             }
 
             $orderReq = $this->request->getVar();
-
-            // var_dump($orderReq);
-            // die;
 
             for ($i = 0; $i < count($orderReq); $i++) {
                 $data = [
