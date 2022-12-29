@@ -314,6 +314,9 @@ class UserController extends ResourceController
             ];
 
             if ($userBundling) {
+                for ($i = 0; $i < count($userBundling); $i++) {
+                    $userBundling[$i]['thumbnail'] = $path_bundling . $userBundling[$i]['thumbnail'];
+                }
                 $courseBundling = [];
                 // foreach ($userBundling as $key => $value) {
                 for ($k = 0; $k < count($userBundling); $k++) {
@@ -389,6 +392,7 @@ class UserController extends ResourceController
 
                     for ($o = 0; $o < count($userBundling[$k]['course_bundling']); $o++) {
                         $userBundling[$k]['course_bundling'][$o]['score'] = $scoreBundlingRaw[$o];
+                        $userBundling[$k]['course_bundling'][$o]['thumbnail'] = $path_course . $userBundling[$k]['course_bundling'][$o]['thumbnail'];
 
                         $userBundling[$k]['course_bundling'][$o]['mengerjakan_video'] = $total_video_yang_dikerjakan_raw[$o];
 
@@ -751,7 +755,6 @@ class UserController extends ResourceController
                     'total' => count($video)
                 ];
             }
-            var_dump($progress);
 
             $response = [
                 'id' => $decoded->uid,

@@ -177,7 +177,7 @@ $.ajax({
                                     </h5>
                                     <div class="row">
                                     <div class="col">
-                                    <button id="download_certificate_course_${course_id}">Download</button>
+                                    <button id="download_certificate_course_${course_id}"><h5>Download</h5></button>
                                     </div>
                                     </div>
                                 </div>
@@ -219,11 +219,23 @@ $.ajax({
                         <img src="${thumbnail}" class="course-image me-1" alt="">
                     </div>
                     <div class="d-flex col text-start align-items-center body">
-                        <div>
-                            <div class="bg-green mb-1">
-                                <p>
-                                    Bundling
-                                </p>
+                        <div class="col">
+                            <div class="row d-flex justify-content-between">
+                                <div class="col">
+                                <div class="bg-green mb-1">
+                                    <p>
+                                        Bundling
+                                    </p>
+                                </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                    <img class="me-1" src="/image/profile/arrow-down.svg" style="width: 25px;">
+                                    <p>
+                                        Lihat semua
+                                    </p>
+                                    </div>
+                                </div>
                             </div>
                             <h5 class="mb-0">
                                 ${title}
@@ -245,7 +257,7 @@ $.ajax({
                             </h5>
                             <div class="row">
                             <div class="col">
-                            <button id="download_certificate_bundling_${bundling_id}">Download</button>
+                            <button id="download_certificate_bundling_${bundling_id}"><h5>Download</h5></button>
                             </div>
                             </div>
                         </div>
@@ -290,8 +302,9 @@ $.ajax({
                     <div class="col">
                     <a href="/course/${course_id}">
                     <div class="row">
-                    <div class="col-20">
-                        <img src="${thumbnail}" class="course-image me-1" alt="">
+                    <div class="col-20" style="position: relative; isolation: isolate; background-color: black;">
+                        <img src="${thumbnail}" class="course-image" alt="" style="position: absolute; opacity: 0.5; top: 0; right: 0; left: 0; bottom: 0;">
+                        <img src="${thumbnail}" class="course-image" id="status" alt="" style="position: absolute; top: 0; right: 0; left: 0; bottom: 0; margin-left: auto; margin-right: auto; z-index: 2; width: 50px;">
                     </div>
                     <div class="d-flex col text-start align-items-center body">
                         <div>
@@ -323,7 +336,7 @@ $.ajax({
                                 </h5>
                                 <div class="row">
                                 <div class="col">
-                                <button onclick="window.open('/certificates/${course_id}')">Download</button>
+                                <button id="download_certificate_course_${course_id}_bundling_${bundling_id}"><h5>Download</h5></button>
                                 </div>
                                 </div>
                             </div>
@@ -354,12 +367,17 @@ $.ajax({
             })
 
             $(`div#course_collape_${bundling_id}`).html(courses);
+            $(`#course_collape_${bundling_id}>div>div>a`).addClass('disabled').click((e) => e.preventDefault());
+            $(`#course_collape_${bundling_id}>.row>.col-auto>div>div>div>div>div>button`).addClass('disabled').click((e) => e.preventDefault());
+            $(`#course_collape_${bundling_id}>div>div>a`).first().removeClass('disabled').unbind('click').click(() => { $(this).attr('href') });
+            $(`#course_collape_${bundling_id}>.row>.col-auto>div>div>div>div>div>button`).first().removeClass('disabled').unbind('click').click(() => { $(this).attr('href') });
+            $(`#course_collape_${bundling_id}>div>div>a>.row>.col-20>#status`).attr("src", "image/profile/playable.svg");
         })
 
         const displayCreateReviewModal = async () => {
             // show review modal
             $('#reviewModal').modal('show');
-            
+
             // check if rating input and review text are not empty. if not empty, enable submit button
             $('.rating-input input').on('change', () => {
                 if (($('#reviewText').val() != '') && ($('.rating-input input:checked').val() != undefined)) {
@@ -375,7 +393,7 @@ $.ajax({
                     $('#reviewSubmit').prop('disabled', true)
                 }
             })
-        
+
             // onclick submit button
             $('#reviewModal').on('click', '#reviewSubmit', async (e) => {
                 e.preventDefault();
@@ -384,12 +402,12 @@ $.ajax({
                     'rating': $('.rating-input input:checked').val(),
                     'review': $('#reviewText').val()
                 }
-        
+
                 // if all attribute form values is not empty, post data to backend
                 if (formValues.rating && formValues.review) {
                     const course_id = sessionStorage.getItem('course_id')
                     let response = await postReviewData(course_id, formValues)
-        
+
                     // if success, close modal
                     if (!response.err) {
                         $('#reviewModal').modal('hide')
@@ -399,7 +417,7 @@ $.ajax({
                         alert(response.err)
                     }
                 }
-                
+
             })
         }
 
@@ -433,6 +451,45 @@ $.ajax({
                 }
                 window.open(`/certificates/?type=bundling&id=${bundling_id}`)
             })
+        })
+
+        data.bundling.map(({ bundling_id, course_bundling }, i) => {
+            course_bundling.map(({ course_id, lolos, is_review }, j) => {
+                if (j > 0) {
+                    $(`#course_collape_${bundling_id}>div:nth-child(${(j * 2) + 1})>div>a>.row>.col-20>#status`).attr("src", "image/profile/unplayable.svg");
+                    if (data.bundling[i].course_bundling[j - 1].lolos == true) {
+                        $(`#course_collape_${bundling_id}>div:nth-child(${(j * 2) + 1})>div>a`).removeClass('disabled').unbind('click').click(() => { $(this).attr('href') });
+                    }
+                }
+
+                $(`#download_certificate_course_${course_id}_bundling_${bundling_id}`).click(() => {
+                    if (!data.fullname) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: 'Anda perlu melengkapi profile anda',
+                            showConfirmButton: true
+                        })
+                    }
+                    if (lolos === false) {
+                        return new swal({
+                            title: 'Gagal',
+                            text: 'Anda perlu menyelesaikan course',
+                            showConfirmButton: true
+                        })
+                    }
+                    if (is_review === false) {
+                        new swal({
+                            title: 'Gagal',
+                            text: 'Anda perlu mereview course',
+                            showConfirmButton: true
+                        })
+
+                        return displayCreateReviewModal();
+                    }
+                    window.open(`/certificates/?type=course&id=${course_id}`)
+                })
+            })
+
         })
 
         data.course.map(({
@@ -633,7 +690,7 @@ const pages = [{
 ]
 
 if (JSON.parse(atob(Cookies.get("access_token").split('.')[1], 'base64')).role == "admin") {
-    pages.push({
+    pages.unshift({
         page: "dashboard",
         url: "/admin",
         imageUrl: "image/profile/referral-icon.svg",
