@@ -68,7 +68,7 @@ if (window.location.search.slice(1).split("&")[0].split("=")[1] == "course") {
             };
 
             // New Promise-based usage:
-            // html2pdf().set(opt).from(element).save();
+            html2pdf().set(opt).from(element).save();
         }
     });
 }
@@ -146,7 +146,7 @@ if (window.location.search.slice(1).split("&")[0].split("=")[1] == "bundling") {
             };
 
             // New Promise-based usage:
-            // html2pdf().set(opt).from(element).save();
+            html2pdf().set(opt).from(element).save();
         }
     });
 }
